@@ -8,4 +8,8 @@ class AppColors {
   static final outlineBorderColor = HexColor.fromHex('#4B5563');
 
   static final inputFillColor = HexColor.fromHex('#374151');
+
+  static final subTitleColor = HexColor.fromHex('#9CA3AF');
+
+  static final activeLabelItem = HexColor.fromHex('#00D1D1');
 }

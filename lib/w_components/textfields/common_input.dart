@@ -35,7 +35,6 @@ class CommonInput extends StatelessWidget {
       height: height,
       child: TextField(
         maxLines: maxLine,
-        maxLength: 300,
         controller: editingController,
         cursorColor: Colors.white,
         onChanged: onChanged,
