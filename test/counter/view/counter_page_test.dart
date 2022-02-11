@@ -5,7 +5,8 @@
 // license that can be found in the LICENSE file or at
 // https://opensource.org/licenses/MIT.
 
-import 'package:audio_cult/counter/counter.dart';
+import 'package:audio_cult/app/features/counter/cubit/counter_cubit.dart';
+import 'package:audio_cult/app/features/counter/view/counter_page.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -43,8 +44,7 @@ void main() {
       expect(find.text('$state'), findsOneWidget);
     });
 
-    testWidgets('calls increment when increment button is tapped',
-        (tester) async {
+    testWidgets('calls increment when increment button is tapped', (tester) async {
       when(() => counterCubit.state).thenReturn(0);
       when(() => counterCubit.increment()).thenReturn(null);
       await tester.pumpApp(
@@ -57,8 +57,7 @@ void main() {
       verify(() => counterCubit.increment()).called(1);
     });
 
-    testWidgets('calls decrement when decrement button is tapped',
-        (tester) async {
+    testWidgets('calls decrement when decrement button is tapped', (tester) async {
       when(() => counterCubit.state).thenReturn(0);
       when(() => counterCubit.decrement()).thenReturn(null);
       await tester.pumpApp(

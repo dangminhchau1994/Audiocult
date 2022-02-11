@@ -5,13 +5,13 @@
 // license that can be found in the LICENSE file or at
 // https://opensource.org/licenses/MIT.
 
-import 'package:audio_cult/app/constants/app_assets.dart';
-import 'package:audio_cult/app/constants/app_colors.dart';
-import 'package:audio_cult/counter/counter.dart';
 import 'package:audio_cult/l10n/l10n.dart';
 import 'package:audio_cult/widgets/common_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../utils/constants/app_colors.dart';
+import '../cubit/counter_cubit.dart';
 
 class CounterPage extends StatelessWidget {
   const CounterPage({Key? key}) : super(key: key);
@@ -58,8 +58,8 @@ class CounterText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final count = context.select((CounterCubit cubit) => cubit.state);
+    // final theme = Theme.of(context);
+    // final count = context.select((CounterCubit cubit) => cubit.state);
     return CommonButton(
       color: AppColors.primaryButtonColor,
       text: 'sdfsdf',
