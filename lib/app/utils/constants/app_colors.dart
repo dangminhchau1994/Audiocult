@@ -1,4 +1,4 @@
-import 'package:audio_cult/app/extensions/app_extensions.dart';
+import '../extensions/app_extensions.dart';
 
 class AppColors {
   static final primaryButtonColor = HexColor.fromHex('#00A8A8');

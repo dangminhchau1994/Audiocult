@@ -6,7 +6,7 @@
 // https://opensource.org/licenses/MIT.
 
 import 'package:audio_cult/app/app.dart';
-import 'package:audio_cult/counter/counter.dart';
+import 'package:audio_cult/app/features/counter/view/counter_page.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
