@@ -1,9 +1,9 @@
-import 'package:audio_cult/app/constants/app_assets.dart';
-import 'package:audio_cult/app/constants/app_colors.dart';
 import 'package:audio_cult/app/constants/app_text_styles.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import '../../app/utils/constants/app_assets.dart';
+import '../../app/utils/constants/app_colors.dart';
 
 class CommonSongItem extends StatelessWidget {
   const CommonSongItem({

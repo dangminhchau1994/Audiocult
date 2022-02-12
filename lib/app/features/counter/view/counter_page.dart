@@ -5,11 +5,12 @@
 // license that can be found in the LICENSE file or at
 // https://opensource.org/licenses/MIT.
 
-import 'package:audio_cult/counter/counter.dart';
-import 'package:audio_cult/l10n/l10n.dart';
+import 'package:audio_cult/w_components/buttons/common_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../utils/constants/app_colors.dart';
+import '../cubit/counter_cubit.dart';
 
 class CounterPage extends StatelessWidget {
   const CounterPage({Key? key}) : super(key: key);
@@ -46,12 +47,11 @@ class _CounterViewState extends State<CounterView> {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n;
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(l10n.counterAppBarTitle),
-      ),
-      body: Container(),
+    // final theme = Theme.of(context);
+    // final count = context.select((CounterCubit cubit) => cubit.state);
+    return CommonButton(
+      color: AppColors.primaryButtonColor,
+      text: 'sdfsdf',
     );
   }
 }

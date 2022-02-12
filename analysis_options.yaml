@@ -1,10 +1,15 @@
-include: package:very_good_analysis/analysis_options.2.4.0.yaml
-linter:
-  rules:
-    public_member_api_docs: false
-    sort_pub_dependencies: false
-
+include: package:very_good_analysis/analysis_options.yaml
 analyzer:
   strong-mode:
     implicit-dynamic: true
+linter:
+  rules:
+    public_member_api_docs: false
+    always_use_package_imports: false
+    sort_constructors_first: false
+    avoid_dynamic_calls: false
+    lines_longer_than_80_chars: false
+    prefer_equal_for_default_values: false
+    cascade_invocations: false
+
 

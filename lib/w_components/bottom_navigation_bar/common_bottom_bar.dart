@@ -1,7 +1,8 @@
-import 'package:audio_cult/app/constants/app_colors.dart';
-import 'package:audio_cult/app/extensions/app_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
+import '../../app/utils/constants/app_colors.dart';
+import '../../app/utils/extensions/app_extensions.dart';
 
 class CommonBottomBar extends StatelessWidget {
   const CommonBottomBar({

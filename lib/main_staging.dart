@@ -1,13 +1,14 @@
-// Copyright (c) 2021, Very Good Ventures
-// https://verygood.ventures
-//
-// Use of this source code is governed by an MIT-style
-// license that can be found in the LICENSE file or at
-// https://opensource.org/licenses/MIT.
-
 import 'package:audio_cult/app/app.dart';
 import 'package:audio_cult/bootstrap.dart';
 
+import 'app/utils/flavor/flavor.dart';
+import 'global.dart';
+
 void main() {
-  bootstrap(() => const App());
+  bootstrap(
+    () => MyGlobal(
+      flavorConfig: FlavorConfig(flavor: Flavor.staging, values: FlavorValues(mainUrl: 'http://staging.com')),
+      child: const App(),
+    ),
+  );
 }

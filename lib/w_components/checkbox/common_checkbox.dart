@@ -1,6 +1,7 @@
-import 'package:audio_cult/app/constants/app_colors.dart';
 import 'package:audio_cult/app/constants/app_text_styles.dart';
 import 'package:flutter/material.dart';
+
+import '../../app/utils/constants/app_colors.dart';
 
 class CommonCheckbox extends StatelessWidget {
   const CommonCheckbox({
