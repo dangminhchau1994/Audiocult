@@ -1,3 +1,4 @@
+import 'package:audio_cult/app/constants/app_text_styles.dart';
 import 'package:flutter/material.dart';
 
 class CommonButton extends StatelessWidget {
@@ -32,10 +33,7 @@ class CommonButton extends StatelessWidget {
         onPressed: onTap,
         child: Padding(
           padding: const EdgeInsets.all(8),
-          child: Text(
-            text ?? '',
-            style: const TextStyle(color: Colors.white),
-          ),
+          child: Text(text ?? '', style: AppTextStyles.regular),
         ),
       ),
     );
