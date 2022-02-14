@@ -83,23 +83,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		8B0465EC2FAF251478306C27 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				6D08F221CA437DAD51691681 /* Pods-Runner.debug-production.xcconfig */,
-				2EF5E7F79B9507A7A2D1D821 /* Pods-Runner.debug-development.xcconfig */,
-				F659C893A13C60280BD680D8 /* Pods-Runner.debug-staging.xcconfig */,
-				69A225BCA4B19AD94C62CBEC /* Pods-Runner.release-production.xcconfig */,
-				2068A45258BBD6317436CFE6 /* Pods-Runner.release-development.xcconfig */,
-				3907F78EA53E706FB672D5D9 /* Pods-Runner.release-staging.xcconfig */,
-				9DA9107A4C7F362509CAF998 /* Pods-Runner.profile-production.xcconfig */,
-				17CEFCDD9AF6CCF2F9BE79E6 /* Pods-Runner.profile-development.xcconfig */,
-				BD9E2DABED6A542712500DAA /* Pods-Runner.profile-staging.xcconfig */,
-			);
-			name = Pods;
-			path = Pods;
-			sourceTree = "<group>";
-		};
 		9740EEB11CF90186004384FC /* Flutter */ = {
 			isa = PBXGroup;
 			children = (
@@ -419,7 +402,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
 				ENABLE_BITCODE = NO;
-				FLAVOR_APP_NAME = "Audio Cult";
+				FLAVOR_APP_NAME = Audiocult;
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -552,7 +535,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
 				ENABLE_BITCODE = NO;
-				FLAVOR_APP_NAME = "Audio Cult";
+				FLAVOR_APP_NAME = Audiocult;
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -575,7 +558,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
 				ENABLE_BITCODE = NO;
-				FLAVOR_APP_NAME = "Audio Cult";
+				FLAVOR_APP_NAME = Audiocult;
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -654,7 +637,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
 				ENABLE_BITCODE = NO;
-				FLAVOR_APP_NAME = "[DEV] Audio Cult";
+				FLAVOR_APP_NAME = "[DEV] Audiocult";
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -731,7 +714,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
 				ENABLE_BITCODE = NO;
-				FLAVOR_APP_NAME = "[DEV] Audio Cult";
+				FLAVOR_APP_NAME = "[DEV] Audiocult";
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -805,7 +788,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
 				ENABLE_BITCODE = NO;
-				FLAVOR_APP_NAME = "[DEV] Audio Cult";
+				FLAVOR_APP_NAME = "[DEV] Audiocult";
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -887,7 +870,7 @@
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
 				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = NO;
-				FLAVOR_APP_NAME = "[STG] Audio Cult";
+				FLAVOR_APP_NAME = "[STG] Audiocult";
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -968,7 +951,7 @@
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
 				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = NO;
-				FLAVOR_APP_NAME = "[STG] Audio Cult";
+				FLAVOR_APP_NAME = "[STG] Audiocult";
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1046,7 +1029,7 @@
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
 				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = NO;
-				FLAVOR_APP_NAME = "[STG] Audio Cult";
+				FLAVOR_APP_NAME = "[STG] Audiocult";
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
