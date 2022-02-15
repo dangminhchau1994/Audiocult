@@ -17,6 +17,18 @@ class AppAssets {
 
   static const homeActiveIcon = 'assets/icons/active_home.svg';
 
+  static const edit = 'assets/icons/edit.svg';
+
+  static const activeEdit = 'assets/icons/active_edit.svg';
+
+  static const photo = 'assets/icons/photo.svg';
+
+  static const activePhoto = 'assets/icons/active_photo.svg';
+
+  static const video = 'assets/icons/video.svg';
+
+  static const activeVideo = 'assets/icons/active_video.svg';
+
   static const atlasIcon = 'assets/icons/atlas.svg';
 
   static const atlasActiveIcon = 'assets/icons/active_atlas.svg';
