@@ -1,10 +1,13 @@
+import 'package:audio_cult/app/features/auth/login/login_screen.dart';
+import 'package:audio_cult/app/utils/constants/app_assets.dart';
+import 'package:audio_cult/app/utils/constants/app_colors.dart';
 import 'package:audio_cult/l10n/l10n.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
 import 'package:responsive_framework/utils/scroll_behavior.dart';
 
-import '../features/counter/view/counter_page.dart';
 import '../utils/configs/custom_scroll_behavior.dart';
 
 class App extends StatelessWidget {
@@ -12,19 +15,41 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle.dark.copyWith(
+        statusBarColor: Colors.white, // Color for Android
+        statusBarBrightness: Brightness.dark // Dark == white status bar -- for IOS.
+        ,
+      ),
+    );
     return MaterialApp(
       theme: ThemeData(
-        appBarTheme: const AppBarTheme(color: Color(0xFF13B9FF)),
+        fontFamily: AppAssets.fontFarmily,
+        appBarTheme: const AppBarTheme(
+          color: Colors.white,
+        ),
         colorScheme: ColorScheme.fromSwatch(
           accentColor: const Color(0xFF13B9FF),
         ),
+        textTheme: const TextTheme().copyWith(
+          bodyText1: const TextStyle(
+            color: Colors.white,
+          ),
+          bodyText2: const TextStyle(
+            color: Colors.white,
+          ),
+        ),
+        tabBarTheme: TabBarTheme(
+            labelColor: AppColors.activeLabelItem,
+            unselectedLabelColor: AppColors.unActiveLabelItem,
+            indicator: UnderlineTabIndicator(borderSide: BorderSide(color: AppColors.activeLabelItem, width: 2.0))),
       ),
       localizationsDelegates: const [
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
       ],
       supportedLocales: AppLocalizations.supportedLocales,
-      home: const CounterPage(),
+      home: const LoginScreen(),
       builder: (context, widget) => ResponsiveWrapper.builder(
         BouncingScrollWrapper.builder(
           context,

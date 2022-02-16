@@ -8,7 +8,7 @@ class CommonButton extends StatelessWidget {
     this.color,
     this.onTap,
     this.iconPath = '',
-    this.width = 343.0,
+    this.width = double.infinity,
   }) : super(key: key);
 
   final String? text;
@@ -32,7 +32,7 @@ class CommonButton extends StatelessWidget {
         ),
         onPressed: onTap,
         child: Padding(
-          padding: const EdgeInsets.all(8),
+          padding: const EdgeInsets.all(16),
           child: Text(text ?? '', style: AppTextStyles.regular),
         ),
       ),

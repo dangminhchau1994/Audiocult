@@ -1,4 +1,5 @@
 class AppAssets {
+  static const String fontFarmily = 'NunitoSans';
   static const pdfIcon = 'assets/icons/pdf.svg';
 
   static const horizIcon = 'assets/icons/horiz.svg';
@@ -32,4 +33,10 @@ class AppAssets {
   static const atlasIcon = 'assets/icons/atlas.svg';
 
   static const atlasActiveIcon = 'assets/icons/active_atlas.svg';
+
+  static const logoIcon = 'assets/icons/ic_logo.png';
+
+  static const authVectorIcon = 'assets/icons/ic_auth_vector.png';
+
+  static const avatarAuthImg = 'assets/imgs/img_auth_list_avatar.png';
 }

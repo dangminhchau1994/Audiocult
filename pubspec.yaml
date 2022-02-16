@@ -43,3 +43,22 @@ flutter:
   assets:
     - assets/
     - assets/icons/
+    - assets/fonts/
+    - assets/imgs/
+  fonts:
+  - family: NunitoSans
+    fonts:
+      - asset: assets/fonts/NunitoSans-Regular.ttf
+        weight: 100
+      - asset: assets/fonts/NunitoSans-Light.ttf
+        weight: 300
+      - asset: assets/fonts/NunitoSans-Regular.ttf
+        weight: 400
+      - asset: assets/fonts/NunitoSans-Bold.ttf
+        weight: 500
+      - asset: assets/fonts/NunitoSans-SemiBold.ttf
+        weight: 600
+      - asset: assets/fonts/NunitoSans-Bold.ttf
+        weight: 700
+      - asset: assets/fonts/NunitoSans-ExtraBold.ttf
+        weight: 900

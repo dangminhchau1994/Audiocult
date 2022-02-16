@@ -6,7 +6,7 @@ import '../../app/utils/constants/app_colors.dart';
 class CommonInput extends StatelessWidget {
   const CommonInput({
     Key? key,
-    this.width = 343,
+    this.width = double.infinity,
     this.height = 50,
     this.isHidden = false,
     this.isPasswordField = false,
@@ -39,7 +39,7 @@ class CommonInput extends StatelessWidget {
         controller: editingController,
         cursorColor: Colors.white,
         onChanged: onChanged,
-        style:  AppTextStyles.regular,
+        style: AppTextStyles.regular,
         obscureText: isHidden!,
         decoration: InputDecoration(
           filled: true,
@@ -61,13 +61,15 @@ class CommonInput extends StatelessWidget {
           ),
           hintText: hintText,
           hintStyle: AppTextStyles.regular,
-          suffixIcon: isPasswordField! ?  InkWell(
-            onTap: togglePassword,
-            child: Icon(
-              isHidden! ? Icons.visibility_outlined : Icons.visibility_off_outlined,
-              color: Colors.white,
-            ),
-          ) : const SizedBox(),
+          suffixIcon: isPasswordField!
+              ? InkWell(
+                  onTap: togglePassword,
+                  child: Icon(
+                    isHidden! ? Icons.visibility_outlined : Icons.visibility_off_outlined,
+                    color: Colors.white,
+                  ),
+                )
+              : const SizedBox(),
           errorText: errorText,
         ),
       ),
