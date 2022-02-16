@@ -13,4 +13,12 @@ class AppColors {
 
   static final activeLabelItem = HexColor.fromHex('#00D1D1');
 
+  static final unActiveLabelItem = HexColor.fromHex('#D1D5DB');
+  
+  static final mainColor = HexColor.fromHex('#111827');
+
+  static final semiMainColor = HexColor.fromHex('#1F2937');
+
+  static final lightBlueColor = HexColor.fromHex('#38BDF8');
+
 }
