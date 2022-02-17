@@ -1,3 +1,4 @@
+import 'package:audio_cult/app/utils/constants/app_assets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -24,15 +25,14 @@ class CommonBottomBar extends StatelessWidget {
           type: BottomNavigationBarType.fixed,
           items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(
-              icon: currentIndex == 0
-                  ? SvgPicture.asset('assets/icons/active_home.svg')
-                  : SvgPicture.asset('assets/icons/home.svg'),
+              icon:
+                  currentIndex == 0 ? SvgPicture.asset(AppAssets.homeActiveIcon) : SvgPicture.asset(AppAssets.homeIcon),
               label: 'Home',
             ),
             BottomNavigationBarItem(
               icon: currentIndex == 1
-                  ? SvgPicture.asset('assets/icons/active_atlas.svg')
-                  : SvgPicture.asset('assets/icons/atlas.svg'),
+                  ? SvgPicture.asset(AppAssets.atlasActiveIcon)
+                  : SvgPicture.asset(AppAssets.atlasIcon),
               label: 'Atlas',
             ),
             const BottomNavigationBarItem(
@@ -41,14 +41,14 @@ class CommonBottomBar extends StatelessWidget {
             ),
             BottomNavigationBarItem(
               icon: currentIndex == 3
-                  ? SvgPicture.asset('assets/icons/active_music.svg')
-                  : SvgPicture.asset('assets/icons/music.svg'),
+                  ? SvgPicture.asset(AppAssets.musicActiveIcon)
+                  : SvgPicture.asset(AppAssets.musicIcon),
               label: 'Music',
             ),
             BottomNavigationBarItem(
               icon: currentIndex == 4
-                  ? SvgPicture.asset('assets/icons/active_event.svg')
-                  : SvgPicture.asset('assets/icons/event.svg'),
+                  ? SvgPicture.asset(AppAssets.eventActiveIcon)
+                  : SvgPicture.asset(AppAssets.eventIcon),
               label: 'Events',
             ),
           ],

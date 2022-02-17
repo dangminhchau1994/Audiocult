@@ -11,10 +11,9 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_bloc: ^8.0.1
-  persistent_bottom_nav_bar: ^4.0.2
   flutter_svg: ^1.0.3
   cached_network_image: ^3.2.0
-  fab_circular_menu: ^1.0.2
+  flutter_custom_tab_bar: ^1.1.9
   textfield_tags: ^1.4.2
   flutter_localizations:
     sdk: flutter
@@ -44,3 +43,22 @@ flutter:
   assets:
     - assets/
     - assets/icons/
+    - assets/fonts/
+    - assets/imgs/
+  fonts:
+  - family: NunitoSans
+    fonts:
+      - asset: assets/fonts/NunitoSans-Regular.ttf
+        weight: 100
+      - asset: assets/fonts/NunitoSans-Light.ttf
+        weight: 300
+      - asset: assets/fonts/NunitoSans-Regular.ttf
+        weight: 400
+      - asset: assets/fonts/NunitoSans-Bold.ttf
+        weight: 500
+      - asset: assets/fonts/NunitoSans-SemiBold.ttf
+        weight: 600
+      - asset: assets/fonts/NunitoSans-Bold.ttf
+        weight: 700
+      - asset: assets/fonts/NunitoSans-ExtraBold.ttf
+        weight: 900
