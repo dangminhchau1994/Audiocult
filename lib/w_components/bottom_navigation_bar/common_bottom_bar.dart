@@ -25,8 +25,11 @@ class CommonBottomBar extends StatelessWidget {
           type: BottomNavigationBarType.fixed,
           items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(
-              icon:
-                  currentIndex == 0 ? SvgPicture.asset(AppAssets.homeActiveIcon) : SvgPicture.asset(AppAssets.homeIcon),
+              icon: currentIndex == 0
+                  ? SvgPicture.asset(AppAssets.homeActiveIcon)
+                  : SvgPicture.asset(
+                      AppAssets.homeIcon,
+                    ),
               label: 'Home',
             ),
             BottomNavigationBarItem(

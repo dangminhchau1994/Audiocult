@@ -1,8 +1,13 @@
 class AppAssets {
   static const String fontFarmily = 'NunitoSans';
+
+  static const fireIcon = 'assets/icons/fire.svg';
+  
   static const pdfIcon = 'assets/icons/pdf.svg';
 
   static const horizIcon = 'assets/icons/horiz.svg';
+
+  static const activeRadio = 'assets/icons/active_radio.svg';
 
   static const postIcon = 'assets/icons/smile.svg';
 

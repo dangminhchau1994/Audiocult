@@ -5,6 +5,8 @@ class AppColors {
 
   static final secondaryButtonColor = HexColor.fromHex('#1F2937');
 
+  static final lightBlue = HexColor.fromHex('#0EA5E9');
+
   static final outlineBorderColor = HexColor.fromHex('#4B5563');
 
   static final inputFillColor = HexColor.fromHex('#374151');

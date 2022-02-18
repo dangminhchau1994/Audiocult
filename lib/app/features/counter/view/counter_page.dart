@@ -8,8 +8,7 @@
 import 'package:audio_cult/app/utils/constants/app_assets.dart';
 import 'package:audio_cult/w_components/bottom_navigation_bar/common_bottom_bar.dart';
 import 'package:audio_cult/w_components/buttons/common_button.dart';
-import 'package:audio_cult/app/utils/libs/circular_menu_item.dart';
-import 'package:audio_cult/w_components/tabbars/common_tabbar_item.dart';
+import 'package:audio_cult/w_components/radios/common_radio_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -69,99 +68,8 @@ class _CounterViewState extends State<CounterView> with TickerProviderStateMixin
     // final theme = Theme.of(context);
     // final count = context.select((CounterCubit cubit) => cubit.state);
     return Scaffold(
-      backgroundColor: AppColors.secondaryButtonColor,
-      appBar: AppBar(
-        title: Text('Linear Indicator'),
-        backgroundColor: AppColors.secondaryButtonColor,
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      body: CommonTabbar(
-        pageCount: pageCount,
-        pageController: _controller,
-        tabBarController: _tabBarController,
-        onTapItem: _onItemTapped,
-        currentIndex: currentIndex,
-        onPageChanged: (index) {
-          setState(() {
-            currentIndex = index;
-          });
-        },
-        tabbarItemBuilder: (context, index) {
-          switch (index) {
-            case 0:
-              return CommonTabbarItem(
-                index: index,
-                currentIndex: currentIndex,
-                hasIcon: true,
-                icon: currentIndex == index
-                    ? SvgPicture.asset(
-                        AppAssets.activeEdit,
-                        width: 24,
-                        height: 24,
-                      )
-                    : SvgPicture.asset(
-                        AppAssets.edit,
-                        width: 24,
-                        height: 24,
-                      ),
-              );
-            case 1:
-              return CommonTabbarItem(
-                index: index,
-                currentIndex: currentIndex,
-                hasIcon: true,
-                icon: currentIndex == index
-                    ? SvgPicture.asset(
-                        AppAssets.activePhoto,
-                        width: 24,
-                        height: 24,
-                      )
-                    : SvgPicture.asset(
-                        AppAssets.photo,
-                        width: 24,
-                        height: 24,
-                      ),
-              );
-            case 2:
-              return CommonTabbarItem(
-                index: index,
-                currentIndex: currentIndex,
-                hasIcon: true,
-                icon: currentIndex == index
-                    ? SvgPicture.asset(
-                        AppAssets.activeVideo,
-                        width: 24,
-                        height: 24,
-                      )
-                    : SvgPicture.asset(
-                        AppAssets.video,
-                        width: 24,
-                        height: 24,
-                      ),
-              );
-            default:
-              return const SizedBox();
-          }
-        },
-        pageViewBuilder: (context, index) {
-          switch (currentIndex) {
-            case 0:
-              return Center(
-                child: Text('sdfsdf', style: TextStyle(color: Colors.white)),
-              );
-            case 1:
-              return Center(
-                child: Text('ff', style: TextStyle(color: Colors.white)),
-              );
-            case 2:
-              return Center(
-                child: Text('ddd', style: TextStyle(color: Colors.white)),
-              );
-            default:
-              return Container();
-          }
-        },
-      ),
+      backgroundColor: Colors.lightBlue,
+      body: Container()
     );
   }
 }

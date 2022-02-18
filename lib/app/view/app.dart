@@ -1,4 +1,5 @@
 import 'package:audio_cult/app/features/auth/login/login_screen.dart';
+import 'package:audio_cult/app/features/main/main_screen.dart';
 import 'package:audio_cult/app/utils/constants/app_assets.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
 import 'package:audio_cult/l10n/l10n.dart';
@@ -17,7 +18,7 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle.dark.copyWith(
-        statusBarColor: Colors.white, // Color for Android
+        statusBarColor: Colors.transparent, // Color for Android
         statusBarBrightness: Brightness.dark // Dark == white status bar -- for IOS.
         ,
       ),
@@ -49,7 +50,7 @@ class App extends StatelessWidget {
         GlobalMaterialLocalizations.delegate,
       ],
       supportedLocales: AppLocalizations.supportedLocales,
-      home: const LoginScreen(),
+      home: const MainScreen(),
       builder: (context, widget) => ResponsiveWrapper.builder(
         BouncingScrollWrapper.builder(
           context,
