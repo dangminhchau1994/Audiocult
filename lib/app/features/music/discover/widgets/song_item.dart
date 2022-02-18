@@ -11,9 +11,15 @@ class SongItem extends StatelessWidget {
   const SongItem({
     Key? key,
     this.song,
+    this.imageSize = 40,
+    this.onMenuClick,
+    
   }) : super(key: key);
 
   final FakeSong? song;
+  final Function()? onMenuClick;
+  final double? imageSize;
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -24,8 +30,8 @@ class SongItem extends StatelessWidget {
           Row(
             children: [
               CachedNetworkImage(
-                width: 40,
-                height: 40,
+                width: imageSize,
+                height: imageSize,
                 imageUrl: song?.imageUrl ?? '',
                 imageBuilder: (context, imageProvider) => Container(
                   decoration: BoxDecoration(
@@ -69,11 +75,14 @@ class SongItem extends StatelessWidget {
               )
             ],
           ),
-          SvgPicture.asset(
-            AppAssets.horizIcon,
-            width: 16,
-            height: 16,
-          ),
+          if (onMenuClick != null)
+            SvgPicture.asset(
+              AppAssets.horizIcon,
+              width: 16,
+              height: 16,
+            )
+          else
+            const SizedBox()
         ],
       ),
     );

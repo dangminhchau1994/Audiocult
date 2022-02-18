@@ -28,6 +28,7 @@ class PageSong extends StatelessWidget {
             itemBuilder: (context, index) {
               return SongItem(
                 song: songs?[index],
+                onMenuClick: () {},
               );
             },
           );

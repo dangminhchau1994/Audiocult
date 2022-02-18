@@ -1,4 +1,5 @@
 import 'package:audio_cult/app/features/music/discover/discover_screen.dart';
+import 'package:audio_cult/app/features/music/library/library_screen.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
 import 'package:audio_cult/w_components/tabbars/common_tabbar.dart';
 import 'package:audio_cult/w_components/tabbars/common_tabbar_item.dart';
@@ -64,11 +65,7 @@ class _MusicScreenState extends State<MusicScreen> {
             case 0:
               return const DiscoverScreen();
             case 1:
-              return const SizedBox(
-                child: Center(
-                  child: Text('My Library'),
-                ),
-              );
+              return LibraryScreen();
             default:
               return const SizedBox();
           }
