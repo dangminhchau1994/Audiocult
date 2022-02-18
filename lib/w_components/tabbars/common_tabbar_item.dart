@@ -1,6 +1,6 @@
+import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_tab_bar/custom_tab_bar.dart';
-import 'package:flutter_custom_tab_bar/transform/color_transform.dart';
 import '../../app/utils/constants/app_colors.dart';
 
 class CommonTabbarItem extends StatelessWidget {
@@ -9,6 +9,8 @@ class CommonTabbarItem extends StatelessWidget {
     this.index,
     this.currentIndex,
     this.hasIcon,
+    this.title,
+    this.width,
     this.icon,
   }) : super(key: key);
 
@@ -16,14 +18,16 @@ class CommonTabbarItem extends StatelessWidget {
   final int? currentIndex; // THIS IS CURRENT INDEX DEFINE THE ACTIVE STATUS OF THIS ITEM
   final bool? hasIcon;
   final Widget? icon;
+  final double? width;
+  final String? title;
 
   @override
   Widget build(BuildContext context) {
     return TabBarItem(
       index: index ?? 0,
       child: Container(
-        width: MediaQuery.of(context).size.width / 3,
-        padding: const EdgeInsets.all(8),
+        width: width,
+        padding: const EdgeInsets.all(10),
         constraints: const BoxConstraints(minWidth: 60),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -36,11 +40,10 @@ class CommonTabbarItem extends StatelessWidget {
               width: 10,
             ),
             Text(
-              'Tab$index',
-              style: TextStyle(
-                fontSize: 18,
-                color: index == currentIndex ? AppColors.activeLabelItem : Colors.white,
-              ),
+              title ?? '',
+              style: context.bodyTextPrimaryStyle()!.copyWith(
+                    color: index == currentIndex ? AppColors.activeLabelItem : Colors.white,
+                  ),
             ),
           ],
         ),

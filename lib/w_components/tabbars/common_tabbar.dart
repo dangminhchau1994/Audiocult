@@ -32,7 +32,9 @@ class CommonTabbar extends StatelessWidget {
       children: [
         Container(
           width: MediaQuery.of(context).size.width,
-          decoration: BoxDecoration(color: AppColors.secondaryButtonColor),
+          decoration: BoxDecoration(
+            color: AppColors.secondaryButtonColor,
+          ),
           child: CustomTabBar(
             tabBarController: tabBarController,
             onTapItem: onTapItem,
