@@ -1,6 +1,14 @@
 class AppAssets {
   static const String fontFarmily = 'NunitoSans';
 
+  static const searchIcon = 'assets/icons/search.svg';
+
+  static const notificationIcon = 'assets/icons/notification.svg';
+
+  static const cartIcon = 'assets/icons/cart.svg';
+
+  static const actionMenu = 'assets/icons/action_menu.svg';
+
   static const fireIcon = 'assets/icons/fire.svg';
   
   static const pdfIcon = 'assets/icons/pdf.svg';
