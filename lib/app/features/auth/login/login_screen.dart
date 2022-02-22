@@ -37,10 +37,13 @@ class _LoginScreenState extends State<LoginScreen> {
                   ],
                 ),
                 Expanded(
-                    child: TabBarView(children: [
-                  RegisterPage(),
-                  const LoginPage(),
-                ])),
+                  child: TabBarView(
+                    children: [
+                      RegisterPage(),
+                      const LoginPage(),
+                    ],
+                  ),
+                ),
               ],
             ),
           ),
