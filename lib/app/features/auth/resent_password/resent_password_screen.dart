@@ -1,5 +1,6 @@
 import 'package:audio_cult/app/features/auth/widgets/w_auth_page.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
+import 'package:audio_cult/w_components/appbar/common_appbar.dart';
 import 'package:flutter/material.dart';
 
 import '../widgets/resent_password_page.dart';
@@ -16,6 +17,7 @@ class _ResentPasswordScreenState extends State<ResentPasswordScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.mainColor,
+      appBar: const CommonAppBar(),
       body: const SafeArea(
         top: false,
         child: WAuthPage(
