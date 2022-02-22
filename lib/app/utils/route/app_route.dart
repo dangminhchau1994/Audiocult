@@ -1,7 +1,8 @@
+import 'package:audio_cult/app/features/auth/check_email/check_mail_screen.dart';
+import 'package:audio_cult/app/features/auth/resent_password/resent_password_screen.dart';
+import 'package:audio_cult/app/features/main/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
-
-import '../../features/counter/view/counter_page.dart';
 
 class AppRoute {
   factory AppRoute() => _instance;
@@ -14,6 +15,8 @@ class AppRoute {
   static const String routeMain = '/main';
   static const String routeLogin = '/login';
   static const String routeRegister = '/register';
+  static const String routeForgotPassword = '/forgot_password';
+  static const String routeCheckEmail = '/check_email';
 
   ///#endregion
 
@@ -34,7 +37,11 @@ class AppRoute {
   Route<dynamic>? generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case routeMain:
-        return _pageRoute(settings, const CounterPage());
+        return _pageRoute(settings, const MainScreen());
+      case routeForgotPassword:
+        return _pageRoute(settings, const ResentPasswordScreen());
+      case routeCheckEmail:
+        return _pageRoute(settings, const CheckMailScreen());
       default:
         return null;
     }

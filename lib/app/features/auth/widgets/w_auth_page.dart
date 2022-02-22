@@ -9,7 +9,8 @@ import '../../../utils/constants/app_assets.dart';
 
 class WAuthPage extends StatefulWidget {
   final Widget child;
-  const WAuthPage({Key? key, required this.child}) : super(key: key);
+  final bool isShowIconRight;
+  const WAuthPage({Key? key, required this.child, this.isShowIconRight = true}) : super(key: key);
 
   @override
   State<WAuthPage> createState() => _WAuthPageState();
@@ -61,10 +62,13 @@ class _WAuthPageState extends State<WAuthPage> {
                     const SizedBox(
                       width: kHorizontalSpacing,
                     ),
-                    Image.asset(
-                      AppAssets.authVectorIcon,
-                      height: 36,
-                    ),
+                    if (widget.isShowIconRight)
+                      Image.asset(
+                        AppAssets.authVectorIcon,
+                        height: 36,
+                      )
+                    else
+                      const SizedBox.shrink(),
                   ],
                 ),
               ),

@@ -1,6 +1,7 @@
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
 import 'package:audio_cult/app/utils/constants/app_dimens.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
+import 'package:audio_cult/app/utils/route/app_route.dart';
 import 'package:audio_cult/l10n/l10n.dart';
 import 'package:audio_cult/w_components/buttons/common_button.dart';
 import 'package:audio_cult/w_components/checkbox/common_checkbox.dart';
@@ -28,7 +29,7 @@ class LoginPage extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Container(
+              SizedBox(
                 width: 200,
                 child: CommonCheckbox(
                   isChecked: false,
@@ -36,9 +37,14 @@ class LoginPage extends StatelessWidget {
                   onChanged: (value) {},
                 ),
               ),
-              Text(
-                context.l10n.t_forgot_password,
-                style: context.bodyTextStyle()?.copyWith(color: AppColors.lightBlueColor),
+              GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, AppRoute.routeForgotPassword);
+                },
+                child: Text(
+                  context.l10n.t_forgot_password,
+                  style: context.bodyTextStyle()?.copyWith(color: AppColors.lightBlueColor),
+                ),
               ),
             ],
           ),

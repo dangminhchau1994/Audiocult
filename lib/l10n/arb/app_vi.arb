@@ -15,5 +15,17 @@
     "t_full_name":"Full Name",
     "t_sub_register_checkbox":"I’d like to recieve emails with content and notifications.",
     "t_register_text":"By signing up, you confirm that you’ve read and accepted our ",
-    "t_term":"Accept Terms & Conditions"
+    "t_term":"Accept Terms & Conditions",
+    "t_resent_password":"Resent password",
+    "t_sub_resent_password":"Enter the email associated with your\naccount and we'll send an email with\ninstructions to reset your password.",
+    "t_submit":"Submit",
+    "t_check_email":"Check your email",
+    "t_sub_check_email":"Your password reset request has been sent.\nPlease check your email and follow the instruction.",
+    "t_bottom_check_email":"Did not receive the email? Check your spam filter,",
+    "t_bottom1_check_email":"or try another email address",
+    "t_create_new_password":"Create new password",
+    "t_sub_create":"Some tips for creating a password, contains\na capital letter, a number, etc.",
+    "t_new_password":"New password",
+    "t_confirm_password":"Confirm new password",
+    "t_save":"Save"
 }
