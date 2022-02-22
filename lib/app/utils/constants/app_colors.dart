@@ -3,6 +3,10 @@ import '../extensions/app_extensions.dart';
 class AppColors {
   static final primaryButtonColor = HexColor.fromHex('#00A8A8');
 
+  static final blurBackground = HexColor.fromHex('#111827');
+
+  static final badgeColor = HexColor.fromHex('#DC2626');
+
   static final secondaryButtonColor = HexColor.fromHex('#1F2937');
 
   static final lightBlue = HexColor.fromHex('#0EA5E9');
