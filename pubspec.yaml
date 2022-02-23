@@ -31,6 +31,9 @@ dependencies:
   connectivity_plus: ^2.2.0
   very_good_analysis: ^2.4.0
   dartz: ^0.10.1
+  loader_overlay: ^2.0.5
+  loading_indicator: ^3.0.2
+  disposing: ^1.0.3+1
 
 dev_dependencies:
   bloc_test: ^9.0.2
