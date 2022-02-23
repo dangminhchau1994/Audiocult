@@ -7,7 +7,7 @@ import 'global.dart';
 void main() {
   bootstrap(
     () => MyGlobal(
-      flavorConfig: FlavorConfig(flavor: Flavor.staging, values: FlavorValues(mainUrl: 'http://staging.com')),
+      flavorConfig: FlavorConfig(flavor: Flavor.staging, values: FlavorValues(mainUrl: 'http://staging.audiocult.net')),
       child: const App(),
     ),
   );

@@ -1,5 +1,5 @@
 class AppAssets {
-  static const String fontFarmily = 'NunitoSans';
+  static const String fontFamily = 'NunitoSans';
 
   static const searchIcon = 'assets/icons/search.svg';
 

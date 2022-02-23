@@ -36,11 +36,11 @@ class _LoginScreenState extends State<LoginScreen> {
                     Tab(text: context.l10n.t_sign_in),
                   ],
                 ),
-                Expanded(
+                const Expanded(
                   child: TabBarView(
                     children: [
                       RegisterPage(),
-                      const LoginPage(),
+                      LoginPage(),
                     ],
                   ),
                 ),

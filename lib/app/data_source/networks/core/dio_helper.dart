@@ -279,8 +279,8 @@ class DioHelper {
       // ignore: prefer_typing_uninitialized_variables
       var errorCode = '';
       if (response.data is Map) {
-        message = response.data['message'] ?? response.data['error'];
-        errorCode = response.data['errorCode'] as String;
+        message = response.data['error_description'];
+        errorCode = response.data['error'] as String;
       }
       switch (response.statusCode) {
         case 400:

@@ -1,20 +1,36 @@
 import 'package:audio_cult/app/features/auth/login/login_screen.dart';
 import 'package:audio_cult/app/features/main/main_screen.dart';
+import 'package:audio_cult/app/injections.dart';
 import 'package:audio_cult/app/utils/constants/app_assets.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
 import 'package:audio_cult/l10n/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
 import 'package:responsive_framework/utils/scroll_behavior.dart';
 
+import '../features/splash/splash_bloc.dart';
+import '../features/splash/splash_screen.dart';
 import '../utils/configs/custom_scroll_behavior.dart';
 import '../utils/route/app_route.dart';
 
-class App extends StatelessWidget {
+class App extends StatefulWidget {
   const App({Key? key}) : super(key: key);
+
+  @override
+  State<App> createState() => _AppState();
+}
+
+class _AppState extends State<App> {
+  final SplashBloc _splashBloc = SplashBloc(locator.get(), locator.get());
+  @override
+  void initState() {
+    super.initState();
+    _splashBloc.checkScreen();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,53 +42,77 @@ class App extends StatelessWidget {
         ,
       ),
     );
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        fontFamily: AppAssets.fontFarmily,
-        appBarTheme: const AppBarTheme(
-          color: Colors.white,
-        ),
-        colorScheme: ColorScheme.fromSwatch(
-          accentColor: const Color(0xFF13B9FF),
-        ),
-        textTheme: const TextTheme().copyWith(
-          bodyText1: const TextStyle(
+    return GlobalLoaderOverlay(
+      overlayColor: Colors.black87,
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          fontFamily: AppAssets.fontFamily,
+          appBarTheme: const AppBarTheme(
             color: Colors.white,
           ),
-          bodyText2: const TextStyle(
-            color: Colors.white,
+          colorScheme: ColorScheme.fromSwatch(
+            accentColor: const Color(0xFF13B9FF),
           ),
+          textTheme: const TextTheme().copyWith(
+            bodyText1: const TextStyle(
+              color: Colors.white,
+            ),
+            bodyText2: const TextStyle(
+              color: Colors.white,
+            ),
+          ),
+          tabBarTheme: TabBarTheme(
+              labelColor: AppColors.activeLabelItem,
+              unselectedLabelColor: AppColors.unActiveLabelItem,
+              indicator: UnderlineTabIndicator(borderSide: BorderSide(color: AppColors.activeLabelItem, width: 2.0))),
         ),
-        tabBarTheme: TabBarTheme(
-            labelColor: AppColors.activeLabelItem,
-            unselectedLabelColor: AppColors.unActiveLabelItem,
-            indicator: UnderlineTabIndicator(borderSide: BorderSide(color: AppColors.activeLabelItem, width: 2.0))),
-      ),
-      localizationsDelegates: const [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-      ],
-      supportedLocales: AppLocalizations.supportedLocales,
-      home: const LoginScreen(),
-      initialRoute: AppRoute.routeRoot,
-      onGenerateRoute: appRoute.generateRoute,
-      builder: (context, widget) => ResponsiveWrapper.builder(
-        BouncingScrollWrapper.builder(
-          context,
-          ScrollConfiguration(behavior: const CustomScrollBehavior(), child: widget!),
-        ),
-        backgroundColor: Colors.white,
-        maxWidth: MediaQuery.of(context).size.width,
-        defaultScale: true,
-        breakpoints: [
-          const ResponsiveBreakpoint.resize(480, name: MOBILE),
-          const ResponsiveBreakpoint.autoScale(800, name: TABLET),
-          const ResponsiveBreakpoint.autoScale(1000, name: TABLET),
-          const ResponsiveBreakpoint.resize(1200, name: DESKTOP),
-          const ResponsiveBreakpoint.autoScale(2460, name: '4K'),
+        localizationsDelegates: const [
+          AppLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
         ],
+        supportedLocales: AppLocalizations.supportedLocales,
+        home: StreamBuilder<StatePage>(
+            stream: _splashBloc.checkLoginSubject.stream,
+            initialData: StatePage.init,
+            builder: (context, snapshot) {
+              return handlePage(snapshot.data!);
+            }),
+        initialRoute: AppRoute.routeRoot,
+        onGenerateRoute: appRoute.generateRoute,
+        builder: (context, widget) => ResponsiveWrapper.builder(
+          BouncingScrollWrapper.builder(
+            context,
+            ScrollConfiguration(behavior: const CustomScrollBehavior(), child: widget!),
+          ),
+          backgroundColor: Colors.white,
+          maxWidth: MediaQuery.of(context).size.width,
+          defaultScale: true,
+          breakpoints: [
+            const ResponsiveBreakpoint.resize(480, name: MOBILE),
+            const ResponsiveBreakpoint.autoScale(800, name: TABLET),
+            const ResponsiveBreakpoint.autoScale(1000, name: TABLET),
+            const ResponsiveBreakpoint.resize(1200, name: DESKTOP),
+            const ResponsiveBreakpoint.autoScale(2460, name: '4K'),
+          ],
+        ),
       ),
     );
+  }
+
+  Widget handlePage(StatePage data) {
+    switch (data) {
+      case StatePage.init:
+        return const SplashScreen();
+      case StatePage.login:
+        _splashBloc.dispose();
+        return const LoginScreen();
+      case StatePage.main:
+        _splashBloc.dispose();
+        return const MainScreen();
+      // ignore: no_default_cases
+      default:
+        return Container();
+    }
   }
 }

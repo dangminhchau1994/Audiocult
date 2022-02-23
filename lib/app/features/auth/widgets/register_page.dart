@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import '../../../../w_components/textfields/common_input.dart';
 
 class RegisterPage extends StatefulWidget {
-  RegisterPage({Key? key}) : super(key: key);
+  const RegisterPage({Key? key}) : super(key: key);
 
   @override
   State<RegisterPage> createState() => _RegisterPageState();

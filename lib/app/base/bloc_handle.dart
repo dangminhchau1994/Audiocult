@@ -1,4 +1,5 @@
 import 'package:disposing/disposing.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
@@ -37,21 +38,32 @@ class _BlocHandleState extends State<BlocHandle> with DisposableStateMixin {
     widget.bloc.loadingStream.listen((isLoading) {
       if (isLoading) {
         context.loaderOverlay.show(
-            widget: const LoadingWidget(
-          backgroundColor: Colors.black12,
-        ));
+          widget: const LoadingWidget(
+            backgroundColor: Colors.black12,
+          ),
+        );
       } else {
         context.loaderOverlay.hide();
       }
     }).disposeOn(disposeBag);
 
     widget.bloc.errorStream.listen((exception) async {
-      await showModalBottomSheet(
+      await showDialog(
         context: context,
         builder: (context) {
-          return Text(exception.toString());
+          return CupertinoAlertDialog(
+            title: const Text('Alert'),
+            content: Text(exception.toString()),
+            actions: [
+              CupertinoDialogAction(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text('Ok'),
+              )
+            ],
+          );
         },
-        backgroundColor: Colors.transparent,
       );
     }).disposeOn(disposeBag);
   }
