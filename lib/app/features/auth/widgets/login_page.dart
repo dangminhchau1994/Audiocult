@@ -15,6 +15,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../w_components/textfields/common_input.dart';
 import '../../../utils/mixins/disposable_state_mixin.dart';
+import '../../../utils/toast_utils.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -31,6 +32,7 @@ class _LoginPageState extends State<LoginPage> with DisposableStateMixin {
   void initState() {
     super.initState();
     _loginBloc.navigateMainStream.listen((profile) {
+      ToastUtility.showSuccess(context: context, message: 'Login successful!');
       Navigator.pushNamedAndRemoveUntil(context, AppRoute.routeMain, (route) => false);
     }).disposeOn(disposeBag);
   }

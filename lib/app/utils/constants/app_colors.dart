@@ -26,5 +26,7 @@ class AppColors {
   static final semiMainColor = HexColor.fromHex('#1F2937');
 
   static final lightBlueColor = HexColor.fromHex('#38BDF8');
+ 
+  static final borderOutline = HexColor.fromHex('#6B7280');
 
 }

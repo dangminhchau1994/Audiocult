@@ -52,4 +52,6 @@ class AppAssets {
   static const authVectorIcon = 'assets/icons/ic_auth_vector.png';
 
   static const avatarAuthImg = 'assets/imgs/img_auth_list_avatar.png';
+
+  static const icNotiChecked = 'assets/icons/ic_noti_checked.png';
 }

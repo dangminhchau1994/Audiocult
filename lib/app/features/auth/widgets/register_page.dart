@@ -15,6 +15,7 @@ import 'package:flutter/material.dart';
 import '../../../../w_components/textfields/common_input.dart';
 import '../../../injections.dart';
 import '../../../utils/mixins/disposable_state_mixin.dart';
+import '../../../utils/toast_utils.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({Key? key}) : super(key: key);
@@ -36,7 +37,7 @@ class _RegisterPageState extends State<RegisterPage> with DisposableStateMixin {
   void initState() {
     super.initState();
     _registerBloc.navigateMainStream.listen((data) {
-      //Đăng ký thành công
+      ToastUtility.showSuccess(context: context, message: 'Register successful!');
     }).disposeOn(disposeBag);
   }
 
