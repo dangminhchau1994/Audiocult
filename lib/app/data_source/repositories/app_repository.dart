@@ -1,7 +1,9 @@
+import 'package:audio_cult/app/data_source/models/requests/register_request.dart';
 import 'package:dartz/dartz.dart';
 
 import '../models/requests/login_request.dart';
 import '../models/responses/login_response.dart';
+import '../models/responses/register_response.dart';
 import '../services/app_service_provider.dart';
 import 'base_repository.dart';
 
@@ -12,5 +14,13 @@ class AppRepository extends BaseRepository {
 
   Future<Either<LoginResponse, Exception>> login(LoginRequest request) {
     return safeCall(() => appServiceProvider.login(request));
+  }
+
+  Future<Either<LoginResponse, Exception>> authentication() {
+    return safeCall(appServiceProvider.authentication);
+  }
+
+  Future<Either<RegisterResponse, Exception>> register(RegisterRequest request) {
+    return safeCall(() => appServiceProvider.register(request));
   }
 }

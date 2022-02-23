@@ -28,5 +28,8 @@
     "t_new_password":"New password",
     "t_confirm_password":"Confirm new password",
     "t_save":"Save",
-    "t_retry":"Try again"
+    "t_retry":"Try again",
+    "t_user_name":"Username (slug)",
+    "t_choose_country":"Choose Country",
+    "t_location":"Location"
 }
