@@ -37,7 +37,7 @@ class RegisterBloc extends BaseBloc {
           showError,
         );
       },
-      (r) => showError,
+      showError,
     );
   }
 }
