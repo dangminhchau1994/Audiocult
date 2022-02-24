@@ -1,3 +1,4 @@
+import 'package:audio_cult/app/data_source/networks/exceptions/no_internet_exception.dart';
 import 'package:disposing/disposing.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -49,7 +50,11 @@ class _BlocHandleState extends State<BlocHandle> with DisposableStateMixin {
     }).disposeOn(disposeBag);
 
     widget.bloc.errorStream.listen((exception) async {
-      ToastUtility.showError(context: context, message: exception.toString());
+      if (exception is NoInternetException) {
+        ToastUtility.showPending(context: context, message: exception.toString());
+      } else {
+        ToastUtility.showError(context: context, message: exception.toString());
+      }
     }).disposeOn(disposeBag);
   }
 }

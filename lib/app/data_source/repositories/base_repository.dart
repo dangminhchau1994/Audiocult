@@ -4,6 +4,7 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 
 import '../networks/exceptions/app_exception.dart';
+import '../networks/exceptions/no_internet_exception.dart';
 
 class BaseRepository {
   Future<Either<T, Exception>> safeCall<T>(Future<T> Function() tryFetch) async {
@@ -26,6 +27,9 @@ class BaseRepository {
       print('Stacktrace: $stacktrace');
       if (e is SocketException) {
         return right(AppException('Disconnect from internet! Please Try again!'));
+      }
+      if (e is NoInternetException) {
+        return right(NoInternetException());
       }
       return right(AppException(e.toString()));
     }
