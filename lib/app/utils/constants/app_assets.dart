@@ -54,4 +54,8 @@ class AppAssets {
   static const avatarAuthImg = 'assets/imgs/img_auth_list_avatar.png';
 
   static const icNotiChecked = 'assets/icons/ic_noti_checked.png';
+
+  static const icNotiError = 'assets/icons/ic_noti_error.png';
+  
+  static const icNotiPending = 'assets/icons/ic_noti_pending.png';
 }

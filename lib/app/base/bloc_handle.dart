@@ -5,6 +5,7 @@ import 'package:loader_overlay/loader_overlay.dart';
 
 import '../../w_components/loading/loading_widget.dart';
 import '../utils/mixins/disposable_state_mixin.dart';
+import '../utils/toast/toast_utils.dart';
 import 'base_bloc.dart';
 
 class BlocHandle extends StatefulWidget {
@@ -48,23 +49,7 @@ class _BlocHandleState extends State<BlocHandle> with DisposableStateMixin {
     }).disposeOn(disposeBag);
 
     widget.bloc.errorStream.listen((exception) async {
-      await showDialog(
-        context: context,
-        builder: (context) {
-          return CupertinoAlertDialog(
-            title: const Text('Alert'),
-            content: Text(exception.toString()),
-            actions: [
-              CupertinoDialogAction(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: const Text('Ok'),
-              )
-            ],
-          );
-        },
-      );
+      ToastUtility.showError(context: context, message: exception.toString());
     }).disposeOn(disposeBag);
   }
 }

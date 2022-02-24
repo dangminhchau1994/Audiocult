@@ -31,5 +31,9 @@
     "t_retry":"Try again",
     "t_user_name":"Username (slug)",
     "t_choose_country":"Choose Country",
-    "t_location":"Location"
+    "t_location":"Location",
+    "t_success":"Success",
+    "t_error":"Error",
+    "t_Pending":"Pending",
+    "t_information":"Info Notification"
 }

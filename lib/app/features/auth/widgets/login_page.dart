@@ -9,13 +9,12 @@ import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/app/utils/route/app_route.dart';
 import 'package:audio_cult/l10n/l10n.dart';
 import 'package:audio_cult/w_components/buttons/common_button.dart';
-import 'package:audio_cult/w_components/checkbox/common_checkbox.dart';
 import 'package:disposing/disposing.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../w_components/textfields/common_input.dart';
 import '../../../utils/mixins/disposable_state_mixin.dart';
-import '../../../utils/toast_utils.dart';
+import '../../../utils/toast/toast_utils.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -69,27 +68,20 @@ class _LoginPageState extends State<LoginPage> with DisposableStateMixin {
                 },
               ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                SizedBox(
-                  width: 200,
-                  child: CommonCheckbox(
-                    isChecked: false,
-                    title: context.l10n.t_remember_me,
-                    onChanged: (value) {},
-                  ),
+            Container(
+              alignment: Alignment.centerRight,
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, AppRoute.routeForgotPassword);
+                },
+                child: Text(
+                  context.l10n.t_forgot_password,
+                  style: context.bodyTextStyle()?.copyWith(color: AppColors.lightBlueColor),
                 ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.pushNamed(context, AppRoute.routeForgotPassword);
-                  },
-                  child: Text(
-                    context.l10n.t_forgot_password,
-                    style: context.bodyTextStyle()?.copyWith(color: AppColors.lightBlueColor),
-                  ),
-                ),
-              ],
+              ),
+            ),
+            const SizedBox(
+              height: kVerticalSpacing,
             ),
             CommonButton(
               color: AppColors.activeLabelItem,
