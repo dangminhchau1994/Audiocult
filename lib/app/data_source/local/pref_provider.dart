@@ -17,4 +17,9 @@ class PrefProvider {
     await _prefs.setString(PrefNames.accessToken, accessToken);
     return true;
   }
+
+  Future<bool> clearAuthentication() async {
+    await _prefs.remove(PrefNames.accessToken);
+    return true;
+  }
 }

@@ -10,7 +10,7 @@ class AppAssets {
   static const actionMenu = 'assets/icons/action_menu.svg';
 
   static const fireIcon = 'assets/icons/fire.svg';
-  
+
   static const pdfIcon = 'assets/icons/pdf.svg';
 
   static const horizIcon = 'assets/icons/horiz.svg';
@@ -56,6 +56,10 @@ class AppAssets {
   static const icNotiChecked = 'assets/icons/ic_noti_checked.png';
 
   static const icNotiError = 'assets/icons/ic_noti_error.png';
-  
+
   static const icNotiPending = 'assets/icons/ic_noti_pending.png';
+
+  static const imgHeaderDrawer = 'assets/imgs/img_header_drawer.png';
+  
+  static const icLogout = 'assets/icons/ic_logout.png';
 }

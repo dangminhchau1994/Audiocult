@@ -1,5 +1,6 @@
 // ignore_for_file: avoid_redundant_argument_values
 
+import 'package:audio_cult/app/features/main/main_bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
@@ -35,10 +36,12 @@ Future<void> initDependency() async {
       baseUrl: baseUrl,
     );
     final dio = Dio(options)..transformer = FlutterTransformer();
-    dio.interceptors.add(AuthInterceptor(
-      dio,
-      locator.get(),
-    ),);
+    dio.interceptors.add(
+      AuthInterceptor(
+        dio,
+        locator.get(),
+      ),
+    );
     dio.interceptors.add(AppInterceptor(locator.get()));
     if (kDebugMode) {
       dio.interceptors.add(
@@ -54,4 +57,5 @@ Future<void> initDependency() async {
   });
 
   locator.registerLazySingleton(() => AppRepository(appServiceProvider: locator.get()));
+  locator.registerLazySingleton(() => MainBloc(locator.get(), locator.get()));
 }

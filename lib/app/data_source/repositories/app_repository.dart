@@ -23,4 +23,8 @@ class AppRepository extends BaseRepository {
   Future<Either<RegisterResponse, Exception>> register(RegisterRequest request) {
     return safeCall(() => appServiceProvider.register(request));
   }
+
+  Future<Either<bool, Exception>> logout() {
+    return safeCall(appServiceProvider.logout);
+  }
 }

@@ -12,7 +12,8 @@ import 'package:flutter_custom_tab_bar/indicator/custom_indicator.dart';
 import 'package:flutter_svg/svg.dart';
 
 class MusicScreen extends StatefulWidget {
-  const MusicScreen({Key? key}) : super(key: key);
+  final Function()? onPressAvatar;
+  const MusicScreen({Key? key, this.onPressAvatar}) : super(key: key);
 
   @override
   State<MusicScreen> createState() => _MusicScreenState();
@@ -36,15 +37,20 @@ class _MusicScreenState extends State<MusicScreen> {
       backgroundColor: AppColors.secondaryButtonColor,
       appBar: CommonAppBar(
         title: 'Music',
-        leading: CircleAvatar(
-          backgroundColor: Colors.transparent,
-          child: ClipOval(
-            child: CachedNetworkImage(
-              width: 36,
-              height: 36,
-              fit: BoxFit.cover,
-              imageUrl:
-                  'https://cafefcdn.com/thumb_w/650/203337114487263232/2021/8/28/photo1630119914849-16301199150061205830569.jpg',
+        leading: GestureDetector(
+          onTap: () {
+            widget.onPressAvatar?.call();
+          },
+          child: CircleAvatar(
+            backgroundColor: Colors.transparent,
+            child: ClipOval(
+              child: CachedNetworkImage(
+                width: 36,
+                height: 36,
+                fit: BoxFit.cover,
+                imageUrl:
+                    'https://cafefcdn.com/thumb_w/650/203337114487263232/2021/8/28/photo1630119914849-16301199150061205830569.jpg',
+              ),
             ),
           ),
         ),

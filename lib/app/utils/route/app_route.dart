@@ -1,4 +1,5 @@
 import 'package:audio_cult/app/features/auth/check_email/check_mail_screen.dart';
+import 'package:audio_cult/app/features/auth/login/login_screen.dart';
 import 'package:audio_cult/app/features/auth/resent_password/resent_password_screen.dart';
 import 'package:audio_cult/app/features/main/main_screen.dart';
 import 'package:flutter/material.dart';
@@ -38,6 +39,8 @@ class AppRoute {
     switch (settings.name) {
       case routeMain:
         return _pageRoute(settings, const MainScreen());
+      case routeLogin:
+        return _pageRoute(settings, const LoginScreen());
       case routeForgotPassword:
         return _pageRoute(settings, const ResentPasswordScreen());
       case routeCheckEmail:

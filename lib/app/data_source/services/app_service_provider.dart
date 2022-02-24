@@ -1,5 +1,7 @@
+import 'package:audio_cult/app/data_source/local/pref_provider.dart';
 import 'package:audio_cult/app/data_source/models/requests/register_request.dart';
 import 'package:audio_cult/app/data_source/models/responses/login_response.dart';
+import 'package:audio_cult/app/injections.dart';
 import 'package:audio_cult/app/utils/constants/app_constants.dart';
 import 'package:dio/dio.dart';
 
@@ -49,5 +51,17 @@ class AppServiceProvider {
     } else {
       return RegisterResponse(status: data.status as String, message: data.error['message'] as String);
     }
+  }
+
+  Future<bool> logout() async {
+    var pref = locator.get<PrefProvider>();
+    final response = await _dioHelper.post(
+      isAuthRequired: false,
+      requestBody: FormData.fromMap(
+        {'client_id': AppConstants.clientId, 'client_secret': AppConstants.clientSecret, 'token': pref.accessToken},
+      ),
+      route: '/restful_api/revoke',
+    );
+    return response['revoked'] as bool;
   }
 }
