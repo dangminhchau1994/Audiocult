@@ -85,7 +85,7 @@ class _AppState extends State<App> {
             context,
             ScrollConfiguration(behavior: const CustomScrollBehavior(), child: widget!),
           ),
-          backgroundColor: Colors.white,
+          backgroundColor: AppColors.mainColor,
           maxWidth: MediaQuery.of(context).size.width,
           defaultScale: true,
           breakpoints: [
