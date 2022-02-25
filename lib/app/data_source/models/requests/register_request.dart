@@ -5,6 +5,7 @@ class RegisterRequest {
   String? valUserName;
   String? valPassword;
   String? valCountryIso;
+  int? valRole;
 
   RegisterRequest({
     this.accessToken,
@@ -13,6 +14,7 @@ class RegisterRequest {
     this.valUserName,
     this.valPassword,
     this.valCountryIso,
+    this.valRole,
   });
 
   Map<String, dynamic> toJson() {
@@ -23,6 +25,7 @@ class RegisterRequest {
     data['val[user_name]'] = valUserName;
     data['val[password]'] = valPassword;
     data['val[country_iso]'] = valCountryIso;
+    data['val[user_group_id]'] = valRole;
     return data;
   }
 }

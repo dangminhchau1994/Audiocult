@@ -23,7 +23,7 @@ class LoginPage extends StatefulWidget {
   State<LoginPage> createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> with DisposableStateMixin {
+class _LoginPageState extends State<LoginPage> with DisposableStateMixin, AutomaticKeepAliveClientMixin {
   final LoginBloc _loginBloc = LoginBloc(locator.get(), locator.get());
   String _email = '';
   String _password = '';
@@ -101,4 +101,7 @@ class _LoginPageState extends State<LoginPage> with DisposableStateMixin {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

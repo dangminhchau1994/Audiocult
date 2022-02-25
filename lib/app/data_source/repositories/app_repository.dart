@@ -4,6 +4,7 @@ import 'package:dartz/dartz.dart';
 import '../models/requests/login_request.dart';
 import '../models/responses/login_response.dart';
 import '../models/responses/register_response.dart';
+import '../models/responses/user_group.dart';
 import '../services/app_service_provider.dart';
 import 'base_repository.dart';
 
@@ -26,5 +27,9 @@ class AppRepository extends BaseRepository {
 
   Future<Either<bool, Exception>> logout() {
     return safeCall(appServiceProvider.logout);
+  }
+
+  Future<Either<List<UserGroup>, Exception>> getRole(String? token) {
+    return safeCall(() => appServiceProvider.getRole(token));
   }
 }

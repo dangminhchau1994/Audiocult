@@ -26,7 +26,7 @@ class _LoginScreenState extends State<LoginScreen> {
           child: WAuthPage(
             child: DefaultTabController(
               length: 2,
-              initialIndex: 1,
+              initialIndex: 0,
               child: Column(
                 children: [
                   TabBar(

@@ -5,9 +5,11 @@ import 'package:audio_cult/app/injections.dart';
 import 'package:audio_cult/app/utils/constants/app_constants.dart';
 import 'package:dio/dio.dart';
 
+import '../../utils/extensions/app_extensions.dart';
 import '../models/base_response.dart';
 import '../models/requests/login_request.dart';
 import '../models/responses/register_response.dart';
+import '../models/responses/user_group.dart';
 import '../networks/core/dio_helper.dart';
 import '../networks/core/handler/app_response_handler.dart';
 
@@ -63,5 +65,15 @@ class AppServiceProvider {
       route: '/restful_api/revoke',
     );
     return response['revoked'] as bool;
+  }
+
+  Future<List<UserGroup>> getRole(String? token) async {
+    final response = await _dioHelper.get(
+        options: Options(headers: {'Authorization': 'Bearer $token'}),
+        route: '/restful_api/user/groups',
+        responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>));
+    return response.mapData(
+      (json) => asType<List<dynamic>>(json)?.map((e) => UserGroup.fromJson(e as Map<String, dynamic>)).toList(),
+    );
   }
 }

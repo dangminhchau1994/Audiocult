@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../constants/app_font_sizes.dart';
 
+T? asType<T>(x) => x is T ? x : null;
+
 extension HexColor on Color {
   /// String is in the format "aabbcc" or "ffaabbcc" with an optional leading "#",
   static Color fromHex(String hexString) {
