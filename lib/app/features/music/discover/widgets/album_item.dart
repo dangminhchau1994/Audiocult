@@ -31,7 +31,11 @@ class AlbumItem extends StatelessWidget {
               ),
             ),
           ),
-          placeholder: (context, url) => const CircularProgressIndicator(),
+          placeholder: (context, url) => Center(
+            child: CircularProgressIndicator(
+              color: AppColors.primaryButtonColor,
+            ),
+          ),
           errorWidget: (context, url, error) => const Icon(Icons.error),
         ),
         const SizedBox(

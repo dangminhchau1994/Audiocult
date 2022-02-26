@@ -1,9 +1,10 @@
-import 'package:audio_cult/app/data_source/models/responses/fake_song.dart';
+import 'package:audio_cult/app/utils/datetime/date_time_utils.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
+import '../../../../data_source/models/responses/song/song_response.dart';
 import '../../../../utils/constants/app_assets.dart';
 import '../../../../utils/constants/app_colors.dart';
 
@@ -13,10 +14,9 @@ class SongItem extends StatelessWidget {
     this.song,
     this.imageSize = 40,
     this.onMenuClick,
-    
   }) : super(key: key);
 
-  final FakeSong? song;
+  final Song? song;
   final Function()? onMenuClick;
   final double? imageSize;
 
@@ -32,7 +32,7 @@ class SongItem extends StatelessWidget {
               CachedNetworkImage(
                 width: imageSize,
                 height: imageSize,
-                imageUrl: song?.imageUrl ?? '',
+                imageUrl: song?.imagePath ?? '',
                 imageBuilder: (context, imageProvider) => Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(4),
@@ -42,7 +42,11 @@ class SongItem extends StatelessWidget {
                     ),
                   ),
                 ),
-                placeholder: (context, url) => const CircularProgressIndicator(),
+                placeholder: (context, url) => Center(
+                  child: CircularProgressIndicator(
+                    color: AppColors.primaryButtonColor,
+                  ),
+                ),
                 errorWidget: (context, url, error) => const Icon(Icons.error),
               ),
               const SizedBox(
@@ -65,7 +69,14 @@ class SongItem extends StatelessWidget {
                     height: 8,
                   ),
                   Text(
-                    song?.date ?? '',
+                    song?.artistUser != null
+                        ? '${song?.artistUser?.userName} ${DateTimeUtils.formatDate(
+                            'hh:mm',
+                            DateTimeUtils.convertTimeStampToDate(
+                              int.parse(song?.timeStamp ?? ''),
+                            ),
+                          )}'
+                        : '',
                     style: context.bodyTextPrimaryStyle()!.copyWith(
                           color: AppColors.subTitleColor,
                           fontSize: 16,

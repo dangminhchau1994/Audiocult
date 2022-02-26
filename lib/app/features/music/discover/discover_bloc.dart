@@ -1,0 +1,27 @@
+import 'package:audio_cult/app/base/base_bloc.dart';
+import 'package:audio_cult/app/base/bloc_state.dart';
+import 'package:rxdart/rxdart.dart';
+import '../../../data_source/models/responses/song/song_response.dart';
+import '../../../data_source/repositories/app_repository.dart';
+
+class DiscoverBloc extends BaseBloc {
+  final AppRepository _appRepository;
+
+  DiscoverBloc(this._appRepository);
+
+  final _getTopSongSubject = PublishSubject<BlocState<List<Song>>>();
+
+  Stream<BlocState<List<Song>>> get getTopSongsStream => _getTopSongSubject.stream;
+
+  void getTopSongs(String sort, int page, int limit) async {
+    _getTopSongSubject.sink.add(const BlocState.loading());
+
+    final result = await _appRepository.getTopSongs(sort, limit, page);
+
+    result.fold((success) {
+      _getTopSongSubject.sink.add(BlocState.success(success.data ?? <Song>[]));
+    }, (error) {
+      _getTopSongSubject.sink.add(BlocState.error(error.toString()));
+    });
+  }
+}

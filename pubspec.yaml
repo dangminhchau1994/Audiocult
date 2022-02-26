@@ -16,6 +16,7 @@ dependencies:
   flutter_speed_dial: ^5.0.0+1
   badges: ^2.0.2
   flutter_custom_tab_bar: ^1.1.9
+  freezed_annotation:
   textfield_tags: ^1.4.2
   flutter_localizations:
     sdk: flutter
@@ -40,6 +41,9 @@ dependencies:
 
 dev_dependencies:
   bloc_test: ^9.0.2
+  json_serializable:
+  build_runner:
+  freezed:
   flutter_test:
     sdk: flutter
   mocktail: ^0.2.0

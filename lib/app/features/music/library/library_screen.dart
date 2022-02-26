@@ -20,10 +20,7 @@ class LibraryScreen extends StatelessWidget {
         itemCount: songs.length,
         separatorBuilder: (context, index) => const SizedBox(height: 24),
         itemBuilder: (context, index) {
-          return SongItem(
-            song: songs[index],
-            imageSize: 64,
-          );
+          return Container();
         },
       ),
     );

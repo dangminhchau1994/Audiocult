@@ -26,10 +26,10 @@ class FeatureMixtapes extends StatelessWidget {
           const SizedBox(
             height: 16,
           ),
-          PageSong(
-            onPageChange: onPageChange,
-            songs: songs,
-          ),
+          // PageSong(
+          //   onPageChange: onPageChange,
+          //   songs: songs,
+          // ),
         ],
       ),
     );

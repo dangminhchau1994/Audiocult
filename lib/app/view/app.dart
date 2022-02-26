@@ -70,6 +70,7 @@ class _AppState extends State<App> {
         localizationsDelegates: const [
           AppLocalizations.delegate,
           GlobalMaterialLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate
         ],
         supportedLocales: AppLocalizations.supportedLocales,
         home: StreamBuilder<StatePage>(

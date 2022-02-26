@@ -21,7 +21,14 @@ class ErrorSectionWidget extends StatelessWidget {
             children: [
               const Icon(Icons.error_outline, color: Colors.red),
               const SizedBox(width: 8),
-              Text(errorMessage, style: const TextStyle(color: Colors.red)),
+              SizedBox(
+                width: 300,
+                child: Text(
+                  errorMessage,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(color: Colors.red),
+                ),
+              ),
             ],
           ),
           TextButton(onPressed: () => onRetryTap?.call(), child: Text(retryText ?? context.l10n.t_retry)),
