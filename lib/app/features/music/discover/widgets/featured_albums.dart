@@ -1,6 +1,9 @@
+import 'package:audio_cult/app/base/bloc_state.dart';
 import 'package:audio_cult/app/data_source/models/responses/fake_song.dart';
+import 'package:audio_cult/app/features/music/discover/discover_bloc.dart';
 import 'package:audio_cult/app/features/music/discover/widgets/album_item.dart';
 import 'package:audio_cult/app/features/music/discover/widgets/section_title.dart';
+import 'package:audio_cult/app/injections.dart';
 import 'package:flutter/material.dart';
 
 class FeaturedAlbums extends StatelessWidget {
@@ -32,7 +35,7 @@ class FeaturedAlbums extends StatelessWidget {
               separatorBuilder: (context, index) => const SizedBox(width: 16),
               itemCount: albums?.length ?? 0,
             ),
-          )
+          ),
         ],
       ),
     );

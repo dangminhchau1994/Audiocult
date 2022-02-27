@@ -28,7 +28,7 @@ class DioHelper {
   DioHelper(this._dio, {this.responseHandler});
 
   Map<String, dynamic> headersRequest() {
-    return <String, dynamic>{};
+    return {};
   }
 
   Future<T> request<T>({
@@ -51,13 +51,13 @@ class DioHelper {
       // ignore: parameter_assignments
       options = options ?? Options();
       if (options!.headers == null) {
-        options!.headers = <String, dynamic>{};
+        options!.headers = {};
       }
       switch (requestType) {
 
         /// http get request method
         case RequestType.GET:
-          final response = await _dio.get<T>(
+          final response = await _dio.get(
             route,
             queryParameters: requestParams,
             cancelToken: cancelToken,
@@ -68,7 +68,7 @@ class DioHelper {
 
         /// http post request method
         case RequestType.POST:
-          final response = await _dio.post<T>(
+          final response = await _dio.post(
             route,
             data: requestBody,
             queryParameters: requestParams,
@@ -81,7 +81,7 @@ class DioHelper {
 
         /// http put request method
         case RequestType.PUT:
-          final response = await _dio.put<T>(
+          final response = await _dio.put(
             route,
             data: requestBody,
             queryParameters: requestParams,
@@ -94,7 +94,7 @@ class DioHelper {
 
         /// http delete request method
         case RequestType.DELETE:
-          final response = await _dio.delete<T>(
+          final response = await _dio.delete(
             route,
             data: requestBody,
             queryParameters: requestParams,
@@ -123,17 +123,16 @@ class DioHelper {
     ProgressCallback? onReceiveProgress,
   }) {
     return request(
-      route: route,
-      requestType: RequestType.GET,
-      requestParams: requestParams,
-      requestBody: requestBody,
-      cancelToken: cancelToken,
-      isAuthRequired: isAuthRequired,
-      responseBodyMapper: responseBodyMapper,
-      options: options,
-      onSendProgress: onSendProgress,
-      onReceiveProgress: onReceiveProgress,
-    );
+        route: route,
+        requestType: RequestType.GET,
+        requestParams: requestParams,
+        requestBody: requestBody,
+        cancelToken: cancelToken,
+        isAuthRequired: isAuthRequired,
+        responseBodyMapper: responseBodyMapper,
+        options: options,
+        onSendProgress: onSendProgress,
+        onReceiveProgress: onReceiveProgress);
   }
 
   Future<T> post<T>({
@@ -148,17 +147,16 @@ class DioHelper {
     ProgressCallback? onReceiveProgress,
   }) {
     return request(
-      route: route,
-      requestType: RequestType.POST,
-      requestParams: requestParams,
-      requestBody: requestBody,
-      cancelToken: cancelToken,
-      isAuthRequired: isAuthRequired,
-      responseBodyMapper: responseBodyMapper,
-      options: options,
-      onSendProgress: onSendProgress,
-      onReceiveProgress: onReceiveProgress,
-    );
+        route: route,
+        requestType: RequestType.POST,
+        requestParams: requestParams,
+        requestBody: requestBody,
+        cancelToken: cancelToken,
+        isAuthRequired: isAuthRequired,
+        responseBodyMapper: responseBodyMapper,
+        options: options,
+        onSendProgress: onSendProgress,
+        onReceiveProgress: onReceiveProgress);
   }
 
   Future<T> put<T>({
@@ -173,17 +171,16 @@ class DioHelper {
     ProgressCallback? onReceiveProgress,
   }) {
     return request(
-      route: route,
-      requestType: RequestType.PUT,
-      requestParams: requestParams,
-      requestBody: requestBody,
-      cancelToken: cancelToken,
-      isAuthRequired: isAuthRequired,
-      responseBodyMapper: responseBodyMapper,
-      options: options,
-      onSendProgress: onSendProgress,
-      onReceiveProgress: onReceiveProgress,
-    );
+        route: route,
+        requestType: RequestType.PUT,
+        requestParams: requestParams,
+        requestBody: requestBody,
+        cancelToken: cancelToken,
+        isAuthRequired: isAuthRequired,
+        responseBodyMapper: responseBodyMapper,
+        options: options,
+        onSendProgress: onSendProgress,
+        onReceiveProgress: onReceiveProgress);
   }
 
   Future<T> delete<T>({
@@ -198,17 +195,16 @@ class DioHelper {
     ProgressCallback? onReceiveProgress,
   }) {
     return request(
-      route: route,
-      requestType: RequestType.DELETE,
-      requestParams: requestParams,
-      requestBody: requestBody,
-      cancelToken: cancelToken,
-      isAuthRequired: isAuthRequired,
-      responseBodyMapper: responseBodyMapper,
-      options: options,
-      onSendProgress: onSendProgress,
-      onReceiveProgress: onReceiveProgress,
-    );
+        route: route,
+        requestType: RequestType.DELETE,
+        requestParams: requestParams,
+        requestBody: requestBody,
+        cancelToken: cancelToken,
+        isAuthRequired: isAuthRequired,
+        responseBodyMapper: responseBodyMapper,
+        options: options,
+        onSendProgress: onSendProgress,
+        onReceiveProgress: onReceiveProgress);
   }
 
   T _processResponse<T>(Response response, ResponseBodyMapper<T>? responseBodySerializer) {
@@ -222,7 +218,7 @@ class DioHelper {
     }
     response.data = responseData;
     if (responseHandler != null) {
-      final dynamic result = responseHandler!.onResponse(response);
+      final result = responseHandler!.onResponse(response);
       if (responseBodySerializer != null) {
         return responseBodySerializer(result);
       }
@@ -238,7 +234,7 @@ class DioHelper {
   /// Wrap fetch (get/post) request with try-catch
   /// & error handling
   Future<T> _safeFetch<T>(Future<T> Function() tryFetch) async {
-    final connectivityResult = await Connectivity().checkConnectivity();
+    var connectivityResult = await (Connectivity().checkConnectivity());
     if (connectivityResult == ConnectivityResult.none) {
       throw NoInternetException();
     }
@@ -267,7 +263,6 @@ class DioHelper {
         throw TimeoutException('Send data timeout');
       case DioErrorType.response:
         throw _responseError(e.response!);
-      // ignore: no_default_cases
       default:
         throw Exception(e.message);
     }
@@ -275,24 +270,24 @@ class DioHelper {
 
   Exception _responseError(Response response) {
     try {
-      dynamic message = 'Something wrong, please try again';
+      var message = 'Something wrong, please try again';
       // ignore: prefer_typing_uninitialized_variables
-      var errorCode = '';
+      var errorCode;
       if (response.data is Map) {
-        message = response.data['error_description'];
+        message = response.data['error_description'] as String;
         errorCode = response.data['error'] as String;
       }
       switch (response.statusCode) {
         case 400:
           throw BadRequestException(response.statusCode!, message);
         case 401:
-          throw UnauthorisedException(response.statusCode!, message, errorCode);
+          throw UnauthorisedException(response.statusCode!, message, errorCode as String);
         case 403:
           throw ForbiddenException(response.statusCode!, message);
         case 500:
-          throw ServerException(response.statusCode!, response.statusMessage, '500');
+          throw ServerException(response.statusCode!, message, errorCode as String);
         default:
-          throw ApiException(message, statusCode: response.statusCode, errorCode: errorCode);
+          throw ApiException(message, statusCode: response.statusCode, errorCode: errorCode as String);
       }
     } catch (e) {
       throw AppException(e.toString());

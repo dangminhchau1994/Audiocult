@@ -47,6 +47,7 @@ class _AppState extends State<App> {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
+          hintColor: Colors.white,
           fontFamily: AppAssets.fontFamily,
           appBarTheme: const AppBarTheme(
             color: Colors.white,

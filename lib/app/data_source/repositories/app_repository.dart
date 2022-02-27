@@ -1,9 +1,11 @@
 import 'package:audio_cult/app/data_source/models/requests/register_request.dart';
+import 'package:audio_cult/app/data_source/models/responses/album/album_response.dart';
 import 'package:dartz/dartz.dart';
 import '../models/requests/login_request.dart';
 import '../models/responses/login_response.dart';
 import '../models/responses/register_response.dart';
 import '../models/responses/song/song_response.dart';
+import '../models/responses/user_group.dart';
 import '../services/app_service_provider.dart';
 import 'base_repository.dart';
 
@@ -26,6 +28,16 @@ class AppRepository extends BaseRepository {
     );
   }
 
+  Future<Either<List<Album>, Exception>> getAlbums(
+    String sort,
+    int limit,
+    int page,
+  ) {
+    return safeCall(
+      () => appServiceProvider.getAlbums(sort, page, limit),
+    );
+  }
+
   Future<Either<LoginResponse, Exception>> authentication() {
     return safeCall(appServiceProvider.authentication);
   }
@@ -36,5 +48,9 @@ class AppRepository extends BaseRepository {
 
   Future<Either<bool, Exception>> logout() {
     return safeCall(appServiceProvider.logout);
+  }
+
+  Future<Either<List<UserGroup>, Exception>> getRole(String? token) {
+    return safeCall(() => appServiceProvider.getRole(token));
   }
 }
