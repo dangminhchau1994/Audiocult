@@ -1,4 +1,3 @@
-import 'package:audio_cult/app/data_source/models/responses/fake_song.dart';
 import 'package:audio_cult/app/features/music/discover/discover_bloc.dart';
 import 'package:audio_cult/app/features/music/discover/widgets/featured_albums.dart';
 import 'package:audio_cult/app/features/music/discover/widgets/featured_mixtapes.dart';
@@ -18,7 +17,6 @@ class DiscoverScreen extends StatefulWidget {
 }
 
 class _DiscoverScreenState extends State<DiscoverScreen> with AutomaticKeepAliveClientMixin {
-  final albums = FakeSong.generateAlbums();
   var _currentIndex = 0;
 
   @override
@@ -86,9 +84,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> with AutomaticKeepAlive
                           .getMixTapSongs('most-viewed', _currentIndex + 1, 3, 'featured', 'mixtape-song');
                     },
                   ),
-                  TopPlaylist(
-                    topPlaylists: albums,
-                  ),
+                  const TopPlaylist(),
                 ],
               ),
             ),

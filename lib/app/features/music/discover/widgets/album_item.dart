@@ -59,13 +59,35 @@ class AlbumItem extends StatelessWidget {
             const SizedBox(
               height: 8,
             ),
-            Text(
-              '${album?.fullName} ${DateTimeUtils.formatyMMMMd(int.parse(album?.timeStamp ?? ''))}',
-              style: context.bodyTextPrimaryStyle()!.copyWith(
-                    color: AppColors.subTitleColor,
-                    fontSize: 16,
-                  ),
-            ),
+            Row(
+              children: [
+                Text(
+                  album?.fullName ?? '',
+                  style: context.bodyTextPrimaryStyle()!.copyWith(
+                        color: AppColors.subTitleColor,
+                        fontSize: 16,
+                      ),
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                const Icon(
+                  Icons.circle,
+                  color: Colors.grey,
+                  size: 5,
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                Text(
+                  DateTimeUtils.formatyMMMMd(int.parse(album?.timeStamp ?? '')),
+                  style: context.bodyTextPrimaryStyle()!.copyWith(
+                        color: AppColors.subTitleColor,
+                        fontSize: 16,
+                      ),
+                ),
+              ],
+            )
           ],
         )
       ],

@@ -68,15 +68,35 @@ class SongItem extends StatelessWidget {
                   const SizedBox(
                     height: 8,
                   ),
-                  Text(
-                    song?.artistUser != null
-                        ? '${song?.artistUser?.userName} ${DateTimeUtils.formatCommonDate('hh:mm', int.parse(song?.timeStamp ?? ''))}'
-                        : '',
-                    style: context.bodyTextPrimaryStyle()!.copyWith(
-                          color: AppColors.subTitleColor,
-                          fontSize: 16,
-                        ),
-                  ),
+                  Row(
+                    children: [
+                      Text(
+                        song?.artistUser?.userName ?? '',
+                        style: context.bodyTextPrimaryStyle()!.copyWith(
+                              color: AppColors.subTitleColor,
+                              fontSize: 16,
+                            ),
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      const Icon(
+                        Icons.circle,
+                        color: Colors.grey,
+                        size: 5,
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Text(
+                        DateTimeUtils.formatCommonDate('hh:mm', int.parse(song?.timeStamp ?? '')),
+                        style: context.bodyTextPrimaryStyle()!.copyWith(
+                              color: AppColors.subTitleColor,
+                              fontSize: 16,
+                            ),
+                      ),
+                    ],
+                  )
                 ],
               )
             ],

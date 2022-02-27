@@ -1,16 +1,11 @@
 import 'package:audio_cult/app/features/music/discover/widgets/section_title.dart';
 import 'package:flutter/material.dart';
-
-import '../../../../data_source/models/responses/fake_song.dart';
 import 'album_item.dart';
 
 class TopPlaylist extends StatelessWidget {
   const TopPlaylist({
     Key? key,
-    this.topPlaylists,
   }) : super(key: key);
-
-  final List<FakeSong>? topPlaylists;
 
   @override
   Widget build(BuildContext context) {
