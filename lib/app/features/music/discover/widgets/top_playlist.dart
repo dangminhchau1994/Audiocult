@@ -25,15 +25,15 @@ class TopPlaylist extends StatelessWidget {
           const SizedBox(
             height: 16,
           ),
-          SizedBox(
-            height: 278,
-            child: ListView.separated(
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (context, index) => AlbumItem(album: topPlaylists?[index]),
-              separatorBuilder: (context, index) => const SizedBox(width: 16),
-              itemCount: topPlaylists?.length ?? 0,
-            ),
-          )
+          // SizedBox(
+          //   height: 278,
+          //   child: ListView.separated(
+          //     scrollDirection: Axis.horizontal,
+          //     itemBuilder: (context, index) => AlbumItem(album: topPlaylists?[index]),
+          //     separatorBuilder: (context, index) => const SizedBox(width: 16),
+          //     itemCount: topPlaylists?.length ?? 0,
+          //   ),
+          // )
         ],
       ),
     );

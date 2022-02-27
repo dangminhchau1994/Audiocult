@@ -29,12 +29,24 @@ class AppRepository extends BaseRepository {
   }
 
   Future<Either<List<Album>, Exception>> getAlbums(
-    String sort,
+    String view,
     int limit,
     int page,
   ) {
     return safeCall(
-      () => appServiceProvider.getAlbums(sort, page, limit),
+      () => appServiceProvider.getAlbums(view, page, limit),
+    );
+  }
+
+  Future<Either<List<Song>, Exception>> getMixTapSongs(
+    String sort,
+    int page,
+    int limit,
+    String view,
+    String type,
+  ) {
+    return safeCall(
+      () => appServiceProvider.getMixTapSongs(sort, page, limit, view, type),
     );
   }
 

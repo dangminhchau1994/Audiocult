@@ -12,7 +12,7 @@ class AlbumResponse with _$AlbumResponse {
     dynamic error,
   }) = _AlbumResponse;
 
-   factory AlbumResponse.fromJson(Map<String, dynamic> json) => _$AlbumResponseFromJson(json);
+  factory AlbumResponse.fromJson(Map<String, dynamic> json) => _$AlbumResponseFromJson(json);
 }
 
 @freezed
@@ -20,8 +20,10 @@ class Album with _$Album {
   factory Album({
     bool? isLiked,
     String? userId,
-    String? userName,
-    String? fullName,
+    // ignore: invalid_annotation_target
+    @JsonKey(name: 'user_name') String? userName,
+    // ignore: invalid_annotation_target
+    @JsonKey(name: 'full_name') String? fullName,
     String? userImage,
     String? isInvisible,
     String? albumId,
@@ -30,12 +32,14 @@ class Album with _$Album {
     String? privacyComment,
     String? isFeatured,
     String? isSponsor,
-    String? name,
+    // ignore: invalid_annotation_target
+    @JsonKey(name: 'name') String? name,
     String? year,
     String? genreId,
     String? isDj,
     String? licenseType,
-    String? imagePath,
+    // ignore: invalid_annotation_target
+    @JsonKey(name: 'image_path') String? imagePath,
     String? serverId,
     String? totalTrack,
     String? totalPlay,
@@ -46,7 +50,8 @@ class Album with _$Album {
     String? totalScore,
     String? totalRating,
     String? totalAttachment,
-    String? timeStamp,
+    // ignore: invalid_annotation_target
+    @JsonKey(name: 'time_stamp') String? timeStamp,
     dynamic moduleId,
     String? itemId,
     dynamic isDay,

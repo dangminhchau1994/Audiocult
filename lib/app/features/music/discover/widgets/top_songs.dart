@@ -1,16 +1,18 @@
-import 'package:audio_cult/app/features/music/discover/widgets/page_song.dart';
 import 'package:audio_cult/app/features/music/discover/widgets/section_title.dart';
+import 'package:audio_cult/app/features/music/discover/widgets/song_page.dart';
 import 'package:flutter/material.dart';
 
 class TopSongs extends StatelessWidget {
   const TopSongs({
     Key? key,
-    this.controller,
     this.onPageChange,
+    this.isTopSong,
+    this.onRetry,
   }) : super(key: key);
 
-  final ScrollController? controller;
   final Function(int index)? onPageChange;
+  final Function()? onRetry;
+  final bool? isTopSong;
 
   @override
   Widget build(BuildContext context) {
@@ -25,8 +27,10 @@ class TopSongs extends StatelessWidget {
           const SizedBox(
             height: 16,
           ),
-          PageSong(
+          SongPage(
             onPageChange: onPageChange,
+            isTopSong: isTopSong,
+            onRetry: onRetry,
           ),
         ],
       ),

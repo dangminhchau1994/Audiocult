@@ -50,6 +50,7 @@ class CommonTabbar extends StatelessWidget {
         ),
         Expanded(
           child: PageView.builder(
+            physics: const NeverScrollableScrollPhysics(),
             controller: pageController,
             itemCount: pageCount,
             onPageChanged: onPageChanged,

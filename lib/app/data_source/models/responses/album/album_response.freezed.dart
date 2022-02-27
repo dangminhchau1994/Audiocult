@@ -235,8 +235,8 @@ class _$AlbumTearOff {
   _Album call(
       {bool? isLiked,
       String? userId,
-      String? userName,
-      String? fullName,
+      @JsonKey(name: 'user_name') String? userName,
+      @JsonKey(name: 'full_name') String? fullName,
       String? userImage,
       String? isInvisible,
       String? albumId,
@@ -245,12 +245,12 @@ class _$AlbumTearOff {
       String? privacyComment,
       String? isFeatured,
       String? isSponsor,
-      String? name,
+      @JsonKey(name: 'name') String? name,
       String? year,
       String? genreId,
       String? isDj,
       String? licenseType,
-      String? imagePath,
+      @JsonKey(name: 'image_path') String? imagePath,
       String? serverId,
       String? totalTrack,
       String? totalPlay,
@@ -261,7 +261,7 @@ class _$AlbumTearOff {
       String? totalScore,
       String? totalRating,
       String? totalAttachment,
-      String? timeStamp,
+      @JsonKey(name: 'time_stamp') String? timeStamp,
       dynamic moduleId,
       String? itemId,
       dynamic isDay,
@@ -350,8 +350,12 @@ const $Album = _$AlbumTearOff();
 /// @nodoc
 mixin _$Album {
   bool? get isLiked => throw _privateConstructorUsedError;
-  String? get userId => throw _privateConstructorUsedError;
-  String? get userName => throw _privateConstructorUsedError;
+  String? get userId =>
+      throw _privateConstructorUsedError; // ignore: invalid_annotation_target
+  @JsonKey(name: 'user_name')
+  String? get userName =>
+      throw _privateConstructorUsedError; // ignore: invalid_annotation_target
+  @JsonKey(name: 'full_name')
   String? get fullName => throw _privateConstructorUsedError;
   String? get userImage => throw _privateConstructorUsedError;
   String? get isInvisible => throw _privateConstructorUsedError;
@@ -360,12 +364,16 @@ mixin _$Album {
   String? get privacy => throw _privateConstructorUsedError;
   String? get privacyComment => throw _privateConstructorUsedError;
   String? get isFeatured => throw _privateConstructorUsedError;
-  String? get isSponsor => throw _privateConstructorUsedError;
+  String? get isSponsor =>
+      throw _privateConstructorUsedError; // ignore: invalid_annotation_target
+  @JsonKey(name: 'name')
   String? get name => throw _privateConstructorUsedError;
   String? get year => throw _privateConstructorUsedError;
   String? get genreId => throw _privateConstructorUsedError;
   String? get isDj => throw _privateConstructorUsedError;
-  String? get licenseType => throw _privateConstructorUsedError;
+  String? get licenseType =>
+      throw _privateConstructorUsedError; // ignore: invalid_annotation_target
+  @JsonKey(name: 'image_path')
   String? get imagePath => throw _privateConstructorUsedError;
   String? get serverId => throw _privateConstructorUsedError;
   String? get totalTrack => throw _privateConstructorUsedError;
@@ -376,7 +384,9 @@ mixin _$Album {
   String? get totalDislike => throw _privateConstructorUsedError;
   String? get totalScore => throw _privateConstructorUsedError;
   String? get totalRating => throw _privateConstructorUsedError;
-  String? get totalAttachment => throw _privateConstructorUsedError;
+  String? get totalAttachment =>
+      throw _privateConstructorUsedError; // ignore: invalid_annotation_target
+  @JsonKey(name: 'time_stamp')
   String? get timeStamp => throw _privateConstructorUsedError;
   dynamic get moduleId => throw _privateConstructorUsedError;
   String? get itemId => throw _privateConstructorUsedError;
@@ -413,8 +423,8 @@ abstract class $AlbumCopyWith<$Res> {
   $Res call(
       {bool? isLiked,
       String? userId,
-      String? userName,
-      String? fullName,
+      @JsonKey(name: 'user_name') String? userName,
+      @JsonKey(name: 'full_name') String? fullName,
       String? userImage,
       String? isInvisible,
       String? albumId,
@@ -423,12 +433,12 @@ abstract class $AlbumCopyWith<$Res> {
       String? privacyComment,
       String? isFeatured,
       String? isSponsor,
-      String? name,
+      @JsonKey(name: 'name') String? name,
       String? year,
       String? genreId,
       String? isDj,
       String? licenseType,
-      String? imagePath,
+      @JsonKey(name: 'image_path') String? imagePath,
       String? serverId,
       String? totalTrack,
       String? totalPlay,
@@ -439,7 +449,7 @@ abstract class $AlbumCopyWith<$Res> {
       String? totalScore,
       String? totalRating,
       String? totalAttachment,
-      String? timeStamp,
+      @JsonKey(name: 'time_stamp') String? timeStamp,
       dynamic moduleId,
       String? itemId,
       dynamic isDay,
@@ -743,8 +753,8 @@ abstract class _$AlbumCopyWith<$Res> implements $AlbumCopyWith<$Res> {
   $Res call(
       {bool? isLiked,
       String? userId,
-      String? userName,
-      String? fullName,
+      @JsonKey(name: 'user_name') String? userName,
+      @JsonKey(name: 'full_name') String? fullName,
       String? userImage,
       String? isInvisible,
       String? albumId,
@@ -753,12 +763,12 @@ abstract class _$AlbumCopyWith<$Res> implements $AlbumCopyWith<$Res> {
       String? privacyComment,
       String? isFeatured,
       String? isSponsor,
-      String? name,
+      @JsonKey(name: 'name') String? name,
       String? year,
       String? genreId,
       String? isDj,
       String? licenseType,
-      String? imagePath,
+      @JsonKey(name: 'image_path') String? imagePath,
       String? serverId,
       String? totalTrack,
       String? totalPlay,
@@ -769,7 +779,7 @@ abstract class _$AlbumCopyWith<$Res> implements $AlbumCopyWith<$Res> {
       String? totalScore,
       String? totalRating,
       String? totalAttachment,
-      String? timeStamp,
+      @JsonKey(name: 'time_stamp') String? timeStamp,
       dynamic moduleId,
       String? itemId,
       dynamic isDay,
@@ -1072,8 +1082,8 @@ class _$_Album implements _Album {
   _$_Album(
       {this.isLiked,
       this.userId,
-      this.userName,
-      this.fullName,
+      @JsonKey(name: 'user_name') this.userName,
+      @JsonKey(name: 'full_name') this.fullName,
       this.userImage,
       this.isInvisible,
       this.albumId,
@@ -1082,12 +1092,12 @@ class _$_Album implements _Album {
       this.privacyComment,
       this.isFeatured,
       this.isSponsor,
-      this.name,
+      @JsonKey(name: 'name') this.name,
       this.year,
       this.genreId,
       this.isDj,
       this.licenseType,
-      this.imagePath,
+      @JsonKey(name: 'image_path') this.imagePath,
       this.serverId,
       this.totalTrack,
       this.totalPlay,
@@ -1098,7 +1108,7 @@ class _$_Album implements _Album {
       this.totalScore,
       this.totalRating,
       this.totalAttachment,
-      this.timeStamp,
+      @JsonKey(name: 'time_stamp') this.timeStamp,
       this.moduleId,
       this.itemId,
       this.isDay,
@@ -1129,9 +1139,11 @@ class _$_Album implements _Album {
   final bool? isLiked;
   @override
   final String? userId;
-  @override
+  @override // ignore: invalid_annotation_target
+  @JsonKey(name: 'user_name')
   final String? userName;
-  @override
+  @override // ignore: invalid_annotation_target
+  @JsonKey(name: 'full_name')
   final String? fullName;
   @override
   final String? userImage;
@@ -1149,7 +1161,8 @@ class _$_Album implements _Album {
   final String? isFeatured;
   @override
   final String? isSponsor;
-  @override
+  @override // ignore: invalid_annotation_target
+  @JsonKey(name: 'name')
   final String? name;
   @override
   final String? year;
@@ -1159,7 +1172,8 @@ class _$_Album implements _Album {
   final String? isDj;
   @override
   final String? licenseType;
-  @override
+  @override // ignore: invalid_annotation_target
+  @JsonKey(name: 'image_path')
   final String? imagePath;
   @override
   final String? serverId;
@@ -1181,7 +1195,8 @@ class _$_Album implements _Album {
   final String? totalRating;
   @override
   final String? totalAttachment;
-  @override
+  @override // ignore: invalid_annotation_target
+  @JsonKey(name: 'time_stamp')
   final String? timeStamp;
   @override
   final dynamic moduleId;
@@ -1384,8 +1399,8 @@ abstract class _Album implements Album {
   factory _Album(
       {bool? isLiked,
       String? userId,
-      String? userName,
-      String? fullName,
+      @JsonKey(name: 'user_name') String? userName,
+      @JsonKey(name: 'full_name') String? fullName,
       String? userImage,
       String? isInvisible,
       String? albumId,
@@ -1394,12 +1409,12 @@ abstract class _Album implements Album {
       String? privacyComment,
       String? isFeatured,
       String? isSponsor,
-      String? name,
+      @JsonKey(name: 'name') String? name,
       String? year,
       String? genreId,
       String? isDj,
       String? licenseType,
-      String? imagePath,
+      @JsonKey(name: 'image_path') String? imagePath,
       String? serverId,
       String? totalTrack,
       String? totalPlay,
@@ -1410,7 +1425,7 @@ abstract class _Album implements Album {
       String? totalScore,
       String? totalRating,
       String? totalAttachment,
-      String? timeStamp,
+      @JsonKey(name: 'time_stamp') String? timeStamp,
       dynamic moduleId,
       String? itemId,
       dynamic isDay,
@@ -1440,9 +1455,11 @@ abstract class _Album implements Album {
   bool? get isLiked;
   @override
   String? get userId;
-  @override
+  @override // ignore: invalid_annotation_target
+  @JsonKey(name: 'user_name')
   String? get userName;
-  @override
+  @override // ignore: invalid_annotation_target
+  @JsonKey(name: 'full_name')
   String? get fullName;
   @override
   String? get userImage;
@@ -1460,7 +1477,8 @@ abstract class _Album implements Album {
   String? get isFeatured;
   @override
   String? get isSponsor;
-  @override
+  @override // ignore: invalid_annotation_target
+  @JsonKey(name: 'name')
   String? get name;
   @override
   String? get year;
@@ -1470,7 +1488,8 @@ abstract class _Album implements Album {
   String? get isDj;
   @override
   String? get licenseType;
-  @override
+  @override // ignore: invalid_annotation_target
+  @JsonKey(name: 'image_path')
   String? get imagePath;
   @override
   String? get serverId;
@@ -1492,7 +1511,8 @@ abstract class _Album implements Album {
   String? get totalRating;
   @override
   String? get totalAttachment;
-  @override
+  @override // ignore: invalid_annotation_target
+  @JsonKey(name: 'time_stamp')
   String? get timeStamp;
   @override
   dynamic get moduleId;

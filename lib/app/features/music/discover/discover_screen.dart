@@ -17,13 +17,20 @@ class DiscoverScreen extends StatefulWidget {
   State<DiscoverScreen> createState() => _DiscoverScreenState();
 }
 
-class _DiscoverScreenState extends State<DiscoverScreen> {
+class _DiscoverScreenState extends State<DiscoverScreen> with AutomaticKeepAliveClientMixin {
   final albums = FakeSong.generateAlbums();
+  var _currentIndex = 0;
 
   @override
   void initState() {
-    locator.get<DiscoverBloc>().getTopSongs('most-viewed', 1, 3);
     super.initState();
+    _getAllData();
+  }
+
+  void _getAllData() {
+    locator.get<DiscoverBloc>().getTopSongs('most-viewed', 1, 3);
+    locator.get<DiscoverBloc>().getAlbums('featured', 1, 3);
+    locator.get<DiscoverBloc>().getMixTapSongs('most-viewed', 1, 3, 'featured', 'mixtape-song');
   }
 
   @override
@@ -36,29 +43,57 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
             horizontal: kHorizontalSpacing,
             vertical: kVerticalSpacing,
           ),
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                const SongOfDay(),
-                TopSongs(
-                  onPageChange: (index) {
-                    locator.get<DiscoverBloc>().getTopSongs('most-viewed', index + 1, 3);
-                  },
-                ),
-                FeaturedAlbums(
-                  albums: albums,
-                ),
-                FeatureMixtapes(
-                  onPageChange: (index) {},
-                ),
-                TopPlaylist(
-                  topPlaylists: albums,
-                ),
-              ],
+          child: RefreshIndicator(
+            color: Colors.white,
+            backgroundColor: AppColors.primaryButtonColor,
+            onRefresh: () async {
+              _getAllData();
+            },
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  const SongOfDay(),
+                  TopSongs(
+                    isTopSong: true,
+                    onPageChange: (index) {
+                      locator.get<DiscoverBloc>().getTopSongs('most-viewed', index + 1, 3);
+                      setState(() {
+                        _currentIndex = index;
+                      });
+                    },
+                    onRetry: () {
+                      locator.get<DiscoverBloc>().getTopSongs('most-viewed', _currentIndex + 1, 3);
+                    },
+                  ),
+                  const FeaturedAlbums(),
+                  FeatureMixtapes(
+                    isTopSong: false,
+                    onPageChange: (index) {
+                      locator
+                          .get<DiscoverBloc>()
+                          .getMixTapSongs('most-viewed', index + 1, 3, 'featured', 'mixtape-song');
+                      setState(() {
+                        _currentIndex = index;
+                      });
+                    },
+                    onRetry: () {
+                      locator
+                          .get<DiscoverBloc>()
+                          .getMixTapSongs('most-viewed', _currentIndex + 1, 3, 'featured', 'mixtape-song');
+                    },
+                  ),
+                  TopPlaylist(
+                    topPlaylists: albums,
+                  ),
+                ],
+              ),
             ),
           ),
         ),
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

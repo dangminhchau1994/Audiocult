@@ -70,12 +70,7 @@ class SongItem extends StatelessWidget {
                   ),
                   Text(
                     song?.artistUser != null
-                        ? '${song?.artistUser?.userName} ${DateTimeUtils.formatDate(
-                            'hh:mm',
-                            DateTimeUtils.convertTimeStampToDate(
-                              int.parse(song?.timeStamp ?? ''),
-                            ),
-                          )}'
+                        ? '${song?.artistUser?.userName} ${DateTimeUtils.formatCommonDate('hh:mm', int.parse(song?.timeStamp ?? ''))}'
                         : '',
                     style: context.bodyTextPrimaryStyle()!.copyWith(
                           color: AppColors.subTitleColor,

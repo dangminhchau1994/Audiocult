@@ -1,3 +1,4 @@
+import 'package:audio_cult/app/utils/constants/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 
@@ -10,14 +11,8 @@ class LoadingWidget extends StatefulWidget {
 }
 
 class _LoadingWidgetState extends State<LoadingWidget> {
-  final List<Color> _kDefaultRainbowColors = const [
-    Colors.red,
-    Colors.orange,
-    Colors.yellow,
-    Colors.green,
-    Colors.blue,
-    Colors.indigo,
-    Colors.purple,
+  final List<Color> _kDefaultRainbowColors = [
+    AppColors.primaryButtonColor,
   ];
   @override
   Widget build(BuildContext context) {
