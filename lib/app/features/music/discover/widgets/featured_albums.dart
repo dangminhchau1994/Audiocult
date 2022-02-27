@@ -11,7 +11,10 @@ import '../../../../../w_components/loading/loading_widget.dart';
 class FeaturedAlbums extends StatelessWidget {
   const FeaturedAlbums({
     Key? key,
+    this.onRetry,
   }) : super(key: key);
+
+  final Function()? onRetry;
 
   @override
   Widget build(BuildContext context) {
@@ -56,6 +59,7 @@ class FeaturedAlbums extends StatelessWidget {
                 error: (error) {
                   return ErrorSectionWidget(
                     errorMessage: error,
+                    onRetryTap: onRetry,
                   );
                 },
               );

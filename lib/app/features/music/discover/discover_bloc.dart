@@ -49,7 +49,7 @@ class DiscoverBloc extends BaseBloc {
   }
 
   void getAlbums(String view, int page, int limit) async {
-    _getTopSongSubject.sink.add(const BlocState.loading());
+    _getAlbumSubject.sink.add(const BlocState.loading());
 
     final result = await _appRepository.getAlbums(view, limit, page);
 

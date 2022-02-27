@@ -44,8 +44,8 @@ class _DiscoverScreenState extends State<DiscoverScreen> with AutomaticKeepAlive
             vertical: kVerticalSpacing,
           ),
           child: RefreshIndicator(
-            color: Colors.white,
-            backgroundColor: AppColors.primaryButtonColor,
+            color: AppColors.primaryButtonColor,
+            backgroundColor: Colors.white,
             onRefresh: () async {
               _getAllData();
             },
@@ -65,7 +65,11 @@ class _DiscoverScreenState extends State<DiscoverScreen> with AutomaticKeepAlive
                       locator.get<DiscoverBloc>().getTopSongs('most-viewed', _currentIndex + 1, 3);
                     },
                   ),
-                  const FeaturedAlbums(),
+                  FeaturedAlbums(
+                    onRetry: () {
+                      locator.get<DiscoverBloc>().getAlbums('featured', 1, 3);
+                    },
+                  ),
                   FeatureMixtapes(
                     isTopSong: false,
                     onPageChange: (index) {
