@@ -35,6 +35,7 @@ class _RegisterPageState extends State<RegisterPage> with DisposableStateMixin, 
   String _password = '';
   SelectMenuModel? _selectMenuModel;
   final RegisterBloc _registerBloc = RegisterBloc(locator.get(), locator.get());
+  bool isHiddenPassword = true;
 
   @override
   void initState() {
@@ -160,8 +161,13 @@ class _RegisterPageState extends State<RegisterPage> with DisposableStateMixin, 
                 margin: const EdgeInsets.symmetric(horizontal: 8),
                 padding: const EdgeInsets.only(bottom: kVerticalSpacing),
                 child: CommonInput(
+                  togglePassword: () {
+                    setState(() {
+                      isHiddenPassword = !isHiddenPassword;
+                    });
+                  },
                   hintText: context.l10n.t_password,
-                  isHidden: true,
+                  isHidden: isHiddenPassword,
                   isPasswordField: true,
                   onChanged: (value) {
                     setState(() {

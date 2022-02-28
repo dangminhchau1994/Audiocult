@@ -27,6 +27,7 @@ class _LoginPageState extends State<LoginPage> with DisposableStateMixin, Automa
   final LoginBloc _loginBloc = LoginBloc(locator.get(), locator.get());
   String _email = '';
   String _password = '';
+  bool isHiddenPassword = true;
   @override
   void initState() {
     super.initState();
@@ -58,7 +59,12 @@ class _LoginPageState extends State<LoginPage> with DisposableStateMixin, Automa
             Padding(
               padding: const EdgeInsets.only(bottom: kVerticalSpacing),
               child: CommonInput(
-                isHidden: true,
+                togglePassword: () {
+                  setState(() {
+                    isHiddenPassword = !isHiddenPassword;
+                  });
+                },
+                isHidden: isHiddenPassword,
                 isPasswordField: true,
                 hintText: context.l10n.t_password,
                 onChanged: (value) {
