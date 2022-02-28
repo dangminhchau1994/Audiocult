@@ -1,17 +1,18 @@
-import 'package:audio_cult/app/data_source/models/responses/fake_song.dart';
-import 'package:audio_cult/app/features/music/discover/widgets/page_song.dart';
 import 'package:audio_cult/app/features/music/discover/widgets/section_title.dart';
+import 'package:audio_cult/app/features/music/discover/widgets/song_page.dart';
 import 'package:flutter/material.dart';
 
 class FeatureMixtapes extends StatelessWidget {
   const FeatureMixtapes({
     Key? key,
     this.onPageChange,
-    this.songs,
+    this.onRetry,
+    this.isTopSong,
   }) : super(key: key);
 
   final Function(int index)? onPageChange;
-  final List<FakeSong>? songs;
+  final Function()? onRetry;
+  final bool? isTopSong;
 
   @override
   Widget build(BuildContext context) {
@@ -26,10 +27,11 @@ class FeatureMixtapes extends StatelessWidget {
           const SizedBox(
             height: 16,
           ),
-          PageSong(
+          SongPage(
             onPageChange: onPageChange,
-            songs: songs,
-          ),
+            isTopSong: isTopSong,
+            onRetry: onRetry,
+          )
         ],
       ),
     );

@@ -1,4 +1,6 @@
-import 'package:audio_cult/app/data_source/models/responses/fake_song.dart';
+import 'package:audio_cult/app/constants/global_constants.dart';
+import 'package:audio_cult/app/data_source/models/responses/album/album_response.dart';
+import 'package:audio_cult/app/utils/datetime/date_time_utils.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +13,7 @@ class AlbumItem extends StatelessWidget {
     this.album,
   }) : super(key: key);
 
-  final FakeSong? album;
+  final Album? album;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +23,7 @@ class AlbumItem extends StatelessWidget {
         CachedNetworkImage(
           width: 180,
           height: 180,
-          imageUrl: album?.imageUrl ?? '',
+          imageUrl: GlobalConstants.imageUrl(album?.imagePath ?? ''),
           imageBuilder: (context, imageProvider) => Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(4),
@@ -31,7 +33,11 @@ class AlbumItem extends StatelessWidget {
               ),
             ),
           ),
-          placeholder: (context, url) => const CircularProgressIndicator(),
+          placeholder: (context, url) => Center(
+            child: CircularProgressIndicator(
+              color: AppColors.primaryButtonColor,
+            ),
+          ),
           errorWidget: (context, url, error) => const Icon(Icons.error),
         ),
         const SizedBox(
@@ -43,7 +49,7 @@ class AlbumItem extends StatelessWidget {
             SizedBox(
               width: 200,
               child: Text(
-                album?.title ?? '',
+                album?.name ?? '',
                 overflow: TextOverflow.ellipsis,
                 style: context.bodyTextPrimaryStyle()!.copyWith(
                       fontSize: 16,
@@ -53,13 +59,35 @@ class AlbumItem extends StatelessWidget {
             const SizedBox(
               height: 8,
             ),
-            Text(
-              album?.date ?? '',
-              style: context.bodyTextPrimaryStyle()!.copyWith(
-                    color: AppColors.subTitleColor,
-                    fontSize: 16,
-                  ),
-            ),
+            Row(
+              children: [
+                Text(
+                  album?.fullName ?? '',
+                  style: context.bodyTextPrimaryStyle()!.copyWith(
+                        color: AppColors.subTitleColor,
+                        fontSize: 16,
+                      ),
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                const Icon(
+                  Icons.circle,
+                  color: Colors.grey,
+                  size: 5,
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                Text(
+                  DateTimeUtils.formatyMMMMd(int.parse(album?.timeStamp ?? '')),
+                  style: context.bodyTextPrimaryStyle()!.copyWith(
+                        color: AppColors.subTitleColor,
+                        fontSize: 16,
+                      ),
+                ),
+              ],
+            )
           ],
         )
       ],
