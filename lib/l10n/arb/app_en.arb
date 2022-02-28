@@ -38,5 +38,6 @@
     "t_information":"Info Notification",
     "t_logout":"Log Out",
     "t_question_logout":"Are you sure you want to log out? Confirm and logout",
-    "t_choose_your_role":"Choose your role"
+    "t_choose_your_role":"Choose your role",
+    "t_search_your_location":"Type to Search your Location"
 }

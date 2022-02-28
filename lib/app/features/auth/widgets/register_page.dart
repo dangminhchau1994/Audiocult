@@ -5,11 +5,10 @@ import 'package:audio_cult/app/features/auth/register/register_bloc.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
 import 'package:audio_cult/app/utils/constants/app_dimens.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
+import 'package:audio_cult/app/utils/route/app_route.dart';
 import 'package:audio_cult/l10n/l10n.dart';
-import 'package:audio_cult/w_components/appbar/common_appbar.dart';
 import 'package:audio_cult/w_components/buttons/common_button.dart';
 import 'package:audio_cult/w_components/checkbox/common_checkbox.dart';
-import 'package:country_list_pick/country_list_pick.dart';
 import 'package:disposing/disposing.dart';
 import 'package:flutter/material.dart';
 
@@ -107,43 +106,30 @@ class _RegisterPageState extends State<RegisterPage> with DisposableStateMixin, 
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(bottom: kVerticalSpacing / 2),
-                child: CountryListPick(
-                  appBar: CommonAppBar(
-                    title: context.l10n.t_choose_country,
-                  ),
-                  theme: CountryTheme(
-                    isShowFlag: true,
-                    isShowTitle: true,
-                    isShowCode: true,
-                    isDownIcon: true,
-                    showEnglishName: true,
-                  ),
-                  onChanged: (CountryCode? code) {
-                    setState(() {
-                      _country = code!.code!;
-                    });
+                padding: const EdgeInsets.only(
+                  top: kVerticalSpacing / 2,
+                  bottom: kVerticalSpacing,
+                  left: kVerticalSpacing / 2,
+                  right: kVerticalSpacing / 2,
+                ),
+                child: GestureDetector(
+                  onTap: () {
+                    // Navigator.pushNamed(context, AppRoute.routePlaceLocation);
+                    showSearch(context: context, delegate: AddressSearch());
                   },
-                  pickerBuilder: (_, value) {
-                    return Container(
-                      padding: const EdgeInsets.all(12),
-                      decoration: BoxDecoration(
-                        color: AppColors.inputFillColor,
-                        borderRadius: BorderRadius.circular(4),
-                        border: Border.all(color: AppColors.outlineBorderColor, width: 2),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            value!.code == 'AF' ? context.l10n.t_location : '${value.name!} (${value.code!})',
-                            style: context.body1TextStyle()?.copyWith(color: Colors.white),
-                          ),
-                          const Icon(Icons.keyboard_arrow_down_rounded, color: Colors.white)
-                        ],
-                      ),
-                    );
-                  },
+                  child: Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: AppColors.inputFillColor,
+                      borderRadius: BorderRadius.circular(4),
+                      border: Border.all(color: AppColors.outlineBorderColor, width: 2),
+                    ),
+                    child: Text(
+                      context.l10n.t_location,
+                      style: context.body1TextStyle()?.copyWith(color: Colors.white),
+                    ),
+                  ),
                 ),
               ),
               Container(
@@ -230,4 +216,68 @@ class _RegisterPageState extends State<RegisterPage> with DisposableStateMixin, 
 
   @override
   bool get wantKeepAlive => true;
+}
+
+class AddressSearch extends SearchDelegate<Suggestion?> {
+  @override
+  ThemeData appBarTheme(BuildContext context) {
+    return Theme.of(context).copyWith(
+      inputDecorationTheme: const InputDecorationTheme(
+        focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.transparent)),
+      ),
+      scaffoldBackgroundColor: AppColors.mainColor,
+      appBarTheme: AppBarTheme(
+        color: AppColors.semiMainColor,
+      ),
+      textTheme: Theme.of(context).textTheme.copyWith(headline6: const TextStyle(color: Colors.white)),
+    );
+  }
+
+  @override
+  List<Widget>? buildActions(BuildContext context) {
+    return [
+      IconButton(
+        tooltip: 'Clear',
+        icon: const Icon(Icons.clear),
+        onPressed: () {
+          query = '';
+        },
+      )
+    ];
+  }
+
+  @override
+  Widget? buildLeading(BuildContext context) {
+    return IconButton(
+      tooltip: 'Back',
+      icon: const Icon(Icons.arrow_back_ios_new_rounded),
+      onPressed: () {
+        close(context, null);
+      },
+    );
+  }
+
+  @override
+  Widget buildResults(BuildContext context) {
+    return Container(
+      color: AppColors.mainColor,
+    );
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    return Container();
+  }
+}
+
+class Suggestion {
+  final String placeId;
+  final String description;
+
+  Suggestion(this.placeId, this.description);
+
+  @override
+  String toString() {
+    return 'Suggestion(description: $description, placeId: $placeId)';
+  }
 }
