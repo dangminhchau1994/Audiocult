@@ -22,7 +22,7 @@ class LoadingBuilder<T extends BaseBloc, TModel> extends StatefulWidget {
       this.initBuilder,
       this.noDataBuilder,
       this.loadingBuilder,
-      this.reloadAction});
+      this.reloadAction,});
 
   @override
   // ignore: library_private_types_in_public_api
@@ -64,7 +64,7 @@ class _LoadingBuilderState<T extends BaseBloc, TModel> extends State<LoadingBuil
                       child: SizedBox(
                         height: constraints.maxHeight,
                         child: ErrorSectionWidget(
-                          errorMessage: state.message ?? 'Lỗi không xác định!',
+                          errorMessage: state.message ?? 'Unknown error!',
                           onRetryTap: () => widget.reloadAction?.call(state.params),
                         ),
                       ),

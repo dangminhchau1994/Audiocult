@@ -1,10 +1,8 @@
-import 'package:audio_cult/app/features/music/discover/widgets/song_item.dart';
 import 'package:audio_cult/app/utils/constants/app_dimens.dart';
 import 'package:flutter/material.dart';
 
 class LibraryScreen extends StatelessWidget {
-  LibraryScreen({Key? key}) : super(key: key);
-
+  const LibraryScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

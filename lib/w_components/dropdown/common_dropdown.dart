@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../../app/utils/constants/app_colors.dart';
 import 'custom_dropdown_button2.dart';
 
+// ignore: must_be_immutable
 class CommonDropdown extends StatefulWidget {
   final String? hint;
   SelectMenuModel? selection;
@@ -52,9 +53,7 @@ class _CommonDropdownState extends State<CommonDropdown> {
             )
             .toList(),
         onChanged: (value) {
-          setState(() {
-            widget.selection = value;
-          });
+          widget.selection = value;
           widget.onChanged?.call(value);
         },
       ),
@@ -67,4 +66,8 @@ class SelectMenuModel {
   String? title;
   bool isSelected;
   SelectMenuModel({this.id, this.title, this.isSelected = false});
+  @override
+  String toString() {
+    return '$id $title $isSelected';
+  }
 }

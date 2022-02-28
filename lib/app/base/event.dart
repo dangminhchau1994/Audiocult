@@ -1,1 +1,1 @@
-abstract class AppEvent{}
+abstract class AppEvent {}

@@ -21,7 +21,7 @@ class AppRoute {
   static const String routeCheckEmail = '/check_email';
   static const String routePlaceLocation = '/place_location';
 
-  ///#endregion
+  ///#end region
 
   static final AppRoute _instance = AppRoute._private();
 

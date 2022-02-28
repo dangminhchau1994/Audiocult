@@ -6,9 +6,15 @@ import '../constants/app_colors.dart';
 import '../constants/app_dimens.dart';
 
 class WNotificationToast extends StatelessWidget {
-  const WNotificationToast(
-      {Key? key, required this.fToast, this.message, this.iconUrl, this.title, this.isTryAgain = false, this.child})
-      : super(key: key);
+  const WNotificationToast({
+    Key? key,
+    required this.fToast,
+    this.message,
+    this.iconUrl,
+    this.title,
+    this.isTryAgain = false,
+    this.child,
+  }) : super(key: key);
 
   final FToast fToast;
   final String? message;
@@ -32,7 +38,6 @@ class WNotificationToast extends StatelessWidget {
           children: [
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 4),

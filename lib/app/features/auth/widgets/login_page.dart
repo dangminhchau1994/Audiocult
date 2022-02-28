@@ -38,6 +38,7 @@ class _LoginPageState extends State<LoginPage> with DisposableStateMixin, Automa
   }
 
   @override
+  // ignore: must_call_super
   Widget build(BuildContext context) {
     return BlocHandle(
       bloc: _loginBloc,

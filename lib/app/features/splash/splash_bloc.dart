@@ -8,6 +8,7 @@ enum StatePage { init, login, main }
 
 class SplashBloc extends BaseBloc {
   final PrefProvider _prefProvider;
+  // ignore: unused_field
   final AppRepository _appRepository;
   final checkLoginSubject = BehaviorSubject<StatePage>();
   SplashBloc(this._prefProvider, this._appRepository);

@@ -122,7 +122,7 @@ class AppServiceProvider {
   }
 
   Future<bool> logout() async {
-    var pref = locator.get<PrefProvider>();
+    final pref = locator.get<PrefProvider>();
     final response = await _dioHelper.post(
       isAuthRequired: false,
       requestBody: FormData.fromMap(
@@ -135,9 +135,10 @@ class AppServiceProvider {
 
   Future<List<UserGroup>> getRole(String? token) async {
     final response = await _dioHelper.get(
-        options: Options(headers: {'Authorization': 'Bearer $token'}),
-        route: '/restful_api/user/groups',
-        responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>));
+      options: Options(headers: {'Authorization': 'Bearer $token'}),
+      route: '/restful_api/user/groups',
+      responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
+    );
     return response.mapData(
       (json) => asType<List<dynamic>>(json)?.map((e) => UserGroup.fromJson(e as Map<String, dynamic>)).toList(),
     );

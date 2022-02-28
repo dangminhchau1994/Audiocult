@@ -14,6 +14,7 @@ import 'data_source/networks/interceptors/auth_interceptor.dart';
 import 'data_source/networks/interceptors/pretty_dio_logger.dart';
 import 'data_source/repositories/app_repository.dart';
 import 'data_source/services/app_service_provider.dart';
+import 'data_source/services/place_service_provider.dart';
 import 'utils/flavor/flavor.dart';
 
 GetIt locator = GetIt.instance;
@@ -56,8 +57,14 @@ Future<void> initDependency() async {
     final dio = _createDio(FlavorConfig.instance!.values!.mainUrl!);
     return AppServiceProvider(dio);
   });
+  locator.registerLazySingleton<PlaceServiceProvider>(() {
+    final dio = _createDio(FlavorConfig.instance!.values!.placeUrl!);
+    return PlaceServiceProvider(dio);
+  });
 
-  locator.registerLazySingleton(() => AppRepository(appServiceProvider: locator.get()));
+  locator.registerLazySingleton(
+    () => AppRepository(appServiceProvider: locator.get(), placeServiceProvider: locator.get()),
+  );
   locator.registerLazySingleton(() => MainBloc(locator.get(), locator.get()));
   locator.registerLazySingleton(() => DiscoverBloc(locator.get()));
 }

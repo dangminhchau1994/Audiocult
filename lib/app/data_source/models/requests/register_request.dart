@@ -6,6 +6,10 @@ class RegisterRequest {
   String? valPassword;
   String? valCountryIso;
   int? valRole;
+  String? valCityLocation;
+  double? valRegisterLocationLat;
+  double? valRegisterLocationLng;
+
 
   RegisterRequest({
     this.accessToken,
@@ -26,6 +30,9 @@ class RegisterRequest {
     data['val[password]'] = valPassword;
     data['val[country_iso]'] = valCountryIso;
     data['val[user_group_id]'] = valRole;
+    data['val[city_location]'] = valCityLocation;
+    data['val[register_location_lat]'] = valRegisterLocationLat;
+    data['val[register_location_lng]'] = valRegisterLocationLng;
     return data;
   }
 }

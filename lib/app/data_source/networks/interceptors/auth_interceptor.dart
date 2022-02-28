@@ -5,6 +5,7 @@ import '../../local/pref_provider.dart';
 
 class AuthInterceptor extends Interceptor {
   final PrefProvider _prefProvider;
+  // ignore: unused_field
   final Dio _dio;
 
   AuthInterceptor(this._dio, this._prefProvider);

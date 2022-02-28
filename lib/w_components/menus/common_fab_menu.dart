@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
@@ -63,6 +61,7 @@ class CommonFabMenu extends StatelessWidget {
           child: Badge(
             elevation: 0,
             badgeContent: Text('$countBadge', style: context.buttonTextStyle()),
+            // ignore: avoid_bool_literals_in_conditional_expressions
             showBadge: countBadge! > 0 ? true : false,
             position: BadgePosition.topEnd(),
             padding: const EdgeInsets.all(6),
