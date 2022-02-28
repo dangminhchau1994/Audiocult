@@ -69,6 +69,7 @@ class _RegisterPageState extends State<RegisterPage> with DisposableStateMixin, 
                         margin: const EdgeInsets.symmetric(horizontal: 8),
                         padding: const EdgeInsets.only(top: kVerticalSpacing),
                         child: CommonDropdown(
+                          selection: _selectMenuModel,
                           onChanged: (value) {
                             _selectMenuModel = value;
                           },
