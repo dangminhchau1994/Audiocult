@@ -7,11 +7,13 @@ class FeatureMixtapes extends StatelessWidget {
     Key? key,
     this.onPageChange,
     this.onRetry,
+    this.pageController,
     this.isTopSong,
   }) : super(key: key);
 
   final Function(int index)? onPageChange;
   final Function()? onRetry;
+  final PageController? pageController;
   final bool? isTopSong;
 
   @override
@@ -29,6 +31,7 @@ class FeatureMixtapes extends StatelessWidget {
           ),
           SongPage(
             onPageChange: onPageChange,
+            pageController: pageController,
             isTopSong: isTopSong,
             onRetry: onRetry,
           )

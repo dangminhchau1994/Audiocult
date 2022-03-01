@@ -3,8 +3,8 @@ import 'package:audio_cult/app/data_source/models/responses/album/album_response
 import 'package:audio_cult/app/features/music/discover/discover_bloc.dart';
 import 'package:audio_cult/app/features/music/discover/widgets/album_item.dart';
 import 'package:audio_cult/app/features/music/discover/widgets/section_title.dart';
-import 'package:audio_cult/app/injections.dart';
 import 'package:flutter/material.dart';
+import '../../../../../di/bloc_locator.dart';
 import '../../../../../w_components/error_empty/error_section.dart';
 import '../../../../../w_components/loading/loading_widget.dart';
 
@@ -31,7 +31,7 @@ class FeaturedAlbums extends StatelessWidget {
           ),
           StreamBuilder<BlocState<List<Album>>>(
             initialData: const BlocState.loading(),
-            stream: locator.get<DiscoverBloc>().getAlbumStream,
+            stream: getIt.get<DiscoverBloc>().getAlbumStream,
             builder: (context, snapshot) {
               final state = snapshot.data!;
 

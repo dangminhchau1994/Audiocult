@@ -4,10 +4,11 @@ import 'package:audio_cult/app/features/music/discover/widgets/featured_mixtapes
 import 'package:audio_cult/app/features/music/discover/widgets/song_of_day.dart';
 import 'package:audio_cult/app/features/music/discover/widgets/top_playlist.dart';
 import 'package:audio_cult/app/features/music/discover/widgets/top_songs.dart';
-import 'package:audio_cult/app/injections.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
 import 'package:audio_cult/app/utils/constants/app_dimens.dart';
+import 'package:audio_cult/app/utils/route/app_route.dart';
 import 'package:flutter/material.dart';
+import '../../../../di/bloc_locator.dart';
 
 class DiscoverScreen extends StatefulWidget {
   const DiscoverScreen({Key? key}) : super(key: key);
@@ -17,6 +18,7 @@ class DiscoverScreen extends StatefulWidget {
 }
 
 class _DiscoverScreenState extends State<DiscoverScreen> with AutomaticKeepAliveClientMixin {
+  final _pageController = PageController();
   var _currentIndex = 0;
 
   @override
@@ -25,10 +27,16 @@ class _DiscoverScreenState extends State<DiscoverScreen> with AutomaticKeepAlive
     _getAllData();
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+    _pageController.dispose();
+  }
+
   void _getAllData() {
-    locator.get<DiscoverBloc>().getTopSongs('most-viewed', 1, 3);
-    locator.get<DiscoverBloc>().getAlbums('featured', 1, 3);
-    locator.get<DiscoverBloc>().getMixTapSongs('most-viewed', 1, 3, 'featured', 'mixtape-song');
+    getIt.get<DiscoverBloc>().getTopSongs('most-viewed', 1, 3);
+    getIt.get<DiscoverBloc>().getAlbums('featured', 1, 3);
+    getIt.get<DiscoverBloc>().getMixTapSongs('most-viewed', 1, 3, 'featured', 'mixtape-song');
   }
 
   @override
@@ -43,35 +51,41 @@ class _DiscoverScreenState extends State<DiscoverScreen> with AutomaticKeepAlive
           ),
           child: RefreshIndicator(
             color: AppColors.primaryButtonColor,
-            backgroundColor: Colors.white,
+            backgroundColor: AppColors.secondaryButtonColor,
             onRefresh: () async {
               _getAllData();
+              _pageController.jumpTo(0);
             },
             child: SingleChildScrollView(
               child: Column(
                 children: [
                   const SongOfDay(),
                   TopSongs(
+                    pageController: _pageController,
+                    onShowAll: () {
+                      Navigator.pushNamed(context, AppRoute.routeTopSongs);
+                    },
                     isTopSong: true,
                     onPageChange: (index) {
-                      locator.get<DiscoverBloc>().getTopSongs('most-viewed', index + 1, 3);
+                      getIt.get<DiscoverBloc>().getTopSongs('most-viewed', index + 1, 3);
                       setState(() {
                         _currentIndex = index;
                       });
                     },
                     onRetry: () {
-                      locator.get<DiscoverBloc>().getTopSongs('most-viewed', _currentIndex + 1, 3);
+                      getIt.get<DiscoverBloc>().getTopSongs('most-viewed', _currentIndex + 1, 3);
                     },
                   ),
                   FeaturedAlbums(
                     onRetry: () {
-                      locator.get<DiscoverBloc>().getAlbums('featured', 1, 3);
+                      getIt.get<DiscoverBloc>().getAlbums('featured', 1, 3);
                     },
                   ),
                   FeatureMixtapes(
+                    pageController: _pageController,
                     isTopSong: false,
                     onPageChange: (index) {
-                      locator
+                      getIt
                           .get<DiscoverBloc>()
                           .getMixTapSongs('most-viewed', index + 1, 3, 'featured', 'mixtape-song');
                       setState(() {
@@ -79,7 +93,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> with AutomaticKeepAlive
                       });
                     },
                     onRetry: () {
-                      locator
+                      getIt
                           .get<DiscoverBloc>()
                           .getMixTapSongs('most-viewed', _currentIndex + 1, 3, 'featured', 'mixtape-song');
                     },

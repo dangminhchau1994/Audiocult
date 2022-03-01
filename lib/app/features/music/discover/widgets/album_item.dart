@@ -1,4 +1,3 @@
-import 'package:audio_cult/app/constants/global_constants.dart';
 import 'package:audio_cult/app/data_source/models/responses/album/album_response.dart';
 import 'package:audio_cult/app/utils/datetime/date_time_utils.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
@@ -23,7 +22,7 @@ class AlbumItem extends StatelessWidget {
         CachedNetworkImage(
           width: 180,
           height: 180,
-          imageUrl: GlobalConstants.imageUrl(album?.imagePath ?? ''),
+          imageUrl: album?.imagePath ?? '',
           imageBuilder: (context, imageProvider) => Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(4),

@@ -3,6 +3,8 @@ class AppAssets {
 
   static const searchIcon = 'assets/icons/search.svg';
 
+  static const filterIcon = 'assets/icons/filter.svg';
+
   static const notificationIcon = 'assets/icons/notification.svg';
 
   static const cartIcon = 'assets/icons/cart.svg';

@@ -5,6 +5,8 @@ import 'package:audio_cult/app/features/main/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 
+import '../../features/music/top_song/top_song_screen.dart';
+
 class AppRoute {
   factory AppRoute() => _instance;
 
@@ -18,6 +20,7 @@ class AppRoute {
   static const String routeRegister = '/register';
   static const String routeForgotPassword = '/forgot_password';
   static const String routeCheckEmail = '/check_email';
+  static const String routeTopSongs = '/top_song';
 
   ///#endregion
 
@@ -45,6 +48,8 @@ class AppRoute {
         return _pageRoute(settings, const ResentPasswordScreen());
       case routeCheckEmail:
         return _pageRoute(settings, const CheckMailScreen());
+      case routeTopSongs:
+        return _pageRoute(settings, const TopSongScreen());
       default:
         return null;
     }

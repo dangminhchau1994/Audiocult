@@ -1,11 +1,11 @@
 import 'package:audio_cult/app/base/bloc_handle.dart';
 import 'package:audio_cult/app/features/main/main_bloc.dart';
 import 'package:audio_cult/app/features/music/music_screen.dart';
-import 'package:audio_cult/app/injections.dart';
 import 'package:audio_cult/w_components/bottom_navigation_bar/common_bottom_bar.dart';
 import 'package:audio_cult/w_components/menus/common_circular_menu.dart';
 import 'package:flutter/material.dart';
 
+import '../../../di/bloc_locator.dart';
 import '../../utils/constants/app_colors.dart';
 import '../menu_settings/drawer/my_drawer.dart';
 
@@ -59,7 +59,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocHandle(
-      bloc: locator.get<MainBloc>(),
+      bloc: getIt.get<MainBloc>(),
       child: Scaffold(
         key: _drawerKey,
         drawerScrimColor: Colors.transparent,
