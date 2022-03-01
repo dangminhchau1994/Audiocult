@@ -7,7 +7,10 @@ import 'global.dart';
 void main() {
   bootstrap(
     () => MyGlobal(
-      flavorConfig: FlavorConfig(flavor: Flavor.production, values: FlavorValues(mainUrl: 'http://production.com')),
+      flavorConfig: FlavorConfig(
+        flavor: Flavor.production,
+        values: FlavorValues(mainUrl: 'http://production.com', placeUrl: 'https://maps.googleapis.com'),
+      ),
       child: const App(),
     ),
   );

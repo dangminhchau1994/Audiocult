@@ -1,6 +1,5 @@
 import 'package:audio_cult/app/features/music/discover/widgets/section_title.dart';
 import 'package:flutter/material.dart';
-import 'album_item.dart';
 
 class TopPlaylist extends StatelessWidget {
   const TopPlaylist({
@@ -13,11 +12,11 @@ class TopPlaylist extends StatelessWidget {
       padding: const EdgeInsets.only(top: 40),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const SectionTitle(
+        children: const [
+          SectionTitle(
             title: 'Top of Playlists',
           ),
-          const SizedBox(
+          SizedBox(
             height: 16,
           ),
           // SizedBox(

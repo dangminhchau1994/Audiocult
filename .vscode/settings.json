@@ -1,6 +1,23 @@
 {
     "dart.lineLength": 120,
     "cSpell.words": [
-        "Cupertino"
+        "appbar",
+        "autofocus",
+        "Cupertino",
+        "dartz",
+        "Debouncer",
+        "dimens",
+        "fluttertoast",
+        "LTRB",
+        "Nunito",
+        "Relayout",
+        "rxdart",
+        "sessiontoken",
+        "sublist",
+        "tabbar",
+        "tabbars",
+        "textfields",
+        "Toogle",
+        "vsync"
     ]
 }

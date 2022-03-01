@@ -52,28 +52,29 @@ class RegisterData {
   String? relationWithId;
   String? relationPhrase;
 
-  RegisterData(
-      {this.coverPhotoExists,
-      this.userId,
-      this.userGroupId,
-      this.userName,
-      this.fullName,
-      this.email,
-      this.gender,
-      this.birthday,
-      this.birthdaySearch,
-      this.countryIso,
-      this.languageId,
-      this.timeZone,
-      this.userImage,
-      this.isOnline,
-      this.title,
-      this.isFriend,
-      this.isFriendOfFriend,
-      this.isFriendRequest,
-      this.relationId,
-      this.relationWithId,
-      this.relationPhrase});
+  RegisterData({
+    this.coverPhotoExists,
+    this.userId,
+    this.userGroupId,
+    this.userName,
+    this.fullName,
+    this.email,
+    this.gender,
+    this.birthday,
+    this.birthdaySearch,
+    this.countryIso,
+    this.languageId,
+    this.timeZone,
+    this.userImage,
+    this.isOnline,
+    this.title,
+    this.isFriend,
+    this.isFriendOfFriend,
+    this.isFriendRequest,
+    this.relationId,
+    this.relationWithId,
+    this.relationPhrase,
+  });
 
   RegisterData.fromJson(Map<String, dynamic> json) {
     final iw = IW(json);

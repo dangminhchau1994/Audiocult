@@ -7,16 +7,17 @@ enum Flavor { dev, production, staging }
 class FlavorValues {
   FlavorValues({
     @required this.mainUrl,
+    @required this.placeUrl,
   });
 
   final String? mainUrl;
+  final String? placeUrl;
 }
 
 class FlavorConfig {
   FlavorConfig._internal(this.flavor, this.values);
   // ignore: sort_unnamed_constructors_first
-  factory FlavorConfig(
-      {@required Flavor? flavor, @required FlavorValues? values}) {
+  factory FlavorConfig({@required Flavor? flavor, @required FlavorValues? values}) {
     return _instance ??= FlavorConfig._internal(flavor, values);
   }
   final Flavor? flavor;
@@ -30,6 +31,6 @@ class FlavorConfig {
   static bool isProduction() => _instance?.flavor == Flavor.production;
 
   static bool isDevelopment() => _instance?.flavor == Flavor.dev;
-  
+
   static bool isStaging() => _instance?.flavor == Flavor.staging;
 }

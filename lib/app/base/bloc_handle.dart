@@ -1,6 +1,5 @@
 import 'package:audio_cult/app/data_source/networks/exceptions/no_internet_exception.dart';
 import 'package:disposing/disposing.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
@@ -30,10 +29,11 @@ class _BlocHandleState extends State<BlocHandle> with DisposableStateMixin {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-        onWillPop: () {
-          return Future.value(!context.loaderOverlay.visible);
-        },
-        child: widget.child);
+      onWillPop: () {
+        return Future.value(!context.loaderOverlay.visible);
+      },
+      child: widget.child,
+    );
   }
 
   void _subscribe() {

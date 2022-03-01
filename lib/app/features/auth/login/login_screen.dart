@@ -14,7 +14,20 @@ class LoginScreen extends StatefulWidget {
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStateMixin {
+  TabController? _controller;
+  @override
+  void initState() {
+    super.initState();
+    _controller = TabController(vsync: this, length: 2);
+  }
+
+  @override
+  void dispose() {
+    _controller?.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,10 +39,11 @@ class _LoginScreenState extends State<LoginScreen> {
           child: WAuthPage(
             child: DefaultTabController(
               length: 2,
-              initialIndex: 0,
+              initialIndex: 1,
               child: Column(
                 children: [
                   TabBar(
+                    controller: _controller,
                     onTap: (i) {
                       FocusScope.of(context).requestFocus(FocusNode());
                     },
@@ -39,11 +53,17 @@ class _LoginScreenState extends State<LoginScreen> {
                       Tab(text: context.l10n.t_sign_in),
                     ],
                   ),
-                  const Expanded(
+                  Expanded(
                     child: TabBarView(
+                      physics: const NeverScrollableScrollPhysics(),
+                      controller: _controller,
                       children: [
-                        RegisterPage(),
-                        LoginPage(),
+                        RegisterPage(
+                          onSuccess: () {
+                            _controller?.animateTo(1);
+                          },
+                        ),
+                        const LoginPage(),
                       ],
                     ),
                   ),

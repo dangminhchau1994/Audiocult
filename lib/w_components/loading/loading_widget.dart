@@ -7,6 +7,7 @@ class LoadingWidget extends StatefulWidget {
   const LoadingWidget({Key? key, this.backgroundColor = Colors.transparent}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _LoadingWidgetState createState() => _LoadingWidgetState();
 }
 
@@ -17,12 +18,11 @@ class _LoadingWidgetState extends State<LoadingWidget> {
   @override
   Widget build(BuildContext context) {
     return AbsorbPointer(
-      absorbing: true,
       child: Container(
         color: widget.backgroundColor,
         child: Center(
           child: SizedBox(
-            width: 72.0,
+            width: 72,
             child: LoadingIndicator(
               colors: _kDefaultRainbowColors,
               indicatorType: ([

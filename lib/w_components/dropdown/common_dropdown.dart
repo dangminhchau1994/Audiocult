@@ -4,19 +4,20 @@ import 'package:flutter/material.dart';
 import '../../app/utils/constants/app_colors.dart';
 import 'custom_dropdown_button2.dart';
 
+// ignore: must_be_immutable
 class CommonDropdown extends StatefulWidget {
   final String? hint;
+  SelectMenuModel? selection;
   final List<SelectMenuModel>? data;
   final Function()? onTap;
   final Function(SelectMenuModel? value)? onChanged;
-  const CommonDropdown({Key? key, this.hint, this.data, this.onTap, this.onChanged}) : super(key: key);
+  CommonDropdown({Key? key, this.hint, this.data, this.onTap, this.onChanged, this.selection}) : super(key: key);
 
   @override
   State<CommonDropdown> createState() => _CommonDropdownState();
 }
 
 class _CommonDropdownState extends State<CommonDropdown> {
-  SelectMenuModel? selection;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -37,7 +38,7 @@ class _CommonDropdownState extends State<CommonDropdown> {
         dropdownWidth: MediaQuery.of(context).size.width - 32,
         hint: widget.hint ?? '',
         dropdownItems: widget.data ?? [],
-        value: selection,
+        value: widget.selection,
         selectedItemBuilder: (_) => widget.data!
             .map(
               (e) => Center(
@@ -52,9 +53,7 @@ class _CommonDropdownState extends State<CommonDropdown> {
             )
             .toList(),
         onChanged: (value) {
-          setState(() {
-            selection = value;
-          });
+          widget.selection = value;
           widget.onChanged?.call(value);
         },
       ),
@@ -67,4 +66,8 @@ class SelectMenuModel {
   String? title;
   bool isSelected;
   SelectMenuModel({this.id, this.title, this.isSelected = false});
+  @override
+  String toString() {
+    return '$id $title $isSelected';
+  }
 }

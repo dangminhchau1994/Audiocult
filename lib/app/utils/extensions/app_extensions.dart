@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 
 import '../constants/app_font_sizes.dart';
 
+// ignore: type_annotate_public_apis
 T? asType<T>(x) => x is T ? x : null;
 
 extension HexColor on Color {
-  /// String is in the format "aabbcc" or "ffaabbcc" with an optional leading "#",
   static Color fromHex(String hexString) {
     final buffer = StringBuffer();
     if (hexString.length == 6 || hexString.length == 7) buffer.write('ff');

@@ -62,6 +62,6 @@ class AppAssets {
   static const icNotiPending = 'assets/icons/ic_noti_pending.png';
 
   static const imgHeaderDrawer = 'assets/imgs/img_header_drawer.png';
-  
+
   static const icLogout = 'assets/icons/ic_logout.png';
 }

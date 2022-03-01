@@ -1,5 +1,6 @@
 import 'package:audio_cult/app/features/auth/check_email/check_mail_screen.dart';
 import 'package:audio_cult/app/features/auth/login/login_screen.dart';
+import 'package:audio_cult/app/features/auth/place_location/place_location_screen.dart';
 import 'package:audio_cult/app/features/auth/resent_password/resent_password_screen.dart';
 import 'package:audio_cult/app/features/main/main_screen.dart';
 import 'package:flutter/material.dart';
@@ -21,8 +22,9 @@ class AppRoute {
   static const String routeForgotPassword = '/forgot_password';
   static const String routeCheckEmail = '/check_email';
   static const String routeTopSongs = '/top_song';
+  static const String routePlaceLocation = '/place_location';
 
-  ///#endregion
+  ///#end region
 
   static final AppRoute _instance = AppRoute._private();
 
@@ -50,6 +52,8 @@ class AppRoute {
         return _pageRoute(settings, const CheckMailScreen());
       case routeTopSongs:
         return _pageRoute(settings, const TopSongScreen());
+      case routePlaceLocation:
+        return _pageRoute(settings, const PlaceLocation());
       default:
         return null;
     }

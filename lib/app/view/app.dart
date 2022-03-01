@@ -53,20 +53,17 @@ class _AppState extends State<App> {
             color: Colors.white,
           ),
           colorScheme: ColorScheme.fromSwatch(
-            accentColor: const Color(0xFF13B9FF),
+            accentColor: Colors.white,
           ),
-          textTheme: const TextTheme().copyWith(
-            bodyText1: const TextStyle(
-              color: Colors.white,
-            ),
-            bodyText2: const TextStyle(
-              color: Colors.white,
-            ),
-          ),
+          textTheme: Theme.of(context).textTheme.apply(
+                bodyColor: Colors.white,
+                displayColor: Colors.white,
+              ),
           tabBarTheme: TabBarTheme(
-              labelColor: AppColors.activeLabelItem,
-              unselectedLabelColor: AppColors.unActiveLabelItem,
-              indicator: UnderlineTabIndicator(borderSide: BorderSide(color: AppColors.activeLabelItem, width: 2.0))),
+            labelColor: AppColors.activeLabelItem,
+            unselectedLabelColor: AppColors.unActiveLabelItem,
+            indicator: UnderlineTabIndicator(borderSide: BorderSide(color: AppColors.activeLabelItem, width: 2)),
+          ),
         ),
         localizationsDelegates: const [
           AppLocalizations.delegate,
@@ -75,11 +72,12 @@ class _AppState extends State<App> {
         ],
         supportedLocales: AppLocalizations.supportedLocales,
         home: StreamBuilder<StatePage>(
-            stream: _splashBloc.checkLoginSubject.stream,
-            initialData: StatePage.init,
-            builder: (context, snapshot) {
-              return handlePage(snapshot.data!);
-            }),
+          stream: _splashBloc.checkLoginSubject.stream,
+          initialData: StatePage.init,
+          builder: (context, snapshot) {
+            return handlePage(snapshot.data!);
+          },
+        ),
         initialRoute: AppRoute.routeRoot,
         onGenerateRoute: appRoute.generateRoute,
         builder: (context, widget) => ResponsiveWrapper.builder(

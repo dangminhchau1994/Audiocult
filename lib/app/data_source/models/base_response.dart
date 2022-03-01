@@ -9,7 +9,7 @@ class BaseRes<T> {
 
   factory BaseRes.fromJson(Map<String, dynamic> json) {
     return BaseRes(
-      data: json['data'] as T,
+      data: json['data'] as T ?? json['predictions'] as T,
       message: json['message'],
       code: json['code'] as int?,
       status: json['status'],

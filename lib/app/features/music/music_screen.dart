@@ -108,7 +108,7 @@ class _MusicScreenState extends State<MusicScreen> {
             case 0:
               return const DiscoverScreen();
             case 1:
-              return LibraryScreen();
+              return const LibraryScreen();
             default:
               return const SizedBox();
           }

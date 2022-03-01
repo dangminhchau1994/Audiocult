@@ -40,6 +40,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> with AutomaticKeepAlive
   }
 
   @override
+  // ignore: must_call_super
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.mainColor,

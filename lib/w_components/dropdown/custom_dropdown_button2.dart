@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'common_dropdown.dart';
 import 'dropdown_button2.dart';
 
+// ignore: must_be_immutable
 class CustomDropdownButton2 extends StatelessWidget {
   final String hint;
   final SelectMenuModel? value;
@@ -87,35 +88,38 @@ class CustomDropdownButton2 extends StatelessWidget {
         ),
         value: value,
         items: dropdownItems
-            .map((item) => DropdownMenuItem<SelectMenuModel>(
-                  value: item,
-                  child: Container(
-                    alignment: valueAlignment,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          item.title ?? '',
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
-                          style: TextStyle(
-                              fontSize: 14, color: item.isSelected == false ? AppColors.subTitleColor : Colors.white),
+            .map(
+              (item) => DropdownMenuItem<SelectMenuModel>(
+                value: item,
+                child: Container(
+                  alignment: valueAlignment,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        item.title ?? '',
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: item.isSelected == false ? AppColors.subTitleColor : Colors.white,
                         ),
-                        if (item.isSelected)
-                          const Icon(
-                            Icons.check_rounded,
-                            color: Colors.white,
-                          )
-                        else
-                          const SizedBox.shrink()
-                      ],
-                    ),
+                      ),
+                      if (item.isSelected)
+                        const Icon(
+                          Icons.check_rounded,
+                          color: Colors.white,
+                        )
+                      else
+                        const SizedBox.shrink()
+                    ],
                   ),
-                ))
+                ),
+              ),
+            )
             .toList(),
         onChanged: (newValue) {
           dropdownItems.map((e) => e.id == newValue?.id ? e.isSelected = true : e.isSelected = false).toList();
-          newValue?.isSelected = true;
           onChanged?.call(newValue);
         },
         selectedItemBuilder: selectedItemBuilder,
@@ -150,7 +154,6 @@ class CustomDropdownButton2 extends StatelessWidget {
         scrollbarAlwaysShow: scrollbarAlwaysShow,
         //Null or Offset(0, 0) will open just under the button. You can edit as you want.
         offset: offset,
-        dropdownOverButton: false, //Default is false to show menu below button
       ),
     );
   }
