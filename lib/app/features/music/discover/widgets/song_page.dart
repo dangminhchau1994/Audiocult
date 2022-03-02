@@ -43,7 +43,6 @@ class SongPage extends StatelessWidget {
                   final songs = data as List<Song>;
 
                   return ListView.separated(
-                    shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     itemCount: songs.length,
                     separatorBuilder: (context, index) => const SizedBox(height: 20),

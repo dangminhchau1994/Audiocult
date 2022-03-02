@@ -86,9 +86,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> with AutomaticKeepAlive
                     pageController: _pageController,
                     isTopSong: false,
                     onPageChange: (index) {
-                      getIt
-                          .get<DiscoverBloc>()
-                          .getMixTapSongs('most-viewed', index + 1, 3, 'featured', 'mixtape-song');
+                      getIt.get<DiscoverBloc>().getMixTapSongs('most-viewed', index + 1, 3, 'featured', 'mixtape-song');
                       setState(() {
                         _currentIndex = index;
                       });
