@@ -1,4 +1,5 @@
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
+import 'package:audio_cult/w_components/buttons/w_button_inkwell.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../utils/constants/app_colors.dart';
@@ -24,8 +25,8 @@ class SectionTitle extends StatelessWidget {
                 fontSize: 18,
               ),
         ),
-        GestureDetector(
-          onTap: onShowAll,
+        WButtonInkwell(
+          onPressed: onShowAll,
           child: Text(
             'Show All',
             style: context.bodyTextPrimaryStyle()!.copyWith(

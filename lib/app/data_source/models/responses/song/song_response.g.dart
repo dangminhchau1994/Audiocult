@@ -58,7 +58,7 @@ _$_Song _$$_SongFromJson(Map<String, dynamic> json) => _$_Song(
       totalDownload: json['totalDownload'] as String?,
       tags: json['tags'] as String?,
       imagePath: json['image_path'] as String?,
-      artistUser: json['artist_user'] == null || !(json['artist_user'] is Map<String, dynamic>)
+      artistUser: json['artist_user'] == null
           ? null
           : ArtistUser.fromJson(json['artist_user'] as Map<String, dynamic>),
       peaksJsonUrl: json['peaksJsonUrl'] as String?,

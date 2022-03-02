@@ -8,6 +8,7 @@ class FeatureMixtapes extends StatelessWidget {
     this.onPageChange,
     this.onRetry,
     this.pageController,
+    this.onShowAll,
     this.isTopSong,
   }) : super(key: key);
 
@@ -15,6 +16,7 @@ class FeatureMixtapes extends StatelessWidget {
   final Function()? onRetry;
   final PageController? pageController;
   final bool? isTopSong;
+  final Function()? onShowAll;
 
   @override
   Widget build(BuildContext context) {
@@ -23,8 +25,9 @@ class FeatureMixtapes extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SectionTitle(
+          SectionTitle(
             title: 'Feature Mixtapes',
+            onShowAll: onShowAll,
           ),
           const SizedBox(
             height: 16,
