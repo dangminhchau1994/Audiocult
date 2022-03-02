@@ -24,8 +24,8 @@ class AppRepository extends BaseRepository {
 
   Future<Either<SongResponse, Exception>> getTopSongs(
     String sort,
-    int limit,
     int page,
+    int limit,
   ) {
     return safeCall(
       () => appServiceProvider.getTopSongs(sort, page, limit),
@@ -34,8 +34,8 @@ class AppRepository extends BaseRepository {
 
   Future<Either<List<Album>, Exception>> getAlbums(
     String view,
-    int limit,
     int page,
+    int limit,
   ) {
     return safeCall(
       () => appServiceProvider.getAlbums(view, page, limit),

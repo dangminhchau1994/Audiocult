@@ -7,9 +7,11 @@ class SectionTitle extends StatelessWidget {
   const SectionTitle({
     Key? key,
     this.title,
+    this.onShowAll,
   }) : super(key: key);
 
   final String? title;
+  final Function()? onShowAll;
 
   @override
   Widget build(BuildContext context) {
@@ -22,12 +24,15 @@ class SectionTitle extends StatelessWidget {
                 fontSize: 18,
               ),
         ),
-        Text(
-          'Show All',
-          style: context.bodyTextPrimaryStyle()!.copyWith(
-                fontSize: 16,
-                color: AppColors.lightBlue,
-              ),
+        GestureDetector(
+          onTap: onShowAll,
+          child: Text(
+            'Show All',
+            style: context.bodyTextPrimaryStyle()!.copyWith(
+                  fontSize: 16,
+                  color: AppColors.lightBlue,
+                ),
+          ),
         ),
       ],
     );

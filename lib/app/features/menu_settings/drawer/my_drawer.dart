@@ -8,10 +8,9 @@ import 'package:audio_cult/l10n/l10n.dart';
 import 'package:blur/blur.dart';
 import 'package:disposing/disposing.dart';
 import 'package:flutter/material.dart';
-
+import '../../../../di/bloc_locator.dart';
 import '../../../../w_components/buttons/w_button_inkwell.dart';
 import '../../../../w_components/dialogs/app_dialog.dart';
-import '../../../injections.dart';
 import '../../main/main_bloc.dart';
 
 class MyDrawer extends StatefulWidget {
@@ -25,7 +24,7 @@ class _MyDrawerState extends State<MyDrawer> with DisposableStateMixin {
   @override
   void initState() {
     super.initState();
-    locator.get<MainBloc>().logoutStream.listen((event) {
+    getIt.get<MainBloc>().logoutStream.listen((event) {
       Navigator.pushNamedAndRemoveUntil(context, AppRoute.routeLogin, (route) => false);
     }).disposeOn(disposeBag);
   }
@@ -62,7 +61,7 @@ class _MyDrawerState extends State<MyDrawer> with DisposableStateMixin {
                               context,
                               message: context.l10n.t_question_logout,
                               onYesPressed: () {
-                                locator.get<MainBloc>().logout();
+                                getIt.get<MainBloc>().logout();
                               },
                             );
                           },

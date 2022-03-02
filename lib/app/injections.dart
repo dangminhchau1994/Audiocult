@@ -1,12 +1,9 @@
 // ignore_for_file: avoid_redundant_argument_values
 
-import 'package:audio_cult/app/features/main/main_bloc.dart';
-import 'package:audio_cult/app/features/music/discover/discover_bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import 'data_source/local/pref_provider.dart';
 import 'data_source/networks/core/dio_flutter_transformer.dart';
 import 'data_source/networks/interceptors/app_interceptor.dart';
@@ -65,6 +62,4 @@ Future<void> initDependency() async {
   locator.registerLazySingleton(
     () => AppRepository(appServiceProvider: locator.get(), placeServiceProvider: locator.get()),
   );
-  locator.registerLazySingleton(() => MainBloc(locator.get(), locator.get()));
-  locator.registerLazySingleton(() => DiscoverBloc(locator.get()));
 }

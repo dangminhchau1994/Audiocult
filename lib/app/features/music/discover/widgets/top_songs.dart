@@ -6,13 +6,17 @@ class TopSongs extends StatelessWidget {
   const TopSongs({
     Key? key,
     this.onPageChange,
+    this.pageController,
     this.isTopSong,
     this.onRetry,
+    this.onShowAll,
   }) : super(key: key);
 
   final Function(int index)? onPageChange;
   final Function()? onRetry;
+  final PageController? pageController;
   final bool? isTopSong;
+  final Function()? onShowAll;
 
   @override
   Widget build(BuildContext context) {
@@ -21,14 +25,16 @@ class TopSongs extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SectionTitle(
+          SectionTitle(
             title: 'Top Songs',
+            onShowAll: onShowAll,
           ),
           const SizedBox(
             height: 16,
           ),
           SongPage(
             onPageChange: onPageChange,
+            pageController: pageController,
             isTopSong: isTopSong,
             onRetry: onRetry,
           ),

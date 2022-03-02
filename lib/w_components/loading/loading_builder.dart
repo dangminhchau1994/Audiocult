@@ -1,3 +1,4 @@
+import 'package:audio_cult/app/injections.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -34,7 +35,7 @@ class _LoadingBuilderState<T extends BaseBloc, TModel> extends State<LoadingBuil
   @override
   void initState() {
     super.initState();
-    bloc = Provider.of<T>(context, listen: false);
+    bloc = locator.get<T>();
   }
 
   @override

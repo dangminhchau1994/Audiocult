@@ -21,7 +21,7 @@ class DiscoverBloc extends BaseBloc {
   void getTopSongs(String sort, int page, int limit) async {
     _getTopSongSubject.sink.add(const BlocState.loading());
 
-    final result = await _appRepository.getTopSongs(sort, limit, page);
+    final result = await _appRepository.getTopSongs(sort, page, limit);
 
     result.fold((success) {
       _getTopSongSubject.sink.add(BlocState.success(success.data ?? <Song>[]));
@@ -51,7 +51,7 @@ class DiscoverBloc extends BaseBloc {
   void getAlbums(String view, int page, int limit) async {
     _getAlbumSubject.sink.add(const BlocState.loading());
 
-    final result = await _appRepository.getAlbums(view, limit, page);
+    final result = await _appRepository.getAlbums(view, page, limit);
 
     result.fold((success) {
       _getAlbumSubject.sink.add(BlocState.success(success));

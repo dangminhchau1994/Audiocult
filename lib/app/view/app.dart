@@ -11,7 +11,6 @@ import 'package:loader_overlay/loader_overlay.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
 import 'package:responsive_framework/utils/scroll_behavior.dart';
-
 import '../features/splash/splash_bloc.dart';
 import '../features/splash/splash_screen.dart';
 import '../utils/configs/custom_scroll_behavior.dart';
