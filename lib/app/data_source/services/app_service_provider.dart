@@ -115,7 +115,7 @@ class AppServiceProvider {
     );
   }
 
-  Future<SongResponse> getTopSongs(String sort, int page, int limit) async {
+  Future<List<Song>> getTopSongs(String sort, int page, int limit) async {
     final response = await _dioHelper.get(
       route: '/restful_api/song',
       options: Options(headers: {'Content-Type': 'application/x-www-form-urlencoded'}),
@@ -124,19 +124,22 @@ class AppServiceProvider {
         'page': page,
         'limit': limit,
       },
+      responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
     );
-    final data = SongResponse.fromJson(response as Map<String, dynamic>);
-    if (data.status == StatusString.success) {
-      return SongResponse(
-        status: data.status,
-        data: data.data,
-      );
-    } else {
-      return SongResponse(
-        status: data.status,
-        message: data.error,
-      );
-    }
+    return response.mapData(
+      (json) => asType<List<dynamic>>(json)?.map((e) => Song.fromJson(e as Map<String, dynamic>)).toList(),
+    );
+  }
+
+  Future<Song> getSongOfDay() async {
+    final response = await _dioHelper.get(
+      route: '/restful_api/song/song-of-day',
+      options: Options(headers: {'Content-Type': 'application/x-www-form-urlencoded'}),
+      responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
+    );
+    return response.mapData(
+      (json) => Song.fromJson(json as Map<String, dynamic>),
+    );
   }
 
   Future<bool> logout() async {

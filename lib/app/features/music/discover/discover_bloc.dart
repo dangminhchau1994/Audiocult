@@ -12,11 +12,13 @@ class DiscoverBloc extends BaseBloc {
   DiscoverBloc(this._appRepository);
 
   final _getTopSongSubject = PublishSubject<BlocState<List<Song>>>();
+  final _getSongOfDaySubject = PublishSubject<BlocState<Song>>();
   final _getMixTapSongsSubject = PublishSubject<BlocState<List<Song>>>();
   final _getAlbumSubject = PublishSubject<BlocState<List<Album>>>();
   final _getPlaylistSubject = PublishSubject<BlocState<List<PlaylistResponse>>>();
 
   Stream<BlocState<List<Song>>> get getTopSongsStream => _getTopSongSubject.stream;
+  Stream<BlocState<Song>> get getSongOfDayStream => _getSongOfDaySubject.stream;
   Stream<BlocState<List<Song>>> get getMixTapSongsStream => _getMixTapSongsSubject.stream;
   Stream<BlocState<List<Album>>> get getAlbumStream => _getAlbumSubject.stream;
   Stream<BlocState<List<PlaylistResponse>>> get getPlaylistStream => _getPlaylistSubject.stream;
@@ -27,7 +29,7 @@ class DiscoverBloc extends BaseBloc {
     final result = await _appRepository.getTopSongs(sort, page, limit);
 
     result.fold((success) {
-      _getTopSongSubject.sink.add(BlocState.success(success.data ?? <Song>[]));
+      _getTopSongSubject.sink.add(BlocState.success(success));
     }, (error) {
       _getTopSongSubject.sink.add(BlocState.error(error.toString()));
     });
@@ -60,6 +62,18 @@ class DiscoverBloc extends BaseBloc {
       _getAlbumSubject.sink.add(BlocState.success(success));
     }, (error) {
       _getAlbumSubject.sink.add(BlocState.error(error.toString()));
+    });
+  }
+
+  void getSongOfDay() async {
+    _getSongOfDaySubject.sink.add(const BlocState.loading());
+
+    final result = await _appRepository.getSongOfDay();
+
+    result.fold((success) {
+      _getSongOfDaySubject.sink.add(BlocState.success(success));
+    }, (error) {
+      _getSongOfDaySubject.sink.add(BlocState.error(error.toString()));
     });
   }
 

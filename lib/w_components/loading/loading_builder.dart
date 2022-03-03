@@ -1,7 +1,5 @@
 import 'package:audio_cult/app/injections.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
 import '../../app/base/base_bloc.dart';
 import '../../app/base/state.dart';
 import '../error_empty/error_section.dart';

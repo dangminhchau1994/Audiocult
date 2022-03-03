@@ -23,7 +23,7 @@ class AppRepository extends BaseRepository {
     return safeCall(() => appServiceProvider.login(request));
   }
 
-  Future<Either<SongResponse, Exception>> getTopSongs(
+  Future<Either<List<Song>, Exception>> getTopSongs(
     String sort,
     int page,
     int limit,
@@ -40,6 +40,12 @@ class AppRepository extends BaseRepository {
   ) {
     return safeCall(
       () => appServiceProvider.getAlbums(view, page, limit),
+    );
+  }
+
+  Future<Either<Song, Exception>> getSongOfDay() {
+    return safeCall(
+      appServiceProvider.getSongOfDay,
     );
   }
 

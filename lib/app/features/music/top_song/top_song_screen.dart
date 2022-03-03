@@ -1,4 +1,5 @@
 import 'package:audio_cult/app/constants/global_constants.dart';
+import 'package:audio_cult/app/data_source/models/requests/top_song_request.dart';
 import 'package:audio_cult/app/data_source/models/responses/song/song_response.dart';
 import 'package:audio_cult/app/features/music/discover/widgets/song_item.dart';
 import 'package:audio_cult/app/features/music/top_song/top_song_bloc.dart';
@@ -34,19 +35,33 @@ class _TopSongScreenState extends State<TopSongScreen> {
       }
     });
     _topSongBloc = getIt.get<TopSongBloc>();
-    _topSongBloc.getTopSongs('most-viewed', 1, GlobalConstants.loadMoreItem);
+    _topSongBloc.requestData(
+      params: TopSongRequest(
+        sort: 'most-viewed',
+        page: 1,
+        limit: GlobalConstants.loadMoreItem,
+      ),
+    );
   }
 
   Future<void> _fetchPage(int pageKey) async {
     try {
-      final newItems = await _topSongBloc.getTopSongs('most-viewed', pageKey, GlobalConstants.loadMoreItem);
-      final isLastPage = newItems!.length < GlobalConstants.loadMoreItem;
-      if (isLastPage) {
-        _pagingController.appendLastPage(newItems);
-      } else {
-        final nextPageKey = pageKey + 1;
-        _pagingController.appendPage(newItems, nextPageKey);
-      }
+      final newItems = await _topSongBloc.loadData(
+        TopSongRequest(
+          sort: 'most-viewed',
+          page: pageKey,
+          limit: GlobalConstants.loadMoreItem,
+        ),
+      );
+      newItems.fold((l) {
+        final isLastPage = l.length < GlobalConstants.loadMoreItem;
+        if (isLastPage) {
+          _pagingController.appendLastPage(l);
+        } else {
+          final nextPageKey = pageKey + 1;
+          _pagingController.appendPage(l, nextPageKey);
+        }
+      }, (r) => _topSongBloc.showError);
     } catch (error) {
       _pagingController.error = error;
     }
@@ -91,13 +106,21 @@ class _TopSongScreenState extends State<TopSongScreen> {
       ),
       body: Container(
         margin: const EdgeInsets.symmetric(
-          vertical: kVerticalSpacing,
-          horizontal: kHorizontalSpacing,
+          vertical: kVerticalSpacing - 10,
+          horizontal: kHorizontalSpacing - 10,
         ),
         child: RefreshIndicator(
+          color: AppColors.primaryButtonColor,
+          backgroundColor: AppColors.secondaryButtonColor,
           onRefresh: () async {
             _pagingController.refresh();
-            await _topSongBloc.getTopSongs('most-viewed', 1, GlobalConstants.loadMoreItem);
+            _topSongBloc.requestData(
+              params: TopSongRequest(
+                sort: 'most-viewed',
+                page: 1,
+                limit: GlobalConstants.loadMoreItem,
+              ),
+            );
           },
           child: LoadingBuilder<TopSongBloc, List<Song>>(
             builder: (data, _) {
@@ -114,21 +137,29 @@ class _TopSongScreenState extends State<TopSongScreen> {
                   vertical: 16,
                 ),
                 pagingController: _pagingController,
-                separatorBuilder: (context, index) => const Divider(),
+                separatorBuilder: (context, index) => const Divider(height: 24),
                 builderDelegate: PagedChildBuilderDelegate<Song>(
-                    firstPageProgressIndicatorBuilder: (context) => Container(),
-                    newPageProgressIndicatorBuilder: (context) => const LoadingWidget(),
-                    animateTransitions: true,
-                    itemBuilder: (context, item, index) {
-                      return SongItem(
-                        song: item,
-                        onMenuClick: () {},
-                      );
-                    }),
+                  firstPageProgressIndicatorBuilder: (context) => Container(),
+                  newPageProgressIndicatorBuilder: (context) => const LoadingWidget(),
+                  animateTransitions: true,
+                  itemBuilder: (context, item, index) {
+                    return SongItem(
+                      song: item,
+                      onMenuClick: () {},
+                    );
+                  },
+                ),
               );
             },
             reloadAction: (_) {
-              _topSongBloc.getTopSongs('most-viewed', 1, GlobalConstants.loadMoreItem);
+              _pagingController.refresh();
+              _topSongBloc.requestData(
+                params: TopSongRequest(
+                  sort: 'most-viewed',
+                  page: 1,
+                  limit: GlobalConstants.loadMoreItem,
+                ),
+              );
             },
           ),
         ),
