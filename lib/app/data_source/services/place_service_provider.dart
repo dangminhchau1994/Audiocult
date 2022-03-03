@@ -5,6 +5,7 @@ import 'package:audio_cult/app/features/auth/widgets/register_page.dart';
 import 'package:dio/dio.dart';
 import 'package:uuid/uuid.dart';
 
+import '../../utils/constants/app_constants.dart';
 import '../../utils/extensions/app_extensions.dart';
 import '../models/base_response.dart';
 import '../networks/core/dio_helper.dart';
@@ -16,9 +17,7 @@ class PlaceServiceProvider {
     _dioHelper = DioHelper(dio);
   }
 
-  static const String androidKey = 'AIzaSyCq_ewBkTd_Ptlva35RYyHJU7oBYCGhMpY';
-  static const String iosKey = 'AIzaSyCq_ewBkTd_Ptlva35RYyHJU7oBYCGhMpY';
-  final apiKey = Platform.isAndroid ? androidKey : iosKey;
+  final apiKey = Platform.isAndroid ? AppConstants.androidKey : AppConstants.iosKey;
 
   Future<List<Suggestion>> fetchSuggestions(String input, String lang) async {
     final response = await _dioHelper.get(

@@ -1,6 +1,8 @@
 import 'package:audio_cult/app/data_source/models/requests/register_request.dart';
 import 'package:audio_cult/app/data_source/models/responses/album/album_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/place.dart';
+import 'package:audio_cult/app/data_source/networks/exceptions/no_cache_exception.dart';
+import 'package:audio_cult/app/data_source/services/hive_service_provider.dart';
 import 'package:audio_cult/app/features/auth/widgets/register_page.dart';
 import 'package:dartz/dartz.dart';
 import '../models/requests/login_request.dart';
@@ -15,8 +17,10 @@ import 'base_repository.dart';
 class AppRepository extends BaseRepository {
   final AppServiceProvider appServiceProvider;
   final PlaceServiceProvider placeServiceProvider;
+  final HiveServiceProvider hiveServiceProvider;
 
-  AppRepository({required this.appServiceProvider, required this.placeServiceProvider});
+  AppRepository(
+      {required this.appServiceProvider, required this.placeServiceProvider, required this.hiveServiceProvider});
 
   Future<Either<LoginResponse, Exception>> login(LoginRequest request) {
     return safeCall(() => appServiceProvider.login(request));
@@ -36,10 +40,27 @@ class AppRepository extends BaseRepository {
     String view,
     int page,
     int limit,
-  ) {
-    return safeCall(
-      () => appServiceProvider.getAlbums(view, page, limit),
+  ) async {
+    final albums = await safeCall(
+      () async {
+        final result = await appServiceProvider.getAlbums(view, page, limit);
+        if (result.isNotEmpty) {
+          hiveServiceProvider.saveAlbums(result);
+        }
+        return result;
+      },
     );
+    return albums.fold((l) {
+      return left(l.map((e) => Album.fromJson(e as Map<String, dynamic>)).toList());
+    }, (r) {
+      final localAlbum = hiveServiceProvider.getAlbum();
+
+      if (localAlbum.isEmpty) {
+        return right(NoCacheDataException(''));
+      } else {
+        return left(localAlbum);
+      }
+    });
   }
 
   Future<Either<List<Song>, Exception>> getMixTapSongs(

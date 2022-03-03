@@ -1,6 +1,5 @@
 import 'package:audio_cult/app/data_source/local/pref_provider.dart';
 import 'package:audio_cult/app/data_source/models/requests/register_request.dart';
-import 'package:audio_cult/app/data_source/models/responses/album/album_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/login_response.dart';
 import 'package:audio_cult/app/injections.dart';
 import 'package:audio_cult/app/utils/constants/app_constants.dart';
@@ -9,6 +8,7 @@ import 'package:dio/dio.dart';
 import '../../utils/extensions/app_extensions.dart';
 import '../models/base_response.dart';
 import '../models/requests/login_request.dart';
+import '../models/responses/profile_data.dart';
 import '../models/responses/register_response.dart';
 import '../models/responses/song/song_response.dart';
 import '../models/responses/user_group.dart';
@@ -50,14 +50,14 @@ class AppServiceProvider {
     if (data.status == StatusString.success) {
       return RegisterResponse(
         // ignore: cast_nullable_to_non_nullable
-        status: data.status as String, data: RegisterData.fromJson(data.data as Map<String, dynamic>),
+        status: data.status as String, data: ProfileData.fromJson(data.data as Map<String, dynamic>),
       );
     } else {
       return RegisterResponse(status: data.status as String, message: data.error['message'] as String);
     }
   }
 
-  Future<List<Album>> getAlbums(String view, int page, int limit) async {
+  Future<List<dynamic>> getAlbums(String view, int page, int limit) async {
     final response = await _dioHelper.get(
       route: '/restful_api/song/album',
       options: Options(headers: {'Content-Type': 'application/x-www-form-urlencoded'}),
@@ -69,8 +69,11 @@ class AppServiceProvider {
       responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
     );
     return response.mapData(
-      (json) => asType<List<dynamic>>(json)?.map((e) => Album.fromJson(e as Map<String, dynamic>)).toList(),
+      (json) => asType<List<dynamic>>(json),
     );
+    // response.mapData(
+    //   (json) => asType<List<dynamic>>(json)?.map((e) => Album.fromJson(e as Map<String, dynamic>)).toList(),
+    // );
   }
 
   Future<List<Song>> getMixTapSongs(

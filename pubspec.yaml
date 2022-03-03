@@ -40,6 +40,9 @@ dependencies:
   uuid: ^3.0.6
   debounce_throttle: ^2.0.0
   geocoding: ^2.0.2
+  hive: ^2.0.6
+  hive_flutter: ^1.1.0
+  path_provider: 2.0.9
 
 dev_dependencies:
   bloc_test: ^9.0.2
