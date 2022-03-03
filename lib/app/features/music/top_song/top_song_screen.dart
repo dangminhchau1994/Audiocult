@@ -53,15 +53,18 @@ class _TopSongScreenState extends State<TopSongScreen> {
           limit: GlobalConstants.loadMoreItem,
         ),
       );
-      newItems.fold((l) {
-        final isLastPage = l.length < GlobalConstants.loadMoreItem;
-        if (isLastPage) {
-          _pagingController.appendLastPage(l);
-        } else {
-          final nextPageKey = pageKey + 1;
-          _pagingController.appendPage(l, nextPageKey);
-        }
-      }, (r) => _topSongBloc.showError);
+      newItems.fold(
+        (l) {
+          final isLastPage = l.length < GlobalConstants.loadMoreItem;
+          if (isLastPage) {
+            _pagingController.appendLastPage(l);
+          } else {
+            final nextPageKey = pageKey + 1;
+            _pagingController.appendPage(l, nextPageKey);
+          }
+        },
+        (r) => _topSongBloc.showError,
+      );
     } catch (error) {
       _pagingController.error = error;
     }

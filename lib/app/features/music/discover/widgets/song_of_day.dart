@@ -88,7 +88,7 @@ class SongOfDay extends StatelessWidget {
                             Row(
                               children: [
                                 Text(
-                                  data.artistUser?.userName ?? '',
+                                  data.artistUser?.userName ?? 'N/A',
                                   style: context.bodyTextPrimaryStyle()!.copyWith(
                                         color: AppColors.subTitleColor,
                                         fontSize: 16,
