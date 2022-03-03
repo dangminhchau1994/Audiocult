@@ -21,92 +21,95 @@ class SongItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Row(
-          children: [
-            CachedNetworkImage(
-              width: imageSize,
-              height: imageSize,
-              imageUrl: song?.imagePath ?? '',
-              imageBuilder: (context, imageProvider) => Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(4),
-                  image: DecorationImage(
-                    image: imageProvider,
-                    fit: BoxFit.cover,
+    return Container(
+      padding: const EdgeInsets.only(right: 20),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Row(
+            children: [
+              CachedNetworkImage(
+                width: imageSize,
+                height: imageSize,
+                imageUrl: song?.imagePath ?? '',
+                imageBuilder: (context, imageProvider) => Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(4),
+                    image: DecorationImage(
+                      image: imageProvider,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
-              ),
-              placeholder: (context, url) => Center(
-                child: CircularProgressIndicator(
-                  color: AppColors.primaryButtonColor,
-                ),
-              ),
-              errorWidget: (context, url, error) => const Icon(Icons.error),
-            ),
-            const SizedBox(
-              width: 10,
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(
-                  width: 200,
-                  child: Text(
-                    song?.title ?? '',
-                    overflow: TextOverflow.ellipsis,
-                    style: context.bodyTextPrimaryStyle()!.copyWith(
-                          fontSize: 16,
-                        ),
+                placeholder: (context, url) => Center(
+                  child: CircularProgressIndicator(
+                    color: AppColors.primaryButtonColor,
                   ),
                 ),
-                const SizedBox(
-                  height: 8,
-                ),
-                Row(
-                  children: [
-                    Text(
-                      song?.artistUser?.userName ?? 'N/A',
+                errorWidget: (context, url, error) => const Icon(Icons.error),
+              ),
+              const SizedBox(
+                width: 10,
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    width: 200,
+                    child: Text(
+                      song?.title ?? '',
+                      overflow: TextOverflow.ellipsis,
                       style: context.bodyTextPrimaryStyle()!.copyWith(
-                            color: AppColors.subTitleColor,
                             fontSize: 16,
                           ),
                     ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    const Icon(
-                      Icons.circle,
-                      color: Colors.grey,
-                      size: 5,
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    Text(
-                      DateTimeUtils.formatCommonDate('hh:mm', int.parse(song?.timeStamp ?? '')),
-                      style: context.bodyTextPrimaryStyle()!.copyWith(
-                            color: AppColors.subTitleColor,
-                            fontSize: 16,
-                          ),
-                    ),
-                  ],
-                )
-              ],
+                  ),
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        song?.artistUser?.userName ?? 'N/A',
+                        style: context.bodyTextPrimaryStyle()!.copyWith(
+                              color: AppColors.subTitleColor,
+                              fontSize: 16,
+                            ),
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      const Icon(
+                        Icons.circle,
+                        color: Colors.grey,
+                        size: 5,
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Text(
+                        DateTimeUtils.formatCommonDate('hh:mm', int.parse(song?.timeStamp ?? '')),
+                        style: context.bodyTextPrimaryStyle()!.copyWith(
+                              color: AppColors.subTitleColor,
+                              fontSize: 16,
+                            ),
+                      ),
+                    ],
+                  )
+                ],
+              )
+            ],
+          ),
+          if (onMenuClick != null)
+            SvgPicture.asset(
+              AppAssets.horizIcon,
+              width: 16,
+              height: 16,
             )
-          ],
-        ),
-        if (onMenuClick != null)
-          SvgPicture.asset(
-            AppAssets.horizIcon,
-            width: 16,
-            height: 16,
-          )
-        else
-          const SizedBox()
-      ],
+          else
+            const SizedBox()
+        ],
+      ),
     );
   }
 }

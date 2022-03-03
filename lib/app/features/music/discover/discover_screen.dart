@@ -18,7 +18,7 @@ class DiscoverScreen extends StatefulWidget {
 }
 
 class _DiscoverScreenState extends State<DiscoverScreen> with AutomaticKeepAliveClientMixin {
-  final _pageController = PageController();
+  final _pageController = PageController(viewportFraction: 0.96);
   var _currentIndex = 0;
 
   @override
