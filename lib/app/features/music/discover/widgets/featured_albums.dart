@@ -12,9 +12,11 @@ class FeaturedAlbums extends StatelessWidget {
   const FeaturedAlbums({
     Key? key,
     this.onRetry,
+    this.onShowAll,
   }) : super(key: key);
 
   final Function()? onRetry;
+  final Function()? onShowAll;
 
   @override
   Widget build(BuildContext context) {
@@ -23,8 +25,9 @@ class FeaturedAlbums extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SectionTitle(
+          SectionTitle(
             title: 'Featured Albums',
+            onShowAll: onShowAll,
           ),
           const SizedBox(
             height: 16,

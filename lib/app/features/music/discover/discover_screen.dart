@@ -18,7 +18,7 @@ class DiscoverScreen extends StatefulWidget {
 }
 
 class _DiscoverScreenState extends State<DiscoverScreen> with AutomaticKeepAliveClientMixin {
-  final _pageController = PageController();
+  final _pageController = PageController(viewportFraction: 0.96);
   var _currentIndex = 0;
 
   @override
@@ -37,6 +37,8 @@ class _DiscoverScreenState extends State<DiscoverScreen> with AutomaticKeepAlive
     getIt.get<DiscoverBloc>().getTopSongs('most-viewed', 1, 3);
     getIt.get<DiscoverBloc>().getAlbums('featured', 1, 3);
     getIt.get<DiscoverBloc>().getMixTapSongs('most-viewed', 1, 3, 'featured', 'mixtape-song');
+    getIt.get<DiscoverBloc>().getPlaylist(1, 2, 'most-liked', 0);
+    getIt.get<DiscoverBloc>().getSongOfDay();
   }
 
   @override
@@ -81,6 +83,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> with AutomaticKeepAlive
                     onRetry: () {
                       getIt.get<DiscoverBloc>().getAlbums('featured', 1, 3);
                     },
+                    onShowAll: () {},
                   ),
                   FeatureMixtapes(
                     pageController: _pageController,
@@ -96,8 +99,11 @@ class _DiscoverScreenState extends State<DiscoverScreen> with AutomaticKeepAlive
                           .get<DiscoverBloc>()
                           .getMixTapSongs('most-viewed', _currentIndex + 1, 3, 'featured', 'mixtape-song');
                     },
+                    onShowAll: () {},
                   ),
-                  const TopPlaylist(),
+                  TopPlaylist(
+                    onShowAll: () {},
+                  ),
                 ],
               ),
             ),

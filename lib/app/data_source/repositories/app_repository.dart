@@ -1,10 +1,12 @@
 import 'package:audio_cult/app/data_source/models/requests/register_request.dart';
 import 'package:audio_cult/app/data_source/models/responses/album/album_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/place.dart';
+import 'package:audio_cult/app/data_source/models/responses/playlist/playlist_response.dart';
 import 'package:audio_cult/app/data_source/networks/exceptions/no_cache_exception.dart';
 import 'package:audio_cult/app/data_source/services/hive_service_provider.dart';
 import 'package:audio_cult/app/features/auth/widgets/register_page.dart';
 import 'package:dartz/dartz.dart';
+
 import '../models/requests/login_request.dart';
 import '../models/responses/login_response.dart';
 import '../models/responses/register_response.dart';
@@ -26,7 +28,7 @@ class AppRepository extends BaseRepository {
     return safeCall(() => appServiceProvider.login(request));
   }
 
-  Future<Either<SongResponse, Exception>> getTopSongs(
+  Future<Either<List<Song>, Exception>> getTopSongs(
     String sort,
     int page,
     int limit,
@@ -63,6 +65,12 @@ class AppRepository extends BaseRepository {
     });
   }
 
+  Future<Either<Song, Exception>> getSongOfDay() {
+    return safeCall(
+      appServiceProvider.getSongOfDay,
+    );
+  }
+
   Future<Either<List<Song>, Exception>> getMixTapSongs(
     String sort,
     int page,
@@ -72,6 +80,17 @@ class AppRepository extends BaseRepository {
   ) {
     return safeCall(
       () => appServiceProvider.getMixTapSongs(sort, page, limit, view, type),
+    );
+  }
+
+  Future<Either<List<PlaylistResponse>, Exception>> getPlaylists(
+    int page,
+    int limit,
+    String sort,
+    int getAll,
+  ) {
+    return safeCall(
+      () => appServiceProvider.getPlaylists(page, limit, sort, getAll),
     );
   }
 

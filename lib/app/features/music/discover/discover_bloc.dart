@@ -1,6 +1,7 @@
 import 'package:audio_cult/app/base/base_bloc.dart';
 import 'package:audio_cult/app/base/bloc_state.dart';
 import 'package:audio_cult/app/data_source/models/responses/album/album_response.dart';
+import 'package:audio_cult/app/data_source/models/responses/playlist/playlist_response.dart';
 import 'package:rxdart/rxdart.dart';
 import '../../../data_source/models/responses/song/song_response.dart';
 import '../../../data_source/repositories/app_repository.dart';
@@ -11,12 +12,16 @@ class DiscoverBloc extends BaseBloc {
   DiscoverBloc(this._appRepository);
 
   final _getTopSongSubject = PublishSubject<BlocState<List<Song>>>();
+  final _getSongOfDaySubject = PublishSubject<BlocState<Song>>();
   final _getMixTapSongsSubject = PublishSubject<BlocState<List<Song>>>();
   final _getAlbumSubject = PublishSubject<BlocState<List<Album>>>();
+  final _getPlaylistSubject = PublishSubject<BlocState<List<PlaylistResponse>>>();
 
   Stream<BlocState<List<Song>>> get getTopSongsStream => _getTopSongSubject.stream;
+  Stream<BlocState<Song>> get getSongOfDayStream => _getSongOfDaySubject.stream;
   Stream<BlocState<List<Song>>> get getMixTapSongsStream => _getMixTapSongsSubject.stream;
   Stream<BlocState<List<Album>>> get getAlbumStream => _getAlbumSubject.stream;
+  Stream<BlocState<List<PlaylistResponse>>> get getPlaylistStream => _getPlaylistSubject.stream;
 
   void getTopSongs(String sort, int page, int limit) async {
     _getTopSongSubject.sink.add(const BlocState.loading());
@@ -24,7 +29,7 @@ class DiscoverBloc extends BaseBloc {
     final result = await _appRepository.getTopSongs(sort, page, limit);
 
     result.fold((success) {
-      _getTopSongSubject.sink.add(BlocState.success(success.data ?? <Song>[]));
+      _getTopSongSubject.sink.add(BlocState.success(success));
     }, (error) {
       _getTopSongSubject.sink.add(BlocState.error(error.toString()));
     });
@@ -57,6 +62,30 @@ class DiscoverBloc extends BaseBloc {
       _getAlbumSubject.sink.add(BlocState.success(success));
     }, (error) {
       _getAlbumSubject.sink.add(BlocState.error(error.toString()));
+    });
+  }
+
+  void getSongOfDay() async {
+    _getSongOfDaySubject.sink.add(const BlocState.loading());
+
+    final result = await _appRepository.getSongOfDay();
+
+    result.fold((success) {
+      _getSongOfDaySubject.sink.add(BlocState.success(success));
+    }, (error) {
+      _getSongOfDaySubject.sink.add(BlocState.error(error.toString()));
+    });
+  }
+
+  void getPlaylist(int page, int limit, String sort, int getAll) async {
+    _getPlaylistSubject.sink.add(const BlocState.loading());
+
+    final result = await _appRepository.getPlaylists(page, limit, sort, getAll);
+
+    result.fold((success) {
+      _getPlaylistSubject.sink.add(BlocState.success(success));
+    }, (error) {
+      _getPlaylistSubject.sink.add(BlocState.error(error.toString()));
     });
   }
 }

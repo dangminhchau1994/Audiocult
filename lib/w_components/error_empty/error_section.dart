@@ -21,8 +21,7 @@ class ErrorSectionWidget extends StatelessWidget {
             children: [
               const Icon(Icons.error_outline, color: Colors.red),
               const SizedBox(width: 8),
-              SizedBox(
-                width: 300,
+              Flexible(
                 child: Text(
                   errorMessage,
                   overflow: TextOverflow.ellipsis,
