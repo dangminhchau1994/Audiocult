@@ -19,6 +19,7 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   var _currentIndex = 0;
   final GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
+  final _pageController = PageController();
 
   List<Widget> _buildPages() {
     final pages = <Widget>[];
@@ -70,8 +71,9 @@ class _MainScreenState extends State<MainScreen> {
             child: MyDrawer(),
           ),
         ),
-        body: IndexedStack(
-          index: _currentIndex,
+        body: PageView(
+          physics: const NeverScrollableScrollPhysics(),
+          controller: _pageController,
           children: _buildPages(),
         ),
         backgroundColor: AppColors.mainColor,
@@ -87,6 +89,7 @@ class _MainScreenState extends State<MainScreen> {
             setState(() {
               _currentIndex = index;
             });
+            _pageController.jumpToPage(index);
           },
         ),
       ),

@@ -13,7 +13,10 @@ import 'package:flutter_svg/svg.dart';
 
 class MusicScreen extends StatefulWidget {
   final Function()? onPressAvatar;
-  const MusicScreen({Key? key, this.onPressAvatar}) : super(key: key);
+  const MusicScreen({
+    Key? key,
+    this.onPressAvatar,
+  }) : super(key: key);
 
   @override
   State<MusicScreen> createState() => _MusicScreenState();

@@ -3,9 +3,11 @@ import 'package:audio_cult/app/features/auth/login/login_screen.dart';
 import 'package:audio_cult/app/features/auth/place_location/place_location_screen.dart';
 import 'package:audio_cult/app/features/auth/resent_password/resent_password_screen.dart';
 import 'package:audio_cult/app/features/main/main_screen.dart';
+import 'package:audio_cult/app/features/music/featured_albums/featured_albums_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 
+import '../../features/music/featured_albums/featured_albums_screen.dart';
 import '../../features/music/top_song/top_song_screen.dart';
 
 class AppRoute {
@@ -23,6 +25,7 @@ class AppRoute {
   static const String routeCheckEmail = '/check_email';
   static const String routeTopSongs = '/top_song';
   static const String routePlaceLocation = '/place_location';
+  static const String routeFeaturedAlbum = 'featured_album';
 
   ///#end region
 
@@ -54,6 +57,8 @@ class AppRoute {
         return _pageRoute(settings, const TopSongScreen());
       case routePlaceLocation:
         return _pageRoute(settings, const PlaceLocation());
+      case routeFeaturedAlbum:
+        return _pageRoute(settings, const FeaturedAlbumsScreen());
       default:
         return null;
     }

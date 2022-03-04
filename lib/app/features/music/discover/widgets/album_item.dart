@@ -79,7 +79,7 @@ class AlbumItem extends StatelessWidget {
                 ),
                 Text(
                   playlist != null
-                      ? playlist?.countSongs.toString() ?? ''
+                      ? '${playlist?.countSongs.toString()} songs'  
                       : DateTimeUtils.formatyMMMMd(int.parse(album?.timeStamp ?? '')),
                   style: context.bodyTextPrimaryStyle()!.copyWith(
                         color: AppColors.subTitleColor,

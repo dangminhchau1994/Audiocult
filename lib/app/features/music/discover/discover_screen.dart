@@ -83,7 +83,9 @@ class _DiscoverScreenState extends State<DiscoverScreen> with AutomaticKeepAlive
                     onRetry: () {
                       getIt.get<DiscoverBloc>().getAlbums('featured', 1, 3);
                     },
-                    onShowAll: () {},
+                    onShowAll: () {
+                      Navigator.pushNamed(context, AppRoute.routeFeaturedAlbum);
+                    },
                   ),
                   FeatureMixtapes(
                     pageController: _pageController,
