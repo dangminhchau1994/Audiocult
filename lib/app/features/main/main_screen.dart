@@ -25,9 +25,6 @@ class _MainScreenState extends State<MainScreen> {
   void initState() {
     super.initState();
     _mainBloc.getUserProfile();
-    _mainBloc.profileStream.listen((event) {
-      print('Profile data: $event');
-    });
   }
 
   List<Widget> _buildPages() {

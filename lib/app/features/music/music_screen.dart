@@ -35,7 +35,6 @@ class _MusicScreenState extends State<MusicScreen> with AutomaticKeepAliveClient
   void initState() {
     super.initState();
     _mainBloc.profileStream.listen((event) {
-      print(event?.toJson());
       setState(() {
         _profileData = event;
       });

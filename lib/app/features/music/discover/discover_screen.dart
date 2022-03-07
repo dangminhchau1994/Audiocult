@@ -47,19 +47,19 @@ class _DiscoverScreenState extends State<DiscoverScreen> with AutomaticKeepAlive
     return Scaffold(
       backgroundColor: AppColors.mainColor,
       body: SafeArea(
-        child: Container(
-          margin: const EdgeInsets.symmetric(
-            horizontal: kHorizontalSpacing,
-            vertical: kVerticalSpacing,
-          ),
-          child: RefreshIndicator(
-            color: AppColors.primaryButtonColor,
-            backgroundColor: AppColors.secondaryButtonColor,
-            onRefresh: () async {
-              _getAllData();
-              _pageController.jumpTo(0);
-            },
-            child: SingleChildScrollView(
+        child: RefreshIndicator(
+          color: AppColors.primaryButtonColor,
+          backgroundColor: AppColors.secondaryButtonColor,
+          onRefresh: () async {
+            _getAllData();
+            _pageController.jumpTo(0);
+          },
+          child: SingleChildScrollView(
+            child: Container(
+              padding: const EdgeInsets.symmetric(
+                horizontal: kHorizontalSpacing,
+                vertical: kVerticalSpacing,
+              ),
               child: Column(
                 children: [
                   const SongOfDay(),
