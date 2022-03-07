@@ -43,16 +43,7 @@ class _SearchScreenState extends State<SearchScreen> {
     debouncer = Debouncer(milliseconds: 500);
     editingController = TextEditingController(text: '');
 
-    switch (searchType) {
-      case SearchType.album:
-        getIt.get<SearchBloc>().getAlbums('', 'featured', 1, 10);
-        break;
-      case SearchType.playlist:
-        getIt.get<SearchBloc>().getPlaylist('', 1, 10, 'most-liked', 0);
-        break;
-      case SearchType.topSong:
-        break;
-    }
+    callData('');
   }
 
   void callData(String value) {
