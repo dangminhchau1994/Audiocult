@@ -9,6 +9,8 @@ import 'package:audio_cult/app/utils/constants/app_dimens.dart';
 import 'package:audio_cult/app/utils/route/app_route.dart';
 import 'package:flutter/material.dart';
 import '../../../../di/bloc_locator.dart';
+import '../search/search_args.dart';
+import '../search/search_screen.dart';
 
 class DiscoverScreen extends StatefulWidget {
   const DiscoverScreen({Key? key}) : super(key: key);
@@ -35,9 +37,9 @@ class _DiscoverScreenState extends State<DiscoverScreen> with AutomaticKeepAlive
 
   void _getAllData() {
     getIt.get<DiscoverBloc>().getTopSongs('most-viewed', 1, 3);
-    getIt.get<DiscoverBloc>().getAlbums('featured', 1, 3);
+    getIt.get<DiscoverBloc>().getAlbums('', 'featured', 1, 3);
     getIt.get<DiscoverBloc>().getMixTapSongs('most-viewed', 1, 3, 'featured', 'mixtape-song');
-    getIt.get<DiscoverBloc>().getPlaylist(1, 2, 'most-liked', 0);
+    getIt.get<DiscoverBloc>().getPlaylist('', 1, 2, 'most-liked', 0);
     getIt.get<DiscoverBloc>().getSongOfDay();
   }
 
@@ -81,10 +83,16 @@ class _DiscoverScreenState extends State<DiscoverScreen> with AutomaticKeepAlive
                   ),
                   FeaturedAlbums(
                     onRetry: () {
-                      getIt.get<DiscoverBloc>().getAlbums('featured', 1, 3);
+                      getIt.get<DiscoverBloc>().getAlbums('', 'featured', 1, 3);
                     },
                     onShowAll: () {
-                      Navigator.pushNamed(context, AppRoute.routeFeaturedAlbum);
+                      Navigator.pushNamed(
+                        context,
+                        AppRoute.routeFeaturedAlbum,
+                        arguments: SearchArgs(
+                          searchType: SearchType.album,
+                        ),
+                      );
                     },
                   ),
                   FeatureMixtapes(
@@ -104,7 +112,15 @@ class _DiscoverScreenState extends State<DiscoverScreen> with AutomaticKeepAlive
                     onShowAll: () {},
                   ),
                   TopPlaylist(
-                    onShowAll: () {},
+                    onShowAll: () {
+                      Navigator.pushNamed(
+                        context,
+                        AppRoute.routeFeaturedAlbum,
+                        arguments: SearchArgs(
+                          searchType: SearchType.playlist,
+                        ),
+                      );
+                    },
                   ),
                 ],
               ),

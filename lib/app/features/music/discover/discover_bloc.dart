@@ -53,10 +53,10 @@ class DiscoverBloc extends BaseBloc {
     });
   }
 
-  void getAlbums(String view, int page, int limit) async {
+  void getAlbums(String query, String view, int page, int limit) async {
     _getAlbumSubject.sink.add(const BlocState.loading());
 
-    final result = await _appRepository.getAlbums(view, page, limit);
+    final result = await _appRepository.getAlbums(query, view, page, limit);
 
     result.fold((success) {
       _getAlbumSubject.sink.add(BlocState.success(success));
@@ -77,10 +77,10 @@ class DiscoverBloc extends BaseBloc {
     });
   }
 
-  void getPlaylist(int page, int limit, String sort, int getAll) async {
+  void getPlaylist(String query, int page, int limit, String sort, int getAll) async {
     _getPlaylistSubject.sink.add(const BlocState.loading());
 
-    final result = await _appRepository.getPlaylists(page, limit, sort, getAll);
+    final result = await _appRepository.getPlaylists(query, page, limit, sort, getAll);
 
     result.fold((success) {
       _getPlaylistSubject.sink.add(BlocState.success(success));

@@ -1,32 +1,29 @@
-import 'package:audio_cult/app/data_source/models/responses/album/album_response.dart';
-import 'package:audio_cult/app/data_source/models/responses/playlist/playlist_response.dart';
-import 'package:audio_cult/app/utils/datetime/date_time_utils.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../utils/constants/app_colors.dart';
+import '../../../data_source/models/responses/album/album_response.dart';
+import '../../../data_source/models/responses/playlist/playlist_response.dart';
+import '../../../utils/constants/app_colors.dart';
+import '../../../utils/datetime/date_time_utils.dart';
 
-class AlbumItem extends StatelessWidget {
-  const AlbumItem({
+class SearchItem extends StatelessWidget {
+  const SearchItem({
     Key? key,
     this.album,
     this.playlist,
-    this.imageSize = 180,
   }) : super(key: key);
 
   final Album? album;
   final PlaylistResponse? playlist;
-  final double? imageSize;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    return Row(
       children: [
         CachedNetworkImage(
-          width: imageSize,
-          height: imageSize,
+          width: 64,
+          height: 64,
           imageUrl: playlist != null ? playlist?.imagePath ?? '' : album?.imagePath ?? '',
           imageBuilder: (context, imageProvider) => Container(
             decoration: BoxDecoration(
@@ -45,7 +42,7 @@ class AlbumItem extends StatelessWidget {
           errorWidget: (context, url, error) => const Icon(Icons.error),
         ),
         const SizedBox(
-          height: 16,
+          width: 16,
         ),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,

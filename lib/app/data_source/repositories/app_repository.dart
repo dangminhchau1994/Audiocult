@@ -39,13 +39,14 @@ class AppRepository extends BaseRepository {
   }
 
   Future<Either<List<Album>, Exception>> getAlbums(
+    String query,
     String view,
     int page,
     int limit,
   ) async {
     final albums = await safeCall(
       () async {
-        final result = await appServiceProvider.getAlbums(view, page, limit);
+        final result = await appServiceProvider.getAlbums(query, view, page, limit);
         if (result.isNotEmpty) {
           hiveServiceProvider.saveAlbums(result);
         }
@@ -84,13 +85,14 @@ class AppRepository extends BaseRepository {
   }
 
   Future<Either<List<PlaylistResponse>, Exception>> getPlaylists(
+    String query,
     int page,
     int limit,
     String sort,
     int getAll,
   ) {
     return safeCall(
-      () => appServiceProvider.getPlaylists(page, limit, sort, getAll),
+      () => appServiceProvider.getPlaylists(query, page, limit, sort, getAll),
     );
   }
 

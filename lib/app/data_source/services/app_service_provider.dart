@@ -58,11 +58,12 @@ class AppServiceProvider {
     }
   }
 
-  Future<List<dynamic>> getAlbums(String view, int page, int limit) async {
+  Future<List<dynamic>> getAlbums(String query, String view, int page, int limit) async {
     final response = await _dioHelper.get(
       route: '/restful_api/song/album',
       options: Options(headers: {'Content-Type': 'application/x-www-form-urlencoded'}),
       requestParams: {
+        'search[search]': query,
         'view': view,
         'page': page,
         'limit': limit,
@@ -77,11 +78,12 @@ class AppServiceProvider {
     // );
   }
 
-  Future<List<PlaylistResponse>> getPlaylists(int page, int limit, String sort, int getAll) async {
+  Future<List<PlaylistResponse>> getPlaylists(String query, int page, int limit, String sort, int getAll) async {
     final response = await _dioHelper.get(
       route: '/restful_api/playlist',
       options: Options(headers: {'Content-Type': 'application/x-www-form-urlencoded'}),
       requestParams: {
+        'search[search]': query,
         'page': page,
         'limit': limit,
         'sort': sort,

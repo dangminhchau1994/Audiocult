@@ -1,5 +1,6 @@
 import 'package:audio_cult/app/data_source/local/pref_provider.dart';
 import 'package:audio_cult/app/data_source/repositories/app_repository.dart';
+import 'package:audio_cult/app/features/music/search/search_bloc.dart';
 import 'package:audio_cult/app/injections.dart';
 import 'package:get_it/get_it.dart';
 
@@ -16,4 +17,6 @@ void setupLocator() {
   getIt.registerLazySingleton<TopSongBloc>(() => TopSongBloc(locator.get<AppRepository>()));
 
   getIt.registerLazySingleton<DiscoverBloc>(() => DiscoverBloc(locator.get<AppRepository>()));
+
+  getIt.registerLazySingleton<SearchBloc>(() => SearchBloc(locator.get<AppRepository>()));
 }
