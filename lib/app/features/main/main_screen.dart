@@ -1,6 +1,7 @@
 import 'package:audio_cult/app/base/bloc_handle.dart';
 import 'package:audio_cult/app/features/main/main_bloc.dart';
 import 'package:audio_cult/app/features/music/music_screen.dart';
+import 'package:audio_cult/app/injections.dart';
 import 'package:audio_cult/w_components/bottom_navigation_bar/common_bottom_bar.dart';
 import 'package:audio_cult/w_components/menus/common_circular_menu.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +20,15 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   var _currentIndex = 0;
   final GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
+  final MainBloc _mainBloc = locator.get();
+  @override
+  void initState() {
+    super.initState();
+    _mainBloc.getUserProfile();
+    _mainBloc.profileStream.listen((event) {
+      print('Profile data: $event');
+    });
+  }
 
   List<Widget> _buildPages() {
     final pages = <Widget>[];
