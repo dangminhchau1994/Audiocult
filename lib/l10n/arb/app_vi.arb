@@ -27,6 +27,9 @@
     "t_create_new_password":"Create new password",
     "t_sub_create":"Some tips for creating a password, contains\na capital letter, a number, etc.",
     "t_new_password":"New password",
+    "t_featured_album": "Featured Albums",
+    "t_search": "Search...",
+    "t_no_data": "No data found",
     "t_confirm_password":"Confirm new password",
     "t_save":"Save"
 }

@@ -18,7 +18,10 @@ import '../../../w_components/images/no_image_available.dart';
 
 class MusicScreen extends StatefulWidget {
   final Function()? onPressAvatar;
-  const MusicScreen({Key? key, this.onPressAvatar}) : super(key: key);
+  const MusicScreen({
+    Key? key,
+    this.onPressAvatar,
+  }) : super(key: key);
 
   @override
   State<MusicScreen> createState() => _MusicScreenState();
