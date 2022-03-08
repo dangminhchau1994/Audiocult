@@ -26,7 +26,8 @@ class Album with _$Album {
     @JsonKey(name: 'full_name') String? fullName,
     String? userImage,
     String? isInvisible,
-    String? albumId,
+    // ignore: invalid_annotation_target
+    @JsonKey(name: 'album_id') String? albumId,
     String? viewId,
     String? privacy,
     String? privacyComment,

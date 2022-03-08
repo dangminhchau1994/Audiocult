@@ -136,6 +136,22 @@ class AppServiceProvider {
     );
   }
 
+  Future<List<Song>> getSongsByAlbumId(int albumId, int page, int limit) async {
+    final response = await _dioHelper.get(
+      route: '/restful_api/song',
+      options: Options(headers: {'Content-Type': 'application/x-www-form-urlencoded'}),
+      requestParams: {
+        'album_id': albumId,
+        'page': page,
+        'limit': limit,
+      },
+      responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
+    );
+    return response.mapData(
+      (json) => asType<List<dynamic>>(json)?.map((e) => Song.fromJson(e as Map<String, dynamic>)).toList(),
+    );
+  }
+
   Future<Song> getSongOfDay() async {
     final response = await _dioHelper.get(
       route: '/restful_api/song/song-of-day',

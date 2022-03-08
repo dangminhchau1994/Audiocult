@@ -239,7 +239,7 @@ class _$AlbumTearOff {
       @JsonKey(name: 'full_name') String? fullName,
       String? userImage,
       String? isInvisible,
-      String? albumId,
+      @JsonKey(name: 'album_id') String? albumId,
       String? viewId,
       String? privacy,
       String? privacyComment,
@@ -358,7 +358,9 @@ mixin _$Album {
   @JsonKey(name: 'full_name')
   String? get fullName => throw _privateConstructorUsedError;
   String? get userImage => throw _privateConstructorUsedError;
-  String? get isInvisible => throw _privateConstructorUsedError;
+  String? get isInvisible =>
+      throw _privateConstructorUsedError; // ignore: invalid_annotation_target
+  @JsonKey(name: 'album_id')
   String? get albumId => throw _privateConstructorUsedError;
   String? get viewId => throw _privateConstructorUsedError;
   String? get privacy => throw _privateConstructorUsedError;
@@ -427,7 +429,7 @@ abstract class $AlbumCopyWith<$Res> {
       @JsonKey(name: 'full_name') String? fullName,
       String? userImage,
       String? isInvisible,
-      String? albumId,
+      @JsonKey(name: 'album_id') String? albumId,
       String? viewId,
       String? privacy,
       String? privacyComment,
@@ -757,7 +759,7 @@ abstract class _$AlbumCopyWith<$Res> implements $AlbumCopyWith<$Res> {
       @JsonKey(name: 'full_name') String? fullName,
       String? userImage,
       String? isInvisible,
-      String? albumId,
+      @JsonKey(name: 'album_id') String? albumId,
       String? viewId,
       String? privacy,
       String? privacyComment,
@@ -1086,7 +1088,7 @@ class _$_Album implements _Album {
       @JsonKey(name: 'full_name') this.fullName,
       this.userImage,
       this.isInvisible,
-      this.albumId,
+      @JsonKey(name: 'album_id') this.albumId,
       this.viewId,
       this.privacy,
       this.privacyComment,
@@ -1149,7 +1151,8 @@ class _$_Album implements _Album {
   final String? userImage;
   @override
   final String? isInvisible;
-  @override
+  @override // ignore: invalid_annotation_target
+  @JsonKey(name: 'album_id')
   final String? albumId;
   @override
   final String? viewId;
@@ -1403,7 +1406,7 @@ abstract class _Album implements Album {
       @JsonKey(name: 'full_name') String? fullName,
       String? userImage,
       String? isInvisible,
-      String? albumId,
+      @JsonKey(name: 'album_id') String? albumId,
       String? viewId,
       String? privacy,
       String? privacyComment,
@@ -1465,7 +1468,8 @@ abstract class _Album implements Album {
   String? get userImage;
   @override
   String? get isInvisible;
-  @override
+  @override // ignore: invalid_annotation_target
+  @JsonKey(name: 'album_id')
   String? get albumId;
   @override
   String? get viewId;
