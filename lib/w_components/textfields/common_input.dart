@@ -44,7 +44,7 @@ class CommonInput extends StatelessWidget {
         decoration: InputDecoration(
           filled: true,
           focusColor: AppColors.outlineBorderColor,
-          fillColor: AppColors.inputFillColor,
+          fillColor: AppColors.inputFillColor.withOpacity(0.4),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(4),
             borderSide: BorderSide(

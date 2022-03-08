@@ -4,6 +4,7 @@ import 'package:audio_cult/app/data_source/models/responses/song/song_response.d
 import 'package:audio_cult/app/features/music/discover/widgets/song_item.dart';
 import 'package:audio_cult/app/features/music/top_song/top_song_bloc.dart';
 import 'package:audio_cult/app/utils/constants/app_dimens.dart';
+import 'package:audio_cult/app/utils/route/app_route.dart';
 import 'package:audio_cult/l10n/l10n.dart';
 import 'package:audio_cult/w_components/appbar/common_appbar.dart';
 import 'package:flutter/material.dart';
@@ -77,18 +78,23 @@ class _TopSongScreenState extends State<TopSongScreen> {
       appBar: CommonAppBar(
         title: context.l10n.t_top_song,
         actions: [
-          Container(
-            padding: const EdgeInsets.all(8),
-            margin: const EdgeInsets.symmetric(horizontal: 8),
-            width: 36,
-            height: 36,
-            decoration: BoxDecoration(
-              color: AppColors.inputFillColor,
-              shape: BoxShape.circle,
-            ),
-            child: SvgPicture.asset(
-              AppAssets.filterIcon,
-              fit: BoxFit.cover,
+          GestureDetector(
+            onTap: () {
+              Navigator.pushNamed(context, AppRoute.routeMusicFilter);
+            },
+            child: Container(
+              padding: const EdgeInsets.all(8),
+              margin: const EdgeInsets.symmetric(horizontal: 8),
+              width: 36,
+              height: 36,
+              decoration: BoxDecoration(
+                color: AppColors.inputFillColor,
+                shape: BoxShape.circle,
+              ),
+              child: SvgPicture.asset(
+                AppAssets.filterIcon,
+                fit: BoxFit.cover,
+              ),
             ),
           ),
           Container(

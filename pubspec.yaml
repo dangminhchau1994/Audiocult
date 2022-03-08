@@ -17,7 +17,6 @@ dependencies:
   badges: ^2.0.2
   flutter_custom_tab_bar: ^1.1.9
   freezed_annotation:
-  textfield_tags: ^1.4.2
   flutter_localizations:
     sdk: flutter
   intl: ^0.17.0

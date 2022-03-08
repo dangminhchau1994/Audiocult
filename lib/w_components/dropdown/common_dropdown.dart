@@ -11,7 +11,12 @@ class CommonDropdown extends StatefulWidget {
   final List<SelectMenuModel>? data;
   final Function()? onTap;
   final Function(SelectMenuModel? value)? onChanged;
-  CommonDropdown({Key? key, this.hint, this.data, this.onTap, this.onChanged, this.selection}) : super(key: key);
+  EdgeInsets? padding;
+  double? dropDownWith;
+
+  CommonDropdown(
+      {Key? key, this.hint, this.data, this.onTap, this.onChanged, this.selection, this.padding, this.dropDownWith})
+      : super(key: key);
 
   @override
   State<CommonDropdown> createState() => _CommonDropdownState();
@@ -21,8 +26,9 @@ class _CommonDropdownState extends State<CommonDropdown> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: widget.padding ??= EdgeInsets.zero,
       decoration: BoxDecoration(
-        color: AppColors.inputFillColor,
+        color: AppColors.inputFillColor.withOpacity(0.4),
         borderRadius: BorderRadius.circular(4),
         border: Border.all(color: AppColors.outlineBorderColor, width: 2),
       ),
@@ -35,7 +41,7 @@ class _CommonDropdownState extends State<CommonDropdown> {
         ),
         dropdownDecoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: AppColors.semiMainColor),
         buttonWidth: double.infinity,
-        dropdownWidth: MediaQuery.of(context).size.width - 32,
+        dropdownWidth: widget.dropDownWith ??= MediaQuery.of(context).size.width - 32,
         hint: widget.hint ?? '',
         dropdownItems: widget.data ?? [],
         value: widget.selection,

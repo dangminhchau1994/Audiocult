@@ -140,7 +140,7 @@ class _RegisterPageState extends State<RegisterPage> with DisposableStateMixin, 
                     width: double.infinity,
                     padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
-                      color: AppColors.inputFillColor,
+                      color: AppColors.inputFillColor.withOpacity(0.4),
                       borderRadius: BorderRadius.circular(4),
                       border: Border.all(color: AppColors.outlineBorderColor, width: 2),
                     ),

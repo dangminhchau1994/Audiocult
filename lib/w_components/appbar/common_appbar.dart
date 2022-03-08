@@ -3,21 +3,17 @@ import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:flutter/material.dart';
 
 class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const CommonAppBar({
-    Key? key,
-    this.leading,
-    this.actions,
-    this.title,
-  }) : super(key: key);
+  const CommonAppBar({Key? key, this.leading, this.actions, this.title, this.backgroundColor}) : super(key: key);
 
   final Widget? leading;
   final List<Widget>? actions;
   final String? title;
+  final Color? backgroundColor;
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: AppColors.secondaryButtonColor,
+      backgroundColor: backgroundColor ?? AppColors.secondaryButtonColor,
       elevation: 0,
       centerTitle: true,
       bottomOpacity: 0,
