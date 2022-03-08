@@ -1,5 +1,8 @@
+import 'package:audio_cult/app/data_source/models/responses/profile_data.dart';
+import 'package:audio_cult/app/features/main/main_bloc.dart';
 import 'package:audio_cult/app/features/music/discover/discover_screen.dart';
 import 'package:audio_cult/app/features/music/library/library_screen.dart';
+import 'package:audio_cult/app/injections.dart';
 import 'package:audio_cult/app/utils/constants/app_assets.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
 import 'package:audio_cult/w_components/appbar/common_appbar.dart';
@@ -10,6 +13,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_tab_bar/indicator/custom_indicator.dart';
 import 'package:flutter_svg/svg.dart';
+
+import '../../../w_components/images/no_image_available.dart';
 
 class MusicScreen extends StatefulWidget {
   final Function()? onPressAvatar;
@@ -22,11 +27,22 @@ class MusicScreen extends StatefulWidget {
   State<MusicScreen> createState() => _MusicScreenState();
 }
 
-class _MusicScreenState extends State<MusicScreen> {
+class _MusicScreenState extends State<MusicScreen> with AutomaticKeepAliveClientMixin {
   final _pageController = PageController();
   final _tabController = CustomTabBarController();
   final _pageCount = 2;
   var _currentIndex = 0;
+  final MainBloc _mainBloc = locator.get();
+  ProfileData? _profileData;
+  @override
+  void initState() {
+    super.initState();
+    _mainBloc.profileStream.listen((event) {
+      setState(() {
+        _profileData = event;
+      });
+    });
+  }
 
   @override
   void dispose() {
@@ -51,8 +67,8 @@ class _MusicScreenState extends State<MusicScreen> {
                 width: 36,
                 height: 36,
                 fit: BoxFit.cover,
-                imageUrl:
-                    'https://cafefcdn.com/thumb_w/650/203337114487263232/2021/8/28/photo1630119914849-16301199150061205830569.jpg',
+                errorWidget: (context, url, error) => const NoImageAvailable(),
+                imageUrl: _profileData != null ? _profileData!.userImage ?? '' : '',
               ),
             ),
           ),
@@ -129,4 +145,7 @@ class _MusicScreenState extends State<MusicScreen> {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

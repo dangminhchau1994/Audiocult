@@ -13,18 +13,18 @@ class BaseRepository {
       return left(result);
     } on DioError catch (e, stacktrace) {
       // ignore: avoid_print
-      print('DioErrorException: $e');
-      // ignore: avoid_print
-      print('DioErrorStacktrace: $stacktrace');
+      // print('DioErrorException: $e');
+      // // ignore: avoid_print
+      // print('DioErrorStacktrace: $stacktrace');
       if (e.message.contains('SocketException')) {
         return right(AppException('Disconnect from internet! Please Try again!'));
       }
       return right(e);
     } catch (e, stacktrace) {
       // ignore: avoid_print
-      print('Exception: $e');
-      // ignore: avoid_print
-      print('Stacktrace: $stacktrace');
+      // print('Exception: $e');
+      // // ignore: avoid_print
+      // print('Stacktrace: $stacktrace');
       if (e is SocketException) {
         return right(AppException('Disconnect from internet! Please Try again!'));
       }

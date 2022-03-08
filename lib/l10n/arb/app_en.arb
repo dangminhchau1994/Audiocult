@@ -43,5 +43,6 @@
     "t_no_data": "No data found",
     "t_question_logout":"Are you sure you want to log out? Confirm and logout",
     "t_choose_your_role":"Choose your role",
-    "t_search_your_location":"Type to Search your Location"
+    "t_search_your_location":"Type to Search your Location",
+    "t_no_image_available": "No image available"
 }

@@ -169,4 +169,12 @@ class AppServiceProvider {
       (json) => asType<List<dynamic>>(json)?.map((e) => UserGroup.fromJson(e as Map<String, dynamic>)).toList(),
     );
   }
+
+  Future<dynamic> getUserProfile() async {
+    final response = await _dioHelper.get(
+      route: '/restful_api/user/mine',
+      responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
+    );
+    return response.data;
+  }
 }

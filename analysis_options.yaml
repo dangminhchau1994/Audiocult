@@ -2,7 +2,7 @@ include: package:very_good_analysis/analysis_options.yaml
 analyzer:
   strong-mode:
     implicit-dynamic: true
-  exclude: [build/**, ../**.freezed.dart, lib/**.g.dart]
+  exclude: [build/**, lib/**.freezed.dart, lib/**.g.dart, lib/libs/]
 linter:
   rules:
     public_member_api_docs: false

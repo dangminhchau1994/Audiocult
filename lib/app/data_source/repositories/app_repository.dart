@@ -2,6 +2,7 @@ import 'package:audio_cult/app/data_source/models/requests/register_request.dart
 import 'package:audio_cult/app/data_source/models/responses/album/album_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/place.dart';
 import 'package:audio_cult/app/data_source/models/responses/playlist/playlist_response.dart';
+import 'package:audio_cult/app/data_source/models/responses/profile_data.dart';
 import 'package:audio_cult/app/data_source/networks/exceptions/no_cache_exception.dart';
 import 'package:audio_cult/app/data_source/services/hive_service_provider.dart';
 import 'package:audio_cult/app/features/auth/widgets/register_page.dart';
@@ -118,5 +119,27 @@ class AppRepository extends BaseRepository {
 
   Future<Either<Place?, Exception>> getPlaceDetailFromId(String placeId) {
     return safeCall(() => placeServiceProvider.getPlaceDetailFromId(placeId));
+  }
+
+  Future<Either<ProfileData?, Exception>> getUserProfile() async {
+    final userProfile = await safeCall(appServiceProvider.getUserProfile);
+    return userProfile.fold(
+      (l) {
+        hiveServiceProvider.saveProfile(l);
+        return left(ProfileData.fromJson(l as Map<String, dynamic>));
+      },
+      (r) {
+        final profile = hiveServiceProvider.getProfile();
+        if (profile != null) {
+          return left(profile);
+        } else {
+          return right(NoCacheDataException(''));
+        }
+      },
+    );
+  }
+
+  void clearProfile() {
+    hiveServiceProvider.clearProfile();
   }
 }

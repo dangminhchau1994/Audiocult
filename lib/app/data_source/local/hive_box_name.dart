@@ -5,4 +5,6 @@ class HiveBoxName {
 
 class HiveBoxKey {
   static const albumBox = 'albumBox';
+  static const profile = 'user_profile';
+
 }
