@@ -234,21 +234,23 @@ class _SearchScreenState extends State<SearchScreen> {
               color: AppColors.primaryButtonColor,
             ),
           ),
-          suffixIcon: GestureDetector(
-            onTap: () {
-              focusNode.unfocus();
-              editingController.text = '';
-              setState(() {
-                query = '';
-              });
-              callData(query);
-            },
-            child: const Icon(
-              Icons.close,
-              color: Colors.grey,
-              size: 18,
-            ),
-          ),
+          suffixIcon: query.isNotEmpty
+              ? GestureDetector(
+                  onTap: () {
+                    focusNode.unfocus();
+                    editingController.text = '';
+                    setState(() {
+                      query = '';
+                    });
+                    callData(query);
+                  },
+                  child: const Icon(
+                    Icons.close,
+                    color: Colors.grey,
+                    size: 18,
+                  ),
+                )
+              : const SizedBox(),
         ),
       ),
     );
