@@ -17,7 +17,7 @@ class _GradientContainerState extends State<GradientContainer> {
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [Colors.white],
+          colors: [Colors.red],
         ),
       ),
       child: widget.child,
@@ -51,7 +51,7 @@ class _BottomGradientContainerState extends State<BottomGradientContainer> {
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [Colors.white],
+          colors: [Colors.red],
         ),
       ),
       child: widget.child,
@@ -87,7 +87,7 @@ class _GradientCardState extends State<GradientCard> {
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
-            colors: [Colors.white],
+            colors: [Colors.red],
           ),
         ),
         child: widget.child,

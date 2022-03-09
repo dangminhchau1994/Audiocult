@@ -111,7 +111,8 @@ class AudioPlayerHandlerImpl extends BaseAudioHandler with QueueHandler, SeekHan
         addRecentlyPlayed(item);
         _recentSubject.add([item]);
 
-        if (recommend && item.extras!['autoplay'] as bool) {
+        // ignore: avoid_bool_literals_in_conditional_expressions
+        if (recommend && item.extras!['autoplay'] == null ? false : item.extras!['autoplay'] as bool) {
           Future.delayed(const Duration(seconds: 5), () async {
             // final List value = await SaavnAPI().getReco(item.id);
 

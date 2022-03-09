@@ -2,6 +2,7 @@ import 'package:audio_cult/app/base/bloc_state.dart';
 import 'package:audio_cult/app/features/music/discover/discover_bloc.dart';
 import 'package:audio_cult/app/features/music/discover/widgets/song_item.dart';
 import 'package:audio_cult/app/injections.dart';
+import 'package:audio_cult/w_components/buttons/w_button_inkwell.dart';
 import 'package:audio_cult/w_components/error_empty/error_section.dart';
 import 'package:audio_cult/w_components/loading/loading_widget.dart';
 import 'package:audio_service/audio_service.dart';
@@ -10,7 +11,7 @@ import '../../../../../di/bloc_locator.dart';
 import '../../../../data_source/models/responses/song/song_response.dart';
 import '../../../audio_player/audio_player.dart';
 
-class SongPage extends StatelessWidget {
+class SongPage extends StatefulWidget {
   const SongPage({
     Key? key,
     this.onPageChange,
@@ -25,17 +26,23 @@ class SongPage extends StatelessWidget {
   final PageController? pageController;
 
   @override
+  State<SongPage> createState() => _SongPageState();
+}
+
+class _SongPageState extends State<SongPage> {
+  final audioHandler = locator.get<AudioPlayerHandler>();
+  @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: 196,
       child: PageView.builder(
-        onPageChanged: onPageChange,
-        controller: pageController,
-        itemCount: isTopSong! ? 3 : 2,
+        onPageChanged: widget.onPageChange,
+        controller: widget.pageController,
+        itemCount: widget.isTopSong! ? 3 : 2,
         itemBuilder: (context, index) {
           return StreamBuilder<BlocState<List<Song>>>(
             initialData: const BlocState.loading(),
-            stream: isTopSong!
+            stream: widget.isTopSong!
                 ? getIt.get<DiscoverBloc>().getTopSongsStream
                 : getIt.get<DiscoverBloc>().getMixTapSongsStream,
             builder: (context, snapshot) {
@@ -50,21 +57,22 @@ class SongPage extends StatelessWidget {
                     itemCount: songs.length,
                     separatorBuilder: (context, index) => const SizedBox(height: 20),
                     itemBuilder: (context, index) {
-                      return GestureDetector(
-                        onTap: () async {
-                          final audioHandler = locator.get<AudioPlayerHandler>();
+                      return WButtonInkwell(
+                        onPressed: () async {
                           await audioHandler.setShuffleMode(AudioServiceShuffleMode.none);
-                          await audioHandler.addQueueItem(
-                            MediaItem(
-                              id: songs[index].songId.toString(),
-                              title: songs[index].title.toString(),
-                              album: songs[index].artistUser?.userName ?? 'N/A',
-                              artist: songs[index].artistUser?.userName ?? 'N/A',
-                              artUri: Uri.parse(songs[index].imagePath.toString()),
-                              extras: {
-                                'url': songs[index].songPath.toString(),
-                              },
-                            ),
+                          await audioHandler.updateQueue(
+                            [
+                              MediaItem(
+                                id: songs[index].songId.toString(),
+                                title: songs[index].title.toString(),
+                                album: songs[index].artistUser?.userName ?? 'N/A',
+                                artist: songs[index].artistUser?.userName ?? 'N/A',
+                                artUri: Uri.parse(songs[index].imagePath.toString()),
+                                extras: {
+                                  'url': songs[index].songPath.toString(),
+                                },
+                              )
+                            ],
                           );
                           await audioHandler.play();
                         },
@@ -82,7 +90,7 @@ class SongPage extends StatelessWidget {
                 error: (error) {
                   return ErrorSectionWidget(
                     errorMessage: error,
-                    onRetryTap: onRetry,
+                    onRetryTap: widget.onRetry,
                   );
                 },
               );
