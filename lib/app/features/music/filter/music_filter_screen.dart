@@ -92,7 +92,6 @@ class _MusicFilterScreenState extends State<MusicFilterScreen> {
                                 }).toList();
                                 setState(() {});
                                 _cacheFilter?.mostLiked = snapshot.data!['most_liked'];
-                                saveCacheFilter();
                               },
                             ),
                           ),
@@ -116,7 +115,6 @@ class _MusicFilterScreenState extends State<MusicFilterScreen> {
                                 }).toList();
                                 setState(() {});
                                 _cacheFilter?.allTime = snapshot.data!['all_time'];
-                                saveCacheFilter();
                               },
                             ),
                           )
@@ -157,8 +155,6 @@ class _MusicFilterScreenState extends State<MusicFilterScreen> {
                                 }
                               }).toList();
                             }
-
-                            saveCacheFilter();
                           },
                           hintText: context.l10n.t_genres,
                           listCheckBox: snapshot.data!
@@ -190,7 +186,10 @@ class _MusicFilterScreenState extends State<MusicFilterScreen> {
                 CommonButton(
                   color: AppColors.activeLabelItem,
                   text: context.l10n.t_apply,
-                  onTap: () {},
+                  onTap: () {
+                    saveCacheFilter();
+                    Navigator.pop(context);
+                  },
                 )
               ],
             ),

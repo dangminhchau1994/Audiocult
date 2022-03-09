@@ -200,7 +200,6 @@ class TextFieldTagsState extends State<TextFieldTags> {
         });
       }
     }
-    print(_tagsStringContents);
     _focus.requestFocus();
   }
 

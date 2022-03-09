@@ -72,8 +72,6 @@ class HiveServiceProvider {
             (e) => Genre(genreId: e['id'] as String, name: e['title'] as String, isSelected: e['isSelected'] as bool),
           )
           .toList();
-      print(result);
-
       return cacheFilter;
     } catch (e) {
       debugPrint(e.toString());
