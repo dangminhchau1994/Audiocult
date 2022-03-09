@@ -84,10 +84,16 @@ class _MainScreenState extends State<MainScreen> {
             child: MyDrawer(),
           ),
         ),
-        body: PageView(
-          physics: const NeverScrollableScrollPhysics(),
-          controller: _pageController,
-          children: _buildPages(),
+        body: Column(
+          children: [
+            Expanded(
+              child: PageView(
+                physics: const NeverScrollableScrollPhysics(),
+                controller: _pageController,
+                children: _buildPages(),
+              ),
+            ),
+          ],
         ),
         backgroundColor: AppColors.mainColor,
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
