@@ -161,6 +161,17 @@ class TextFieldTagsState extends State<TextFieldTags> {
     }
   }
 
+  void clear() {
+    _textEditingController?.clear();
+    _tagsStringContents?.clear();
+    _textEditingController
+      ?..text = ''
+      ..selection = TextSelection.collapsed(offset: 0);
+    _animateTransition();
+    _showPrefixIcon = false;
+    setState(() {});
+  }
+
   void onSubmit(String value) {
     if (_showValidator == false) {
       final val = widget.letterCase == LetterCase.small

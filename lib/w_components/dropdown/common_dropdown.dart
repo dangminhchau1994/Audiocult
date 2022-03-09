@@ -76,4 +76,12 @@ class SelectMenuModel {
   String toString() {
     return '$id $title $isSelected';
   }
+
+  dynamic toDynamic() {
+    final dynamic data = {};
+    data['id'] = id as dynamic;
+    data['title'] = title as dynamic;
+    data['isSelected'] = isSelected as dynamic;
+    return data;
+  }
 }

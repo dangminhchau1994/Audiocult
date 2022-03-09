@@ -5,6 +5,8 @@ class HiveBoxName {
 
 class HiveBoxKey {
   static const albumBox = 'albumBox';
+  static const genresBox = 'genresBox';
+  static const cacheFilter = 'cacheFilter';
   static const profile = 'user_profile';
 
 }
