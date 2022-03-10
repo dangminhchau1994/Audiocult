@@ -49,6 +49,16 @@ class AppRepository extends BaseRepository {
     );
   }
 
+  Future<Either<List<Song>, Exception>> getSongByPlaylistId(
+    int playlistId,
+    int page,
+    int limit,
+  ) {
+    return safeCall(
+      () => appServiceProvider.getSongsByPlaylistId(playlistId, page, limit),
+    );
+  }
+
   Future<Either<List<Album>, Exception>> getAlbums(
     String query,
     String view,

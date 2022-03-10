@@ -36,7 +36,7 @@ class _$PlaylistResponseTearOff {
       String? lastActivity,
       String? birthday,
       String? countryIso,
-      String? playlistId,
+      @JsonKey(name: 'playlist_id') String? playlistId,
       @JsonKey(name: 'title') String? title,
       String? description,
       String? timeStamp,
@@ -105,7 +105,9 @@ mixin _$PlaylistResponse {
   String? get languageId => throw _privateConstructorUsedError;
   String? get lastActivity => throw _privateConstructorUsedError;
   String? get birthday => throw _privateConstructorUsedError;
-  String? get countryIso => throw _privateConstructorUsedError;
+  String? get countryIso =>
+      throw _privateConstructorUsedError; // ignore: invalid_annotation_target
+  @JsonKey(name: 'playlist_id')
   String? get playlistId =>
       throw _privateConstructorUsedError; // ignore: invalid_annotation_target
   @JsonKey(name: 'title')
@@ -152,7 +154,7 @@ abstract class $PlaylistResponseCopyWith<$Res> {
       String? lastActivity,
       String? birthday,
       String? countryIso,
-      String? playlistId,
+      @JsonKey(name: 'playlist_id') String? playlistId,
       @JsonKey(name: 'title') String? title,
       String? description,
       String? timeStamp,
@@ -341,7 +343,7 @@ abstract class _$PlaylistResponseCopyWith<$Res>
       String? lastActivity,
       String? birthday,
       String? countryIso,
-      String? playlistId,
+      @JsonKey(name: 'playlist_id') String? playlistId,
       @JsonKey(name: 'title') String? title,
       String? description,
       String? timeStamp,
@@ -528,7 +530,7 @@ class _$_PlaylistResponse implements _PlaylistResponse {
       this.lastActivity,
       this.birthday,
       this.countryIso,
-      this.playlistId,
+      @JsonKey(name: 'playlist_id') this.playlistId,
       @JsonKey(name: 'title') this.title,
       this.description,
       this.timeStamp,
@@ -574,7 +576,8 @@ class _$_PlaylistResponse implements _PlaylistResponse {
   final String? birthday;
   @override
   final String? countryIso;
-  @override
+  @override // ignore: invalid_annotation_target
+  @JsonKey(name: 'playlist_id')
   final String? playlistId;
   @override // ignore: invalid_annotation_target
   @JsonKey(name: 'title')
@@ -715,7 +718,7 @@ abstract class _PlaylistResponse implements PlaylistResponse {
       String? lastActivity,
       String? birthday,
       String? countryIso,
-      String? playlistId,
+      @JsonKey(name: 'playlist_id') String? playlistId,
       @JsonKey(name: 'title') String? title,
       String? description,
       String? timeStamp,
@@ -761,7 +764,8 @@ abstract class _PlaylistResponse implements PlaylistResponse {
   String? get birthday;
   @override
   String? get countryIso;
-  @override
+  @override // ignore: invalid_annotation_target
+  @JsonKey(name: 'playlist_id')
   String? get playlistId;
   @override // ignore: invalid_annotation_target
   @JsonKey(name: 'title')

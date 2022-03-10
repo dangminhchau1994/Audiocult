@@ -115,7 +115,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> with AutomaticKeepAlive
                     onShowAll: () {
                       Navigator.pushNamed(
                         context,
-                        AppRoute.routeFeaturedAlbum,
+                        AppRoute.routeTopPlaylist,
                         arguments: SearchArgs(
                           searchType: SearchType.playlist,
                         ),
