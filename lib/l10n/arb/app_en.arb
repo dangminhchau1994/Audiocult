@@ -49,5 +49,13 @@
     "t_question_logout":"Are you sure you want to log out? Confirm and logout",
     "t_choose_your_role":"Choose your role",
     "t_search_your_location":"Type to Search your Location",
-    "t_no_image_available": "No image available"
+    "t_no_image_available": "No image available",
+    "t_filter":"Filter",
+    "t_clear_filter":"Clear filter",
+    "t_genres":"Genres",
+    "t_tags":"Tags(Sub-genre)",
+    "t_key":"Key",
+    "t_lower":"Lower",
+    "t_higher":"Higher",
+    "t_apply":"Apply"
 }

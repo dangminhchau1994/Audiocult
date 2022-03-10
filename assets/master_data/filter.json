@@ -1,0 +1,46 @@
+{
+    "most_liked": [
+      {
+        "id": 1,
+        "title": "Lasted",
+        "is_selected": true
+      },
+      {
+        "id": 2,
+        "title": "Most Viewed",
+        "is_selected": false
+      },
+      {
+        "id": 3,
+        "title": "Most Liked",
+        "is_selected": false
+      },
+      {
+        "id": 4,
+        "title": "Most discussed",
+        "is_selected": false
+      }
+    ],
+    "all_time": [
+      {
+        "id": 1,
+        "title": "All Time",
+        "is_selected": true
+      },
+      {
+        "id": 2,
+        "title": "This Month",
+        "is_selected": false
+      },
+      {
+        "id": 3,
+        "title": "This Week",
+        "is_selected": false
+      },
+      {
+        "id": 4,
+        "title": "Today",
+        "is_selected": false
+      }
+    ]
+  }

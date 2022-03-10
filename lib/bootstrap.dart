@@ -1,12 +1,18 @@
 import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
+
 import 'package:audio_cult/app/data_source/local/hive_box_name.dart';
+import 'package:audio_service/audio_service.dart';
 import 'package:bloc/bloc.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
+
+import 'app/features/audio_player/audio_player.dart';
 import 'app/injections.dart';
+import 'app/services/audio_service.dart';
 import 'di/bloc_locator.dart';
 
 class AppBlocObserver extends BlocObserver {
@@ -30,6 +36,9 @@ Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
   Hive.init((await getApplicationDocumentsDirectory()).path);
   await openHiveBox(HiveBoxName.userProfileBox);
   await openHiveBox(HiveBoxName.cache);
+  await openHiveBox('downloads');
+  await openHiveBox('settings');
+  await startService();
   FlutterError.onError = (details) {
     log(details.exceptionAsString(), stackTrace: details.stack);
   };
@@ -64,4 +73,21 @@ Future<void> openHiveBox(String boxName, {bool limit = false}) async {
   if (limit && box.length > 500) {
     await box.clear();
   }
+}
+
+Future<void> startService() async {
+  final audioHandler = await AudioService.init(
+    builder: AudioPlayerHandlerImpl.new,
+    config: AudioServiceConfig(
+      androidNotificationChannelId: 'com.audiocult.channel.audio',
+      androidNotificationChannelName: 'Audiocult',
+      androidNotificationOngoing: true,
+      androidNotificationIcon: 'drawable/ic_stat_music_note',
+      androidShowNotificationBadge: true,
+      // androidStopForegroundOnPause: Hive.box('settings')
+      // .get('stopServiceOnPause', defaultValue: true) as bool,
+      notificationColor: Colors.grey[900],
+    ),
+  );
+  locator.registerSingleton<AudioPlayerHandler>(audioHandler);
 }

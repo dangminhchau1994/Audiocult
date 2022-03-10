@@ -1,4 +1,5 @@
 import 'package:audio_cult/app/base/bloc_handle.dart';
+import 'package:audio_cult/app/features/audio_player/miniplayer.dart';
 import 'package:audio_cult/app/features/main/main_bloc.dart';
 import 'package:audio_cult/app/features/music/music_screen.dart';
 import 'package:audio_cult/app/injections.dart';
@@ -161,10 +162,17 @@ class _MainScreenState extends State<MainScreen> {
             child: MyDrawer(),
           ),
         ),
-        body: PageView(
-          physics: const NeverScrollableScrollPhysics(),
-          controller: _pageController,
-          children: _buildPages(),
+        body: Column(
+          children: [
+            Expanded(
+              child: PageView(
+                physics: const NeverScrollableScrollPhysics(),
+                controller: _pageController,
+                children: _buildPages(),
+              ),
+            ),
+            const MiniPlayer()
+          ],
         ),
         backgroundColor: AppColors.mainColor,
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,

@@ -1,22 +1,25 @@
 import 'package:audio_cult/app/constants/app_text_styles.dart';
+import 'package:audio_cult/libs/textfields_tags/lib/textfield_tags.dart';
 import 'package:flutter/material.dart';
-import 'package:textfield_tags/textfield_tags.dart';
 
 import '../../app/utils/constants/app_colors.dart';
 
 class CommonInputTags extends StatelessWidget {
-  const CommonInputTags({
-    Key? key,
-    this.onChooseTag,
-    this.onDeleteTag,
-  }) : super(key: key);
+  const CommonInputTags({Key? key, this.onChooseTag, this.onDeleteTag, this.controller, this.initTags, this.hintText})
+      : super(key: key);
 
   final Function(String tag)? onChooseTag;
   final Function(String tag)? onDeleteTag;
+  final List<String>? initTags;
+  final TextEditingController? controller;
+  final String? hintText;
 
   @override
   Widget build(BuildContext context) {
     return TextFieldTags(
+      key: key,
+      initialTags: initTags,
+      textEditingController: controller ?? TextEditingController(),
       tagsStyler: TagsStyler(
         tagTextStyle: AppTextStyles.regular.copyWith(
           fontWeight: FontWeight.bold,
@@ -38,10 +41,14 @@ class CommonInputTags extends StatelessWidget {
       textFieldStyler: TextFieldStyler(
         cursorColor: Colors.white,
         textFieldFilled: true,
-        hintText: 'Enter tags',
-        textStyle: AppTextStyles.regular,
+        hintText: hintText ?? '',
+        helperText: '',
+        textStyle: const TextStyle(
+          color: Colors.white,
+          fontSize: 14,
+        ),
         hintStyle: AppTextStyles.regular,
-        textFieldFilledColor: AppColors.inputFillColor,
+        textFieldFilledColor: AppColors.inputFillColor.withOpacity(0.4),
         textFieldEnabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(4),
           borderSide: BorderSide(

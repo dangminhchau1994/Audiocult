@@ -1,11 +1,14 @@
+import 'package:audio_cult/app/data_source/models/cache_filter.dart';
 import 'package:audio_cult/app/data_source/models/requests/register_request.dart';
 import 'package:audio_cult/app/data_source/models/responses/album/album_response.dart';
+import 'package:audio_cult/app/data_source/models/responses/genre.dart';
 import 'package:audio_cult/app/data_source/models/responses/place.dart';
 import 'package:audio_cult/app/data_source/models/responses/playlist/playlist_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/profile_data.dart';
 import 'package:audio_cult/app/data_source/networks/exceptions/no_cache_exception.dart';
 import 'package:audio_cult/app/data_source/services/hive_service_provider.dart';
 import 'package:audio_cult/app/features/auth/widgets/register_page.dart';
+import 'package:audio_cult/w_components/dropdown/common_dropdown.dart';
 import 'package:dartz/dartz.dart';
 
 import '../models/requests/login_request.dart';
@@ -14,6 +17,7 @@ import '../models/responses/register_response.dart';
 import '../models/responses/song/song_response.dart';
 import '../models/responses/user_group.dart';
 import '../services/app_service_provider.dart';
+import '../services/assets_local_provider.dart';
 import '../services/place_service_provider.dart';
 import 'base_repository.dart';
 
@@ -21,9 +25,14 @@ class AppRepository extends BaseRepository {
   final AppServiceProvider appServiceProvider;
   final PlaceServiceProvider placeServiceProvider;
   final HiveServiceProvider hiveServiceProvider;
+  final AssetsLocalServiceProvider assetsLocalServiceProvider;
 
-  AppRepository(
-      {required this.appServiceProvider, required this.placeServiceProvider, required this.hiveServiceProvider});
+  AppRepository({
+    required this.appServiceProvider,
+    required this.placeServiceProvider,
+    required this.hiveServiceProvider,
+    required this.assetsLocalServiceProvider,
+  });
 
   Future<Either<LoginResponse, Exception>> login(LoginRequest request) {
     return safeCall(() => appServiceProvider.login(request));
@@ -161,5 +170,40 @@ class AppRepository extends BaseRepository {
 
   void clearProfile() {
     hiveServiceProvider.clearProfile();
+  }
+
+  Future<Map<String, List<SelectMenuModel>>> getMasterDataFilter() {
+    return assetsLocalServiceProvider.getMasterDataFilter();
+  }
+
+  Future<Either<List<Genre>, Exception>> getGenres() async {
+    final genres = await safeCall(appServiceProvider.getGenres);
+    return genres.fold(
+      (l) {
+        hiveServiceProvider.saveGenres(l);
+        return left(l.map((e) => Genre.fromJson(e as Map<String, dynamic>)).toList());
+      },
+      (r) {
+        final local = hiveServiceProvider.getGenres();
+        if (local.isNotEmpty) {
+          return left(local);
+        } else {
+          return right(NoCacheDataException(''));
+        }
+      },
+    );
+  }
+
+  CacheFilter? getCacheFilter() {
+    final result = hiveServiceProvider.getCacheFilter();
+    return result;
+  }
+
+  Future saveCacheFilter(CacheFilter cacheFilter) async {
+    hiveServiceProvider.saveCacheFilter(cacheFilter);
+  }
+
+  Future clearFilter() async {
+    await hiveServiceProvider.clearFilter();
   }
 }

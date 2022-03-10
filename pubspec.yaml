@@ -17,7 +17,6 @@ dependencies:
   badges: ^2.0.2
   flutter_custom_tab_bar: ^1.1.9
   freezed_annotation:
-  textfield_tags: ^1.4.2
   flutter_localizations:
     sdk: flutter
   intl: ^0.17.0
@@ -43,6 +42,8 @@ dependencies:
   hive: ^2.0.6
   hive_flutter: ^1.1.0
   path_provider: 2.0.9
+  audio_service: ^0.18.4
+  just_audio: ^0.9.20
 
 dev_dependencies:
   bloc_test: ^9.0.2
@@ -62,6 +63,7 @@ flutter:
     - assets/icons/
     - assets/fonts/
     - assets/imgs/
+    - assets/master_data/
   fonts:
   - family: NunitoSans
     fonts:
