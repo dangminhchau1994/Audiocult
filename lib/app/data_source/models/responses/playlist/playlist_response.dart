@@ -20,7 +20,8 @@ class PlaylistResponse with _$PlaylistResponse {
     String? lastActivity,
     String? birthday,
     String? countryIso,
-    String? playlistId,
+    // ignore: invalid_annotation_target
+    @JsonKey(name: 'playlist_id') String? playlistId,
     // ignore: invalid_annotation_target
     @JsonKey(name: 'title') String? title,
     String? description,
