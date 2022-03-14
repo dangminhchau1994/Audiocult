@@ -16,6 +16,7 @@ dependencies:
   flutter_speed_dial: ^5.0.0+1
   badges: ^2.0.2
   flutter_custom_tab_bar: ^1.1.9
+  flutter_reaction_button: ^2.0.0+1
   freezed_annotation:
   flutter_localizations:
     sdk: flutter
@@ -44,6 +45,7 @@ dependencies:
   path_provider: 2.0.9
   audio_service: ^0.18.4
   just_audio: ^0.9.20
+  readmore: ^2.1.0
 
 dev_dependencies:
   bloc_test: ^9.0.2

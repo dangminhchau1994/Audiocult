@@ -1,3 +1,4 @@
+import 'package:audio_cult/app/features/music/detail-song/detail_song_screen.dart';
 import 'package:audio_cult/app/features/music/discover/discover_screen.dart';
 import 'package:audio_cult/app/features/music/library/library_screen.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';

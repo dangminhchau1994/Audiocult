@@ -5,6 +5,18 @@ class AppAssets {
 
   static const messageIcon = 'assets/icons/messages.svg';
 
+  static const menuFilter = 'assets/icons/menu_filter.svg';
+
+  static const faceIcon = 'assets/icons/smile_face.svg';
+
+  static const activeHeart = 'assets/icons/active_heart.svg';
+
+  static const playCountIcon = 'assets/icons/play_count.svg';
+
+  static const heartIcon = 'assets/icons/heart.svg';
+
+  static const commentIcon = 'assets/icons/comment.svg';
+
   static const filterIcon = 'assets/icons/filter.svg';
 
   static const notificationIcon = 'assets/icons/notification.svg';

@@ -7,6 +7,8 @@ class AppColors {
 
   static final badgeColor = HexColor.fromHex('#DC2626');
 
+  static final lightWhiteColor = HexColor.fromHex('#9CA3AF');
+
   static final secondaryButtonColor = HexColor.fromHex('#1F2937');
 
   static final lightBlue = HexColor.fromHex('#0EA5E9');

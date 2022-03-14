@@ -68,7 +68,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> with AutomaticKeepAlive
                   TopSongs(
                     pageController: _pageController,
                     onShowAll: () {
-                      Navigator.pushNamed(context, AppRoute.routeTopSongs);
+                      Navigator.pushNamed(context, AppRoute.routeDetaiSong);
                     },
                     isTopSong: true,
                     onPageChange: (index) {

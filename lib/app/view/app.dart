@@ -42,6 +42,9 @@ class _AppState extends State<App> {
         ,
       ),
     );
+    SystemChrome.setEnabledSystemUIMode(
+      SystemUiMode.leanBack,
+    );
     return GlobalLoaderOverlay(
       overlayColor: Colors.black87,
       child: MaterialApp(
