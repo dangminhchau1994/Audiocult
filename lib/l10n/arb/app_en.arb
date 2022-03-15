@@ -30,6 +30,7 @@
     "t_new_password":"New password",
     "t_confirm_password":"Confirm new password",
     "t_recommended_song":"Recommended songs",
+    "t_recommended_albums":"Recommended albums",
     "t_find_more":"Find more",
     "t_add_playlist": "Add to playlist",
     "t_share": "Share",

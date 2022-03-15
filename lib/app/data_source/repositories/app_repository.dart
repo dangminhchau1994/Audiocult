@@ -110,6 +110,12 @@ class AppRepository extends BaseRepository {
     );
   }
 
+  Future<Either<Album, Exception>> getAlbumDetail(int id) {
+    return safeCall(
+      () => appServiceProvider.getAlbumDetail(id),
+    );
+  }
+
   Future<Either<List<CommentResponse>, Exception>> getComments(int id, String typeId, int page, int limit) {
     return safeCall(
       () => appServiceProvider.getComments(id, typeId, page, limit),

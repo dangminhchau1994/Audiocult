@@ -4,6 +4,7 @@ import 'package:audio_cult/app/features/auth/place_location/place_location_scree
 import 'package:audio_cult/app/features/auth/resent_password/resent_password_screen.dart';
 import 'package:audio_cult/app/features/main/main_screen.dart';
 import 'package:audio_cult/app/features/music/detail-song/detail_song_screen.dart';
+import 'package:audio_cult/app/features/music/detail_album/detail_album_screen.dart';
 import 'package:audio_cult/app/features/music/featured_albums/featured_album_screen.dart';
 import 'package:audio_cult/app/features/music/filter/music_filter_screen.dart';
 import 'package:audio_cult/app/features/music/top_playlist/top_playlist_screen.dart';
@@ -35,6 +36,7 @@ class AppRoute {
   static const String routeSearch = 'search';
   static const String routeMusicFilter = '/search';
   static const String routeDetaiSong = '/detail_song';
+  static const String routeDetailAlbum = '/detail_album';
 
   ///#end region
 
@@ -74,6 +76,14 @@ class AppRoute {
           settings,
           DetailSongScreen(
             songId: arguments['song_id'] as String,
+          ),
+        );
+      case routeDetailAlbum:
+        final arguments = asType(settings.arguments);
+        return _pageRoute(
+          settings,
+          DetailAlbumScreen(
+            albumId: arguments['album_id'] as String,
           ),
         );
       case routeFeaturedAlbum:

@@ -1,5 +1,6 @@
 import 'package:audio_cult/app/data_source/local/pref_provider.dart';
 import 'package:audio_cult/app/data_source/models/requests/register_request.dart';
+import 'package:audio_cult/app/data_source/models/responses/album/album_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/comment/comment_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/genre.dart';
 import 'package:audio_cult/app/data_source/models/responses/login_response.dart';
@@ -207,6 +208,17 @@ class AppServiceProvider {
     );
     return response.mapData(
       (json) => asType<List<dynamic>>(json)?.map((e) => CommentResponse.fromJson(e as Map<String, dynamic>)).toList(),
+    );
+  }
+
+  Future<Album> getAlbumDetail(int id) async {
+    final response = await _dioHelper.get(
+      route: '/restful_api/song/album/$id',
+      options: Options(headers: {'Content-Type': 'application/x-www-form-urlencoded'}),
+      responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
+    );
+    return response.mapData(
+      (json) => Album.fromJson(json as Map<String, dynamic>),
     );
   }
 

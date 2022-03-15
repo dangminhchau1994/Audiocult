@@ -43,14 +43,18 @@ class Album with _$Album {
     @JsonKey(name: 'image_path') String? imagePath,
     String? serverId,
     String? totalTrack,
-    String? totalPlay,
-    String? totalComment,
+    // ignore: invalid_annotation_target
+    @JsonKey(name: 'total_play') String? totalPlay,
+    // ignore: invalid_annotation_target
+    @JsonKey(name: 'total_comment') String? totalComment,
     String? totalView,
-    String? totalLike,
+    // ignore: invalid_annotation_target
+    @JsonKey(name: 'total_like') String? totalLike,
     String? totalDislike,
     String? totalScore,
     String? totalRating,
-    String? totalAttachment,
+    // ignore: invalid_annotation_target
+    @JsonKey(name: 'total_attachment') String? totalAttachment,
     // ignore: invalid_annotation_target
     @JsonKey(name: 'time_stamp') String? timeStamp,
     dynamic moduleId,
@@ -62,9 +66,11 @@ class Album with _$Album {
     String? googleplay,
     dynamic youtube,
     String? soundcloud,
-    String? labelUser,
+    // ignore: invalid_annotation_target
+    @JsonKey(name: 'label_user') String? labelUser,
     String? labelUserId,
-    String? artistUser,
+    // ignore: invalid_annotation_target
+    @JsonKey(name: 'artist_user') String? artistUser,
     String? artistUserId,
     String? collabUser,
     String? collabUserId,
