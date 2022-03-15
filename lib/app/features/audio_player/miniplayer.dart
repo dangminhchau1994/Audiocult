@@ -40,6 +40,7 @@ class _MiniPlayerState extends State<MiniPlayer> {
             final mediaItem = snapshot.data;
             if (mediaItem == null) return const SizedBox();
             return Dismissible(
+              background: Container(color: Colors.transparent),
               key: Key(mediaItem.id),
               onDismissed: (_) {
                 Feedback.forLongPress(context);
@@ -98,7 +99,7 @@ class _MiniPlayerState extends State<MiniPlayer> {
                     defaultValue: ['Previous', 'Play/Pause', 'Next'],
                   )?.toList() as List;
                   return Container(
-                    color: AppColors.semiMainColor.withOpacity(0.9),
+                    color: AppColors.semiMainColor.withOpacity(0.75),
                     padding: const EdgeInsets.symmetric(
                       horizontal: 2.0,
                       vertical: 1.0,
@@ -247,7 +248,7 @@ class ControlButtons extends StatelessWidget {
                 return IconButton(
                   icon: const Icon(Icons.skip_previous_rounded),
                   iconSize: miniplayer ? 24.0 : 45.0,
-                  tooltip: 'Skip',
+                  tooltip: 'Previous',
                   color: dominantColor ?? Theme.of(context).iconTheme.color,
                   onPressed: queueState?.hasPrevious ?? true ? audioHandler.skipToPrevious : null,
                 );
