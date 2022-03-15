@@ -12,8 +12,10 @@ dependencies:
     sdk: flutter
   flutter_bloc: ^8.0.1
   flutter_svg: ^1.0.3
+  expandable: ^5.0.1
   cached_network_image: ^3.2.0
   flutter_speed_dial: ^5.0.0+1
+  focused_menu: ^1.0.5
   badges: ^2.0.2
   flutter_custom_tab_bar: ^1.1.9
   flutter_reaction_button: ^2.0.0+1

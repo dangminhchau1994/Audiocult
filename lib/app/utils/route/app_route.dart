@@ -69,7 +69,13 @@ class AppRoute {
       case routeMusicFilter:
         return _pageRoute(settings, const MusicFilterScreen());
       case routeDetaiSong:
-        return _pageRoute(settings, const DetailSongScreen());
+        final arguments = asType(settings.arguments);
+        return _pageRoute(
+          settings,
+          DetailSongScreen(
+            songId: arguments['song_id'] as String,
+          ),
+        );
       case routeFeaturedAlbum:
         final SearchArgs? arguments = asType(settings.arguments);
         return _pageRoute(

@@ -29,7 +29,7 @@ class DetailSongRecommeded extends StatelessWidget {
 
     return Padding(
       padding: const EdgeInsets.only(
-        top: 40,
+        top: 20,
         left: 16,
         right: 16,
       ),
@@ -57,22 +57,25 @@ class DetailSongRecommeded extends StatelessWidget {
               ),
             ],
           ),
+          const SizedBox(
+            height: 20,
+          ),
           Padding(
-            padding: const EdgeInsets.only(top: 30),
-            child: SizedBox(
-              height: 300,
-              child: ListView.separated(
-                itemCount: 2,
-                physics: const NeverScrollableScrollPhysics(),
-                itemBuilder: (context, index) => SongItem(
-                  song: songs[index],
-                  fromDetail: true,
-                  onMenuClick: () {},
-                ),
-                separatorBuilder: (context, index) => const Divider(height: 30),
-              ),
+            padding: const EdgeInsets.only(
+              bottom: 30,
             ),
-          )
+            child: ListView.separated(
+              itemCount: 2,
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemBuilder: (context, index) => SongItem(
+                song: songs[index],
+                fromDetail: true,
+                hasMenu: true,
+              ),
+              separatorBuilder: (context, index) => const Divider(height: 40),
+            ),
+          ),
         ],
       ),
     );

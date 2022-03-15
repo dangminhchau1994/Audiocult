@@ -1,8 +1,10 @@
 import 'package:audio_cult/app/data_source/local/pref_provider.dart';
 import 'package:audio_cult/app/data_source/models/requests/register_request.dart';
+import 'package:audio_cult/app/data_source/models/responses/comment/comment_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/genre.dart';
 import 'package:audio_cult/app/data_source/models/responses/login_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/playlist/playlist_response.dart';
+import 'package:audio_cult/app/data_source/models/responses/song_detail/song_detail_response.dart';
 import 'package:audio_cult/app/injections.dart';
 import 'package:audio_cult/app/utils/constants/app_constants.dart';
 import 'package:dio/dio.dart';
@@ -169,6 +171,17 @@ class AppServiceProvider {
     );
   }
 
+  Future<SongDetailResponse> getSongDetail(int id) async {
+    final response = await _dioHelper.get(
+      route: '/restful_api/music/$id',
+      options: Options(headers: {'Content-Type': 'application/x-www-form-urlencoded'}),
+      responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
+    );
+    return response.mapData(
+      (json) => SongDetailResponse.fromJson(json as Map<String, dynamic>),
+    );
+  }
+
   Future<Song> getSongOfDay() async {
     final response = await _dioHelper.get(
       route: '/restful_api/song/song-of-day',
@@ -177,6 +190,23 @@ class AppServiceProvider {
     );
     return response.mapData(
       (json) => Song.fromJson(json as Map<String, dynamic>),
+    );
+  }
+
+  Future<List<CommentResponse>> getComments(int id, String typeId, int page, int limit) async {
+    final response = await _dioHelper.get(
+      route: '/restful_api/comment',
+      options: Options(headers: {'Content-Type': 'application/x-www-form-urlencoded'}),
+      requestParams: {
+        'item_id': id,
+        'type_id': typeId,
+        'page': page,
+        'limit': limit,
+      },
+      responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
+    );
+    return response.mapData(
+      (json) => asType<List<dynamic>>(json)?.map((e) => CommentResponse.fromJson(e as Map<String, dynamic>)).toList(),
     );
   }
 

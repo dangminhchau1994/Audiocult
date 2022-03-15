@@ -107,17 +107,15 @@ class _SearchScreenState extends State<SearchScreen> {
             final data = success as List<PlaylistResponse>;
 
             return data.isNotEmpty
-                ? SizedBox(
-                    height: 278,
-                    child: ListView.separated(
-                      itemBuilder: (context, index) {
-                        return SearchItem(
-                          playlist: data[index],
-                        );
-                      },
-                      separatorBuilder: (context, index) => const SizedBox(height: 24),
-                      itemCount: data.length,
-                    ),
+                ? ListView.separated(
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) {
+                      return SearchItem(
+                        playlist: data[index],
+                      );
+                    },
+                    separatorBuilder: (context, index) => const SizedBox(height: 24),
+                    itemCount: data.length,
                   )
                 : Column(
                     children: [
@@ -154,17 +152,15 @@ class _SearchScreenState extends State<SearchScreen> {
             final data = success as List<Album>;
 
             return data.isNotEmpty
-                ? SizedBox(
-                    height: 278,
-                    child: ListView.separated(
-                      itemBuilder: (context, index) {
-                        return SearchItem(
-                          album: data[index],
-                        );
-                      },
-                      separatorBuilder: (context, index) => const SizedBox(height: 24),
-                      itemCount: data.length,
-                    ),
+                ? ListView.separated(
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) {
+                      return SearchItem(
+                        album: data[index],
+                      );
+                    },
+                    separatorBuilder: (context, index) => const SizedBox(height: 24),
+                    itemCount: data.length,
                   )
                 : Column(
                     children: [

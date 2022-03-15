@@ -1,3 +1,4 @@
+import 'package:audio_cult/app/data_source/models/responses/song_detail/song_detail_response.dart';
 import 'package:audio_cult/app/features/music/detail-song/widgets/detail_description_label.dart';
 import 'package:audio_cult/app/utils/constants/app_assets.dart';
 import 'package:audio_cult/app/utils/constants/app_dimens.dart';
@@ -10,7 +11,12 @@ import 'package:readmore/readmore.dart';
 import '../../../../utils/constants/app_colors.dart';
 
 class DetailSongDescription extends StatelessWidget {
-  const DetailSongDescription({Key? key}) : super(key: key);
+  const DetailSongDescription({
+    Key? key,
+    this.data,
+  }) : super(key: key);
+
+  final SongDetailResponse? data;
 
   @override
   Widget build(BuildContext context) {
@@ -34,24 +40,24 @@ class DetailSongDescription extends StatelessWidget {
           ),
           //first row
           Row(
-            children: const [
+            children: [
               DetailDescriptionLabel(
-                title: 'Artist',
-                value: 'Element9',
+                title: 'ARTIST',
+                value: data?.artistUser?.userName ?? 'N/A',
               ),
-              SizedBox(
+              const SizedBox(
                 width: 32,
               ),
               DetailDescriptionLabel(
-                title: 'Artist',
-                value: 'Element9',
+                title: 'LABEL',
+                value: data?.labelUser?.userName ?? 'N/A',
               ),
-              SizedBox(
+              const SizedBox(
                 width: 32,
               ),
-              DetailDescriptionLabel(
-                title: 'Artist',
-                value: 'Element9',
+              const DetailDescriptionLabel(
+                title: 'Remixers',
+                value: '',
               )
             ],
           ),
@@ -60,25 +66,11 @@ class DetailSongDescription extends StatelessWidget {
           ),
           //second row
           Row(
-            children: const [
+            children: [
               DetailDescriptionLabel(
-                title: 'Artist',
-                value: 'Element9',
+                title: 'GENRE',
+                value: data?.genreName ?? 'N/A',
               ),
-              SizedBox(
-                width: 32,
-              ),
-              DetailDescriptionLabel(
-                title: 'Artist',
-                value: 'Element9',
-              ),
-              SizedBox(
-                width: 32,
-              ),
-              DetailDescriptionLabel(
-                title: 'Artist',
-                value: 'Element9',
-              )
             ],
           ),
           const SizedBox(
@@ -88,57 +80,37 @@ class DetailSongDescription extends StatelessWidget {
           Wrap(
             spacing: 8,
             runSpacing: 4,
-            children: [
-              Text(
-                '#psytrance ',
-                style: TextStyle(
-                  color: AppColors.lightBlueColor,
-                ),
-              ),
-              Text(
-                '#psytrance ',
-                style: TextStyle(
-                  color: AppColors.lightBlueColor,
-                ),
-              ),
-              Text(
-                '#psytrance ',
-                style: TextStyle(
-                  color: AppColors.lightBlueColor,
-                ),
-              ),
-              Text(
-                '#psytrance ',
-                style: TextStyle(
-                  color: AppColors.lightBlueColor,
-                ),
-              ),
-            ],
+            children: data!.tags!
+                .split('')
+                .map(
+                  (e) => Text(
+                    e,
+                    style: TextStyle(color: AppColors.lightBlue),
+                  ),
+                )
+                .toList(),
           ),
           const SizedBox(
             height: 20,
           ),
           //read more text
-          ReadMoreText(
-            """Written in 2018 we wanted to create a track that had that nice atmosphere of a slow bumping psy-trance base but mixed with a TechnoDrum-Kick. 
-            \nIt wasnt that easy and i think 
-            the actual Kick&base took at least 3-4 hours to actually 
-            get it working to a point where we could working with the rest of the track.\n """,
-            trimLines: 3,
-            colorClickableText: Colors.pink,
-            trimMode: TrimMode.Line,
-            trimCollapsedText: context.l10n.t_read_more,
-            trimExpandedText: context.l10n.t_read_less,
-            moreStyle: TextStyle(
-              color: AppColors.lightBlueColor,
-            ),
-            lessStyle: TextStyle(
-              color: AppColors.lightBlueColor,
-            ),
-          ),
-          const SizedBox(
-            height: 40,
-          ),
+          if (data?.description != null)
+            ReadMoreText(
+              data?.description ?? '',
+              trimLines: 3,
+              colorClickableText: Colors.pink,
+              trimMode: TrimMode.Line,
+              trimCollapsedText: context.l10n.t_read_more,
+              trimExpandedText: context.l10n.t_read_less,
+              moreStyle: TextStyle(
+                color: AppColors.lightBlueColor,
+              ),
+              lessStyle: TextStyle(
+                color: AppColors.lightBlueColor,
+              ),
+            )
+          else
+            const SizedBox(),
           //heart, comment
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -147,7 +119,7 @@ class DetailSongDescription extends StatelessWidget {
                 children: [
                   _buildIcon(
                     SvgPicture.asset(AppAssets.heartIcon),
-                    149,
+                    data?.totalLike ?? '',
                     context,
                   ),
                   const SizedBox(
@@ -155,12 +127,12 @@ class DetailSongDescription extends StatelessWidget {
                   ),
                   _buildIcon(
                     SvgPicture.asset(AppAssets.commentIcon),
-                    10,
+                    data?.totalComment ?? '',
                     context,
                   )
                 ],
               ),
-              _buildPlayCount(113, context)
+              _buildPlayCount(data?.totalPlay ?? '', context)
             ],
           ),
           const SizedBox(
@@ -176,7 +148,7 @@ class DetailSongDescription extends StatelessWidget {
     );
   }
 
-  Widget _buildIcon(Widget icon, int value, BuildContext context) {
+  Widget _buildIcon(Widget icon, String value, BuildContext context) {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
@@ -190,7 +162,7 @@ class DetailSongDescription extends StatelessWidget {
             width: 14,
           ),
           Text(
-            value.toString(),
+            value,
             style: context.bodyTextPrimaryStyle()!.copyWith(
                   color: Colors.white,
                   fontSize: 12,
@@ -203,7 +175,7 @@ class DetailSongDescription extends StatelessWidget {
   }
 
   Widget _buildPlayCount(
-    int value,
+    String value,
     BuildContext context,
   ) {
     return Padding(
@@ -219,7 +191,7 @@ class DetailSongDescription extends StatelessWidget {
             width: 10,
           ),
           Text(
-            value.toString(),
+            value,
             style: context.bodyTextPrimaryStyle()!.copyWith(
                   color: Colors.white,
                   fontSize: 12,

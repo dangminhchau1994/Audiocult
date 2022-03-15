@@ -1,4 +1,6 @@
+import 'package:audio_cult/app/data_source/models/responses/comment/comment_response.dart';
 import 'package:audio_cult/app/utils/constants/app_assets.dart';
+import 'package:audio_cult/app/utils/datetime/date_time_utils.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -8,13 +10,23 @@ import 'package:flutter_svg/svg.dart';
 import '../../app/utils/constants/app_colors.dart';
 
 class CommonComment extends StatefulWidget {
-  const CommonComment({Key? key}) : super(key: key);
+  const CommonComment({
+    Key? key,
+    this.data,
+  }) : super(key: key);
+
+  final CommentResponse? data;
 
   @override
   State<CommonComment> createState() => _CommonCommentState();
 }
 
 class _CommonCommentState extends State<CommonComment> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -28,7 +40,7 @@ class _CommonCommentState extends State<CommonComment> {
           CachedNetworkImage(
             width: 50,
             height: 50,
-            imageUrl: 'https://i.pinimg.com/736x/f2/6d/5a/f26d5a37153abe4860740cc93a7d5600.jpg',
+            imageUrl: widget.data?.userImage ?? '',
             imageBuilder: (context, imageProvider) => Container(
               decoration: BoxDecoration(
                 image: DecorationImage(
@@ -55,7 +67,7 @@ class _CommonCommentState extends State<CommonComment> {
                 Row(
                   children: [
                     Text(
-                      'LINDE',
+                      widget.data?.userName ?? '',
                       style: context.bodyTextPrimaryStyle()!.copyWith(
                             color: AppColors.lightBlue,
                             fontSize: 14,
@@ -66,7 +78,7 @@ class _CommonCommentState extends State<CommonComment> {
                       width: 10,
                     ),
                     Text(
-                      'at 1:06',
+                      DateTimeUtils.formatCommonDate('hh:mm', int.parse(widget.data?.timeStamp ?? '')),
                       style: context.bodyTextPrimaryStyle()!.copyWith(
                             color: AppColors.lightWhiteColor,
                             fontSize: 12,
@@ -79,7 +91,7 @@ class _CommonCommentState extends State<CommonComment> {
                   height: 10,
                 ),
                 Text(
-                  'Ante eget euismod purus tellus, eget sit. Id phasellus mauris. eget sit. Id eget sit. Id sa',
+                  widget.data?.text ?? '',
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: context.bodyTextPrimaryStyle()!.copyWith(
@@ -97,7 +109,7 @@ class _CommonCommentState extends State<CommonComment> {
                     Row(
                       children: [
                         Text(
-                          'two hour ago',
+                          DateTimeUtils.convertToAgo(int.parse(widget.data?.timeStamp ?? '')),
                           style: context.bodyTextPrimaryStyle()!.copyWith(
                                 color: AppColors.lightWhiteColor,
                                 fontSize: 12,
@@ -126,7 +138,7 @@ class _CommonCommentState extends State<CommonComment> {
                           width: 4,
                         ),
                         Text(
-                          '149',
+                          widget.data?.totalLike ?? '',
                           style: context.bodyTextPrimaryStyle()!.copyWith(
                                 color: AppColors.lightWhiteColor,
                                 fontSize: 14,

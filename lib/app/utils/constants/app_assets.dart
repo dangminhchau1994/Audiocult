@@ -5,6 +5,12 @@ class AppAssets {
 
   static const messageIcon = 'assets/icons/messages.svg';
 
+  static const addPlaylistIcon = 'assets/icons/add_playlist.svg';
+
+  static const shareIcon = 'assets/icons/share.svg';
+
+  static const songDetailIcon = 'assets/icons/song_detail.svg';
+
   static const menuFilter = 'assets/icons/menu_filter.svg';
 
   static const faceIcon = 'assets/icons/smile_face.svg';

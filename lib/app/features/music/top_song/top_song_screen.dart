@@ -160,7 +160,7 @@ class _TopSongScreenState extends State<TopSongScreen> {
                   itemBuilder: (context, item, index) {
                     return SongItem(
                       song: item,
-                      onMenuClick: () {},
+                      hasMenu: true,
                     );
                   },
                 ),

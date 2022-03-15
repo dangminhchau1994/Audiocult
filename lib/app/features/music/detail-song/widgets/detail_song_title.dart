@@ -1,10 +1,19 @@
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../utils/constants/app_colors.dart';
+import '../../../../utils/datetime/date_time_utils.dart';
 
 class DetailSongTitle extends StatelessWidget {
-  const DetailSongTitle({Key? key}) : super(key: key);
+  const DetailSongTitle({
+    Key? key,
+    this.title,
+    this.artistName,
+    this.time,
+  }) : super(key: key);
+
+  final String? title;
+  final String? artistName;
+  final String? time;
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +24,7 @@ class DetailSongTitle extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'LOVE (Extended Version) D# 138b ',
+            title ?? '',
             style: context.bodyTextPrimaryStyle()!.copyWith(
                   color: Colors.white,
                   fontSize: 16,
@@ -28,7 +37,7 @@ class DetailSongTitle extends StatelessWidget {
           Row(
             children: [
               Text(
-                'LINDE',
+                artistName ?? '',
                 style: context.bodyTextPrimaryStyle()!.copyWith(
                       color: Colors.white,
                       fontSize: 14,
@@ -46,7 +55,7 @@ class DetailSongTitle extends StatelessWidget {
                 width: 10,
               ),
               Text(
-                'May 7, 2021',
+                DateTimeUtils.formatyMMMMd(int.parse(time ?? '')),
                 style: context.bodyTextPrimaryStyle()!.copyWith(
                       color: Colors.white,
                       fontSize: 14,

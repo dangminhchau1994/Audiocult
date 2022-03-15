@@ -1,23 +1,27 @@
 import 'package:audio_cult/app/utils/datetime/date_time_utils.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
+import 'package:audio_cult/l10n/l10n.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:focused_menu/focused_menu.dart';
+import 'package:focused_menu/modals.dart';
 import '../../../../data_source/models/responses/song/song_response.dart';
 import '../../../../utils/constants/app_assets.dart';
 import '../../../../utils/constants/app_colors.dart';
+import '../../../../utils/route/app_route.dart';
 
 class SongItem extends StatelessWidget {
   const SongItem({
     Key? key,
     this.song,
     this.imageSize = 40,
-    this.onMenuClick,
+    this.hasMenu,
     this.fromDetail = false,
   }) : super(key: key);
 
   final Song? song;
-  final Function()? onMenuClick;
+  final bool? hasMenu;
   final double? imageSize;
   final bool? fromDetail;
 
@@ -104,11 +108,100 @@ class SongItem extends StatelessWidget {
               )
             ],
           ),
-          if (onMenuClick != null)
-            SvgPicture.asset(
-              AppAssets.horizIcon,
-              width: 16,
-              height: 16,
+          if (hasMenu!)
+            FocusedMenuHolder(
+              menuWidth: MediaQuery.of(context).size.width / 2,
+              blurBackgroundColor: AppColors.mainColor,
+              menuOffset: 20,
+              openWithTap: true,
+              menuItemExtent: 70,
+              bottomOffsetHeight: 0,
+              animateMenuItems: false,
+              onPressed: () {},
+              menuItems: [
+                FocusedMenuItem(
+                  backgroundColor: AppColors.secondaryButtonColor,
+                  title: Row(
+                    children: [
+                      SvgPicture.asset(
+                        AppAssets.addPlaylistIcon,
+                        width: 12,
+                        height: 12,
+                      ),
+                      const SizedBox(
+                        width: 12,
+                      ),
+                      Text(
+                        context.l10n.t_add_playlist,
+                        style: context.bodyTextPrimaryStyle()!.copyWith(
+                              color: Colors.white,
+                              fontSize: 12,
+                            ),
+                      )
+                    ],
+                  ),
+                  onPressed: () {},
+                ),
+                FocusedMenuItem(
+                  backgroundColor: AppColors.secondaryButtonColor,
+                  title: Row(
+                    children: [
+                      SvgPicture.asset(
+                        AppAssets.shareIcon,
+                        width: 16,
+                        height: 16,
+                      ),
+                      const SizedBox(
+                        width: 12,
+                      ),
+                      Text(
+                        context.l10n.t_share,
+                        style: context.bodyTextPrimaryStyle()!.copyWith(
+                              color: Colors.white,
+                              fontSize: 12,
+                            ),
+                      )
+                    ],
+                  ),
+                  onPressed: () {},
+                ),
+                FocusedMenuItem(
+                  backgroundColor: AppColors.secondaryButtonColor,
+                  title: Row(
+                    children: [
+                      SvgPicture.asset(
+                        AppAssets.songDetailIcon,
+                        width: 16,
+                        height: 16,
+                      ),
+                      const SizedBox(
+                        width: 12,
+                      ),
+                      Text(
+                        context.l10n.t_song_detail,
+                        style: context.bodyTextPrimaryStyle()!.copyWith(
+                              color: Colors.white,
+                              fontSize: 12,
+                            ),
+                      )
+                    ],
+                  ),
+                  onPressed: () {
+                    Navigator.pushNamed(
+                      context,
+                      AppRoute.routeDetaiSong,
+                      arguments: {
+                        'song_id': song!.songId,
+                      },
+                    );
+                  },
+                ),
+              ],
+              child: SvgPicture.asset(
+                AppAssets.horizIcon,
+                width: 16,
+                height: 16,
+              ),
             )
           else
             const SizedBox()

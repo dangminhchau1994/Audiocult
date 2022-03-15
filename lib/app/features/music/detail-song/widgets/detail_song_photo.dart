@@ -4,7 +4,12 @@ import 'package:flutter/material.dart';
 import '../../../../utils/constants/app_colors.dart';
 
 class DetailPhotoSong extends StatelessWidget {
-  const DetailPhotoSong({Key? key}) : super(key: key);
+  const DetailPhotoSong({
+    Key? key,
+    this.imagePath,
+  }) : super(key: key);
+
+  final String? imagePath;
 
   @override
   Widget build(BuildContext context) {
@@ -22,8 +27,7 @@ class DetailPhotoSong extends StatelessWidget {
                 child: CachedNetworkImage(
                   width: double.infinity,
                   height: 300,
-                  imageUrl:
-                      'https://staging-media.audiocult.net/file/pic/music/2021/04/1a9284a03cd8aee00cd1e86e84eec8f5.jpg',
+                  imageUrl: imagePath ?? '',
                   imageBuilder: (context, imageProvider) => Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(4),
