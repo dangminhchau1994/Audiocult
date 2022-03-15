@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
+import '../../utils/constants/app_colors.dart';
 import 'audio_player.dart';
 import 'gradient_containers.dart';
 
@@ -96,9 +97,9 @@ class _MiniPlayerState extends State<MiniPlayer> {
                     'preferredMiniButtons',
                     defaultValue: ['Previous', 'Play/Pause', 'Next'],
                   )?.toList() as List;
-                  return Card(
-                    color: Colors.red,
-                    margin: const EdgeInsets.symmetric(
+                  return Container(
+                    color: AppColors.semiMainColor.withOpacity(0.9),
+                    padding: const EdgeInsets.symmetric(
                       horizontal: 2.0,
                       vertical: 1.0,
                     ),
@@ -192,7 +193,7 @@ class _MiniPlayerState extends State<MiniPlayer> {
                                   : preferredMiniButtons,
                             ),
                           ),
-                        //  child!,
+                          //  child!,
                         ],
                       ),
                     ),

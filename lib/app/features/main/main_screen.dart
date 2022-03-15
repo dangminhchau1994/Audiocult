@@ -162,16 +162,28 @@ class _MainScreenState extends State<MainScreen> {
             child: MyDrawer(),
           ),
         ),
-        body: Column(
+        body: Stack(
           children: [
-            Expanded(
-              child: PageView(
-                physics: const NeverScrollableScrollPhysics(),
-                controller: _pageController,
-                children: _buildPages(),
+            PageView(
+              physics: const NeverScrollableScrollPhysics(),
+              controller: _pageController,
+              children: _buildPages(),
+            ),
+            Positioned(
+              bottom: 0,
+              right: 0,
+              left: 0,
+              child: CommonBottomBar(
+                topWidget: const MiniPlayer(),
+                currentIndex: _currentIndex,
+                onTap: (index) {
+                  setState(() {
+                    _currentIndex = index;
+                  });
+                  _pageController.jumpToPage(index);
+                },
               ),
             ),
-            const MiniPlayer()
           ],
         ),
         backgroundColor: AppColors.mainColor,
@@ -180,15 +192,6 @@ class _MainScreenState extends State<MainScreen> {
           onMusicTap: () {},
           onEventTap: () {},
           onPostTap: () {},
-        ),
-        bottomNavigationBar: CommonBottomBar(
-          currentIndex: _currentIndex,
-          onTap: (index) {
-            setState(() {
-              _currentIndex = index;
-            });
-            _pageController.jumpToPage(index);
-          },
         ),
       ),
     );
