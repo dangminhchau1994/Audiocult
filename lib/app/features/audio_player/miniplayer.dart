@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
+import '../../utils/constants/app_colors.dart';
 import 'audio_player.dart';
 import 'gradient_containers.dart';
 
@@ -39,6 +40,7 @@ class _MiniPlayerState extends State<MiniPlayer> {
             final mediaItem = snapshot.data;
             if (mediaItem == null) return const SizedBox();
             return Dismissible(
+              background: Container(color: Colors.transparent),
               key: Key(mediaItem.id),
               onDismissed: (_) {
                 Feedback.forLongPress(context);
@@ -96,9 +98,9 @@ class _MiniPlayerState extends State<MiniPlayer> {
                     'preferredMiniButtons',
                     defaultValue: ['Previous', 'Play/Pause', 'Next'],
                   )?.toList() as List;
-                  return Card(
-                    color: Colors.red,
-                    margin: const EdgeInsets.symmetric(
+                  return Container(
+                    color: AppColors.semiMainColor.withOpacity(0.75),
+                    padding: const EdgeInsets.symmetric(
                       horizontal: 2.0,
                       vertical: 1.0,
                     ),
@@ -192,7 +194,7 @@ class _MiniPlayerState extends State<MiniPlayer> {
                                   : preferredMiniButtons,
                             ),
                           ),
-                          // Expanded(child: child!),
+                          //  child!,
                         ],
                       ),
                     ),
@@ -246,7 +248,7 @@ class ControlButtons extends StatelessWidget {
                 return IconButton(
                   icon: const Icon(Icons.skip_previous_rounded),
                   iconSize: miniplayer ? 24.0 : 45.0,
-                  tooltip: 'Skip',
+                  tooltip: 'Previous',
                   color: dominantColor ?? Theme.of(context).iconTheme.color,
                   onPressed: queueState?.hasPrevious ?? true ? audioHandler.skipToPrevious : null,
                 );
