@@ -109,99 +109,10 @@ class SongItem extends StatelessWidget {
             ],
           ),
           if (hasMenu!)
-            FocusedMenuHolder(
-              menuWidth: MediaQuery.of(context).size.width / 2,
-              blurBackgroundColor: AppColors.mainColor,
-              menuOffset: 20,
-              openWithTap: true,
-              menuItemExtent: 70,
-              bottomOffsetHeight: 0,
-              animateMenuItems: false,
-              onPressed: () {},
-              menuItems: [
-                FocusedMenuItem(
-                  backgroundColor: AppColors.secondaryButtonColor,
-                  title: Row(
-                    children: [
-                      SvgPicture.asset(
-                        AppAssets.addPlaylistIcon,
-                        width: 12,
-                        height: 12,
-                      ),
-                      const SizedBox(
-                        width: 12,
-                      ),
-                      Text(
-                        context.l10n.t_add_playlist,
-                        style: context.bodyTextPrimaryStyle()!.copyWith(
-                              color: Colors.white,
-                              fontSize: 12,
-                            ),
-                      )
-                    ],
-                  ),
-                  onPressed: () {},
-                ),
-                FocusedMenuItem(
-                  backgroundColor: AppColors.secondaryButtonColor,
-                  title: Row(
-                    children: [
-                      SvgPicture.asset(
-                        AppAssets.shareIcon,
-                        width: 16,
-                        height: 16,
-                      ),
-                      const SizedBox(
-                        width: 12,
-                      ),
-                      Text(
-                        context.l10n.t_share,
-                        style: context.bodyTextPrimaryStyle()!.copyWith(
-                              color: Colors.white,
-                              fontSize: 12,
-                            ),
-                      )
-                    ],
-                  ),
-                  onPressed: () {},
-                ),
-                FocusedMenuItem(
-                  backgroundColor: AppColors.secondaryButtonColor,
-                  title: Row(
-                    children: [
-                      SvgPicture.asset(
-                        AppAssets.songDetailIcon,
-                        width: 16,
-                        height: 16,
-                      ),
-                      const SizedBox(
-                        width: 12,
-                      ),
-                      Text(
-                        context.l10n.t_song_detail,
-                        style: context.bodyTextPrimaryStyle()!.copyWith(
-                              color: Colors.white,
-                              fontSize: 12,
-                            ),
-                      )
-                    ],
-                  ),
-                  onPressed: () {
-                    Navigator.pushNamed(
-                      context,
-                      AppRoute.routeDetaiSong,
-                      arguments: {
-                        'song_id': song!.songId,
-                      },
-                    );
-                  },
-                ),
-              ],
-              child: SvgPicture.asset(
-                AppAssets.horizIcon,
-                width: 16,
-                height: 16,
-              ),
+            SvgPicture.asset(
+              AppAssets.horizIcon,
+              width: 16,
+              height: 16,
             )
           else
             const SizedBox()
