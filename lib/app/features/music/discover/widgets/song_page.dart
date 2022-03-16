@@ -83,7 +83,7 @@ class _SongPageState extends State<SongPage> {
                         },
                         child: SongItem(
                           song: songs[index],
-                          onMenuClick: () {},
+                          hasMenu: true,
                         ),
                       );
                     },

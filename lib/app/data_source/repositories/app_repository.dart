@@ -1,10 +1,12 @@
 import 'package:audio_cult/app/data_source/models/cache_filter.dart';
 import 'package:audio_cult/app/data_source/models/requests/register_request.dart';
 import 'package:audio_cult/app/data_source/models/responses/album/album_response.dart';
+import 'package:audio_cult/app/data_source/models/responses/comment/comment_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/genre.dart';
 import 'package:audio_cult/app/data_source/models/responses/place.dart';
 import 'package:audio_cult/app/data_source/models/responses/playlist/playlist_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/profile_data.dart';
+import 'package:audio_cult/app/data_source/models/responses/song_detail/song_detail_response.dart';
 import 'package:audio_cult/app/data_source/networks/exceptions/no_cache_exception.dart';
 import 'package:audio_cult/app/data_source/services/hive_service_provider.dart';
 import 'package:audio_cult/app/features/auth/widgets/register_page.dart';
@@ -99,6 +101,24 @@ class AppRepository extends BaseRepository {
   Future<Either<Song, Exception>> getSongOfDay() {
     return safeCall(
       appServiceProvider.getSongOfDay,
+    );
+  }
+
+  Future<Either<SongDetailResponse, Exception>> getSongDetail(int id) {
+    return safeCall(
+      () => appServiceProvider.getSongDetail(id),
+    );
+  }
+
+  Future<Either<Album, Exception>> getAlbumDetail(int id) {
+    return safeCall(
+      () => appServiceProvider.getAlbumDetail(id),
+    );
+  }
+
+  Future<Either<List<CommentResponse>, Exception>> getComments(int id, String typeId, int page, int limit) {
+    return safeCall(
+      () => appServiceProvider.getComments(id, typeId, page, limit),
     );
   }
 

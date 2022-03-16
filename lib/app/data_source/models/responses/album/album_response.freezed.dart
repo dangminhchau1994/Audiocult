@@ -253,14 +253,14 @@ class _$AlbumTearOff {
       @JsonKey(name: 'image_path') String? imagePath,
       String? serverId,
       String? totalTrack,
-      String? totalPlay,
-      String? totalComment,
+      @JsonKey(name: 'total_play') String? totalPlay,
+      @JsonKey(name: 'total_comment') String? totalComment,
       String? totalView,
-      String? totalLike,
+      @JsonKey(name: 'total_like') String? totalLike,
       String? totalDislike,
       String? totalScore,
       String? totalRating,
-      String? totalAttachment,
+      @JsonKey(name: 'total_attachment') String? totalAttachment,
       @JsonKey(name: 'time_stamp') String? timeStamp,
       dynamic moduleId,
       String? itemId,
@@ -271,9 +271,9 @@ class _$AlbumTearOff {
       String? googleplay,
       dynamic youtube,
       String? soundcloud,
-      String? labelUser,
+      @JsonKey(name: 'label_user') String? labelUser,
       String? labelUserId,
-      String? artistUser,
+      @JsonKey(name: 'artist_user') String? artistUser,
       String? artistUserId,
       String? collabUser,
       String? collabUserId,
@@ -378,14 +378,22 @@ mixin _$Album {
   @JsonKey(name: 'image_path')
   String? get imagePath => throw _privateConstructorUsedError;
   String? get serverId => throw _privateConstructorUsedError;
-  String? get totalTrack => throw _privateConstructorUsedError;
-  String? get totalPlay => throw _privateConstructorUsedError;
+  String? get totalTrack =>
+      throw _privateConstructorUsedError; // ignore: invalid_annotation_target
+  @JsonKey(name: 'total_play')
+  String? get totalPlay =>
+      throw _privateConstructorUsedError; // ignore: invalid_annotation_target
+  @JsonKey(name: 'total_comment')
   String? get totalComment => throw _privateConstructorUsedError;
-  String? get totalView => throw _privateConstructorUsedError;
+  String? get totalView =>
+      throw _privateConstructorUsedError; // ignore: invalid_annotation_target
+  @JsonKey(name: 'total_like')
   String? get totalLike => throw _privateConstructorUsedError;
   String? get totalDislike => throw _privateConstructorUsedError;
   String? get totalScore => throw _privateConstructorUsedError;
-  String? get totalRating => throw _privateConstructorUsedError;
+  String? get totalRating =>
+      throw _privateConstructorUsedError; // ignore: invalid_annotation_target
+  @JsonKey(name: 'total_attachment')
   String? get totalAttachment =>
       throw _privateConstructorUsedError; // ignore: invalid_annotation_target
   @JsonKey(name: 'time_stamp')
@@ -398,9 +406,13 @@ mixin _$Album {
   String? get amazon => throw _privateConstructorUsedError;
   String? get googleplay => throw _privateConstructorUsedError;
   dynamic get youtube => throw _privateConstructorUsedError;
-  String? get soundcloud => throw _privateConstructorUsedError;
+  String? get soundcloud =>
+      throw _privateConstructorUsedError; // ignore: invalid_annotation_target
+  @JsonKey(name: 'label_user')
   String? get labelUser => throw _privateConstructorUsedError;
-  String? get labelUserId => throw _privateConstructorUsedError;
+  String? get labelUserId =>
+      throw _privateConstructorUsedError; // ignore: invalid_annotation_target
+  @JsonKey(name: 'artist_user')
   String? get artistUser => throw _privateConstructorUsedError;
   String? get artistUserId => throw _privateConstructorUsedError;
   String? get collabUser => throw _privateConstructorUsedError;
@@ -443,14 +455,14 @@ abstract class $AlbumCopyWith<$Res> {
       @JsonKey(name: 'image_path') String? imagePath,
       String? serverId,
       String? totalTrack,
-      String? totalPlay,
-      String? totalComment,
+      @JsonKey(name: 'total_play') String? totalPlay,
+      @JsonKey(name: 'total_comment') String? totalComment,
       String? totalView,
-      String? totalLike,
+      @JsonKey(name: 'total_like') String? totalLike,
       String? totalDislike,
       String? totalScore,
       String? totalRating,
-      String? totalAttachment,
+      @JsonKey(name: 'total_attachment') String? totalAttachment,
       @JsonKey(name: 'time_stamp') String? timeStamp,
       dynamic moduleId,
       String? itemId,
@@ -461,9 +473,9 @@ abstract class $AlbumCopyWith<$Res> {
       String? googleplay,
       dynamic youtube,
       String? soundcloud,
-      String? labelUser,
+      @JsonKey(name: 'label_user') String? labelUser,
       String? labelUserId,
-      String? artistUser,
+      @JsonKey(name: 'artist_user') String? artistUser,
       String? artistUserId,
       String? collabUser,
       String? collabUserId,
@@ -773,14 +785,14 @@ abstract class _$AlbumCopyWith<$Res> implements $AlbumCopyWith<$Res> {
       @JsonKey(name: 'image_path') String? imagePath,
       String? serverId,
       String? totalTrack,
-      String? totalPlay,
-      String? totalComment,
+      @JsonKey(name: 'total_play') String? totalPlay,
+      @JsonKey(name: 'total_comment') String? totalComment,
       String? totalView,
-      String? totalLike,
+      @JsonKey(name: 'total_like') String? totalLike,
       String? totalDislike,
       String? totalScore,
       String? totalRating,
-      String? totalAttachment,
+      @JsonKey(name: 'total_attachment') String? totalAttachment,
       @JsonKey(name: 'time_stamp') String? timeStamp,
       dynamic moduleId,
       String? itemId,
@@ -791,9 +803,9 @@ abstract class _$AlbumCopyWith<$Res> implements $AlbumCopyWith<$Res> {
       String? googleplay,
       dynamic youtube,
       String? soundcloud,
-      String? labelUser,
+      @JsonKey(name: 'label_user') String? labelUser,
       String? labelUserId,
-      String? artistUser,
+      @JsonKey(name: 'artist_user') String? artistUser,
       String? artistUserId,
       String? collabUser,
       String? collabUserId,
@@ -1102,14 +1114,14 @@ class _$_Album implements _Album {
       @JsonKey(name: 'image_path') this.imagePath,
       this.serverId,
       this.totalTrack,
-      this.totalPlay,
-      this.totalComment,
+      @JsonKey(name: 'total_play') this.totalPlay,
+      @JsonKey(name: 'total_comment') this.totalComment,
       this.totalView,
-      this.totalLike,
+      @JsonKey(name: 'total_like') this.totalLike,
       this.totalDislike,
       this.totalScore,
       this.totalRating,
-      this.totalAttachment,
+      @JsonKey(name: 'total_attachment') this.totalAttachment,
       @JsonKey(name: 'time_stamp') this.timeStamp,
       this.moduleId,
       this.itemId,
@@ -1120,9 +1132,9 @@ class _$_Album implements _Album {
       this.googleplay,
       this.youtube,
       this.soundcloud,
-      this.labelUser,
+      @JsonKey(name: 'label_user') this.labelUser,
       this.labelUserId,
-      this.artistUser,
+      @JsonKey(name: 'artist_user') this.artistUser,
       this.artistUserId,
       this.collabUser,
       this.collabUserId,
@@ -1182,13 +1194,16 @@ class _$_Album implements _Album {
   final String? serverId;
   @override
   final String? totalTrack;
-  @override
+  @override // ignore: invalid_annotation_target
+  @JsonKey(name: 'total_play')
   final String? totalPlay;
-  @override
+  @override // ignore: invalid_annotation_target
+  @JsonKey(name: 'total_comment')
   final String? totalComment;
   @override
   final String? totalView;
-  @override
+  @override // ignore: invalid_annotation_target
+  @JsonKey(name: 'total_like')
   final String? totalLike;
   @override
   final String? totalDislike;
@@ -1196,7 +1211,8 @@ class _$_Album implements _Album {
   final String? totalScore;
   @override
   final String? totalRating;
-  @override
+  @override // ignore: invalid_annotation_target
+  @JsonKey(name: 'total_attachment')
   final String? totalAttachment;
   @override // ignore: invalid_annotation_target
   @JsonKey(name: 'time_stamp')
@@ -1219,11 +1235,13 @@ class _$_Album implements _Album {
   final dynamic youtube;
   @override
   final String? soundcloud;
-  @override
+  @override // ignore: invalid_annotation_target
+  @JsonKey(name: 'label_user')
   final String? labelUser;
   @override
   final String? labelUserId;
-  @override
+  @override // ignore: invalid_annotation_target
+  @JsonKey(name: 'artist_user')
   final String? artistUser;
   @override
   final String? artistUserId;
@@ -1420,14 +1438,14 @@ abstract class _Album implements Album {
       @JsonKey(name: 'image_path') String? imagePath,
       String? serverId,
       String? totalTrack,
-      String? totalPlay,
-      String? totalComment,
+      @JsonKey(name: 'total_play') String? totalPlay,
+      @JsonKey(name: 'total_comment') String? totalComment,
       String? totalView,
-      String? totalLike,
+      @JsonKey(name: 'total_like') String? totalLike,
       String? totalDislike,
       String? totalScore,
       String? totalRating,
-      String? totalAttachment,
+      @JsonKey(name: 'total_attachment') String? totalAttachment,
       @JsonKey(name: 'time_stamp') String? timeStamp,
       dynamic moduleId,
       String? itemId,
@@ -1438,9 +1456,9 @@ abstract class _Album implements Album {
       String? googleplay,
       dynamic youtube,
       String? soundcloud,
-      String? labelUser,
+      @JsonKey(name: 'label_user') String? labelUser,
       String? labelUserId,
-      String? artistUser,
+      @JsonKey(name: 'artist_user') String? artistUser,
       String? artistUserId,
       String? collabUser,
       String? collabUserId,
@@ -1499,13 +1517,16 @@ abstract class _Album implements Album {
   String? get serverId;
   @override
   String? get totalTrack;
-  @override
+  @override // ignore: invalid_annotation_target
+  @JsonKey(name: 'total_play')
   String? get totalPlay;
-  @override
+  @override // ignore: invalid_annotation_target
+  @JsonKey(name: 'total_comment')
   String? get totalComment;
   @override
   String? get totalView;
-  @override
+  @override // ignore: invalid_annotation_target
+  @JsonKey(name: 'total_like')
   String? get totalLike;
   @override
   String? get totalDislike;
@@ -1513,7 +1534,8 @@ abstract class _Album implements Album {
   String? get totalScore;
   @override
   String? get totalRating;
-  @override
+  @override // ignore: invalid_annotation_target
+  @JsonKey(name: 'total_attachment')
   String? get totalAttachment;
   @override // ignore: invalid_annotation_target
   @JsonKey(name: 'time_stamp')
@@ -1536,11 +1558,13 @@ abstract class _Album implements Album {
   dynamic get youtube;
   @override
   String? get soundcloud;
-  @override
+  @override // ignore: invalid_annotation_target
+  @JsonKey(name: 'label_user')
   String? get labelUser;
   @override
   String? get labelUserId;
-  @override
+  @override // ignore: invalid_annotation_target
+  @JsonKey(name: 'artist_user')
   String? get artistUser;
   @override
   String? get artistUserId;

@@ -3,10 +3,12 @@ import 'package:audio_cult/app/data_source/models/responses/album/album_response
 import 'package:audio_cult/app/features/music/discover/discover_bloc.dart';
 import 'package:audio_cult/app/features/music/discover/widgets/album_item.dart';
 import 'package:audio_cult/app/features/music/discover/widgets/section_title.dart';
+import 'package:audio_cult/w_components/buttons/w_button_inkwell.dart';
 import 'package:flutter/material.dart';
 import '../../../../../di/bloc_locator.dart';
 import '../../../../../w_components/error_empty/error_section.dart';
 import '../../../../../w_components/loading/loading_widget.dart';
+import '../../../../utils/route/app_route.dart';
 
 class FeaturedAlbums extends StatelessWidget {
   const FeaturedAlbums({
@@ -47,8 +49,19 @@ class FeaturedAlbums extends StatelessWidget {
                     child: ListView.separated(
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (context, index) {
-                        return AlbumItem(
-                          album: albums[index],
+                        return WButtonInkwell(
+                          onPressed: () {
+                            Navigator.pushNamed(
+                              context,
+                              AppRoute.routeDetailAlbum,
+                              arguments: {
+                                'album_id': albums[index].albumId,
+                              },
+                            );
+                          },
+                          child: AlbumItem(
+                            album: albums[index],
+                          ),
                         );
                       },
                       separatorBuilder: (context, index) => const SizedBox(width: 16),
