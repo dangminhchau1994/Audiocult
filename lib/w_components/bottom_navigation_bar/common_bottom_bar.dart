@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../app/utils/constants/app_colors.dart';
-import '../../app/utils/extensions/app_extensions.dart';
 
 class CommonBottomBar extends StatelessWidget {
   const CommonBottomBar({Key? key, this.currentIndex, this.onTap, this.topWidget}) : super(key: key);
@@ -18,7 +17,8 @@ class CommonBottomBar extends StatelessWidget {
     return Stack(
       children: [
         Positioned.fill(
-            child: Blur(blur: 10, blurColor: AppColors.semiMainColor.withOpacity(0.75), child: Container())),
+          child: Blur(blur: 10, blurColor: AppColors.semiMainColor.withOpacity(0.75), child: Container()),
+        ),
         Column(
           children: [
             topWidget ?? const SizedBox.shrink(),

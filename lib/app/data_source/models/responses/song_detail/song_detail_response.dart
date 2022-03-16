@@ -196,7 +196,7 @@ class ArtistUser {
       this.languageId,
       this.lastActivity,
       this.birthday,
-      this.countryIso});
+      this.countryIso,});
 
   factory ArtistUser.fromJson(Map<String, dynamic> json) => _$ArtistUserFromJson(json);
 }

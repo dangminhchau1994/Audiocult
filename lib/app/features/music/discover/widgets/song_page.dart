@@ -7,7 +7,7 @@ import 'package:audio_cult/w_components/error_empty/error_section.dart';
 import 'package:audio_cult/w_components/loading/loading_widget.dart';
 import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
+
 import '../../../../../di/bloc_locator.dart';
 import '../../../../data_source/models/responses/song/song_response.dart';
 import '../../../audio_player/audio_player.dart';
@@ -54,6 +54,8 @@ class _SongPageState extends State<SongPage> {
               return state.when(
                 success: (data) {
                   final songs = data as List<Song>;
+                  globalQueue.clear();
+                  // ignore: avoid_function_literals_in_foreach_calls
                   songs.forEach((element) {
                     globalQueue.add(
                       MediaItem(

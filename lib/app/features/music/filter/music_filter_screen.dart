@@ -158,11 +158,13 @@ class _MusicFilterScreenState extends State<MusicFilterScreen> {
                           },
                           hintText: context.l10n.t_genres,
                           listCheckBox: snapshot.data!
-                              .map((e) => InputTagSelect(
-                                    e.genreId,
-                                    e.isSelected,
-                                    e.name ?? '',
-                                  ))
+                              .map(
+                                (e) => InputTagSelect(
+                                  e.genreId,
+                                  e.isSelected,
+                                  e.name ?? '',
+                                ),
+                              )
                               .toList(),
                         ),
                       );

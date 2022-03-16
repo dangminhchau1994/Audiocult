@@ -1,4 +1,3 @@
-import 'package:audio_cult/app/features/music/detail-song/detail_song_screen.dart';
 import 'package:audio_cult/app/features/music/discover/discover_screen.dart';
 import 'package:audio_cult/app/features/music/library/library_screen.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
@@ -29,6 +28,7 @@ class _MusicScreenState extends State<MusicScreen> with AutomaticKeepAliveClient
   }
 
   @override
+  // ignore: must_call_super
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.secondaryButtonColor,
