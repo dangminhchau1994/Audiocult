@@ -1,16 +1,15 @@
 import 'package:audio_cult/app/base/bloc_state.dart';
 import 'package:audio_cult/app/features/music/discover/discover_bloc.dart';
 import 'package:audio_cult/app/features/music/discover/widgets/song_item.dart';
-import 'package:audio_cult/app/injections.dart';
+import 'package:audio_cult/app/features/player_widgets/player_screen.dart';
+import 'package:audio_cult/app/utils/route/app_route.dart';
 import 'package:audio_cult/w_components/buttons/w_button_inkwell.dart';
 import 'package:audio_cult/w_components/error_empty/error_section.dart';
 import 'package:audio_cult/w_components/loading/loading_widget.dart';
-import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../di/bloc_locator.dart';
 import '../../../../data_source/models/responses/song/song_response.dart';
-import '../../../audio_player/audio_player.dart';
 
 class SongPage extends StatefulWidget {
   const SongPage({
@@ -31,9 +30,6 @@ class SongPage extends StatefulWidget {
 }
 
 class _SongPageState extends State<SongPage> {
-  List<MediaItem> globalQueue = [];
-
-  final audioHandler = locator.get<AudioPlayerHandler>();
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -54,22 +50,6 @@ class _SongPageState extends State<SongPage> {
               return state.when(
                 success: (data) {
                   final songs = data as List<Song>;
-                  globalQueue.clear();
-                  // ignore: avoid_function_literals_in_foreach_calls
-                  songs.forEach((element) {
-                    globalQueue.add(
-                      MediaItem(
-                        id: element.songId.toString(),
-                        title: element.title.toString(),
-                        album: element.artistUser?.userName ?? 'N/A',
-                        artist: element.artistUser?.userName ?? 'N/A',
-                        artUri: Uri.parse(element.imagePath.toString()),
-                        extras: {
-                          'url': element.songPath.toString(),
-                        },
-                      ),
-                    );
-                  });
                   return ListView.separated(
                     physics: const NeverScrollableScrollPhysics(),
                     itemCount: songs.length,
@@ -77,11 +57,8 @@ class _SongPageState extends State<SongPage> {
                     itemBuilder: (context, index) {
                       return WButtonInkwell(
                         onPressed: () async {
-                          await audioHandler.setShuffleMode(AudioServiceShuffleMode.none);
-                          await audioHandler.updateQueue(globalQueue);
-                          await audioHandler.skipToQueueItem(index);
-                          await audioHandler.play();
-                          await audioHandler.setRepeatMode(AudioServiceRepeatMode.none);
+                          await Navigator.pushNamed(context, AppRoute.routePlayerScreen,
+                              arguments: PlayerScreen.createArguments(listSong: songs, index: index));
                         },
                         child: SongItem(
                           song: songs[index],
