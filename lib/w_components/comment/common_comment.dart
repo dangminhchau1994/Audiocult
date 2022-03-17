@@ -1,4 +1,5 @@
 import 'package:audio_cult/app/data_source/models/responses/comment/comment_response.dart';
+import 'package:audio_cult/app/features/music/detail_album/detail_comment_args.dart';
 import 'package:audio_cult/app/utils/constants/app_assets.dart';
 import 'package:audio_cult/app/utils/datetime/date_time_utils.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
@@ -13,9 +14,11 @@ class CommonComment extends StatefulWidget {
   const CommonComment({
     Key? key,
     this.data,
+    this.onReply,
   }) : super(key: key);
 
   final CommentResponse? data;
+  final Function(CommentResponse data)? onReply;
 
   @override
   State<CommonComment> createState() => _CommonCommentState();
@@ -118,12 +121,17 @@ class _CommonCommentState extends State<CommonComment> {
                         const SizedBox(
                           width: 18,
                         ),
-                        Text(
-                          'Reply',
-                          style: context.bodyTextPrimaryStyle()!.copyWith(
-                                color: Colors.lightBlue,
-                                fontSize: 12,
-                              ),
+                        GestureDetector(
+                          onTap: () {
+                            widget.onReply!(widget.data!);
+                          },
+                          child: Text(
+                            'Reply',
+                            style: context.bodyTextPrimaryStyle()!.copyWith(
+                                  color: Colors.lightBlue,
+                                  fontSize: 12,
+                                ),
+                          ),
                         ),
                       ],
                     ),
