@@ -116,6 +116,12 @@ class AppRepository extends BaseRepository {
     );
   }
 
+  Future<Either<PlaylistResponse, Exception>> getPlayListDetail(int id) {
+    return safeCall(
+      () => appServiceProvider.getPlayListDetail(id),
+    );
+  }
+
   Future<Either<List<CommentResponse>, Exception>> getComments(int id, String typeId, int page, int limit) {
     return safeCall(
       () => appServiceProvider.getComments(id, typeId, page, limit),

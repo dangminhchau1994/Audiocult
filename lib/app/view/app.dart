@@ -11,7 +11,6 @@ import 'package:loader_overlay/loader_overlay.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
 import 'package:responsive_framework/utils/scroll_behavior.dart';
-import '../constants/app_text_styles.dart';
 import '../features/splash/splash_bloc.dart';
 import '../features/splash/splash_screen.dart';
 import '../utils/configs/custom_scroll_behavior.dart';
@@ -41,9 +40,6 @@ class _AppState extends State<App> {
         statusBarBrightness: Brightness.dark // Dark == white status bar -- for IOS.
         ,
       ),
-    );
-    SystemChrome.setEnabledSystemUIMode(
-      SystemUiMode.leanBack,
     );
     return GlobalLoaderOverlay(
       overlayColor: Colors.black87,

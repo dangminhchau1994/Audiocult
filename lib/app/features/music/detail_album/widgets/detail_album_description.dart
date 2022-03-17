@@ -85,10 +85,15 @@ class DetailAlbumDescription extends StatelessWidget {
                   const SizedBox(
                     width: 10,
                   ),
-                  _buildIcon(
-                    SvgPicture.asset(AppAssets.shareIcon),
-                    data?.totalAttachment ?? '',
-                    context,
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: AppColors.secondaryButtonColor,
+                    ),
+                    padding: const EdgeInsets.all(12),
+                    child: Center(
+                      child: SvgPicture.asset(AppAssets.shareIcon),
+                    ),
                   )
                 ],
               ),

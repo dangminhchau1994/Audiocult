@@ -1,21 +1,22 @@
-import 'package:audio_cult/app/base/bloc_state.dart';
-import 'package:audio_cult/app/data_source/models/responses/comment/comment_response.dart';
-import 'package:audio_cult/app/features/music/detail-song/detail_song_bloc.dart';
-import 'package:audio_cult/app/injections.dart';
-import 'package:audio_cult/app/utils/constants/app_assets.dart';
+import 'package:audio_cult/app/features/music/detail_playlist/detail_playlist_bloc.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/l10n/l10n.dart';
-import 'package:audio_cult/w_components/comment/common_comment.dart';
-import 'package:audio_cult/w_components/loading/loading_widget.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+
+import '../../../../../w_components/comment/common_comment.dart';
 import '../../../../../w_components/error_empty/error_section.dart';
+import '../../../../../w_components/loading/loading_widget.dart';
+import '../../../../base/bloc_state.dart';
 import '../../../../constants/app_text_styles.dart';
+import '../../../../data_source/models/responses/comment/comment_response.dart';
+import '../../../../injections.dart';
+import '../../../../utils/constants/app_assets.dart';
 import '../../../../utils/constants/app_colors.dart';
 
-class DetailSongComment extends StatefulWidget {
-  const DetailSongComment({
+class DetailPlayListComment extends StatefulWidget {
+  const DetailPlayListComment({
     Key? key,
     this.id,
   }) : super(key: key);
@@ -23,15 +24,15 @@ class DetailSongComment extends StatefulWidget {
   final int? id;
 
   @override
-  State<DetailSongComment> createState() => _DetailSongCommentState();
+  State<DetailPlayListComment> createState() => _DetailPlayListCommentState();
 }
 
-class _DetailSongCommentState extends State<DetailSongComment> {
-  DetailSongBloc songBloc = DetailSongBloc(locator.get());
+class _DetailPlayListCommentState extends State<DetailPlayListComment> {
+  DetailPlayListBloc playListBloc = DetailPlayListBloc(locator.get());
 
   @override
   void initState() {
-    songBloc.getComments(widget.id ?? 0, 'music_song', 1, 3);
+    playListBloc.getComments(widget.id ?? 0, 'advancedmusic_playlist', 1, 3);
     super.initState();
   }
 
@@ -85,7 +86,7 @@ class _DetailSongCommentState extends State<DetailSongComment> {
           ),
           StreamBuilder<BlocState<List<CommentResponse>>>(
             initialData: const BlocState.loading(),
-            stream: songBloc.getCommentsStream,
+            stream: playListBloc.getCommentsStream,
             builder: (context, snapshot) {
               final state = snapshot.data!;
 
@@ -96,7 +97,7 @@ class _DetailSongCommentState extends State<DetailSongComment> {
                   if (data.isEmpty) {
                     return const Center(
                       child: Text(
-                        'No comments for this song',
+                        'No comments for this playlists',
                         style: TextStyle(color: Colors.white),
                       ),
                     );

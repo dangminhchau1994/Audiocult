@@ -11,7 +11,11 @@ class DetailSongNavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(23),
+      padding: const EdgeInsets.only(
+        top: 30,
+        left: 23,
+        right: 23,
+      ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [

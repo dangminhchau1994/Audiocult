@@ -1,4 +1,3 @@
-import 'package:audio_cult/app/features/music/detail-song/detail_song_screen.dart';
 import 'package:audio_cult/app/features/music/discover/discover_screen.dart';
 import 'package:audio_cult/app/features/music/library/library_screen.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
@@ -16,7 +15,7 @@ class MusicScreen extends StatefulWidget {
   State<MusicScreen> createState() => _MusicScreenState();
 }
 
-class _MusicScreenState extends State<MusicScreen> with AutomaticKeepAliveClientMixin {
+class _MusicScreenState extends State<MusicScreen> {
   final _pageController = PageController();
   final _tabController = CustomTabBarController();
   final _pageCount = 2;
@@ -82,7 +81,4 @@ class _MusicScreenState extends State<MusicScreen> with AutomaticKeepAliveClient
       ),
     );
   }
-
-  @override
-  bool get wantKeepAlive => true;
 }

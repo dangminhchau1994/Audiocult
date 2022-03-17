@@ -134,6 +134,9 @@ class _DetailAlbumCommentState extends State<DetailAlbumComment> {
               );
             },
           ),
+          const SizedBox(
+            height: 20,
+          ),
           Container(
             width: double.infinity,
             color: AppColors.secondaryButtonColor,

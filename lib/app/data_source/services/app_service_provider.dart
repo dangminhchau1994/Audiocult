@@ -222,6 +222,17 @@ class AppServiceProvider {
     );
   }
 
+  Future<PlaylistResponse> getPlayListDetail(int id) async {
+    final response = await _dioHelper.get(
+      route: '/restful_api/playlist/$id',
+      options: Options(headers: {'Content-Type': 'application/x-www-form-urlencoded'}),
+      responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
+    );
+    return response.mapData(
+      (json) => PlaylistResponse.fromJson(json as Map<String, dynamic>),
+    );
+  }
+
   Future<bool> logout() async {
     final pref = locator.get<PrefProvider>();
     final response = await _dioHelper.post(

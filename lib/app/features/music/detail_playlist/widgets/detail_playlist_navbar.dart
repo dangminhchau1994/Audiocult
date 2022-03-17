@@ -5,8 +5,8 @@ import '../../../../../w_components/buttons/w_button_inkwell.dart';
 import '../../../../utils/constants/app_assets.dart';
 import '../../../../utils/constants/app_colors.dart';
 
-class DetailAlbumNavBar extends StatelessWidget {
-  const DetailAlbumNavBar({Key? key}) : super(key: key);
+class DetailPlayListNavBar extends StatelessWidget {
+  const DetailPlayListNavBar({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
