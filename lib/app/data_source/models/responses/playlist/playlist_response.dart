@@ -5,7 +5,7 @@ part 'playlist_response.g.dart';
 @freezed
 class PlaylistResponse with _$PlaylistResponse {
   factory PlaylistResponse({
-    bool? isLiked,
+    String? isLiked,
     String? userId,
     String? profilePageId,
     String? userServerId,

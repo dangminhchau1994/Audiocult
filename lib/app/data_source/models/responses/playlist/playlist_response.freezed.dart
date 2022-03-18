@@ -22,7 +22,7 @@ class _$PlaylistResponseTearOff {
   const _$PlaylistResponseTearOff();
 
   _PlaylistResponse call(
-      {bool? isLiked,
+      {String? isLiked,
       String? userId,
       String? profilePageId,
       String? userServerId,
@@ -90,7 +90,7 @@ const $PlaylistResponse = _$PlaylistResponseTearOff();
 
 /// @nodoc
 mixin _$PlaylistResponse {
-  bool? get isLiked => throw _privateConstructorUsedError;
+  String? get isLiked => throw _privateConstructorUsedError;
   String? get userId => throw _privateConstructorUsedError;
   String? get profilePageId => throw _privateConstructorUsedError;
   String? get userServerId =>
@@ -148,7 +148,7 @@ abstract class $PlaylistResponseCopyWith<$Res> {
           PlaylistResponse value, $Res Function(PlaylistResponse) then) =
       _$PlaylistResponseCopyWithImpl<$Res>;
   $Res call(
-      {bool? isLiked,
+      {String? isLiked,
       String? userId,
       String? profilePageId,
       String? userServerId,
@@ -220,7 +220,7 @@ class _$PlaylistResponseCopyWithImpl<$Res>
       isLiked: isLiked == freezed
           ? _value.isLiked
           : isLiked // ignore: cast_nullable_to_non_nullable
-              as bool?,
+              as String?,
       userId: userId == freezed
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
@@ -337,7 +337,7 @@ abstract class _$PlaylistResponseCopyWith<$Res>
       __$PlaylistResponseCopyWithImpl<$Res>;
   @override
   $Res call(
-      {bool? isLiked,
+      {String? isLiked,
       String? userId,
       String? profilePageId,
       String? userServerId,
@@ -411,7 +411,7 @@ class __$PlaylistResponseCopyWithImpl<$Res>
       isLiked: isLiked == freezed
           ? _value.isLiked
           : isLiked // ignore: cast_nullable_to_non_nullable
-              as bool?,
+              as String?,
       userId: userId == freezed
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
@@ -556,7 +556,7 @@ class _$_PlaylistResponse implements _PlaylistResponse {
       _$$_PlaylistResponseFromJson(json);
 
   @override
-  final bool? isLiked;
+  final String? isLiked;
   @override
   final String? userId;
   @override
@@ -716,7 +716,7 @@ class _$_PlaylistResponse implements _PlaylistResponse {
 
 abstract class _PlaylistResponse implements PlaylistResponse {
   factory _PlaylistResponse(
-      {bool? isLiked,
+      {String? isLiked,
       String? userId,
       String? profilePageId,
       String? userServerId,
@@ -748,7 +748,7 @@ abstract class _PlaylistResponse implements PlaylistResponse {
       _$_PlaylistResponse.fromJson;
 
   @override
-  bool? get isLiked;
+  String? get isLiked;
   @override
   String? get userId;
   @override

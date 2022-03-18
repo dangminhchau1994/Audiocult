@@ -3,7 +3,7 @@ part 'song_detail_response.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake)
 class SongDetailResponse {
-  bool? isLiked;
+  String? isLiked;
   bool? isFriend;
   String? songId;
   String? viewId;

@@ -1,3 +1,4 @@
+import 'package:audio_cult/app/features/music/detail_album/comments/widgets/detail_reply_item.dart';
 import 'package:audio_cult/app/features/music/detail_album/detail_album_args.dart';
 import 'package:audio_cult/app/features/music/detail_album/detail_album_bloc.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
@@ -13,6 +14,7 @@ import '../../../../constants/app_text_styles.dart';
 import '../../../../data_source/models/responses/comment/comment_response.dart';
 import '../../../../injections.dart';
 import '../../../../utils/constants/app_colors.dart';
+import '../detail_comment_args.dart';
 
 class DetailAlbumComment extends StatefulWidget {
   const DetailAlbumComment({
@@ -113,17 +115,35 @@ class _DetailAlbumCommentState extends State<DetailAlbumComment> {
                     itemCount: data.length,
                     shrinkWrap: true,
                     separatorBuilder: (context, index) => const Divider(height: 30),
-                    itemBuilder: (context, index) => ExpandablePanel(
-                      controller: ExpandableController(initialExpanded: true),
-                      header: CommonComment(data: data[index]),
-                      theme: const ExpandableThemeData(
-                        hasIcon: false,
-                        tapBodyToExpand: false,
-                        useInkWell: false,
-                      ),
-                      collapsed: Container(),
-                      expanded: Container(),
-                    ),
+                    itemBuilder: (context, index) {
+                      return ExpandablePanel(
+                        controller: ExpandableController(initialExpanded: true),
+                        header: CommonComment(
+                          data: data[index],
+                          onReply: (data) {
+                            Navigator.pushNamed(
+                              context,
+                              AppRoute.routeDetailListAlbumReplies,
+                              arguments: DetailCommentArgs(
+                                data: data,
+                                itemId: widget.id,
+                              ),
+                            );
+                          },
+                        ),
+                        theme: const ExpandableThemeData(
+                          hasIcon: false,
+                          tapBodyToExpand: false,
+                          useInkWell: false,
+                        ),
+                        collapsed: Container(),
+                        expanded: DetailReplyItem(
+                          parentId: int.parse(data[index].commentId ?? ''),
+                          id: widget.id,
+                          commentParent: data[index],
+                        ),
+                      );
+                    },
                   );
                 },
                 loading: () {

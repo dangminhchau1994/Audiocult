@@ -12,8 +12,10 @@ class DetailListAlbumCommentBloc extends BaseBloc<CommentRequest, List<CommentRe
   DetailListAlbumCommentBloc(this._appRepository);
 
   final _createCommentSubject = PublishSubject<BlocState<CommentResponse>>();
+  final _getRepliesSubject = PublishSubject<BlocState<List<CommentResponse>>>();
 
   Stream<BlocState<CommentResponse>> get createCommentStream => _createCommentSubject.stream;
+  Stream<BlocState<List<CommentResponse>>> get getRepliesStream => _getRepliesSubject.stream;
 
   @override
   Future<Either<List<CommentResponse>, Exception>> loadData(CommentRequest? params) async {
@@ -24,6 +26,16 @@ class DetailListAlbumCommentBloc extends BaseBloc<CommentRequest, List<CommentRe
       params?.limit ?? 0,
     );
     return result;
+  }
+
+  void getReplies(int parentId, int id, String typeId, int page, int limit) async {
+    final result = await _appRepository.getReplies(parentId, id, typeId, page, limit);
+
+    result.fold((success) {
+      _getRepliesSubject.sink.add(BlocState.success(success));
+    }, (error) {
+      _getRepliesSubject.sink.add(BlocState.error(error.toString()));
+    });
   }
 
   void createComment(int itemId, String type, String text) async {

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:audio_cult/app/data_source/models/requests/comment_request.dart';
 import 'package:audio_cult/app/data_source/models/responses/comment/comment_response.dart';
 import 'package:audio_cult/app/features/music/detail_album/comments/detail_list_album_comment_bloc.dart';
+import 'package:audio_cult/app/features/music/detail_album/comments/widgets/detail_reply_item.dart';
 import 'package:audio_cult/app/features/music/detail_album/detail_album_args.dart';
 import 'package:audio_cult/app/features/music/detail_album/detail_comment_args.dart';
 import 'package:audio_cult/app/utils/constants/app_assets.dart';
@@ -82,6 +83,9 @@ class _DetailListAlbumScreenState extends State<DetailListAlbumCommentScreen> {
   void dispose() {
     super.dispose();
     _pagingController.dispose();
+    _textEditingController.dispose();
+    _text.dispose();
+    _emojiShowing.dispose();
   }
 
   @override
@@ -209,7 +213,11 @@ class _DetailListAlbumScreenState extends State<DetailListAlbumCommentScreen> {
                                 useInkWell: false,
                               ),
                               collapsed: Container(),
-                              expanded: Container(),
+                              expanded: DetailReplyItem(
+                                parentId: int.parse(item.commentId ?? ''),
+                                id: widget.detailAlbumArgs.albumId,
+                                commentParent: item,
+                              ),
                             );
                           },
                         ),

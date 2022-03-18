@@ -8,7 +8,7 @@ part of 'playlist_response.dart';
 
 _$_PlaylistResponse _$$_PlaylistResponseFromJson(Map<String, dynamic> json) =>
     _$_PlaylistResponse(
-      isLiked: json['isLiked'] as bool?,
+      isLiked: json['isLiked'] as String?,
       userId: json['userId'] as String?,
       profilePageId: json['profilePageId'] as String?,
       userServerId: json['userServerId'] as String?,

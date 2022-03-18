@@ -2,6 +2,7 @@ import 'package:audio_cult/app/data_source/local/pref_provider.dart';
 import 'package:audio_cult/app/data_source/repositories/app_repository.dart';
 import 'package:audio_cult/app/features/music/detail-song/detail_song_bloc.dart';
 import 'package:audio_cult/app/features/music/detail_album/detail_album_bloc.dart';
+import 'package:audio_cult/app/features/music/detail_album/replies/detail_list_album_replies_bloc.dart';
 import 'package:audio_cult/app/features/music/detail_playlist/detail_playlist_bloc.dart';
 import 'package:audio_cult/app/features/music/featured_albums/featured_album_bloc.dart';
 import 'package:audio_cult/app/features/music/search/search_bloc.dart';
@@ -36,5 +37,9 @@ void setupLocator() {
 
   getIt.registerLazySingleton<DetailListAlbumCommentBloc>(
     () => DetailListAlbumCommentBloc(locator.get<AppRepository>()),
+  );
+
+  getIt.registerLazySingleton<DetailListAlbumRepliesBloc>(
+    () => DetailListAlbumRepliesBloc(locator.get<AppRepository>()),
   );
 }
