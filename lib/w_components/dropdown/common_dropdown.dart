@@ -15,7 +15,7 @@ class CommonDropdown extends StatefulWidget {
   double? dropDownWith;
 
   CommonDropdown(
-      {Key? key, this.hint, this.data, this.onTap, this.onChanged, this.selection, this.padding, this.dropDownWith})
+      {Key? key, this.hint, this.data, this.onTap, this.onChanged, this.selection, this.padding, this.dropDownWith,})
       : super(key: key);
 
   @override

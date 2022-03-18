@@ -8,13 +8,15 @@ import 'package:get_it/get_it.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import '../../utils/constants/app_colors.dart';
+import '../../utils/route/app_route.dart';
+import '../player_widgets/player_screen.dart';
 import 'audio_player.dart';
-import 'gradient_containers.dart';
 
 class MiniPlayer extends StatefulWidget {
   const MiniPlayer({Key? key}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _MiniPlayerState createState() => _MiniPlayerState();
 }
 
@@ -64,11 +66,11 @@ class _MiniPlayerState extends State<MiniPlayer> {
                                   trackHeight: 0.5,
                                   thumbColor: Theme.of(context).colorScheme.secondary,
                                   thumbShape: const RoundSliderThumbShape(
-                                    enabledThumbRadius: 1.0,
+                                    enabledThumbRadius: 1,
                                   ),
                                   overlayColor: Colors.transparent,
                                   overlayShape: const RoundSliderOverlayShape(
-                                    overlayRadius: 2.0,
+                                    overlayRadius: 2,
                                   ),
                                 ),
                                 child: Center(
@@ -90,19 +92,19 @@ class _MiniPlayerState extends State<MiniPlayer> {
                   },
                 ),
                 builder: (BuildContext context, Box box1, Widget? child) {
-                  final bool useDense = box1.get(
+                  final useDense = box1.get(
                     'useDenseMini',
                     defaultValue: false,
                   ) as bool;
-                  final List preferredMiniButtons = Hive.box('settings').get(
+                  final preferredMiniButtons = Hive.box('settings').get(
                     'preferredMiniButtons',
                     defaultValue: ['Previous', 'Play/Pause', 'Next'],
                   )?.toList() as List;
                   return Container(
                     color: AppColors.semiMainColor.withOpacity(0.75),
                     padding: const EdgeInsets.symmetric(
-                      horizontal: 2.0,
-                      vertical: 1.0,
+                      horizontal: 2,
+                      vertical: 1,
                     ),
                     child: SizedBox(
                       height: useDense ? 68.0 : 76.0,
@@ -112,19 +114,11 @@ class _MiniPlayerState extends State<MiniPlayer> {
                           ListTile(
                             dense: useDense,
                             onTap: () {
-                              // Navigator.of(context).push(
-                              //   PageRouteBuilder(
-                              //     opaque: false,
-                              //     pageBuilder: (_, __, ___) => const PlayScreen(
-                              //       songsList: [],
-                              //       index: 1,
-                              //       offline: null,
-                              //       fromMiniplayer: true,
-                              //       fromDownloads: false,
-                              //       recommend: false,
-                              //     ),
-                              //   ),
-                              // );
+                              Navigator.pushNamed(
+                                context,
+                                AppRoute.routePlayerScreen,
+                                arguments: PlayerScreen.createArguments(listSong: [], index: 1),
+                              );
                             },
                             title: Text(
                               mediaItem.title,
@@ -141,7 +135,7 @@ class _MiniPlayerState extends State<MiniPlayer> {
                               child: Card(
                                 elevation: 8,
                                 shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(7.0),
+                                  borderRadius: BorderRadius.circular(7),
                                 ),
                                 clipBehavior: Clip.antiAlias,
                                 child: (mediaItem.artUri.toString().startsWith('file:'))
@@ -188,7 +182,7 @@ class _MiniPlayerState extends State<MiniPlayer> {
                             ),
                             trailing: ControlButtons(
                               audioHandler,
-                              miniplayer: true,
+                              minelayer: true,
                               buttons: mediaItem.artUri.toString().startsWith('file:')
                                   ? ['Previous', 'Play/Pause', 'Next']
                                   : preferredMiniButtons,
@@ -212,22 +206,22 @@ class _MiniPlayerState extends State<MiniPlayer> {
 class ControlButtons extends StatelessWidget {
   final AudioPlayerHandler audioHandler;
   final bool shuffle;
-  final bool miniplayer;
+  final bool minelayer;
   final List buttons;
   final Color? dominantColor;
 
+  // ignore: use_key_in_widget_constructors
   const ControlButtons(
     this.audioHandler, {
     this.shuffle = false,
-    this.miniplayer = false,
+    this.minelayer = false,
     this.buttons = const ['Previous', 'Play/Pause', 'Next'],
     this.dominantColor,
   });
 
   @override
   Widget build(BuildContext context) {
-    final MediaItem mediaItem = audioHandler.mediaItem.value!;
-    final bool online = mediaItem.extras!['url'].toString().startsWith('http');
+    final mediaItem = audioHandler.mediaItem.value!;
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       mainAxisSize: MainAxisSize.min,
@@ -247,7 +241,7 @@ class ControlButtons extends StatelessWidget {
                 final queueState = snapshot.data;
                 return IconButton(
                   icon: const Icon(Icons.skip_previous_rounded),
-                  iconSize: miniplayer ? 24.0 : 45.0,
+                  iconSize: minelayer ? 24.0 : 45.0,
                   tooltip: 'Previous',
                   color: dominantColor ?? Theme.of(context).iconTheme.color,
                   onPressed: queueState?.hasPrevious ?? true ? audioHandler.skipToPrevious : null,
@@ -256,8 +250,8 @@ class ControlButtons extends StatelessWidget {
             );
           case 'Play/Pause':
             return SizedBox(
-              height: miniplayer ? 40.0 : 65.0,
-              width: miniplayer ? 40.0 : 65.0,
+              height: minelayer ? 40.0 : 65.0,
+              width: minelayer ? 40.0 : 65.0,
               child: StreamBuilder<PlaybackState>(
                 stream: audioHandler.playbackState,
                 builder: (context, snapshot) {
@@ -270,8 +264,8 @@ class ControlButtons extends StatelessWidget {
                           processingState == AudioProcessingState.buffering)
                         Center(
                           child: SizedBox(
-                            height: miniplayer ? 40.0 : 65.0,
-                            width: miniplayer ? 40.0 : 65.0,
+                            height: minelayer ? 40.0 : 65.0,
+                            width: minelayer ? 40.0 : 65.0,
                             child: CircularProgressIndicator(
                               valueColor: AlwaysStoppedAnimation<Color>(
                                 Theme.of(context).iconTheme.color!,
@@ -279,7 +273,7 @@ class ControlButtons extends StatelessWidget {
                             ),
                           ),
                         ),
-                      if (miniplayer)
+                      if (minelayer)
                         Center(
                           child: playing
                               ? IconButton(
@@ -313,7 +307,7 @@ class ControlButtons extends StatelessWidget {
                                       onPressed: audioHandler.pause,
                                       child: const Icon(
                                         Icons.pause_rounded,
-                                        size: 40.0,
+                                        size: 40,
                                         color: Colors.black,
                                       ),
                                     )
@@ -324,7 +318,7 @@ class ControlButtons extends StatelessWidget {
                                       onPressed: audioHandler.play,
                                       child: const Icon(
                                         Icons.play_arrow_rounded,
-                                        size: 40.0,
+                                        size: 40,
                                         color: Colors.black,
                                       ),
                                     ),
@@ -343,7 +337,7 @@ class ControlButtons extends StatelessWidget {
                 final queueState = snapshot.data;
                 return IconButton(
                   icon: const Icon(Icons.skip_next_rounded),
-                  iconSize: miniplayer ? 24.0 : 45.0,
+                  iconSize: minelayer ? 24.0 : 45.0,
                   tooltip: 'Skip',
                   color: dominantColor ?? Theme.of(context).iconTheme.color,
                   onPressed: queueState?.hasNext ?? true ? audioHandler.skipToNext : null,

@@ -424,6 +424,7 @@ class AudioPlayerHandlerImpl extends BaseAudioHandler with QueueHandler, SeekHan
   }
 
   @override
+  // ignore: avoid_renaming_method_parameters
   Future<void> setShuffleMode(AudioServiceShuffleMode mode) async {
     final enabled = mode == AudioServiceShuffleMode.all;
     if (enabled) {

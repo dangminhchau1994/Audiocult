@@ -12,6 +12,7 @@ import 'package:audio_cult/app/features/music/detail_playlist/detail_playlist_sc
 import 'package:audio_cult/app/features/music/featured_albums/featured_album_screen.dart';
 import 'package:audio_cult/app/features/music/filter/music_filter_screen.dart';
 import 'package:audio_cult/app/features/music/top_playlist/top_playlist_screen.dart';
+import 'package:audio_cult/app/features/player_widgets/player_screen.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
@@ -45,6 +46,7 @@ class AppRoute {
   static const String routeDetailPlayList = '/detail_playlist';
   static const String routeDetailListAbumComment = '/detail_list_album_comment';
   static const String routeDetailListAlbumReplies = '/detail_list_album_replies';
+  static const String routePlayerScreen = '/player_screen';
 
   ///#end region
 
@@ -140,6 +142,13 @@ class AppRoute {
           settings,
           SearchScreen(
             arguments: arguments!,
+          ),
+        );
+      case routePlayerScreen:
+        return _pageRoute(
+          settings,
+          PlayerScreen(
+            params: asType(settings.arguments) as Map<String, dynamic>,
           ),
         );
       default:

@@ -28,6 +28,7 @@ class _MusicScreenState extends State<MusicScreen> {
   }
 
   @override
+  // ignore: must_call_super
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.secondaryButtonColor,

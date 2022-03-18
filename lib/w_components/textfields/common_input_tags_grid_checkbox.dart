@@ -1,8 +1,8 @@
+import 'package:audio_cult/libs/textfields_tags/lib/textfield_tags.dart';
 import 'package:audio_cult/w_components/checkbox/common_checkbox.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
-import '../../libs/textfields_tags/lib/textfield_tags.dart';
 import 'common_input_tags.dart';
 
 class CommonInputTagsGridCheckBox extends StatefulWidget {

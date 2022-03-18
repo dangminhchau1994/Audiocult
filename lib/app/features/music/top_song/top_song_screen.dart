@@ -7,6 +7,7 @@ import 'package:audio_cult/app/utils/constants/app_dimens.dart';
 import 'package:audio_cult/app/utils/route/app_route.dart';
 import 'package:audio_cult/l10n/l10n.dart';
 import 'package:audio_cult/w_components/appbar/common_appbar.dart';
+import 'package:audio_cult/w_components/buttons/w_button_inkwell.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -15,6 +16,7 @@ import '../../../../w_components/loading/loading_builder.dart';
 import '../../../../w_components/loading/loading_widget.dart';
 import '../../../utils/constants/app_assets.dart';
 import '../../../utils/constants/app_colors.dart';
+import '../../player_widgets/player_screen.dart';
 
 class TopSongScreen extends StatefulWidget {
   const TopSongScreen({Key? key}) : super(key: key);
@@ -158,9 +160,16 @@ class _TopSongScreenState extends State<TopSongScreen> {
                   newPageProgressIndicatorBuilder: (context) => const LoadingWidget(),
                   animateTransitions: true,
                   itemBuilder: (context, item, index) {
-                    return SongItem(
-                      song: item,
-                      hasMenu: true,
+                    return WButtonInkwell(
+                      onPressed: () {
+                        Navigator.pushNamed(context, AppRoute.routePlayerScreen,
+                            arguments:
+                                PlayerScreen.createArguments(listSong: _pagingController.itemList ?? [], index: index));
+                      },
+                      child: SongItem(
+                        song: item,
+                        hasMenu: true,
+                      ),
                     );
                   },
                 ),

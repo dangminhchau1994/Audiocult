@@ -69,6 +69,7 @@ abstract class BaseBloc<TParams, TModel> implements IBloc {
     dictEvent[TEvent] = action;
   }
 
+  // ignore: type_annotate_public_apis
   Stream<AppState> mapEventToState(event) async* {
     if (event is RequestDataEvent) {
       Either<TModel, Exception> data;

@@ -135,6 +135,7 @@ class _DetailAlbumCommentState extends State<DetailAlbumComment> {
                           hasIcon: false,
                           tapBodyToExpand: false,
                           useInkWell: false,
+                          tapHeaderToExpand: false,
                         ),
                         collapsed: Container(),
                         expanded: DetailReplyItem(
