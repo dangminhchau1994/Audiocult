@@ -1,15 +1,16 @@
 import 'package:audio_cult/app/base/base_bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:rxdart/rxdart.dart';
-import '../../../../base/bloc_state.dart';
-import '../../../../data_source/models/requests/comment_request.dart';
-import '../../../../data_source/models/responses/comment/comment_response.dart';
-import '../../../../data_source/repositories/app_repository.dart';
 
-class DetailListAlbumRepliesBloc extends BaseBloc<CommentRequest, List<CommentResponse>> {
+import '../../app/base/bloc_state.dart';
+import '../../app/data_source/models/requests/comment_request.dart';
+import '../../app/data_source/models/responses/comment/comment_response.dart';
+import '../../app/data_source/repositories/app_repository.dart';
+
+class ReplyListBloc extends BaseBloc<CommentRequest, List<CommentResponse>> {
   final AppRepository _appRepository;
 
-  DetailListAlbumRepliesBloc(this._appRepository);
+  ReplyListBloc(this._appRepository);
 
   final _createReplySubject = PublishSubject<BlocState<CommentResponse>>();
 

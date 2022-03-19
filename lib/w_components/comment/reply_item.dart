@@ -1,41 +1,58 @@
-import 'package:audio_cult/app/base/bloc_state.dart';
-import 'package:audio_cult/app/data_source/models/responses/comment/comment_response.dart';
-import 'package:audio_cult/app/features/music/detail_album/comments/detail_list_album_comment_bloc.dart';
 import 'package:audio_cult/app/injections.dart';
-import 'package:audio_cult/app/utils/constants/app_dimens.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
-import 'package:audio_cult/w_components/loading/loading_widget.dart';
+import 'package:audio_cult/w_components/comment/comment_args.dart';
+import 'package:audio_cult/w_components/comment/comment_list_bloc.dart';
+import 'package:audio_cult/w_components/comment/comment_list_screen.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../../../w_components/error_empty/error_section.dart';
-import '../../../../../utils/constants/app_colors.dart';
-import '../../../../../utils/route/app_route.dart';
-import '../../detail_comment_args.dart';
+import '../../app/base/bloc_state.dart';
+import '../../app/data_source/models/responses/comment/comment_response.dart';
+import '../../app/utils/constants/app_colors.dart';
+import '../../app/utils/constants/app_dimens.dart';
+import '../../app/utils/route/app_route.dart';
+import '../error_empty/error_section.dart';
+import '../loading/loading_widget.dart';
 
-class DetailReplyItem extends StatefulWidget {
-  const DetailReplyItem({
+class ReplyItem extends StatefulWidget {
+  const ReplyItem({
     Key? key,
     this.parentId,
     this.id,
     this.commentParent,
+    this.commentType,
   }) : super(key: key);
 
   final int? parentId;
   final int? id;
+  final CommentType? commentType;
   final CommentResponse? commentParent;
 
   @override
-  State<DetailReplyItem> createState() => _DetailReplyItemState();
+  State<ReplyItem> createState() => _ReplyItemState();
 }
 
-class _DetailReplyItemState extends State<DetailReplyItem> {
-  final DetailListAlbumCommentBloc _detailListAlbumCommentBloc = DetailListAlbumCommentBloc(locator.get());
+class _ReplyItemState extends State<ReplyItem> {
+  final CommenntListBloc _commenntListBloc = CommenntListBloc(locator.get());
 
   @override
   void initState() {
     super.initState();
-    _detailListAlbumCommentBloc.getReplies(widget.parentId ?? 0, widget.id ?? 0, 'music_album', 1, 2);
+    _commenntListBloc.getReplies(widget.parentId ?? 0, widget.id ?? 0, getType(), 1, 2);
+  }
+
+  String getType() {
+    final type = widget.commentType!;
+    switch (type) {
+      case CommentType.album:
+        return 'music_album';
+      case CommentType.home:
+        return '';
+      case CommentType.sonng:
+        return '';
+      case CommentType.playlist:
+        return '';
+    }
   }
 
   @override
@@ -47,7 +64,7 @@ class _DetailReplyItemState extends State<DetailReplyItem> {
       ),
       child: StreamBuilder<BlocState<List<CommentResponse>>>(
         initialData: const BlocState.loading(),
-        stream: _detailListAlbumCommentBloc.getRepliesStream,
+        stream: _commenntListBloc.getRepliesStream,
         builder: (context, snapshot) {
           final state = snapshot.data!;
 
@@ -67,10 +84,11 @@ class _DetailReplyItemState extends State<DetailReplyItem> {
                       onTap: () {
                         Navigator.pushNamed(
                           context,
-                          AppRoute.routeDetailListAlbumReplies,
-                          arguments: DetailCommentArgs(
+                          AppRoute.routeReplyListScreen,
+                          arguments: CommentArgs(
                             data: widget.commentParent,
                             itemId: widget.id,
+                            commentType: widget.commentType,
                           ),
                         );
                       },

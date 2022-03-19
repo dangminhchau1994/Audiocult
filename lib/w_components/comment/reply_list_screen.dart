@@ -1,47 +1,62 @@
 import 'dart:io';
 
-import 'package:audio_cult/app/features/music/detail_album/detail_comment_args.dart';
-import 'package:audio_cult/app/features/music/detail_album/replies/detail_list_album_replies_bloc.dart';
-import 'package:audio_cult/app/utils/constants/app_dimens.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/l10n/l10n.dart';
+import 'package:audio_cult/w_components/comment/comment_args.dart';
+import 'package:audio_cult/w_components/comment/comment_item.dart';
+import 'package:audio_cult/w_components/comment/comment_list_screen.dart';
+import 'package:audio_cult/w_components/comment/reply_list_bloc.dart';
 import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
-import '../../../../../di/bloc_locator.dart';
-import '../../../../../w_components/appbar/common_appbar.dart';
-import '../../../../../w_components/comment/common_comment.dart';
-import '../../../../../w_components/loading/loading_builder.dart';
-import '../../../../../w_components/loading/loading_widget.dart';
-import '../../../../constants/app_text_styles.dart';
-import '../../../../constants/global_constants.dart';
-import '../../../../data_source/models/requests/comment_request.dart';
-import '../../../../data_source/models/responses/comment/comment_response.dart';
-import '../../../../utils/constants/app_assets.dart';
-import '../../../../utils/constants/app_colors.dart';
+import '../../app/constants/app_text_styles.dart';
+import '../../app/constants/global_constants.dart';
+import '../../app/data_source/models/requests/comment_request.dart';
+import '../../app/data_source/models/responses/comment/comment_response.dart';
+import '../../app/utils/constants/app_assets.dart';
+import '../../app/utils/constants/app_colors.dart';
+import '../../app/utils/constants/app_dimens.dart';
+import '../../di/bloc_locator.dart';
+import '../appbar/common_appbar.dart';
+import '../loading/loading_builder.dart';
+import '../loading/loading_widget.dart';
 
-class DetailListRepliesScreen extends StatefulWidget {
-  const DetailListRepliesScreen({
+class ReplyListScreen extends StatefulWidget {
+  const ReplyListScreen({
     Key? key,
-    this.detailCommentArgs,
+    required this.commentArgs,
   }) : super(key: key);
 
-  final DetailCommentArgs? detailCommentArgs;
+  final CommentArgs commentArgs;
 
   @override
-  State<DetailListRepliesScreen> createState() => _DetailListRepliesScreenState();
+  State<ReplyListScreen> createState() => _ReplyListScreenState();
 }
 
-class _DetailListRepliesScreenState extends State<DetailListRepliesScreen> {
+class _ReplyListScreenState extends State<ReplyListScreen> {
   final PagingController<int, CommentResponse> _pagingController = PagingController(firstPageKey: 1);
   final TextEditingController _textEditingController = TextEditingController();
   final ValueNotifier<bool> _emojiShowing = ValueNotifier<bool>(false);
   final ValueNotifier<String> _text = ValueNotifier<String>('');
-  late DetailListAlbumRepliesBloc _detailListAlbumRepliesBloc;
+  late ReplyListBloc _replyListBloc;
   late FocusNode _focusNode;
+
+  String getType() {
+    final type = widget.commentArgs.commentType!;
+    switch (type) {
+      case CommentType.album:
+        return 'music_album';
+      case CommentType.home:
+        return '';
+      case CommentType.sonng:
+        return '';
+      case CommentType.playlist:
+        return '';
+    }
+  }
 
   void _onEmojiSelected(Emoji emoji) {
     _textEditingController
@@ -70,12 +85,12 @@ class _DetailListRepliesScreenState extends State<DetailListRepliesScreen> {
         _fetchPage(pageKey);
       }
     });
-    _detailListAlbumRepliesBloc = getIt.get<DetailListAlbumRepliesBloc>();
-    _detailListAlbumRepliesBloc.requestData(
+    _replyListBloc = getIt.get<ReplyListBloc>();
+    _replyListBloc.requestData(
       params: CommentRequest(
-        parentId: int.parse(widget.detailCommentArgs?.data?.commentId ?? ''),
-        id: widget.detailCommentArgs?.itemId,
-        typeId: 'music_album',
+        parentId: int.parse(widget.commentArgs.data?.commentId ?? ''),
+        id: widget.commentArgs.itemId,
+        typeId: getType(),
         page: 1,
         limit: GlobalConstants.loadMoreItem,
       ),
@@ -84,11 +99,11 @@ class _DetailListRepliesScreenState extends State<DetailListRepliesScreen> {
 
   Future<void> _fetchPage(int pageKey) async {
     try {
-      final newItems = await _detailListAlbumRepliesBloc.loadData(
+      final newItems = await _replyListBloc.loadData(
         CommentRequest(
-          parentId: int.parse(widget.detailCommentArgs?.data?.commentId ?? ''),
-          id: widget.detailCommentArgs?.itemId,
-          typeId: 'music_album',
+          parentId: int.parse(widget.commentArgs.data?.commentId ?? ''),
+          id: widget.commentArgs.itemId,
+          typeId: getType(),
           page: pageKey,
           limit: GlobalConstants.loadMoreItem,
         ),
@@ -103,7 +118,7 @@ class _DetailListRepliesScreenState extends State<DetailListRepliesScreen> {
             _pagingController.appendPage(l, nextPageKey);
           }
         },
-        (r) => _detailListAlbumRepliesBloc.showError,
+        (r) => _replyListBloc.showError,
       );
     } catch (error) {
       _pagingController.error = error;
@@ -111,18 +126,22 @@ class _DetailListRepliesScreenState extends State<DetailListRepliesScreen> {
   }
 
   void _submitReply() {
-    _detailListAlbumRepliesBloc.createReply(int.parse(widget.detailCommentArgs?.data?.commentId ?? ''),
-        widget.detailCommentArgs?.itemId ?? 0, 'music_album', _text.value);
+    _replyListBloc.createReply(
+      int.parse(widget.commentArgs.data?.commentId ?? ''),
+      widget.commentArgs.itemId ?? 0,
+      getType(),
+      _text.value,
+    );
     _text.value = '';
     _emojiShowing.value = false;
     _textEditingController.text = '';
     FocusManager.instance.primaryFocus?.unfocus();
     _pagingController.refresh();
-    _detailListAlbumRepliesBloc.requestData(
+    _replyListBloc.requestData(
       params: CommentRequest(
-        parentId: int.parse(widget.detailCommentArgs?.data?.commentId ?? ''),
-        id: widget.detailCommentArgs?.itemId,
-        typeId: 'music_album',
+        parentId: int.parse(widget.commentArgs.data?.commentId ?? ''),
+        id: widget.commentArgs.itemId,
+        typeId: getType(),
         page: 1,
         limit: GlobalConstants.loadMoreItem,
       ),
@@ -170,12 +189,14 @@ class _DetailListRepliesScreenState extends State<DetailListRepliesScreen> {
                         tapBodyToExpand: false,
                         useInkWell: false,
                       ),
-                      header: CommonComment(
-                        data: widget.detailCommentArgs?.data,
-                        onReply: (data) {},
+                      header: CommentItem(
+                        data: widget.commentArgs.data,
+                        onReply: (data) {
+                          _focusNode.requestFocus();
+                        },
                       ),
                       collapsed: Container(),
-                      expanded: LoadingBuilder<DetailListAlbumRepliesBloc, List<CommentResponse>>(
+                      expanded: LoadingBuilder<ReplyListBloc, List<CommentResponse>>(
                         builder: (data, _) {
                           //only first page
                           final isLastPage = data.length == GlobalConstants.loadMoreItem - 1;
@@ -199,7 +220,7 @@ class _DetailListRepliesScreenState extends State<DetailListRepliesScreen> {
                                 newPageProgressIndicatorBuilder: (context) => const LoadingWidget(),
                                 animateTransitions: true,
                                 itemBuilder: (context, item, index) {
-                                  return CommonComment(
+                                  return CommentItem(
                                     data: item,
                                     onReply: (data) {
                                       _focusNode.requestFocus();
@@ -212,11 +233,11 @@ class _DetailListRepliesScreenState extends State<DetailListRepliesScreen> {
                         },
                         reloadAction: (_) {
                           _pagingController.refresh();
-                          _detailListAlbumRepliesBloc.requestData(
+                          _replyListBloc.requestData(
                             params: CommentRequest(
-                              parentId: int.parse(widget.detailCommentArgs?.data?.commentId ?? ''),
-                              id: widget.detailCommentArgs?.itemId,
-                              typeId: 'music_album',
+                              parentId: int.parse(widget.commentArgs.data?.commentId ?? ''),
+                              id: widget.commentArgs.itemId,
+                              typeId: getType(),
                               page: 1,
                               limit: GlobalConstants.loadMoreItem,
                             ),
