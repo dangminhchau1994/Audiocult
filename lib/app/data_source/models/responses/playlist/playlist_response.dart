@@ -5,7 +5,7 @@ part 'playlist_response.g.dart';
 @freezed
 class PlaylistResponse with _$PlaylistResponse {
   factory PlaylistResponse({
-    bool? isLiked,
+    String? isLiked,
     String? userId,
     String? profilePageId,
     String? userServerId,
@@ -25,14 +25,18 @@ class PlaylistResponse with _$PlaylistResponse {
     // ignore: invalid_annotation_target
     @JsonKey(name: 'title') String? title,
     String? description,
-    String? timeStamp,
-    int? totalLikes,
-    int? totalComments,
+    // ignore: invalid_annotation_target
+    @JsonKey(name: 'time_stamp') String? timeStamp,
+    // ignore: invalid_annotation_target
+    @JsonKey(name: 'total_likes') String? totalLikes,
+    // ignore: invalid_annotation_target
+    @JsonKey(name: 'total_comments') String? totalComments,
     bool? isFeatured,
     // ignore: invalid_annotation_target
     @JsonKey(name: 'image_path') String? imagePath,
     bool? isDay,
-    String? totalView,
+    // ignore: invalid_annotation_target
+    @JsonKey(name: 'total_view') String? totalView,
     String? artistId,
     List<Songs>? songs,
     // ignore: invalid_annotation_target

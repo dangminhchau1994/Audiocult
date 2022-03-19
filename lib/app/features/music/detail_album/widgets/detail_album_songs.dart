@@ -91,7 +91,7 @@ class _DetailAlbumSongsState extends State<DetailAlbumSongs> {
           },
         ),
         const SizedBox(
-          height: 10,
+          height: 20,
         ),
         Container(
           width: double.infinity,

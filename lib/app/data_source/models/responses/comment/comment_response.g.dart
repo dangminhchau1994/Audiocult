@@ -8,7 +8,7 @@ part of 'comment_response.dart';
 
 CommentResponse _$CommentResponseFromJson(Map<String, dynamic> json) =>
     CommentResponse(
-      isLiked: json['is_liked'] as bool?,
+      isLiked: json['is_liked'] as String?,
       commentId: json['comment_id'] as String?,
       parentId: json['parent_id'] as String?,
       typeId: json['type_id'] as String?,

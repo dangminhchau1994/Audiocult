@@ -134,6 +134,9 @@ class _DetailSongCommentState extends State<DetailSongComment> {
               );
             },
           ),
+          const SizedBox(
+            height: 20,
+          ),
           Container(
             width: double.infinity,
             color: AppColors.secondaryButtonColor,

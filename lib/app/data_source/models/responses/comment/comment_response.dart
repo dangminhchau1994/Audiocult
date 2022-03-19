@@ -4,7 +4,7 @@ part 'comment_response.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake)
 class CommentResponse {
-  bool? isLiked;
+  String? isLiked;
   String? commentId;
   String? parentId;
   String? typeId;

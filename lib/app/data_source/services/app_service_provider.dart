@@ -210,6 +210,66 @@ class AppServiceProvider {
     );
   }
 
+  Future<CommentResponse> createComment(
+    int itemId,
+    String type,
+    String text,
+  ) async {
+    final response = await _dioHelper.post(
+      route: '/restful_api/comment',
+      options: Options(headers: {'Content-Type': 'application/x-www-form-urlencoded'}),
+      requestBody: FormData.fromMap({
+        'val[item_id]': itemId,
+        'val[type]': type,
+        'val[text]': text,
+      }),
+      responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
+    );
+    return response.mapData(
+      (json) => CommentResponse.fromJson(json as Map<String, dynamic>),
+    );
+  }
+
+  Future<List<CommentResponse>> getReplies(int parentId, int itemId, String typeId, int page, int limit) async {
+    final response = await _dioHelper.get(
+      route: '/restful_api/comment',
+      options: Options(headers: {'Content-Type': 'application/x-www-form-urlencoded'}),
+      requestParams: {
+        'parent_id': parentId,
+        'item_id': itemId,
+        'type_id': typeId,
+        'page': page,
+        'limit': limit,
+      },
+      responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
+    );
+    return response.mapData(
+      (json) => asType<List<dynamic>>(json)?.map((e) => CommentResponse.fromJson(e as Map<String, dynamic>)).toList(),
+    );
+  }
+
+  Future<CommentResponse> createReply(
+    int parentId,
+    int itemId,
+    String type,
+    String text,
+  ) async {
+    final response = await _dioHelper.post(
+      route: '/restful_api/comment',
+      options: Options(headers: {'Content-Type': 'application/x-www-form-urlencoded'}),
+      requestBody: FormData.fromMap({
+        'val[parent_id]': parentId,
+        'val[item_id]': itemId,
+        'val[type]': type,
+        'val[text]': text,
+      }),
+      responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
+    );
+    return response.mapData(
+      (json) => CommentResponse.fromJson(json as Map<String, dynamic>),
+    );
+  }
+
   Future<Album> getAlbumDetail(int id) async {
     final response = await _dioHelper.get(
       route: '/restful_api/song/album/$id',
@@ -218,6 +278,17 @@ class AppServiceProvider {
     );
     return response.mapData(
       (json) => Album.fromJson(json as Map<String, dynamic>),
+    );
+  }
+
+  Future<PlaylistResponse> getPlayListDetail(int id) async {
+    final response = await _dioHelper.get(
+      route: '/restful_api/playlist/$id',
+      options: Options(headers: {'Content-Type': 'application/x-www-form-urlencoded'}),
+      responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
+    );
+    return response.mapData(
+      (json) => PlaylistResponse.fromJson(json as Map<String, dynamic>),
     );
   }
 

@@ -1,6 +1,8 @@
 import 'package:audio_cult/app/data_source/models/responses/playlist/playlist_response.dart';
 import 'package:audio_cult/app/features/music/discover/widgets/album_item.dart';
 import 'package:audio_cult/app/features/music/discover/widgets/section_title.dart';
+import 'package:audio_cult/app/utils/route/app_route.dart';
+import 'package:audio_cult/w_components/buttons/w_button_inkwell.dart';
 import 'package:flutter/material.dart';
 import '../../../../../di/bloc_locator.dart';
 import '../../../../../w_components/error_empty/error_section.dart';
@@ -21,7 +23,7 @@ class TopPlaylist extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 40),
+      padding: const EdgeInsets.only(top: 20, bottom: 60),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -47,8 +49,19 @@ class TopPlaylist extends StatelessWidget {
                     child: ListView.separated(
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (context, index) {
-                        return AlbumItem(
-                          playlist: playlist[index],
+                        return WButtonInkwell(
+                          onPressed: () {
+                            Navigator.pushNamed(
+                              context,
+                              AppRoute.routeDetailPlayList,
+                              arguments: {
+                                'playlist_id': playlist[index].playlistId,
+                              },
+                            );
+                          },
+                          child: AlbumItem(
+                            playlist: playlist[index],
+                          ),
                         );
                       },
                       separatorBuilder: (context, index) => const SizedBox(width: 16),

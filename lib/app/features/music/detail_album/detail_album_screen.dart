@@ -88,6 +88,7 @@ class _DetailAlbumScreenState extends State<DetailAlbumScreen> {
                       //Comment
                       DetailAlbumComment(
                         id: int.parse(widget.albumId ?? ''),
+                        title: detail.name,
                       ),
                       //Recommended Songs
                       const DetailAlbumRecommended(),

@@ -22,7 +22,7 @@ class _$PlaylistResponseTearOff {
   const _$PlaylistResponseTearOff();
 
   _PlaylistResponse call(
-      {bool? isLiked,
+      {String? isLiked,
       String? userId,
       String? profilePageId,
       String? userServerId,
@@ -39,13 +39,13 @@ class _$PlaylistResponseTearOff {
       @JsonKey(name: 'playlist_id') String? playlistId,
       @JsonKey(name: 'title') String? title,
       String? description,
-      String? timeStamp,
-      int? totalLikes,
-      int? totalComments,
+      @JsonKey(name: 'time_stamp') String? timeStamp,
+      @JsonKey(name: 'total_likes') String? totalLikes,
+      @JsonKey(name: 'total_comments') String? totalComments,
       bool? isFeatured,
       @JsonKey(name: 'image_path') String? imagePath,
       bool? isDay,
-      String? totalView,
+      @JsonKey(name: 'total_view') String? totalView,
       String? artistId,
       List<Songs>? songs,
       @JsonKey(name: 'count_songs') int? countSongs}) {
@@ -90,7 +90,7 @@ const $PlaylistResponse = _$PlaylistResponseTearOff();
 
 /// @nodoc
 mixin _$PlaylistResponse {
-  bool? get isLiked => throw _privateConstructorUsedError;
+  String? get isLiked => throw _privateConstructorUsedError;
   String? get userId => throw _privateConstructorUsedError;
   String? get profilePageId => throw _privateConstructorUsedError;
   String? get userServerId =>
@@ -112,15 +112,23 @@ mixin _$PlaylistResponse {
       throw _privateConstructorUsedError; // ignore: invalid_annotation_target
   @JsonKey(name: 'title')
   String? get title => throw _privateConstructorUsedError;
-  String? get description => throw _privateConstructorUsedError;
-  String? get timeStamp => throw _privateConstructorUsedError;
-  int? get totalLikes => throw _privateConstructorUsedError;
-  int? get totalComments => throw _privateConstructorUsedError;
+  String? get description =>
+      throw _privateConstructorUsedError; // ignore: invalid_annotation_target
+  @JsonKey(name: 'time_stamp')
+  String? get timeStamp =>
+      throw _privateConstructorUsedError; // ignore: invalid_annotation_target
+  @JsonKey(name: 'total_likes')
+  String? get totalLikes =>
+      throw _privateConstructorUsedError; // ignore: invalid_annotation_target
+  @JsonKey(name: 'total_comments')
+  String? get totalComments => throw _privateConstructorUsedError;
   bool? get isFeatured =>
       throw _privateConstructorUsedError; // ignore: invalid_annotation_target
   @JsonKey(name: 'image_path')
   String? get imagePath => throw _privateConstructorUsedError;
-  bool? get isDay => throw _privateConstructorUsedError;
+  bool? get isDay =>
+      throw _privateConstructorUsedError; // ignore: invalid_annotation_target
+  @JsonKey(name: 'total_view')
   String? get totalView => throw _privateConstructorUsedError;
   String? get artistId => throw _privateConstructorUsedError;
   List<Songs>? get songs =>
@@ -140,7 +148,7 @@ abstract class $PlaylistResponseCopyWith<$Res> {
           PlaylistResponse value, $Res Function(PlaylistResponse) then) =
       _$PlaylistResponseCopyWithImpl<$Res>;
   $Res call(
-      {bool? isLiked,
+      {String? isLiked,
       String? userId,
       String? profilePageId,
       String? userServerId,
@@ -157,13 +165,13 @@ abstract class $PlaylistResponseCopyWith<$Res> {
       @JsonKey(name: 'playlist_id') String? playlistId,
       @JsonKey(name: 'title') String? title,
       String? description,
-      String? timeStamp,
-      int? totalLikes,
-      int? totalComments,
+      @JsonKey(name: 'time_stamp') String? timeStamp,
+      @JsonKey(name: 'total_likes') String? totalLikes,
+      @JsonKey(name: 'total_comments') String? totalComments,
       bool? isFeatured,
       @JsonKey(name: 'image_path') String? imagePath,
       bool? isDay,
-      String? totalView,
+      @JsonKey(name: 'total_view') String? totalView,
       String? artistId,
       List<Songs>? songs,
       @JsonKey(name: 'count_songs') int? countSongs});
@@ -212,7 +220,7 @@ class _$PlaylistResponseCopyWithImpl<$Res>
       isLiked: isLiked == freezed
           ? _value.isLiked
           : isLiked // ignore: cast_nullable_to_non_nullable
-              as bool?,
+              as String?,
       userId: userId == freezed
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
@@ -284,11 +292,11 @@ class _$PlaylistResponseCopyWithImpl<$Res>
       totalLikes: totalLikes == freezed
           ? _value.totalLikes
           : totalLikes // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as String?,
       totalComments: totalComments == freezed
           ? _value.totalComments
           : totalComments // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as String?,
       isFeatured: isFeatured == freezed
           ? _value.isFeatured
           : isFeatured // ignore: cast_nullable_to_non_nullable
@@ -329,7 +337,7 @@ abstract class _$PlaylistResponseCopyWith<$Res>
       __$PlaylistResponseCopyWithImpl<$Res>;
   @override
   $Res call(
-      {bool? isLiked,
+      {String? isLiked,
       String? userId,
       String? profilePageId,
       String? userServerId,
@@ -346,13 +354,13 @@ abstract class _$PlaylistResponseCopyWith<$Res>
       @JsonKey(name: 'playlist_id') String? playlistId,
       @JsonKey(name: 'title') String? title,
       String? description,
-      String? timeStamp,
-      int? totalLikes,
-      int? totalComments,
+      @JsonKey(name: 'time_stamp') String? timeStamp,
+      @JsonKey(name: 'total_likes') String? totalLikes,
+      @JsonKey(name: 'total_comments') String? totalComments,
       bool? isFeatured,
       @JsonKey(name: 'image_path') String? imagePath,
       bool? isDay,
-      String? totalView,
+      @JsonKey(name: 'total_view') String? totalView,
       String? artistId,
       List<Songs>? songs,
       @JsonKey(name: 'count_songs') int? countSongs});
@@ -403,7 +411,7 @@ class __$PlaylistResponseCopyWithImpl<$Res>
       isLiked: isLiked == freezed
           ? _value.isLiked
           : isLiked // ignore: cast_nullable_to_non_nullable
-              as bool?,
+              as String?,
       userId: userId == freezed
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
@@ -475,11 +483,11 @@ class __$PlaylistResponseCopyWithImpl<$Res>
       totalLikes: totalLikes == freezed
           ? _value.totalLikes
           : totalLikes // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as String?,
       totalComments: totalComments == freezed
           ? _value.totalComments
           : totalComments // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as String?,
       isFeatured: isFeatured == freezed
           ? _value.isFeatured
           : isFeatured // ignore: cast_nullable_to_non_nullable
@@ -533,13 +541,13 @@ class _$_PlaylistResponse implements _PlaylistResponse {
       @JsonKey(name: 'playlist_id') this.playlistId,
       @JsonKey(name: 'title') this.title,
       this.description,
-      this.timeStamp,
-      this.totalLikes,
-      this.totalComments,
+      @JsonKey(name: 'time_stamp') this.timeStamp,
+      @JsonKey(name: 'total_likes') this.totalLikes,
+      @JsonKey(name: 'total_comments') this.totalComments,
       this.isFeatured,
       @JsonKey(name: 'image_path') this.imagePath,
       this.isDay,
-      this.totalView,
+      @JsonKey(name: 'total_view') this.totalView,
       this.artistId,
       this.songs,
       @JsonKey(name: 'count_songs') this.countSongs});
@@ -548,7 +556,7 @@ class _$_PlaylistResponse implements _PlaylistResponse {
       _$$_PlaylistResponseFromJson(json);
 
   @override
-  final bool? isLiked;
+  final String? isLiked;
   @override
   final String? userId;
   @override
@@ -584,12 +592,15 @@ class _$_PlaylistResponse implements _PlaylistResponse {
   final String? title;
   @override
   final String? description;
-  @override
+  @override // ignore: invalid_annotation_target
+  @JsonKey(name: 'time_stamp')
   final String? timeStamp;
-  @override
-  final int? totalLikes;
-  @override
-  final int? totalComments;
+  @override // ignore: invalid_annotation_target
+  @JsonKey(name: 'total_likes')
+  final String? totalLikes;
+  @override // ignore: invalid_annotation_target
+  @JsonKey(name: 'total_comments')
+  final String? totalComments;
   @override
   final bool? isFeatured;
   @override // ignore: invalid_annotation_target
@@ -597,7 +608,8 @@ class _$_PlaylistResponse implements _PlaylistResponse {
   final String? imagePath;
   @override
   final bool? isDay;
-  @override
+  @override // ignore: invalid_annotation_target
+  @JsonKey(name: 'total_view')
   final String? totalView;
   @override
   final String? artistId;
@@ -704,7 +716,7 @@ class _$_PlaylistResponse implements _PlaylistResponse {
 
 abstract class _PlaylistResponse implements PlaylistResponse {
   factory _PlaylistResponse(
-      {bool? isLiked,
+      {String? isLiked,
       String? userId,
       String? profilePageId,
       String? userServerId,
@@ -721,13 +733,13 @@ abstract class _PlaylistResponse implements PlaylistResponse {
       @JsonKey(name: 'playlist_id') String? playlistId,
       @JsonKey(name: 'title') String? title,
       String? description,
-      String? timeStamp,
-      int? totalLikes,
-      int? totalComments,
+      @JsonKey(name: 'time_stamp') String? timeStamp,
+      @JsonKey(name: 'total_likes') String? totalLikes,
+      @JsonKey(name: 'total_comments') String? totalComments,
       bool? isFeatured,
       @JsonKey(name: 'image_path') String? imagePath,
       bool? isDay,
-      String? totalView,
+      @JsonKey(name: 'total_view') String? totalView,
       String? artistId,
       List<Songs>? songs,
       @JsonKey(name: 'count_songs') int? countSongs}) = _$_PlaylistResponse;
@@ -736,7 +748,7 @@ abstract class _PlaylistResponse implements PlaylistResponse {
       _$_PlaylistResponse.fromJson;
 
   @override
-  bool? get isLiked;
+  String? get isLiked;
   @override
   String? get userId;
   @override
@@ -772,12 +784,15 @@ abstract class _PlaylistResponse implements PlaylistResponse {
   String? get title;
   @override
   String? get description;
-  @override
+  @override // ignore: invalid_annotation_target
+  @JsonKey(name: 'time_stamp')
   String? get timeStamp;
-  @override
-  int? get totalLikes;
-  @override
-  int? get totalComments;
+  @override // ignore: invalid_annotation_target
+  @JsonKey(name: 'total_likes')
+  String? get totalLikes;
+  @override // ignore: invalid_annotation_target
+  @JsonKey(name: 'total_comments')
+  String? get totalComments;
   @override
   bool? get isFeatured;
   @override // ignore: invalid_annotation_target
@@ -785,7 +800,8 @@ abstract class _PlaylistResponse implements PlaylistResponse {
   String? get imagePath;
   @override
   bool? get isDay;
-  @override
+  @override // ignore: invalid_annotation_target
+  @JsonKey(name: 'total_view')
   String? get totalView;
   @override
   String? get artistId;

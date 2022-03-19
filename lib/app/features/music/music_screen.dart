@@ -15,7 +15,7 @@ class MusicScreen extends StatefulWidget {
   State<MusicScreen> createState() => _MusicScreenState();
 }
 
-class _MusicScreenState extends State<MusicScreen> with AutomaticKeepAliveClientMixin {
+class _MusicScreenState extends State<MusicScreen> {
   final _pageController = PageController();
   final _tabController = CustomTabBarController();
   final _pageCount = 2;
@@ -82,7 +82,4 @@ class _MusicScreenState extends State<MusicScreen> with AutomaticKeepAliveClient
       ),
     );
   }
-
-  @override
-  bool get wantKeepAlive => true;
 }

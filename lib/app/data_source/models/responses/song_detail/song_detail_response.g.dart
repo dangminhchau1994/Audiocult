@@ -8,7 +8,7 @@ part of 'song_detail_response.dart';
 
 SongDetailResponse _$SongDetailResponseFromJson(Map<String, dynamic> json) =>
     SongDetailResponse(
-      isLiked: json['is_liked'] as bool?,
+      isLiked: json['is_liked'] as String?,
       isFriend: json['is_friend'] as bool?,
       songId: json['song_id'] as String?,
       viewId: json['view_id'] as String?,

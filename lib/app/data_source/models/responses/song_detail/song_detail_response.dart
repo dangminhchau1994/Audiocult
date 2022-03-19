@@ -3,7 +3,7 @@ part 'song_detail_response.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake)
 class SongDetailResponse {
-  bool? isLiked;
+  String? isLiked;
   bool? isFriend;
   String? songId;
   String? viewId;
@@ -183,20 +183,22 @@ class ArtistUser {
   String? lastActivity;
   String? birthday;
   String? countryIso;
-  ArtistUser(
-      {this.userId,
-      this.profilePageId,
-      this.userServerId,
-      this.userName,
-      this.fullName,
-      this.gender,
-      this.userImage,
-      this.isInvisible,
-      this.userGroupId,
-      this.languageId,
-      this.lastActivity,
-      this.birthday,
-      this.countryIso,});
+  
+  ArtistUser({
+    this.userId,
+    this.profilePageId,
+    this.userServerId,
+    this.userName,
+    this.fullName,
+    this.gender,
+    this.userImage,
+    this.isInvisible,
+    this.userGroupId,
+    this.languageId,
+    this.lastActivity,
+    this.birthday,
+    this.countryIso,
+  });
 
   factory ArtistUser.fromJson(Map<String, dynamic> json) => _$ArtistUserFromJson(json);
 }

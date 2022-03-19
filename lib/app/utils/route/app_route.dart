@@ -4,7 +4,11 @@ import 'package:audio_cult/app/features/auth/place_location/place_location_scree
 import 'package:audio_cult/app/features/auth/resent_password/resent_password_screen.dart';
 import 'package:audio_cult/app/features/main/main_screen.dart';
 import 'package:audio_cult/app/features/music/detail-song/detail_song_screen.dart';
+import 'package:audio_cult/app/features/music/detail_album/detail_album_args.dart';
 import 'package:audio_cult/app/features/music/detail_album/detail_album_screen.dart';
+import 'package:audio_cult/app/features/music/detail_album/detail_comment_args.dart';
+import 'package:audio_cult/app/features/music/detail_album/replies/detail_list_album_replies_screen.dart';
+import 'package:audio_cult/app/features/music/detail_playlist/detail_playlist_screen.dart';
 import 'package:audio_cult/app/features/music/featured_albums/featured_album_screen.dart';
 import 'package:audio_cult/app/features/music/filter/music_filter_screen.dart';
 import 'package:audio_cult/app/features/music/top_playlist/top_playlist_screen.dart';
@@ -12,6 +16,7 @@ import 'package:audio_cult/app/features/player_widgets/player_screen.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
+import '../../features/music/detail_album/comments/detail_list_album_comment_screen.dart';
 import '../../features/music/featured_albums/featured_album_screen.dart';
 import '../../features/music/search/search_args.dart';
 import '../../features/music/search/search_screen.dart';
@@ -38,6 +43,9 @@ class AppRoute {
   static const String routeMusicFilter = '/search';
   static const String routeDetaiSong = '/detail_song';
   static const String routeDetailAlbum = '/detail_album';
+  static const String routeDetailPlayList = '/detail_playlist';
+  static const String routeDetailListAbumComment = '/detail_list_album_comment';
+  static const String routeDetailListAlbumReplies = '/detail_list_album_replies';
   static const String routePlayerScreen = '/player_screen';
 
   ///#end region
@@ -88,6 +96,14 @@ class AppRoute {
             albumId: arguments['album_id'] as String,
           ),
         );
+      case routeDetailPlayList:
+        final arguments = asType(settings.arguments);
+        return _pageRoute(
+          settings,
+          DetailPlayListScreen(
+            playListId: arguments['playlist_id'] as String,
+          ),
+        );
       case routeFeaturedAlbum:
         final SearchArgs? arguments = asType(settings.arguments);
         return _pageRoute(
@@ -102,6 +118,22 @@ class AppRoute {
           settings,
           TopPlaylistScreen(
             arguments: arguments!,
+          ),
+        );
+      case routeDetailListAbumComment:
+        final DetailAlbumArgs? arguments = asType(settings.arguments);
+        return _pageRoute(
+          settings,
+          DetailListAlbumCommentScreen(
+            detailAlbumArgs: arguments!,
+          ),
+        );
+      case routeDetailListAlbumReplies:
+        final DetailCommentArgs? arguments = asType(settings.arguments);
+        return _pageRoute(
+          settings,
+          DetailListRepliesScreen(
+            detailCommentArgs: arguments,
           ),
         );
       case routeSearch:

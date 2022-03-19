@@ -2,11 +2,14 @@ import 'package:audio_cult/app/data_source/local/pref_provider.dart';
 import 'package:audio_cult/app/data_source/repositories/app_repository.dart';
 import 'package:audio_cult/app/features/music/detail-song/detail_song_bloc.dart';
 import 'package:audio_cult/app/features/music/detail_album/detail_album_bloc.dart';
+import 'package:audio_cult/app/features/music/detail_album/replies/detail_list_album_replies_bloc.dart';
+import 'package:audio_cult/app/features/music/detail_playlist/detail_playlist_bloc.dart';
 import 'package:audio_cult/app/features/music/featured_albums/featured_album_bloc.dart';
 import 'package:audio_cult/app/features/music/search/search_bloc.dart';
 import 'package:audio_cult/app/injections.dart';
 import 'package:get_it/get_it.dart';
 import '../app/features/main/main_bloc.dart';
+import '../app/features/music/detail_album/comments/detail_list_album_comment_bloc.dart';
 import '../app/features/music/discover/discover_bloc.dart';
 import '../app/features/music/top_playlist/top_playlist_bloc.dart';
 import '../app/features/music/top_song/top_song_bloc.dart';
@@ -29,4 +32,14 @@ void setupLocator() {
   getIt.registerLazySingleton<DetailSongBloc>(() => DetailSongBloc(locator.get<AppRepository>()));
 
   getIt.registerLazySingleton<DetailAlbumBloc>(() => DetailAlbumBloc(locator.get<AppRepository>()));
+
+  getIt.registerLazySingleton<DetailPlayListBloc>(() => DetailPlayListBloc(locator.get<AppRepository>()));
+
+  getIt.registerLazySingleton<DetailListAlbumCommentBloc>(
+    () => DetailListAlbumCommentBloc(locator.get<AppRepository>()),
+  );
+
+  getIt.registerLazySingleton<DetailListAlbumRepliesBloc>(
+    () => DetailListAlbumRepliesBloc(locator.get<AppRepository>()),
+  );
 }

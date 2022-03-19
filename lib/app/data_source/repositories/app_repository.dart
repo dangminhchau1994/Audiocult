@@ -116,9 +116,48 @@ class AppRepository extends BaseRepository {
     );
   }
 
+  Future<Either<PlaylistResponse, Exception>> getPlayListDetail(int id) {
+    return safeCall(
+      () => appServiceProvider.getPlayListDetail(id),
+    );
+  }
+
   Future<Either<List<CommentResponse>, Exception>> getComments(int id, String typeId, int page, int limit) {
     return safeCall(
       () => appServiceProvider.getComments(id, typeId, page, limit),
+    );
+  }
+
+  Future<Either<CommentResponse, Exception>> createComment(
+    int itemId,
+    String type,
+    String text,
+  ) {
+    return safeCall(
+      () => appServiceProvider.createComment(itemId, type, text),
+    );
+  }
+
+  Future<Either<List<CommentResponse>, Exception>> getReplies(
+    int parentId,
+    int id,
+    String typeId,
+    int page,
+    int limit,
+  ) {
+    return safeCall(
+      () => appServiceProvider.getReplies(parentId, id, typeId, page, limit),
+    );
+  }
+
+  Future<Either<CommentResponse, Exception>> createReply(
+    int parentId,
+    int itemId,
+    String type,
+    String text,
+  ) {
+    return safeCall(
+      () => appServiceProvider.createReply(parentId, itemId, type, text),
     );
   }
 
