@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:audio_cult/app/features/player_widgets/artwork_widget.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
 import 'package:audio_service/audio_service.dart';
@@ -34,6 +36,10 @@ class _PlayerScreenState extends State<PlayerScreen> {
     super.initState();
     globalIndex = widget.params['index'] as int;
     response = widget.params['listSong'] as List<Song>;
+      if (!Platform.isAndroid) {
+        // Don't know why but it fixes the playback issue with iOS Side
+        audioHandler.stop();
+      }
     playMusic();
   }
 
