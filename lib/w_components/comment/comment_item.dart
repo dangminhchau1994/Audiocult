@@ -1,5 +1,4 @@
 import 'package:audio_cult/app/data_source/models/responses/comment/comment_response.dart';
-import 'package:audio_cult/app/features/music/detail_album/detail_comment_args.dart';
 import 'package:audio_cult/app/utils/constants/app_assets.dart';
 import 'package:audio_cult/app/utils/datetime/date_time_utils.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
@@ -9,8 +8,8 @@ import 'package:flutter_svg/svg.dart';
 
 import '../../app/utils/constants/app_colors.dart';
 
-class CommonComment extends StatefulWidget {
-  const CommonComment({
+class CommentItem extends StatefulWidget {
+  const CommentItem({
     Key? key,
     this.data,
     this.onReply,
@@ -20,10 +19,10 @@ class CommonComment extends StatefulWidget {
   final Function(CommentResponse data)? onReply;
 
   @override
-  State<CommonComment> createState() => _CommonCommentState();
+  State<CommentItem> createState() => _CommentItemState();
 }
 
-class _CommonCommentState extends State<CommonComment> {
+class _CommentItemState extends State<CommentItem> {
   @override
   void initState() {
     super.initState();

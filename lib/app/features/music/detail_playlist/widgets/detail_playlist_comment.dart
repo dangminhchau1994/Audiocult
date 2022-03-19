@@ -5,7 +5,7 @@ import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-import '../../../../../w_components/comment/common_comment.dart';
+import '../../../../../w_components/comment/comment_item.dart';
 import '../../../../../w_components/error_empty/error_section.dart';
 import '../../../../../w_components/loading/loading_widget.dart';
 import '../../../../base/bloc_state.dart';
@@ -110,7 +110,7 @@ class _DetailPlayListCommentState extends State<DetailPlayListComment> {
                     separatorBuilder: (context, index) => const Divider(height: 30),
                     itemBuilder: (context, index) => ExpandablePanel(
                       controller: ExpandableController(initialExpanded: true),
-                      header: CommonComment(data: data[index]),
+                      header: CommentItem(data: data[index]),
                       theme: const ExpandableThemeData(
                         hasIcon: false,
                         tapBodyToExpand: false,

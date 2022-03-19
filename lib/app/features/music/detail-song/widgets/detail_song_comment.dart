@@ -5,7 +5,7 @@ import 'package:audio_cult/app/injections.dart';
 import 'package:audio_cult/app/utils/constants/app_assets.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/l10n/l10n.dart';
-import 'package:audio_cult/w_components/comment/common_comment.dart';
+import 'package:audio_cult/w_components/comment/comment_item.dart';
 import 'package:audio_cult/w_components/loading/loading_widget.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
@@ -109,7 +109,7 @@ class _DetailSongCommentState extends State<DetailSongComment> {
                     separatorBuilder: (context, index) => const Divider(height: 30),
                     itemBuilder: (context, index) => ExpandablePanel(
                       controller: ExpandableController(initialExpanded: true),
-                      header: CommonComment(data: data[index]),
+                      header: CommentItem(data: data[index]),
                       theme: const ExpandableThemeData(
                         hasIcon: false,
                         tapBodyToExpand: false,
