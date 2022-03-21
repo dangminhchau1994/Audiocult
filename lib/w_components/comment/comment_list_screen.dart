@@ -231,6 +231,7 @@ class _CommmentListScreennState extends State<CommmentListScreen> {
                               theme: const ExpandableThemeData(
                                 hasIcon: false,
                                 tapBodyToExpand: false,
+                                tapHeaderToExpand: false,
                                 useInkWell: false,
                               ),
                               collapsed: Container(),
