@@ -142,6 +142,7 @@ class _DetailAlbumCommentState extends State<DetailAlbumComment> {
                         ),
                         collapsed: Container(),
                         expanded: ReplyItem(
+                          parentId: int.parse(data[index].commentId ?? ''),
                           id: widget.id,
                           commentParent: data[index],
                           commentType: CommentType.album,
