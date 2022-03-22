@@ -212,34 +212,24 @@ class _CommentItemState extends State<CommentItem> {
   }
 }
 
-Container _buildTitle(String title) {
-  return Container(
-    decoration: BoxDecoration(
-      color: AppColors.secondaryButtonColor,
-      borderRadius: BorderRadius.circular(15),
-    ),
-    child: Text(
-      title,
-      style: const TextStyle(
-        color: Colors.white,
-        fontSize: 10,
-        fontWeight: FontWeight.bold,
-      ),
+Widget _buildTitle(String title) {
+  return Text(
+    title,
+    style: const TextStyle(
+      color: Colors.white,
+      fontSize: 12,
+      fontWeight: FontWeight.bold,
     ),
   );
 }
 
-Container _buildReactionsIcon(String path) {
-  return Container(
-    color: Colors.transparent,
-    padding: const EdgeInsets.all(2),
-    child: SvgPicture.network(
-      path,
-      height: 30,
-      width: 30,
-      placeholderBuilder: (BuildContext context) => const Center(
-        child: CircularProgressIndicator(),
-      ),
+Widget _buildReactionsIcon(String path) {
+  return SvgPicture.network(
+    path,
+    height: 25,
+    width: 25,
+    placeholderBuilder: (BuildContext context) => const Center(
+      child: CircularProgressIndicator(),
     ),
   );
 }

@@ -46,11 +46,11 @@ class _ReplyItemState extends State<ReplyItem> {
     switch (type) {
       case CommentType.album:
         return 'music_album';
-      case CommentType.home:
-        return '';
-      case CommentType.sonng:
-        return '';
       case CommentType.playlist:
+        return 'advancedmusic_playlist';
+      case CommentType.song:
+        return 'music_song';
+      case CommentType.home:
         return '';
     }
   }

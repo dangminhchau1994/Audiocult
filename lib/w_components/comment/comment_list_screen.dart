@@ -25,7 +25,7 @@ import '../loading/loading_widget.dart';
 
 enum CommentType {
   home,
-  sonng,
+  song,
   album,
   playlist,
 }
@@ -54,11 +54,11 @@ class _CommmentListScreennState extends State<CommmentListScreen> {
     switch (type) {
       case CommentType.album:
         return 'music_album';
-      case CommentType.home:
-        return '';
-      case CommentType.sonng:
-        return '';
       case CommentType.playlist:
+        return 'advancedmusic_playlist';
+      case CommentType.song:
+        return 'music_song';
+      case CommentType.home:
         return '';
     }
   }
@@ -120,7 +120,7 @@ class _CommmentListScreennState extends State<CommmentListScreen> {
     _commenntListBloc.requestData(
       params: CommentRequest(
         id: widget.commentArgs.itemId ?? 0,
-        typeId: 'music_album',
+        typeId: getType(),
         page: 1,
         limit: GlobalConstants.loadMoreItem,
       ),
@@ -252,7 +252,7 @@ class _CommmentListScreennState extends State<CommmentListScreen> {
                     _commenntListBloc.requestData(
                       params: CommentRequest(
                         id: widget.commentArgs.itemId,
-                        typeId: 'music_album',
+                        typeId: getType(),
                         page: 1,
                         limit: GlobalConstants.loadMoreItem,
                       ),

@@ -145,6 +145,12 @@ class AppRepository extends BaseRepository {
     );
   }
 
+  Future<Either<CommentResponse, Exception>> postReactionIcon(String typeId, int itemId, int likeType) {
+    return safeCall(
+      () => appServiceProvider.postReactionIcon(typeId, itemId, likeType),
+    );
+  }
+
   Future<Either<List<CommentResponse>, Exception>> getReplies(
     int parentId,
     int id,

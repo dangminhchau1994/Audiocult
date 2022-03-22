@@ -85,6 +85,7 @@ class _DetailPlayListScreenState extends State<DetailPlayListScreen> {
                       //Comment
                       DetailPlayListComment(
                         id: int.parse(widget.playListId ?? ''),
+                        title: detail.title,
                       ),
                       //Recommended Songs
                       const DetailPlayListRecommended(),
