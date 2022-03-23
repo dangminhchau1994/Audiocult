@@ -68,5 +68,9 @@
     "t_key":"Key",
     "t_lower":"Lower",
     "t_higher":"Higher",
-    "t_apply":"Apply"
+    "t_apply":"Apply",
+    "t_my_album":"My Album",
+    "t_upload":"Upload",
+    "t_upload_song":"Upload Song",
+    "t_upload_album":"Upload Album"
 }

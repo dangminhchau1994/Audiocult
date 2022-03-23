@@ -8,6 +8,8 @@ import 'package:audio_cult/app/features/music/detail_album/detail_album_screen.d
 import 'package:audio_cult/app/features/music/detail_playlist/detail_playlist_screen.dart';
 import 'package:audio_cult/app/features/music/featured_albums/featured_album_screen.dart';
 import 'package:audio_cult/app/features/music/filter/music_filter_screen.dart';
+import 'package:audio_cult/app/features/music/my_album/upload_album/upload_album_screen.dart';
+import 'package:audio_cult/app/features/music/my_album/upload_song/upload_song_screen.dart';
 import 'package:audio_cult/app/features/music/top_playlist/top_playlist_screen.dart';
 import 'package:audio_cult/app/features/player_widgets/player_screen.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
@@ -46,6 +48,8 @@ class AppRoute {
   static const String routePlayerScreen = '/player_screen';
   static const String routeCommentListScreen = '/comment_list_screen';
   static const String routeReplyListScreen = '/reply_list_screen';
+  static const String routeUploadSong = '/upload_song';
+  static const String routeUploadAlbum = '/upload_screen';
 
   ///#end region
 
@@ -149,6 +153,16 @@ class AppRoute {
           ReplyListScreen(
             commentArgs: arguments!,
           ),
+        );
+      case routeUploadSong:
+        return _pageRoute(
+          settings,
+          const UploadSongScreen(),
+        );
+      case routeUploadAlbum:
+        return _pageRoute(
+          settings,
+          const UploadAlbumScreen(),
         );
       default:
         return null;

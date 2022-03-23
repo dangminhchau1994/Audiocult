@@ -1,5 +1,8 @@
+import 'package:audio_cult/app/base/pair.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+import 'bottom_alert_dialog.dart';
 
 class AppDialog {
   static void showYesNoDialog(BuildContext context, {String? message, Function()? onYesPressed}) {
@@ -28,5 +31,13 @@ class AppDialog {
         );
       },
     );
+  }
+
+  static void showSelectionBottomSheet(BuildContext context,
+      {List<Pair<Widget, String>>? listSelection, Function(int index)? onTap}) {
+    showModalBottomSheet(
+        context: context,
+        builder: (_) => BottomAlertDialog(listSelection: listSelection, onTap: onTap),
+        backgroundColor: Colors.transparent);
   }
 }

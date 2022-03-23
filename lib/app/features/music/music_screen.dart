@@ -6,6 +6,8 @@ import 'package:audio_cult/w_components/tabbars/common_tabbar_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_tab_bar/indicator/custom_indicator.dart';
 
+import 'my_album/my_album_page.dart';
+
 class MusicScreen extends StatefulWidget {
   const MusicScreen({
     Key? key,
@@ -18,7 +20,7 @@ class MusicScreen extends StatefulWidget {
 class _MusicScreenState extends State<MusicScreen> {
   final _pageController = PageController();
   final _tabController = CustomTabBarController();
-  final _pageCount = 2;
+  final _pageCount = 3;
   var _currentIndex = 0;
 
   @override
@@ -42,7 +44,7 @@ class _MusicScreenState extends State<MusicScreen> {
             case 0:
               return CommonTabbarItem(
                 index: index,
-                width: MediaQuery.of(context).size.width / 2,
+                width: MediaQuery.of(context).size.width / _pageCount,
                 currentIndex: _currentIndex,
                 title: 'Discover',
                 hasIcon: false,
@@ -50,9 +52,17 @@ class _MusicScreenState extends State<MusicScreen> {
             case 1:
               return CommonTabbarItem(
                 index: index,
-                width: MediaQuery.of(context).size.width / 2,
+                width: MediaQuery.of(context).size.width / _pageCount,
                 currentIndex: _currentIndex,
                 title: 'My Library',
+                hasIcon: false,
+              );
+            case 2:
+              return CommonTabbarItem(
+                index: index,
+                width: MediaQuery.of(context).size.width / _pageCount,
+                currentIndex: _currentIndex,
+                title: 'My Album',
                 hasIcon: false,
               );
             default:
@@ -65,6 +75,8 @@ class _MusicScreenState extends State<MusicScreen> {
               return const DiscoverScreen();
             case 1:
               return const LibraryScreen();
+            case 2:
+              return const MyAlbumPage();
             default:
               return const SizedBox();
           }

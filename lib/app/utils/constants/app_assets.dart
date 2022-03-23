@@ -84,4 +84,6 @@ class AppAssets {
   static const imgHeaderDrawer = 'assets/imgs/img_header_drawer.png';
 
   static const icLogout = 'assets/icons/ic_logout.png';
+
+  static const icUpload = 'assets/icons/ic_upload.png';
 }
