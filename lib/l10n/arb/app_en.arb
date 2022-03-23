@@ -74,7 +74,7 @@
     "t_upload_song":"Upload Song",
     "t_upload_album":"Upload Album",
     "t_upload_music":"Upload Music",
-    "t_sub_upload_music":"Text description",
+    "t_sub_upload_music":"The maximum number of songs you can upload each time is 10.",
     "t_limit_upload":"MP3 or WAV. The file size limit is 1 Gb.",
     "btn_next":"Next",
     "btn_back":"Back",
@@ -91,5 +91,13 @@
     "t_privacy":"Privacy",
     "t_sub_privacy":"Control who can see this song.",
     "t_comment_privacy":"Comment Privacy",
-    "t_sub_comment_privacy":"Control who can comment on this album."
+    "t_sub_comment_privacy":"Control who can comment on this album.",
+    "t_meta_data":"Metadata",
+    "t_sell":"Sell",
+    "t_tracking_pricing":"Tracking pricing",
+    "t_usd":"USD",
+    "t_free_download":"Free Download",
+    "t_license":"License",
+    "t_creative_commons":"Creative Commons",
+    "t_create_album":"Create Album"
 }
