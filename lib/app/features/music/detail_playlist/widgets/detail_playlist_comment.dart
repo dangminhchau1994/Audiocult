@@ -86,7 +86,7 @@ class _DetailPlayListCommentState extends State<DetailPlayListComment> {
               ),
               hintText: context.l10n.t_leave_comment,
               hintStyle: context.bodyTextPrimaryStyle()!.copyWith(
-                    color: AppColors.lightWhiteColor,
+                    color: AppColors.subTitleColor,
                     fontSize: 14,
                   ),
               suffixIcon: Padding(

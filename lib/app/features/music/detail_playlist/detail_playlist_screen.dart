@@ -35,77 +35,82 @@ class _DetailPlayListScreenState extends State<DetailPlayListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.mainColor,
-      body: RefreshIndicator(
-        color: AppColors.primaryButtonColor,
-        backgroundColor: AppColors.secondaryButtonColor,
-        onRefresh: () async {
-          getIt.get<DetailPlayListBloc>().getPlayListDetail(int.parse(widget.playListId ?? ''));
-        },
-        child: StreamBuilder<BlocState<PlaylistResponse>>(
-          initialData: const BlocState.loading(),
-          stream: getIt.get<DetailPlayListBloc>().getPlayListDetailStream,
-          builder: (context, snapshot) {
-            final state = snapshot.data!;
-
-            return state.when(
-              success: (data) {
-                final detail = data as PlaylistResponse;
-
-                return SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Stack(
-                        children: [
-                          //Photo
-                          DetailPlayListPhoto(
-                            imagePath: detail.imagePath,
-                          ),
-                          //Navbar
-                          const DetailPlayListNavBar(),
-                          //Title
-                          DetailPlayListTitle(
-                            time: detail.timeStamp,
-                            artistName: detail.userName,
-                            title: detail.title,
-                          ),
-                          // Play Button
-                          const DetailPlayListPlayButton(),
-                        ],
-                      ),
-                      //Detail songs by album id
-                      DetailPlayListSongs(
-                        playListId: widget.playListId ?? '',
-                        totalComments: detail.totalComments,
-                        totalLike: detail.totalLikes,
-                        totalViews: detail.totalView,
-                      ),
-                      //Comment
-                      DetailPlayListComment(
-                        id: int.parse(widget.playListId ?? ''),
-                        title: detail.title,
-                      ),
-                      //Recommended Songs
-                      const DetailPlayListRecommended(),
-                    ],
-                  ),
-                );
-              },
-              loading: () {
-                return const Center(
-                  child: LoadingWidget(),
-                );
-              },
-              error: (error) {
-                return ErrorSectionWidget(
-                  errorMessage: error,
-                  onRetryTap: () {},
-                );
-              },
-            );
+    return GestureDetector(
+      onTap: () {
+        FocusManager.instance.primaryFocus?.unfocus();
+      },
+      child: Scaffold(
+        backgroundColor: AppColors.mainColor,
+        body: RefreshIndicator(
+          color: AppColors.primaryButtonColor,
+          backgroundColor: AppColors.secondaryButtonColor,
+          onRefresh: () async {
+            getIt.get<DetailPlayListBloc>().getPlayListDetail(int.parse(widget.playListId ?? ''));
           },
+          child: StreamBuilder<BlocState<PlaylistResponse>>(
+            initialData: const BlocState.loading(),
+            stream: getIt.get<DetailPlayListBloc>().getPlayListDetailStream,
+            builder: (context, snapshot) {
+              final state = snapshot.data!;
+
+              return state.when(
+                success: (data) {
+                  final detail = data as PlaylistResponse;
+
+                  return SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Stack(
+                          children: [
+                            //Photo
+                            DetailPlayListPhoto(
+                              imagePath: detail.imagePath,
+                            ),
+                            //Navbar
+                            const DetailPlayListNavBar(),
+                            //Title
+                            DetailPlayListTitle(
+                              time: detail.timeStamp,
+                              artistName: detail.userName,
+                              title: detail.title,
+                            ),
+                            // Play Button
+                            const DetailPlayListPlayButton(),
+                          ],
+                        ),
+                        //Detail songs by album id
+                        DetailPlayListSongs(
+                          playListId: widget.playListId ?? '',
+                          totalComments: detail.totalComments,
+                          totalLike: detail.totalLikes,
+                          totalViews: detail.totalView,
+                        ),
+                        //Comment
+                        DetailPlayListComment(
+                          id: int.parse(widget.playListId ?? ''),
+                          title: detail.title,
+                        ),
+                        //Recommended Songs
+                        const DetailPlayListRecommended(),
+                      ],
+                    ),
+                  );
+                },
+                loading: () {
+                  return const Center(
+                    child: LoadingWidget(),
+                  );
+                },
+                error: (error) {
+                  return ErrorSectionWidget(
+                    errorMessage: error,
+                    onRetryTap: () {},
+                  );
+                },
+              );
+            },
+          ),
         ),
       ),
     );

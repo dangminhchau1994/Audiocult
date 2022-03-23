@@ -133,7 +133,7 @@ class _ReplyItemState extends State<ReplyItem> {
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                             style: context.bodyTextPrimaryStyle()!.copyWith(
-                                  color: AppColors.lightWhiteColor,
+                                  color: AppColors.subTitleColor,
                                   fontSize: 12,
                                   fontWeight: FontWeight.bold,
                                 ),

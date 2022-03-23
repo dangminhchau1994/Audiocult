@@ -41,7 +41,7 @@ class _MyDrawerState extends State<MyDrawer> with DisposableStateMixin {
               children: [
                 Blur(
                   blur: 20,
-                  blurColor: AppColors.semiMainColor,
+                  blurColor: AppColors.secondaryButtonColor,
                   child: Container(),
                 ),
                 Positioned(

@@ -85,7 +85,7 @@ class _DetailSongCommentState extends State<DetailSongComment> {
               ),
               hintText: context.l10n.t_leave_comment,
               hintStyle: context.bodyTextPrimaryStyle()!.copyWith(
-                    color: AppColors.lightWhiteColor,
+                    color: AppColors.subTitleColor,
                     fontSize: 14,
                   ),
               suffixIcon: Padding(

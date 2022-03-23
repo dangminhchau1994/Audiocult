@@ -105,6 +105,23 @@ class AppRepository extends BaseRepository {
     );
   }
 
+  Future<Either<CommentResponse, Exception>> editComment(
+    String text,
+    int id,
+  ) {
+    return safeCall(
+      () => appServiceProvider.editComment(text, id),
+    );
+  }
+
+  Future<Either<List<CommentResponse>, Exception>> deleteComment(
+    int id,
+  ) {
+    return safeCall(
+      () => appServiceProvider.deleteComment(id),
+    );
+  }
+
   Future<Either<SongDetailResponse, Exception>> getSongDetail(int id) {
     return safeCall(
       () => appServiceProvider.getSongDetail(id),

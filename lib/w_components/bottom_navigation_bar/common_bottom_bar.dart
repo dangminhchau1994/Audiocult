@@ -17,14 +17,14 @@ class CommonBottomBar extends StatelessWidget {
     return Stack(
       children: [
         Positioned.fill(
-          child: Blur(blur: 10, blurColor: AppColors.semiMainColor.withOpacity(0.75), child: Container()),
+          child: Blur(blur: 10, blurColor: AppColors.secondaryButtonColor.withOpacity(0.75), child: Container()),
         ),
         Column(
           children: [
             topWidget ?? const SizedBox.shrink(),
             BottomNavigationBar(
               elevation: 0,
-              backgroundColor: AppColors.semiMainColor.withOpacity(0.75),
+              backgroundColor: AppColors.secondaryButtonColor.withOpacity(0.75),
               type: BottomNavigationBarType.fixed,
               items: <BottomNavigationBarItem>[
                 BottomNavigationBarItem(

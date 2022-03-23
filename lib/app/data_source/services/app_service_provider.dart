@@ -9,6 +9,7 @@ import 'package:audio_cult/app/data_source/models/responses/song_detail/song_det
 import 'package:audio_cult/app/injections.dart';
 import 'package:audio_cult/app/utils/constants/app_constants.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 
 import '../../utils/extensions/app_extensions.dart';
 import '../models/base_response.dart';
@@ -274,6 +275,37 @@ class AppServiceProvider {
     );
     return response.mapData(
       (json) => CommentResponse.fromJson(json as Map<String, dynamic>),
+    );
+  }
+
+  Future<CommentResponse> editComment(
+    String text,
+    int id,
+  ) async {
+    final response = await _dioHelper.put(
+      route: '/restful_api/comment/$id',
+      options: Options(headers: {'Content-Type': 'application/x-www-form-urlencoded'}),
+      requestParams: {
+        'text': text,
+      },
+      responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
+    );
+    
+    return response.mapData(
+      (json) => CommentResponse.fromJson(json as Map<String, dynamic>),
+    );
+  }
+
+  Future<List<CommentResponse>> deleteComment(
+    int id,
+  ) async {
+    final response = await _dioHelper.delete(
+      route: '/restful_api/comment/$id',
+      options: Options(headers: {'Content-Type': 'application/x-www-form-urlencoded'}),
+      responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
+    );
+    return response.mapData(
+      (json) => asType<List<dynamic>>(json)?.map((e) => CommentResponse.fromJson(e as Map<String, dynamic>)).toList(),
     );
   }
 

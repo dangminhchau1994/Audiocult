@@ -101,7 +101,7 @@ class _MiniPlayerState extends State<MiniPlayer> {
                     defaultValue: ['Previous', 'Play/Pause', 'Next'],
                   )?.toList() as List;
                   return Container(
-                    color: AppColors.semiMainColor.withOpacity(0.75),
+                    color: AppColors.secondaryButtonColor.withOpacity(0.75),
                     padding: const EdgeInsets.symmetric(
                       horizontal: 2,
                       vertical: 1,

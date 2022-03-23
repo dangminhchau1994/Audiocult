@@ -31,7 +31,7 @@ class DetailAlbumDescription extends StatelessWidget {
           Text(
             context.l10n.t_description,
             style: context.bodyTextPrimaryStyle()!.copyWith(
-                  color: AppColors.lightWhiteColor,
+                  color: AppColors.subTitleColor,
                   fontSize: 16,
                 ),
           ),

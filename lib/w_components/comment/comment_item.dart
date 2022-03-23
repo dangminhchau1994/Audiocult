@@ -87,7 +87,7 @@ class _CommentItemState extends State<CommentItem> {
                     Text(
                       DateTimeUtils.formatCommonDate('hh:mm', int.parse(widget.data?.timeStamp ?? '')),
                       style: context.bodyTextPrimaryStyle()!.copyWith(
-                            color: AppColors.lightWhiteColor,
+                            color: AppColors.subTitleColor,
                             fontSize: 12,
                             fontWeight: FontWeight.bold,
                           ),
@@ -118,7 +118,7 @@ class _CommentItemState extends State<CommentItem> {
                         Text(
                           DateTimeUtils.convertToAgo(int.parse(widget.data?.timeStamp ?? '')),
                           style: context.bodyTextPrimaryStyle()!.copyWith(
-                                color: AppColors.lightWhiteColor,
+                                color: AppColors.subTitleColor,
                                 fontSize: 12,
                               ),
                         ),
@@ -195,7 +195,7 @@ class _CommentItemState extends State<CommentItem> {
                         Text(
                           widget.data?.totalLike ?? '',
                           style: context.bodyTextPrimaryStyle()!.copyWith(
-                                color: AppColors.lightWhiteColor,
+                                color: AppColors.subTitleColor,
                                 fontSize: 14,
                               ),
                         ),

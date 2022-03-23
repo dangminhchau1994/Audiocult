@@ -21,7 +21,7 @@ class DetailDescriptionLabel extends StatelessWidget {
         Text(
           title ?? '',
           style: context.bodyTextPrimaryStyle()!.copyWith(
-                color: AppColors.lightWhiteColor,
+                color: AppColors.subTitleColor,
                 fontSize: 12,
               ),
         ),

@@ -85,7 +85,7 @@ class _DetailAlbumCommentState extends State<DetailAlbumComment> {
               ),
               hintText: context.l10n.t_leave_comment,
               hintStyle: context.bodyTextPrimaryStyle()!.copyWith(
-                    color: AppColors.lightWhiteColor,
+                    color: AppColors.subTitleColor,
                     fontSize: 14,
                   ),
             ),

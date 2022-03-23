@@ -11,6 +11,7 @@ import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 import '../../app/constants/app_text_styles.dart';
 import '../../app/constants/global_constants.dart';
@@ -21,6 +22,7 @@ import '../../app/utils/constants/app_colors.dart';
 import '../../app/utils/constants/app_dimens.dart';
 import '../../di/bloc_locator.dart';
 import '../appbar/common_appbar.dart';
+import '../buttons/w_button_inkwell.dart';
 import '../loading/loading_builder.dart';
 import '../loading/loading_widget.dart';
 
@@ -157,6 +159,7 @@ class _ReplyListScreenState extends State<ReplyListScreen> {
     _focusNode.dispose();
     _emojiShowing.dispose();
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -339,7 +342,7 @@ class _ReplyListScreenState extends State<ReplyListScreen> {
                             ),
                             hintText: context.l10n.t_leave_comment,
                             hintStyle: context.bodyTextPrimaryStyle()!.copyWith(
-                                  color: AppColors.lightWhiteColor,
+                                  color: AppColors.subTitleColor,
                                   fontSize: 14,
                                 ),
                           ),

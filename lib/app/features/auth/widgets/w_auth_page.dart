@@ -23,7 +23,7 @@ class _WAuthPageState extends State<WAuthPage> {
       mainAxisSize: MainAxisSize.min,
       children: [
         Container(
-          color: AppColors.semiMainColor,
+          color: AppColors.secondaryButtonColor,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
