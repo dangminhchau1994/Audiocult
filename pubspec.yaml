@@ -53,6 +53,7 @@ dependencies:
   flip_card: ^0.6.0
   sliding_up_panel: ^2.0.0+1
   marquee: ^2.2.1
+  dotted_border: ^2.0.0+2
 
 dev_dependencies:
   bloc_test: ^9.0.2

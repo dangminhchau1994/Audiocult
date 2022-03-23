@@ -17,6 +17,7 @@ class CommonInput extends StatelessWidget {
     this.onChanged,
     this.errorText,
     this.isReadOnly = false,
+    this.textInputType,
   }) : super(key: key);
 
   final double? width;
@@ -30,6 +31,7 @@ class CommonInput extends StatelessWidget {
   final int? maxLine;
   final Function(String value)? onChanged;
   final TextEditingController? editingController;
+  final TextInputType? textInputType;
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +41,7 @@ class CommonInput extends StatelessWidget {
         width: width,
         height: height,
         child: TextField(
+          keyboardType: textInputType,
           maxLines: maxLine,
           controller: editingController,
           readOnly: isReadOnly ?? false,
