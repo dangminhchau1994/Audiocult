@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 class StepperUpload extends StatefulWidget {
   final int currentStep;
-  const StepperUpload({Key? key, this.currentStep = 4}) : super(key: key);
+  const StepperUpload({Key? key, this.currentStep = 1}) : super(key: key);
 
   @override
   State<StepperUpload> createState() => _StepperUploadState();

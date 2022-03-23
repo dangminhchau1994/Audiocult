@@ -86,4 +86,6 @@ class AppAssets {
   static const icLogout = 'assets/icons/ic_logout.png';
 
   static const icUpload = 'assets/icons/ic_upload.png';
+  static const icUploadFrame = 'assets/icons/ic_upload_frame.png';
+  static const icMusicNote = 'assets/icons/ic_music_note.png';
 }
