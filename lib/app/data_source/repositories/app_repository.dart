@@ -6,6 +6,7 @@ import 'package:audio_cult/app/data_source/models/responses/genre.dart';
 import 'package:audio_cult/app/data_source/models/responses/place.dart';
 import 'package:audio_cult/app/data_source/models/responses/playlist/playlist_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/profile_data.dart';
+import 'package:audio_cult/app/data_source/models/responses/reaction_icon/reaction_icon_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/song_detail/song_detail_response.dart';
 import 'package:audio_cult/app/data_source/networks/exceptions/no_cache_exception.dart';
 import 'package:audio_cult/app/data_source/services/hive_service_provider.dart';
@@ -104,6 +105,23 @@ class AppRepository extends BaseRepository {
     );
   }
 
+  Future<Either<CommentResponse, Exception>> editComment(
+    String text,
+    int id,
+  ) {
+    return safeCall(
+      () => appServiceProvider.editComment(text, id),
+    );
+  }
+
+  Future<Either<List<CommentResponse>, Exception>> deleteComment(
+    int id,
+  ) {
+    return safeCall(
+      () => appServiceProvider.deleteComment(id),
+    );
+  }
+
   Future<Either<SongDetailResponse, Exception>> getSongDetail(int id) {
     return safeCall(
       () => appServiceProvider.getSongDetail(id),
@@ -135,6 +153,18 @@ class AppRepository extends BaseRepository {
   ) {
     return safeCall(
       () => appServiceProvider.createComment(itemId, type, text),
+    );
+  }
+
+  Future<Either<List<ReactionIconResponse>, Exception>> getReactionIcons() {
+    return safeCall(
+      appServiceProvider.getReactionIcons,
+    );
+  }
+
+  Future<Either<CommentResponse, Exception>> postReactionIcon(String typeId, int itemId, int likeType) {
+    return safeCall(
+      () => appServiceProvider.postReactionIcon(typeId, itemId, likeType),
     );
   }
 

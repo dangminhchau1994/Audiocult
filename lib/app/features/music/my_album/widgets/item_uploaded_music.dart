@@ -10,7 +10,7 @@ class ItemUploadedMusic extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(color: AppColors.semiMainColor, borderRadius: BorderRadius.circular(6)),
+      decoration: BoxDecoration(color: AppColors.secondaryButtonColor, borderRadius: BorderRadius.circular(6)),
       child: Row(
         children: [
           Container(

@@ -16,6 +16,7 @@ class CommonInput extends StatelessWidget {
     this.togglePassword,
     this.onChanged,
     this.errorText,
+    this.isReadOnly = false,
     this.textInputType,
   }) : super(key: key);
 
@@ -23,6 +24,7 @@ class CommonInput extends StatelessWidget {
   final double? height;
   final bool? isHidden;
   final bool? isPasswordField;
+  final bool? isReadOnly;
   final String? hintText;
   final String? errorText;
   final Function()? togglePassword;
@@ -33,47 +35,51 @@ class CommonInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: width,
-      height: height,
-      child: TextField(
-        keyboardType: textInputType,
-        maxLines: maxLine,
-        controller: editingController,
-        cursorColor: Colors.white,
-        onChanged: onChanged,
-        style: AppTextStyles.regular,
-        obscureText: isHidden!,
-        decoration: InputDecoration(
-          filled: true,
-          focusColor: AppColors.outlineBorderColor,
-          fillColor: AppColors.inputFillColor.withOpacity(0.4),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(4),
-            borderSide: BorderSide(
-              color: AppColors.outlineBorderColor,
-              width: 2,
+    return Opacity(
+      opacity: isReadOnly! ? 0.4 : 1,
+      child: SizedBox(
+        width: width,
+        height: height,
+        child: TextField(
+          keyboardType: textInputType,
+          maxLines: maxLine,
+          controller: editingController,
+          readOnly: isReadOnly ?? false,
+          cursorColor: Colors.white,
+          onChanged: onChanged,
+          style: AppTextStyles.regular,
+          obscureText: isHidden!,
+          decoration: InputDecoration(
+            filled: true,
+            focusColor: AppColors.outlineBorderColor,
+            fillColor: AppColors.inputFillColor.withOpacity(0.4),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(4),
+              borderSide: BorderSide(
+                color: AppColors.outlineBorderColor,
+                width: 2,
+              ),
             ),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(4),
-            borderSide: BorderSide(
-              color: AppColors.outlineBorderColor,
-              width: 2,
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(4),
+              borderSide: BorderSide(
+                color: AppColors.outlineBorderColor,
+                width: 2,
+              ),
             ),
+            hintText: hintText,
+            hintStyle: AppTextStyles.regular,
+            suffixIcon: isPasswordField!
+                ? InkWell(
+                    onTap: togglePassword,
+                    child: Icon(
+                      isHidden! ? Icons.visibility_outlined : Icons.visibility_off_outlined,
+                      color: Colors.white,
+                    ),
+                  )
+                : const SizedBox(),
+            errorText: errorText,
           ),
-          hintText: hintText,
-          hintStyle: AppTextStyles.regular,
-          suffixIcon: isPasswordField!
-              ? InkWell(
-                  onTap: togglePassword,
-                  child: Icon(
-                    isHidden! ? Icons.visibility_outlined : Icons.visibility_off_outlined,
-                    color: Colors.white,
-                  ),
-                )
-              : const SizedBox(),
-          errorText: errorText,
         ),
       ),
     );

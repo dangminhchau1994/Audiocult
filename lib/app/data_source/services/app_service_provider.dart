@@ -4,10 +4,12 @@ import 'package:audio_cult/app/data_source/models/responses/album/album_response
 import 'package:audio_cult/app/data_source/models/responses/comment/comment_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/login_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/playlist/playlist_response.dart';
+import 'package:audio_cult/app/data_source/models/responses/reaction_icon/reaction_icon_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/song_detail/song_detail_response.dart';
 import 'package:audio_cult/app/injections.dart';
 import 'package:audio_cult/app/utils/constants/app_constants.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 
 import '../../utils/extensions/app_extensions.dart';
 import '../models/base_response.dart';
@@ -241,6 +243,65 @@ class AppServiceProvider {
         'page': page,
         'limit': limit,
       },
+      responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
+    );
+    return response.mapData(
+      (json) => asType<List<dynamic>>(json)?.map((e) => CommentResponse.fromJson(e as Map<String, dynamic>)).toList(),
+    );
+  }
+
+  Future<List<ReactionIconResponse>> getReactionIcons() async {
+    final response = await _dioHelper.get(
+      route: '/restful_api/like/icon',
+      options: Options(headers: {'Content-Type': 'application/x-www-form-urlencoded'}),
+      responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
+    );
+    return response.mapData(
+      (json) =>
+          asType<List<dynamic>>(json)?.map((e) => ReactionIconResponse.fromJson(e as Map<String, dynamic>)).toList(),
+    );
+  }
+
+  Future<CommentResponse> postReactionIcon(String typeId, int itemId, int likeType) async {
+    final response = await _dioHelper.post(
+      route: '/restful_api/like/item',
+      options: Options(headers: {'Content-Type': 'application/x-www-form-urlencoded'}),
+      responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
+      requestBody: FormData.fromMap({
+        'type_id': typeId,
+        'item_id': itemId,
+        'like_type': likeType,
+      }),
+    );
+    return response.mapData(
+      (json) => CommentResponse.fromJson(json as Map<String, dynamic>),
+    );
+  }
+
+  Future<CommentResponse> editComment(
+    String text,
+    int id,
+  ) async {
+    final response = await _dioHelper.put(
+      route: '/restful_api/comment/$id',
+      options: Options(headers: {'Content-Type': 'application/x-www-form-urlencoded'}),
+      requestParams: {
+        'text': text,
+      },
+      responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
+    );
+    
+    return response.mapData(
+      (json) => CommentResponse.fromJson(json as Map<String, dynamic>),
+    );
+  }
+
+  Future<List<CommentResponse>> deleteComment(
+    int id,
+  ) async {
+    final response = await _dioHelper.delete(
+      route: '/restful_api/comment/$id',
+      options: Options(headers: {'Content-Type': 'application/x-www-form-urlencoded'}),
       responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
     );
     return response.mapData(

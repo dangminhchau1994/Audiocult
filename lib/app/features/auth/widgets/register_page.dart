@@ -252,7 +252,7 @@ class AddressSearch extends SearchDelegate<Suggestion?> {
       ),
       scaffoldBackgroundColor: AppColors.mainColor,
       appBarTheme: AppBarTheme(
-        color: AppColors.semiMainColor,
+        color: AppColors.secondaryButtonColor,
       ),
       textTheme: Theme.of(context).textTheme.copyWith(headline6: const TextStyle(color: Colors.white)),
     );

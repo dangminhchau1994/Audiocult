@@ -37,78 +37,83 @@ class _DetailAlbumScreenState extends State<DetailAlbumScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.mainColor,
-      body: RefreshIndicator(
-        color: AppColors.primaryButtonColor,
-        backgroundColor: AppColors.secondaryButtonColor,
-        onRefresh: () async {
-          getIt.get<DetailAlbumBloc>().getAlbumDetail(int.parse(widget.albumId ?? ''));
-        },
-        child: StreamBuilder<BlocState<Album>>(
-          initialData: const BlocState.loading(),
-          stream: getIt.get<DetailAlbumBloc>().getAlbumDetailStream,
-          builder: (context, snapshot) {
-            final state = snapshot.data!;
-
-            return state.when(
-              success: (data) {
-                final detail = data as Album;
-
-                return SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Stack(
-                        children: [
-                          //Photo
-                          DetailAlbumPhoto(
-                            imagePath: detail.imagePath,
-                          ),
-                          //Navbar
-                          const DetailAlbumNavBar(),
-                          //Title
-                          DetailAlbumTitle(
-                            time: detail.timeStamp,
-                            artistName: detail.artistUser,
-                            title: detail.name,
-                          ),
-                          // Play Button
-                          const DetailAlbumPlayButton(),
-                        ],
-                      ),
-                      //Detail songs by album id
-                      DetailAlbumSongs(
-                        albumId: widget.albumId ?? '',
-                      ),
-                      //Description
-                      DetailAlbumDescription(
-                        data: detail,
-                      ),
-                      //Comment
-                      DetailAlbumComment(
-                        id: int.parse(widget.albumId ?? ''),
-                        title: detail.name,
-                      ),
-                      //Recommended Songs
-                      const DetailAlbumRecommended(),
-                    ],
-                  ),
-                );
-              },
-              loading: () {
-                return const Center(
-                  child: LoadingWidget(),
-                );
-              },
-              error: (error) {
-                return ErrorSectionWidget(
-                  errorMessage: error,
-                  onRetryTap: () {},
-                );
-              },
-            );
+    return GestureDetector(
+      onTap: () {
+        FocusManager.instance.primaryFocus?.unfocus();
+      },
+      child: Scaffold(
+        backgroundColor: AppColors.mainColor,
+        body: RefreshIndicator(
+          color: AppColors.primaryButtonColor,
+          backgroundColor: AppColors.secondaryButtonColor,
+          onRefresh: () async {
+            getIt.get<DetailAlbumBloc>().getAlbumDetail(int.parse(widget.albumId ?? ''));
           },
+          child: StreamBuilder<BlocState<Album>>(
+            initialData: const BlocState.loading(),
+            stream: getIt.get<DetailAlbumBloc>().getAlbumDetailStream,
+            builder: (context, snapshot) {
+              final state = snapshot.data!;
+
+              return state.when(
+                success: (data) {
+                  final detail = data as Album;
+
+                  return SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Stack(
+                          children: [
+                            //Photo
+                            DetailAlbumPhoto(
+                              imagePath: detail.imagePath,
+                            ),
+                            //Navbar
+                            const DetailAlbumNavBar(),
+                            //Title
+                            DetailAlbumTitle(
+                              time: detail.timeStamp,
+                              artistName: detail.artistUser,
+                              title: detail.name,
+                            ),
+                            // Play Button
+                            const DetailAlbumPlayButton(),
+                          ],
+                        ),
+                        //Detail songs by album id
+                        DetailAlbumSongs(
+                          albumId: widget.albumId ?? '',
+                        ),
+                        //Description
+                        DetailAlbumDescription(
+                          data: detail,
+                        ),
+                        //Comment
+                        DetailAlbumComment(
+                          id: int.parse(widget.albumId ?? ''),
+                          title: detail.name,
+                        ),
+                        //Recommended Songs
+                        const DetailAlbumRecommended(),
+                      ],
+                    ),
+                  );
+                },
+                loading: () {
+                  return const Center(
+                    child: LoadingWidget(),
+                  );
+                },
+                error: (error) {
+                  return ErrorSectionWidget(
+                    errorMessage: error,
+                    onRetryTap: () {},
+                  );
+                },
+              );
+            },
+          ),
         ),
       ),
     );

@@ -55,7 +55,7 @@ class _SongStep1State extends State<SongStep1> {
                   ),
                   Text(
                     context.l10n.t_upload_music,
-                    style: context.bodyTextStyle()?.copyWith(color: AppColors.lightWhiteColor, fontSize: 18),
+                    style: context.bodyTextStyle()?.copyWith(color: AppColors.subTitleColor, fontSize: 18),
                   ),
                   Text(
                     context.l10n.t_limit_upload,

@@ -39,7 +39,7 @@ class _CommonDropdownState extends State<CommonDropdown> {
         buttonDecoration: const BoxDecoration(
           color: Colors.transparent,
         ),
-        dropdownDecoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: AppColors.semiMainColor),
+        dropdownDecoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: AppColors.secondaryButtonColor),
         buttonWidth: double.infinity,
         dropdownWidth: widget.dropDownWith ??= MediaQuery.of(context).size.width - 32,
         hint: widget.hint ?? '',

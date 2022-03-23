@@ -115,7 +115,7 @@ class _AlbumStep2State extends State<AlbumStep2> {
               children: [
                 Expanded(
                   child: CommonButton(
-                    color: AppColors.semiMainColor,
+                    color: AppColors.secondaryButtonColor,
                     text: context.l10n.btn_back,
                     onTap: () {
                       widget.onBack?.call();

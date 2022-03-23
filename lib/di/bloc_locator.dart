@@ -6,6 +6,7 @@ import 'package:audio_cult/app/features/music/detail_playlist/detail_playlist_bl
 import 'package:audio_cult/app/features/music/featured_albums/featured_album_bloc.dart';
 import 'package:audio_cult/app/features/music/search/search_bloc.dart';
 import 'package:audio_cult/app/injections.dart';
+import 'package:audio_cult/w_components/comment/comment_item_bloc.dart';
 import 'package:audio_cult/w_components/comment/reply_list_bloc.dart';
 import 'package:get_it/get_it.dart';
 import '../app/features/main/main_bloc.dart';
@@ -41,5 +42,9 @@ void setupLocator() {
 
   getIt.registerLazySingleton<ReplyListBloc>(
     () => ReplyListBloc(locator.get<AppRepository>()),
+  );
+
+  getIt.registerLazySingleton<CommentItemBloc>(
+    () => CommentItemBloc(locator.get<AppRepository>()),
   );
 }

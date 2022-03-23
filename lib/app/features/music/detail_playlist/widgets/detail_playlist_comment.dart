@@ -5,7 +5,10 @@ import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
+import '../../../../../w_components/comment/comment_args.dart';
 import '../../../../../w_components/comment/comment_item.dart';
+import '../../../../../w_components/comment/comment_list_screen.dart';
+import '../../../../../w_components/comment/reply_item.dart';
 import '../../../../../w_components/error_empty/error_section.dart';
 import '../../../../../w_components/loading/loading_widget.dart';
 import '../../../../base/bloc_state.dart';
@@ -14,14 +17,17 @@ import '../../../../data_source/models/responses/comment/comment_response.dart';
 import '../../../../injections.dart';
 import '../../../../utils/constants/app_assets.dart';
 import '../../../../utils/constants/app_colors.dart';
+import '../../../../utils/route/app_route.dart';
 
 class DetailPlayListComment extends StatefulWidget {
   const DetailPlayListComment({
     Key? key,
     this.id,
+    this.title,
   }) : super(key: key);
 
   final int? id;
+  final String? title;
 
   @override
   State<DetailPlayListComment> createState() => _DetailPlayListCommentState();
@@ -47,6 +53,18 @@ class _DetailPlayListCommentState extends State<DetailPlayListComment> {
             maxLines: 5,
             cursorColor: Colors.white,
             onChanged: (value) {},
+            onTap: () {
+              Navigator.pushNamed(
+                context,
+                AppRoute.routeCommentListScreen,
+                arguments: CommentArgs(
+                  itemId: widget.id ?? 0,
+                  title: widget.title ?? '',
+                  commentType: CommentType.playlist,
+                  data: null,
+                ),
+              );
+            },
             style: AppTextStyles.regular,
             decoration: InputDecoration(
               filled: true,
@@ -68,7 +86,7 @@ class _DetailPlayListCommentState extends State<DetailPlayListComment> {
               ),
               hintText: context.l10n.t_leave_comment,
               hintStyle: context.bodyTextPrimaryStyle()!.copyWith(
-                    color: AppColors.lightWhiteColor,
+                    color: AppColors.subTitleColor,
                     fontSize: 14,
                   ),
               suffixIcon: Padding(
@@ -117,7 +135,11 @@ class _DetailPlayListCommentState extends State<DetailPlayListComment> {
                         useInkWell: false,
                       ),
                       collapsed: Container(),
-                      expanded: Container(),
+                      expanded: ReplyItem(
+                        id: widget.id,
+                        commentParent: data[index],
+                        commentType: CommentType.playlist,
+                      ),
                     ),
                   );
                 },

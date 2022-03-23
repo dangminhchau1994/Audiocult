@@ -59,7 +59,7 @@ class _PrivacyStepState extends State<PrivacyStep> {
             children: [
               Expanded(
                 child: CommonButton(
-                  color: AppColors.semiMainColor,
+                  color: AppColors.secondaryButtonColor,
                   text: context.l10n.btn_back,
                   onTap: () {
                     widget.onBack?.call();

@@ -36,73 +36,79 @@ class _DetailSongScreenState extends State<DetailSongScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.mainColor,
-      body: RefreshIndicator(
-        color: AppColors.primaryButtonColor,
-        backgroundColor: AppColors.secondaryButtonColor,
-        onRefresh: () async {
-          getIt.get<DetailSongBloc>().getSongDetail(int.parse(widget.songId ?? ''));
-        },
-        child: StreamBuilder<BlocState<SongDetailResponse>>(
-          initialData: const BlocState.loading(),
-          stream: getIt.get<DetailSongBloc>().getSongDetailStream,
-          builder: (context, snapshot) {
-            final state = snapshot.data!;
-
-            return state.when(
-              success: (data) {
-                final detail = data as SongDetailResponse;
-
-                return SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Stack(
-                        children: [
-                          //Photo
-                          DetailPhotoSong(
-                            imagePath: detail.imagePath,
-                          ),
-                          //Navbar
-                          const DetailSongNavBar(),
-                          //Title
-                          DetailSongTitle(
-                            time: detail.timeStamp,
-                            artistName: detail.artistUser?.userName,
-                            title: detail.title,
-                          ),
-                          // Play Button
-                          const DetailSongPlayButton(),
-                        ],
-                      ),
-                      //Description
-                      DetailSongDescription(
-                        data: detail,
-                      ),
-                      //Comment
-                      DetailSongComment(
-                        id: int.parse(widget.songId ?? ''),
-                      ),
-                      //Recommended Songs
-                      const DetailSongRecommeded(),
-                    ],
-                  ),
-                );
-              },
-              loading: () {
-                return const Center(
-                  child: LoadingWidget(),
-                );
-              },
-              error: (error) {
-                return ErrorSectionWidget(
-                  errorMessage: error,
-                  onRetryTap: () {},
-                );
-              },
-            );
+    return GestureDetector(
+      onTap: () {
+        FocusManager.instance.primaryFocus?.unfocus();
+      },
+      child: Scaffold(
+        backgroundColor: AppColors.mainColor,
+        body: RefreshIndicator(
+          color: AppColors.primaryButtonColor,
+          backgroundColor: AppColors.secondaryButtonColor,
+          onRefresh: () async {
+            getIt.get<DetailSongBloc>().getSongDetail(int.parse(widget.songId ?? ''));
           },
+          child: StreamBuilder<BlocState<SongDetailResponse>>(
+            initialData: const BlocState.loading(),
+            stream: getIt.get<DetailSongBloc>().getSongDetailStream,
+            builder: (context, snapshot) {
+              final state = snapshot.data!;
+
+              return state.when(
+                success: (data) {
+                  final detail = data as SongDetailResponse;
+
+                  return SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Stack(
+                          children: [
+                            //Photo
+                            DetailPhotoSong(
+                              imagePath: detail.imagePath,
+                            ),
+                            //Navbar
+                            const DetailSongNavBar(),
+                            //Title
+                            DetailSongTitle(
+                              time: detail.timeStamp,
+                              artistName: detail.artistUser?.userName,
+                              title: detail.title,
+                            ),
+                            // Play Button
+                            const DetailSongPlayButton(),
+                          ],
+                        ),
+                        //Description
+                        DetailSongDescription(
+                          data: detail,
+                        ),
+                        //Comment
+                        DetailSongComment(
+                          id: int.parse(widget.songId ?? ''),
+                          title: detail.title,
+                        ),
+                        //Recommended Songs
+                        const DetailSongRecommeded(),
+                      ],
+                    ),
+                  );
+                },
+                loading: () {
+                  return const Center(
+                    child: LoadingWidget(),
+                  );
+                },
+                error: (error) {
+                  return ErrorSectionWidget(
+                    errorMessage: error,
+                    onRetryTap: () {},
+                  );
+                },
+              );
+            },
+          ),
         ),
       ),
     );

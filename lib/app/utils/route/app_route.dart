@@ -1,3 +1,4 @@
+import 'package:audio_cult/app/data_source/models/responses/comment/comment_response.dart';
 import 'package:audio_cult/app/features/auth/check_email/check_mail_screen.dart';
 import 'package:audio_cult/app/features/auth/login/login_screen.dart';
 import 'package:audio_cult/app/features/auth/place_location/place_location_screen.dart';
@@ -14,6 +15,7 @@ import 'package:audio_cult/app/features/music/top_playlist/top_playlist_screen.d
 import 'package:audio_cult/app/features/player_widgets/player_screen.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/w_components/comment/comment_args.dart';
+import 'package:audio_cult/w_components/comment/comment_edit_screen.dart';
 import 'package:audio_cult/w_components/comment/comment_list_screen.dart';
 import 'package:audio_cult/w_components/comment/reply_list_screen.dart';
 import 'package:flutter/material.dart';
@@ -45,6 +47,7 @@ class AppRoute {
   static const String routeDetaiSong = '/detail_song';
   static const String routeDetailAlbum = '/detail_album';
   static const String routeDetailPlayList = '/detail_playlist';
+  static const String routeCommentEdit = '/comment_edit';
   static const String routePlayerScreen = '/player_screen';
   static const String routeCommentListScreen = '/comment_list_screen';
   static const String routeReplyListScreen = '/reply_list_screen';
@@ -113,6 +116,14 @@ class AppRoute {
           settings,
           FeaturedAlbumScreen(
             arguments: arguments!,
+          ),
+        );
+      case routeCommentEdit:
+        final arguments = asType(settings.arguments);
+        return _pageRoute(
+          settings,
+          CommmentEditScreen(
+            argument: arguments['comment_response'] as CommentResponse,
           ),
         );
       case routeTopPlaylist:

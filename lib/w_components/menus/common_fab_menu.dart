@@ -24,7 +24,7 @@ class CommonFabMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SpeedDial(
-      overlayColor: AppColors.blurBackground,
+      overlayColor: AppColors.mainColor,
       spaceBetweenChildren: 12,
       elevation: 0,
       dialRoot: (context, open, toggleChildren) {

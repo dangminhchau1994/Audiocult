@@ -25,7 +25,7 @@ class TopSongScreen extends StatefulWidget {
   State<TopSongScreen> createState() => _TopSongScreenState();
 }
 
-class _TopSongScreenState extends State<TopSongScreen> {
+class _TopSongScreenState extends State<TopSongScreen> with AutomaticKeepAliveClientMixin {
   final PagingController<int, Song> _pagingController = PagingController(firstPageKey: 1);
   late TopSongBloc _topSongBloc;
 
@@ -38,12 +38,12 @@ class _TopSongScreenState extends State<TopSongScreen> {
   @override
   void initState() {
     super.initState();
+    _topSongBloc = getIt.get<TopSongBloc>();
     _pagingController.addPageRequestListener((pageKey) {
       if (pageKey > 1) {
         _fetchPage(pageKey);
       }
     });
-    _topSongBloc = getIt.get<TopSongBloc>();
     _topSongBloc.requestData(
       params: TopSongRequest(
         sort: 'most-viewed',
@@ -81,6 +81,7 @@ class _TopSongScreenState extends State<TopSongScreen> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       backgroundColor: AppColors.mainColor,
       appBar: CommonAppBar(
@@ -176,7 +177,6 @@ class _TopSongScreenState extends State<TopSongScreen> {
               );
             },
             reloadAction: (_) {
-              _pagingController.refresh();
               _topSongBloc.requestData(
                 params: TopSongRequest(
                   sort: 'most-viewed',
@@ -190,4 +190,7 @@ class _TopSongScreenState extends State<TopSongScreen> {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
