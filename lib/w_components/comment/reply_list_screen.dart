@@ -17,9 +17,11 @@ import '../../app/constants/app_text_styles.dart';
 import '../../app/constants/global_constants.dart';
 import '../../app/data_source/models/requests/comment_request.dart';
 import '../../app/data_source/models/responses/comment/comment_response.dart';
+import '../../app/data_source/services/hive_service_provider.dart';
 import '../../app/utils/constants/app_assets.dart';
 import '../../app/utils/constants/app_colors.dart';
 import '../../app/utils/constants/app_dimens.dart';
+import '../../app/utils/route/app_route.dart';
 import '../../di/bloc_locator.dart';
 import '../appbar/common_appbar.dart';
 import '../buttons/w_button_inkwell.dart';
@@ -43,6 +45,8 @@ class _ReplyListScreenState extends State<ReplyListScreen> {
   final TextEditingController _textEditingController = TextEditingController();
   final ValueNotifier<bool> _emojiShowing = ValueNotifier<bool>(false);
   final ValueNotifier<String> _text = ValueNotifier<String>('');
+  final ValueNotifier<CommentResponse> _commentResponse = ValueNotifier<CommentResponse>(CommentResponse(text: ''));
+  final HiveServiceProvider _hiveServiceProvider = HiveServiceProvider();
   late ReplyListBloc _replyListBloc;
   late FocusNode _focusNode;
 
@@ -160,6 +164,95 @@ class _ReplyListScreenState extends State<ReplyListScreen> {
     _emojiShowing.dispose();
   }
 
+  void _showBottomSheet(CommentResponse item) {
+    FocusManager.instance.primaryFocus?.unfocus();
+    showMaterialModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (context) => Container(
+        height: 120,
+        padding: const EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          color: AppColors.secondaryButtonColor,
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(10),
+            topRight: Radius.circular(10),
+          ),
+        ),
+        child: Column(
+          children: [
+            WButtonInkwell(
+              onPressed: () async {
+                Navigator.pop(context);
+                final result = await Navigator.pushNamed(
+                  context,
+                  AppRoute.routeCommentEdit,
+                  arguments: {
+                    'comment_response': item,
+                  },
+                );
+                if (result != null) {
+                  _commentResponse.value = result as CommentResponse;
+                  item = _commentResponse.value;
+                }
+              },
+              child: Row(
+                children: [
+                  const Icon(
+                    Icons.edit_outlined,
+                    color: Colors.white,
+                    size: 24,
+                  ),
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  Text(
+                    context.l10n.t_edit,
+                    style: context.buttonTextStyle()!.copyWith(fontSize: 14),
+                  )
+                ],
+              ),
+            ),
+            const SizedBox(
+              height: 30,
+            ),
+            WButtonInkwell(
+              onPressed: () {
+                Navigator.pop(context);
+                _replyListBloc.deleteComment(int.parse(item.commentId ?? ''));
+                _pagingController.refresh();
+                _replyListBloc.requestData(
+                  params: CommentRequest(
+                    parentId: int.parse(widget.commentArgs.data?.commentId ?? ''),
+                    id: widget.commentArgs.itemId,
+                    typeId: getType(),
+                    page: 1,
+                    limit: GlobalConstants.loadMoreItem,
+                  ),
+                );
+              },
+              child: Row(
+                children: [
+                  const Icon(
+                    Icons.delete_outline,
+                    color: Colors.white,
+                    size: 24,
+                  ),
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  Text(
+                    context.l10n.t_delete,
+                    style: context.buttonTextStyle()!.copyWith(fontSize: 14),
+                  )
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -223,11 +316,23 @@ class _ReplyListScreenState extends State<ReplyListScreen> {
                                 newPageProgressIndicatorBuilder: (context) => const LoadingWidget(),
                                 animateTransitions: true,
                                 itemBuilder: (context, item, index) {
-                                  return CommentItem(
-                                    data: item,
-                                    onReply: (data) {
-                                      _focusNode.requestFocus();
+                                  return WButtonInkwell(
+                                    onPressed: () {
+                                      if (_hiveServiceProvider.getProfile()?.userId == item.userId) {
+                                        _showBottomSheet(item);
+                                      }
                                     },
+                                    child: ValueListenableBuilder(
+                                      valueListenable: _commentResponse,
+                                      builder: (context, value, child) {
+                                        return CommentItem(
+                                          data: item,
+                                          onReply: (data) {
+                                            _focusNode.requestFocus();
+                                          },
+                                        );
+                                      },
+                                    ),
                                   );
                                 },
                               ),

@@ -18,7 +18,6 @@ class CommenntListBloc extends BaseBloc<CommentRequest, List<CommentResponse>> {
   final _deleteCommentSubject = PublishSubject<BlocState<List<CommentResponse>>>();
   final _editCommentSubject = PublishSubject<BlocState<CommentResponse>>();
 
-  Stream<BlocState<CommentResponse>> get createCommentStream => _createCommentSubject.stream;
   Stream<BlocState<List<CommentResponse>>> get getRepliesStream => _getRepliesSubject.stream;
 
   @override
