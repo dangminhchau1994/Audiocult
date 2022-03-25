@@ -8,6 +8,7 @@ import 'package:audio_cult/app/features/music/detail-song/detail_song_screen.dar
 import 'package:audio_cult/app/features/music/detail_album/detail_album_screen.dart';
 import 'package:audio_cult/app/features/music/detail_playlist/detail_playlist_screen.dart';
 import 'package:audio_cult/app/features/music/featured_albums/featured_album_screen.dart';
+import 'package:audio_cult/app/features/music/featured_mixtape/featured_mixtapes_screen.dart';
 import 'package:audio_cult/app/features/music/filter/music_filter_screen.dart';
 import 'package:audio_cult/app/features/music/my_album/upload_album/upload_album_screen.dart';
 import 'package:audio_cult/app/features/music/my_album/upload_song/upload_song_screen.dart';
@@ -49,6 +50,7 @@ class AppRoute {
   static const String routeDetailPlayList = '/detail_playlist';
   static const String routeCommentEdit = '/comment_edit';
   static const String routePlayerScreen = '/player_screen';
+  static const String routeMixTapeSongs = 'mixtape_songs';
   static const String routeCommentListScreen = '/comment_list_screen';
   static const String routeReplyListScreen = '/reply_list_screen';
   static const String routeUploadSong = '/upload_song';
@@ -81,7 +83,21 @@ class AppRoute {
       case routeCheckEmail:
         return _pageRoute(settings, const CheckMailScreen());
       case routeTopSongs:
-        return _pageRoute(settings, const TopSongScreen());
+        final SearchArgs? arguments = asType(settings.arguments);
+        return _pageRoute(
+          settings,
+          TopSongScreen(
+            arguments: arguments!,
+          ),
+        );
+      case routeMixTapeSongs:
+        final SearchArgs? arguments = asType(settings.arguments);
+        return _pageRoute(
+          settings,
+          FeaturedMixTapesScreen(
+            arguments: arguments!,
+          ),
+        );
       case routePlaceLocation:
         return _pageRoute(settings, const PlaceLocation());
       case routeMusicFilter:

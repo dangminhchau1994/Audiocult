@@ -26,7 +26,7 @@ class FeatureMixtapes extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SectionTitle(
-            title: 'Feature Mixtapes',
+            title: 'Featured Mixtapes',
             onShowAll: onShowAll,
           ),
           const SizedBox(

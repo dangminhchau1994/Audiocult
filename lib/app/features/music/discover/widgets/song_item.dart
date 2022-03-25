@@ -1,31 +1,46 @@
+import 'package:audio_cult/app/constants/global_constants.dart';
 import 'package:audio_cult/app/utils/datetime/date_time_utils.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
+import 'package:audio_cult/w_components/buttons/w_button_inkwell.dart';
+import 'package:audio_cult/w_components/menus/common_popup_menu.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-
 import '../../../../data_source/models/responses/song/song_response.dart';
-import '../../../../utils/constants/app_assets.dart';
 import '../../../../utils/constants/app_colors.dart';
+import '../../../../utils/route/app_route.dart';
+import '../../../player_widgets/player_screen.dart';
 
 class SongItem extends StatelessWidget {
   const SongItem({
     Key? key,
     this.song,
     this.imageSize = 40,
-    this.hasMenu,
+    this.hasMenu = true,
     this.fromDetail = false,
+    this.songs,
+    this.index,
   }) : super(key: key);
 
   final Song? song;
   final bool? hasMenu;
   final double? imageSize;
   final bool? fromDetail;
+  final List<Song>? songs;
+  final int? index;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.only(right: 20),
+    return WButtonInkwell(
+      onPressed: () async {
+        await Navigator.pushNamed(
+          context,
+          AppRoute.routePlayerScreen,
+          arguments: PlayerScreen.createArguments(
+            listSong: songs!,
+            index: index!,
+          ),
+        );
+      },
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -106,10 +121,26 @@ class SongItem extends StatelessWidget {
             ],
           ),
           if (hasMenu!)
-            SvgPicture.asset(
-              AppAssets.horizIcon,
-              width: 16,
-              height: 16,
+            CommonPopupMenu(
+              items: fromDetail!
+                  ? GlobalConstants.menuItemsWithOutDetail(context)
+                  : GlobalConstants.menuItemsWithDetail(context),
+              onSelected: (selected) {
+                switch (selected) {
+                  case 0:
+                    break;
+                  case 1:
+                    break;
+                  case 2:
+                    Navigator.pushNamed(
+                      context,
+                      AppRoute.routeDetaiSong,
+                      arguments: {'song_id': song!.songId},
+                    );
+                    break;
+                  default:
+                }
+              },
             )
           else
             const SizedBox()

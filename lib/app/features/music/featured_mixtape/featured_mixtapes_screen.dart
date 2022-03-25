@@ -1,25 +1,26 @@
-import 'package:audio_cult/app/data_source/models/requests/album_playlist_request.dart';
-import 'package:audio_cult/app/data_source/models/responses/album/album_response.dart';
-import 'package:audio_cult/app/features/music/featured_albums/featured_album_bloc.dart';
-import 'package:audio_cult/app/features/music/featured_albums/widgets/featured_album_item.dart';
+import 'package:audio_cult/app/features/music/featured_mixtape/featured_mixtapes_bloc.dart';
+import 'package:audio_cult/app/features/player_widgets/player_screen.dart';
 import 'package:audio_cult/app/utils/constants/app_dimens.dart';
-import 'package:audio_cult/app/utils/route/app_route.dart';
 import 'package:audio_cult/l10n/l10n.dart';
-import 'package:audio_cult/w_components/appbar/common_appbar.dart';
-import 'package:audio_cult/w_components/buttons/w_button_inkwell.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import '../../../../di/bloc_locator.dart';
+import '../../../../w_components/appbar/common_appbar.dart';
+import '../../../../w_components/buttons/w_button_inkwell.dart';
 import '../../../../w_components/loading/loading_builder.dart';
 import '../../../../w_components/loading/loading_widget.dart';
 import '../../../constants/global_constants.dart';
+import '../../../data_source/models/requests/top_song_request.dart';
+import '../../../data_source/models/responses/song/song_response.dart';
 import '../../../utils/constants/app_assets.dart';
 import '../../../utils/constants/app_colors.dart';
+import '../../../utils/route/app_route.dart';
+import '../discover/widgets/song_item.dart';
 import '../search/search_args.dart';
 
-class FeaturedAlbumScreen extends StatefulWidget {
-  const FeaturedAlbumScreen({
+class FeaturedMixTapesScreen extends StatefulWidget {
+  const FeaturedMixTapesScreen({
     Key? key,
     required this.arguments,
   }) : super(key: key);
@@ -27,21 +28,48 @@ class FeaturedAlbumScreen extends StatefulWidget {
   final SearchArgs arguments;
 
   @override
-  State<FeaturedAlbumScreen> createState() => _FeaturedAlbumScreenState();
+  State<FeaturedMixTapesScreen> createState() => _FeaturedMixTapesScreenState();
 }
 
-class _FeaturedAlbumScreenState extends State<FeaturedAlbumScreen> {
-  final PagingController<int, Album> _pagingController = PagingController(firstPageKey: 1);
-  late FeaturedAlbumBloc _albumPlaylistBloc;
+class _FeaturedMixTapesScreenState extends State<FeaturedMixTapesScreen> with AutomaticKeepAliveClientMixin {
+  final PagingController<int, Song> _pagingController = PagingController(firstPageKey: 1);
+  late FeaturedMixtapesBloc _featuredMixtapesBloc;
+
+  @override
+  void dispose() {
+    super.dispose();
+    _pagingController.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _featuredMixtapesBloc = getIt.get<FeaturedMixtapesBloc>();
+    _pagingController.addPageRequestListener((pageKey) {
+      if (pageKey > 1) {
+        _fetchPage(pageKey);
+      }
+    });
+    _featuredMixtapesBloc.requestData(
+      params: TopSongRequest(
+        sort: 'most-viewed',
+        page: 1,
+        limit: GlobalConstants.loadMoreItem,
+        view: 'featured',
+        type: 'mixtape-song',
+      ),
+    );
+  }
 
   Future<void> _fetchPage(int pageKey) async {
     try {
-      final newItems = await _albumPlaylistBloc.loadData(
-        AlbumPlaylistRequest(
-          query: '',
-          view: 'featured',
+      final newItems = await _featuredMixtapesBloc.loadData(
+        TopSongRequest(
+          sort: 'most-viewed',
           page: pageKey,
           limit: GlobalConstants.loadMoreItem,
+          view: 'featured',
+          type: 'mixtape-song',
         ),
       );
       newItems.fold(
@@ -54,7 +82,7 @@ class _FeaturedAlbumScreenState extends State<FeaturedAlbumScreen> {
             _pagingController.appendPage(l, nextPageKey);
           }
         },
-        (r) => _albumPlaylistBloc.showError,
+        (r) => _featuredMixtapesBloc.showError,
       );
     } catch (error) {
       _pagingController.error = error;
@@ -62,36 +90,12 @@ class _FeaturedAlbumScreenState extends State<FeaturedAlbumScreen> {
   }
 
   @override
-  void dispose() {
-    super.dispose();
-    _pagingController.dispose();
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _pagingController.addPageRequestListener((pageKey) {
-      if (pageKey > 1) {
-        _fetchPage(pageKey);
-      }
-    });
-    _albumPlaylistBloc = getIt.get<FeaturedAlbumBloc>();
-    _albumPlaylistBloc.requestData(
-      params: AlbumPlaylistRequest(
-        query: '',
-        view: 'featured',
-        page: 1,
-        limit: GlobalConstants.loadMoreItem,
-      ),
-    );
-  }
-
-  @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       backgroundColor: AppColors.mainColor,
       appBar: CommonAppBar(
-        title: context.l10n.t_featured_album,
+        title: context.l10n.t_featured_mixtapes,
         actions: [
           WButtonInkwell(
             onPressed: () {
@@ -139,24 +143,25 @@ class _FeaturedAlbumScreenState extends State<FeaturedAlbumScreen> {
       ),
       body: Container(
         margin: const EdgeInsets.symmetric(
-          vertical: kVerticalSpacing,
-          horizontal: kHorizontalSpacing,
+          vertical: kVerticalSpacing - 10,
+          horizontal: kHorizontalSpacing - 10,
         ),
         child: RefreshIndicator(
           color: AppColors.primaryButtonColor,
           backgroundColor: AppColors.secondaryButtonColor,
           onRefresh: () async {
             _pagingController.refresh();
-            _albumPlaylistBloc.requestData(
-              params: AlbumPlaylistRequest(
-                query: '',
-                view: 'featured',
+            _featuredMixtapesBloc.requestData(
+              params: TopSongRequest(
+                sort: 'most-viewed',
                 page: 1,
                 limit: GlobalConstants.loadMoreItem,
+                view: 'featured',
+                type: 'mixtape-song',
               ),
             );
           },
-          child: LoadingBuilder<FeaturedAlbumBloc, List<Album>>(
+          child: LoadingBuilder<FeaturedMixtapesBloc, List<Song>>(
             builder: (data, _) {
               //only first page
               final isLastPage = data.length == GlobalConstants.loadMoreItem - 1;
@@ -165,36 +170,47 @@ class _FeaturedAlbumScreenState extends State<FeaturedAlbumScreen> {
               } else {
                 _pagingController.appendPage(data, _pagingController.firstPageKey + 1);
               }
-              return PagedListView<int, Album>.separated(
+              return PagedListView<int, Song>.separated(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 16,
                   vertical: 16,
                 ),
                 pagingController: _pagingController,
-                separatorBuilder: (context, index) => Divider(
-                  height: 0.1,
-                  color: Colors.grey.withOpacity(0.5),
-                ),
-                builderDelegate: PagedChildBuilderDelegate<Album>(
+                separatorBuilder: (context, index) => const Divider(height: 24),
+                builderDelegate: PagedChildBuilderDelegate<Song>(
                   firstPageProgressIndicatorBuilder: (context) => Container(),
                   newPageProgressIndicatorBuilder: (context) => const LoadingWidget(),
                   animateTransitions: true,
                   itemBuilder: (context, item, index) {
-                    return FeaturedAlbumItem(
-                      album: item,
+                    return WButtonInkwell(
+                      onPressed: () {
+                        Navigator.pushNamed(
+                          context,
+                          AppRoute.routePlayerScreen,
+                          arguments: PlayerScreen.createArguments(
+                            listSong: _pagingController.itemList ?? [],
+                            index: index,
+                          ),
+                        );
+                      },
+                      child: SongItem(
+                        song: item,
+                        songs: data,
+                        index: index,
+                      ),
                     );
                   },
                 ),
               );
             },
             reloadAction: (_) {
-              _pagingController.refresh();
-              _albumPlaylistBloc.requestData(
-                params: AlbumPlaylistRequest(
-                  query: '',
-                  view: 'featured',
+              _featuredMixtapesBloc.requestData(
+                params: TopSongRequest(
+                  sort: 'most-viewed',
                   page: 1,
                   limit: GlobalConstants.loadMoreItem,
+                  view: 'featured',
+                  type: 'mixtape-song',
                 ),
               );
             },
@@ -203,4 +219,7 @@ class _FeaturedAlbumScreenState extends State<FeaturedAlbumScreen> {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

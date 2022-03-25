@@ -33,7 +33,7 @@ class _SongPageState extends State<SongPage> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 196,
+      height: 210,
       child: PageView.builder(
         onPageChanged: widget.onPageChange,
         controller: widget.pageController,
@@ -51,19 +51,14 @@ class _SongPageState extends State<SongPage> {
                 success: (data) {
                   final songs = data as List<Song>;
                   return ListView.separated(
+                    separatorBuilder: (context, index) => const Divider(height: 20),
                     physics: const NeverScrollableScrollPhysics(),
                     itemCount: songs.length,
-                    separatorBuilder: (context, index) => const SizedBox(height: 20),
                     itemBuilder: (context, index) {
-                      return WButtonInkwell(
-                        onPressed: () async {
-                          await Navigator.pushNamed(context, AppRoute.routePlayerScreen,
-                              arguments: PlayerScreen.createArguments(listSong: songs, index: index));
-                        },
-                        child: SongItem(
-                          song: songs[index],
-                          hasMenu: true,
-                        ),
+                      return SongItem(
+                        song: songs[index],
+                        songs: songs,
+                        index: index,
                       );
                     },
                   );
