@@ -92,7 +92,9 @@ class _DetailPlayListScreenState extends State<DetailPlayListScreen> {
                           title: detail.title,
                         ),
                         //Recommended Songs
-                        const DetailPlayListRecommended(),
+                        DetailPlayListRecommended(
+                          id: int.parse(widget.playListId ?? ''),
+                        ),
                       ],
                     ),
                   );

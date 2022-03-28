@@ -2,6 +2,7 @@ import 'package:audio_cult/app/features/music/detail_album/detail_album_bloc.dar
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/app/utils/route/app_route.dart';
 import 'package:audio_cult/l10n/l10n.dart';
+import 'package:audio_cult/w_components/buttons/w_button_inkwell.dart';
 import 'package:audio_cult/w_components/comment/comment_args.dart';
 import 'package:audio_cult/w_components/comment/comment_list_screen.dart';
 import 'package:audio_cult/w_components/comment/reply_item.dart';
@@ -113,43 +114,77 @@ class _DetailAlbumCommentState extends State<DetailAlbumComment> {
                     );
                   }
 
-                  return ListView.separated(
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: data.length,
-                    shrinkWrap: true,
-                    separatorBuilder: (context, index) => const Divider(height: 30),
-                    itemBuilder: (context, index) {
-                      return ExpandablePanel(
-                        controller: ExpandableController(initialExpanded: true),
-                        header: CommentItem(
-                          data: data[index],
-                          onReply: (data) {
+                  return Column(
+                    children: [
+                      ListView.separated(
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: data.length,
+                        shrinkWrap: true,
+                        separatorBuilder: (context, index) => const Divider(height: 30),
+                        itemBuilder: (context, index) {
+                          return ExpandablePanel(
+                            controller: ExpandableController(initialExpanded: true),
+                            header: CommentItem(
+                              data: data[index],
+                              onReply: (data) {
+                                Navigator.pushNamed(
+                                  context,
+                                  AppRoute.routeReplyListScreen,
+                                  arguments: CommentArgs(
+                                    data: data,
+                                    itemId: widget.id,
+                                    commentType: CommentType.album,
+                                  ),
+                                );
+                              },
+                            ),
+                            theme: const ExpandableThemeData(
+                              hasIcon: false,
+                              tapBodyToExpand: false,
+                              useInkWell: false,
+                              tapHeaderToExpand: false,
+                            ),
+                            collapsed: Container(),
+                            expanded: ReplyItem(
+                              parentId: int.parse(data[index].commentId ?? ''),
+                              id: widget.id,
+                              commentParent: data[index],
+                              commentType: CommentType.album,
+                            ),
+                          );
+                        },
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      if (data.isEmpty)
+                        const SizedBox()
+                      else
+                        WButtonInkwell(
+                          onPressed: () {
                             Navigator.pushNamed(
                               context,
-                              AppRoute.routeReplyListScreen,
+                              AppRoute.routeCommentListScreen,
                               arguments: CommentArgs(
-                                data: data,
-                                itemId: widget.id,
+                                itemId: widget.id ?? 0,
+                                title: widget.title ?? '',
                                 commentType: CommentType.album,
+                                data: null,
                               ),
                             );
                           },
-                        ),
-                        theme: const ExpandableThemeData(
-                          hasIcon: false,
-                          tapBodyToExpand: false,
-                          useInkWell: false,
-                          tapHeaderToExpand: false,
-                        ),
-                        collapsed: Container(),
-                        expanded: ReplyItem(
-                          parentId: int.parse(data[index].commentId ?? ''),
-                          id: widget.id,
-                          commentParent: data[index],
-                          commentType: CommentType.album,
-                        ),
-                      );
-                    },
+                          child: Center(
+                            child: Text(
+                              context.l10n.t_view_more_comment,
+                              style: context.bodyTextPrimaryStyle()!.copyWith(
+                                    color: AppColors.lightBlue,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                            ),
+                          ),
+                        )
+                    ],
                   );
                 },
                 loading: () {

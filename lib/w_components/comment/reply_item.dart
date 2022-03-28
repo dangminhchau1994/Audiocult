@@ -128,15 +128,17 @@ class _ReplyItemState extends State<ReplyItem> {
                           const SizedBox(
                             width: 10,
                           ),
-                          Text(
-                            data[index].text ?? '',
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            style: context.bodyTextPrimaryStyle()!.copyWith(
-                                  color: AppColors.subTitleColor,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                          Flexible(
+                            child: Text(
+                              data[index].text ?? '',
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: context.bodyTextPrimaryStyle()!.copyWith(
+                                    color: AppColors.subTitleColor,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                            ),
                           ),
                         ],
                       ),

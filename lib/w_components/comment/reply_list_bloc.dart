@@ -13,6 +13,7 @@ class ReplyListBloc extends BaseBloc<CommentRequest, List<CommentResponse>> {
   ReplyListBloc(this._appRepository);
 
   final _createReplySubject = PublishSubject<BlocState<CommentResponse>>();
+  final _deleteCommentSubject = PublishSubject<BlocState<List<CommentResponse>>>();
 
   Stream<BlocState<CommentResponse>> get createReplyStream => _createReplySubject.stream;
 
@@ -26,6 +27,16 @@ class ReplyListBloc extends BaseBloc<CommentRequest, List<CommentResponse>> {
       params?.limit ?? 0,
     );
     return result;
+  }
+
+  void deleteComment(int id) async {
+    final result = await _appRepository.deleteComment(id);
+
+    result.fold((success) {
+      _deleteCommentSubject.sink.add(BlocState.success(success));
+    }, (error) {
+      _deleteCommentSubject.sink.add(BlocState.error(error.toString()));
+    });
   }
 
   void createReply(int parentId, int itemId, String type, String text) async {

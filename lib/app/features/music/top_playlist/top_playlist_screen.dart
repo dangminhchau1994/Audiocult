@@ -93,18 +93,23 @@ class _TopPlaylistScreenState extends State<TopPlaylistScreen> {
       appBar: CommonAppBar(
         title: context.l10n.t_top_playlist,
         actions: [
-          Container(
-            padding: const EdgeInsets.all(8),
-            margin: const EdgeInsets.symmetric(horizontal: 8),
-            width: 36,
-            height: 36,
-            decoration: BoxDecoration(
-              color: AppColors.inputFillColor,
-              shape: BoxShape.circle,
-            ),
-            child: SvgPicture.asset(
-              AppAssets.filterIcon,
-              fit: BoxFit.cover,
+          WButtonInkwell(
+            onPressed: () {
+              Navigator.pushNamed(context, AppRoute.routeMusicFilter);
+            },
+            child: Container(
+              padding: const EdgeInsets.all(8),
+              margin: const EdgeInsets.symmetric(horizontal: 8),
+              width: 36,
+              height: 36,
+              decoration: BoxDecoration(
+                color: AppColors.inputFillColor,
+                shape: BoxShape.circle,
+              ),
+              child: SvgPicture.asset(
+                AppAssets.filterIcon,
+                fit: BoxFit.cover,
+              ),
             ),
           ),
           WButtonInkwell(

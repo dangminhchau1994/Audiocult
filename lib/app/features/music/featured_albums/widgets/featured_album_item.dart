@@ -170,7 +170,8 @@ class _FeaturedAlbumItemState extends State<FeaturedAlbumItem> {
                           itemBuilder: (context, index) {
                             return SongItem(
                               song: songs[index],
-                              hasMenu: true,
+                              songs: songs,
+                              index: index,
                             );
                           },
                         )

@@ -42,12 +42,13 @@ class AppRepository extends BaseRepository {
   }
 
   Future<Either<List<Song>, Exception>> getTopSongs(
+    String query,
     String sort,
     int page,
     int limit,
   ) {
     return safeCall(
-      () => appServiceProvider.getTopSongs(sort, page, limit),
+      () => appServiceProvider.getTopSongs(query, sort, page, limit),
     );
   }
 
@@ -146,6 +147,24 @@ class AppRepository extends BaseRepository {
     );
   }
 
+  Future<Either<List<Song>, Exception>> getSongRecommended(int id) {
+    return safeCall(
+      () => appServiceProvider.getSongRecommended(id),
+    );
+  }
+
+  Future<Either<List<Album>, Exception>> getAlbumRecommended(int id) {
+    return safeCall(
+      () => appServiceProvider.getAlbumRecommended(id),
+    );
+  }
+
+  Future<Either<List<PlaylistResponse>, Exception>> getPlayListRecommended(int id) {
+    return safeCall(
+      () => appServiceProvider.getPlayListRecommended(id),
+    );
+  }
+
   Future<Either<CommentResponse, Exception>> createComment(
     int itemId,
     String type,
@@ -192,6 +211,7 @@ class AppRepository extends BaseRepository {
   }
 
   Future<Either<List<Song>, Exception>> getMixTapSongs(
+    String query,
     String sort,
     int page,
     int limit,
@@ -199,7 +219,7 @@ class AppRepository extends BaseRepository {
     String type,
   ) {
     return safeCall(
-      () => appServiceProvider.getMixTapSongs(sort, page, limit, view, type),
+      () => appServiceProvider.getMixTapSongs(query, sort, page, limit, view, type),
     );
   }
 

@@ -36,9 +36,8 @@ class _AppState extends State<App> {
     final appRoute = context.watch<AppRoute>();
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle.dark.copyWith(
-        statusBarColor: Colors.transparent, // Color for Android
-        statusBarBrightness: Brightness.dark // Dark == white status bar -- for IOS.
-        ,
+        statusBarColor: AppColors.secondaryButtonColor, // Color for Android
+        statusBarBrightness: Brightness.dark, // Dark == white status bar -- for IOS.
       ),
     );
     return GlobalLoaderOverlay(

@@ -15,9 +15,11 @@ class CommmentEditScreen extends StatefulWidget {
   const CommmentEditScreen({
     Key? key,
     required this.argument,
+    this.isEditComment,
   }) : super(key: key);
 
   final CommentResponse argument;
+  final bool? isEditComment;
 
   @override
   State<CommmentEditScreen> createState() => _CommmentEditScreennState();

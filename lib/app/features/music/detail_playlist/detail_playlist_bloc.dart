@@ -14,10 +14,12 @@ class DetailPlayListBloc extends BaseBloc {
   final _getPlayListDetailSubject = PublishSubject<BlocState<PlaylistResponse>>();
   final _getCommentsSubject = PublishSubject<BlocState<List<CommentResponse>>>();
   final _getSongSubject = PublishSubject<BlocState<List<Song>>>();
+  final _getPlayListRecommendedSubject = PublishSubject<BlocState<List<PlaylistResponse>>>();
 
   Stream<BlocState<PlaylistResponse>> get getPlayListDetailStream => _getPlayListDetailSubject.stream;
   Stream<BlocState<List<CommentResponse>>> get getCommentsStream => _getCommentsSubject.stream;
   Stream<BlocState<List<Song>>> get getSongByIdStream => _getSongSubject.stream;
+  Stream<BlocState<List<PlaylistResponse>>> get getPlayListRecommendedStream => _getPlayListRecommendedSubject.stream;
 
   void getPlayListDetail(int id) async {
     _getPlayListDetailSubject.sink.add(const BlocState.loading());
@@ -28,6 +30,18 @@ class DetailPlayListBloc extends BaseBloc {
       _getPlayListDetailSubject.sink.add(BlocState.success(success));
     }, (error) {
       _getPlayListDetailSubject.sink.add(BlocState.error(error.toString()));
+    });
+  }
+
+  void getPlayListRecommended(int id) async {
+    _getPlayListRecommendedSubject.sink.add(const BlocState.loading());
+
+    final result = await _appRepository.getPlayListRecommended(id);
+
+    result.fold((success) {
+      _getPlayListRecommendedSubject.sink.add(BlocState.success(success));
+    }, (error) {
+      _getPlayListRecommendedSubject.sink.add(BlocState.error(error.toString()));
     });
   }
 

@@ -72,7 +72,9 @@ class _DetailPlayListSongsState extends State<DetailPlayListSongs> {
                           itemBuilder: (context, index) {
                             return SongItem(
                               song: songs[index],
-                              hasMenu: true,
+                              songs: songs,
+                              index: index,
+                              fromDetail: true,
                             );
                           },
                         )

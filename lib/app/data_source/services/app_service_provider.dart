@@ -102,6 +102,7 @@ class AppServiceProvider {
   }
 
   Future<List<Song>> getMixTapSongs(
+    String query,
     String sort,
     int page,
     int limit,
@@ -112,6 +113,7 @@ class AppServiceProvider {
       route: '/restful_api/song',
       options: Options(headers: {'Content-Type': 'application/x-www-form-urlencoded'}),
       requestParams: {
+        'search[search]': query,
         'sort': sort,
         'page': page,
         'limit': limit,
@@ -125,11 +127,12 @@ class AppServiceProvider {
     );
   }
 
-  Future<List<Song>> getTopSongs(String sort, int page, int limit) async {
+  Future<List<Song>> getTopSongs(String query, String sort, int page, int limit) async {
     final response = await _dioHelper.get(
       route: '/restful_api/song',
       options: Options(headers: {'Content-Type': 'application/x-www-form-urlencoded'}),
       requestParams: {
+        'search[search]': query,
         'sort': sort,
         'page': page,
         'limit': limit,
@@ -290,7 +293,7 @@ class AppServiceProvider {
       },
       responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
     );
-    
+
     return response.mapData(
       (json) => CommentResponse.fromJson(json as Map<String, dynamic>),
     );
@@ -306,6 +309,45 @@ class AppServiceProvider {
     );
     return response.mapData(
       (json) => asType<List<dynamic>>(json)?.map((e) => CommentResponse.fromJson(e as Map<String, dynamic>)).toList(),
+    );
+  }
+
+  Future<List<Song>> getSongRecommended(
+    int id,
+  ) async {
+    final response = await _dioHelper.get(
+      route: '/restful_api/song/$id/recommended-songs',
+      options: Options(headers: {'Content-Type': 'application/x-www-form-urlencoded'}),
+      responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
+    );
+    return response.mapData(
+      (json) => asType<List<dynamic>>(json)?.map((e) => Song.fromJson(e as Map<String, dynamic>)).toList(),
+    );
+  }
+
+  Future<List<Album>> getAlbumRecommended(
+    int id,
+  ) async {
+    final response = await _dioHelper.get(
+      route: '/restful_api/song/album/$id/recommended-album',
+      options: Options(headers: {'Content-Type': 'application/x-www-form-urlencoded'}),
+      responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
+    );
+    return response.mapData(
+      (json) => asType<List<dynamic>>(json)?.map((e) => Album.fromJson(e as Map<String, dynamic>)).toList(),
+    );
+  }
+
+  Future<List<PlaylistResponse>> getPlayListRecommended(
+    int id,
+  ) async {
+    final response = await _dioHelper.get(
+      route: '/restful_api/playlist/$id/recommended-playlists',
+      options: Options(headers: {'Content-Type': 'application/x-www-form-urlencoded'}),
+      responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
+    );
+    return response.mapData(
+      (json) => asType<List<dynamic>>(json)?.map((e) => PlaylistResponse.fromJson(e as Map<String, dynamic>)).toList(),
     );
   }
 

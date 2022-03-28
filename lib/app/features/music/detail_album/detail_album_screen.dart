@@ -95,7 +95,9 @@ class _DetailAlbumScreenState extends State<DetailAlbumScreen> {
                           title: detail.name,
                         ),
                         //Recommended Songs
-                        const DetailAlbumRecommended(),
+                        DetailAlbumRecommended(
+                          id: widget.albumId ?? '',
+                        ),
                       ],
                     ),
                   );

@@ -90,7 +90,9 @@ class _DetailSongScreenState extends State<DetailSongScreen> {
                           title: detail.title,
                         ),
                         //Recommended Songs
-                        const DetailSongRecommeded(),
+                        DetailSongRecommeded(
+                          id: int.parse(widget.songId ?? ''),
+                        ),
                       ],
                     ),
                   );

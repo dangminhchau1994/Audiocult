@@ -1,7 +1,6 @@
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-
 import '../../../data_source/models/responses/album/album_response.dart';
 import '../../../data_source/models/responses/playlist/playlist_response.dart';
 import '../../../utils/constants/app_colors.dart';

@@ -17,9 +17,15 @@ import '../../../../w_components/loading/loading_widget.dart';
 import '../../../utils/constants/app_assets.dart';
 import '../../../utils/constants/app_colors.dart';
 import '../../player_widgets/player_screen.dart';
+import '../search/search_args.dart';
 
 class TopSongScreen extends StatefulWidget {
-  const TopSongScreen({Key? key}) : super(key: key);
+  const TopSongScreen({
+    Key? key,
+    required this.arguments,
+  }) : super(key: key);
+
+  final SearchArgs arguments;
 
   @override
   State<TopSongScreen> createState() => _TopSongScreenState();
@@ -87,8 +93,8 @@ class _TopSongScreenState extends State<TopSongScreen> with AutomaticKeepAliveCl
       appBar: CommonAppBar(
         title: context.l10n.t_top_song,
         actions: [
-          GestureDetector(
-            onTap: () {
+          WButtonInkwell(
+            onPressed: () {
               Navigator.pushNamed(context, AppRoute.routeMusicFilter);
             },
             child: Container(
@@ -106,18 +112,27 @@ class _TopSongScreenState extends State<TopSongScreen> with AutomaticKeepAliveCl
               ),
             ),
           ),
-          Container(
-            padding: const EdgeInsets.all(8),
-            margin: const EdgeInsets.symmetric(horizontal: 8),
-            width: 36,
-            height: 36,
-            decoration: BoxDecoration(
-              color: AppColors.inputFillColor,
-              shape: BoxShape.circle,
-            ),
-            child: SvgPicture.asset(
-              AppAssets.searchIcon,
-              fit: BoxFit.cover,
+          WButtonInkwell(
+            onPressed: () {
+              Navigator.pushNamed(
+                context,
+                AppRoute.routeSearch,
+                arguments: widget.arguments,
+              );
+            },
+            child: Container(
+              padding: const EdgeInsets.all(8),
+              margin: const EdgeInsets.symmetric(horizontal: 8),
+              width: 36,
+              height: 36,
+              decoration: BoxDecoration(
+                color: AppColors.inputFillColor,
+                shape: BoxShape.circle,
+              ),
+              child: SvgPicture.asset(
+                AppAssets.searchIcon,
+                fit: BoxFit.cover,
+              ),
             ),
           ),
         ],
@@ -169,7 +184,8 @@ class _TopSongScreenState extends State<TopSongScreen> with AutomaticKeepAliveCl
                       },
                       child: SongItem(
                         song: item,
-                        hasMenu: true,
+                        songs: data,
+                        index: index,
                       ),
                     );
                   },
