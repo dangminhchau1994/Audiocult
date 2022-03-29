@@ -315,4 +315,8 @@ class AppRepository extends BaseRepository {
   Future clearFilter() async {
     await hiveServiceProvider.clearFilter();
   }
+
+  Future<Either<List<ProfileData>, Exception>> getListUsers(String query, String? groupUserId) {
+    return safeCall(() => appServiceProvider.getListUsers(query, groupUserId));
+  }
 }

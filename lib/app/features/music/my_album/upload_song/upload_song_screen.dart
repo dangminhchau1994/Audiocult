@@ -20,8 +20,8 @@ class UploadSongScreen extends StatefulWidget {
 }
 
 class _UploadSongScreenState extends State<UploadSongScreen> {
-  int _currentStep = 1;
-  final UploadSongBloc _uploadSongBloc = UploadSongBloc(locator.get());
+  int _currentStep = 3;
+  final UploadSongBloc _uploadSongBloc = UploadSongBloc(locator.get(), locator.get());
   @override
   Widget build(BuildContext context) {
     return Provider<UploadSongBloc>(

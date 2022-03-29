@@ -70,5 +70,11 @@
 	</dict>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
+	<key>NSCameraUsageDescription</key>
+	<string>I would like to use your camera for change your Avatar</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>I would like to save photos to your photo gallery for change your Avatar</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>I would like access to your photo gallery for change your Avatar</string>
 </dict>
 </plist>

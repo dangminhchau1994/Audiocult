@@ -20,25 +20,35 @@ class BottomAlertDialog extends StatelessWidget {
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
-          children: listSelection!
-              .map((e) => WButtonInkwell(
-                    onPressed: () {
-                      onTap?.call(listSelection!.indexOf(e));
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                      child: Row(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8),
-                            child: e.first,
+          children: [
+            Container(
+              alignment: Alignment.centerLeft,
+              padding: const EdgeInsets.all(16),
+              child: const Text('Select:'),
+            ),
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              children: listSelection!
+                  .map((e) => WButtonInkwell(
+                        onPressed: () {
+                          onTap?.call(listSelection!.indexOf(e));
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          child: Row(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8),
+                                child: e.first,
+                              ),
+                              Text(e.second),
+                            ],
                           ),
-                          Text(e.second),
-                        ],
-                      ),
-                    ),
-                  ))
-              .toList(),
+                        ),
+                      ))
+                  .toList(),
+            ),
+          ],
         ),
       ),
     );

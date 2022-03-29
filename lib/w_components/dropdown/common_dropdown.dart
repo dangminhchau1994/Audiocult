@@ -69,12 +69,19 @@ class _CommonDropdownState extends State<CommonDropdown> {
             selectedItemBuilder: (_) => widget.data!
                 .map(
                   (e) => Center(
-                    child: Container(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        e.title ?? '',
-                        style: context.bodyTextStyle()?.copyWith(color: Colors.white),
-                      ),
+                    child: Row(
+                      // mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        if (e.icon != null) e.icon! else const SizedBox.shrink(),
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 8),
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            e.title ?? '',
+                            style: context.bodyTextStyle()?.copyWith(color: Colors.white),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 )
@@ -105,7 +112,8 @@ class SelectMenuModel {
   int? id;
   String? title;
   bool isSelected;
-  SelectMenuModel({this.id, this.title, this.isSelected = false});
+  Widget? icon;
+  SelectMenuModel({this.id, this.title, this.isSelected = false, this.icon});
   @override
   String toString() {
     return '$id $title $isSelected';

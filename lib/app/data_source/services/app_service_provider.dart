@@ -435,4 +435,20 @@ class AppServiceProvider {
       (json) => asType<List<dynamic>>(json),
     );
   }
+
+  Future<List<ProfileData>> getListUsers(String query, String? groupUserId) async {
+    var endpoint = '';
+    if (groupUserId == null) {
+      endpoint = '/restful_api/user?page=1&limit=20';
+    } else {
+      endpoint = '/restful_api/user?page=1&limit=20&user_group_id=$groupUserId';
+    }
+    final response = await _dioHelper.get(
+      route: endpoint,
+      responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
+    );
+    return response.mapData(
+      (json) => asType<List<dynamic>>(json)?.map((e) => ProfileData.fromJson(e as Map<String, dynamic>)).toList(),
+    );
+  }
 }

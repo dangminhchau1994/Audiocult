@@ -22,7 +22,7 @@ class ToastUtility {
 
     fToast.showToast(
       child: toast,
-      toastDuration: const Duration(seconds: 5),
+      toastDuration: const Duration(seconds: 2),
       positionedToastBuilder: (context, child) {
         return Positioned(
           top: 48,
@@ -47,7 +47,7 @@ class ToastUtility {
 
     fToast.showToast(
       child: toast,
-      toastDuration: const Duration(seconds: 5),
+      toastDuration: const Duration(seconds: 2),
       positionedToastBuilder: (context, child) {
         return Positioned(
           top: 48,
@@ -72,7 +72,7 @@ class ToastUtility {
 
     fToast.showToast(
       child: toast,
-      toastDuration: const Duration(seconds: 5),
+      toastDuration: const Duration(seconds: 2),
       positionedToastBuilder: (context, child) {
         return Positioned(
           top: 48,
@@ -96,7 +96,7 @@ class ToastUtility {
 
     fToast.showToast(
       child: toast,
-      toastDuration: const Duration(seconds: 5),
+      toastDuration: const Duration(seconds: 2),
       positionedToastBuilder: (context, child) {
         return Positioned(
           top: 48,

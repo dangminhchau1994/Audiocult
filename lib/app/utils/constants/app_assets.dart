@@ -88,4 +88,9 @@ class AppAssets {
   static const icUpload = 'assets/icons/ic_upload.png';
   static const icUploadFrame = 'assets/icons/ic_upload_frame.png';
   static const icMusicNote = 'assets/icons/ic_music_note.png';
+  static const icPublic = 'assets/icons/ic_public.png';
+  static const icSubscription = 'assets/icons/ic_subscription.png';
+  static const icFriends = 'assets/icons/ic_friends.png';
+  static const icLock = 'assets/icons/ic_lock.png';
+  static const icSetting = 'assets/icons/ic_setting.png';
 }

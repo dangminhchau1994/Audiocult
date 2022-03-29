@@ -105,5 +105,8 @@
     "t_free_download":"Free Download",
     "t_license":"License",
     "t_creative_commons":"Creative Commons",
-    "t_create_album":"Create Album"
+    "t_create_album":"Create Album",
+    "t_take_picture":"Camera",
+    "t_choose_gallery":"Album",
+    "t_artist":"Artist"
 }
