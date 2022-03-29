@@ -474,7 +474,7 @@ class AppServiceProvider {
   Future<CreateAlbumResponse> uploadAlbum(UploadRequest result) async {
     final dataRequest = await result.toJson();
     final response = await _dioHelper.post(
-      route: '/restful_api/song',
+      route: '/restful_api/song/album',
       requestBody: FormData.fromMap(dataRequest),
       responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
     );
