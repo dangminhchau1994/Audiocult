@@ -184,7 +184,11 @@ class SongStep2State extends State<SongStep2> {
                 CommonChipInput(
                   hintText: context.l10n.t_collab_remix,
                   initTags: [],
-                  onChooseTag: (value) {},
+                  onChooseTag: (value) {
+                    setState(() {
+                      _uploadRequest.collabUserId = value.userId;
+                    });
+                  },
                 ),
                 const SizedBox(
                   height: 12,
@@ -196,7 +200,7 @@ class SongStep2State extends State<SongStep2> {
                         final data = snapshot.data;
                         // ignore: unrelated_type_equality_checks
                         if (data!.userGroupId != '8') {
-                          _uploadRequest.artistUserId = data.userId;
+                          _uploadRequest.labelUserId = data.userId;
                           return Container(
                             child: Row(
                               children: [
@@ -215,7 +219,7 @@ class SongStep2State extends State<SongStep2> {
                           hintText: context.l10n.t_label,
                           onChooseTag: (value) {
                             setState(() {
-                              _uploadRequest.artistUserId = value.userId;
+                              _uploadRequest.labelUserId = value.userId;
                             });
                           },
                           onDeleteTag: (value) {},

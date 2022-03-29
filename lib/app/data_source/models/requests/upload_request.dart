@@ -11,6 +11,7 @@ class UploadRequest {
   String? genreId;
   String? artistUserId;
   String? collabUserId;
+  String? labelUserId;
   String? description;
   String? tags;
   String? albumId;
@@ -28,6 +29,8 @@ class UploadRequest {
     data['val[is_dj]'] = musicType;
     data['val[genre_id]'] = genreId;
     data['val[artist_user_id]'] = artistUserId;
+    data['val[label_user_id]'] = labelUserId;
+    data['val[collab_user_id]'] = collabUserId;
     data['val[lyrics]'] = description;
     data['val[tags]'] = tags;
     data['val[album_id]'] = albumId;
