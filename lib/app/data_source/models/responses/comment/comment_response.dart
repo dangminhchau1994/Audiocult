@@ -18,6 +18,7 @@ class CommentResponse {
   String? userName;
   String? fullName;
   String? userImage;
+  LastIcon? lastIcon;
 
   CommentResponse({
     this.isLiked,
@@ -34,7 +35,23 @@ class CommentResponse {
     this.userName,
     this.fullName,
     this.userImage,
+    this.lastIcon,
   });
 
   factory CommentResponse.fromJson(Map<String, dynamic> json) => _$CommentResponseFromJson(json);
+}
+
+@JsonSerializable(fieldRename: FieldRename.snake)
+class LastIcon {
+  String? likeTypeId;
+  String? imagePath;
+  String? countIcon;
+
+  LastIcon({
+    this.likeTypeId,
+    this.imagePath,
+    this.countIcon,
+  });
+
+  factory LastIcon.fromJson(Map<String, dynamic> json) => _$LastIconFromJson(json);
 }

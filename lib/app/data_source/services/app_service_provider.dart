@@ -1,7 +1,11 @@
+import 'dart:io';
+
 import 'package:audio_cult/app/data_source/local/pref_provider.dart';
+import 'package:audio_cult/app/data_source/models/requests/create_playlist_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/register_request.dart';
 import 'package:audio_cult/app/data_source/models/responses/album/album_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/comment/comment_response.dart';
+import 'package:audio_cult/app/data_source/models/responses/create_playlist/create_playlist_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/login_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/playlist/playlist_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/reaction_icon/reaction_icon_response.dart';
@@ -278,6 +282,21 @@ class AppServiceProvider {
     );
     return response.mapData(
       (json) => CommentResponse.fromJson(json as Map<String, dynamic>),
+    );
+  }
+
+  Future<CreatePlayListResponse> createPlayList(String name, File image) async {
+    final response = await _dioHelper.post(
+      route: '/restful_api/playlist',
+      options: Options(headers: {'Content-Type': 'multipart/form-data'}),
+      responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
+      requestBody: FormData.fromMap({
+        'val[title]': name,
+        'image': await MultipartFile.fromFile(image.path),
+      }),
+    );
+    return response.mapData(
+      (json) => CreatePlayListResponse.fromJson(json as Map<String, dynamic>),
     );
   }
 

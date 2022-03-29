@@ -30,6 +30,12 @@ class _CommmentEditScreennState extends State<CommmentEditScreen> {
   late TextEditingController _textEditingController;
 
   @override
+  void dispose() {
+    super.dispose();
+    _textEditingController.dispose();
+  }
+
+  @override
   void initState() {
     super.initState();
     _text = ValueNotifier<String>(widget.argument.text ?? '');

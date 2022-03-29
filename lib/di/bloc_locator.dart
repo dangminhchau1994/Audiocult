@@ -5,6 +5,7 @@ import 'package:audio_cult/app/features/music/detail_album/detail_album_bloc.dar
 import 'package:audio_cult/app/features/music/detail_playlist/detail_playlist_bloc.dart';
 import 'package:audio_cult/app/features/music/featured_albums/featured_album_bloc.dart';
 import 'package:audio_cult/app/features/music/featured_mixtape/featured_mixtapes_bloc.dart';
+import 'package:audio_cult/app/features/music/library/create_playlist_bloc.dart';
 import 'package:audio_cult/app/features/music/search/search_bloc.dart';
 import 'package:audio_cult/app/injections.dart';
 import 'package:audio_cult/w_components/comment/comment_item_bloc.dart';
@@ -51,5 +52,9 @@ void setupLocator() {
 
   getIt.registerLazySingleton<FeaturedMixtapesBloc>(
     () => FeaturedMixtapesBloc(locator.get<AppRepository>()),
+  );
+
+  getIt.registerLazySingleton<CreatePlayListBloc>(
+    () => CreatePlayListBloc(locator.get<AppRepository>()),
   );
 }

@@ -47,9 +47,11 @@ dependencies:
   hive: ^2.0.6
   hive_flutter: ^1.1.0
   path_provider: 2.0.9
+  image_cropper: ^1.5.0
   audio_service: ^0.18.4
   just_audio: ^0.9.20
   readmore: ^2.1.0
+  image_picker: ^0.8.4+11
   flip_card: ^0.6.0
   sliding_up_panel: ^2.0.0+1
   marquee: ^2.2.1

@@ -18,6 +18,7 @@ class CommonInput extends StatelessWidget {
     this.errorText,
     this.isReadOnly = false,
     this.textInputType,
+    this.fillColor,
   }) : super(key: key);
 
   final double? width;
@@ -32,6 +33,7 @@ class CommonInput extends StatelessWidget {
   final Function(String value)? onChanged;
   final TextEditingController? editingController;
   final TextInputType? textInputType;
+  final Color? fillColor;
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +54,7 @@ class CommonInput extends StatelessWidget {
           decoration: InputDecoration(
             filled: true,
             focusColor: AppColors.outlineBorderColor,
-            fillColor: AppColors.inputFillColor.withOpacity(0.4),
+            fillColor: fillColor ?? AppColors.inputFillColor.withOpacity(0.4),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(4),
               borderSide: BorderSide(
