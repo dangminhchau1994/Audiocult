@@ -1,11 +1,12 @@
-import 'dart:io';
-
 import 'package:dio/dio.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:http_parser/http_parser.dart';
+import 'package:image_picker/image_picker.dart';
 
 class UploadRequest {
   String? title;
+  String? name;
+  int? year;
+  String? text;
   String? musicType;
   String? genreId;
   String? artistUserId;
@@ -22,6 +23,8 @@ class UploadRequest {
   Future<Map<String, dynamic>> toJson() async {
     final data = <String, dynamic>{};
     data['val[title]'] = title;
+    data['val[name]'] = name;
+    data['val[year]'] = year;
     data['val[is_dj]'] = musicType;
     data['val[genre_id]'] = genreId;
     data['val[artist_user_id]'] = artistUserId;
@@ -32,6 +35,7 @@ class UploadRequest {
     data['val[is_free]'] = isFree;
     data['val[cost]'] = cost;
     data['val[license_type]'] = licenseType;
+    data['val[text]'] = text;
     // data['image'] = await MultipartFile.fromFile(
     //   songCoverFile!.path,
     //   filename: songCoverFile!.name,

@@ -14,6 +14,7 @@ import 'package:dio/dio.dart';
 import '../../utils/extensions/app_extensions.dart';
 import '../models/base_response.dart';
 import '../models/requests/login_request.dart';
+import '../models/responses/create_album_response.dart';
 import '../models/responses/profile_data.dart';
 import '../models/responses/register_response.dart';
 import '../models/responses/song/song_response.dart';
@@ -467,6 +468,25 @@ class AppServiceProvider {
           message: response.message as String?);
     } else {
       return RegisterResponse(status: response.status as String, message: response.error['message'] as String);
+    }
+  }
+
+  Future<CreateAlbumResponse> uploadAlbum(UploadRequest result) async {
+    final dataRequest = await result.toJson();
+    final response = await _dioHelper.post(
+      route: '/restful_api/song',
+      requestBody: FormData.fromMap(dataRequest),
+      responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
+    );
+
+    if (response.status == StatusString.success) {
+      return CreateAlbumResponse(
+          // ignore: cast_nullable_to_non_nullable
+          status: response.status as String,
+          message: response.message as String?,
+          data: response.data['album_id'] as String?);
+    } else {
+      return CreateAlbumResponse(status: response.status as String, message: response.error['message'] as String);
     }
   }
 }

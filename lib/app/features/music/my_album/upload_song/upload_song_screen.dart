@@ -18,10 +18,13 @@ import 'package:provider/provider.dart';
 import '../widgets/stepper.dart';
 
 class UploadSongScreen extends StatefulWidget {
-  const UploadSongScreen({Key? key}) : super(key: key);
+  final Map<String, dynamic> params;
+
+  const UploadSongScreen({Key? key, required this.params}) : super(key: key);
 
   @override
   State<UploadSongScreen> createState() => _UploadSongScreenState();
+  static Map<String, dynamic> createArguments({required bool isUploadSong}) => {'isUploadSong': isUploadSong};
 }
 
 class _UploadSongScreenState extends State<UploadSongScreen> with DisposableStateMixin {
@@ -31,9 +34,11 @@ class _UploadSongScreenState extends State<UploadSongScreen> with DisposableStat
   final GlobalKey<SongStep2State> _keyStep2 = GlobalKey();
   final GlobalKey<PrivacyStepState> _keyStep3 = GlobalKey();
   final GlobalKey<MetaDataStepState> _keyStep4 = GlobalKey();
+  bool? isUploadSong;
   @override
   void initState() {
     super.initState();
+    isUploadSong = widget.params['isUploadSong'] as bool?;
     _uploadSongBloc.uploadStream.listen((event) {
       ToastUtility.showSuccess(context: context, message: event);
       Navigator.pop(context, true);
@@ -68,6 +73,7 @@ class _UploadSongScreenState extends State<UploadSongScreen> with DisposableStat
                       ),
                       SongStep2(
                         key: _keyStep2,
+                        isUploadSong: isUploadSong,
                         onBack: onBack,
                         onNext: onNext,
                       ),
@@ -112,6 +118,10 @@ class _UploadSongScreenState extends State<UploadSongScreen> with DisposableStat
     resultStep2.cost = resultStep4.cost;
     resultStep2.licenseType = resultStep4.licenseType;
     resultStep2.audioFile = XFile(resultStep1[0].first.path!, name: resultStep1[0].first.name);
-    _uploadSongBloc.uploadSong(resultStep2);
+    if (isUploadSong!) {
+      _uploadSongBloc.uploadSong(resultStep2);
+    } else {
+      _uploadSongBloc.uploadAlbum(resultStep2);
+    }
   }
 }

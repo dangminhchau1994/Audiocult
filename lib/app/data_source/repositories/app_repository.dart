@@ -16,6 +16,7 @@ import 'package:audio_cult/w_components/dropdown/common_dropdown.dart';
 import 'package:dartz/dartz.dart';
 
 import '../models/requests/login_request.dart';
+import '../models/responses/create_album_response.dart';
 import '../models/responses/login_response.dart';
 import '../models/responses/register_response.dart';
 import '../models/responses/song/song_response.dart';
@@ -323,5 +324,9 @@ class AppRepository extends BaseRepository {
 
   Future<Either<RegisterResponse, Exception>> uploadSong(UploadRequest resultStep2) {
     return safeCall(() => appServiceProvider.uploadSong(resultStep2));
+  }
+
+  Future<Either<CreateAlbumResponse, Exception>> uploadAlbum(UploadRequest resultStep2) {
+    return safeCall(() => appServiceProvider.uploadAlbum(resultStep2));
   }
 }

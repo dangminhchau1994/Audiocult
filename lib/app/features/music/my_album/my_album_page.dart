@@ -1,4 +1,5 @@
 import 'package:audio_cult/app/base/pair.dart';
+import 'package:audio_cult/app/features/music/my_album/upload_song/upload_song_screen.dart';
 import 'package:audio_cult/app/utils/constants/app_assets.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
 import 'package:audio_cult/app/utils/route/app_route.dart';
@@ -42,7 +43,12 @@ class MyAlbumPage extends StatelessWidget {
                 ],
                 onTap: (index) {
                   Navigator.pop(context);
-                  Navigator.pushNamed(context, index == 0 ? AppRoute.routeUploadSong : AppRoute.routeUploadAlbum);
+                  Navigator.pushNamed(
+                    context,
+                    AppRoute.routeUploadSong,
+                    // ignore: avoid_bool_literals_in_conditional_expressions
+                    arguments: UploadSongScreen.createArguments(isUploadSong: index == 0 ? true : false),
+                  );
                 },
               );
             },

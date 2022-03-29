@@ -108,5 +108,7 @@
     "t_create_album":"Create Album",
     "t_take_picture":"Camera",
     "t_choose_gallery":"Album",
-    "t_artist":"Artist"
+    "t_artist":"Artist",
+    "t_album_name":"Album name",
+    "t_year":"Year"
 }

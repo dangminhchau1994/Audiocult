@@ -25,8 +25,9 @@ class SongStep2 extends StatefulWidget {
   final Function()? onNext;
 
   final Function()? onBack;
+  final bool? isUploadSong;
 
-  const SongStep2({Key? key, this.onBack, this.onNext}) : super(key: key);
+  const SongStep2({Key? key, this.onBack, this.onNext, this.isUploadSong}) : super(key: key);
 
   @override
   State<SongStep2> createState() => SongStep2State();
@@ -79,12 +80,29 @@ class SongStep2State extends State<SongStep2> {
                   height: kVerticalSpacing,
                 ),
                 CommonInput(
-                    hintText: context.l10n.t_track_title,
+                  hintText: widget.isUploadSong! ? context.l10n.t_track_title : context.l10n.t_album_name,
+                  onChanged: (v) {
+                    setState(() {
+                      _uploadRequest.title = v;
+                      _uploadRequest.name = v;
+                    });
+                  },
+                ),
+                const SizedBox(
+                  height: 12,
+                ),
+                if (widget.isUploadSong!)
+                  const SizedBox.shrink()
+                else
+                  CommonInput(
+                    hintText: context.l10n.t_year,
+                    textInputType: TextInputType.datetime,
                     onChanged: (v) {
                       setState(() {
-                        _uploadRequest.title = v;
+                        _uploadRequest.year = int.tryParse(v);
                       });
-                    }),
+                    },
+                  ),
                 const SizedBox(
                   height: 12,
                 ),
@@ -215,6 +233,7 @@ class SongStep2State extends State<SongStep2> {
                   onChanged: (v) {
                     setState(() {
                       _uploadRequest.description = v;
+                      _uploadRequest.text = v;
                     });
                   },
                 ),

@@ -184,7 +184,7 @@ class AppRoute {
       case routeUploadSong:
         return _pageRoute(
           settings,
-          const UploadSongScreen(),
+          UploadSongScreen(params: asType(settings.arguments) as Map<String, dynamic>),
         );
       case routeUploadAlbum:
         return _pageRoute(

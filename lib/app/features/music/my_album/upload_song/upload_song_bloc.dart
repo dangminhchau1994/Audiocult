@@ -45,4 +45,33 @@ class UploadSongBloc extends MainBloc {
       showError,
     );
   }
+
+  void uploadAlbum(UploadRequest resultStep2) async {
+    showOverLayLoading();
+    final result = await _appRepository.uploadAlbum(resultStep2);
+    hideOverlayLoading();
+    result.fold(
+      (l) async {
+        if (l.status == StatusString.success) {
+          resultStep2.albumId = l.data;
+          showOverLayLoading();
+          final result = await _appRepository.uploadSong(resultStep2);
+          hideOverlayLoading();
+          result.fold(
+            (l) {
+              if (l.status == StatusString.success) {
+                _uploadSubject.add(l.message ?? 'Success!');
+              } else {
+                showError(AppException(l.message));
+              }
+            },
+            showError,
+          );
+        } else {
+          showError(AppException(l.message));
+        }
+      },
+      showError,
+    );
+  }
 }
