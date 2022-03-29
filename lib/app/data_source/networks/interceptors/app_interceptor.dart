@@ -14,6 +14,8 @@ class AppInterceptor extends Interceptor {
       _currentLocale = 'vn';
     }
     options.headers['Accept-Language'] = _currentLocale;
+    options.headers['Content-Type'] = 'application/json;charset=UTF-8';
+    options.headers['Accept'] = 'application/json';
     handler.next(options);
   }
 

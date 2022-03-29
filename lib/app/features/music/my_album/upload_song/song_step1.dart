@@ -19,12 +19,14 @@ class SongStep1 extends StatefulWidget {
   const SongStep1({Key? key, this.onNext}) : super(key: key);
 
   @override
-  State<SongStep1> createState() => _SongStep1State();
+  State<SongStep1> createState() => SongStep1State();
 }
 
-class _SongStep1State extends State<SongStep1> {
+class SongStep1State extends State<SongStep1> {
   final AudioPlayer _audioPlayer = AudioPlayer();
   List<Pair<PlatformFile, Duration>> listFileAudio = [];
+
+  
 
   @override
   Widget build(BuildContext context) {

@@ -47,7 +47,7 @@ Future<void> initDependency() async {
     dio.interceptors.add(AppInterceptor(locator.get()));
     if (kDebugMode) {
       dio.interceptors.add(
-        PrettyDioLogger(responseBody: false, requestHeader: true, responseHeader: false, requestBody: true),
+        PrettyDioLogger(responseBody: true, requestHeader: true, responseHeader: false, requestBody: true),
       );
     }
     return dio;

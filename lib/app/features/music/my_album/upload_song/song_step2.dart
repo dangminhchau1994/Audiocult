@@ -8,7 +8,6 @@ import 'package:audio_cult/l10n/l10n.dart';
 import 'package:audio_cult/w_components/buttons/common_button.dart';
 import 'package:audio_cult/w_components/buttons/w_button_inkwell.dart';
 import 'package:audio_cult/w_components/textfields/common_input.dart';
-import 'package:audio_cult/w_components/textfields/common_input_tags.dart';
 import 'package:audio_cult/w_components/w_keyboard_dismiss.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -18,6 +17,7 @@ import '../../../../../w_components/dialogs/app_dialog.dart';
 import '../../../../../w_components/dropdown/common_dropdown.dart';
 import '../../../../../w_components/textfields/common_chip_input.dart';
 import '../../../../base/pair.dart';
+import '../../../../data_source/models/requests/upload_request.dart';
 import '../../../../utils/constants/app_colors.dart';
 import '../../../../utils/constants/app_dimens.dart';
 
@@ -29,10 +29,10 @@ class SongStep2 extends StatefulWidget {
   const SongStep2({Key? key, this.onBack, this.onNext}) : super(key: key);
 
   @override
-  State<SongStep2> createState() => _SongStep2State();
+  State<SongStep2> createState() => SongStep2State();
 }
 
-class _SongStep2State extends State<SongStep2> {
+class SongStep2State extends State<SongStep2> {
   final _formKey = GlobalKey<FormState>();
   SelectMenuModel? _genre;
   SelectMenuModel? _musicType;
@@ -43,12 +43,17 @@ class _SongStep2State extends State<SongStep2> {
   final _musicList = [SelectMenuModel(id: 0, title: 'Normal songs'), SelectMenuModel(id: 1, title: 'Mixtape songs')];
   UploadSongBloc? _uploadSongBloc;
   XFile? _fileSongCover;
+  final UploadRequest _uploadRequest = UploadRequest();
   @override
   void initState() {
     super.initState();
     _uploadSongBloc = context.read<UploadSongBloc>();
     _uploadSongBloc?.getGenres();
     _uploadSongBloc?.getUserProfile();
+  }
+
+  UploadRequest get getValue {
+    return _uploadRequest;
   }
 
   @override
@@ -73,7 +78,13 @@ class _SongStep2State extends State<SongStep2> {
                 const SizedBox(
                   height: kVerticalSpacing,
                 ),
-                CommonInput(hintText: context.l10n.t_track_title),
+                CommonInput(
+                    hintText: context.l10n.t_track_title,
+                    onChanged: (v) {
+                      setState(() {
+                        _uploadRequest.title = v;
+                      });
+                    }),
                 const SizedBox(
                   height: 12,
                 ),
@@ -89,6 +100,7 @@ class _SongStep2State extends State<SongStep2> {
                         onChanged: (value) {
                           setState(() {
                             _genre = value;
+                            _uploadRequest.genreId = _genre!.id.toString();
                           });
                         },
                         hint: context.l10n.t_genres,
@@ -106,6 +118,7 @@ class _SongStep2State extends State<SongStep2> {
                   onChanged: (value) {
                     setState(() {
                       _musicType = value;
+                      _uploadRequest.musicType = _musicType!.id.toString();
                     });
                   },
                   hint: context.l10n.t_music_type,
@@ -121,6 +134,7 @@ class _SongStep2State extends State<SongStep2> {
                       final data = snapshot.data;
                       // ignore: unrelated_type_equality_checks
                       if (data!.userGroupId == '8') {
+                        _uploadRequest.artistUserId = data.userId;
                         return Row(
                           children: [
                             Text('${context.l10n.t_artist}: '),
@@ -135,7 +149,11 @@ class _SongStep2State extends State<SongStep2> {
                         groupUserId: '8',
                         initTags: [],
                         hintText: context.l10n.t_artist,
-                        onChooseTag: (value) {},
+                        onChooseTag: (value) {
+                          setState(() {
+                            _uploadRequest.artistUserId = value.userId;
+                          });
+                        },
                         // onDeleteTag: (value) {},
                       );
                     }
@@ -160,6 +178,7 @@ class _SongStep2State extends State<SongStep2> {
                         final data = snapshot.data;
                         // ignore: unrelated_type_equality_checks
                         if (data!.userGroupId != '8') {
+                          _uploadRequest.artistUserId = data.userId;
                           return Container(
                             child: Row(
                               children: [
@@ -176,7 +195,11 @@ class _SongStep2State extends State<SongStep2> {
                           groupUserId: '9',
                           initTags: [],
                           hintText: context.l10n.t_label,
-                          onChooseTag: (value) {},
+                          onChooseTag: (value) {
+                            setState(() {
+                              _uploadRequest.artistUserId = value.userId;
+                            });
+                          },
                           onDeleteTag: (value) {},
                         );
                       }
@@ -189,12 +212,22 @@ class _SongStep2State extends State<SongStep2> {
                   hintText: '* ${context.l10n.t_description}',
                   height: 100,
                   maxLine: 100,
+                  onChanged: (v) {
+                    setState(() {
+                      _uploadRequest.description = v;
+                    });
+                  },
                 ),
                 const SizedBox(
                   height: 12,
                 ),
                 CommonInput(
                   hintText: context.l10n.t_tags_separate,
+                  onChanged: (v) {
+                    setState(() {
+                      _uploadRequest.tags = v;
+                    });
+                  },
                 ),
                 const SizedBox(
                   height: kVerticalSpacing,
@@ -234,6 +267,7 @@ class _SongStep2State extends State<SongStep2> {
                         if (image != null) {
                           setState(() {
                             _fileSongCover = image;
+                            _uploadRequest.songCoverFile = _fileSongCover;
                           });
                         }
                       },

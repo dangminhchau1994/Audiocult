@@ -1,3 +1,4 @@
+import 'package:audio_cult/app/data_source/models/requests/upload_request.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/l10n/l10n.dart';
 import 'package:audio_cult/w_components/radios/common_radio_button.dart';
@@ -17,10 +18,10 @@ class MetaDataStep extends StatefulWidget {
   const MetaDataStep({Key? key, this.onBack, this.onCompleted}) : super(key: key);
 
   @override
-  State<MetaDataStep> createState() => _MetaDataStepState();
+  State<MetaDataStep> createState() => MetaDataStepState();
 }
 
-class _MetaDataStepState extends State<MetaDataStep> {
+class MetaDataStepState extends State<MetaDataStep> {
   List<Pair<int, Pair<String, String>>> listCommons = [
     Pair(1, Pair('non_commercial_no_derivatives', 'Attribution Non-commercial No Derivatives')),
     Pair(
@@ -46,6 +47,12 @@ class _MetaDataStepState extends State<MetaDataStep> {
   ];
   int groupId1 = -1;
   int groupId2 = -1;
+  final UploadRequest _uploadRequest = UploadRequest();
+
+  UploadRequest get getValue {
+    return _uploadRequest;
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -65,6 +72,7 @@ class _MetaDataStepState extends State<MetaDataStep> {
               onChanged: (v) {
                 setState(() {
                   groupId2 = v;
+                  _uploadRequest.isFree = v;
                 });
               },
             ),
@@ -73,20 +81,27 @@ class _MetaDataStepState extends State<MetaDataStep> {
             ),
             CommonInput(
               labelRight: context.l10n.t_usd,
-              isReadOnly: groupId2 == 2 || groupId2 == -1,
+              isReadOnly: groupId2 == -1 || groupId2 == 0,
               hintText: context.l10n.t_tracking_pricing,
               textInputType: TextInputType.number,
+              onChanged: (v) {
+                setState(() {
+                  _uploadRequest.cost = double.tryParse(v);
+                });
+              },
             ),
             const SizedBox(
               height: kVerticalSpacing,
             ),
             CommonRadioButton(
-              isSelected: groupId2 == 2,
-              index: 2,
+              isSelected: groupId2 == 0,
+              index: 0,
               title: context.l10n.t_free_download,
               onChanged: (v) {
                 setState(() {
                   groupId2 = v;
+                  _uploadRequest.isFree = v;
+                  _uploadRequest.cost = 0;
                 });
               },
             ),
@@ -104,6 +119,7 @@ class _MetaDataStepState extends State<MetaDataStep> {
               onChanged: (v) {
                 setState(() {
                   groupId1 = v;
+                  _uploadRequest.licenseType = listLicense[0].second.first;
                 });
               },
             ),
@@ -126,6 +142,7 @@ class _MetaDataStepState extends State<MetaDataStep> {
                         onChanged: (v) {
                           setState(() {
                             groupId1 = v;
+                            _uploadRequest.licenseType = e.second.first;
                           });
                         },
                       ),

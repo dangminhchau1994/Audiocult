@@ -1,5 +1,6 @@
 import 'package:audio_cult/app/data_source/models/cache_filter.dart';
 import 'package:audio_cult/app/data_source/models/requests/register_request.dart';
+import 'package:audio_cult/app/data_source/models/requests/upload_request.dart';
 import 'package:audio_cult/app/data_source/models/responses/album/album_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/comment/comment_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/genre.dart';
@@ -318,5 +319,9 @@ class AppRepository extends BaseRepository {
 
   Future<Either<List<ProfileData>, Exception>> getListUsers(String query, String? groupUserId) {
     return safeCall(() => appServiceProvider.getListUsers(query, groupUserId));
+  }
+
+  Future<Either<RegisterResponse, Exception>> uploadSong(UploadRequest resultStep2) {
+    return safeCall(() => appServiceProvider.uploadSong(resultStep2));
   }
 }

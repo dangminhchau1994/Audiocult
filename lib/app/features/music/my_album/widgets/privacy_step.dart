@@ -15,10 +15,10 @@ class PrivacyStep extends StatefulWidget {
   const PrivacyStep({Key? key, this.onBack, this.onNext}) : super(key: key);
 
   @override
-  State<PrivacyStep> createState() => _PrivacyStepState();
+  State<PrivacyStep> createState() => PrivacyStepState();
 }
 
-class _PrivacyStepState extends State<PrivacyStep> {
+class PrivacyStepState extends State<PrivacyStep> {
   SelectMenuModel? _privacy;
   SelectMenuModel? _privacyComment;
   static var listPrivacy = [

@@ -1,5 +1,6 @@
 import 'package:audio_cult/app/data_source/local/pref_provider.dart';
 import 'package:audio_cult/app/data_source/models/requests/register_request.dart';
+import 'package:audio_cult/app/data_source/models/requests/upload_request.dart';
 import 'package:audio_cult/app/data_source/models/responses/album/album_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/comment/comment_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/login_response.dart';
@@ -9,7 +10,6 @@ import 'package:audio_cult/app/data_source/models/responses/song_detail/song_det
 import 'package:audio_cult/app/injections.dart';
 import 'package:audio_cult/app/utils/constants/app_constants.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 
 import '../../utils/extensions/app_extensions.dart';
 import '../models/base_response.dart';
@@ -450,5 +450,23 @@ class AppServiceProvider {
     return response.mapData(
       (json) => asType<List<dynamic>>(json)?.map((e) => ProfileData.fromJson(e as Map<String, dynamic>)).toList(),
     );
+  }
+
+  Future<RegisterResponse> uploadSong(UploadRequest result) async {
+    final dataRequest = await result.toJson();
+    final response = await _dioHelper.post(
+      route: '/restful_api/song',
+      requestBody: FormData.fromMap(dataRequest),
+      responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
+    );
+
+    if (response.status == StatusString.success) {
+      return RegisterResponse(
+          // ignore: cast_nullable_to_non_nullable
+          status: response.status as String,
+          message: response.message as String?);
+    } else {
+      return RegisterResponse(status: response.status as String, message: response.error['message'] as String);
+    }
   }
 }
