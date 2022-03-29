@@ -4,7 +4,6 @@ import 'package:audio_cult/app/data_source/models/responses/profile_data.dart';
 import 'package:audio_cult/app/data_source/networks/exceptions/app_exception.dart';
 import 'package:rxdart/rxdart.dart';
 
-import '../../../../base/base_bloc.dart';
 import '../../../../data_source/local/pref_provider.dart';
 import '../../../../data_source/models/responses/genre.dart';
 import '../../../../data_source/repositories/app_repository.dart';
