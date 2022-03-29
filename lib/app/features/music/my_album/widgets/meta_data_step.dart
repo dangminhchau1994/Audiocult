@@ -57,6 +57,8 @@ class _MetaDataStepState extends State<MetaDataStep> {
               height: kVerticalSpacing,
             ),
             CommonInput(
+              labelRight: context.l10n.t_usd,
+              isReadOnly: groupId2 == 2 || groupId2 == -1,
               hintText: context.l10n.t_tracking_pricing,
               textInputType: TextInputType.number,
             ),
