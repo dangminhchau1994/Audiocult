@@ -69,6 +69,7 @@ class CustomDropdownButton2 extends StatelessWidget {
   Widget build(BuildContext context) {
     return DropdownButtonHideUnderline(
       child: DropdownButton2<SelectMenuModel>(
+        
         //To avoid long text overflowing.
         onTap: () {
           onTap?.call();

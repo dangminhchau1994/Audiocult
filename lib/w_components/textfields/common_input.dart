@@ -8,7 +8,7 @@ class CommonInput extends StatelessWidget {
   const CommonInput(
       {Key? key,
       this.width = double.infinity,
-      this.height = 50,
+      this.height,
       this.isHidden = false,
       this.isPasswordField = false,
       this.editingController,

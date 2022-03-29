@@ -26,6 +26,8 @@ class _SongStep2State extends State<SongStep2> {
   final _formKey = GlobalKey<FormState>();
   SelectMenuModel? _genre;
   SelectMenuModel? _musicType;
+  bool isValidate1 = false;
+  bool isValidate2 = false;
   // ignore: prefer_typing_uninitialized_variables
   var _genres;
   final _musicList = [SelectMenuModel(id: 0, title: 'Normal songs'), SelectMenuModel(id: 1, title: 'Mixtape songs')];
@@ -67,6 +69,8 @@ class _SongStep2State extends State<SongStep2> {
                     _genres ??=
                         snapshot.data?.map((e) => SelectMenuModel(id: int.parse(e.genreId!), title: e.name)).toList();
                     return CommonDropdown(
+                      isValidate: isValidate1,
+                      padding: const EdgeInsets.symmetric(vertical: 4),
                       selection: _genre,
                       onChanged: (value) {
                         setState(() {
@@ -82,6 +86,8 @@ class _SongStep2State extends State<SongStep2> {
                 height: 12,
               ),
               CommonDropdown(
+                isValidate: isValidate2,
+                padding: const EdgeInsets.symmetric(vertical: 4),
                 selection: _musicType,
                 onChanged: (value) {
                   setState(() {
@@ -174,6 +180,10 @@ class _SongStep2State extends State<SongStep2> {
                       color: AppColors.primaryButtonColor,
                       text: context.l10n.btn_next,
                       onTap: () {
+                        setState(() {
+                          isValidate1 = true;
+                          isValidate2 = true;
+                        });
                         if (_formKey.currentState!.validate()) {
                           widget.onNext?.call();
                         }
