@@ -62,7 +62,6 @@ class CommonInput extends StatelessWidget {
                 style: AppTextStyles.regular,
                 obscureText: isHidden!,
                 decoration: InputDecoration(
-                  contentPadding: const EdgeInsets.all(20),
                   filled: true,
                   focusColor: AppColors.outlineBorderColor,
                   fillColor: AppColors.inputFillColor.withOpacity(0.4),
@@ -70,6 +69,20 @@ class CommonInput extends StatelessWidget {
                     borderRadius: BorderRadius.circular(4),
                     borderSide: BorderSide(
                       color: AppColors.outlineBorderColor,
+                      width: 2,
+                    ),
+                  ),
+                  focusedErrorBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(4),
+                    borderSide: BorderSide(
+                      color: Colors.red.withOpacity(0.4),
+                      width: 2,
+                    ),
+                  ),
+                  errorBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(4),
+                    borderSide: BorderSide(
+                      color: Colors.red.withOpacity(0.4),
                       width: 2,
                     ),
                   ),
