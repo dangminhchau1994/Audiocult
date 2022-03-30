@@ -25,16 +25,19 @@ class SectionTitle extends StatelessWidget {
                 fontSize: 18,
               ),
         ),
-        WButtonInkwell(
-          onPressed: onShowAll,
-          child: Text(
-            'Show All',
-            style: context.bodyTextPrimaryStyle()!.copyWith(
-                  fontSize: 16,
-                  color: AppColors.lightBlue,
-                ),
+        if (onShowAll == null)
+          const SizedBox.shrink()
+        else
+          WButtonInkwell(
+            onPressed: onShowAll,
+            child: Text(
+              'Show All',
+              style: context.bodyTextPrimaryStyle()!.copyWith(
+                    fontSize: 16,
+                    color: AppColors.lightBlue,
+                  ),
+            ),
           ),
-        ),
       ],
     );
   }

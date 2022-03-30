@@ -78,11 +78,12 @@ class AppRepository extends BaseRepository {
     String query,
     String view,
     int page,
-    int limit,
-  ) async {
+    int limit, {
+    String? userId,
+  }) async {
     final albums = await safeCall(
       () async {
-        final result = await appServiceProvider.getAlbums(query, view, page, limit);
+        final result = await appServiceProvider.getAlbums(query, view, page, limit, userId: userId);
         if (result.isNotEmpty) {
           hiveServiceProvider.saveAlbums(result);
         }
@@ -213,15 +214,10 @@ class AppRepository extends BaseRepository {
   }
 
   Future<Either<List<Song>, Exception>> getMixTapSongs(
-    String query,
-    String sort,
-    int page,
-    int limit,
-    String view,
-    String type,
-  ) {
+      String query, String sort, int page, int limit, String view, String type,
+      {String? userId}) {
     return safeCall(
-      () => appServiceProvider.getMixTapSongs(query, sort, page, limit, view, type),
+      () => appServiceProvider.getMixTapSongs(query, sort, page, limit, view, type, userId: userId),
     );
   }
 

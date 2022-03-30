@@ -64,16 +64,11 @@ class AppServiceProvider {
     }
   }
 
-  Future<List<dynamic>> getAlbums(String query, String view, int page, int limit) async {
+  Future<List<dynamic>> getAlbums(String query, String view, int page, int limit, {String? userId}) async {
     final response = await _dioHelper.get(
       route: '/restful_api/song/album',
       options: Options(headers: {'Content-Type': 'application/x-www-form-urlencoded'}),
-      requestParams: {
-        'search[search]': query,
-        'view': view,
-        'page': page,
-        'limit': limit,
-      },
+      requestParams: {'search[search]': query, 'view': view, 'page': page, 'limit': limit, 'user_id': userId},
       responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
     );
     return response.mapData(
@@ -102,14 +97,8 @@ class AppServiceProvider {
     );
   }
 
-  Future<List<Song>> getMixTapSongs(
-    String query,
-    String sort,
-    int page,
-    int limit,
-    String view,
-    String type,
-  ) async {
+  Future<List<Song>> getMixTapSongs(String query, String sort, int page, int limit, String view, String type,
+      {String? userId}) async {
     final response = await _dioHelper.get(
       route: '/restful_api/song',
       options: Options(headers: {'Content-Type': 'application/x-www-form-urlencoded'}),
@@ -120,6 +109,7 @@ class AppServiceProvider {
         'limit': limit,
         'view': view,
         'type': type,
+        'user_id': userId
       },
       responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
     );
