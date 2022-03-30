@@ -41,6 +41,8 @@
     "t_cancel": "Cancel",
     "t_music":"Music",
     "t_events":"Events",
+    "t_empty_playlist":"You don't have playlists yet",
+    "t_create_first_playlist":"Create your first playlist",
     "t_description":"DESCRIPTION",
     "t_check_email":"Check your email",
     "t_sub_check_email":"Your password reset request has been sent.\nPlease check your email and follow the instruction.",

@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:audio_cult/app/base/bloc_state.dart';
 import 'package:audio_cult/app/data_source/models/requests/create_playlist_request.dart';
 import 'package:audio_cult/app/data_source/models/responses/create_playlist/create_playlist_response.dart';
 import 'package:audio_cult/app/features/music/library/create_playlist_bloc.dart';
@@ -9,9 +10,10 @@ import 'package:audio_cult/di/bloc_locator.dart';
 import 'package:audio_cult/l10n/l10n.dart';
 import 'package:audio_cult/w_components/appbar/common_appbar.dart';
 import 'package:audio_cult/w_components/buttons/common_button.dart';
-import 'package:audio_cult/w_components/loading/loading_builder.dart';
 import 'package:audio_cult/w_components/textfields/common_input.dart';
 import 'package:flutter/material.dart';
+import '../../../../w_components/error_empty/error_section.dart';
+import '../../../../w_components/loading/loading_blur.dart';
 
 class CreatePlayListScreen extends StatefulWidget {
   const CreatePlayListScreen({Key? key}) : super(key: key);
@@ -23,6 +25,7 @@ class CreatePlayListScreen extends StatefulWidget {
 class _CreatePlayListScreenState extends State<CreatePlayListScreen> {
   List<File>? _imageFileList;
   String? _pickImageError;
+  bool runStream = false;
   final _nameController = TextEditingController();
   final _descriptionController = TextEditingController();
 
@@ -36,30 +39,8 @@ class _CreatePlayListScreenState extends State<CreatePlayListScreen> {
   Widget _buildPreViewImage() {
     if (_imageFileList != null) {
       return _buildImagePicked();
-    } else if (_pickImageError != null) {
-      return Text(
-        'Pick image error: $_pickImageError',
-        textAlign: TextAlign.center,
-      );
     } else {
-      return GestureDetector(
-        onTap: () async {
-          await ImageUtils.onPickGallery(
-            context: context,
-            onChooseImage: (image) {
-              setState(() {
-                _imageFileList = image == null ? null : <File>[image];
-              });
-            },
-            onError: (error) {
-              setState(() {
-                _pickImageError = error.toString();
-              });
-            },
-          );
-        },
-        child: _buildPickImage(),
-      );
+      return _buildPickImage();
     }
   }
 
@@ -116,26 +97,43 @@ class _CreatePlayListScreenState extends State<CreatePlayListScreen> {
   }
 
   Widget _buildPickImage() {
-    return Container(
-      padding: const EdgeInsets.all(35),
-      width: MediaQuery.of(context).size.width,
-      decoration: BoxDecoration(
-        color: AppColors.secondaryButtonColor,
-        border: Border.all(color: AppColors.outlineBorderColor, width: 2),
-        borderRadius: BorderRadius.circular(4),
-      ),
-      child: Center(
-        child: Container(
-          padding: const EdgeInsets.all(15),
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: AppColors.activeLabelItem.withOpacity(0.5),
-          ),
-          child: Center(
-            child: Icon(
-              Icons.add,
-              size: 24,
-              color: AppColors.activeLabelItem,
+    return GestureDetector(
+      onTap: () async {
+        await ImageUtils.onPickGallery(
+          context: context,
+          onChooseImage: (image) {
+            setState(() {
+              _imageFileList = image == null ? null : <File>[image];
+            });
+          },
+          onError: (error) {
+            setState(() {
+              _pickImageError = error.toString();
+            });
+          },
+        );
+      },
+      child: Container(
+        padding: const EdgeInsets.all(35),
+        width: MediaQuery.of(context).size.width,
+        decoration: BoxDecoration(
+          color: AppColors.secondaryButtonColor,
+          border: Border.all(color: AppColors.outlineBorderColor, width: 2),
+          borderRadius: BorderRadius.circular(4),
+        ),
+        child: Center(
+          child: Container(
+            padding: const EdgeInsets.all(15),
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: AppColors.activeLabelItem.withOpacity(0.5),
+            ),
+            child: Center(
+              child: Icon(
+                Icons.add,
+                size: 24,
+                color: AppColors.activeLabelItem,
+              ),
             ),
           ),
         ),
@@ -159,12 +157,9 @@ class _CreatePlayListScreenState extends State<CreatePlayListScreen> {
             vertical: kVerticalSpacing,
             horizontal: kHorizontalSpacing,
           ),
-          child: LoadingBuilder<CreatePlayListBloc, CreatePlayListResponse>(
-            builder: (data, params) {
-              return Container();
-            },
-            initBuilder: () {
-              return SingleChildScrollView(
+          child: Stack(
+            children: [
+              SingleChildScrollView(
                 child: Column(
                   children: [
                     _buildPreViewImage(),
@@ -200,18 +195,56 @@ class _CreatePlayListScreenState extends State<CreatePlayListScreen> {
                       onTap: _nameController.text.isEmpty || _imageFileList == null
                           ? null
                           : () {
-                              getIt<CreatePlayListBloc>().requestData(
-                                params: CreatePlayListRequest(
+                              setState(() {
+                                runStream = true;
+                              });
+                              getIt<CreatePlayListBloc>().createPlayList(
+                                CreatePlayListRequest(
                                   title: _nameController.text,
                                   file: _imageFileList![0],
                                 ),
                               );
                             },
-                    )
+                    ),
                   ],
                 ),
-              );
-            },
+              ),
+              if (runStream)
+                StreamBuilder<BlocState<CreatePlayListResponse>>(
+                  initialData: const BlocState.loading(),
+                  stream: getIt<CreatePlayListBloc>().createPlayListStream,
+                  builder: (context, snapshot) {
+                    final state = snapshot.data!;
+
+                    return state.when(
+                      success: (data) {
+                        Navigator.pop(context, true);
+                        return Container();
+                      },
+                      loading: () {
+                        return const Center(
+                          child: LoadingBlur(),
+                        );
+                      },
+                      error: (error) {
+                        return ErrorSectionWidget(
+                          errorMessage: error,
+                          onRetryTap: () {
+                            getIt<CreatePlayListBloc>().createPlayList(
+                              CreatePlayListRequest(
+                                title: _nameController.text,
+                                file: _imageFileList![0],
+                              ),
+                            );
+                          },
+                        );
+                      },
+                    );
+                  },
+                )
+              else
+                const SizedBox()
+            ],
           ),
         ),
       ),

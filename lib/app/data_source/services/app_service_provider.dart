@@ -50,6 +50,24 @@ class AppServiceProvider {
     return LoginResponse.fromJson(response as Map<String, dynamic>);
   }
 
+  Future<PlaylistResponse> addToPlayList(
+    String playListId,
+    String songId,
+  ) async {
+    final response = await _dioHelper.post(
+      route: '/restful_api/playlist/add_to_playlist',
+      options: Options(headers: {'Content-Type': 'application/x-www-form-urlencoded'}),
+      responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
+      requestBody: FormData.fromMap({
+        'val[playlist_id]': playListId,
+        'val[song_id]': songId,
+      }),
+    );
+    return response.mapData(
+      (json) => PlaylistResponse.fromJson(json as Map<String, dynamic>),
+    );
+  }
+
   Future<RegisterResponse> register(RegisterRequest request) async {
     final response = await _dioHelper.post(
       route: '/restful_api/user',

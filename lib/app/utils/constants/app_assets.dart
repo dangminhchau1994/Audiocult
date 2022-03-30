@@ -25,6 +25,8 @@ class AppAssets {
 
   static const filterIcon = 'assets/icons/filter.svg';
 
+  static const circlePlay = 'assets/icons/circle_play.svg';
+
   static const notificationIcon = 'assets/icons/notification.svg';
 
   static const cartIcon = 'assets/icons/cart.svg';

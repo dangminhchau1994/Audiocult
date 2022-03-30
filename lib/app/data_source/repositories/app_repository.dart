@@ -235,6 +235,15 @@ class AppRepository extends BaseRepository {
     );
   }
 
+  Future<Either<PlaylistResponse, Exception>> addToPlayList(
+    String playListId,
+    String songId,
+  ) {
+    return safeCall(
+      () => appServiceProvider.addToPlayList(playListId, songId),
+    );
+  }
+
   Future<Either<List<PlaylistResponse>, Exception>> getPlaylists(
     String query,
     int page,
