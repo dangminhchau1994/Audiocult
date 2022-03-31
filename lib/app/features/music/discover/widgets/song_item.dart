@@ -3,6 +3,7 @@ import 'package:audio_cult/app/features/music/playlist_dialog.dart';
 import 'package:audio_cult/app/utils/datetime/date_time_utils.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/w_components/buttons/w_button_inkwell.dart';
+import 'package:audio_cult/w_components/images/common_image_network.dart';
 import 'package:audio_cult/w_components/menus/common_popup_menu.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -51,25 +52,10 @@ class SongItem extends StatelessWidget {
           Expanded(
             child: Row(
               children: [
-                CachedNetworkImage(
+                CommonImageNetWork(
                   width: imageSize,
                   height: imageSize,
-                  imageUrl: song?.imagePath ?? '',
-                  imageBuilder: (context, imageProvider) => Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(4),
-                      image: DecorationImage(
-                        image: imageProvider,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                  placeholder: (context, url) => Center(
-                    child: CircularProgressIndicator(
-                      color: AppColors.primaryButtonColor,
-                    ),
-                  ),
-                  errorWidget: (context, url, error) => const Icon(Icons.error),
+                  imagePath: song?.imagePath ?? '',
                 ),
                 const SizedBox(
                   width: 10,
