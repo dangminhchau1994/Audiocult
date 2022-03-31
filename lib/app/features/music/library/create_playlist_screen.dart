@@ -40,7 +40,7 @@ class _CreatePlayListScreenState extends State<CreatePlayListScreen> {
     if (_imageFileList != null) {
       return _buildImagePicked();
     } else {
-      return _buildPickImage();
+      return _buildChooseImage();
     }
   }
 
@@ -96,7 +96,7 @@ class _CreatePlayListScreenState extends State<CreatePlayListScreen> {
     );
   }
 
-  Widget _buildPickImage() {
+  Widget _buildChooseImage() {
     return GestureDetector(
       onTap: () async {
         await ImageUtils.onPickGallery(
@@ -181,6 +181,7 @@ class _CreatePlayListScreenState extends State<CreatePlayListScreen> {
                       hintText: context.l10n.t_optional_description,
                       fillColor: AppColors.mainColor,
                       maxLine: 5,
+                      textInputType: TextInputType.text,
                       height: 100,
                       onChanged: (value) {},
                     ),

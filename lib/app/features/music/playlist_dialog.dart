@@ -115,77 +115,82 @@ class _PlayListDialogState extends State<PlayListDialog> {
         FocusManager.instance.primaryFocus?.unfocus();
       },
       child: SafeArea(
-        child: Container(
-          height: 600,
-          decoration: BoxDecoration(
-            color: AppColors.mainColor,
-          ),
-          child: Column(
-            children: [
-              _buidSearchInput(),
-              Expanded(
-                child: StreamBuilder<BlocState<List<PlaylistResponse>>>(
-                  initialData: const BlocState.loading(),
-                  stream: getIt.get<PlayListDialogBloc>().getPlaylistStream,
-                  builder: (context, snapshot) {
-                    final state = snapshot.data!;
+        child: Padding(
+          padding: MediaQuery.of(context).viewInsets,
+          child: Container(
+            height: 600,
+            decoration: BoxDecoration(
+              color: AppColors.mainColor,
+            ),
+            child: Column(
+              children: [
+                _buidSearchInput(),
+                Expanded(
+                  child: StreamBuilder<BlocState<List<PlaylistResponse>>>(
+                    initialData: const BlocState.loading(),
+                    stream: getIt.get<PlayListDialogBloc>().getPlaylistStream,
+                    builder: (context, snapshot) {
+                      final state = snapshot.data!;
 
-                    return state.when(
-                      success: (success) {
-                        final data = success as List<PlaylistResponse>;
+                      return state.when(
+                        success: (success) {
+                          final data = success as List<PlaylistResponse>;
 
-                        if (data.isNotEmpty) {
-                          return Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: kHorizontalSpacing,
-                            ),
-                            child: ListView.separated(
-                              shrinkWrap: true,
-                              physics: const AlwaysScrollableScrollPhysics(),
-                              itemBuilder: (context, index) {
-                                return WButtonInkwell(
-                                  onPressed: () {
-                                    getIt.get<PlayListDialogBloc>().addToPlaylist(
-                                          data[index].playlistId ?? '',
-                                          widget.songId ?? '',
-                                        );
-                                    Navigator.pop(context);
-                                    ToastUtility.showSuccess(context: context, message: 'Add to playList successful!');
-                                  },
-                                  child: SearchItem(
-                                    playlist: data[index],
-                                  ),
-                                );
-                              },
-                              separatorBuilder: (context, index) => const SizedBox(height: 24),
-                              itemCount: data.length,
-                            ),
+                          if (data.isNotEmpty) {
+                            return Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: kHorizontalSpacing,
+                                vertical: kVerticalSpacing,
+                              ),
+                              child: ListView.separated(
+                                shrinkWrap: true,
+                                physics: const AlwaysScrollableScrollPhysics(),
+                                itemBuilder: (context, index) {
+                                  return WButtonInkwell(
+                                    onPressed: () {
+                                      getIt.get<PlayListDialogBloc>().addToPlaylist(
+                                            data[index].playlistId ?? '',
+                                            widget.songId ?? '',
+                                          );
+                                      Navigator.pop(context);
+                                      ToastUtility.showSuccess(
+                                          context: context, message: 'Add to playList successful!');
+                                    },
+                                    child: SearchItem(
+                                      playlist: data[index],
+                                    ),
+                                  );
+                                },
+                                separatorBuilder: (context, index) => const SizedBox(height: 24),
+                                itemCount: data.length,
+                              ),
+                            );
+                          } else {
+                            return Column(
+                              children: [
+                                Text(
+                                  context.l10n.t_no_data,
+                                  style: AppTextStyles.normal,
+                                )
+                              ],
+                            );
+                          }
+                        },
+                        loading: () {
+                          return const Center(child: LoadingWidget());
+                        },
+                        error: (error) {
+                          return ErrorSectionWidget(
+                            errorMessage: error,
+                            onRetryTap: () {},
                           );
-                        } else {
-                          return Column(
-                            children: [
-                              Text(
-                                context.l10n.t_no_data,
-                                style: AppTextStyles.normal,
-                              )
-                            ],
-                          );
-                        }
-                      },
-                      loading: () {
-                        return const Center(child: LoadingWidget());
-                      },
-                      error: (error) {
-                        return ErrorSectionWidget(
-                          errorMessage: error,
-                          onRetryTap: () {},
-                        );
-                      },
-                    );
-                  },
+                        },
+                      );
+                    },
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
