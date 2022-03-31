@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:audio_cult/app/data_source/models/responses/genre.dart';
 import 'package:audio_cult/app/data_source/models/responses/profile_data.dart';
+import 'package:audio_cult/app/data_source/models/responses/song/song_response.dart';
 import 'package:audio_cult/app/features/music/my_album/upload_song/upload_song_bloc.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/l10n/l10n.dart';
@@ -26,8 +27,9 @@ class SongStep2 extends StatefulWidget {
 
   final Function()? onBack;
   final bool? isUploadSong;
+  final Song? song;
 
-  const SongStep2({Key? key, this.onBack, this.onNext, this.isUploadSong}) : super(key: key);
+  const SongStep2({Key? key, this.onBack, this.onNext, this.isUploadSong, this.song}) : super(key: key);
 
   @override
   State<SongStep2> createState() => SongStep2State();
@@ -35,7 +37,7 @@ class SongStep2 extends StatefulWidget {
 
 class SongStep2State extends State<SongStep2> {
   final _formKey = GlobalKey<FormState>();
-  SelectMenuModel? _genre;
+  SelectMenuModel? _genreSelection;
   SelectMenuModel? _musicType;
   bool isValidate1 = false;
   bool isValidate2 = false;
@@ -45,12 +47,23 @@ class SongStep2State extends State<SongStep2> {
   UploadSongBloc? _uploadSongBloc;
   XFile? _fileSongCover;
   final UploadRequest _uploadRequest = UploadRequest();
+  final trackTitleEditTextController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
     _uploadSongBloc = context.read<UploadSongBloc>();
     _uploadSongBloc?.getGenres();
     _uploadSongBloc?.getUserProfile();
+    if (widget.song != null) {
+      trackTitleEditTextController.text = widget.song!.title ?? '';
+      _genreSelection = SelectMenuModel(
+          id: int.parse(widget.song!.genreId ?? '0'), title: widget.song!.genreName ?? '', isSelected: true);
+      _musicType = _musicList.where((element) => element.id == int.tryParse(widget.song!.isDj ?? '0')).first;
+      _musicType!.isSelected = true;
+    }
+
+    setState(() {});
   }
 
   UploadRequest get getValue {
@@ -80,6 +93,7 @@ class SongStep2State extends State<SongStep2> {
                   height: kVerticalSpacing,
                 ),
                 CommonInput(
+                  editingController: trackTitleEditTextController,
                   hintText: widget.isUploadSong! ? context.l10n.t_track_title : context.l10n.t_album_name,
                   onChanged: (v) {
                     setState(() {
@@ -111,14 +125,23 @@ class SongStep2State extends State<SongStep2> {
                     builder: (context, snapshot) {
                       _genres ??=
                           snapshot.data?.map((e) => SelectMenuModel(id: int.parse(e.genreId!), title: e.name)).toList();
+                      if (_genres is List) {
+                        (_genres as List<SelectMenuModel>).map((e) {
+                          if (e.id == _genreSelection?.id) {
+                            _genreSelection = e;
+                            e.isSelected = true;
+                          }
+                          return e;
+                        }).toList();
+                      }
                       return CommonDropdown(
                         isValidate: isValidate1,
                         padding: const EdgeInsets.symmetric(vertical: 4),
-                        selection: _genre,
+                        selection: _genreSelection,
                         onChanged: (value) {
                           setState(() {
-                            _genre = value;
-                            _uploadRequest.genreId = _genre!.id.toString();
+                            _genreSelection = value;
+                            _uploadRequest.genreId = _genreSelection!.id.toString();
                           });
                         },
                         hint: context.l10n.t_genres,
@@ -201,16 +224,14 @@ class SongStep2State extends State<SongStep2> {
                         // ignore: unrelated_type_equality_checks
                         if (data!.userGroupId != '8') {
                           _uploadRequest.labelUserId = data.userId;
-                          return Container(
-                            child: Row(
-                              children: [
-                                Text('${context.l10n.t_label}: '),
-                                Text(
-                                  data.fullName ?? '',
-                                  style: context.body1TextStyle()?.copyWith(color: AppColors.activeLabelItem),
-                                )
-                              ],
-                            ),
+                          return Row(
+                            children: [
+                              Text('${context.l10n.t_label}: '),
+                              Text(
+                                data.fullName ?? '',
+                                style: context.body1TextStyle()?.copyWith(color: AppColors.activeLabelItem),
+                              )
+                            ],
                           );
                         }
                         return CommonChipInput(
@@ -273,11 +294,17 @@ class SongStep2State extends State<SongStep2> {
                       context,
                       listSelection: [
                         Pair(
-                          Container(),
+                          Pair(
+                            0,
+                            Container(),
+                          ),
                           context.l10n.t_take_picture,
                         ),
                         Pair(
-                          Container(),
+                          Pair(
+                            1,
+                            Container(),
+                          ),
                           context.l10n.t_choose_gallery,
                         ),
                       ],

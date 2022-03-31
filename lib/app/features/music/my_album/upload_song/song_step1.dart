@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:audio_cult/app/data_source/models/responses/song/song_response.dart';
 import 'package:audio_cult/app/utils/constants/app_assets.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
 import 'package:audio_cult/app/utils/constants/app_dimens.dart';
@@ -9,14 +12,18 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:uuid/uuid.dart';
 
 import '../../../../base/pair.dart';
 import '../../../../utils/constants/app_constants.dart';
 import '../widgets/item_uploaded_music.dart';
+import 'package:http/http.dart' as http;
 
 class SongStep1 extends StatefulWidget {
   final Function()? onNext;
-  const SongStep1({Key? key, this.onNext}) : super(key: key);
+  final Song? song;
+  const SongStep1({Key? key, this.onNext, this.song}) : super(key: key);
 
   @override
   State<SongStep1> createState() => SongStep1State();
@@ -25,8 +32,33 @@ class SongStep1 extends StatefulWidget {
 class SongStep1State extends State<SongStep1> {
   final AudioPlayer _audioPlayer = AudioPlayer();
   List<Pair<PlatformFile, Duration>> listFileAudio = [];
+  @override
+  void initState() {
+    super.initState();
+    fillData();
+  }
 
-  
+  void fillData() async {
+    if (widget.song != null && widget.song!.songPath != null && widget.song!.songPath!.isNotEmpty) {
+      // ignore: use_named_constants
+      var file = await downloadFile(widget.song!.songPath!, widget.song!.title ?? const Uuid().v4());
+      final byte = await file.readAsBytes();
+      listFileAudio.add(
+          Pair(PlatformFile(name: widget.song!.title ?? '', size: file.lengthSync(), bytes: byte), const Duration()));
+      setState(() {});
+    }
+  }
+
+  Future<File> downloadFile(String url, String filename) async {
+    final dir = (await getApplicationDocumentsDirectory()).path;
+    final file = File('$dir/$filename');
+    final request = await http.get(
+      Uri.parse(url),
+    );
+    final bytes = request.bodyBytes; //close();
+    await file.writeAsBytes(bytes);
+    return file;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,23 +80,25 @@ class SongStep1State extends State<SongStep1> {
           ),
           WButtonInkwell(
             borderRadius: BorderRadius.circular(4),
-            onPressed: () async {
-              final result = await FilePicker.platform
-                  .pickFiles(allowedExtensions: fileExtensions, allowMultiple: true, type: FileType.custom);
-              if (result != null) {
-                final files = result.files;
-                if (files.length < 10) {
-                  for (final element in files) {
-                    final duration = await _audioPlayer.setFilePath(element.path!);
-                    // ignore: avoid_print
-                    listFileAudio.add(Pair(element, duration!));
-                  }
-                  setState(() {});
-                }
-              } else {
-                // User canceled the picker
-              }
-            },
+            onPressed: widget.song != null
+                ? null
+                : () async {
+                    final result = await FilePicker.platform
+                        .pickFiles(allowedExtensions: fileExtensions, allowMultiple: true, type: FileType.custom);
+                    if (result != null) {
+                      final files = result.files;
+                      if (files.length < 10) {
+                        for (final element in files) {
+                          final duration = await _audioPlayer.setFilePath(element.path!);
+                          // ignore: avoid_print
+                          listFileAudio.add(Pair(element, duration!));
+                        }
+                        setState(() {});
+                      }
+                    } else {
+                      // User canceled the picker
+                    }
+                  },
             child: DottedBorder(
               borderType: BorderType.RRect,
               radius: const Radius.circular(4),
@@ -109,8 +143,10 @@ class SongStep1State extends State<SongStep1> {
                       duration: e.second,
                       file: e.first,
                       onRemove: (id) {
-                        listFileAudio.removeWhere((element) => element.first.identifier == id);
-                        setState(() {});
+                        if (widget.song == null) {
+                          listFileAudio.removeWhere((element) => element.first.identifier == id);
+                          setState(() {});
+                        }
                       },
                     ),
                   ),

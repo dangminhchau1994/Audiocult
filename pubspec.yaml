@@ -60,6 +60,7 @@ dependencies:
   flutter_chips_input:
     git: https://github.com/jozes/flutter_chips_input.git
   http_parser: ^4.0.0
+  http: ^0.13.4
 
 dev_dependencies:
   bloc_test: ^9.0.2

@@ -4,17 +4,18 @@ class BaseRes<T> {
   int? code;
   dynamic status;
   dynamic error;
+  bool? isSuccess;
 
-  BaseRes({this.data, this.message, this.code = 0, this.status, this.error});
+  BaseRes({this.data, this.message, this.code = 0, this.status, this.error, this.isSuccess});
 
   factory BaseRes.fromJson(Map<String, dynamic> json) {
     return BaseRes(
-      data: json['data'] as T ?? json['predictions'] as T,
-      message: json['message'],
-      code: json['code'] as int?,
-      status: json['status'],
-      error: json['error'],
-    );
+        data: json['data'] as T ?? json['predictions'] as T,
+        message: json['message'],
+        code: json['code'] as int?,
+        status: json['status'],
+        error: json['error'],
+        isSuccess: json['status'] == StatusString.success);
   }
 
   S mapData<S>(Function(dynamic json) mapper) {

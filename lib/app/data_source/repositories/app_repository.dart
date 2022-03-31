@@ -325,4 +325,8 @@ class AppRepository extends BaseRepository {
   Future<Either<CreateAlbumResponse, Exception>> uploadAlbum(UploadRequest resultStep2) {
     return safeCall(() => appServiceProvider.uploadAlbum(resultStep2));
   }
+
+  Future<Either<CreateAlbumResponse, Exception>> deleteSongId(String? songId) {
+    return safeCall(() => appServiceProvider.deleteSongId(songId));
+  }
 }

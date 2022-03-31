@@ -15,6 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../data_source/models/responses/song/song_response.dart';
 import '../widgets/stepper.dart';
 
 class UploadSongScreen extends StatefulWidget {
@@ -24,7 +25,8 @@ class UploadSongScreen extends StatefulWidget {
 
   @override
   State<UploadSongScreen> createState() => _UploadSongScreenState();
-  static Map<String, dynamic> createArguments({required bool isUploadSong}) => {'isUploadSong': isUploadSong};
+  static Map<String, dynamic> createArguments({required bool isUploadSong, required Song? song}) =>
+      {'isUploadSong': isUploadSong, 'song': song};
 }
 
 class _UploadSongScreenState extends State<UploadSongScreen> with DisposableStateMixin {
@@ -35,10 +37,12 @@ class _UploadSongScreenState extends State<UploadSongScreen> with DisposableStat
   final GlobalKey<PrivacyStepState> _keyStep3 = GlobalKey();
   final GlobalKey<MetaDataStepState> _keyStep4 = GlobalKey();
   bool? isUploadSong;
+  Song? _song;
   @override
   void initState() {
     super.initState();
     isUploadSong = widget.params['isUploadSong'] as bool?;
+    _song = widget.params['song'] as Song?;
     _uploadSongBloc.uploadStream.listen((event) {
       ToastUtility.showSuccess(context: context, message: event);
       Navigator.pop(context, true);
@@ -67,11 +71,9 @@ class _UploadSongScreenState extends State<UploadSongScreen> with DisposableStat
                   child: IndexedStack(
                     index: _currentStep - 1,
                     children: [
-                      SongStep1(
-                        key: _keyStep1,
-                        onNext: onNext,
-                      ),
+                      SongStep1(key: _keyStep1, onNext: onNext, song: _song),
                       SongStep2(
+                        song: _song,
                         key: _keyStep2,
                         isUploadSong: isUploadSong,
                         onBack: onBack,
@@ -111,17 +113,23 @@ class _UploadSongScreenState extends State<UploadSongScreen> with DisposableStat
   }
 
   void onCompleted() {
-    final resultStep2 = _keyStep2.currentState!.getValue;
-    final resultStep1 = _keyStep1.currentState!.listFileAudio;
-    final resultStep4 = _keyStep4.currentState!.getValue;
-    resultStep2.isFree = resultStep4.isFree;
-    resultStep2.cost = resultStep4.cost;
-    resultStep2.licenseType = resultStep4.licenseType;
-    resultStep2.audioFile = XFile(resultStep1[0].first.path!, name: resultStep1[0].first.name);
-    if (isUploadSong!) {
-      _uploadSongBloc.uploadSong(resultStep2);
+    if (_song == null) {
+      //add new
+      final resultStep2 = _keyStep2.currentState!.getValue;
+      final resultStep1 = _keyStep1.currentState!.listFileAudio;
+      final resultStep4 = _keyStep4.currentState!.getValue;
+      resultStep2.isFree = resultStep4.isFree;
+      resultStep2.cost = resultStep4.cost;
+      resultStep2.licenseType = resultStep4.licenseType;
+      resultStep2.audioFile = XFile(resultStep1[0].first.path!, name: resultStep1[0].first.name);
+      if (isUploadSong!) {
+        _uploadSongBloc.uploadSong(resultStep2);
+      } else {
+        _uploadSongBloc.uploadAlbum(resultStep2);
+      }
     } else {
-      _uploadSongBloc.uploadAlbum(resultStep2);
+      //edit
+
     }
   }
 }

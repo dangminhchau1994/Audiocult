@@ -11,15 +11,16 @@ import '../../../../utils/route/app_route.dart';
 import '../../../player_widgets/player_screen.dart';
 
 class SongItem extends StatelessWidget {
-  const SongItem({
-    Key? key,
-    this.song,
-    this.imageSize = 40,
-    this.hasMenu = true,
-    this.fromDetail = false,
-    this.songs,
-    this.index,
-  }) : super(key: key);
+  const SongItem(
+      {Key? key,
+      this.song,
+      this.imageSize = 40,
+      this.hasMenu = true,
+      this.fromDetail = false,
+      this.songs,
+      this.index,
+      this.customizeMenu})
+      : super(key: key);
 
   final Song? song;
   final bool? hasMenu;
@@ -27,6 +28,7 @@ class SongItem extends StatelessWidget {
   final bool? fromDetail;
   final List<Song>? songs;
   final int? index;
+  final Widget? customizeMenu;
 
   @override
   Widget build(BuildContext context) {
@@ -143,7 +145,8 @@ class SongItem extends StatelessWidget {
               },
             )
           else
-            const SizedBox()
+            const SizedBox(),
+          if (customizeMenu != null) customizeMenu! else const SizedBox.shrink()
         ],
       ),
     );

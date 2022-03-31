@@ -37,6 +37,7 @@ class Song {
   ArtistUser? artistUser;
   String? peaksJsonUrl;
   int? noPhoto;
+  String? genreName;
 
   Song({
     this.userId,
@@ -115,6 +116,7 @@ class Song {
     artistUser = iw['artist_user'].get(rawBuilder: (values) => ArtistUser.fromJson(values as Map<String, dynamic>));
     peaksJsonUrl = iw['peaks_json_url'].get();
     noPhoto = iw['no_photo'].get();
+    genreName = iw['genre_name'].get();
   }
 }
 

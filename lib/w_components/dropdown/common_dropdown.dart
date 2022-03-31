@@ -47,10 +47,10 @@ class _CommonDropdownState extends State<CommonDropdown> {
             color: AppColors.inputFillColor.withOpacity(0.4),
             borderRadius: BorderRadius.circular(4),
             border: Border.all(
-                color: widget.selection == null && widget.isValidate
-                    ? Colors.red.withOpacity(0.6)
-                    : AppColors.outlineBorderColor,
-                width: 1),
+              color: widget.selection == null && widget.isValidate
+                  ? Colors.red.withOpacity(0.6)
+                  : AppColors.outlineBorderColor,
+            ),
           ),
           child: CustomDropdownButton2(
             onTap: widget.onTap,
@@ -72,9 +72,14 @@ class _CommonDropdownState extends State<CommonDropdown> {
                     child: Row(
                       // mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        if (e.icon != null) e.icon! else const SizedBox.shrink(),
+                        if (e.icon != null)
+                          Padding(
+                            padding: const EdgeInsets.all(8),
+                            child: e.icon,
+                          )
+                        else
+                          const SizedBox.shrink(),
                         Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 8),
                           alignment: Alignment.centerLeft,
                           child: Text(
                             e.title ?? '',
@@ -87,7 +92,6 @@ class _CommonDropdownState extends State<CommonDropdown> {
                 )
                 .toList(),
             onChanged: (value) {
-              widget.selection = value;
               widget.onChanged?.call(value);
             },
           ),

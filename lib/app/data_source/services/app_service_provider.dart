@@ -479,4 +479,22 @@ class AppServiceProvider {
       return CreateAlbumResponse(status: response.status as String, message: response.error['message'] as String);
     }
   }
+
+  Future<CreateAlbumResponse> deleteSongId(String? songId) async {
+    final response = await _dioHelper.delete(
+      route: '/restful_api/music/$songId',
+      responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
+    );
+
+    if (response.isSuccess!) {
+      return CreateAlbumResponse(
+        // ignore: cast_nullable_to_non_nullable
+        status: response.status as String,
+        message: response.message as String?,
+        data: response.data['message'] as String?
+      );
+    } else {
+      return CreateAlbumResponse(status: response.status as String, message: response.error['message'] as String);
+    }
+  }
 }

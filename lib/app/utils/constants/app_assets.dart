@@ -93,4 +93,6 @@ class AppAssets {
   static const icFriends = 'assets/icons/ic_friends.png';
   static const icLock = 'assets/icons/ic_lock.png';
   static const icSetting = 'assets/icons/ic_setting.png';
+  static const icFeatureSong = 'assets/icons/ic_feature_song.png';
+  static const icDelete = 'assets/icons/ic_delete.png';
 }
