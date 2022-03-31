@@ -12,26 +12,21 @@ import '../../discover/widgets/song_item.dart';
 import '../detail_album_bloc.dart';
 
 class DetailAlbumSongs extends StatefulWidget {
-  const DetailAlbumSongs({
-    Key? key,
-    this.songs,
-    this.albumId,
-  }) : super(key: key);
+  const DetailAlbumSongs({Key? key, this.songs, this.albumId, this.albumBloc}) : super(key: key);
 
   final List<Song>? songs;
   final String? albumId;
+  final DetailAlbumBloc? albumBloc;
 
   @override
   State<DetailAlbumSongs> createState() => _DetailAlbumSongsState();
 }
 
 class _DetailAlbumSongsState extends State<DetailAlbumSongs> {
-  DetailAlbumBloc albumBloc = DetailAlbumBloc(locator.get());
-
   @override
   void initState() {
     super.initState();
-    albumBloc.getSongByAlbumId(int.parse(widget.albumId ?? ''), 1, 3);
+    widget.albumBloc!.getSongByAlbumId(int.parse(widget.albumId ?? ''), 1, 3);
   }
 
   @override
@@ -40,7 +35,7 @@ class _DetailAlbumSongsState extends State<DetailAlbumSongs> {
       children: [
         StreamBuilder<BlocState<List<Song>>>(
           initialData: const BlocState.loading(),
-          stream: albumBloc.getSongByIdStream,
+          stream: widget.albumBloc!.getSongByIdStream,
           builder: (context, snapshot) {
             final state = snapshot.data!;
 
@@ -85,7 +80,7 @@ class _DetailAlbumSongsState extends State<DetailAlbumSongs> {
                 return ErrorSectionWidget(
                   errorMessage: error,
                   onRetryTap: () {
-                    albumBloc.getSongByAlbumId(int.parse(widget.albumId ?? '0'), 1, 3);
+                    widget.albumBloc!.getSongByAlbumId(int.parse(widget.albumId ?? '0'), 1, 3);
                   },
                 );
               },

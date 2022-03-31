@@ -103,53 +103,65 @@ class _MyAlbumPageState extends State<MyAlbumPage> with DisposableStateMixin {
                               itemCount: albums.length,
                               separatorBuilder: (context, index) => const SizedBox(height: 24),
                               itemBuilder: (context, index) {
-                                return SearchItem(
-                                  album: albums[index],
-                                  customizeMenu: WButtonInkwell(
-                                    onPressed: () {
-                                      AppDialog.showSelectionBottomSheet(
-                                        context,
-                                        isShowSelect: false,
-                                        listSelection: GlobalConstants.menuMyAlbum(context),
-                                        onTap: (id) async {
-                                          Navigator.pop(context);
-                                          switch (id) {
-                                            case 1:
-                                              final result = await Navigator.pushNamed(
-                                                context,
-                                                AppRoute.routeUploadSong,
-                                                arguments: UploadSongScreen.createArguments(
-                                                    // ignore: avoid_bool_literals_in_conditional_expressions
-                                                    isUploadSong: false,
-                                                    song: null,
-                                                    album: albums[index]),
-                                              );
-                                              if (result != null) {
-                                                _myAlbumBloc.getAlbums('', '', 1, 3,
-                                                    userId: locator.get<MainBloc>().profileData!.userId);
-                                                _myAlbumBloc.getMixTapSongs('', '', 1, 3, '', '',
-                                                    userId: locator.get<MainBloc>().profileData!.userId);
-                                              }
-                                              break;
-                                            case 5:
-                                              AppDialog.showYesNoDialog(
-                                                context,
-                                                message: 'Are you sure to delete this Album?',
-                                                onYesPressed: () {
-                                                  _myAlbumBloc.deletedAlbum(albums[index].albumId);
-                                                },
-                                              );
-                                              break;
-                                          }
-                                        },
-                                      );
-                                    },
-                                    child: Container(
-                                      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                                      child: SvgPicture.asset(
-                                        AppAssets.horizIcon,
-                                        width: 16,
-                                        height: 16,
+                                return WButtonInkwell(
+                                  onPressed: () {
+                                    Navigator.pushNamed(
+                                      context,
+                                      AppRoute.routeDetailAlbum,
+                                      arguments: {
+                                        'album_id': albums[index].albumId,
+                                      },
+                                    );
+                                  },
+                                  child: SearchItem(
+                                    album: albums[index],
+                                    customizeMenu: WButtonInkwell(
+                                      onPressed: () {
+                                        AppDialog.showSelectionBottomSheet(
+                                          context,
+                                          isShowSelect: false,
+                                          listSelection: GlobalConstants.menuMyAlbum(context),
+                                          onTap: (id) async {
+                                            Navigator.pop(context);
+                                            switch (id) {
+                                              case 1:
+                                                final result = await Navigator.pushNamed(
+                                                  context,
+                                                  AppRoute.routeUploadSong,
+                                                  arguments: UploadSongScreen.createArguments(
+                                                      // ignore: avoid_bool_literals_in_conditional_expressions
+                                                      isUploadSong: false,
+                                                      song: null,
+                                                      album: albums[index]),
+                                                );
+                                                if (result != null) {
+                                                  _myAlbumBloc.getAlbums('', '', 1, GlobalConstants.loadMoreItem,
+                                                      userId: locator.get<MainBloc>().profileData!.userId);
+                                                  _myAlbumBloc.getMixTapSongs(
+                                                      '', '', 1, GlobalConstants.loadMoreItem, '', '',
+                                                      userId: locator.get<MainBloc>().profileData!.userId);
+                                                }
+                                                break;
+                                              case 5:
+                                                AppDialog.showYesNoDialog(
+                                                  context,
+                                                  message: 'Are you sure to delete this Album?',
+                                                  onYesPressed: () {
+                                                    _myAlbumBloc.deletedAlbum(albums[index].albumId);
+                                                  },
+                                                );
+                                                break;
+                                            }
+                                          },
+                                        );
+                                      },
+                                      child: Container(
+                                        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                                        child: SvgPicture.asset(
+                                          AppAssets.horizIcon,
+                                          width: 16,
+                                          height: 16,
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -166,7 +178,8 @@ class _MyAlbumPageState extends State<MyAlbumPage> with DisposableStateMixin {
                         return ErrorSectionWidget(
                           errorMessage: error,
                           onRetryTap: () {
-                            _myAlbumBloc.getAlbums('', '', 1, 20, userId: locator.get<MainBloc>().profileData!.userId);
+                            _myAlbumBloc.getAlbums('', '', 1, GlobalConstants.loadMoreItem,
+                                userId: locator.get<MainBloc>().profileData!.userId);
                           },
                         );
                       },
