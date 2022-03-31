@@ -5,7 +5,6 @@ import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_chips_input/flutter_chips_input.dart';
-
 import '../../app/utils/constants/app_colors.dart';
 
 class CommonChipInput extends StatefulWidget {

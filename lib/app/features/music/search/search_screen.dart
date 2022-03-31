@@ -86,18 +86,16 @@ class _SearchScreenState extends State<SearchScreen> {
       },
       child: Scaffold(
         backgroundColor: AppColors.mainColor,
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              _buidSearchInput(),
-              if (searchType == SearchType.album)
-                _buildAlbums()
-              else if (searchType == SearchType.playlist)
-                _buildPlaylists()
-              else
-                _buildTopSongs()
-            ],
-          ),
+        body: Column(
+          children: [
+            _buidSearchInput(),
+            if (searchType == SearchType.album)
+              _buildAlbums()
+            else if (searchType == SearchType.playlist)
+              _buildPlaylists()
+            else
+              _buildTopSongs()
+          ],
         ),
       ),
     );
@@ -117,21 +115,26 @@ class _SearchScreenState extends State<SearchScreen> {
             final data = success as List<Song>;
 
             return data.isNotEmpty
-                ? Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: kHorizontalSpacing,
-                    ),
-                    child: ListView.separated(
-                      shrinkWrap: true,
-                      itemBuilder: (context, index) {
-                        return SongItem(
-                          song: data[index],
-                          songs: data,
-                          index: index,
-                        );
-                      },
-                      separatorBuilder: (context, index) => const SizedBox(height: 24),
-                      itemCount: data.length,
+                ? Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                        top: kVerticalSpacing - 10,
+                        bottom: kVerticalSpacing + 5,
+                        right: kHorizontalSpacing,
+                        left: kHorizontalSpacing,
+                      ),
+                      child: ListView.separated(
+                        shrinkWrap: true,
+                        itemBuilder: (context, index) {
+                          return SongItem(
+                            song: data[index],
+                            songs: data,
+                            index: index,
+                          );
+                        },
+                        separatorBuilder: (context, index) => const SizedBox(height: 24),
+                        itemCount: data.length,
+                      ),
                     ),
                   )
                 : Column(
@@ -169,30 +172,36 @@ class _SearchScreenState extends State<SearchScreen> {
             final data = success as List<PlaylistResponse>;
 
             return data.isNotEmpty
-                ? Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: kHorizontalSpacing,
-                    ),
-                    child: ListView.separated(
-                      shrinkWrap: true,
-                      itemBuilder: (context, index) {
-                        return WButtonInkwell(
-                          onPressed: () {
-                            Navigator.pushNamed(
-                              context,
-                              AppRoute.routeDetailPlayList,
-                              arguments: {
-                                'playlist_id': data[index].playlistId,
-                              },
-                            );
-                          },
-                          child: SearchItem(
-                            playlist: data[index],
-                          ),
-                        );
-                      },
-                      separatorBuilder: (context, index) => const SizedBox(height: 24),
-                      itemCount: data.length,
+                ? Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                        top: kVerticalSpacing - 10,
+                        bottom: kVerticalSpacing + 5,
+                        right: kHorizontalSpacing,
+                        left: kHorizontalSpacing,
+                      ),
+                      child: ListView.separated(
+                        shrinkWrap: true,
+                        physics: const AlwaysScrollableScrollPhysics(),
+                        itemBuilder: (context, index) {
+                          return WButtonInkwell(
+                            onPressed: () {
+                              Navigator.pushNamed(
+                                context,
+                                AppRoute.routeDetailPlayList,
+                                arguments: {
+                                  'playlist_id': data[index].playlistId,
+                                },
+                              );
+                            },
+                            child: SearchItem(
+                              playlist: data[index],
+                            ),
+                          );
+                        },
+                        separatorBuilder: (context, index) => const SizedBox(height: 24),
+                        itemCount: data.length,
+                      ),
                     ),
                   )
                 : Column(
@@ -230,30 +239,35 @@ class _SearchScreenState extends State<SearchScreen> {
             final data = success as List<Album>;
 
             return data.isNotEmpty
-                ? Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: kHorizontalSpacing,
-                    ),
-                    child: ListView.separated(
-                      shrinkWrap: true,
-                      itemBuilder: (context, index) {
-                        return WButtonInkwell(
-                          onPressed: () {
-                            Navigator.pushNamed(
-                              context,
-                              AppRoute.routeDetailAlbum,
-                              arguments: {
-                                'album_id': data[index].albumId,
-                              },
-                            );
-                          },
-                          child: SearchItem(
-                            album: data[index],
-                          ),
-                        );
-                      },
-                      separatorBuilder: (context, index) => const SizedBox(height: 24),
-                      itemCount: data.length,
+                ? Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                        top: kVerticalSpacing - 10,
+                        bottom: kVerticalSpacing + 5,
+                        right: kHorizontalSpacing,
+                        left: kHorizontalSpacing,
+                      ),
+                      child: ListView.separated(
+                        shrinkWrap: true,
+                        itemBuilder: (context, index) {
+                          return WButtonInkwell(
+                            onPressed: () {
+                              Navigator.pushNamed(
+                                context,
+                                AppRoute.routeDetailAlbum,
+                                arguments: {
+                                  'album_id': data[index].albumId,
+                                },
+                              );
+                            },
+                            child: SearchItem(
+                              album: data[index],
+                            ),
+                          );
+                        },
+                        separatorBuilder: (context, index) => const SizedBox(height: 24),
+                        itemCount: data.length,
+                      ),
                     ),
                   )
                 : Column(

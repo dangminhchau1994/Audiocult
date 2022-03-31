@@ -5,22 +5,23 @@ import 'package:flutter/material.dart';
 import '../../app/utils/constants/app_colors.dart';
 
 class CommonInput extends StatelessWidget {
-  const CommonInput(
-      {Key? key,
-      this.width = double.infinity,
-      this.height,
-      this.isHidden = false,
-      this.isPasswordField = false,
-      this.editingController,
-      this.hintText,
-      this.maxLine = 1,
-      this.togglePassword,
-      this.onChanged,
-      this.errorText,
-      this.isReadOnly = false,
-      this.textInputType,
-      this.labelRight})
-      : super(key: key);
+  const CommonInput({
+    Key? key,
+    this.width = double.infinity,
+    this.height,
+    this.isHidden = false,
+    this.isPasswordField = false,
+    this.editingController,
+    this.hintText,
+    this.maxLine = 1,
+    this.togglePassword,
+    this.onChanged,
+    this.errorText,
+    this.isReadOnly = false,
+    this.textInputType,
+    this.labelRight,
+    this.fillColor,
+  }) : super(key: key);
 
   final double? width;
   final double? height;
@@ -35,6 +36,7 @@ class CommonInput extends StatelessWidget {
   final TextEditingController? editingController;
   final TextInputType? textInputType;
   final String? labelRight;
+  final Color? fillColor;
 
   @override
   Widget build(BuildContext context) {

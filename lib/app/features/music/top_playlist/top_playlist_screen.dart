@@ -168,8 +168,8 @@ class _TopPlaylistScreenState extends State<TopPlaylistScreen> {
               }
               return PagedListView<int, PlaylistResponse>.separated(
                 padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 16,
+                  horizontal: kHorizontalSpacing,
+                  vertical: kVerticalSpacing,
                 ),
                 pagingController: _pagingController,
                 separatorBuilder: (context, index) => Divider(

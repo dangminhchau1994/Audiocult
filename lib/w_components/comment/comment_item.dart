@@ -1,7 +1,6 @@
 import 'package:audio_cult/app/base/bloc_state.dart';
 import 'package:audio_cult/app/data_source/models/responses/comment/comment_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/reaction_icon/reaction_icon_response.dart';
-import 'package:audio_cult/app/utils/constants/app_assets.dart';
 import 'package:audio_cult/app/utils/datetime/date_time_utils.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/di/bloc_locator.dart';
@@ -150,11 +149,11 @@ class _CommentItemState extends State<CommentItem> {
                             return state.when(
                               success: (success) {
                                 final data = success as List<ReactionIconResponse>;
-                                var reactions = <Reaction<String>>[];
+                                var reactions = <Reaction<ReactionIconResponse>>[];
                                 reactions = data
                                     .map(
-                                      (e) => Reaction<String>(
-                                        value: e.name,
+                                      (e) => Reaction<ReactionIconResponse>(
+                                        value: e,
                                         title: _buildTitle(e.name ?? ''),
                                         icon: _buildReactionsIcon(
                                           e.imagePath ?? '',
@@ -163,7 +162,7 @@ class _CommentItemState extends State<CommentItem> {
                                     )
                                     .toList();
 
-                                return ReactionButtonToggle<String>(
+                                return ReactionButtonToggle<ReactionIconResponse>(
                                   boxPosition: Position.BOTTOM,
                                   boxPadding: const EdgeInsets.only(
                                     left: 10,
@@ -171,9 +170,25 @@ class _CommentItemState extends State<CommentItem> {
                                     bottom: 10,
                                   ),
                                   boxColor: AppColors.secondaryButtonColor,
-                                  onReactionChanged: (String? value, bool isChecked) {},
+                                  onReactionChanged: (ReactionIconResponse? value, bool isChecked) {
+                                    getIt.get<CommentItemBloc>().postReactionIcon(
+                                          'feed_mini',
+                                          int.parse(widget.data?.commentId ?? ''),
+                                          int.parse(value?.iconId ?? ''),
+                                        );
+                                  },
                                   reactions: reactions,
-                                  initialReaction: defaultInitialReaction,
+                                  initialReaction: Reaction<ReactionIconResponse>(
+                                    value: ReactionIconResponse(),
+                                    icon: SvgPicture.network(
+                                      widget.data?.lastIcon?.imagePath ?? data[0].imagePath!,
+                                      height: 25,
+                                      width: 25,
+                                      placeholderBuilder: (BuildContext context) => const Center(
+                                        child: CircularProgressIndicator(),
+                                      ),
+                                    ),
+                                  ),
                                   selectedReaction: reactions[0],
                                 );
                               },
@@ -233,12 +248,3 @@ Widget _buildReactionsIcon(String path) {
     ),
   );
 }
-
-final defaultInitialReaction = Reaction<String>(
-  value: null,
-  icon: SvgPicture.asset(
-    AppAssets.activeHeart,
-    width: 20,
-    height: 20,
-  ),
-);

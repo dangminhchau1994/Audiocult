@@ -21,9 +21,12 @@ class AppAssets {
 
   static const heartIcon = 'assets/icons/heart.svg';
 
+
   static const commentIcon = 'assets/icons/comment.svg';
 
   static const filterIcon = 'assets/icons/filter.svg';
+
+  static const circlePlay = 'assets/icons/circle_play.svg';
 
   static const notificationIcon = 'assets/icons/notification.svg';
 
@@ -68,6 +71,8 @@ class AppAssets {
   static const atlasIcon = 'assets/icons/atlas.svg';
 
   static const atlasActiveIcon = 'assets/icons/active_atlas.svg';
+
+  static const noPhoto = 'assets/imgs/no_photo_song.png';
 
   static const logoIcon = 'assets/icons/ic_logo.png';
 

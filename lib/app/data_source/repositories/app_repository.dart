@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:audio_cult/app/data_source/models/cache_filter.dart';
 import 'package:audio_cult/app/data_source/models/requests/register_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/upload_request.dart';
 import 'package:audio_cult/app/data_source/models/responses/album/album_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/comment/comment_response.dart';
+import 'package:audio_cult/app/data_source/models/responses/create_playlist/create_playlist_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/genre.dart';
 import 'package:audio_cult/app/data_source/models/responses/place.dart';
 import 'package:audio_cult/app/data_source/models/responses/playlist/playlist_response.dart';
@@ -218,6 +221,24 @@ class AppRepository extends BaseRepository {
       {String? userId}) {
     return safeCall(
       () => appServiceProvider.getMixTapSongs(query, sort, page, limit, view, type, userId: userId),
+    );
+  }
+
+  Future<Either<CreatePlayListResponse, Exception>> createPlayList(
+    String name,
+    File image,
+  ) {
+    return safeCall(
+      () => appServiceProvider.createPlayList(name, image),
+    );
+  }
+
+  Future<Either<PlaylistResponse, Exception>> addToPlayList(
+    String playListId,
+    String songId,
+  ) {
+    return safeCall(
+      () => appServiceProvider.addToPlayList(playListId, songId),
     );
   }
 

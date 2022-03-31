@@ -1,10 +1,12 @@
 import 'package:audio_cult/app/constants/global_constants.dart';
+import 'package:audio_cult/app/features/music/playlist_dialog.dart';
 import 'package:audio_cult/app/utils/datetime/date_time_utils.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/w_components/buttons/w_button_inkwell.dart';
 import 'package:audio_cult/w_components/menus/common_popup_menu.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../../../../data_source/models/responses/song/song_response.dart';
 import '../../../../utils/constants/app_colors.dart';
 import '../../../../utils/route/app_route.dart';
@@ -132,6 +134,15 @@ class SongItem extends StatelessWidget {
               onSelected: (selected) {
                 switch (selected) {
                   case 0:
+                    showMaterialModalBottomSheet(
+                      context: context,
+                      backgroundColor: Colors.transparent,
+                      builder: (context) {
+                        return PlayListDialog(
+                          songId: song?.songId,
+                        );
+                      },
+                    );
                     break;
                   case 1:
                     break;

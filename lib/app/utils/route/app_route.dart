@@ -10,6 +10,7 @@ import 'package:audio_cult/app/features/music/detail_playlist/detail_playlist_sc
 import 'package:audio_cult/app/features/music/featured_albums/featured_album_screen.dart';
 import 'package:audio_cult/app/features/music/featured_mixtape/featured_mixtapes_screen.dart';
 import 'package:audio_cult/app/features/music/filter/music_filter_screen.dart';
+import 'package:audio_cult/app/features/music/library/create_playlist_screen.dart';
 import 'package:audio_cult/app/features/music/my_album/upload_album/upload_album_screen.dart';
 import 'package:audio_cult/app/features/music/my_album/upload_song/upload_song_screen.dart';
 import 'package:audio_cult/app/features/music/top_playlist/top_playlist_screen.dart';
@@ -55,6 +56,7 @@ class AppRoute {
   static const String routeReplyListScreen = '/reply_list_screen';
   static const String routeUploadSong = '/upload_song';
   static const String routeUploadAlbum = '/upload_screen';
+  static const String routeCreatePlayList = '/create_playlist';
 
   ///#end region
 
@@ -109,6 +111,11 @@ class AppRoute {
           DetailSongScreen(
             songId: arguments['song_id'] as String,
           ),
+        );
+      case routeCreatePlayList:
+        return _pageRoute(
+          settings,
+          const CreatePlayListScreen(),
         );
       case routeDetailAlbum:
         final arguments = asType(settings.arguments);

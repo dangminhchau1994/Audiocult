@@ -47,7 +47,7 @@ class _TopPlaylistItemState extends State<TopPlaylistItem> {
         children: [
           CachedNetworkImage(
             width: double.infinity,
-            height: 140,
+            height: 150,
             imageUrl: widget.playlist?.imagePath ?? '',
             imageBuilder: (context, imageProvider) => Container(
               decoration: BoxDecoration(
