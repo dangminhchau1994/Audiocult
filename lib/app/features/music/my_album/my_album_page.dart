@@ -120,7 +120,7 @@ class _MyAlbumPageState extends State<MyAlbumPage> with DisposableStateMixin {
                                                 AppRoute.routeUploadSong,
                                                 arguments: UploadSongScreen.createArguments(
                                                     // ignore: avoid_bool_literals_in_conditional_expressions
-                                                    isUploadSong: index == 0 ? true : false,
+                                                    isUploadSong: false,
                                                     song: null),
                                               );
                                               if (result != null) {
@@ -221,7 +221,7 @@ class _MyAlbumPageState extends State<MyAlbumPage> with DisposableStateMixin {
                                                 AppRoute.routeUploadSong,
                                                 arguments: UploadSongScreen.createArguments(
                                                     // ignore: avoid_bool_literals_in_conditional_expressions
-                                                    isUploadSong: index == 0 ? true : false,
+                                                    isUploadSong: true,
                                                     song: songs[index]),
                                               );
                                               if (result != null) {
