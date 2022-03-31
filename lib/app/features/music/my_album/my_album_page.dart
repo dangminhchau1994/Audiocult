@@ -121,7 +121,8 @@ class _MyAlbumPageState extends State<MyAlbumPage> with DisposableStateMixin {
                                                 arguments: UploadSongScreen.createArguments(
                                                     // ignore: avoid_bool_literals_in_conditional_expressions
                                                     isUploadSong: false,
-                                                    song: null),
+                                                    song: null,
+                                                    album: albums[index]),
                                               );
                                               if (result != null) {
                                                 _myAlbumBloc.getAlbums('', '', 1, 3,
@@ -222,7 +223,8 @@ class _MyAlbumPageState extends State<MyAlbumPage> with DisposableStateMixin {
                                                 arguments: UploadSongScreen.createArguments(
                                                     // ignore: avoid_bool_literals_in_conditional_expressions
                                                     isUploadSong: true,
-                                                    song: songs[index]),
+                                                    song: songs[index],
+                                                    album: null),
                                               );
                                               if (result != null) {
                                                 _myAlbumBloc.getAlbums('', '', 1, GlobalConstants.loadMoreItem,
@@ -305,9 +307,11 @@ class _MyAlbumPageState extends State<MyAlbumPage> with DisposableStateMixin {
                         final result = await Navigator.pushNamed(
                           context,
                           AppRoute.routeUploadSong,
-                          arguments:
+                          arguments: UploadSongScreen.createArguments(
                               // ignore: avoid_bool_literals_in_conditional_expressions
-                              UploadSongScreen.createArguments(isUploadSong: index == 0 ? true : false, song: null),
+                              isUploadSong: index == 0 ? true : false,
+                              song: null,
+                              album: null),
                         );
                         if (result != null) {
                           _myAlbumBloc.getAlbums('', '', 1, GlobalConstants.loadMoreItem,

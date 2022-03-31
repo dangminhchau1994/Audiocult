@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:audio_cult/app/data_source/models/responses/album/album_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/genre.dart';
 import 'package:audio_cult/app/data_source/models/responses/profile_data.dart';
 import 'package:audio_cult/app/data_source/models/responses/song/song_response.dart';
@@ -29,7 +30,7 @@ class SongStep2 extends StatefulWidget {
   final bool? isUploadSong;
   final Song? song;
 
-  const SongStep2({Key? key, this.onBack, this.onNext, this.isUploadSong, this.song}) : super(key: key);
+  const SongStep2({Key? key, this.onBack, this.onNext, this.isUploadSong, this.song, Album? album}) : super(key: key);
 
   @override
   State<SongStep2> createState() => SongStep2State();
