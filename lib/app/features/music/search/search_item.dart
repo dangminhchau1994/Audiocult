@@ -7,14 +7,11 @@ import '../../../utils/constants/app_colors.dart';
 import '../../../utils/datetime/date_time_utils.dart';
 
 class SearchItem extends StatelessWidget {
-  const SearchItem({
-    Key? key,
-    this.album,
-    this.playlist,
-  }) : super(key: key);
+  const SearchItem({Key? key, this.album, this.playlist, this.customizeMenu}) : super(key: key);
 
   final Album? album;
   final PlaylistResponse? playlist;
+  final Widget? customizeMenu;
 
   @override
   Widget build(BuildContext context) {
@@ -43,55 +40,58 @@ class SearchItem extends StatelessWidget {
         const SizedBox(
           width: 16,
         ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(
-              width: 200,
-              child: Text(
-                playlist != null ? playlist?.title ?? '' : album?.name ?? '',
-                overflow: TextOverflow.ellipsis,
-                style: context.bodyTextPrimaryStyle()!.copyWith(
-                      fontSize: 16,
-                    ),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                width: 200,
+                child: Text(
+                  playlist != null ? playlist?.title ?? '' : album?.name ?? '',
+                  overflow: TextOverflow.ellipsis,
+                  style: context.bodyTextPrimaryStyle()!.copyWith(
+                        fontSize: 16,
+                      ),
+                ),
               ),
-            ),
-            const SizedBox(
-              height: 8,
-            ),
-            Row(
-              children: [
-                Text(
-                  playlist != null ? playlist?.userName ?? '' : album?.fullName ?? '',
-                  style: context.bodyTextPrimaryStyle()!.copyWith(
-                        color: AppColors.subTitleColor,
-                        fontSize: 16,
-                      ),
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-                const Icon(
-                  Icons.circle,
-                  color: Colors.grey,
-                  size: 5,
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-                Text(
-                  playlist != null
-                      ? '${playlist?.countSongs.toString()} songs'
-                      : DateTimeUtils.formatyMMMMd(int.parse(album?.timeStamp ?? '')),
-                  style: context.bodyTextPrimaryStyle()!.copyWith(
-                        color: AppColors.subTitleColor,
-                        fontSize: 16,
-                      ),
-                ),
-              ],
-            )
-          ],
-        )
+              const SizedBox(
+                height: 8,
+              ),
+              Row(
+                children: [
+                  Text(
+                    playlist != null ? playlist?.userName ?? '' : album?.fullName ?? '',
+                    style: context.bodyTextPrimaryStyle()!.copyWith(
+                          color: AppColors.subTitleColor,
+                          fontSize: 16,
+                        ),
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  const Icon(
+                    Icons.circle,
+                    color: Colors.grey,
+                    size: 5,
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    playlist != null
+                        ? '${playlist?.countSongs.toString()} songs'
+                        : DateTimeUtils.formatyMMMMd(int.parse(album?.timeStamp ?? '')),
+                    style: context.bodyTextPrimaryStyle()!.copyWith(
+                          color: AppColors.subTitleColor,
+                          fontSize: 16,
+                        ),
+                  ),
+                ],
+              )
+            ],
+          ),
+        ),
+        if (customizeMenu != null) customizeMenu! else const SizedBox.shrink()
       ],
     );
   }

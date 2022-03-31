@@ -10,7 +10,7 @@ import '../utils/constants/app_assets.dart';
 class GlobalConstants {
   static const String url = 'https://staging-media.audiocult.net/file/pic/music/';
 
-  static const int loadMoreItem = 10;
+  static const int loadMoreItem = 20;
 
   static String imageUrl(String path) {
     return url + path;
