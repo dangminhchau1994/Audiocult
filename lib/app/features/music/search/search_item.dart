@@ -1,4 +1,5 @@
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
+import 'package:audio_cult/w_components/images/common_image_network.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import '../../../data_source/models/responses/album/album_response.dart';
@@ -17,25 +18,10 @@ class SearchItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        CachedNetworkImage(
+        CommonImageNetWork(
           width: 64,
           height: 64,
-          imageUrl: playlist != null ? playlist?.imagePath ?? '' : album?.imagePath ?? '',
-          imageBuilder: (context, imageProvider) => Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(4),
-              image: DecorationImage(
-                image: imageProvider,
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
-          placeholder: (context, url) => Center(
-            child: CircularProgressIndicator(
-              color: AppColors.primaryButtonColor,
-            ),
-          ),
-          errorWidget: (context, url, error) => const Icon(Icons.error),
+          imagePath: playlist != null ? playlist?.imagePath ?? '' : album?.imagePath ?? '',
         ),
         const SizedBox(
           width: 16,

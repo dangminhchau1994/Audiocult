@@ -2,9 +2,8 @@ import 'package:audio_cult/app/data_source/models/responses/album/album_response
 import 'package:audio_cult/app/data_source/models/responses/playlist/playlist_response.dart';
 import 'package:audio_cult/app/utils/datetime/date_time_utils.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:audio_cult/w_components/images/common_image_network.dart';
 import 'package:flutter/material.dart';
-
 import '../../../../utils/constants/app_colors.dart';
 
 class AlbumItem extends StatelessWidget {
@@ -24,25 +23,10 @@ class AlbumItem extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        CachedNetworkImage(
+        CommonImageNetWork(
           width: imageSize,
           height: imageSize,
-          imageUrl: playlist != null ? playlist?.imagePath ?? '' : album?.imagePath ?? '',
-          imageBuilder: (context, imageProvider) => Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(4),
-              image: DecorationImage(
-                image: imageProvider,
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
-          placeholder: (context, url) => Center(
-            child: CircularProgressIndicator(
-              color: AppColors.primaryButtonColor,
-            ),
-          ),
-          errorWidget: (context, url, error) => const Icon(Icons.error),
+          imagePath: playlist != null ? playlist?.imagePath ?? '' : album?.imagePath ?? '',
         ),
         const SizedBox(
           height: 16,

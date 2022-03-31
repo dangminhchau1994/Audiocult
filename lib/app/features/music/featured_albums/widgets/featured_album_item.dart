@@ -5,6 +5,7 @@ import 'package:audio_cult/app/features/music/featured_albums/featured_album_blo
 import 'package:audio_cult/app/injections.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/l10n/l10n.dart';
+import 'package:audio_cult/w_components/images/common_image_network.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import '../../../../../w_components/buttons/w_button_inkwell.dart';
@@ -46,25 +47,10 @@ class _FeaturedAlbumItemState extends State<FeaturedAlbumItem> {
       margin: const EdgeInsets.symmetric(vertical: 12),
       child: Column(
         children: [
-          CachedNetworkImage(
+          CommonImageNetWork(
             width: double.infinity,
             height: 140,
-            imageUrl: widget.album?.imagePath ?? '',
-            imageBuilder: (context, imageProvider) => Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(4),
-                image: DecorationImage(
-                  image: imageProvider,
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
-            placeholder: (context, url) => Center(
-              child: CircularProgressIndicator(
-                color: AppColors.primaryButtonColor,
-              ),
-            ),
-            errorWidget: (context, url, error) => const Icon(Icons.error),
+            imagePath: widget.album?.imagePath ?? '',
           ),
           const SizedBox(
             height: 12,
