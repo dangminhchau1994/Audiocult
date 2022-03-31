@@ -15,6 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../data_source/models/responses/album/album_response.dart';
 import '../../../../data_source/models/responses/song/song_response.dart';
 import '../widgets/stepper.dart';
 
@@ -25,8 +26,9 @@ class UploadSongScreen extends StatefulWidget {
 
   @override
   State<UploadSongScreen> createState() => _UploadSongScreenState();
-  static Map<String, dynamic> createArguments({required bool isUploadSong, required Song? song}) =>
-      {'isUploadSong': isUploadSong, 'song': song};
+  static Map<String, dynamic> createArguments(
+          {required bool isUploadSong, required Song? song, required Album? album}) =>
+      {'isUploadSong': isUploadSong, 'song': song, 'album': album};
 }
 
 class _UploadSongScreenState extends State<UploadSongScreen> with DisposableStateMixin {
@@ -38,6 +40,7 @@ class _UploadSongScreenState extends State<UploadSongScreen> with DisposableStat
   final GlobalKey<MetaDataStepState> _keyStep4 = GlobalKey();
   bool? isUploadSong;
   Song? _song;
+  Album? _album;
   @override
   void initState() {
     super.initState();
@@ -71,9 +74,15 @@ class _UploadSongScreenState extends State<UploadSongScreen> with DisposableStat
                   child: IndexedStack(
                     index: _currentStep - 1,
                     children: [
-                      SongStep1(key: _keyStep1, onNext: onNext, song: _song),
+                      SongStep1(
+                        key: _keyStep1,
+                        onNext: onNext,
+                        song: _song,
+                        album: _album,
+                      ),
                       SongStep2(
                         song: _song,
+                        album: _album,
                         key: _keyStep2,
                         isUploadSong: isUploadSong,
                         onBack: onBack,

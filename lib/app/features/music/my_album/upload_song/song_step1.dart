@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:audio_cult/app/data_source/models/responses/album/album_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/song/song_response.dart';
 import 'package:audio_cult/app/utils/constants/app_assets.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
@@ -23,7 +24,8 @@ import 'package:http/http.dart' as http;
 class SongStep1 extends StatefulWidget {
   final Function()? onNext;
   final Song? song;
-  const SongStep1({Key? key, this.onNext, this.song}) : super(key: key);
+  final Album? album;
+  const SongStep1({Key? key, this.onNext, this.song, this.album}) : super(key: key);
 
   @override
   State<SongStep1> createState() => SongStep1State();
