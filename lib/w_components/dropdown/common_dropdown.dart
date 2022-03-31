@@ -13,9 +13,18 @@ class CommonDropdown extends StatefulWidget {
   final Function(SelectMenuModel? value)? onChanged;
   EdgeInsets? padding;
   double? dropDownWith;
+  bool isValidate;
 
   CommonDropdown(
-      {Key? key, this.hint, this.data, this.onTap, this.onChanged, this.selection, this.padding, this.dropDownWith,})
+      {Key? key,
+      this.hint,
+      this.data,
+      this.onTap,
+      this.onChanged,
+      this.selection,
+      this.padding,
+      this.dropDownWith,
+      this.isValidate = false})
       : super(key: key);
 
   @override
@@ -24,45 +33,81 @@ class CommonDropdown extends StatefulWidget {
 
 class _CommonDropdownState extends State<CommonDropdown> {
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: widget.padding ??= EdgeInsets.zero,
-      decoration: BoxDecoration(
-        color: AppColors.inputFillColor.withOpacity(0.4),
-        borderRadius: BorderRadius.circular(4),
-        border: Border.all(color: AppColors.outlineBorderColor, width: 2),
-      ),
-      child: CustomDropdownButton2(
-        onTap: widget.onTap,
-        hintAlignment: Alignment.centerLeft,
-        icon: const Icon(Icons.keyboard_arrow_down_rounded, size: 24, color: Colors.white),
-        buttonDecoration: const BoxDecoration(
-          color: Colors.transparent,
-        ),
-        dropdownDecoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: AppColors.secondaryButtonColor),
-        buttonWidth: double.infinity,
-        dropdownWidth: widget.dropDownWith ??= MediaQuery.of(context).size.width - 32,
-        hint: widget.hint ?? '',
-        dropdownItems: widget.data ?? [],
-        value: widget.selection,
-        selectedItemBuilder: (_) => widget.data!
-            .map(
-              (e) => Center(
-                child: Container(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    e.title ?? '',
-                    style: context.bodyTextStyle()?.copyWith(color: Colors.white),
+    return Column(
+      children: [
+        Container(
+          padding: widget.padding ??= EdgeInsets.zero,
+          decoration: BoxDecoration(
+            color: AppColors.inputFillColor.withOpacity(0.4),
+            borderRadius: BorderRadius.circular(4),
+            border: Border.all(
+              color: widget.selection == null && widget.isValidate
+                  ? Colors.red.withOpacity(0.6)
+                  : AppColors.outlineBorderColor,
+            ),
+          ),
+          child: CustomDropdownButton2(
+            onTap: widget.onTap,
+            hintAlignment: Alignment.centerLeft,
+            icon: const Icon(Icons.keyboard_arrow_down_rounded, size: 24, color: Colors.white),
+            buttonDecoration: const BoxDecoration(
+              color: Colors.transparent,
+            ),
+            dropdownDecoration:
+                BoxDecoration(borderRadius: BorderRadius.circular(8), color: AppColors.secondaryButtonColor),
+            buttonWidth: double.infinity,
+            dropdownWidth: widget.dropDownWith ??= MediaQuery.of(context).size.width - 32,
+            hint: widget.hint ?? '',
+            dropdownItems: widget.data ?? [],
+            value: widget.selection,
+            selectedItemBuilder: (_) => widget.data!
+                .map(
+                  (e) => Center(
+                    child: Row(
+                      // mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        if (e.icon != null)
+                          Padding(
+                            padding: const EdgeInsets.all(8),
+                            child: e.icon,
+                          )
+                        else
+                          const SizedBox.shrink(),
+                        Container(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            e.title ?? '',
+                            style: context.bodyTextStyle()?.copyWith(color: Colors.white),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ),
-            )
-            .toList(),
-        onChanged: (value) {
-          widget.selection = value;
-          widget.onChanged?.call(value);
-        },
-      ),
+                )
+                .toList(),
+            onChanged: (value) {
+              widget.onChanged?.call(value);
+            },
+          ),
+        ),
+        if (widget.selection == null && widget.isValidate)
+          Container(
+            margin: const EdgeInsets.only(left: 8, top: 8),
+            alignment: Alignment.centerLeft,
+            child: Text(
+              'Please select an item in the list',
+              style: context.body1TextStyle()?.copyWith(color: Colors.red, fontSize: 12),
+            ),
+          )
+        else
+          const SizedBox.shrink()
+      ],
     );
   }
 }
@@ -71,7 +116,8 @@ class SelectMenuModel {
   int? id;
   String? title;
   bool isSelected;
-  SelectMenuModel({this.id, this.title, this.isSelected = false});
+  Widget? icon;
+  SelectMenuModel({this.id, this.title, this.isSelected = false, this.icon});
   @override
   String toString() {
     return '$id $title $isSelected';

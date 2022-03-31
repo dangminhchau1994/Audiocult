@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:audio_cult/app/data_source/local/pref_provider.dart';
 import 'package:audio_cult/app/data_source/models/requests/create_playlist_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/register_request.dart';
+import 'package:audio_cult/app/data_source/models/requests/upload_request.dart';
 import 'package:audio_cult/app/data_source/models/responses/album/album_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/comment/comment_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/create_playlist/create_playlist_response.dart';
@@ -13,11 +14,11 @@ import 'package:audio_cult/app/data_source/models/responses/song_detail/song_det
 import 'package:audio_cult/app/injections.dart';
 import 'package:audio_cult/app/utils/constants/app_constants.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 
 import '../../utils/extensions/app_extensions.dart';
 import '../models/base_response.dart';
 import '../models/requests/login_request.dart';
+import '../models/responses/create_album_response.dart';
 import '../models/responses/profile_data.dart';
 import '../models/responses/register_response.dart';
 import '../models/responses/song/song_response.dart';
@@ -85,16 +86,11 @@ class AppServiceProvider {
     }
   }
 
-  Future<List<dynamic>> getAlbums(String query, String view, int page, int limit) async {
+  Future<List<dynamic>> getAlbums(String query, String view, int page, int limit, {String? userId}) async {
     final response = await _dioHelper.get(
       route: '/restful_api/song/album',
       options: Options(headers: {'Content-Type': 'application/x-www-form-urlencoded'}),
-      requestParams: {
-        'search[search]': query,
-        'view': view,
-        'page': page,
-        'limit': limit,
-      },
+      requestParams: {'search[search]': query, 'view': view, 'page': page, 'limit': limit, 'user_id': userId},
       responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
     );
     return response.mapData(
@@ -123,14 +119,8 @@ class AppServiceProvider {
     );
   }
 
-  Future<List<Song>> getMixTapSongs(
-    String query,
-    String sort,
-    int page,
-    int limit,
-    String view,
-    String type,
-  ) async {
+  Future<List<Song>> getMixTapSongs(String query, String sort, int page, int limit, String view, String type,
+      {String? userId}) async {
     final response = await _dioHelper.get(
       route: '/restful_api/song',
       options: Options(headers: {'Content-Type': 'application/x-www-form-urlencoded'}),
@@ -141,6 +131,7 @@ class AppServiceProvider {
         'limit': limit,
         'view': view,
         'type': type,
+        'user_id': userId
       },
       responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
     );
@@ -471,5 +462,76 @@ class AppServiceProvider {
     return response.mapData(
       (json) => asType<List<dynamic>>(json),
     );
+  }
+
+  Future<List<ProfileData>> getListUsers(String query, String? groupUserId) async {
+    var endpoint = '';
+    if (groupUserId == null) {
+      endpoint = '/restful_api/user?page=1&limit=20';
+    } else {
+      endpoint = '/restful_api/user?page=1&limit=20&user_group_id=$groupUserId';
+    }
+    final response = await _dioHelper.get(
+      route: endpoint,
+      responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
+    );
+    return response.mapData(
+      (json) => asType<List<dynamic>>(json)?.map((e) => ProfileData.fromJson(e as Map<String, dynamic>)).toList(),
+    );
+  }
+
+  Future<RegisterResponse> uploadSong(UploadRequest result) async {
+    final dataRequest = await result.toJson();
+    final response = await _dioHelper.post(
+      route: '/restful_api/song',
+      requestBody: FormData.fromMap(dataRequest),
+      responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
+    );
+
+    if (response.status == StatusString.success) {
+      return RegisterResponse(
+          // ignore: cast_nullable_to_non_nullable
+          status: response.status as String,
+          message: response.message as String?);
+    } else {
+      return RegisterResponse(status: response.status as String, message: response.error['message'] as String);
+    }
+  }
+
+  Future<CreateAlbumResponse> uploadAlbum(UploadRequest result) async {
+    final dataRequest = await result.toJson();
+    final response = await _dioHelper.post(
+      route: '/restful_api/song/album',
+      requestBody: FormData.fromMap(dataRequest),
+      responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
+    );
+
+    if (response.status == StatusString.success) {
+      return CreateAlbumResponse(
+          // ignore: cast_nullable_to_non_nullable
+          status: response.status as String,
+          message: response.message as String?,
+          data: response.data['album_id'] as String?);
+    } else {
+      return CreateAlbumResponse(status: response.status as String, message: response.error['message'] as String);
+    }
+  }
+
+  Future<CreateAlbumResponse> deleteSongId(String? songId) async {
+    final response = await _dioHelper.delete(
+      route: '/restful_api/music/$songId',
+      responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
+    );
+
+    if (response.isSuccess!) {
+      return CreateAlbumResponse(
+        // ignore: cast_nullable_to_non_nullable
+        status: response.status as String,
+        message: response.message as String?,
+        data: response.data['message'] as String?
+      );
+    } else {
+      return CreateAlbumResponse(status: response.status as String, message: response.error['message'] as String);
+    }
   }
 }

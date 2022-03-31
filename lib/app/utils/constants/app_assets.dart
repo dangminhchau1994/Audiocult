@@ -21,6 +21,7 @@ class AppAssets {
 
   static const heartIcon = 'assets/icons/heart.svg';
 
+
   static const commentIcon = 'assets/icons/comment.svg';
 
   static const filterIcon = 'assets/icons/filter.svg';
@@ -71,6 +72,8 @@ class AppAssets {
 
   static const atlasActiveIcon = 'assets/icons/active_atlas.svg';
 
+  static const noPhoto = 'assets/imgs/no_photo_song.png';
+
   static const logoIcon = 'assets/icons/ic_logo.png';
 
   static const authVectorIcon = 'assets/icons/ic_auth_vector.png';
@@ -90,4 +93,11 @@ class AppAssets {
   static const icUpload = 'assets/icons/ic_upload.png';
   static const icUploadFrame = 'assets/icons/ic_upload_frame.png';
   static const icMusicNote = 'assets/icons/ic_music_note.png';
+  static const icPublic = 'assets/icons/ic_public.png';
+  static const icSubscription = 'assets/icons/ic_subscription.png';
+  static const icFriends = 'assets/icons/ic_friends.png';
+  static const icLock = 'assets/icons/ic_lock.png';
+  static const icSetting = 'assets/icons/ic_setting.png';
+  static const icFeatureSong = 'assets/icons/ic_feature_song.png';
+  static const icDelete = 'assets/icons/ic_delete.png';
 }

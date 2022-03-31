@@ -1,11 +1,16 @@
 import 'package:audio_cult/app/utils/constants/app_assets.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
+import 'package:audio_cult/app/utils/datetime/date_time_utils.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/w_components/buttons/w_button_inkwell.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 
 class ItemUploadedMusic extends StatelessWidget {
-  const ItemUploadedMusic({Key? key}) : super(key: key);
+  final PlatformFile? file;
+  final Duration? duration;
+  final Function(String?)? onRemove;
+  const ItemUploadedMusic({Key? key, this.duration, this.file, this.onRemove}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,14 +32,14 @@ class ItemUploadedMusic extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Song',
+                  file!.name,
                   style: context.bodyTextStyle()?.copyWith(fontSize: 16),
                 ),
                 const SizedBox(
                   height: 4,
                 ),
                 Text(
-                  '02:27',
+                  printDuration(duration!),
                   style: context.bodyTextStyle()?.copyWith(color: AppColors.subTitleColor),
                 )
               ],
@@ -42,7 +47,9 @@ class ItemUploadedMusic extends StatelessWidget {
           ),
           WButtonInkwell(
             borderRadius: BorderRadius.circular(40),
-            onPressed: () {},
+            onPressed: () {
+              onRemove?.call(file!.identifier);
+            },
             child: Container(
               padding: const EdgeInsets.all(16),
               child: const Icon(Icons.close_rounded),

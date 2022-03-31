@@ -35,17 +35,11 @@ class DiscoverBloc extends BaseBloc {
     });
   }
 
-  void getMixTapSongs(
-    String query,
-    String sort,
-    int page,
-    int limit,
-    String view,
-    String type,
-  ) async {
+  void getMixTapSongs(String query, String sort, int page, int limit, String view, String type,
+      {String? userId}) async {
     _getMixTapSongsSubject.sink.add(const BlocState.loading());
 
-    final result = await _appRepository.getMixTapSongs(query, sort, page, limit, view, type);
+    final result = await _appRepository.getMixTapSongs(query, sort, page, limit, view, type, userId: userId);
 
     result.fold((success) {
       _getMixTapSongsSubject.sink.add(BlocState.success(success));
@@ -54,10 +48,10 @@ class DiscoverBloc extends BaseBloc {
     });
   }
 
-  void getAlbums(String query, String view, int page, int limit) async {
+  void getAlbums(String query, String view, int page, int limit, {String? userId}) async {
     _getAlbumSubject.sink.add(const BlocState.loading());
 
-    final result = await _appRepository.getAlbums(query, view, page, limit);
+    final result = await _appRepository.getAlbums(query, view, page, limit, userId: userId);
 
     result.fold((success) {
       _getAlbumSubject.sink.add(BlocState.success(success));

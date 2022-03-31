@@ -1,10 +1,8 @@
 import 'package:audio_cult/app/constants/global_constants.dart';
 import 'package:audio_cult/app/features/music/playlist_dialog.dart';
-import 'package:audio_cult/app/features/music/search/search_screen.dart';
 import 'package:audio_cult/app/utils/datetime/date_time_utils.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/w_components/buttons/w_button_inkwell.dart';
-import 'package:audio_cult/w_components/dialogs/app_dialog.dart';
 import 'package:audio_cult/w_components/menus/common_popup_menu.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -15,15 +13,16 @@ import '../../../../utils/route/app_route.dart';
 import '../../../player_widgets/player_screen.dart';
 
 class SongItem extends StatelessWidget {
-  const SongItem({
-    Key? key,
-    this.song,
-    this.imageSize = 40,
-    this.hasMenu = true,
-    this.fromDetail = false,
-    this.songs,
-    this.index,
-  }) : super(key: key);
+  const SongItem(
+      {Key? key,
+      this.song,
+      this.imageSize = 40,
+      this.hasMenu = true,
+      this.fromDetail = false,
+      this.songs,
+      this.index,
+      this.customizeMenu})
+      : super(key: key);
 
   final Song? song;
   final bool? hasMenu;
@@ -31,6 +30,7 @@ class SongItem extends StatelessWidget {
   final bool? fromDetail;
   final List<Song>? songs;
   final int? index;
+  final Widget? customizeMenu;
 
   @override
   Widget build(BuildContext context) {
@@ -156,7 +156,8 @@ class SongItem extends StatelessWidget {
               },
             )
           else
-            const SizedBox()
+            const SizedBox(),
+          if (customizeMenu != null) customizeMenu! else const SizedBox.shrink()
         ],
       ),
     );

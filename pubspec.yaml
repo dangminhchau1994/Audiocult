@@ -51,11 +51,17 @@ dependencies:
   audio_service: ^0.18.4
   just_audio: ^0.9.20
   readmore: ^2.1.0
-  image_picker: ^0.8.4+11
   flip_card: ^0.6.0
   sliding_up_panel: ^2.0.0+1
   marquee: ^2.2.1
   dotted_border: ^2.0.0+2
+  file_picker: ^4.5.1
+  flutter_form_builder: ^7.1.1
+  image_picker: ^0.8.4+11
+  flutter_chips_input:
+    git: https://github.com/jozes/flutter_chips_input.git
+  http_parser: ^4.0.0
+  http: ^0.13.4
 
 dev_dependencies:
   bloc_test: ^9.0.2

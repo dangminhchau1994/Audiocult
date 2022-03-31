@@ -1,3 +1,4 @@
+import 'package:audio_cult/app/utils/constants/app_assets.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/l10n/l10n.dart';
 import 'package:flutter/material.dart';
@@ -14,10 +15,63 @@ class PrivacyStep extends StatefulWidget {
   const PrivacyStep({Key? key, this.onBack, this.onNext}) : super(key: key);
 
   @override
-  State<PrivacyStep> createState() => _PrivacyStepState();
+  State<PrivacyStep> createState() => PrivacyStepState();
 }
 
-class _PrivacyStepState extends State<PrivacyStep> {
+class PrivacyStepState extends State<PrivacyStep> {
+  SelectMenuModel? _privacy;
+  SelectMenuModel? _privacyComment;
+  static var listPrivacy = [
+    SelectMenuModel(
+      id: 1,
+      title: 'Everyone',
+      isSelected: true,
+      icon: Image.asset(
+        AppAssets.icPublic,
+        width: 24,
+      ),
+    ),
+    SelectMenuModel(
+      id: 2,
+      title: 'Subscriptions',
+      icon: Image.asset(
+        AppAssets.icSubscription,
+        width: 24,
+      ),
+    ),
+    SelectMenuModel(
+      id: 3,
+      title: 'Friends of Friends',
+      icon: Image.asset(
+        AppAssets.icFriends,
+        width: 24,
+      ),
+    ),
+    SelectMenuModel(
+      id: 4,
+      title: 'Only me',
+      icon: Image.asset(
+        AppAssets.icLock,
+        width: 24,
+      ),
+    ),
+    SelectMenuModel(
+      id: 5,
+      title: 'Customize',
+      icon: Image.asset(
+        AppAssets.icSetting,
+        width: 24,
+      ),
+    ),
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+    _privacy = listPrivacy[0];
+    _privacyComment = listPrivacy[0];
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -36,7 +90,15 @@ class _PrivacyStepState extends State<PrivacyStep> {
           const SizedBox(
             height: kVerticalSpacing,
           ),
-          CommonDropdown(hint: context.l10n.t_genres, data: []),
+          CommonDropdown(
+              selection: _privacy,
+              hint: '',
+              data: listPrivacy,
+              onChanged: (value) {
+                setState(() {
+                  _privacy = value;
+                });
+              }),
           const SizedBox(
             height: kVerticalSpacing,
           ),
@@ -51,7 +113,15 @@ class _PrivacyStepState extends State<PrivacyStep> {
           const SizedBox(
             height: kVerticalSpacing,
           ),
-          CommonDropdown(hint: context.l10n.t_genres, data: []),
+          CommonDropdown(
+              selection: _privacyComment,
+              hint: '',
+              data: listPrivacy,
+              onChanged: (value) {
+                setState(() {
+                  _privacyComment = value;
+                });
+              }),
           const SizedBox(
             height: kVerticalSpacing,
           ),

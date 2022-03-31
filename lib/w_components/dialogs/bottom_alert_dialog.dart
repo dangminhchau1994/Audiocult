@@ -5,9 +5,10 @@ import 'package:flutter/material.dart';
 import '../../app/base/pair.dart';
 
 class BottomAlertDialog extends StatelessWidget {
-  final List<Pair<Widget, String>>? listSelection;
-  final Function(int index)? onTap;
-  const BottomAlertDialog({Key? key, this.listSelection, this.onTap}) : super(key: key);
+  final List<Pair<Pair<int,Widget>, String>>? listSelection;
+  final Function(int id)? onTap;
+  final bool isShowSelect;
+  const BottomAlertDialog({Key? key, this.listSelection, this.onTap, this.isShowSelect = true}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,25 +21,38 @@ class BottomAlertDialog extends StatelessWidget {
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
-          children: listSelection!
-              .map((e) => WButtonInkwell(
-                    onPressed: () {
-                      onTap?.call(listSelection!.indexOf(e));
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                      child: Row(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8),
-                            child: e.first,
+          children: [
+            if (!isShowSelect)
+              const SizedBox.shrink()
+            else
+              Container(
+                alignment: Alignment.centerLeft,
+                padding: const EdgeInsets.all(16),
+                child: const Text('Select:'),
+              ),
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              children: listSelection!
+                  .map((e) => WButtonInkwell(
+                        onPressed: () {
+                          onTap?.call(e.first.first);
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          child: Row(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8),
+                                child: e.first.second,
+                              ),
+                              Text(e.second),
+                            ],
                           ),
-                          Text(e.second),
-                        ],
-                      ),
-                    ),
-                  ))
-              .toList(),
+                        ),
+                      ))
+                  .toList(),
+            ),
+          ],
         ),
       ),
     );

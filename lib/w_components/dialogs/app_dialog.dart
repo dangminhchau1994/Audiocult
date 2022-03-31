@@ -34,10 +34,14 @@ class AppDialog {
   }
 
   static void showSelectionBottomSheet(BuildContext context,
-      {List<Pair<Widget, String>>? listSelection, Function(int index)? onTap}) {
+      {List<Pair<Pair<int,Widget>, String>>? listSelection, Function(int index)? onTap, bool isShowSelect = true}) {
     showModalBottomSheet(
         context: context,
-        builder: (_) => BottomAlertDialog(listSelection: listSelection, onTap: onTap),
+        builder: (_) => BottomAlertDialog(
+              listSelection: listSelection,
+              onTap: onTap,
+              isShowSelect: isShowSelect,
+            ),
         backgroundColor: Colors.transparent);
   }
 }

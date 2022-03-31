@@ -110,5 +110,13 @@
     "t_free_download":"Free Download",
     "t_license":"License",
     "t_creative_commons":"Creative Commons",
-    "t_create_album":"Create Album"
+    "t_create_album":"Create Album",
+    "t_take_picture":"Camera",
+    "t_choose_gallery":"Albums",
+    "t_artist":"Artist",
+    "t_album_name":"Album name",
+    "t_year":"Year",
+    "t_song_mixtaps":"Song / Mixtape",
+    "t_feature_song":"Features song",
+    "t_song_of_the_day":"Song of the day"
 }

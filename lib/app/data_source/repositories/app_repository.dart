@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:audio_cult/app/data_source/models/cache_filter.dart';
 import 'package:audio_cult/app/data_source/models/requests/register_request.dart';
+import 'package:audio_cult/app/data_source/models/requests/upload_request.dart';
 import 'package:audio_cult/app/data_source/models/responses/album/album_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/comment/comment_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/create_playlist/create_playlist_response.dart';
@@ -18,6 +19,7 @@ import 'package:audio_cult/w_components/dropdown/common_dropdown.dart';
 import 'package:dartz/dartz.dart';
 
 import '../models/requests/login_request.dart';
+import '../models/responses/create_album_response.dart';
 import '../models/responses/login_response.dart';
 import '../models/responses/register_response.dart';
 import '../models/responses/song/song_response.dart';
@@ -79,11 +81,12 @@ class AppRepository extends BaseRepository {
     String query,
     String view,
     int page,
-    int limit,
-  ) async {
+    int limit, {
+    String? userId,
+  }) async {
     final albums = await safeCall(
       () async {
-        final result = await appServiceProvider.getAlbums(query, view, page, limit);
+        final result = await appServiceProvider.getAlbums(query, view, page, limit, userId: userId);
         if (result.isNotEmpty) {
           hiveServiceProvider.saveAlbums(result);
         }
@@ -214,15 +217,10 @@ class AppRepository extends BaseRepository {
   }
 
   Future<Either<List<Song>, Exception>> getMixTapSongs(
-    String query,
-    String sort,
-    int page,
-    int limit,
-    String view,
-    String type,
-  ) {
+      String query, String sort, int page, int limit, String view, String type,
+      {String? userId}) {
     return safeCall(
-      () => appServiceProvider.getMixTapSongs(query, sort, page, limit, view, type),
+      () => appServiceProvider.getMixTapSongs(query, sort, page, limit, view, type, userId: userId),
     );
   }
 
@@ -335,5 +333,21 @@ class AppRepository extends BaseRepository {
 
   Future clearFilter() async {
     await hiveServiceProvider.clearFilter();
+  }
+
+  Future<Either<List<ProfileData>, Exception>> getListUsers(String query, String? groupUserId) {
+    return safeCall(() => appServiceProvider.getListUsers(query, groupUserId));
+  }
+
+  Future<Either<RegisterResponse, Exception>> uploadSong(UploadRequest resultStep2) {
+    return safeCall(() => appServiceProvider.uploadSong(resultStep2));
+  }
+
+  Future<Either<CreateAlbumResponse, Exception>> uploadAlbum(UploadRequest resultStep2) {
+    return safeCall(() => appServiceProvider.uploadAlbum(resultStep2));
+  }
+
+  Future<Either<CreateAlbumResponse, Exception>> deleteSongId(String? songId) {
+    return safeCall(() => appServiceProvider.deleteSongId(songId));
   }
 }

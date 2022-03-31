@@ -63,6 +63,7 @@ class _AppState extends State<App> {
             unselectedLabelColor: AppColors.unActiveLabelItem,
             indicator: UnderlineTabIndicator(borderSide: BorderSide(color: AppColors.activeLabelItem, width: 2)),
           ),
+          textSelectionTheme: const TextSelectionThemeData(cursorColor: Colors.white),
         ),
         localizationsDelegates: const [
           AppLocalizations.delegate,

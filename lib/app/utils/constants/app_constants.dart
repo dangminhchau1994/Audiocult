@@ -6,3 +6,5 @@ class AppConstants {
   static const String androidKey = 'AIzaSyCq_ewBkTd_Ptlva35RYyHJU7oBYCGhMpY';
   static const String iosKey = 'AIzaSyCq_ewBkTd_Ptlva35RYyHJU7oBYCGhMpY';
 }
+
+const fileExtensions = ['mp3', 'wav'];

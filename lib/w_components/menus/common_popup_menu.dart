@@ -1,6 +1,6 @@
-import 'package:audio_cult/l10n/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+
 import '../../app/utils/constants/app_assets.dart';
 import '../../app/utils/constants/app_colors.dart';
 
@@ -13,7 +13,7 @@ class CommonPopupMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PopupMenuButton<int>(
-      color: AppColors.secondaryButtonColor,
+      color: AppColors.inputFillColor,
       icon: SvgPicture.asset(
         AppAssets.horizIcon,
         width: 16,
