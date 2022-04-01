@@ -10,8 +10,8 @@ class ImageUtils {
   static Future<File?> _cropImage(String image) async {
     final croppedFile = await ImageCropper().cropImage(
       sourcePath: image,
-      maxHeight: 1000,
-      maxWidth: 1000,
+      maxHeight: 1200,
+      maxWidth: 1200,
       aspectRatio: const CropAspectRatio(ratioX: 1, ratioY: 1),
       aspectRatioPresets: Platform.isAndroid ? [CropAspectRatioPreset.square] : [CropAspectRatioPreset.square],
       androidUiSettings: AndroidUiSettings(
@@ -37,8 +37,8 @@ class ImageUtils {
     try {
       final pickedFile = await _picker.pickImage(
         source: ImageSource.gallery,
-        maxHeight: 1000,
-        maxWidth: 1000,
+        maxHeight: 1200,
+        maxWidth: 1200,
         imageQuality: 100,
       );
       image = await _cropImage(pickedFile!.path);

@@ -16,6 +16,7 @@ import '../../../w_components/menus/common_fab_menu.dart';
 import '../../data_source/models/responses/profile_data.dart';
 import '../../utils/constants/app_assets.dart';
 import '../../utils/constants/app_colors.dart';
+import '../events/event_screen.dart';
 import '../menu_settings/drawer/my_drawer.dart';
 
 class MainScreen extends StatefulWidget {
@@ -66,11 +67,7 @@ class _MainScreenState extends State<MainScreen> {
       const MusicScreen(),
     );
     pages.add(
-      const SizedBox(
-        child: Center(
-          child: Text('Event Screen'),
-        ),
-      ),
+      const EventScreen(),
     );
     return pages;
   }
