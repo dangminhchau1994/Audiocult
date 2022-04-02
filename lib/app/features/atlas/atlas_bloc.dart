@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:audio_cult/app/base/base_bloc.dart';
 import 'package:audio_cult/app/data_source/models/responses/atlas_user.dart';
 import 'package:audio_cult/app/data_source/repositories/app_repository.dart';
@@ -13,10 +15,14 @@ class AtlasBloc extends BaseBloc {
   final AppRepository _appRepository;
   final UserSubscriptionDataType _subscriptionsInProcess = {};
   final _allUsers = <AtlasUser>[];
+  final _updatedSubscriptionData = <AtlasUser>[];
 
-  final _getAtlasUsers = PublishSubject<BlocState<Tuple3<List<AtlasUser>, UserSubscriptionDataType, Exception?>>>();
-  Stream<BlocState<Tuple3<List<AtlasUser>, UserSubscriptionDataType, Exception?>>> get getAtlasUsersStream =>
-      _getAtlasUsers.stream;
+  final _getAtlasUsers = PublishSubject<BlocState<Tuple2<List<AtlasUser>, Exception?>>>();
+  Stream<BlocState<Tuple2<List<AtlasUser>, Exception?>>> get getAtlasUsersStream => _getAtlasUsers.stream;
+
+  final _updatedUserSubscription = StreamController<Tuple2<List<AtlasUser>, UserSubscriptionDataType>>.broadcast();
+  Stream<Tuple2<List<AtlasUser>, UserSubscriptionDataType>> get updatedUserSubscriptionStream =>
+      _updatedUserSubscription.stream;
 
   AtlasBloc(this._appRepository);
 
@@ -28,10 +34,10 @@ class AtlasBloc extends BaseBloc {
     return result.fold(
       (users) {
         _allUsers.addAll(users);
-        _getAtlasUsers.sink.add(BlocState.success(Tuple3(users, _subscriptionsInProcess, null)));
+        _getAtlasUsers.sink.add(BlocState.success(Tuple2(users, null)));
       },
       (error) {
-        _getAtlasUsers.sink.add(BlocState.success(Tuple3(_allUsers, _subscriptionsInProcess, error)));
+        _getAtlasUsers.sink.add(BlocState.success(Tuple2([], error)));
       },
     );
   }
@@ -43,7 +49,7 @@ class AtlasBloc extends BaseBloc {
 
   void subcribeUser(AtlasUser user) async {
     _subscriptionsInProcess[user.userId] = true;
-    _getAtlasUsers.sink.add(BlocState.success(Tuple3(_allUsers, _subscriptionsInProcess, null)));
+    _updatedUserSubscription.add(Tuple2(_updatedSubscriptionData, _subscriptionsInProcess));
     final result = await _appRepository.subcribeUser(user);
     result.fold(
       (subcribeResponse) {
@@ -55,7 +61,6 @@ class AtlasBloc extends BaseBloc {
       (error) {
         _subscriptionsInProcess[user.userId] = false;
         _cancelSubscriptionInProcess(user);
-        showError(error);
       },
     );
   }
@@ -63,17 +68,20 @@ class AtlasBloc extends BaseBloc {
   void _updateSubscriptionDataOfUser(AtlasUser user) {
     final filteredUser = _allUsers.firstWhere((element) => element.userId == user.userId);
     (filteredUser.isSubcribed ?? true) ? filteredUser.unsubcribe() : filteredUser.subscribe();
-    _getAtlasUsers.sink.add(BlocState.success(Tuple3(_allUsers, _subscriptionsInProcess, null)));
+    _updatedSubscriptionData.removeWhere((element) => element.userId == user.userId);
+    _updatedSubscriptionData.add(filteredUser);
+    _updatedUserSubscription.add(Tuple2(_updatedSubscriptionData, _subscriptionsInProcess));
   }
 
   void _cancelSubscriptionInProcess(AtlasUser user) {
     _subscriptionsInProcess[user.userId] = false;
-    _getAtlasUsers.sink.add(BlocState.success(Tuple3(_allUsers, _subscriptionsInProcess, null)));
+    _updatedUserSubscription.add(Tuple2(_updatedSubscriptionData, _subscriptionsInProcess));
   }
 
   @override
   void dispose() {
     _getAtlasUsers.close();
+    _updatedUserSubscription.close();
     super.dispose();
   }
 }
