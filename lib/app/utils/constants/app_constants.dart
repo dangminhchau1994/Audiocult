@@ -8,3 +8,29 @@ class AppConstants {
 }
 
 const fileExtensions = ['mp3', 'wav'];
+
+enum RequestStatus { success, failed }
+
+extension RequestStatusExtension on RequestStatus {
+  String get value {
+    switch (this) {
+      case RequestStatus.success:
+        return 'success';
+      case RequestStatus.failed:
+        return 'failed';
+    }
+  }
+}
+
+enum SubscriptionStatus { subcribe, unsubcribe }
+
+extension SubscriptionStatusExtension on SubscriptionStatus {
+  int get value {
+    switch (this) {
+      case SubscriptionStatus.subcribe:
+        return 1;
+      case SubscriptionStatus.unsubcribe:
+        return 0;
+    }
+  }
+}
