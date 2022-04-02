@@ -1,5 +1,6 @@
 import 'package:audio_cult/app/data_source/local/pref_provider.dart';
 import 'package:audio_cult/app/data_source/repositories/app_repository.dart';
+import 'package:audio_cult/app/features/atlas/atlas_bloc.dart';
 import 'package:audio_cult/app/features/music/detail-song/detail_song_bloc.dart';
 import 'package:audio_cult/app/features/music/detail_album/detail_album_bloc.dart';
 import 'package:audio_cult/app/features/music/detail_playlist/detail_playlist_bloc.dart';
@@ -67,4 +68,6 @@ void setupLocator() {
   getIt.registerLazySingleton<PlayListDialogBloc>(
     () => PlayListDialogBloc(locator.get<AppRepository>()),
   );
+
+  getIt.registerFactory<AtlasBloc>(() => AtlasBloc(locator.get<AppRepository>()));
 }

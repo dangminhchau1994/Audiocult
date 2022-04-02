@@ -5,12 +5,14 @@ import 'package:audio_cult/app/data_source/models/requests/create_playlist_reque
 import 'package:audio_cult/app/data_source/models/requests/register_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/upload_request.dart';
 import 'package:audio_cult/app/data_source/models/responses/album/album_response.dart';
+import 'package:audio_cult/app/data_source/models/responses/atlas_category.dart';
 import 'package:audio_cult/app/data_source/models/responses/comment/comment_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/create_playlist/create_playlist_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/login_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/playlist/playlist_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/reaction_icon/reaction_icon_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/song_detail/song_detail_response.dart';
+import 'package:audio_cult/app/data_source/models/responses/user_subscription_response.dart';
 import 'package:audio_cult/app/injections.dart';
 import 'package:audio_cult/app/utils/constants/app_constants.dart';
 import 'package:dio/dio.dart';
@@ -18,6 +20,7 @@ import 'package:dio/dio.dart';
 import '../../utils/extensions/app_extensions.dart';
 import '../models/base_response.dart';
 import '../models/requests/login_request.dart';
+import '../models/responses/atlas_user.dart';
 import '../models/responses/create_album_response.dart';
 import '../models/responses/profile_data.dart';
 import '../models/responses/register_response.dart';
@@ -28,6 +31,7 @@ import '../networks/core/handler/app_response_handler.dart';
 
 class AppServiceProvider {
   late DioHelper _dioHelper;
+  List<AtlasCategory>? _atlasCategories;
 
   AppServiceProvider(Dio dio) {
     _dioHelper = DioHelper(dio, responseHandler: AppResponseHandler());
@@ -525,15 +529,15 @@ class AppServiceProvider {
 
     if (response.isSuccess!) {
       return CreateAlbumResponse(
-        // ignore: cast_nullable_to_non_nullable
-        status: response.status as String,
-        message: response.message as String?,
-        data: response.data['message'] as String?
-      );
+          // ignore: cast_nullable_to_non_nullable
+          status: response.status as String,
+          message: response.message as String?,
+          data: response.data['message'] as String?);
     } else {
       return CreateAlbumResponse(status: response.status as String, message: response.error['message'] as String);
     }
   }
+
   Future<CreateAlbumResponse> deletedAlbumId(String? albumId) async {
     final response = await _dioHelper.delete(
       route: '/restful_api/song/album/$albumId',
@@ -542,13 +546,64 @@ class AppServiceProvider {
 
     if (response.isSuccess!) {
       return CreateAlbumResponse(
-        // ignore: cast_nullable_to_non_nullable
-        status: response.status as String,
-        message: response.message as String?,
-        data: response.data['message'] as String?
-      );
+          // ignore: cast_nullable_to_non_nullable
+          status: response.status as String,
+          message: response.message as String?,
+          data: response.data['message'] as String?);
     } else {
       return CreateAlbumResponse(status: response.status as String, message: response.error['message'] as String);
     }
+  }
+
+  Future<List<AtlasCategory>> getAtlasCategories() async {
+    if (_atlasCategories?.isNotEmpty == true) {
+      return _atlasCategories!;
+    }
+    _atlasCategories = await _dioHelper.get(
+      route: '/restful_api/atlas/category',
+      responseBodyMapper: (jsonMapper) {
+        final categoryData = jsonMapper['data'];
+        final allKeys = categoryData.keys as Iterable<String>;
+        return allKeys.map((key) {
+          final json = categoryData[key] as Map<String, dynamic>;
+          return AtlasCategory.fromJson(json);
+        }).toList();
+      },
+    );
+    return _atlasCategories!;
+  }
+
+  Future<List<AtlasUser>> getAtlasUsers({
+    int? groupId,
+    String? countryISO,
+    int? categoryId,
+    List<int>? genreIds,
+    int pageNumber = 1,
+  }) async {
+    final queryParams = {
+      'group_id': groupId,
+      'country_iso': countryISO,
+      'category_id': categoryId,
+      'genres_ids': genreIds?.join(','),
+      'page': pageNumber,
+    };
+    final response = await _dioHelper.get(
+      route: '/restful_api/atlas',
+      requestParams: queryParams,
+      responseBodyMapper: (jsonMapper) => AtlasUserResponse.fromJson(jsonMapper as Map<String, dynamic>),
+    );
+    return Future.value(response.data);
+  }
+
+  Future<UserSubscriptionResponse> subscribeUser(AtlasUser user) async {
+    final response = await _dioHelper.post(
+      route: '/restful_api/user/${user.userId!}/subscribe',
+      requestParams: {
+        'val[is_subscribed]':
+            user.isSubcribed == true ? SubscriptionStatus.unsubcribe.value : SubscriptionStatus.subcribe.value
+      },
+      responseBodyMapper: (json) => UserSubscriptionResponse.fromJson(json as Map<String, dynamic>),
+    );
+    return response;
   }
 }

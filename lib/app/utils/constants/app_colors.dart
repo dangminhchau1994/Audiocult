@@ -22,7 +22,10 @@ class AppColors {
   static final unActiveLabelItem = HexColor.fromHex('#D1D5DB');
 
   static final lightBlueColor = HexColor.fromHex('#38BDF8');
- 
+
   static final borderOutline = HexColor.fromHex('#6B7280');
-  
+
+  static final ebonyClay = HexColor.fromHex('#1F2937');
+
+  static final deepTeal = HexColor.fromHex('#003333');
 }
