@@ -22,7 +22,6 @@ class _AtlasScreenState extends State<AtlasScreen> {
   final _searchTextController = TextEditingController();
   final _scrollController = ScrollController();
   final PagingController<int, AtlasUser> _pagingController = PagingController(firstPageKey: 1);
-  UserSubscriptionDataType _userSubcriptionInProcess = {};
 
   @override
   void initState() {
@@ -35,17 +34,15 @@ class _AtlasScreenState extends State<AtlasScreen> {
     _scrollController.addListener(_listenScrollView);
   }
 
-  void _listenData(BlocState<Tuple3<List<AtlasUser>, UserSubscriptionDataType, Object?>> event) {
+  void _listenData(BlocState<Tuple2<List<AtlasUser>, Exception?>> event) {
     event.whenOrNull(
       success: (data) {
-        final tupleData = data as Tuple3<List<AtlasUser>, UserSubscriptionDataType, Object?>;
+        final tupleData = data as Tuple2<List<AtlasUser>, Exception?>;
         final users = tupleData.item1;
-        final subscriptionInProcess = tupleData.item2;
-        final error = tupleData.item3;
+        final error = tupleData.item2;
         if (error != null) {
           _pagingController.error = error;
         } else {
-          _userSubcriptionInProcess = subscriptionInProcess;
           if (users.isEmpty) {
             _pagingController.appendLastPage(users);
           } else {
@@ -150,21 +147,38 @@ class _AtlasScreenState extends State<AtlasScreen> {
       padding: const EdgeInsets.symmetric(vertical: 16),
       child: RefreshIndicator(
         onRefresh: _pullRefresh,
-        child: PagedListView<int, AtlasUser>(
-          padding: const EdgeInsets.only(bottom: 100),
-          scrollController: _scrollController,
-          pagingController: _pagingController,
-          builderDelegate: PagedChildBuilderDelegate<AtlasUser>(
-            itemBuilder: (context, user, index) {
-              return AtlasUserWidget(
-                user,
-                userSubscriptionInProcess: _userSubcriptionInProcess[user.userId] ?? false,
-                subscriptionOnChanged: () {
-                  _bloc.subcribeUser(user);
+        child: StreamBuilder(
+          stream: _bloc.updatedUserSubscriptionStream,
+          builder: (context, data) {
+            List<AtlasUser>? updatedSubscriptionData;
+            UserSubscriptionDataType? subscriptionInProcess;
+            if (data.hasData) {
+              final tupleData = data.data! as Tuple2<List<AtlasUser>, UserSubscriptionDataType>;
+              updatedSubscriptionData = tupleData.item1;
+              subscriptionInProcess = tupleData.item2;
+            }
+            return PagedListView<int, AtlasUser>(
+              padding: const EdgeInsets.only(bottom: 100),
+              scrollController: _scrollController,
+              pagingController: _pagingController,
+              builderDelegate: PagedChildBuilderDelegate<AtlasUser>(
+                itemBuilder: (context, user, index) {
+                  final isUpdatedSubscriptionAvailable = (updatedSubscriptionData?.length ?? 0) > index;
+                  return AtlasUserWidget(
+                    user,
+                    updatedSubscriptionCount:
+                        isUpdatedSubscriptionAvailable ? updatedSubscriptionData![index].subscriptionCount : null,
+                    updatedSubscriptionStatus:
+                        isUpdatedSubscriptionAvailable ? updatedSubscriptionData![index].isSubcribed : null,
+                    userSubscriptionInProcess: subscriptionInProcess?[user.userId] ?? false,
+                    subscriptionOnChanged: () {
+                      _bloc.subcribeUser(user);
+                    },
+                  );
                 },
-              );
-            },
-          ),
+              ),
+            );
+          },
         ),
       ),
     );

@@ -12,12 +12,16 @@ class AtlasUserWidget extends StatelessWidget {
   final AtlasUser atlasUser;
   final bool userSubscriptionInProcess;
   final Function? subscriptionOnChanged;
+  final bool? updatedSubscriptionStatus;
+  final int? updatedSubscriptionCount;
 
   const AtlasUserWidget(
     this.atlasUser, {
     this.userSubscriptionInProcess = false,
     Key? key,
     this.subscriptionOnChanged,
+    this.updatedSubscriptionCount,
+    this.updatedSubscriptionStatus,
   }) : super(key: key);
 
   @override
@@ -138,7 +142,7 @@ class AtlasUserWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              atlasUser.subscriptionCount.toString(),
+              updatedSubscriptionCount?.toString() ?? atlasUser.subscriptionCount.toString(),
               style: context.body1TextStyle()?.copyWith(
                     fontWeight: FontWeight.w300,
                     fontSize: AppFontSize.size14,
@@ -159,7 +163,9 @@ class AtlasUserWidget extends StatelessWidget {
       color: Colors.white,
     );
     final subscriptionIcon = SvgPicture.asset(
-      atlasUser.isSubcribed == true ? AppAssets.subscribedUserIcon : AppAssets.unsubscribedUserIcon,
+      updatedSubscriptionStatus ?? atlasUser.isSubcribed == true
+          ? AppAssets.subscribedUserIcon
+          : AppAssets.unsubscribedUserIcon,
     );
     return SizedBox(
       height: 18,
