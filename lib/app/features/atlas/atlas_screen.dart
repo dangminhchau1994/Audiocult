@@ -148,7 +148,7 @@ class _AtlasScreenState extends State<AtlasScreen> {
       child: RefreshIndicator(
         onRefresh: _pullRefresh,
         child: StreamBuilder(
-          stream: _bloc.updatedSubscriptionUserStream,
+          stream: _bloc.updatedUserSubscriptionStream,
           builder: (context, data) {
             List<AtlasUser>? updatedSubscriptionData;
             UserSubscriptionDataType? subscriptionInProcess;
