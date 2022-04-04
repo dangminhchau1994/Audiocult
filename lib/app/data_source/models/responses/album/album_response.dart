@@ -1,5 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../profile_data.dart';
+
 part 'album_response.freezed.dart';
 part 'album_response.g.dart';
 
@@ -36,9 +38,9 @@ class Album with _$Album {
     // ignore: invalid_annotation_target
     @JsonKey(name: 'name') String? name,
     String? year,
-    String? genreId,
+    @JsonKey(name: 'genre_id') String? genreId,
     String? isDj,
-    String? licenseType,
+    @JsonKey(name: 'license_type') String? licenseType,
     // ignore: invalid_annotation_target
     @JsonKey(name: 'image_path') String? imagePath,
     String? serverId,
@@ -67,12 +69,12 @@ class Album with _$Album {
     dynamic youtube,
     String? soundcloud,
     // ignore: invalid_annotation_target
-    @JsonKey(name: 'label_user') String? labelUser,
+    @JsonKey(name: 'label_user') ProfileData? labelUser,
     String? labelUserId,
     // ignore: invalid_annotation_target
-    @JsonKey(name: 'artist_user') String? artistUser,
+    @JsonKey(name: 'artist_user') ProfileData? artistUser,
     String? artistUserId,
-    String? collabUser,
+    @JsonKey(name: 'collab_user') ProfileData? collabUser,
     String? collabUserId,
     bool? canEdit,
     bool? canAddSong,

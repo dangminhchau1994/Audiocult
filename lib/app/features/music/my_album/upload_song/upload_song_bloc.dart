@@ -6,6 +6,7 @@ import 'package:rxdart/rxdart.dart';
 
 import '../../../../data_source/local/pref_provider.dart';
 import '../../../../data_source/models/responses/genre.dart';
+import '../../../../data_source/models/responses/song/song_response.dart';
 import '../../../../data_source/repositories/app_repository.dart';
 import '../../../main/main_bloc.dart';
 
@@ -19,6 +20,20 @@ class UploadSongBloc extends MainBloc {
 
   Stream<List<Genre>> get getGenresStream => _getGenresSubject.stream;
   Stream<String> get uploadStream => _uploadSubject.stream;
+
+  Future<List<Song>> getMixTapSongs(String query, String sort, int page, int limit, String view, String type,
+      {String? userId, String? albumId}) async {
+    showOverLayLoading();
+    final result =
+        await _appRepository.getMixTapSongs(query, sort, page, limit, view, type, userId: userId, albumId: albumId);
+    hideOverlayLoading();
+    return result.fold((l) {
+      return l;
+    }, (e) {
+      showError(e);
+      return [];
+    });
+  }
 
   void getGenres() async {
     final result = await _appRepository.getGenres();
@@ -67,6 +82,22 @@ class UploadSongBloc extends MainBloc {
             },
             showError,
           );
+        } else {
+          showError(AppException(l.message));
+        }
+      },
+      showError,
+    );
+  }
+
+  void editAlbum(UploadRequest resultStep2) async {
+    showOverLayLoading();
+    final result = await _appRepository.editAlbum(resultStep2);
+    hideOverlayLoading();
+    result.fold(
+      (l) async {
+        if (l.status == StatusString.success) {
+          _uploadSubject.add(l.message ?? 'Edit success!');
         } else {
           showError(AppException(l.message));
         }

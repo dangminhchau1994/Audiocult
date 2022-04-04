@@ -124,7 +124,7 @@ class AppServiceProvider {
   }
 
   Future<List<Song>> getMixTapSongs(String query, String sort, int page, int limit, String view, String type,
-      {String? userId}) async {
+      {String? userId, String? albumId}) async {
     final response = await _dioHelper.get(
       route: '/restful_api/song',
       options: Options(headers: {'Content-Type': 'application/x-www-form-urlencoded'}),
@@ -135,7 +135,8 @@ class AppServiceProvider {
         'limit': limit,
         'view': view,
         'type': type,
-        'user_id': userId
+        'user_id': userId,
+        'album_id': albumId
       },
       responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
     );
@@ -549,7 +550,7 @@ class AppServiceProvider {
           // ignore: cast_nullable_to_non_nullable
           status: response.status as String,
           message: response.message as String?,
-          data: response.data['message'] as String?);
+          data: response.message as String?);
     } else {
       return CreateAlbumResponse(status: response.status as String, message: response.error['message'] as String);
     }
@@ -605,5 +606,24 @@ class AppServiceProvider {
       responseBodyMapper: (json) => UserSubscriptionResponse.fromJson(json as Map<String, dynamic>),
     );
     return response;
+  }
+
+  Future<CreateAlbumResponse> editAlbum(UploadRequest result) async {
+    final dataRequest = await result.toJson();
+    final response = await _dioHelper.put(
+      route: '/restful_api/song/album/${result.albumId}',
+      requestBody: dataRequest,
+      responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
+    );
+
+    if (response.status == StatusString.success) {
+      return CreateAlbumResponse(
+        // ignore: cast_nullable_to_non_nullable
+        status: response.status as String,
+        message: response.message as String?,
+      );
+    } else {
+      return CreateAlbumResponse(status: response.status as String, message: response.error['message'] as String);
+    }
   }
 }

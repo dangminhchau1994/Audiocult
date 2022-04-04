@@ -39,16 +39,20 @@ class UploadRequest {
     data['val[cost]'] = cost;
     data['val[license_type]'] = licenseType;
     data['val[text]'] = text;
-    data['image'] = await MultipartFile.fromFile(
-      songCoverFile!.path,
-      filename: songCoverFile!.name,
-      contentType: MediaType('image', 'jpeg'),
-    );
-    data['file'] = await MultipartFile.fromFile(
-      audioFile!.path,
-      filename: audioFile!.name,
-      contentType: MediaType('audio', 'mpeg'),
-    );
+    if (songCoverFile != null) {
+      data['image'] = await MultipartFile.fromFile(
+        songCoverFile!.path,
+        filename: songCoverFile!.name,
+        contentType: MediaType('image', 'jpeg'),
+      );
+    }
+    if (audioFile != null) {
+      data['file'] = await MultipartFile.fromFile(
+        audioFile!.path,
+        filename: audioFile!.name,
+        contentType: MediaType('audio', 'mpeg'),
+      );
+    }
     return data;
   }
 }

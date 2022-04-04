@@ -29,8 +29,9 @@ class SongStep2 extends StatefulWidget {
   final Function()? onBack;
   final bool? isUploadSong;
   final Song? song;
+  final Album? album;
 
-  const SongStep2({Key? key, this.onBack, this.onNext, this.isUploadSong, this.song, Album? album}) : super(key: key);
+  const SongStep2({Key? key, this.onBack, this.onNext, this.isUploadSong, this.song, this.album}) : super(key: key);
 
   @override
   State<SongStep2> createState() => SongStep2State();
@@ -49,6 +50,12 @@ class SongStep2State extends State<SongStep2> {
   XFile? _fileSongCover;
   final UploadRequest _uploadRequest = UploadRequest();
   final trackTitleEditTextController = TextEditingController();
+  final yearEditTextController = TextEditingController();
+  final albumNameEditTextController = TextEditingController();
+  final descriptionEditTextController = TextEditingController();
+  final tagsEditTextController = TextEditingController();
+  ProfileData? collabUser;
+  ProfileData? labelUser;
 
   @override
   void initState() {
@@ -58,12 +65,29 @@ class SongStep2State extends State<SongStep2> {
     _uploadSongBloc?.getUserProfile();
     if (widget.song != null) {
       trackTitleEditTextController.text = widget.song!.title ?? '';
+      descriptionEditTextController.text = widget.song!.description ?? '';
+      tagsEditTextController.text = widget.song!.tags ?? '';
       _genreSelection = SelectMenuModel(
           id: int.parse(widget.song!.genreId ?? '0'), title: widget.song!.genreName ?? '', isSelected: true);
       _musicType = _musicList.where((element) => element.id == int.tryParse(widget.song!.isDj ?? '0')).first;
       _musicType!.isSelected = true;
+      collabUser = widget.song?.collabUser;
+      labelUser = widget.song?.labelUser;
     }
 
+    if (widget.album != null) {
+      albumNameEditTextController.text = widget.album!.name ?? '';
+      yearEditTextController.text = widget.album!.year ?? '';
+      _genreSelection = SelectMenuModel(id: int.parse(widget.album!.genreId ?? '0'), title: '', isSelected: true);
+      _musicType = _musicList.where((element) => element.id == int.tryParse(widget.album!.isDj ?? '0')).first;
+      _musicType!.isSelected = true;
+      collabUser = widget.album?.collabUser;
+      labelUser = widget.album?.labelUser;
+      _uploadRequest.year = int.tryParse(yearEditTextController.text);
+      _uploadRequest.name = albumNameEditTextController.text;
+      _uploadRequest.genreId = widget.album?.genreId;
+      _uploadRequest.musicType = widget.album?.isDj ?? '0';
+    }
     setState(() {});
   }
 
@@ -93,16 +117,28 @@ class SongStep2State extends State<SongStep2> {
                 const SizedBox(
                   height: kVerticalSpacing,
                 ),
-                CommonInput(
-                  editingController: trackTitleEditTextController,
-                  hintText: widget.isUploadSong! ? context.l10n.t_track_title : context.l10n.t_album_name,
-                  onChanged: (v) {
-                    setState(() {
-                      _uploadRequest.title = v;
-                      _uploadRequest.name = v;
-                    });
-                  },
-                ),
+                if (widget.isUploadSong!)
+                  CommonInput(
+                    editingController: trackTitleEditTextController,
+                    hintText: context.l10n.t_track_title,
+                    onChanged: (v) {
+                      setState(() {
+                        _uploadRequest.title = v;
+                        _uploadRequest.name = v;
+                      });
+                    },
+                  )
+                else
+                  CommonInput(
+                    editingController: albumNameEditTextController,
+                    hintText: context.l10n.t_album_name,
+                    onChanged: (v) {
+                      setState(() {
+                        _uploadRequest.title = v;
+                        _uploadRequest.name = v;
+                      });
+                    },
+                  ),
                 const SizedBox(
                   height: 12,
                 ),
@@ -110,6 +146,7 @@ class SongStep2State extends State<SongStep2> {
                   const SizedBox.shrink()
                 else
                   CommonInput(
+                    editingController: yearEditTextController,
                     hintText: context.l10n.t_year,
                     textInputType: TextInputType.datetime,
                     onChanged: (v) {
@@ -207,7 +244,7 @@ class SongStep2State extends State<SongStep2> {
                 ),
                 CommonChipInput(
                   hintText: context.l10n.t_collab_remix,
-                  initTags: [],
+                  initTags: collabUser == null ? [] : [collabUser!],
                   onChooseTag: (value) {
                     setState(() {
                       _uploadRequest.collabUserId = value.userId;
@@ -237,7 +274,7 @@ class SongStep2State extends State<SongStep2> {
                         }
                         return CommonChipInput(
                           groupUserId: '9',
-                          initTags: [],
+                          initTags: labelUser == null ? [] : [labelUser!],
                           hintText: context.l10n.t_label,
                           onChooseTag: (value) {
                             setState(() {
@@ -253,6 +290,7 @@ class SongStep2State extends State<SongStep2> {
                   height: 12,
                 ),
                 CommonInput(
+                  editingController: descriptionEditTextController,
                   hintText: '* ${context.l10n.t_description}',
                   height: 100,
                   maxLine: 100,
@@ -267,6 +305,7 @@ class SongStep2State extends State<SongStep2> {
                   height: 12,
                 ),
                 CommonInput(
+                  editingController: tagsEditTextController,
                   hintText: context.l10n.t_tags_separate,
                   onChanged: (v) {
                     setState(() {

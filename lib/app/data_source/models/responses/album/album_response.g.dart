@@ -39,9 +39,9 @@ _$_Album _$$_AlbumFromJson(Map<String, dynamic> json) => _$_Album(
       isSponsor: json['isSponsor'] as String?,
       name: json['name'] as String?,
       year: json['year'] as String?,
-      genreId: json['genreId'] as String?,
+      genreId: json['genre_id'] as String?,
       isDj: json['isDj'] as String?,
-      licenseType: json['licenseType'] as String?,
+      licenseType: json['license_type'] as String?,
       imagePath: json['image_path'] as String?,
       serverId: json['serverId'] as String?,
       totalTrack: json['totalTrack'] as String?,
@@ -63,11 +63,17 @@ _$_Album _$$_AlbumFromJson(Map<String, dynamic> json) => _$_Album(
       googleplay: json['googleplay'] as String?,
       youtube: json['youtube'],
       soundcloud: json['soundcloud'] as String?,
-      labelUser: json['label_user'] as String?,
+      labelUser: json['label_user'] == null || json['label_user'] is String
+          ? null
+          : ProfileData.fromJson(json['label_user'] as Map<String, dynamic>),
       labelUserId: json['labelUserId'] as String?,
-      artistUser: json['artist_user'] as String?,
+      artistUser: json['artist_user'] == null || json['artist_user'] is String
+          ? null
+          : ProfileData.fromJson(json['artist_user'] as Map<String, dynamic>),
       artistUserId: json['artistUserId'] as String?,
-      collabUser: json['collabUser'] as String?,
+      collabUser: json['collab_user'] == null || json['collab_user'] is String
+          ? null
+          : ProfileData.fromJson(json['collab_user'] as Map<String, dynamic>),
       collabUserId: json['collabUserId'] as String?,
       canEdit: json['canEdit'] as bool?,
       canAddSong: json['canAddSong'] as bool?,
@@ -93,9 +99,9 @@ Map<String, dynamic> _$$_AlbumToJson(_$_Album instance) => <String, dynamic>{
       'isSponsor': instance.isSponsor,
       'name': instance.name,
       'year': instance.year,
-      'genreId': instance.genreId,
+      'genre_id': instance.genreId,
       'isDj': instance.isDj,
-      'licenseType': instance.licenseType,
+      'license_type': instance.licenseType,
       'image_path': instance.imagePath,
       'serverId': instance.serverId,
       'totalTrack': instance.totalTrack,
@@ -121,7 +127,7 @@ Map<String, dynamic> _$$_AlbumToJson(_$_Album instance) => <String, dynamic>{
       'labelUserId': instance.labelUserId,
       'artist_user': instance.artistUser,
       'artistUserId': instance.artistUserId,
-      'collabUser': instance.collabUser,
+      'collab_user': instance.collabUser,
       'collabUserId': instance.collabUserId,
       'canEdit': instance.canEdit,
       'canAddSong': instance.canAddSong,

@@ -1,3 +1,5 @@
+import 'package:audio_cult/app/data_source/models/responses/profile_data.dart';
+
 import '../../../../base/index_walker.dart';
 
 class Song {
@@ -8,7 +10,7 @@ class Song {
   String? viewId;
   String? privacy;
   String? privacyComment;
-  String? isFree;
+  bool? isFree;
   String? isFeatured;
   String? isSponsor;
   String? albumId;
@@ -34,7 +36,9 @@ class Song {
   String? totalDownload;
   String? tags;
   String? imagePath;
-  ArtistUser? artistUser;
+  ProfileData? artistUser;
+  ProfileData? labelUser;
+  ProfileData? collabUser;
   String? peaksJsonUrl;
   int? noPhoto;
   String? genreName;
@@ -87,7 +91,7 @@ class Song {
     viewId = iw['view_id'].get();
     privacy = iw['privacy'].get();
     privacyComment = iw['privacy_comment'].get();
-    isFree = iw['is_free'].get();
+    isFree = iw['is_free'].get() == '1';
     isFeatured = iw['is_featured'].get();
     isSponsor = iw['is_sponsor'].get();
     albumId = iw['album_id'].get();
@@ -113,58 +117,11 @@ class Song {
     totalDownload = iw['total_download'].get();
     tags = iw['tags'].get();
     imagePath = iw['image_path'].get();
-    artistUser = iw['artist_user'].get(rawBuilder: (values) => ArtistUser.fromJson(values as Map<String, dynamic>));
+    artistUser = iw['artist_user'].get(rawBuilder: (values) => ProfileData.fromJson(values as Map<String, dynamic>));
+    collabUser = iw['collab_user'].get(rawBuilder: (values) => ProfileData.fromJson(values as Map<String, dynamic>));
+    labelUser = iw['label_user'].get(rawBuilder: (values) => ProfileData.fromJson(values as Map<String, dynamic>));
     peaksJsonUrl = iw['peaks_json_url'].get();
     noPhoto = iw['no_photo'].get();
     genreName = iw['genre_name'].get();
-  }
-}
-
-class ArtistUser {
-  String? userId;
-  String? profilePageId;
-  String? userServerId;
-  String? userName;
-  String? fullName;
-  String? gender;
-  String? userImage;
-  String? isInvisible;
-  String? userGroupId;
-  String? languageId;
-  String? lastActivity;
-  String? birthday;
-  String? countryIso;
-
-  ArtistUser({
-    this.userId,
-    this.profilePageId,
-    this.userServerId,
-    this.userName,
-    this.fullName,
-    this.gender,
-    this.userImage,
-    this.isInvisible,
-    this.userGroupId,
-    this.languageId,
-    this.lastActivity,
-    this.birthday,
-    this.countryIso,
-  });
-
-  ArtistUser.fromJson(Map<String, dynamic> json) {
-    final iw = IW(json);
-    userId = iw['user_id'].get();
-    profilePageId = iw['profile_page_id'].get();
-    userServerId = iw['user_server_id'].get();
-    userName = iw['user_name'].get();
-    fullName = iw['full_name'].get();
-    gender = iw['gender'].get();
-    userImage = iw['user_image'].get();
-    isInvisible = iw['is_invisible'].get();
-    userGroupId = iw['user_group_id'].get();
-    languageId = iw['language_id'].get();
-    lastActivity = iw['last_activity'].get();
-    birthday = iw['birthday'].get();
-    countryIso = iw['country_iso'].get();
   }
 }
