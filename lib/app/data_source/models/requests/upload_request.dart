@@ -15,6 +15,7 @@ class UploadRequest {
   String? description;
   String? tags;
   String? albumId;
+  String? songId;
   String? newAlbumTitle;
   int? isFree;
   double? cost;

@@ -105,4 +105,19 @@ class UploadSongBloc extends MainBloc {
       showError,
     );
   }
+  void editSong(UploadRequest resultStep2) async {
+    showOverLayLoading();
+    final result = await _appRepository.editSong(resultStep2);
+    hideOverlayLoading();
+    result.fold(
+      (l) async {
+        if (l.status == StatusString.success) {
+          _uploadSubject.add(l.message ?? 'Edit success!');
+        } else {
+          showError(AppException(l.message));
+        }
+      },
+      showError,
+    );
+  }
 }

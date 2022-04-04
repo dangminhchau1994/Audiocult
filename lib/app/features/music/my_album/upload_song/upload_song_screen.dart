@@ -146,11 +146,13 @@ class _UploadSongScreenState extends State<UploadSongScreen> with DisposableStat
       resultStep2.cost = resultStep4.cost;
       resultStep2.licenseType = resultStep4.licenseType;
 
-      resultStep2.albumId = _album?.albumId;
       //edit
       if (isUploadSong!) {
-        print('edit song');
+        resultStep2.songId = _song?.songId;
+        _uploadSongBloc.editSong(resultStep2);
       } else {
+        resultStep2.albumId = _album?.albumId;
+
         _uploadSongBloc.editAlbum(resultStep2);
       }
     }

@@ -626,4 +626,22 @@ class AppServiceProvider {
       return CreateAlbumResponse(status: response.status as String, message: response.error['message'] as String);
     }
   }
+  Future<CreateAlbumResponse> editSong(UploadRequest result) async {
+    final dataRequest = await result.toJson();
+    final response = await _dioHelper.put(
+      route: '/restful_api/music/${result.songId}',
+      requestBody: dataRequest,
+      responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
+    );
+
+    if (response.status == StatusString.success) {
+      return CreateAlbumResponse(
+        // ignore: cast_nullable_to_non_nullable
+        status: response.status as String,
+        message: response.message as String?,
+      );
+    } else {
+      return CreateAlbumResponse(status: response.status as String, message: response.error['message'] as String);
+    }
+  }
 }
