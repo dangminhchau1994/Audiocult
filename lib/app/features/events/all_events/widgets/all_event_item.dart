@@ -1,25 +1,37 @@
+import 'package:audio_cult/app/data_source/models/responses/events/event_response.dart';
 import 'package:audio_cult/app/utils/constants/app_assets.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../../../../../w_components/images/common_image_network.dart';
 
 class AllEventItem extends StatelessWidget {
-  const AllEventItem({Key? key}) : super(key: key);
+  const AllEventItem({
+    Key? key,
+    this.data,
+  }) : super(key: key);
+
+  final EventResponse? data;
 
   @override
   Widget build(BuildContext context) {
+    final date = data?.eventDate?.split('-')[0].split(', ')[1].split(' ')[1];
+    final month = data?.eventDate?.split('-')[0].split(', ')[1].split(' ')[0];
+    final hour = DateFormat.jm()
+        .format(DateFormat('hh:mm').parse(data?.eventDate?.split('-')[0].split(', ')[2].split(' ')[1] ?? ''));
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Stack(
           children: [
-            const CommonImageNetWork(
+            CommonImageNetWork(
               width: double.infinity,
               height: 176,
-              imagePath: 'http://staging.audiocult.net/PF.Base/file/pic/photo/620da96306324.jpeg',
+              imagePath: data?.imagePath ?? '',
             ),
             Positioned(
               right: 10,
@@ -27,22 +39,24 @@ class AllEventItem extends StatelessWidget {
               child: Column(
                 children: [
                   Container(
-                    padding: const EdgeInsets.all(20),
+                    width: 110,
+                    padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
                       color: AppColors.mainColor,
+                      borderRadius: BorderRadius.circular(10),
                     ),
                     child: Column(
                       children: [
                         Text(
-                          '28',
+                          date ?? '',
                           style: context.bodyTextStyle()?.copyWith(
                                 color: Colors.white,
-                                fontSize: 18,
+                                fontSize: 16,
                               ),
                         ),
-                        const SizedBox(height: 10),
+                        const SizedBox(height: 6),
                         Text(
-                          'JAN',
+                          month ?? '',
                           style: context.bodyTextStyle()?.copyWith(
                                 color: Colors.white,
                                 fontSize: 16,
@@ -51,26 +65,28 @@ class AllEventItem extends StatelessWidget {
                       ],
                     ),
                   ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 8),
                   Container(
+                    width: 110,
                     padding: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         SvgPicture.asset(
                           AppAssets.timeIcon,
-                          width: 20,
-                          height: 20,
+                          width: 18,
+                          height: 18,
                         ),
                         const SizedBox(width: 8),
                         Text(
-                          '4 PM',
+                          hour,
                           style: context.bodyTextStyle()?.copyWith(
                                 color: Colors.black,
-                                fontSize: 14,
+                                fontSize: 12,
                               ),
                         ),
                       ],
@@ -83,7 +99,7 @@ class AllEventItem extends StatelessWidget {
         ),
         const SizedBox(height: 10),
         Text(
-          'Oblivion : Chapter 2',
+          data?.title ?? '',
           style: context.bodyTextStyle()?.copyWith(
                 color: Colors.white,
                 fontSize: 14,
@@ -101,7 +117,7 @@ class AllEventItem extends StatelessWidget {
             ),
             const SizedBox(width: 8),
             Text(
-              'The Dunes - Ras al-Khaimah - United Arab Emirates',
+              data?.location ?? '',
               style: context.bodyTextStyle()?.copyWith(
                     color: AppColors.subTitleColor,
                     fontSize: 12,

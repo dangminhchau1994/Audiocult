@@ -1,8 +1,11 @@
+import 'package:audio_cult/app/data_source/models/requests/event_request.dart';
 import 'package:audio_cult/app/data_source/models/responses/comment/comment_response.dart';
 import 'package:audio_cult/app/features/auth/check_email/check_mail_screen.dart';
 import 'package:audio_cult/app/features/auth/login/login_screen.dart';
 import 'package:audio_cult/app/features/auth/place_location/place_location_screen.dart';
 import 'package:audio_cult/app/features/auth/resent_password/resent_password_screen.dart';
+import 'package:audio_cult/app/features/events/filter/filter_event_screen.dart';
+import 'package:audio_cult/app/features/events/result/result_screen.dart';
 import 'package:audio_cult/app/features/main/main_screen.dart';
 import 'package:audio_cult/app/features/music/detail-song/detail_song_screen.dart';
 import 'package:audio_cult/app/features/music/detail_album/detail_album_screen.dart';
@@ -57,6 +60,8 @@ class AppRoute {
   static const String routeUploadSong = '/upload_song';
   static const String routeUploadAlbum = '/upload_screen';
   static const String routeCreatePlayList = '/create_playlist';
+  static const String routeFilterEvent = '/filter_event';
+  static const String routeResultEvent = '/result_event';
 
   ///#end region
 
@@ -112,6 +117,14 @@ class AppRoute {
             songId: arguments['song_id'] as String,
           ),
         );
+      case routeResultEvent:
+        final arguments = asType(settings.arguments);
+        return _pageRoute(
+          settings,
+          ResultScreen(
+            params: arguments['event_result'] as EventRequest,
+          ),
+        );
       case routeCreatePlayList:
         return _pageRoute(
           settings,
@@ -140,6 +153,11 @@ class AppRoute {
           FeaturedAlbumScreen(
             arguments: arguments!,
           ),
+        );
+      case routeFilterEvent:
+        return _pageRoute(
+          settings,
+          const FilterEventScreen(),
         );
       case routeCommentEdit:
         final arguments = asType(settings.arguments);

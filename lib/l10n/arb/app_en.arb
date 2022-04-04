@@ -105,6 +105,9 @@
     "t_sub_comment_privacy":"Control who can comment on this album.",
     "t_meta_data":"Metadata",
     "t_sell":"Sell",
+    "t_keyword": "Keywords",
+    "t_when":"When:",
+    "t_distance":"Distance:",
     "t_in_calendar":"In calendar",
     "t_on_map":"On map",
     "t_show_events":"SHOW EVENTS",
@@ -125,6 +128,7 @@
     "t_artist":"Artist",
     "t_album_name":"Album name",
     "t_year":"Year",
+    "t_result":"Results",
     "t_song_mixtaps":"Song / Mixtape",
     "t_feature_song":"Features song",
     "t_song_of_the_day":"Song of the day"

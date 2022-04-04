@@ -1,6 +1,9 @@
+import 'package:audio_cult/app/data_source/models/responses/events/event_response.dart';
+import 'package:audio_cult/app/features/events/all_event_bloc.dart';
 import 'package:audio_cult/l10n/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_tab_bar/indicator/custom_indicator.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import '../../../w_components/tabbars/common_tabbar.dart';
 import '../../../w_components/tabbars/common_tabbar_item.dart';
 import '../../utils/constants/app_colors.dart';
@@ -13,7 +16,7 @@ class EventScreen extends StatefulWidget {
   State<EventScreen> createState() => _EventScreenState();
 }
 
-class _EventScreenState extends State<EventScreen> {
+class _EventScreenState extends State<EventScreen>   {
   final _pageController = PageController();
   final _tabController = CustomTabBarController();
   final _pageCount = 4;
