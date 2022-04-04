@@ -44,6 +44,8 @@ class AtlasBloc extends BaseBloc {
 
   Future<void> refreshAtlasUserData() async {
     _allUsers.clear();
+    _updatedSubscriptionData.clear();
+    _subscriptionsInProcess.clear();
     await getAtlasUsers(1);
   }
 
