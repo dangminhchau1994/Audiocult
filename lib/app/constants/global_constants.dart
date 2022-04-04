@@ -66,6 +66,25 @@ class GlobalConstants {
     ];
   }
 
+  static List<Map<String, String>> getWhenList() {
+    return [
+      {'All time': 'all-time'},
+      {'This month': 'this-month'},
+      {'This week': 'this-week'},
+      {'Today': 'today'},
+      {'Upcoming': 'upcoming'},
+    ];
+  }
+
+  static List<Map<String, String>> getDistanceList() {
+    return [
+      {'50 Miles': '50'},
+      {'100 Miles': '100'},
+      {'200 Miles': '200'},
+      {'300 Miles': '300'},
+    ];
+  }
+
   static List<PopupMenuEntry<int>> menuItemsWithOutDetail(BuildContext context) {
     return [
       PopupMenuItem<int>(

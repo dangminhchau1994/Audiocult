@@ -9,6 +9,8 @@ class AppAssets {
 
   static const shareIcon = 'assets/icons/share.svg';
 
+  static const timeIcon = 'assets/icons/time.svg';
+
   static const songDetailIcon = 'assets/icons/song_detail.svg';
 
   static const menuFilter = 'assets/icons/menu_filter.svg';
@@ -20,6 +22,10 @@ class AppAssets {
   static const playCountIcon = 'assets/icons/play_count.svg';
 
   static const heartIcon = 'assets/icons/heart.svg';
+
+  static const calendarIcon = 'assets/icons/calendar.svg';
+
+  static const locationIcon = 'assets/icons/location.svg';
 
   static const commentIcon = 'assets/icons/comment.svg';
 

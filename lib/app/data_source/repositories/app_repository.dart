@@ -6,6 +6,7 @@ import 'package:audio_cult/app/data_source/models/requests/upload_request.dart';
 import 'package:audio_cult/app/data_source/models/responses/album/album_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/comment/comment_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/create_playlist/create_playlist_response.dart';
+import 'package:audio_cult/app/data_source/models/responses/events/event_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/genre.dart';
 import 'package:audio_cult/app/data_source/models/responses/place.dart';
 import 'package:audio_cult/app/data_source/models/responses/playlist/playlist_response.dart';
@@ -19,6 +20,7 @@ import 'package:audio_cult/app/features/auth/widgets/register_page.dart';
 import 'package:audio_cult/w_components/dropdown/common_dropdown.dart';
 import 'package:dartz/dartz.dart';
 
+import '../models/requests/event_request.dart';
 import '../models/requests/login_request.dart';
 import '../models/responses/create_album_response.dart';
 import '../models/responses/atlas_user.dart';
@@ -128,6 +130,14 @@ class AppRepository extends BaseRepository {
   ) {
     return safeCall(
       () => appServiceProvider.deleteComment(id),
+    );
+  }
+
+  Future<Either<List<EventResponse>, Exception>> getEvents(
+    EventRequest request,
+  ) {
+    return safeCall(
+      () => appServiceProvider.getEvents(request),
     );
   }
 

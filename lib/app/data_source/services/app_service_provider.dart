@@ -2,12 +2,14 @@ import 'dart:io';
 
 import 'package:audio_cult/app/data_source/local/pref_provider.dart';
 import 'package:audio_cult/app/data_source/models/requests/create_playlist_request.dart';
+import 'package:audio_cult/app/data_source/models/requests/event_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/register_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/upload_request.dart';
 import 'package:audio_cult/app/data_source/models/responses/album/album_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/atlas_category.dart';
 import 'package:audio_cult/app/data_source/models/responses/comment/comment_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/create_playlist/create_playlist_response.dart';
+import 'package:audio_cult/app/data_source/models/responses/events/event_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/login_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/playlist/playlist_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/reaction_icon/reaction_icon_response.dart';
@@ -70,6 +72,31 @@ class AppServiceProvider {
     );
     return response.mapData(
       (json) => PlaylistResponse.fromJson(json as Map<String, dynamic>),
+    );
+  }
+
+  Future<List<EventResponse>> getEvents(EventRequest request) async {
+    final response = await _dioHelper.get(
+      route: '/restful_api/event',
+      options: Options(headers: {'Content-Type': 'application/x-www-form-urlencoded'}),
+      responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
+      requestParams: {
+        'search[search]': request.query,
+        'postal_code': request.postalCode,
+        'location': request.location,
+        'country_iso': request.countryIso,
+        'view': request.view,
+        'distance': request.distance,
+        'when': request.when,
+        'start_time': request.startTime,
+        'end_time': request.endTime,
+        'sort': request.sort,
+        'page': request.page,
+        'limit': request.limit,
+      },
+    );
+    return response.mapData(
+      (json) => asType<List<dynamic>>(json)?.map((e) => EventResponse.fromJson(e as Map<String, dynamic>)).toList(),
     );
   }
 
