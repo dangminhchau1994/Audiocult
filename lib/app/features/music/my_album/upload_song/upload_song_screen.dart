@@ -46,6 +46,7 @@ class _UploadSongScreenState extends State<UploadSongScreen> with DisposableStat
     super.initState();
     isUploadSong = widget.params['isUploadSong'] as bool?;
     _song = widget.params['song'] as Song?;
+    _album = widget.params['album'] as Album?;
     _uploadSongBloc.uploadStream.listen((event) {
       ToastUtility.showSuccess(context: context, message: event);
       Navigator.pop(context, true);
@@ -94,7 +95,9 @@ class _UploadSongScreenState extends State<UploadSongScreen> with DisposableStat
                         onNext: onNext,
                       ),
                       MetaDataStep(
+                        song: _song,
                         key: _keyStep4,
+                        album: _album,
                         onBack: onBack,
                         onCompleted: onCompleted,
                       )
@@ -122,7 +125,7 @@ class _UploadSongScreenState extends State<UploadSongScreen> with DisposableStat
   }
 
   void onCompleted() {
-    if (_song == null) {
+    if (_song == null && _album == null) {
       //add new
       final resultStep2 = _keyStep2.currentState!.getValue;
       final resultStep1 = _keyStep1.currentState!.listFileAudio;
@@ -137,8 +140,21 @@ class _UploadSongScreenState extends State<UploadSongScreen> with DisposableStat
         _uploadSongBloc.uploadAlbum(resultStep2);
       }
     } else {
-      //edit
+      final resultStep2 = _keyStep2.currentState!.getValue;
+      final resultStep4 = _keyStep4.currentState!.getValue;
+      resultStep2.isFree = resultStep4.isFree;
+      resultStep2.cost = resultStep4.cost;
+      resultStep2.licenseType = resultStep4.licenseType;
 
+      //edit
+      if (isUploadSong!) {
+        resultStep2.songId = _song?.songId;
+        _uploadSongBloc.editSong(resultStep2);
+      } else {
+        resultStep2.albumId = _album?.albumId;
+
+        _uploadSongBloc.editAlbum(resultStep2);
+      }
     }
   }
 }

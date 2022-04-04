@@ -43,14 +43,14 @@ class DetailAlbumDescription extends StatelessWidget {
             children: [
               DetailDescriptionLabel(
                 title: 'ARTIST',
-                value: data?.artistUser ?? 'N/A',
+                value: data?.artistUser?.fullName ?? 'N/A',
               ),
               const SizedBox(
                 width: 32,
               ),
               DetailDescriptionLabel(
                 title: 'LABEL',
-                value: data?.labelUser ?? 'N/A',
+                value: data?.labelUser?.fullName ?? 'N/A',
               ),
             ],
           ),

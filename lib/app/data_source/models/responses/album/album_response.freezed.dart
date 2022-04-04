@@ -247,9 +247,9 @@ class _$AlbumTearOff {
       String? isSponsor,
       @JsonKey(name: 'name') String? name,
       String? year,
-      String? genreId,
+      @JsonKey(name: 'genre_id') String? genreId,
       String? isDj,
-      String? licenseType,
+      @JsonKey(name: 'license_type') String? licenseType,
       @JsonKey(name: 'image_path') String? imagePath,
       String? serverId,
       String? totalTrack,
@@ -271,11 +271,11 @@ class _$AlbumTearOff {
       String? googleplay,
       dynamic youtube,
       String? soundcloud,
-      @JsonKey(name: 'label_user') String? labelUser,
+      @JsonKey(name: 'label_user') ProfileData? labelUser,
       String? labelUserId,
-      @JsonKey(name: 'artist_user') String? artistUser,
+      @JsonKey(name: 'artist_user') ProfileData? artistUser,
       String? artistUserId,
-      String? collabUser,
+      @JsonKey(name: 'collab_user') ProfileData? collabUser,
       String? collabUserId,
       bool? canEdit,
       bool? canAddSong,
@@ -371,8 +371,10 @@ mixin _$Album {
   @JsonKey(name: 'name')
   String? get name => throw _privateConstructorUsedError;
   String? get year => throw _privateConstructorUsedError;
+  @JsonKey(name: 'genre_id')
   String? get genreId => throw _privateConstructorUsedError;
   String? get isDj => throw _privateConstructorUsedError;
+  @JsonKey(name: 'license_type')
   String? get licenseType =>
       throw _privateConstructorUsedError; // ignore: invalid_annotation_target
   @JsonKey(name: 'image_path')
@@ -409,13 +411,14 @@ mixin _$Album {
   String? get soundcloud =>
       throw _privateConstructorUsedError; // ignore: invalid_annotation_target
   @JsonKey(name: 'label_user')
-  String? get labelUser => throw _privateConstructorUsedError;
+  ProfileData? get labelUser => throw _privateConstructorUsedError;
   String? get labelUserId =>
       throw _privateConstructorUsedError; // ignore: invalid_annotation_target
   @JsonKey(name: 'artist_user')
-  String? get artistUser => throw _privateConstructorUsedError;
+  ProfileData? get artistUser => throw _privateConstructorUsedError;
   String? get artistUserId => throw _privateConstructorUsedError;
-  String? get collabUser => throw _privateConstructorUsedError;
+  @JsonKey(name: 'collab_user')
+  ProfileData? get collabUser => throw _privateConstructorUsedError;
   String? get collabUserId => throw _privateConstructorUsedError;
   bool? get canEdit => throw _privateConstructorUsedError;
   bool? get canAddSong => throw _privateConstructorUsedError;
@@ -449,9 +452,9 @@ abstract class $AlbumCopyWith<$Res> {
       String? isSponsor,
       @JsonKey(name: 'name') String? name,
       String? year,
-      String? genreId,
+      @JsonKey(name: 'genre_id') String? genreId,
       String? isDj,
-      String? licenseType,
+      @JsonKey(name: 'license_type') String? licenseType,
       @JsonKey(name: 'image_path') String? imagePath,
       String? serverId,
       String? totalTrack,
@@ -473,11 +476,11 @@ abstract class $AlbumCopyWith<$Res> {
       String? googleplay,
       dynamic youtube,
       String? soundcloud,
-      @JsonKey(name: 'label_user') String? labelUser,
+      @JsonKey(name: 'label_user') ProfileData? labelUser,
       String? labelUserId,
-      @JsonKey(name: 'artist_user') String? artistUser,
+      @JsonKey(name: 'artist_user') ProfileData? artistUser,
       String? artistUserId,
-      String? collabUser,
+      @JsonKey(name: 'collab_user') ProfileData? collabUser,
       String? collabUserId,
       bool? canEdit,
       bool? canAddSong,
@@ -706,7 +709,7 @@ class _$AlbumCopyWithImpl<$Res> implements $AlbumCopyWith<$Res> {
       labelUser: labelUser == freezed
           ? _value.labelUser
           : labelUser // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as ProfileData?,
       labelUserId: labelUserId == freezed
           ? _value.labelUserId
           : labelUserId // ignore: cast_nullable_to_non_nullable
@@ -714,7 +717,7 @@ class _$AlbumCopyWithImpl<$Res> implements $AlbumCopyWith<$Res> {
       artistUser: artistUser == freezed
           ? _value.artistUser
           : artistUser // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as ProfileData?,
       artistUserId: artistUserId == freezed
           ? _value.artistUserId
           : artistUserId // ignore: cast_nullable_to_non_nullable
@@ -722,7 +725,7 @@ class _$AlbumCopyWithImpl<$Res> implements $AlbumCopyWith<$Res> {
       collabUser: collabUser == freezed
           ? _value.collabUser
           : collabUser // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as ProfileData?,
       collabUserId: collabUserId == freezed
           ? _value.collabUserId
           : collabUserId // ignore: cast_nullable_to_non_nullable
@@ -779,9 +782,9 @@ abstract class _$AlbumCopyWith<$Res> implements $AlbumCopyWith<$Res> {
       String? isSponsor,
       @JsonKey(name: 'name') String? name,
       String? year,
-      String? genreId,
+      @JsonKey(name: 'genre_id') String? genreId,
       String? isDj,
-      String? licenseType,
+      @JsonKey(name: 'license_type') String? licenseType,
       @JsonKey(name: 'image_path') String? imagePath,
       String? serverId,
       String? totalTrack,
@@ -803,11 +806,11 @@ abstract class _$AlbumCopyWith<$Res> implements $AlbumCopyWith<$Res> {
       String? googleplay,
       dynamic youtube,
       String? soundcloud,
-      @JsonKey(name: 'label_user') String? labelUser,
+      @JsonKey(name: 'label_user') ProfileData? labelUser,
       String? labelUserId,
-      @JsonKey(name: 'artist_user') String? artistUser,
+      @JsonKey(name: 'artist_user') ProfileData? artistUser,
       String? artistUserId,
-      String? collabUser,
+      @JsonKey(name: 'collab_user') ProfileData? collabUser,
       String? collabUserId,
       bool? canEdit,
       bool? canAddSong,
@@ -1037,7 +1040,7 @@ class __$AlbumCopyWithImpl<$Res> extends _$AlbumCopyWithImpl<$Res>
       labelUser: labelUser == freezed
           ? _value.labelUser
           : labelUser // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as ProfileData?,
       labelUserId: labelUserId == freezed
           ? _value.labelUserId
           : labelUserId // ignore: cast_nullable_to_non_nullable
@@ -1045,7 +1048,7 @@ class __$AlbumCopyWithImpl<$Res> extends _$AlbumCopyWithImpl<$Res>
       artistUser: artistUser == freezed
           ? _value.artistUser
           : artistUser // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as ProfileData?,
       artistUserId: artistUserId == freezed
           ? _value.artistUserId
           : artistUserId // ignore: cast_nullable_to_non_nullable
@@ -1053,7 +1056,7 @@ class __$AlbumCopyWithImpl<$Res> extends _$AlbumCopyWithImpl<$Res>
       collabUser: collabUser == freezed
           ? _value.collabUser
           : collabUser // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as ProfileData?,
       collabUserId: collabUserId == freezed
           ? _value.collabUserId
           : collabUserId // ignore: cast_nullable_to_non_nullable
@@ -1108,9 +1111,9 @@ class _$_Album implements _Album {
       this.isSponsor,
       @JsonKey(name: 'name') this.name,
       this.year,
-      this.genreId,
+      @JsonKey(name: 'genre_id') this.genreId,
       this.isDj,
-      this.licenseType,
+      @JsonKey(name: 'license_type') this.licenseType,
       @JsonKey(name: 'image_path') this.imagePath,
       this.serverId,
       this.totalTrack,
@@ -1136,7 +1139,7 @@ class _$_Album implements _Album {
       this.labelUserId,
       @JsonKey(name: 'artist_user') this.artistUser,
       this.artistUserId,
-      this.collabUser,
+      @JsonKey(name: 'collab_user') this.collabUser,
       this.collabUserId,
       this.canEdit,
       this.canAddSong,
@@ -1182,10 +1185,12 @@ class _$_Album implements _Album {
   @override
   final String? year;
   @override
+  @JsonKey(name: 'genre_id')
   final String? genreId;
   @override
   final String? isDj;
   @override
+  @JsonKey(name: 'license_type')
   final String? licenseType;
   @override // ignore: invalid_annotation_target
   @JsonKey(name: 'image_path')
@@ -1237,16 +1242,17 @@ class _$_Album implements _Album {
   final String? soundcloud;
   @override // ignore: invalid_annotation_target
   @JsonKey(name: 'label_user')
-  final String? labelUser;
+  final ProfileData? labelUser;
   @override
   final String? labelUserId;
   @override // ignore: invalid_annotation_target
   @JsonKey(name: 'artist_user')
-  final String? artistUser;
+  final ProfileData? artistUser;
   @override
   final String? artistUserId;
   @override
-  final String? collabUser;
+  @JsonKey(name: 'collab_user')
+  final ProfileData? collabUser;
   @override
   final String? collabUserId;
   @override
@@ -1432,9 +1438,9 @@ abstract class _Album implements Album {
       String? isSponsor,
       @JsonKey(name: 'name') String? name,
       String? year,
-      String? genreId,
+      @JsonKey(name: 'genre_id') String? genreId,
       String? isDj,
-      String? licenseType,
+      @JsonKey(name: 'license_type') String? licenseType,
       @JsonKey(name: 'image_path') String? imagePath,
       String? serverId,
       String? totalTrack,
@@ -1456,11 +1462,11 @@ abstract class _Album implements Album {
       String? googleplay,
       dynamic youtube,
       String? soundcloud,
-      @JsonKey(name: 'label_user') String? labelUser,
+      @JsonKey(name: 'label_user') ProfileData? labelUser,
       String? labelUserId,
-      @JsonKey(name: 'artist_user') String? artistUser,
+      @JsonKey(name: 'artist_user') ProfileData? artistUser,
       String? artistUserId,
-      String? collabUser,
+      @JsonKey(name: 'collab_user') ProfileData? collabUser,
       String? collabUserId,
       bool? canEdit,
       bool? canAddSong,
@@ -1505,10 +1511,12 @@ abstract class _Album implements Album {
   @override
   String? get year;
   @override
+  @JsonKey(name: 'genre_id')
   String? get genreId;
   @override
   String? get isDj;
   @override
+  @JsonKey(name: 'license_type')
   String? get licenseType;
   @override // ignore: invalid_annotation_target
   @JsonKey(name: 'image_path')
@@ -1560,16 +1568,17 @@ abstract class _Album implements Album {
   String? get soundcloud;
   @override // ignore: invalid_annotation_target
   @JsonKey(name: 'label_user')
-  String? get labelUser;
+  ProfileData? get labelUser;
   @override
   String? get labelUserId;
   @override // ignore: invalid_annotation_target
   @JsonKey(name: 'artist_user')
-  String? get artistUser;
+  ProfileData? get artistUser;
   @override
   String? get artistUserId;
   @override
-  String? get collabUser;
+  @JsonKey(name: 'collab_user')
+  ProfileData? get collabUser;
   @override
   String? get collabUserId;
   @override

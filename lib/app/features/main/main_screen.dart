@@ -1,4 +1,5 @@
 import 'package:audio_cult/app/base/bloc_handle.dart';
+import 'package:audio_cult/app/features/atlas/atlas_screen.dart';
 import 'package:audio_cult/app/features/audio_player/miniplayer.dart';
 import 'package:audio_cult/app/features/main/main_bloc.dart';
 import 'package:audio_cult/app/features/music/music_screen.dart';
@@ -53,13 +54,7 @@ class _MainScreenState extends State<MainScreen> {
         ),
       ),
     );
-    pages.add(
-      const SizedBox(
-        child: Center(
-          child: Text('Atlas Screen'),
-        ),
-      ),
-    );
+    pages.add(const AtlasScreen());
     pages.add(
       const SizedBox(),
     );

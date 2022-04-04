@@ -1,5 +1,5 @@
 import 'dart:io';
-
+import 'package:audio_cult/app/data_source/models/responses/atlas_category.dart';
 import 'package:audio_cult/app/data_source/models/cache_filter.dart';
 import 'package:audio_cult/app/data_source/models/requests/register_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/upload_request.dart';
@@ -13,6 +13,7 @@ import 'package:audio_cult/app/data_source/models/responses/playlist/playlist_re
 import 'package:audio_cult/app/data_source/models/responses/profile_data.dart';
 import 'package:audio_cult/app/data_source/models/responses/reaction_icon/reaction_icon_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/song_detail/song_detail_response.dart';
+import 'package:audio_cult/app/data_source/models/responses/user_subscription_response.dart';
 import 'package:audio_cult/app/data_source/networks/exceptions/no_cache_exception.dart';
 import 'package:audio_cult/app/data_source/services/hive_service_provider.dart';
 import 'package:audio_cult/app/features/auth/widgets/register_page.dart';
@@ -22,6 +23,7 @@ import 'package:dartz/dartz.dart';
 import '../models/requests/event_request.dart';
 import '../models/requests/login_request.dart';
 import '../models/responses/create_album_response.dart';
+import '../models/responses/atlas_user.dart';
 import '../models/responses/login_response.dart';
 import '../models/responses/register_response.dart';
 import '../models/responses/song/song_response.dart';
@@ -228,9 +230,9 @@ class AppRepository extends BaseRepository {
 
   Future<Either<List<Song>, Exception>> getMixTapSongs(
       String query, String sort, int page, int limit, String view, String type,
-      {String? userId}) {
+      {String? userId, String? albumId}) {
     return safeCall(
-      () => appServiceProvider.getMixTapSongs(query, sort, page, limit, view, type, userId: userId),
+      () => appServiceProvider.getMixTapSongs(query, sort, page, limit, view, type, userId: userId, albumId: albumId),
     );
   }
 
@@ -363,5 +365,38 @@ class AppRepository extends BaseRepository {
 
   Future<Either<CreateAlbumResponse, Exception>> deletedAlbumId(String? songId) {
     return safeCall(() => appServiceProvider.deletedAlbumId(songId));
+  }
+
+  Future<Either<List<AtlasCategory>, Exception>> getAtlasCategories() async {
+    return safeCall(appServiceProvider.getAtlasCategories);
+  }
+
+  Future<Either<List<AtlasUser>, Exception>> getAtlasUsers({
+    int? groupId,
+    String? countryISO,
+    int? categoryId,
+    List<int>? genreIds,
+    int pageNumber = 1,
+  }) async {
+    return safeCall(() {
+      return appServiceProvider.getAtlasUsers(
+        groupId: groupId,
+        countryISO: countryISO,
+        categoryId: categoryId,
+        genreIds: genreIds,
+        pageNumber: pageNumber,
+      );
+    });
+  }
+
+  Future<Either<UserSubscriptionResponse, Exception>> subcribeUser(AtlasUser user) async {
+    return safeCall(() => appServiceProvider.subscribeUser(user));
+  }
+
+  Future<Either<CreateAlbumResponse, Exception>> editAlbum(UploadRequest resultStep2) {
+    return safeCall(() => appServiceProvider.editAlbum(resultStep2));
+  }
+  Future<Either<CreateAlbumResponse, Exception>> editSong(UploadRequest resultStep2) {
+    return safeCall(() => appServiceProvider.editSong(resultStep2));
   }
 }

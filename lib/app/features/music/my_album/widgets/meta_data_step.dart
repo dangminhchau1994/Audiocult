@@ -1,4 +1,6 @@
 import 'package:audio_cult/app/data_source/models/requests/upload_request.dart';
+import 'package:audio_cult/app/data_source/models/responses/album/album_response.dart';
+import 'package:audio_cult/app/data_source/models/responses/song/song_response.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/l10n/l10n.dart';
 import 'package:audio_cult/w_components/radios/common_radio_button.dart';
@@ -15,7 +17,9 @@ class MetaDataStep extends StatefulWidget {
   final Function()? onCompleted;
 
   final Function()? onBack;
-  const MetaDataStep({Key? key, this.onBack, this.onCompleted}) : super(key: key);
+  final Song? song;
+  final Album? album;
+  const MetaDataStep({Key? key, this.onBack, this.onCompleted, this.song, this.album}) : super(key: key);
 
   @override
   State<MetaDataStep> createState() => MetaDataStepState();
@@ -51,6 +55,40 @@ class MetaDataStepState extends State<MetaDataStep> {
 
   UploadRequest get getValue {
     return _uploadRequest;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.song != null) {
+      if (widget.song!.isFree!) {
+        groupId2 = 0;
+      } else {
+        groupId2 = 1;
+      }
+
+      listCommons
+          .map((e) => {
+                if (e.second.first == widget.song!.licenseType) {groupId1 = e.first}
+              })
+          .toList();
+      if (widget.song!.licenseType == 'all_rights_reserved') {
+        groupId1 = 7;
+      }
+      setState(() {});
+    }
+    if (widget.album != null) {
+      groupId2 = 0;
+      listCommons
+          .map((e) => {
+                if (e.second.first == widget.album!.licenseType) {groupId1 = e.first}
+              })
+          .toList();
+      if (widget.album?.licenseType == 'all_rights_reserved') {
+        groupId1 = 7;
+      }
+      setState(() {});
+    }
   }
 
   @override
