@@ -139,7 +139,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
               backgroundColor: AppColors.secondaryButtonColor,
               onRefresh: () async {
                 _pagingController.refresh();
-                callData('', 1, currentDate, currentDate);
+                callData(_text.value, 1, _rangeStart!, _rangeEnd!);
               },
               child: LoadingBuilder<CalendarBloc, List<EventResponse>>(
                 noDataBuilder: (state) {
