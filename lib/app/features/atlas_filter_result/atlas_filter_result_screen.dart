@@ -73,23 +73,26 @@ class _AtlasFilterResultScreenState extends State<AtlasFilterResultScreen> {
           updatedSubscriptionData = tupleData.item1;
           subscriptionsInProcess = tupleData.item2;
         }
-        return PagedListView<int, AtlasUser>(
-          padding: const EdgeInsets.only(bottom: 100),
-          pagingController: _pagingController,
-          builderDelegate: PagedChildBuilderDelegate<AtlasUser>(
-            itemBuilder: (context, user, index) {
-              final latestSubscriptionCount =
-                  updatedSubscriptionData?.firstWhereOrNull((e) => e.userId == user.userId)?.subscriptionCount;
-              final latestSubscriptionValue =
-                  updatedSubscriptionData?.firstWhereOrNull((e) => e.userId == user.userId)?.isSubcribed;
-              return AtlasUserWidget(
-                user,
-                updatedSubscriptionCount: latestSubscriptionCount,
-                updatedSubscriptionStatus: latestSubscriptionValue,
-                userSubscriptionInProcess: subscriptionsInProcess?[user.userId] ?? false,
-                subscriptionOnChanged: () => _bloc.subcribeUser(user),
-              );
-            },
+        return Padding(
+          padding: const EdgeInsets.all(16),
+          child: PagedListView<int, AtlasUser>(
+            padding: const EdgeInsets.only(bottom: 100),
+            pagingController: _pagingController,
+            builderDelegate: PagedChildBuilderDelegate<AtlasUser>(
+              itemBuilder: (context, user, index) {
+                final latestSubscriptionCount =
+                    updatedSubscriptionData?.firstWhereOrNull((e) => e.userId == user.userId)?.subscriptionCount;
+                final latestSubscriptionValue =
+                    updatedSubscriptionData?.firstWhereOrNull((e) => e.userId == user.userId)?.isSubcribed;
+                return AtlasUserWidget(
+                  user,
+                  updatedSubscriptionCount: latestSubscriptionCount,
+                  updatedSubscriptionStatus: latestSubscriptionValue,
+                  userSubscriptionInProcess: subscriptionsInProcess?[user.userId] ?? false,
+                  subscriptionOnChanged: () => _bloc.subcribeUser(user),
+                );
+              },
+            ),
           ),
         );
       },
