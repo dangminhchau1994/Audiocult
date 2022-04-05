@@ -52,4 +52,9 @@ class AtlasUser {
     isSubcribed = false;
     subscriptionCount = (subscriptionCount ?? 0) - 1;
   }
+
+  @override
+  String toString() {
+    return 'fullname:${fullName} - userId:${userId} - subscriptionCount:${subscriptionCount} - isSubScription:${isSubcribed}';
+  }
 }

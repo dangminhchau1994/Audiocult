@@ -87,6 +87,10 @@ class AppAssets {
 
   static const subscribedUserIcon = 'assets/icons/subscribed_user_icon.svg';
 
+  static const squareCheckedIcon = 'assets/icons/square_checked_icon.svg';
+
+  static const squareUncheckedIcon = 'assets/icons/square_unchecked_icon.svg';
+
   static const logoIcon = 'assets/icons/ic_logo.png';
 
   static const authVectorIcon = 'assets/icons/ic_auth_vector.png';

@@ -14,6 +14,7 @@ class CommonDropdown extends StatefulWidget {
   EdgeInsets? padding;
   double? dropDownWith;
   bool isValidate;
+  bool isBorderVisible;
 
   CommonDropdown(
       {Key? key,
@@ -24,6 +25,7 @@ class CommonDropdown extends StatefulWidget {
       this.selection,
       this.padding,
       this.dropDownWith,
+      this.isBorderVisible = true,
       this.isValidate = false})
       : super(key: key);
 
@@ -49,7 +51,9 @@ class _CommonDropdownState extends State<CommonDropdown> {
             border: Border.all(
               color: widget.selection == null && widget.isValidate
                   ? Colors.red.withOpacity(0.6)
-                  : AppColors.outlineBorderColor,
+                  : widget.isBorderVisible
+                      ? AppColors.outlineBorderColor
+                      : Colors.transparent,
             ),
           ),
           child: CustomDropdownButton2(

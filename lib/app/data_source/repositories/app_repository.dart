@@ -1,10 +1,12 @@
 import 'dart:io';
-import 'package:audio_cult/app/data_source/models/responses/atlas_category.dart';
+
 import 'package:audio_cult/app/data_source/models/cache_filter.dart';
 import 'package:audio_cult/app/data_source/models/requests/register_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/upload_request.dart';
 import 'package:audio_cult/app/data_source/models/responses/album/album_response.dart';
+import 'package:audio_cult/app/data_source/models/responses/atlas_category.dart';
 import 'package:audio_cult/app/data_source/models/responses/comment/comment_response.dart';
+import 'package:audio_cult/app/data_source/models/responses/country_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/create_playlist/create_playlist_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/events/event_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/genre.dart';
@@ -22,8 +24,8 @@ import 'package:dartz/dartz.dart';
 
 import '../models/requests/event_request.dart';
 import '../models/requests/login_request.dart';
-import '../models/responses/create_album_response.dart';
 import '../models/responses/atlas_user.dart';
+import '../models/responses/create_album_response.dart';
 import '../models/responses/login_response.dart';
 import '../models/responses/register_response.dart';
 import '../models/responses/song/song_response.dart';
@@ -368,13 +370,23 @@ class AppRepository extends BaseRepository {
   }
 
   Future<Either<List<AtlasCategory>, Exception>> getAtlasCategories() async {
-    return safeCall(appServiceProvider.getAtlasCategories);
+    final result = await safeCall(appServiceProvider.getAtlasCategories);
+    return result.fold((categories) {
+      hiveServiceProvider.saveCategories(categories);
+      return left(categories);
+    }, (exception) {
+      final categories = hiveServiceProvider.getCachedCategories();
+      if (categories.isEmpty) {
+        return right(NoCacheDataException(''));
+      }
+      return left(categories);
+    });
   }
 
   Future<Either<List<AtlasUser>, Exception>> getAtlasUsers({
     int? groupId,
     String? countryISO,
-    int? categoryId,
+    String? categoryId,
     List<int>? genreIds,
     int pageNumber = 1,
   }) async {
@@ -382,7 +394,6 @@ class AppRepository extends BaseRepository {
       return appServiceProvider.getAtlasUsers(
         groupId: groupId,
         countryISO: countryISO,
-        categoryId: categoryId,
         genreIds: genreIds,
         pageNumber: pageNumber,
       );
@@ -396,7 +407,22 @@ class AppRepository extends BaseRepository {
   Future<Either<CreateAlbumResponse, Exception>> editAlbum(UploadRequest resultStep2) {
     return safeCall(() => appServiceProvider.editAlbum(resultStep2));
   }
+
   Future<Either<CreateAlbumResponse, Exception>> editSong(UploadRequest resultStep2) {
     return safeCall(() => appServiceProvider.editSong(resultStep2));
+  }
+
+  Future<Either<List<Country>, Exception>> getAllCountries() async {
+    final result = await safeCall(appServiceProvider.getAllCountries);
+    return result.fold((countries) {
+      hiveServiceProvider.saveCountries(countries);
+      return left(countries);
+    }, (exception) {
+      final countries = hiveServiceProvider.getCachedCountries();
+      if (countries.isEmpty) {
+        return right(NoCacheDataException(''));
+      }
+      return left(countries);
+    });
   }
 }
