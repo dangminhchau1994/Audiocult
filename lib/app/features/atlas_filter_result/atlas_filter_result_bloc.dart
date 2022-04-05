@@ -11,7 +11,7 @@ import 'package:tuple/tuple.dart';
 typedef UserSubscriptionDataType = Map<String?, bool?>;
 
 class AtlasFilterResultBloc extends BaseBloc {
-  final AppRepository appRepo;
+  final AppRepository appRepository;
   final UserSubscriptionDataType _subscriptionsInProcess = {};
   final _updatedSubscriptionData = <AtlasUser>[];
   final _allUsers = <AtlasUser>[];
@@ -23,19 +23,14 @@ class AtlasFilterResultBloc extends BaseBloc {
   Stream<Tuple2<List<AtlasUser>, UserSubscriptionDataType>> get updatedUserSubscriptionStream =>
       _updatedUserSubscription.stream;
 
-  AtlasFilterResultBloc(this.appRepo);
+  AtlasFilterResultBloc(this.appRepository);
 
-  void getUsers(FilterUsersRequestParams request) async {
+  void getUsers(FilterUsersRequest request) async {
     if (request.page == 1) {
       showOverLayLoading();
       _allUsers.clear();
     }
-    final result = await appRepo.getAtlasUsers(
-      groupId: request.groupId,
-      countryISO: request.countryISO,
-      genreIds: request.genreIds?.map(int.parse).toList(),
-      pageNumber: request.page ?? 1,
-    );
+    final result = await appRepository.getAtlasUsers(request);
     hideOverlayLoading();
     result.fold((users) {
       _getAtlasUsers.add(Tuple2(users, null));
@@ -51,7 +46,7 @@ class AtlasFilterResultBloc extends BaseBloc {
   void subcribeUser(AtlasUser user) async {
     _subscriptionsInProcess[user.userId] = true;
     _updatedUserSubscription.add(Tuple2(_updatedSubscriptionData, _subscriptionsInProcess));
-    final result = await appRepo.subcribeUser(user);
+    final result = await appRepository.subcribeUser(user);
     result.fold(
       (subcribeResponse) {
         _subscriptionsInProcess[user.userId] = false;

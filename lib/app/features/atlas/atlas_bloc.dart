@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:audio_cult/app/base/base_bloc.dart';
+import 'package:audio_cult/app/data_source/models/requests/filter_users_request.dart';
 import 'package:audio_cult/app/data_source/models/responses/atlas_user.dart';
 import 'package:audio_cult/app/data_source/repositories/app_repository.dart';
 import 'package:audio_cult/app/utils/constants/app_constants.dart';
@@ -31,7 +32,7 @@ class AtlasBloc extends BaseBloc {
     if (pageNumber == 1) {
       _allUsers.clear();
     }
-    final result = await _appRepository.getAtlasUsers(pageNumber: pageNumber);
+    final result = await _appRepository.getAtlasUsers(FilterUsersRequest(page: pageNumber));
     return result.fold(
       (users) {
         _allUsers.addAll(users);

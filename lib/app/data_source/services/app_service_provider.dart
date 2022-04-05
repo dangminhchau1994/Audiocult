@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:audio_cult/app/data_source/local/pref_provider.dart';
 import 'package:audio_cult/app/data_source/models/requests/create_playlist_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/event_request.dart';
+import 'package:audio_cult/app/data_source/models/requests/filter_users_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/register_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/upload_request.dart';
 import 'package:audio_cult/app/data_source/models/responses/album/album_response.dart';
@@ -603,21 +604,10 @@ class AppServiceProvider {
     return _atlasCategories!;
   }
 
-  Future<List<AtlasUser>> getAtlasUsers({
-    int? groupId,
-    String? countryISO,
-    List<int>? genreIds,
-    int pageNumber = 1,
-  }) async {
-    final queryParams = {
-      'group_id': groupId,
-      'country_iso': countryISO,
-      'genres_ids': genreIds?.join(','),
-      'page': pageNumber,
-    };
+  Future<List<AtlasUser>> getAtlasUsers(FilterUsersRequest params) async {
     final response = await _dioHelper.get(
       route: '/restful_api/atlas',
-      requestParams: queryParams,
+      requestParams: params.toJson(),
       responseBodyMapper: (jsonMapper) => AtlasUserResponse.fromJson(jsonMapper as Map<String, dynamic>),
     );
     return Future.value(response.data);

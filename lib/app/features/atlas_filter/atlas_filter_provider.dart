@@ -143,19 +143,20 @@ class AtlasFilterProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  FilterUsersRequestParams? getFilterAtlasUsers() {
+  FilterUsersRequest? getFilterAtlasUsers() {
     if (countriesIsLoading || userGroupIsLoading || musicGenresIsLoading) {
       return null;
     }
     final selectedUserGroupOption = userGroupOptions?.firstWhereOrNull((element) => element.isSelected);
-    final userGroup = userGroups
+    final selectedUserGroup = userGroups
         ?.firstWhereOrNull((element) => element.title?.toLowerCase() == selectedUserGroupOption?.title?.toLowerCase());
     final selectedCountryOption = countryOptions?.firstWhereOrNull((element) => element.isSelected);
-    final country = countries?.firstWhereOrNull((element) => element.name == selectedCountryOption?.title);
+    final selectedCountry = countries
+        ?.firstWhereOrNull((element) => element.name?.toLowerCase() == selectedCountryOption?.title?.toLowerCase());
     final selectedGenres = musicGenres?.where((e) => e.isSelected == true).toList();
-    return FilterUsersRequestParams(
-      groupId: int.parse(userGroup?.userGroupId ?? '0'),
-      countryISO: country?.countryISO,
+    return FilterUsersRequest(
+      groupId: selectedUserGroup?.userGroupId != null ? int.parse(selectedUserGroup!.userGroupId!) : null,
+      countryISO: selectedCountry?.countryISO,
       genreIds: selectedGenres?.map((e) => e.genreId ?? '-1').toList(),
     );
   }

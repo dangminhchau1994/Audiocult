@@ -12,7 +12,7 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:tuple/tuple.dart';
 
 class AtlasFilterResultScreen extends StatefulWidget {
-  final FilterUsersRequestParams dataRequest;
+  final FilterUsersRequest dataRequest;
 
   const AtlasFilterResultScreen(this.dataRequest, {Key? key}) : super(key: key);
 
@@ -37,7 +37,7 @@ class _AtlasFilterResultScreenState extends State<AtlasFilterResultScreen> {
       }
     });
     _pagingController.addPageRequestListener((pageNumber) async {
-      final request = FilterUsersRequestParams(
+      final request = FilterUsersRequest(
         groupId: widget.dataRequest.groupId,
         countryISO: widget.dataRequest.countryISO,
         genreIds: widget.dataRequest.genreIds,

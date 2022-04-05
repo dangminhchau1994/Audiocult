@@ -236,7 +236,7 @@ class AppRoute {
       case routeAtlasFilterResult:
         return _pageRoute(
           settings,
-          AtlasFilterResultScreen(asType(settings.arguments) as FilterUsersRequestParams),
+          AtlasFilterResultScreen(asType(settings.arguments) as FilterUsersRequest),
         );
       default:
         return null;

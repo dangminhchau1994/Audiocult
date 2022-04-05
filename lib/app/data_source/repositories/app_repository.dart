@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:audio_cult/app/data_source/models/cache_filter.dart';
+import 'package:audio_cult/app/data_source/models/requests/filter_users_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/register_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/upload_request.dart';
 import 'package:audio_cult/app/data_source/models/responses/album/album_response.dart';
@@ -383,21 +384,8 @@ class AppRepository extends BaseRepository {
     });
   }
 
-  Future<Either<List<AtlasUser>, Exception>> getAtlasUsers({
-    int? groupId,
-    String? countryISO,
-    String? categoryId,
-    List<int>? genreIds,
-    int pageNumber = 1,
-  }) async {
-    return safeCall(() {
-      return appServiceProvider.getAtlasUsers(
-        groupId: groupId,
-        countryISO: countryISO,
-        genreIds: genreIds,
-        pageNumber: pageNumber,
-      );
-    });
+  Future<Either<List<AtlasUser>, Exception>> getAtlasUsers(FilterUsersRequest params) async {
+    return safeCall(() => appServiceProvider.getAtlasUsers(params));
   }
 
   Future<Either<UserSubscriptionResponse, Exception>> subcribeUser(AtlasUser user) async {
