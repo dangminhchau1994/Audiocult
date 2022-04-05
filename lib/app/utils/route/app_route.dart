@@ -4,6 +4,7 @@ import 'package:audio_cult/app/features/auth/check_email/check_mail_screen.dart'
 import 'package:audio_cult/app/features/auth/login/login_screen.dart';
 import 'package:audio_cult/app/features/auth/place_location/place_location_screen.dart';
 import 'package:audio_cult/app/features/auth/resent_password/resent_password_screen.dart';
+import 'package:audio_cult/app/features/events/calendar/calendar_screen.dart';
 import 'package:audio_cult/app/features/events/filter/filter_event_screen.dart';
 import 'package:audio_cult/app/features/events/result/result_screen.dart';
 import 'package:audio_cult/app/features/main/main_screen.dart';
@@ -62,6 +63,7 @@ class AppRoute {
   static const String routeCreatePlayList = '/create_playlist';
   static const String routeFilterEvent = '/filter_event';
   static const String routeResultEvent = '/result_event';
+  static const String routeCalendarEvent = '/calendar_event';
 
   ///#end region
 
@@ -158,6 +160,11 @@ class AppRoute {
         return _pageRoute(
           settings,
           const FilterEventScreen(),
+        );
+      case routeCalendarEvent:
+        return _pageRoute(
+          settings,
+          const CalendarScreen(),
         );
       case routeCommentEdit:
         final arguments = asType(settings.arguments);

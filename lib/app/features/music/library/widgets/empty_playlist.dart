@@ -1,12 +1,18 @@
 import 'package:audio_cult/app/utils/constants/app_assets.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
-import 'package:audio_cult/l10n/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class EmptyPlayList extends StatelessWidget {
-  const EmptyPlayList({Key? key}) : super(key: key);
+  const EmptyPlayList({
+    Key? key,
+    this.title,
+    this.content,
+  }) : super(key: key);
+
+  final String? title;
+  final String? content;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +30,7 @@ class EmptyPlayList extends StatelessWidget {
               height: 20,
             ),
             Text(
-              context.l10n.t_empty_playlist,
+              title ?? '',
               style: context.bodyTextPrimaryStyle()!.copyWith(
                     color: Colors.white,
                     fontSize: 18,
@@ -35,7 +41,7 @@ class EmptyPlayList extends StatelessWidget {
               height: 10,
             ),
             Text(
-              context.l10n.t_create_first_playlist,
+              content ?? '',
               style: context.bodyTextPrimaryStyle()!.copyWith(
                     color: AppColors.subTitleColor,
                     fontSize: 16,

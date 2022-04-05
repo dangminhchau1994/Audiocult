@@ -19,6 +19,7 @@ dependencies:
   badges: ^2.0.2
   flutter_custom_tab_bar: ^1.1.9
   flutter_reaction_button: ^2.0.0+1
+  table_calendar: ^3.0.5
   emoji_picker_flutter: ^1.1.2
   freezed_annotation:
   flutter_localizations:

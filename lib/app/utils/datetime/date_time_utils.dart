@@ -1,6 +1,82 @@
 import 'package:intl/intl.dart';
 
 class DateTimeUtils {
+  static const List<String> weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+
+  static const List months = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December'
+  ];
+
+  static Iterable<DateTime> daysRange(DateTime first, DateTime last) {
+    final listOfDates = List<DateTime>.generate(last.day, (i) => DateTime(first.year, first.month, i + 1));
+    return listOfDates;
+  }
+
+  static DateTime previousMonth(DateTime m) {
+    var year = m.year;
+    var month = m.month;
+    if (month == 1) {
+      year--;
+      month = 12;
+    } else {
+      month--;
+    }
+    return DateTime(year, month);
+  }
+
+  static DateTime nextMonth(DateTime m) {
+    var year = m.year;
+    var month = m.month;
+
+    if (month == 12) {
+      year++;
+      month = 1;
+    } else {
+      month++;
+    }
+    return DateTime(year, month);
+  }
+
+  /// The list of days in a given month
+  static List<DateTime> daysInMonth(DateTime month) {
+    var first = firstDayOfMonth(month);
+    var daysBefore = first.weekday;
+    var firstToDisplay = first.subtract(Duration(days: daysBefore));
+    var last = DateTimeUtils.lastDayOfMonth(month);
+
+    var daysAfter = 7 - last.weekday;
+
+    // If the last day is sunday (7) the entire week must be rendered
+    if (daysAfter == 0) {
+      daysAfter = 7;
+    }
+
+    // var lastToDisplay = last.add(Duration(days: daysAfter));
+    return daysRange(first, last).toList();
+  }
+
+  /// The last day of a given month
+  static DateTime lastDayOfMonth(DateTime month) {
+    var beginningNextMonth =
+        (month.month < 12) ? DateTime(month.year, month.month + 1, 1) : DateTime(month.year + 1, 1, 1);
+    return beginningNextMonth.subtract(Duration(days: 1));
+  }
+
+  static DateTime firstDayOfMonth(DateTime month) {
+    return DateTime(month.year, month.month);
+  }
+
   static String formatCommonDate(String format, int timeStamp) {
     final dateToTimeStamp = DateTime.fromMillisecondsSinceEpoch(timeStamp * 1000);
     return DateFormat(format).format(dateToTimeStamp);

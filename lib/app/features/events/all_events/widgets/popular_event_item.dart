@@ -1,10 +1,16 @@
+import 'package:audio_cult/app/data_source/models/responses/events/event_response.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/w_components/images/common_image_network.dart';
 import 'package:flutter/material.dart';
 
 class PopularEventItem extends StatefulWidget {
-  const PopularEventItem({Key? key}) : super(key: key);
+  const PopularEventItem({
+    Key? key,
+    this.data,
+  }) : super(key: key);
+
+  final EventResponse? data;
 
   @override
   State<PopularEventItem> createState() => _PopularEventItemState();

@@ -1,6 +1,7 @@
 import 'package:audio_cult/app/utils/constants/app_assets.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
+import 'package:audio_cult/app/utils/route/app_route.dart';
 import 'package:audio_cult/l10n/l10n.dart';
 import 'package:audio_cult/w_components/buttons/w_button_inkwell.dart';
 import 'package:flutter/material.dart';
@@ -27,6 +28,9 @@ class ShowEvents extends StatelessWidget {
         Row(
           children: [
             WButtonInkwell(
+              onPressed: () {
+                Navigator.pushNamed(context, AppRoute.routeCalendarEvent);
+              },
               child: _buildButton(
                 AppAssets.calendarIcon,
                 context.l10n.t_in_calendar,
