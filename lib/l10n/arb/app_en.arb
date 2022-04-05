@@ -131,5 +131,6 @@
     "t_result":"Results",
     "t_song_mixtaps":"Song / Mixtape",
     "t_feature_song":"Features song",
-    "t_song_of_the_day":"Song of the day"
+    "t_song_of_the_day":"Song of the day",
+    "t_music_genre":"Music Genre"
 }

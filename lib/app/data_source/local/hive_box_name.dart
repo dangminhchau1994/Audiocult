@@ -8,5 +8,6 @@ class HiveBoxKey {
   static const genresBox = 'genresBox';
   static const cacheFilter = 'cacheFilter';
   static const profile = 'user_profile';
-
+  static const countries = 'countries';
+  static const categories = 'categories';
 }

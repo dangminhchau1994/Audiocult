@@ -3,11 +3,13 @@ import 'dart:io';
 import 'package:audio_cult/app/data_source/local/pref_provider.dart';
 import 'package:audio_cult/app/data_source/models/requests/create_playlist_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/event_request.dart';
+import 'package:audio_cult/app/data_source/models/requests/filter_users_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/register_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/upload_request.dart';
 import 'package:audio_cult/app/data_source/models/responses/album/album_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/atlas_category.dart';
 import 'package:audio_cult/app/data_source/models/responses/comment/comment_response.dart';
+import 'package:audio_cult/app/data_source/models/responses/country_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/create_playlist/create_playlist_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/events/event_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/login_response.dart';
@@ -34,6 +36,7 @@ import '../networks/core/handler/app_response_handler.dart';
 class AppServiceProvider {
   late DioHelper _dioHelper;
   List<AtlasCategory>? _atlasCategories;
+  List<Country>? _countries;
 
   AppServiceProvider(Dio dio) {
     _dioHelper = DioHelper(dio, responseHandler: AppResponseHandler());
@@ -601,23 +604,10 @@ class AppServiceProvider {
     return _atlasCategories!;
   }
 
-  Future<List<AtlasUser>> getAtlasUsers({
-    int? groupId,
-    String? countryISO,
-    int? categoryId,
-    List<int>? genreIds,
-    int pageNumber = 1,
-  }) async {
-    final queryParams = {
-      'group_id': groupId,
-      'country_iso': countryISO,
-      'category_id': categoryId,
-      'genres_ids': genreIds?.join(','),
-      'page': pageNumber,
-    };
+  Future<List<AtlasUser>> getAtlasUsers(FilterUsersRequest params) async {
     final response = await _dioHelper.get(
       route: '/restful_api/atlas',
-      requestParams: queryParams,
+      requestParams: params.toJson(),
       responseBodyMapper: (jsonMapper) => AtlasUserResponse.fromJson(jsonMapper as Map<String, dynamic>),
     );
     return Future.value(response.data);
@@ -653,6 +643,7 @@ class AppServiceProvider {
       return CreateAlbumResponse(status: response.status as String, message: response.error['message'] as String);
     }
   }
+
   Future<CreateAlbumResponse> editSong(UploadRequest result) async {
     final dataRequest = await result.toJson();
     final response = await _dioHelper.put(
@@ -670,5 +661,24 @@ class AppServiceProvider {
     } else {
       return CreateAlbumResponse(status: response.status as String, message: response.error['message'] as String);
     }
+  }
+
+  Future<List<Country>> getAllCountries() async {
+    if (_countries?.isNotEmpty == true) {
+      return _countries!;
+    }
+    _countries = await _dioHelper.get(
+      route: '/restful_api/event/country',
+      responseBodyMapper: (json) {
+        final countriesData = json['data'];
+        final allKeys = countriesData.keys as Iterable<String>;
+        return allKeys.map((key) {
+          final json = countriesData[key] as Map<String, dynamic>;
+          return Country.fromJson(json);
+        }).toList();
+      },
+    );
+
+    return _countries ?? [];
   }
 }
