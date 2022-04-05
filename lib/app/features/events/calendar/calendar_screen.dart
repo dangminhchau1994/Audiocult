@@ -81,7 +81,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
           sort: 'most-liked',
           startTime: DateFormat('yyyy/MM/dd 00:00').format(_rangeStart!),
           endTime: DateFormat('yyyy/MM/dd 23:59').format(_rangeEnd!),
-          page: 1,
+          page: pageKey,
           limit: GlobalConstants.loadMoreItem,
         ),
       );
