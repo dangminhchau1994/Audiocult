@@ -80,15 +80,13 @@ class _AtlasScreenState extends State<AtlasScreen> {
           children: [
             SizedBox(
               height: 40,
-              child: Expanded(
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Expanded(flex: 6, child: _searchTextField()),
-                    const SizedBox(width: 8),
-                    Expanded(child: _filterButon()),
-                  ],
-                ),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Expanded(flex: 6, child: _searchTextField()),
+                  const SizedBox(width: 8),
+                  Expanded(child: _filterButon()),
+                ],
               ),
             ),
             Expanded(child: _atlasListWidget()),
