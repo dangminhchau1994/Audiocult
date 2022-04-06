@@ -17,6 +17,8 @@ import 'package:audio_cult/w_components/comment/comment_item_bloc.dart';
 import 'package:audio_cult/w_components/comment/reply_list_bloc.dart';
 import 'package:get_it/get_it.dart';
 
+import '../app/features/events/map/map_bloc.dart';
+import '../app/features/events/popular_event_bloc.dart';
 import '../app/features/main/main_bloc.dart';
 import '../app/features/music/discover/discover_bloc.dart';
 import '../app/features/music/library/library_bloc.dart';
@@ -84,5 +86,13 @@ void setupLocator() {
 
   getIt.registerLazySingleton<CalendarBloc>(
     () => CalendarBloc(locator.get<AppRepository>()),
+  );
+
+  getIt.registerLazySingleton<PopularEventBloc>(
+    () => PopularEventBloc(locator.get<AppRepository>()),
+  );
+
+  getIt.registerLazySingleton<MapBloc>(
+    () => MapBloc(locator.get<AppRepository>()),
   );
 }

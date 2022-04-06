@@ -41,6 +41,9 @@ class ShowEvents extends StatelessWidget {
               width: 8,
             ),
             WButtonInkwell(
+              onPressed: () {
+                Navigator.pushNamed(context, AppRoute.routeEventMap);
+              },
               child: _buildButton(
                 AppAssets.locationIcon,
                 context.l10n.t_on_map,

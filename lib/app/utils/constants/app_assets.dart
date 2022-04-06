@@ -5,6 +5,8 @@ class AppAssets {
 
   static const messageIcon = 'assets/icons/messages.svg';
 
+  static const arrowUp = 'assets/icons/arrow_up.svg';
+
   static const addPlaylistIcon = 'assets/icons/add_playlist.svg';
 
   static const shareIcon = 'assets/icons/share.svg';

@@ -1,10 +1,12 @@
-import 'package:audio_cult/app/data_source/models/responses/events/event_response.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/w_components/images/common_image_network.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
-class PopularEventItem extends StatefulWidget {
+import '../../../../data_source/models/responses/events/event_response.dart';
+
+class PopularEventItem extends StatelessWidget {
   const PopularEventItem({
     Key? key,
     this.data,
@@ -13,25 +15,26 @@ class PopularEventItem extends StatefulWidget {
   final EventResponse? data;
 
   @override
-  State<PopularEventItem> createState() => _PopularEventItemState();
-}
-
-class _PopularEventItemState extends State<PopularEventItem> {
-  @override
   Widget build(BuildContext context) {
+    final date = data?.eventDate?.split('-')[0].split(', ')[1].split(' ')[1];
+    final month = data?.eventDate?.split('-')[0].split(', ')[1].split(' ')[0];
+    final year = data?.eventDate?.split('-')[0].split(', ')[2].split(' ')[0];
+    final hour = DateFormat.jm()
+        .format(DateFormat('hh:mm').parse(data?.eventDate?.split('-')[0].split(', ')[2].split(' ')[1] ?? ''));
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const CommonImageNetWork(
-          width: 240,
+        CommonImageNetWork(
+          width: 250,
           height: 176,
-          imagePath: 'http://staging.audiocult.net/PF.Base/file/pic/photo/620da96306324.jpeg',
+          imagePath: data?.imagePath ?? '',
         ),
         const SizedBox(
           height: 10,
         ),
         Text(
-          'Oblivion : Chapter 2',
+          data?.title ?? '',
           style: context.bodyTextStyle()?.copyWith(
                 color: Colors.white,
                 fontSize: 14,
@@ -40,35 +43,25 @@ class _PopularEventItemState extends State<PopularEventItem> {
         const SizedBox(
           height: 10,
         ),
-        Row(
-          children: [
-            Text(
-              'JAN 28-30, 2021',
-              style: context.bodyTextPrimaryStyle()!.copyWith(
-                    color: AppColors.subTitleColor,
-                    fontSize: 12,
-                  ),
-            ),
-            const SizedBox(
-              width: 4,
-            ),
-            const Icon(
-              Icons.circle,
-              color: Colors.grey,
-              size: 2,
-            ),
-            const SizedBox(
-              width: 4,
-            ),
-            Text(
-              '4 PM',
-              style: context.bodyTextPrimaryStyle()!.copyWith(
-                    color: AppColors.subTitleColor,
-                    fontSize: 12,
-                  ),
-            ),
-          ],
-        )
+        Text(
+          '$hour - $month $date, $year',
+          style: context.bodyTextPrimaryStyle()!.copyWith(
+                color: AppColors.subTitleColor,
+                fontSize: 12,
+              ),
+        ),
+        const SizedBox(height: 6),
+        SizedBox(
+          width: 300,
+          child: Text(
+            data?.location ?? '',
+            overflow: TextOverflow.ellipsis,
+            style: context.bodyTextStyle()?.copyWith(
+                  color: AppColors.subTitleColor,
+                  fontSize: 12,
+                ),
+          ),
+        ),
       ],
     );
   }

@@ -12,9 +12,11 @@ class AllEventItem extends StatelessWidget {
   const AllEventItem({
     Key? key,
     this.data,
+    this.width,
   }) : super(key: key);
 
   final EventResponse? data;
+  final double? width;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +31,7 @@ class AllEventItem extends StatelessWidget {
         Stack(
           children: [
             CommonImageNetWork(
-              width: double.infinity,
+              width: width ?? double.infinity,
               height: 176,
               imagePath: data?.imagePath ?? '',
             ),

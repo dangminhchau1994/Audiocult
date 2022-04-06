@@ -26,6 +26,7 @@ import 'package:audio_cult/w_components/comment/comment_list_screen.dart';
 import 'package:audio_cult/w_components/comment/reply_list_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
+import '../../features/events/map/map_screen.dart';
 import '../../features/music/featured_albums/featured_album_screen.dart';
 import '../../features/music/search/search_args.dart';
 import '../../features/music/search/search_screen.dart';
@@ -64,6 +65,7 @@ class AppRoute {
   static const String routeFilterEvent = '/filter_event';
   static const String routeResultEvent = '/result_event';
   static const String routeCalendarEvent = '/calendar_event';
+  static const String routeEventMap = '/event_map';
 
   ///#end region
 
@@ -140,6 +142,8 @@ class AppRoute {
             albumId: arguments['album_id'] as String,
           ),
         );
+      case routeEventMap:
+        return _pageRoute(settings, const MapScreen());
       case routeDetailPlayList:
         final arguments = asType(settings.arguments);
         return _pageRoute(
