@@ -18,7 +18,12 @@ import '../../../../utils/constants/app_colors.dart';
 import '../../all_event_bloc.dart';
 
 class AllEvents extends StatefulWidget {
-  const AllEvents({Key? key}) : super(key: key);
+  const AllEvents({
+    Key? key,
+    this.pagingController,
+  }) : super(key: key);
+
+  final PagingController<int, EventResponse>? pagingController;
 
   @override
   State<AllEvents> createState() => _AllEventsState();
@@ -26,7 +31,7 @@ class AllEvents extends StatefulWidget {
 
 class _AllEventsState extends State<AllEvents> {
   late AllEventBloc _eventBloc;
-  final PagingController<int, EventResponse> _pagingController = PagingController(firstPageKey: 1);
+  late PagingController<int, EventResponse> _pagingController;
 
   Future<void> _fetchPage(int pageKey) async {
     try {
@@ -56,6 +61,7 @@ class _AllEventsState extends State<AllEvents> {
   @override
   void initState() {
     super.initState();
+    _pagingController = widget.pagingController!;
     _pagingController.addPageRequestListener((pageKey) {
       if (pageKey > 1) {
         _fetchPage(pageKey);
@@ -135,7 +141,6 @@ class _AllEventsState extends State<AllEvents> {
                 return PagedListView<int, EventResponse>.separated(
                   shrinkWrap: true,
                   padding: const EdgeInsets.symmetric(
-                    horizontal: 16,
                     vertical: 16,
                   ),
                   pagingController: _pagingController,

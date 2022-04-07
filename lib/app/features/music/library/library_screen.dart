@@ -112,7 +112,10 @@ class _LibraryScreenState extends State<LibraryScreen> with AutomaticKeepAliveCl
               child: LoadingBuilder<LibrayBloc, List<PlaylistResponse>>(
                 builder: (data, _) {
                   if (data.isEmpty) {
-                    return const EmptyPlayList();
+                    return EmptyPlayList(
+                      title: context.l10n.t_empty_playlist,
+                      content: context.l10n.t_create_first_playlist,
+                    );
                   }
                   //only first page
                   final isLastPage = data.length == GlobalConstants.loadMoreItem - 1;

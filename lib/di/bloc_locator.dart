@@ -3,6 +3,7 @@ import 'package:audio_cult/app/data_source/repositories/app_repository.dart';
 import 'package:audio_cult/app/features/atlas/atlas_bloc.dart';
 import 'package:audio_cult/app/features/atlas_filter_result/atlas_filter_result_bloc.dart';
 import 'package:audio_cult/app/features/events/all_event_bloc.dart';
+import 'package:audio_cult/app/features/events/calendar/calendar_bloc.dart';
 import 'package:audio_cult/app/features/events/result/result_bloc.dart';
 import 'package:audio_cult/app/features/music/detail-song/detail_song_bloc.dart';
 import 'package:audio_cult/app/features/music/detail_album/detail_album_bloc.dart';
@@ -17,6 +18,8 @@ import 'package:audio_cult/w_components/comment/comment_item_bloc.dart';
 import 'package:audio_cult/w_components/comment/reply_list_bloc.dart';
 import 'package:get_it/get_it.dart';
 
+import '../app/features/events/map/map_bloc.dart';
+import '../app/features/events/popular_event_bloc.dart';
 import '../app/features/main/main_bloc.dart';
 import '../app/features/music/discover/discover_bloc.dart';
 import '../app/features/music/library/library_bloc.dart';
@@ -82,5 +85,16 @@ void setupLocator() {
   );
   getIt.registerFactory<AtlasBloc>(() => AtlasBloc(locator.get<AppRepository>()));
 
+  getIt.registerLazySingleton<CalendarBloc>(
+    () => CalendarBloc(locator.get<AppRepository>()),
+  );
+
+  getIt.registerLazySingleton<PopularEventBloc>(
+    () => PopularEventBloc(locator.get<AppRepository>()),
+  );
+
+  getIt.registerLazySingleton<MapBloc>(
+    () => MapBloc(locator.get<AppRepository>()),
+  );
   getIt.registerFactory<AtlasFilterResultBloc>(() => AtlasFilterResultBloc(locator.get<AppRepository>()));
 }

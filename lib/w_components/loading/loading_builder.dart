@@ -54,7 +54,6 @@ class _LoadingBuilderState<T extends BaseBloc, TModel> extends State<LoadingBuil
                   child: const LoadingWidget(),
                 );
         } else if (state is ErrorState) {
-          debugPrint('chauDang: ${state.message}');
           return widget.errorBuilder != null
               ? widget.errorBuilder!()
               : LayoutBuilder(

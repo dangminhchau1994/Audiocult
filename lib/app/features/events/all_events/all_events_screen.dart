@@ -6,9 +6,12 @@ import 'package:audio_cult/app/utils/constants/app_colors.dart';
 import 'package:audio_cult/app/utils/constants/app_dimens.dart';
 import 'package:audio_cult/di/bloc_locator.dart';
 import 'package:flutter/material.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 import '../../../constants/global_constants.dart';
 import '../../../data_source/models/requests/event_request.dart';
+import '../../../data_source/models/responses/events/event_response.dart';
+import '../popular_event_bloc.dart';
 
 class AllEventsScreen extends StatefulWidget {
   const AllEventsScreen({Key? key}) : super(key: key);
@@ -18,6 +21,9 @@ class AllEventsScreen extends StatefulWidget {
 }
 
 class _AllEventsScreenState extends State<AllEventsScreen> with AutomaticKeepAliveClientMixin {
+  final PagingController<int, EventResponse> _pagingAllEventControler = PagingController(firstPageKey: 1);
+  final PagingController<int, EventResponse> _pagePoularEventController = PagingController(firstPageKey: 1);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,8 +32,13 @@ class _AllEventsScreenState extends State<AllEventsScreen> with AutomaticKeepAli
         color: AppColors.primaryButtonColor,
         backgroundColor: AppColors.secondaryButtonColor,
         onRefresh: () async {
-          getIt<AllEventBloc>().requestData(
+          _pagePoularEventController.refresh();
+          _pagingAllEventControler.refresh();
+          getIt<AllEventBloc>().requestData(params: EventRequest(page: 1, limit: GlobalConstants.loadMoreItem));
+          getIt<PopularEventBloc>().requestData(
             params: EventRequest(
+              query: '',
+              sort: 'most-liked',
               page: 1,
               limit: GlobalConstants.loadMoreItem,
             ),
@@ -41,12 +52,12 @@ class _AllEventsScreenState extends State<AllEventsScreen> with AutomaticKeepAli
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
-                ShowEvents(),
-                SizedBox(height: 40),
-                PopularEvents(),
-                SizedBox(height: 20),
-                AllEvents(),
+              children: [
+                const ShowEvents(),
+                const SizedBox(height: 40),
+                PopularEvents(pagingController: _pagePoularEventController),
+                const SizedBox(height: 20),
+                AllEvents(pagingController: _pagingAllEventControler),
               ],
             ),
           ),

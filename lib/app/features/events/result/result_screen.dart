@@ -12,6 +12,7 @@ import '../../../../w_components/loading/loading_widget.dart';
 import '../../../constants/global_constants.dart';
 import '../../../data_source/models/requests/event_request.dart';
 import '../../../data_source/models/responses/events/event_response.dart';
+import '../../music/library/widgets/empty_playlist.dart';
 import '../all_events/widgets/all_event_item.dart';
 
 class ResultScreen extends StatefulWidget {
@@ -100,53 +101,53 @@ class _ResultScreenState extends State<ResultScreen> {
             ),
           );
         },
-        child: Container(
-          margin: const EdgeInsets.symmetric(
-            horizontal: kHorizontalSpacing,
-            vertical: kVerticalSpacing,
-          ),
-          child: LoadingBuilder<ResultBloc, List<EventResponse>>(
-            builder: (data, _) {
-              //only first page
-              final isLastPage = data.length == GlobalConstants.loadMoreItem - 1;
-              if (isLastPage) {
-                _pagingController.appendLastPage(data);
-              } else {
-                _pagingController.appendPage(data, _pagingController.firstPageKey + 1);
-              }
-              return PagedListView<int, EventResponse>.separated(
-                shrinkWrap: true,
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 16,
-                ),
-                pagingController: _pagingController,
-                separatorBuilder: (context, index) => const Divider(height: 24),
-                builderDelegate: PagedChildBuilderDelegate<EventResponse>(
-                  firstPageProgressIndicatorBuilder: (context) => Container(),
-                  newPageProgressIndicatorBuilder: (context) => const LoadingWidget(),
-                  animateTransitions: true,
-                  itemBuilder: (context, item, index) {
-                    return AllEventItem(
-                      data: item,
-                    );
-                  },
-                ),
-              );
-            },
-            reloadAction: (_) {
-              _pagingController.refresh();
-              _resultBloc.requestData(
-                params: EventRequest(
-                  query: widget.params?.query,
-                  distance: widget.params?.distance,
-                  when: widget.params?.when,
-                  page: 1,
-                  limit: GlobalConstants.loadMoreItem,
-                ),
-              );
-            },
-          ),
+        child: LoadingBuilder<ResultBloc, List<EventResponse>>(
+          noDataBuilder: (state) {
+            return EmptyPlayList(
+              title: context.l10n.t_no_data_found,
+              content: context.l10n.t_no_data_found_content,
+            );
+          },
+          builder: (data, _) {
+            //only first page
+            final isLastPage = data.length == GlobalConstants.loadMoreItem - 1;
+            if (isLastPage) {
+              _pagingController.appendLastPage(data);
+            } else {
+              _pagingController.appendPage(data, _pagingController.firstPageKey + 1);
+            }
+            return PagedListView<int, EventResponse>.separated(
+              shrinkWrap: true,
+              padding: const EdgeInsets.symmetric(
+                horizontal: 16,
+                vertical: 16,
+              ),
+              pagingController: _pagingController,
+              separatorBuilder: (context, index) => const Divider(height: 24),
+              builderDelegate: PagedChildBuilderDelegate<EventResponse>(
+                firstPageProgressIndicatorBuilder: (context) => Container(),
+                newPageProgressIndicatorBuilder: (context) => const LoadingWidget(),
+                animateTransitions: true,
+                itemBuilder: (context, item, index) {
+                  return AllEventItem(
+                    data: item,
+                  );
+                },
+              ),
+            );
+          },
+          reloadAction: (_) {
+            _pagingController.refresh();
+            _resultBloc.requestData(
+              params: EventRequest(
+                query: widget.params?.query,
+                distance: widget.params?.distance,
+                when: widget.params?.when,
+                page: 1,
+                limit: GlobalConstants.loadMoreItem,
+              ),
+            );
+          },
         ),
       ),
     );
