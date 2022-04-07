@@ -4,7 +4,9 @@ import 'package:audio_cult/app/features/atlas/atlas_bloc.dart';
 import 'package:audio_cult/app/features/atlas/atlas_user_widget.dart';
 import 'package:audio_cult/app/utils/constants/app_assets.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
+import 'package:audio_cult/app/utils/route/app_route.dart';
 import 'package:audio_cult/di/bloc_locator.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -78,15 +80,13 @@ class _AtlasScreenState extends State<AtlasScreen> {
           children: [
             SizedBox(
               height: 40,
-              child: Expanded(
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Expanded(flex: 6, child: _searchTextField()),
-                    const SizedBox(width: 8),
-                    Expanded(child: _filterButon()),
-                  ],
-                ),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Expanded(flex: 6, child: _searchTextField()),
+                  const SizedBox(width: 8),
+                  Expanded(child: _filterButon()),
+                ],
               ),
             ),
             Expanded(child: _atlasListWidget()),
@@ -135,7 +135,7 @@ class _AtlasScreenState extends State<AtlasScreen> {
       child: IconButton(
         color: AppColors.lightBlue,
         onPressed: () {
-          // TODO: handle filter button
+          Navigator.pushNamed(context, AppRoute.routeAtlasFilter);
         },
         icon: SvgPicture.asset(AppAssets.whiteFilterIcon),
       ),
@@ -163,13 +163,14 @@ class _AtlasScreenState extends State<AtlasScreen> {
               pagingController: _pagingController,
               builderDelegate: PagedChildBuilderDelegate<AtlasUser>(
                 itemBuilder: (context, user, index) {
-                  final isUpdatedSubscriptionAvailable = (updatedSubscriptionData?.length ?? 0) > index;
+                  final latestSubscriptionCount =
+                      updatedSubscriptionData?.firstWhereOrNull((e) => e.userId == user.userId)?.subscriptionCount;
+                  final latestSubscriptionValue =
+                      updatedSubscriptionData?.firstWhereOrNull((e) => e.userId == user.userId)?.isSubcribed;
                   return AtlasUserWidget(
                     user,
-                    updatedSubscriptionCount:
-                        isUpdatedSubscriptionAvailable ? updatedSubscriptionData![index].subscriptionCount : null,
-                    updatedSubscriptionStatus:
-                        isUpdatedSubscriptionAvailable ? updatedSubscriptionData![index].isSubcribed : null,
+                    updatedSubscriptionCount: latestSubscriptionCount,
+                    updatedSubscriptionStatus: latestSubscriptionValue,
                     userSubscriptionInProcess: subscriptionInProcess?[user.userId] ?? false,
                     subscriptionOnChanged: () {
                       _bloc.subcribeUser(user);
@@ -185,6 +186,7 @@ class _AtlasScreenState extends State<AtlasScreen> {
   }
 
   Future<void> _pullRefresh() async {
+    await _bloc.refreshAtlasUserData();
     _pagingController.refresh();
   }
 }

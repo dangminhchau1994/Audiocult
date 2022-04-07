@@ -1,8 +1,11 @@
 import 'package:audio_cult/app/data_source/local/hive_box_name.dart';
 import 'package:audio_cult/app/data_source/models/responses/album/album_response.dart';
+import 'package:audio_cult/app/data_source/models/responses/atlas_category.dart';
+import 'package:audio_cult/app/data_source/models/responses/country_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/genre.dart';
 import 'package:audio_cult/app/data_source/models/responses/profile_data.dart';
 import 'package:audio_cult/w_components/dropdown/common_dropdown.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
@@ -40,6 +43,24 @@ class HiveServiceProvider {
   List<Genre> getGenres() {
     final result = Hive.box(HiveBoxName.cache).get(HiveBoxKey.genresBox, defaultValue: []) as List;
     return result.map((e) => Genre.fromJson(Map<String, dynamic>.from(e as Map))).toList();
+  }
+
+  void saveCountries(List<Country> countries) async {
+    await Hive.box(HiveBoxName.cache).put(HiveBoxKey.countries, countries);
+  }
+
+  List<Country> getCachedCountries() {
+    final result = Hive.box(HiveBoxName.cache).get(HiveBoxKey.countries, defaultValue: []) as List;
+    return result.map((e) => Country.fromJson(e as Map<String, dynamic>)).toList();
+  }
+
+  void saveCategories(List<AtlasCategory> categories) async {
+    await Hive.box(HiveBoxName.cache).get(HiveBoxKey.categories, defaultValue: []) as List;
+  }
+
+  List<AtlasCategory> getCachedCategories() {
+    final result = Hive.box(HiveBoxName.cache).get(HiveBoxKey.categories, defaultValue: []) as List;
+    return result.map((e) => AtlasCategory.fromJson(e as Map<String, dynamic>)).toList();
   }
 
   CacheFilter? getCacheFilter() {

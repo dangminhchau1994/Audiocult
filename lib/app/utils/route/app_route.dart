@@ -1,7 +1,12 @@
 import 'dart:typed_data';
 
 import 'package:audio_cult/app/data_source/models/requests/event_request.dart';
+import 'package:audio_cult/app/data_source/models/requests/filter_users_request.dart';
 import 'package:audio_cult/app/data_source/models/responses/comment/comment_response.dart';
+import 'package:audio_cult/app/data_source/repositories/app_repository.dart';
+import 'package:audio_cult/app/features/atlas_filter/atlas_filter_provider.dart';
+import 'package:audio_cult/app/features/atlas_filter/atlas_filter_screen.dart';
+import 'package:audio_cult/app/features/atlas_filter_result/atlas_filter_result_screen.dart';
 import 'package:audio_cult/app/features/auth/check_email/check_mail_screen.dart';
 import 'package:audio_cult/app/features/auth/login/login_screen.dart';
 import 'package:audio_cult/app/features/auth/place_location/place_location_screen.dart';
@@ -21,14 +26,15 @@ import 'package:audio_cult/app/features/music/my_album/upload_album/upload_album
 import 'package:audio_cult/app/features/music/my_album/upload_song/upload_song_screen.dart';
 import 'package:audio_cult/app/features/music/top_playlist/top_playlist_screen.dart';
 import 'package:audio_cult/app/features/player_widgets/player_screen.dart';
+import 'package:audio_cult/app/injections.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/w_components/comment/comment_args.dart';
 import 'package:audio_cult/w_components/comment/comment_edit_screen.dart';
 import 'package:audio_cult/w_components/comment/comment_list_screen.dart';
 import 'package:audio_cult/w_components/comment/reply_list_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:provider/provider.dart';
 import '../../features/events/map/map_screen.dart';
 import '../../features/music/featured_albums/featured_album_screen.dart';
 import '../../features/music/search/search_args.dart';
@@ -69,6 +75,8 @@ class AppRoute {
   static const String routeResultEvent = '/result_event';
   static const String routeCalendarEvent = '/calendar_event';
   static const String routeEventMap = '/event_map';
+  static const String routeAtlasFilter = '/atlas_filter';
+  static const String routeAtlasFilterResult = '/atlas_filter_result';
 
   ///#end region
 
@@ -235,6 +243,19 @@ class AppRoute {
         return _pageRoute(
           settings,
           const UploadAlbumScreen(),
+        );
+      case routeAtlasFilter:
+        return _pageRoute(
+          settings,
+          ChangeNotifierProvider(
+            create: (context) => AtlasFilterProvider(locator.get<AppRepository>()),
+            child: const FilterAtlasScreen(),
+          ),
+        );
+      case routeAtlasFilterResult:
+        return _pageRoute(
+          settings,
+          AtlasFilterResultScreen(asType(settings.arguments) as FilterUsersRequest),
         );
       default:
         return null;

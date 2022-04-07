@@ -28,4 +28,6 @@ class AppColors {
   static final ebonyClay = HexColor.fromHex('#1F2937');
 
   static final deepTeal = HexColor.fromHex('#003333');
+
+  static final pealSky = HexColor.fromHex('#6B7280');
 }
