@@ -21,10 +21,11 @@ class AllEventsScreen extends StatefulWidget {
 }
 
 class _AllEventsScreenState extends State<AllEventsScreen> with AutomaticKeepAliveClientMixin {
-  final PagingController<int, EventResponse> _pagingAllEventControler = PagingController(firstPageKey: 1);
-  final PagingController<int, EventResponse> _pagePoularEventController = PagingController(firstPageKey: 1);
+  final PagingController<int, EventResponse> _pagingAllEventController = PagingController(firstPageKey: 1);
+  final PagingController<int, EventResponse> _pagePopularEventController = PagingController(firstPageKey: 1);
 
   @override
+  // ignore: must_call_super
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.mainColor,
@@ -32,8 +33,8 @@ class _AllEventsScreenState extends State<AllEventsScreen> with AutomaticKeepAli
         color: AppColors.primaryButtonColor,
         backgroundColor: AppColors.secondaryButtonColor,
         onRefresh: () async {
-          _pagePoularEventController.refresh();
-          _pagingAllEventControler.refresh();
+          _pagePopularEventController.refresh();
+          _pagingAllEventController.refresh();
           getIt<AllEventBloc>().requestData(params: EventRequest(page: 1, limit: GlobalConstants.loadMoreItem));
           getIt<PopularEventBloc>().requestData(
             params: EventRequest(
@@ -55,9 +56,9 @@ class _AllEventsScreenState extends State<AllEventsScreen> with AutomaticKeepAli
               children: [
                 const ShowEvents(),
                 const SizedBox(height: 40),
-                PopularEvents(pagingController: _pagePoularEventController),
+                PopularEvents(pagingController: _pagePopularEventController),
                 const SizedBox(height: 20),
-                AllEvents(pagingController: _pagingAllEventControler),
+                AllEvents(pagingController: _pagingAllEventController),
               ],
             ),
           ),

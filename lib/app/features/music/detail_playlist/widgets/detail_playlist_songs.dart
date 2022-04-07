@@ -8,7 +8,6 @@ import 'package:flutter_svg/svg.dart';
 import '../../../../../w_components/error_empty/error_section.dart';
 import '../../../../../w_components/loading/loading_widget.dart';
 import '../../../../base/bloc_state.dart';
-import '../../../../constants/app_text_styles.dart';
 import '../../../../data_source/models/responses/song/song_response.dart';
 import '../../../../injections.dart';
 import '../../../../utils/constants/app_assets.dart';
@@ -81,7 +80,6 @@ class _DetailPlayListSongsState extends State<DetailPlayListSongs> {
                       : Center(
                           child: Text(
                             context.l10n.t_no_data,
-                            style: AppTextStyles.normal,
                           ),
                         );
                 },
@@ -95,7 +93,7 @@ class _DetailPlayListSongsState extends State<DetailPlayListSongs> {
                     errorMessage: error,
                     onRetryTap: () {
                       playListBloc.getSongByPlayListId(
-                          int.parse(widget.playListId ?? ''), 1, GlobalConstants.loadMoreItem);
+                          int.parse(widget.playListId ?? ''), 1, GlobalConstants.loadMoreItem,);
                     },
                   );
                 },

@@ -1,8 +1,6 @@
 import 'package:audio_cult/app/constants/global_constants.dart';
 import 'package:audio_cult/app/data_source/models/responses/events/event_response.dart';
 import 'package:audio_cult/app/features/events/all_events/widgets/all_event_item.dart';
-import 'package:audio_cult/app/features/events/all_events/widgets/popular_event_item.dart';
-import 'package:audio_cult/app/features/events/all_events/widgets/popular_events.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
 import 'package:audio_cult/l10n/l10n.dart';
 import 'package:flutter/material.dart';

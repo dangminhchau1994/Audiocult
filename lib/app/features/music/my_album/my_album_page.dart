@@ -158,7 +158,7 @@ class _MyAlbumPageState extends State<MyAlbumPage> with DisposableStateMixin {
                                       child: Container(
                                         padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                                         child: SvgPicture.asset(
-                                          AppAssets.horizIcon,
+                                          AppAssets.horizontalIcon,
                                           width: 16,
                                           height: 16,
                                         ),
@@ -263,7 +263,7 @@ class _MyAlbumPageState extends State<MyAlbumPage> with DisposableStateMixin {
                                     child: Container(
                                       padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                                       child: SvgPicture.asset(
-                                        AppAssets.horizIcon,
+                                        AppAssets.horizontalIcon,
                                         width: 16,
                                         height: 16,
                                       ),

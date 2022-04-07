@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:audio_cult/app/data_source/services/hive_service_provider.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/l10n/l10n.dart';
@@ -13,7 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import '../../app/constants/app_text_styles.dart';
+
 import '../../app/constants/global_constants.dart';
 import '../../app/data_source/models/requests/comment_request.dart';
 import '../../app/data_source/models/responses/comment/comment_response.dart';
@@ -33,8 +34,8 @@ enum CommentType {
   playlist,
 }
 
-class CommmentListScreen extends StatefulWidget {
-  const CommmentListScreen({
+class CommentListScreen extends StatefulWidget {
+  const CommentListScreen({
     Key? key,
     required this.commentArgs,
   }) : super(key: key);
@@ -42,17 +43,17 @@ class CommmentListScreen extends StatefulWidget {
   final CommentArgs commentArgs;
 
   @override
-  State<CommmentListScreen> createState() => _CommmentListScreennState();
+  State<CommentListScreen> createState() => _CommentListScreenState();
 }
 
-class _CommmentListScreennState extends State<CommmentListScreen> {
+class _CommentListScreenState extends State<CommentListScreen> {
   final PagingController<int, CommentResponse> _pagingController = PagingController(firstPageKey: 1);
   final TextEditingController _textEditingController = TextEditingController();
   final ValueNotifier<bool> _emojiShowing = ValueNotifier<bool>(false);
   final ValueNotifier<String> _text = ValueNotifier<String>('');
   final ValueNotifier<CommentResponse> _commentResponse = ValueNotifier<CommentResponse>(CommentResponse(text: ''));
   final HiveServiceProvider _hiveServiceProvider = HiveServiceProvider();
-  late CommenntListBloc _commenntListBloc;
+  late CommentListBloc _commentListBloc;
 
   String getType() {
     final type = widget.commentArgs.commentType!;
@@ -60,7 +61,7 @@ class _CommmentListScreennState extends State<CommmentListScreen> {
       case CommentType.album:
         return 'music_album';
       case CommentType.playlist:
-        return 'advancedmusic_playlist';
+        return 'advanced_music_playlist';
       case CommentType.song:
         return 'music_song';
       case CommentType.home:
@@ -87,13 +88,13 @@ class _CommmentListScreennState extends State<CommmentListScreen> {
   }
 
   void _submitComment() {
-    _commenntListBloc.createComment(widget.commentArgs.itemId ?? 0, getType(), _text.value);
+    _commentListBloc.createComment(widget.commentArgs.itemId ?? 0, getType(), _text.value);
     _text.value = '';
     _emojiShowing.value = false;
     _textEditingController.text = '';
     FocusManager.instance.primaryFocus?.unfocus();
     _pagingController.refresh();
-    _commenntListBloc.requestData(
+    _commentListBloc.requestData(
       params: CommentRequest(
         id: widget.commentArgs.itemId ?? 0,
         typeId: getType(),
@@ -121,8 +122,8 @@ class _CommmentListScreennState extends State<CommmentListScreen> {
         _fetchPage(pageKey);
       }
     });
-    _commenntListBloc = getIt.get<CommenntListBloc>();
-    _commenntListBloc.requestData(
+    _commentListBloc = getIt.get<CommentListBloc>();
+    _commentListBloc.requestData(
       params: CommentRequest(
         id: widget.commentArgs.itemId ?? 0,
         typeId: getType(),
@@ -134,7 +135,7 @@ class _CommmentListScreennState extends State<CommmentListScreen> {
 
   Future<void> _fetchPage(int pageKey) async {
     try {
-      final newItems = await _commenntListBloc.loadData(
+      final newItems = await _commentListBloc.loadData(
         CommentRequest(
           id: widget.commentArgs.itemId ?? 0,
           typeId: getType(),
@@ -152,7 +153,7 @@ class _CommmentListScreennState extends State<CommmentListScreen> {
             _pagingController.appendPage(l, nextPageKey);
           }
         },
-        (r) => _commenntListBloc.showError,
+        (r) => _commentListBloc.showError,
       );
     } catch (error) {
       _pagingController.error = error;
@@ -215,8 +216,8 @@ class _CommmentListScreennState extends State<CommmentListScreen> {
               onPressed: () {
                 Navigator.pop(context);
                 _pagingController.refresh();
-                _commenntListBloc.deleteComment(int.parse(item.commentId ?? ''));
-                _commenntListBloc.requestData(
+                _commentListBloc.deleteComment(int.parse(item.commentId ?? ''));
+                _commentListBloc.requestData(
                   params: CommentRequest(
                     id: widget.commentArgs.itemId ?? 0,
                     typeId: getType(),
@@ -274,7 +275,7 @@ class _CommmentListScreennState extends State<CommmentListScreen> {
                 backgroundColor: AppColors.secondaryButtonColor,
                 onRefresh: () async {
                   _pagingController.refresh();
-                  _commenntListBloc.requestData(
+                  _commentListBloc.requestData(
                     params: CommentRequest(
                       id: widget.commentArgs.itemId,
                       typeId: getType(),
@@ -283,7 +284,7 @@ class _CommmentListScreennState extends State<CommmentListScreen> {
                     ),
                   );
                 },
-                child: LoadingBuilder<CommenntListBloc, List<CommentResponse>>(
+                child: LoadingBuilder<CommentListBloc, List<CommentResponse>>(
                   builder: (data, _) {
                     //only first page
                     final isLastPage = data.length == GlobalConstants.loadMoreItem - 1;
@@ -355,7 +356,7 @@ class _CommmentListScreennState extends State<CommmentListScreen> {
                   },
                   reloadAction: (_) {
                     _pagingController.refresh();
-                    _commenntListBloc.requestData(
+                    _commentListBloc.requestData(
                       params: CommentRequest(
                         id: widget.commentArgs.itemId,
                         typeId: getType(),
@@ -398,7 +399,6 @@ class _CommmentListScreennState extends State<CommmentListScreen> {
                           onTap: () {
                             _emojiShowing.value = false;
                           },
-                          style: AppTextStyles.normal,
                           decoration: InputDecoration(
                             filled: true,
                             focusColor: AppColors.outlineBorderColor,
@@ -457,7 +457,6 @@ class _CommmentListScreennState extends State<CommmentListScreen> {
                             hintText: context.l10n.t_leave_comment,
                             hintStyle: context.bodyTextPrimaryStyle()!.copyWith(
                                   color: AppColors.subTitleColor,
-                                  fontSize: 14,
                                 ),
                           ),
                         ),

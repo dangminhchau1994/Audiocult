@@ -48,8 +48,8 @@ void setupLocator() {
 
   getIt.registerLazySingleton<DetailPlayListBloc>(() => DetailPlayListBloc(locator.get<AppRepository>()));
 
-  getIt.registerLazySingleton<CommenntListBloc>(
-    () => CommenntListBloc(locator.get<AppRepository>()),
+  getIt.registerLazySingleton<CommentListBloc>(
+    () => CommentListBloc(locator.get<AppRepository>()),
   );
 
   getIt.registerLazySingleton<ReplyListBloc>(
@@ -68,8 +68,8 @@ void setupLocator() {
     () => CreatePlayListBloc(locator.get<AppRepository>()),
   );
 
-  getIt.registerLazySingleton<LibrayBloc>(
-    () => LibrayBloc(locator.get<AppRepository>()),
+  getIt.registerLazySingleton<LibraryBloc>(
+    () => LibraryBloc(locator.get<AppRepository>()),
   );
 
   getIt.registerLazySingleton<PlayListDialogBloc>(

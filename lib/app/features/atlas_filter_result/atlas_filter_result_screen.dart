@@ -83,13 +83,13 @@ class _AtlasFilterResultScreenState extends State<AtlasFilterResultScreen> {
                 final latestSubscriptionCount =
                     updatedSubscriptionData?.firstWhereOrNull((e) => e.userId == user.userId)?.subscriptionCount;
                 final latestSubscriptionValue =
-                    updatedSubscriptionData?.firstWhereOrNull((e) => e.userId == user.userId)?.isSubcribed;
+                    updatedSubscriptionData?.firstWhereOrNull((e) => e.userId == user.userId)?.isSubscribed;
                 return AtlasUserWidget(
                   user,
                   updatedSubscriptionCount: latestSubscriptionCount,
                   updatedSubscriptionStatus: latestSubscriptionValue,
                   userSubscriptionInProcess: subscriptionsInProcess?[user.userId] ?? false,
-                  subscriptionOnChanged: () => _bloc.subcribeUser(user),
+                  subscriptionOnChanged: () => _bloc.subscribeUser(user),
                 );
               },
             ),

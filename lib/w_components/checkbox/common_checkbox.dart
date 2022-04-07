@@ -1,4 +1,3 @@
-import 'package:audio_cult/app/constants/app_text_styles.dart';
 import 'package:flutter/material.dart';
 
 import '../../app/utils/constants/app_colors.dart';
@@ -18,7 +17,7 @@ class CommonCheckbox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Theme(
-      data: ThemeData(
+      data: Theme.of(context).copyWith(
         splashColor: Colors.transparent,
         highlightColor: Colors.transparent,
       ),
@@ -27,7 +26,6 @@ class CommonCheckbox extends StatelessWidget {
         controlAffinity: ListTileControlAffinity.leading,
         title: Text(
           title ?? '',
-          style: AppTextStyles.regular,
         ),
         activeColor: AppColors.primaryButtonColor,
         value: isChecked,

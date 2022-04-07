@@ -3,7 +3,6 @@ import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/l10n/l10n.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 
 import '../../../../../w_components/buttons/w_button_inkwell.dart';
 import '../../../../../w_components/comment/comment_args.dart';
@@ -13,10 +12,8 @@ import '../../../../../w_components/comment/reply_item.dart';
 import '../../../../../w_components/error_empty/error_section.dart';
 import '../../../../../w_components/loading/loading_widget.dart';
 import '../../../../base/bloc_state.dart';
-import '../../../../constants/app_text_styles.dart';
 import '../../../../data_source/models/responses/comment/comment_response.dart';
 import '../../../../injections.dart';
-import '../../../../utils/constants/app_assets.dart';
 import '../../../../utils/constants/app_colors.dart';
 import '../../../../utils/route/app_route.dart';
 
@@ -39,7 +36,7 @@ class _DetailPlayListCommentState extends State<DetailPlayListComment> {
 
   @override
   void initState() {
-    playListBloc.getComments(widget.id ?? 0, 'advancedmusic_playlist', 1, 3);
+    playListBloc.getComments(widget.id ?? 0, 'advanced_music_playlist', 1, 3);
     super.initState();
   }
 
@@ -66,7 +63,6 @@ class _DetailPlayListCommentState extends State<DetailPlayListComment> {
                 ),
               );
             },
-            style: AppTextStyles.regular,
             decoration: InputDecoration(
               filled: true,
               focusColor: AppColors.outlineBorderColor,
@@ -88,7 +84,6 @@ class _DetailPlayListCommentState extends State<DetailPlayListComment> {
               hintText: context.l10n.t_leave_comment,
               hintStyle: context.bodyTextPrimaryStyle()!.copyWith(
                     color: AppColors.subTitleColor,
-                    fontSize: 14,
                   ),
             ),
           ),
@@ -178,7 +173,6 @@ class _DetailPlayListCommentState extends State<DetailPlayListComment> {
                               context.l10n.t_view_more_comment,
                               style: context.bodyTextPrimaryStyle()!.copyWith(
                                     color: AppColors.lightBlue,
-                                    fontSize: 14,
                                     fontWeight: FontWeight.bold,
                                   ),
                             ),

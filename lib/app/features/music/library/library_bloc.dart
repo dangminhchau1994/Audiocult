@@ -4,10 +4,10 @@ import 'package:dartz/dartz.dart';
 import '../../../data_source/models/responses/playlist/playlist_response.dart';
 import '../../../data_source/repositories/app_repository.dart';
 
-class LibrayBloc extends BaseBloc<AlbumPlaylistRequest, List<PlaylistResponse>> {
+class LibraryBloc extends BaseBloc<AlbumPlaylistRequest, List<PlaylistResponse>> {
   final AppRepository _appRepository;
 
-  LibrayBloc(this._appRepository);
+  LibraryBloc(this._appRepository);
 
   @override
   Future<Either<List<PlaylistResponse>, Exception>> loadData(AlbumPlaylistRequest? params) async {

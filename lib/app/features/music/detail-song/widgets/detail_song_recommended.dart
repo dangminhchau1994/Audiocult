@@ -5,16 +5,13 @@ import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/l10n/l10n.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../../w_components/buttons/w_button_inkwell.dart';
 import '../../../../../w_components/error_empty/error_section.dart';
 import '../../../../../w_components/loading/loading_widget.dart';
 import '../../../../base/bloc_state.dart';
 import '../../../../injections.dart';
-import '../../../../utils/constants/app_colors.dart';
-import '../../search/search_item.dart';
 
-class DetailSongRecommeded extends StatefulWidget {
-  const DetailSongRecommeded({
+class DetailSongRecommended extends StatefulWidget {
+  const DetailSongRecommended({
     Key? key,
     this.id,
   }) : super(key: key);
@@ -22,10 +19,10 @@ class DetailSongRecommeded extends StatefulWidget {
   final int? id;
 
   @override
-  State<DetailSongRecommeded> createState() => _DetailSongRecommededState();
+  State<DetailSongRecommended> createState() => _DetailSongRecommendedState();
 }
 
-class _DetailSongRecommededState extends State<DetailSongRecommeded> {
+class _DetailSongRecommendedState extends State<DetailSongRecommended> {
   DetailSongBloc songBloc = DetailSongBloc(locator.get());
 
   @override

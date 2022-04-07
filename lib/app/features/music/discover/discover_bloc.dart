@@ -36,7 +36,7 @@ class DiscoverBloc extends BaseBloc {
   }
 
   void getMixTapSongs(String query, String sort, int page, int limit, String view, String type,
-      {String? userId, String? albumId}) async {
+      {String? userId, String? albumId,}) async {
     _getMixTapSongsSubject.sink.add(const BlocState.loading());
 
     final result = await _appRepository.getMixTapSongs(query, sort, page, limit, view, type, userId: userId);

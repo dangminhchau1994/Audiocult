@@ -10,12 +10,16 @@
         "Debouncer",
         "dimens",
         "fluttertoast",
+        "formaty",
         "LTRB",
         "miniplayer",
+        "mixtape",
+        "mixtapes",
         "mobileapp",
         "Nunito",
         "Relayout",
         "rxdart",
+        "Seekbar",
         "sessiontoken",
         "sublist",
         "tabbar",
@@ -23,6 +27,7 @@
         "textfield",
         "textfields",
         "Toogle",
+        "unfocus",
         "vsync"
     ]
 }

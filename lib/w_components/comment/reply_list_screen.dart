@@ -13,7 +13,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
-import '../../app/constants/app_text_styles.dart';
 import '../../app/constants/global_constants.dart';
 import '../../app/data_source/models/requests/comment_request.dart';
 import '../../app/data_source/models/responses/comment/comment_response.dart';
@@ -56,7 +55,7 @@ class _ReplyListScreenState extends State<ReplyListScreen> {
       case CommentType.album:
         return 'music_album';
       case CommentType.playlist:
-        return 'advancedmusic_playlist';
+        return 'advanced_music_playlist';
       case CommentType.song:
         return 'music_song';
       case CommentType.home:
@@ -389,7 +388,6 @@ class _ReplyListScreenState extends State<ReplyListScreen> {
                           onTap: () {
                             _emojiShowing.value = false;
                           },
-                          style: AppTextStyles.normal,
                           decoration: InputDecoration(
                             filled: true,
                             focusColor: AppColors.outlineBorderColor,
@@ -448,7 +446,6 @@ class _ReplyListScreenState extends State<ReplyListScreen> {
                             hintText: context.l10n.t_leave_comment,
                             hintStyle: context.bodyTextPrimaryStyle()!.copyWith(
                                   color: AppColors.subTitleColor,
-                                  fontSize: 14,
                                 ),
                           ),
                         ),

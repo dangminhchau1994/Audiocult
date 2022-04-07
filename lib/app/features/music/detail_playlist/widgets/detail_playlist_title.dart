@@ -1,5 +1,6 @@
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:flutter/material.dart';
+
 import '../../../../utils/datetime/date_time_utils.dart';
 
 class DetailPlayListTitle extends StatelessWidget {
@@ -39,7 +40,6 @@ class DetailPlayListTitle extends StatelessWidget {
                 artistName ?? '',
                 style: context.bodyTextPrimaryStyle()!.copyWith(
                       color: Colors.white,
-                      fontSize: 14,
                     ),
               ),
               const SizedBox(
@@ -57,7 +57,6 @@ class DetailPlayListTitle extends StatelessWidget {
                 DateTimeUtils.formatyMMMMd(int.parse(time ?? '')),
                 style: context.bodyTextPrimaryStyle()!.copyWith(
                       color: Colors.white,
-                      fontSize: 14,
                     ),
               ),
             ],

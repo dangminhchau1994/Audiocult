@@ -135,7 +135,7 @@ class _FilterAtlasScreenState extends State<FilterAtlasScreen> {
     String? title,
     List<SelectMenuModel>? options,
     SelectMenuModel? selectedOption,
-    Function(SelectMenuModel?) onChannged,
+    Function(SelectMenuModel?) onChanged,
     Function() onTap,
   ) {
     return Container(
@@ -152,7 +152,7 @@ class _FilterAtlasScreenState extends State<FilterAtlasScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 14),
             child: Text(
               title ?? '',
-              style: context.title1TextStyle()?.copyWith(fontSize: 12, color: AppColors.pealSky),
+              style: context.title1TextStyle()?.copyWith(color: AppColors.pealSky),
             ),
           ),
           if (options?.isNotEmpty != true)
@@ -166,7 +166,7 @@ class _FilterAtlasScreenState extends State<FilterAtlasScreen> {
             CommonDropdown(
               isBorderVisible: false,
               selection: selectedOption,
-              onChanged: (value) => onChannged(value),
+              onChanged: (value) => onChanged(value),
               onTap: onTap,
               data: options,
               hint: '',

@@ -10,6 +10,7 @@ import 'package:audio_cult/w_components/buttons/w_button_inkwell.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+
 import '../../../../di/bloc_locator.dart';
 import '../../../../w_components/loading/loading_builder.dart';
 import '../../../../w_components/loading/loading_widget.dart';
@@ -26,7 +27,7 @@ class LibraryScreen extends StatefulWidget {
 
 class _LibraryScreenState extends State<LibraryScreen> with AutomaticKeepAliveClientMixin {
   final PagingController<int, PlaylistResponse> _pagingController = PagingController(firstPageKey: 1);
-  late LibrayBloc _librayBloc;
+  late LibraryBloc _libraryBloc;
 
   @override
   void dispose() {
@@ -42,8 +43,8 @@ class _LibraryScreenState extends State<LibraryScreen> with AutomaticKeepAliveCl
         _fetchPage(pageKey);
       }
     });
-    _librayBloc = getIt.get<LibrayBloc>();
-    _librayBloc.requestData(
+    _libraryBloc = getIt.get<LibraryBloc>();
+    _libraryBloc.requestData(
       params: AlbumPlaylistRequest(
         query: '',
         page: 1,
@@ -56,7 +57,7 @@ class _LibraryScreenState extends State<LibraryScreen> with AutomaticKeepAliveCl
 
   Future<void> _fetchPage(int pageKey) async {
     try {
-      final newItems = await _librayBloc.loadData(
+      final newItems = await _libraryBloc.loadData(
         AlbumPlaylistRequest(
           query: '',
           page: pageKey,
@@ -75,7 +76,7 @@ class _LibraryScreenState extends State<LibraryScreen> with AutomaticKeepAliveCl
             _pagingController.appendPage(l, nextPageKey);
           }
         },
-        (r) => _librayBloc.showError,
+        (r) => _libraryBloc.showError,
       );
     } catch (error) {
       _pagingController.error = error;
@@ -83,6 +84,7 @@ class _LibraryScreenState extends State<LibraryScreen> with AutomaticKeepAliveCl
   }
 
   @override
+  // ignore: must_call_super
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.mainColor,
@@ -99,7 +101,7 @@ class _LibraryScreenState extends State<LibraryScreen> with AutomaticKeepAliveCl
               backgroundColor: AppColors.secondaryButtonColor,
               onRefresh: () async {
                 _pagingController.refresh();
-                _librayBloc.requestData(
+                _libraryBloc.requestData(
                   params: AlbumPlaylistRequest(
                     query: '',
                     page: 1,
@@ -109,7 +111,7 @@ class _LibraryScreenState extends State<LibraryScreen> with AutomaticKeepAliveCl
                   ),
                 );
               },
-              child: LoadingBuilder<LibrayBloc, List<PlaylistResponse>>(
+              child: LoadingBuilder<LibraryBloc, List<PlaylistResponse>>(
                 builder: (data, _) {
                   if (data.isEmpty) {
                     return EmptyPlayList(
@@ -162,7 +164,7 @@ class _LibraryScreenState extends State<LibraryScreen> with AutomaticKeepAliveCl
                 },
                 reloadAction: (_) {
                   _pagingController.refresh();
-                  _librayBloc.requestData(
+                  _libraryBloc.requestData(
                     params: AlbumPlaylistRequest(
                       query: '',
                       page: 1,
@@ -180,7 +182,7 @@ class _LibraryScreenState extends State<LibraryScreen> with AutomaticKeepAliveCl
                 onPressed: () async {
                   final result = await Navigator.pushNamed(context, AppRoute.routeCreatePlayList);
                   if (result != null) {
-                    _librayBloc.requestData(
+                    _libraryBloc.requestData(
                       params: AlbumPlaylistRequest(
                         query: '',
                         page: 1,
@@ -214,7 +216,6 @@ class _LibraryScreenState extends State<LibraryScreen> with AutomaticKeepAliveCl
                         context.l10n.t_create_playlist,
                         style: TextStyle(
                           color: AppColors.activeLabelItem,
-                          fontSize: 14,
                         ),
                       )
                     ],

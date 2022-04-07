@@ -40,7 +40,7 @@ extension AppTextExtension on BuildContext {
 
   TextStyle? bodyTextStyle() => textTheme().bodyText2;
 
-  TextStyle? buttonTextStyle() => bodyTextStyle()?.copyWith(fontSize: AppFontSize.size14, fontWeight: FontWeight.w600);
+  TextStyle? buttonTextStyle() => bodyTextStyle()?.copyWith(fontSize: AppFontSize.size16, fontWeight: FontWeight.w600);
 
   TextStyle? bodyTextPrimaryStyle() => textTheme().bodyText2?.copyWith(
         fontWeight: FontWeight.w400,

@@ -38,7 +38,7 @@ class AtlasUserWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 _infoWidget(context),
-                _subcribeButton(context),
+                _subscribeButton(context),
               ],
             ),
           )
@@ -121,7 +121,6 @@ class AtlasUserWidget extends StatelessWidget {
         Text(
           atlasUser.locationName ?? '',
           style: context.body1TextStyle()?.copyWith(
-                fontSize: AppFontSize.size14,
                 color: AppColors.subTitleColor,
               ),
         ),
@@ -129,7 +128,7 @@ class AtlasUserWidget extends StatelessWidget {
     );
   }
 
-  Widget _subcribeButton(BuildContext context) {
+  Widget _subscribeButton(BuildContext context) {
     return TextButton(
       onPressed: () => userSubscriptionInProcess ? null : subscriptionOnChanged?.call(),
       child: Container(
@@ -145,7 +144,6 @@ class AtlasUserWidget extends StatelessWidget {
               updatedSubscriptionCount?.toString() ?? atlasUser.subscriptionCount.toString(),
               style: context.body1TextStyle()?.copyWith(
                     fontWeight: FontWeight.w300,
-                    fontSize: AppFontSize.size14,
                     color: AppColors.subTitleColor,
                   ),
             ),
@@ -163,7 +161,7 @@ class AtlasUserWidget extends StatelessWidget {
       color: Colors.white,
     );
     final subscriptionIcon = SvgPicture.asset(
-      updatedSubscriptionStatus ?? atlasUser.isSubcribed == true
+      updatedSubscriptionStatus ?? atlasUser.isSubscribed == true
           ? AppAssets.subscribedUserIcon
           : AppAssets.unsubscribedUserIcon,
     );

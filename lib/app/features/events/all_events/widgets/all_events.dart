@@ -90,7 +90,6 @@ class _AllEventsState extends State<AllEvents> {
                 context.l10n.t_all_events,
                 style: context.bodyTextStyle()?.copyWith(
                       color: Colors.white,
-                      fontSize: 14,
                     ),
               ),
               WButtonInkwell(
@@ -117,7 +116,6 @@ class _AllEventsState extends State<AllEvents> {
                         'Filter',
                         style: context.bodyTextStyle()?.copyWith(
                               color: Colors.white,
-                              fontSize: 12,
                             ),
                       ),
                     ],

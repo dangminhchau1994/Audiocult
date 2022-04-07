@@ -1,8 +1,5 @@
 import 'package:audio_cult/w_components/images/common_image_network.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-
-import '../../../../utils/constants/app_colors.dart';
 
 class DetailPhotoSong extends StatelessWidget {
   const DetailPhotoSong({

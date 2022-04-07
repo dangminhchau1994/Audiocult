@@ -82,7 +82,6 @@ class _PopularEventsState extends State<PopularEvents> {
           context.l10n.t_popular_events,
           style: context.bodyTextStyle()?.copyWith(
                 color: Colors.white,
-                fontSize: 14,
               ),
         ),
         const SizedBox(

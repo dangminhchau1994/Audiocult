@@ -8,11 +8,10 @@ import 'package:audio_cult/w_components/buttons/common_button.dart';
 import 'package:audio_cult/w_components/comment/comment_list_bloc.dart';
 import 'package:flutter/material.dart';
 
-import '../../app/constants/app_text_styles.dart';
 import '../../app/utils/constants/app_colors.dart';
 
-class CommmentEditScreen extends StatefulWidget {
-  const CommmentEditScreen({
+class CommentEditScreen extends StatefulWidget {
+  const CommentEditScreen({
     Key? key,
     required this.argument,
     this.isEditComment,
@@ -22,10 +21,10 @@ class CommmentEditScreen extends StatefulWidget {
   final bool? isEditComment;
 
   @override
-  State<CommmentEditScreen> createState() => _CommmentEditScreennState();
+  State<CommentEditScreen> createState() => _CommentEditScreenState();
 }
 
-class _CommmentEditScreennState extends State<CommmentEditScreen> {
+class _CommentEditScreenState extends State<CommentEditScreen> {
   late ValueNotifier<String> _text;
   late TextEditingController _textEditingController;
 
@@ -71,7 +70,6 @@ class _CommmentEditScreennState extends State<CommmentEditScreen> {
                 },
                 onSubmitted: (value) {},
                 onTap: () {},
-                style: AppTextStyles.normal,
                 decoration: InputDecoration(
                   filled: true,
                   focusColor: AppColors.outlineBorderColor,
@@ -93,7 +91,6 @@ class _CommmentEditScreennState extends State<CommmentEditScreen> {
                   hintText: context.l10n.t_leave_comment,
                   hintStyle: context.bodyTextPrimaryStyle()!.copyWith(
                         color: AppColors.subTitleColor,
-                        fontSize: 14,
                       ),
                 ),
               ),
@@ -121,7 +118,7 @@ class _CommmentEditScreennState extends State<CommmentEditScreen> {
                                 : () {
                                     widget.argument.text = value;
                                     Navigator.pop(context, widget.argument);
-                                    getIt<CommenntListBloc>().editComment(
+                                    getIt<CommentListBloc>().editComment(
                                       value,
                                       int.parse(widget.argument.commentId ?? ''),
                                     );

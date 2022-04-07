@@ -3,8 +3,8 @@ import 'package:audio_cult/app/utils/constants/app_assets.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:intl/intl.dart';
 
 import '../../../../../w_components/images/common_image_network.dart';
 
@@ -88,7 +88,6 @@ class AllEventItem extends StatelessWidget {
                           hour,
                           style: context.bodyTextStyle()?.copyWith(
                                 color: Colors.black,
-                                fontSize: 12,
                               ),
                         ),
                       ],
@@ -104,7 +103,6 @@ class AllEventItem extends StatelessWidget {
           data?.title ?? '',
           style: context.bodyTextStyle()?.copyWith(
                 color: Colors.white,
-                fontSize: 14,
               ),
         ),
         const SizedBox(
@@ -122,7 +120,6 @@ class AllEventItem extends StatelessWidget {
               data?.location ?? '',
               style: context.bodyTextStyle()?.copyWith(
                     color: AppColors.subTitleColor,
-                    fontSize: 12,
                   ),
             ),
           ],

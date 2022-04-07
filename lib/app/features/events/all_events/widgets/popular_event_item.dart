@@ -37,7 +37,6 @@ class PopularEventItem extends StatelessWidget {
           data?.title ?? '',
           style: context.bodyTextStyle()?.copyWith(
                 color: Colors.white,
-                fontSize: 14,
               ),
         ),
         const SizedBox(
@@ -47,7 +46,6 @@ class PopularEventItem extends StatelessWidget {
           '$hour - $month $date, $year',
           style: context.bodyTextPrimaryStyle()!.copyWith(
                 color: AppColors.subTitleColor,
-                fontSize: 12,
               ),
         ),
         const SizedBox(height: 6),
@@ -58,7 +56,6 @@ class PopularEventItem extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
             style: context.bodyTextStyle()?.copyWith(
                   color: AppColors.subTitleColor,
-                  fontSize: 12,
                 ),
           ),
         ),

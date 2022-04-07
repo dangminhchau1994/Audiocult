@@ -1,10 +1,10 @@
-import 'package:audio_cult/app/constants/app_text_styles.dart';
 import 'package:audio_cult/app/data_source/models/responses/profile_data.dart';
 import 'package:audio_cult/app/features/music/my_album/upload_song/upload_song_bloc.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_chips_input/flutter_chips_input.dart';
+
 import '../../app/utils/constants/app_colors.dart';
 
 class CommonChipInput extends StatefulWidget {
@@ -40,11 +40,9 @@ class _CommonChipInputState extends State<CommonChipInput> {
   @override
   Widget build(BuildContext context) {
     return ChipsInput<ProfileData>(
-      textStyle: AppTextStyles.regular,
       initialValue: widget.initTags!,
       decoration: InputDecoration(
         hintText: widget.hintText,
-        hintStyle: AppTextStyles.regular,
         filled: true,
         contentPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
         focusColor: AppColors.outlineBorderColor,
@@ -78,7 +76,7 @@ class _CommonChipInputState extends State<CommonChipInput> {
       },
       findSuggestions: (String query) async {
         if (query.isNotEmpty) {
-          var result = await _uploadSongBloc?.getListUsers(query, widget.groupUserId);
+          final result = await _uploadSongBloc?.getListUsers(query, widget.groupUserId);
           return result!;
         } else {
           return const <ProfileData>[];

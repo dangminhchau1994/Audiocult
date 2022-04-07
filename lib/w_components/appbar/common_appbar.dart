@@ -36,7 +36,7 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
       actions: actions,
       title: Text(
         title ?? '',
-        style: context.buttonTextStyle(),
+        style: context.headerStyle(),
       ),
     );
   }

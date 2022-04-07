@@ -9,11 +9,11 @@ import 'package:audio_cult/app/utils/constants/app_dimens.dart';
 import 'package:audio_cult/l10n/l10n.dart';
 import 'package:audio_cult/w_components/buttons/w_button_inkwell.dart';
 import 'package:flutter/material.dart';
+
 import '../../../../di/bloc_locator.dart';
 import '../../../../w_components/error_empty/error_section.dart';
 import '../../../../w_components/loading/loading_widget.dart';
 import '../../../base/bloc_state.dart';
-import '../../../constants/app_text_styles.dart';
 import '../../../data_source/models/responses/album/album_response.dart';
 import '../../../utils/debouncer.dart';
 import '../../../utils/route/app_route.dart';
@@ -88,7 +88,7 @@ class _SearchScreenState extends State<SearchScreen> {
         backgroundColor: AppColors.mainColor,
         body: Column(
           children: [
-            _buidSearchInput(),
+            _buildSearchInput(),
             if (searchType == SearchType.album)
               _buildAlbums()
             else if (searchType == SearchType.playlist)
@@ -141,7 +141,6 @@ class _SearchScreenState extends State<SearchScreen> {
                     children: [
                       Text(
                         context.l10n.t_no_data,
-                        style: AppTextStyles.normal,
                       )
                     ],
                   );
@@ -208,7 +207,6 @@ class _SearchScreenState extends State<SearchScreen> {
                     children: [
                       Text(
                         context.l10n.t_no_data,
-                        style: AppTextStyles.normal,
                       )
                     ],
                   );
@@ -274,7 +272,6 @@ class _SearchScreenState extends State<SearchScreen> {
                     children: [
                       Text(
                         context.l10n.t_no_data,
-                        style: AppTextStyles.regular,
                       )
                     ],
                   );
@@ -293,7 +290,7 @@ class _SearchScreenState extends State<SearchScreen> {
     );
   }
 
-  Widget _buidSearchInput() {
+  Widget _buildSearchInput() {
     return Container(
       height: 110,
       padding: const EdgeInsets.only(
@@ -330,7 +327,6 @@ class _SearchScreenState extends State<SearchScreen> {
                   query = value;
                 });
               },
-              style: AppTextStyles.regular,
               decoration: InputDecoration(
                 filled: true,
                 focusColor: AppColors.outlineBorderColor,
@@ -350,7 +346,6 @@ class _SearchScreenState extends State<SearchScreen> {
                   ),
                 ),
                 hintText: context.l10n.t_search,
-                hintStyle: AppTextStyles.regular,
                 contentPadding: const EdgeInsets.only(
                   top: 20,
                   left: 10,

@@ -27,14 +27,15 @@ class GlobalConstants {
       ),
       if (locator.get<MainBloc>().profileData!.userId == '1')
         Pair(
-            Pair(
-              2,
-              Image.asset(
-                AppAssets.icFeatureSong,
-                width: 24,
-              ),
+          Pair(
+            2,
+            Image.asset(
+              AppAssets.icFeatureSong,
+              width: 24,
             ),
-            context.l10n.t_feature_song),
+          ),
+          context.l10n.t_feature_song,
+        ),
       if (locator.get<MainBloc>().profileData!.userId == '1')
         Pair(
           Pair(
@@ -101,9 +102,6 @@ class GlobalConstants {
             ),
             Text(
               context.l10n.t_add_playlist,
-              style: const TextStyle(
-                fontSize: 12,
-              ),
             )
           ],
         ),
@@ -123,9 +121,6 @@ class GlobalConstants {
             ),
             Text(
               context.l10n.t_share,
-              style: const TextStyle(
-                fontSize: 12,
-              ),
             )
           ],
         ),
@@ -149,9 +144,6 @@ class GlobalConstants {
             ),
             Text(
               context.l10n.t_add_playlist,
-              style: const TextStyle(
-                fontSize: 12,
-              ),
             )
           ],
         ),
@@ -171,9 +163,6 @@ class GlobalConstants {
             ),
             Text(
               context.l10n.t_share,
-              style: const TextStyle(
-                fontSize: 12,
-              ),
             )
           ],
         ),
@@ -193,9 +182,6 @@ class GlobalConstants {
             ),
             Text(
               context.l10n.t_song_detail,
-              style: const TextStyle(
-                fontSize: 12,
-              ),
             )
           ],
         ),

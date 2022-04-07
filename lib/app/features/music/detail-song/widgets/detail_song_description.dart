@@ -165,7 +165,6 @@ class DetailSongDescription extends StatelessWidget {
             value,
             style: context.bodyTextPrimaryStyle()!.copyWith(
                   color: Colors.white,
-                  fontSize: 12,
                   fontWeight: FontWeight.bold,
                 ),
           )
@@ -194,7 +193,6 @@ class DetailSongDescription extends StatelessWidget {
             value,
             style: context.bodyTextPrimaryStyle()!.copyWith(
                   color: Colors.white,
-                  fontSize: 12,
                   fontWeight: FontWeight.bold,
                 ),
           )

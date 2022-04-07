@@ -21,7 +21,7 @@ class PrivacyStep extends StatefulWidget {
 class PrivacyStepState extends State<PrivacyStep> {
   SelectMenuModel? _privacy;
   SelectMenuModel? _privacyComment;
-  static var listPrivacy = [
+  static List<SelectMenuModel> listPrivacy = [
     SelectMenuModel(
       id: 1,
       title: 'Everyone',

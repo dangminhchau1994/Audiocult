@@ -22,7 +22,6 @@ class DetailDescriptionLabel extends StatelessWidget {
           title ?? '',
           style: context.bodyTextPrimaryStyle()!.copyWith(
                 color: AppColors.subTitleColor,
-                fontSize: 12,
               ),
         ),
         const SizedBox(
@@ -33,7 +32,6 @@ class DetailDescriptionLabel extends StatelessWidget {
           style: context.bodyTextPrimaryStyle()!.copyWith(
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
-                fontSize: 14,
               ),
         ),
       ],

@@ -8,10 +8,10 @@ import '../../app/data_source/models/requests/comment_request.dart';
 import '../../app/data_source/models/responses/comment/comment_response.dart';
 import '../../app/data_source/repositories/app_repository.dart';
 
-class CommenntListBloc extends BaseBloc<CommentRequest, List<CommentResponse>> {
+class CommentListBloc extends BaseBloc<CommentRequest, List<CommentResponse>> {
   final AppRepository _appRepository;
 
-  CommenntListBloc(this._appRepository);
+  CommentListBloc(this._appRepository);
 
   final _createCommentSubject = PublishSubject<BlocState<CommentResponse>>();
   final _getRepliesSubject = PublishSubject<BlocState<List<CommentResponse>>>();

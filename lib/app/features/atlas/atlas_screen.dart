@@ -85,7 +85,7 @@ class _AtlasScreenState extends State<AtlasScreen> {
                 children: [
                   Expanded(flex: 6, child: _searchTextField()),
                   const SizedBox(width: 8),
-                  Expanded(child: _filterButon()),
+                  Expanded(child: _filterButton()),
                 ],
               ),
             ),
@@ -126,7 +126,7 @@ class _AtlasScreenState extends State<AtlasScreen> {
     );
   }
 
-  Widget _filterButon() {
+  Widget _filterButton() {
     return Container(
       decoration: BoxDecoration(
         color: AppColors.ebonyClay,
@@ -166,14 +166,14 @@ class _AtlasScreenState extends State<AtlasScreen> {
                   final latestSubscriptionCount =
                       updatedSubscriptionData?.firstWhereOrNull((e) => e.userId == user.userId)?.subscriptionCount;
                   final latestSubscriptionValue =
-                      updatedSubscriptionData?.firstWhereOrNull((e) => e.userId == user.userId)?.isSubcribed;
+                      updatedSubscriptionData?.firstWhereOrNull((e) => e.userId == user.userId)?.isSubscribed;
                   return AtlasUserWidget(
                     user,
                     updatedSubscriptionCount: latestSubscriptionCount,
                     updatedSubscriptionStatus: latestSubscriptionValue,
                     userSubscriptionInProcess: subscriptionInProcess?[user.userId] ?? false,
                     subscriptionOnChanged: () {
-                      _bloc.subcribeUser(user);
+                      _bloc.subscribeUser(user);
                     },
                   );
                 },

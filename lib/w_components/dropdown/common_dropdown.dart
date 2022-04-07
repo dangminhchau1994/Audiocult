@@ -44,7 +44,7 @@ class _CommonDropdownState extends State<CommonDropdown> {
     return Column(
       children: [
         Container(
-          padding: widget.padding ??= EdgeInsets.zero,
+          padding: widget.padding ??= const EdgeInsets.symmetric(vertical: 8),
           decoration: BoxDecoration(
             color: AppColors.inputFillColor.withOpacity(0.4),
             borderRadius: BorderRadius.circular(4),
@@ -87,7 +87,7 @@ class _CommonDropdownState extends State<CommonDropdown> {
                           alignment: Alignment.centerLeft,
                           child: Text(
                             e.title ?? '',
-                            style: context.bodyTextStyle()?.copyWith(color: Colors.white),
+                            style: context.bodyTextStyle(),
                           ),
                         ),
                       ],

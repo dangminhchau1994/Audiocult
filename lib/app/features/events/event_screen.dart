@@ -71,11 +71,11 @@ class _EventScreenState extends State<EventScreen>   {
             case 0:
               return const AllEventsScreen();
             case 1:
-              return SizedBox();
+              return const SizedBox();
             case 2:
-              return SizedBox();
+              return const SizedBox();
             case 3:
-              return SizedBox();
+              return const SizedBox();
             default:
               return const SizedBox();
           }

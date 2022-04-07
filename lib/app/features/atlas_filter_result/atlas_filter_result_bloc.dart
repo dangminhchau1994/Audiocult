@@ -43,14 +43,14 @@ class AtlasFilterResultBloc extends BaseBloc {
     _allUsers.addAll(users);
   }
 
-  void subcribeUser(AtlasUser user) async {
+  void subscribeUser(AtlasUser user) async {
     _subscriptionsInProcess[user.userId] = true;
     _updatedUserSubscription.add(Tuple2(_updatedSubscriptionData, _subscriptionsInProcess));
-    final result = await appRepository.subcribeUser(user);
+    final result = await appRepository.subscribeUser(user);
     result.fold(
-      (subcribeResponse) {
+      (subscribeResponse) {
         _subscriptionsInProcess[user.userId] = false;
-        if (subcribeResponse.status == RequestStatus.success && subcribeResponse.error == null) {
+        if (subscribeResponse.status == RequestStatus.success && subscribeResponse.error == null) {
           _updateSubscriptionDataOfUser(user);
         }
       },
@@ -64,7 +64,7 @@ class AtlasFilterResultBloc extends BaseBloc {
   void _updateSubscriptionDataOfUser(AtlasUser user) {
     final filteredUser = _allUsers.firstWhereOrNull((element) => element.userId == user.userId);
     if (filteredUser == null) return;
-    (filteredUser.isSubcribed ?? true) ? filteredUser.unsubcribe() : filteredUser.subscribe();
+    (filteredUser.isSubscribed ?? true) ? filteredUser.unsubscribe() : filteredUser.subscribe();
     _updatedSubscriptionData.removeWhere((element) => element.userId == user.userId);
     _allUsers.removeWhere((element) => element.userId == user.userId);
     _allUsers.add(filteredUser);

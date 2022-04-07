@@ -1,4 +1,3 @@
-import 'package:audio_cult/app/constants/app_text_styles.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:flutter/material.dart';
 
@@ -61,7 +60,6 @@ class CommonInput extends StatelessWidget {
                 readOnly: isReadOnly ?? false,
                 cursorColor: Colors.white,
                 onChanged: onChanged,
-                style: AppTextStyles.regular,
                 obscureText: isHidden!,
                 decoration: InputDecoration(
                   filled: true,
@@ -96,7 +94,6 @@ class CommonInput extends StatelessWidget {
                     ),
                   ),
                   hintText: hintText,
-                  hintStyle: AppTextStyles.regular,
                   suffixIcon: isPasswordField!
                       ? InkWell(
                           onTap: togglePassword,

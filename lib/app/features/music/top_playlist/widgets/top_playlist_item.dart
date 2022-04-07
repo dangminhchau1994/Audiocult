@@ -4,13 +4,12 @@ import 'package:audio_cult/app/features/music/top_playlist/top_playlist_bloc.dar
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/l10n/l10n.dart';
 import 'package:audio_cult/w_components/images/common_image_network.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+
 import '../../../../../w_components/buttons/w_button_inkwell.dart';
 import '../../../../../w_components/error_empty/error_section.dart';
 import '../../../../../w_components/loading/loading_widget.dart';
 import '../../../../base/bloc_state.dart';
-import '../../../../constants/app_text_styles.dart';
 import '../../../../data_source/repositories/app_repository.dart';
 import '../../../../injections.dart';
 import '../../../../utils/constants/app_colors.dart';
@@ -156,14 +155,12 @@ class _TopPlaylistItemState extends State<TopPlaylistItem> {
                           itemBuilder: (context, index) {
                             return SongItem(
                               song: songs[index],
-                              hasMenu: true,
                             );
                           },
                         )
                       : Center(
                           child: Text(
                             context.l10n.t_no_data,
-                            style: AppTextStyles.normal,
                           ),
                         );
                 },
