@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:audio_cult/app/data_source/models/requests/event_request.dart';
 import 'package:audio_cult/app/data_source/models/responses/comment/comment_response.dart';
 import 'package:audio_cult/app/features/auth/check_email/check_mail_screen.dart';
@@ -25,6 +27,7 @@ import 'package:audio_cult/w_components/comment/comment_edit_screen.dart';
 import 'package:audio_cult/w_components/comment/comment_list_screen.dart';
 import 'package:audio_cult/w_components/comment/reply_list_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:page_transition/page_transition.dart';
 import '../../features/events/map/map_screen.dart';
 import '../../features/music/featured_albums/featured_album_screen.dart';
@@ -143,7 +146,13 @@ class AppRoute {
           ),
         );
       case routeEventMap:
-        return _pageRoute(settings, const MapScreen());
+        final arguments = asType(settings.arguments);
+        return _pageRoute(
+          settings,
+          MapScreen(
+            iconMarker: arguments['icon_marker'] as Uint8List,
+          ),
+        );
       case routeDetailPlayList:
         final arguments = asType(settings.arguments);
         return _pageRoute(

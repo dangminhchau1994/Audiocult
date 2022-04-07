@@ -1,10 +1,14 @@
+import 'dart:typed_data';
+import 'dart:ui' as ui;
 import 'package:audio_cult/app/utils/constants/app_assets.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
+import 'package:audio_cult/app/utils/file/file_utils.dart';
 import 'package:audio_cult/app/utils/route/app_route.dart';
 import 'package:audio_cult/l10n/l10n.dart';
 import 'package:audio_cult/w_components/buttons/w_button_inkwell.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 
 class ShowEvents extends StatelessWidget {
@@ -41,8 +45,12 @@ class ShowEvents extends StatelessWidget {
               width: 8,
             ),
             WButtonInkwell(
-              onPressed: () {
-                Navigator.pushNamed(context, AppRoute.routeEventMap);
+              onPressed: () async {
+                await Navigator.pushNamed(
+                  context,
+                  AppRoute.routeEventMap,
+                  arguments: {'icon_marker': await FileUtils.getBytesFromAsset(AppAssets.markerIcon, 80)},
+                );
               },
               child: _buildButton(
                 AppAssets.locationIcon,

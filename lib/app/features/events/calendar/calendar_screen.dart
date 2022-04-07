@@ -217,6 +217,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
       rangeStartDay: _rangeStart,
       rangeEndDay: _rangeEnd,
       calendarFormat: _calendarFormat,
+      headerVisible: true,
       daysOfWeekStyle: const DaysOfWeekStyle(
         weekdayStyle: TextStyle(color: Colors.white),
         weekendStyle: TextStyle(color: Colors.white),

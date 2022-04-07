@@ -1,10 +1,12 @@
 import 'dart:async';
+import 'dart:typed_data';
 import 'package:audio_cult/app/base/bloc_state.dart';
 import 'package:audio_cult/app/data_source/models/responses/events/event_response.dart';
 import 'package:audio_cult/app/features/events/map/map_bloc.dart';
 import 'package:audio_cult/app/features/events/map/widgets/events_popup.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
+import 'package:audio_cult/app/utils/file/file_utils.dart';
 import 'package:audio_cult/di/bloc_locator.dart';
 import 'package:audio_cult/l10n/l10n.dart';
 import 'package:audio_cult/w_components/appbar/common_appbar.dart';
@@ -22,14 +24,19 @@ import '../../../utils/debouncer.dart';
 import '../../../utils/route/app_route.dart';
 
 class MapScreen extends StatefulWidget {
-  const MapScreen({Key? key}) : super(key: key);
+  const MapScreen({
+    Key? key,
+    this.iconMarker,
+  }) : super(key: key);
+
+  final Uint8List? iconMarker;
 
   @override
   State<MapScreen> createState() => _MapScreenState();
 }
 
 class _MapScreenState extends State<MapScreen> {
-  final _controller = Completer<GoogleMapController>();
+  late GoogleMapController _controller;
   final _text = ValueNotifier<String>('');
   final Set<Marker> markers = {};
   late FocusNode focusNode;
@@ -42,7 +49,6 @@ class _MapScreenState extends State<MapScreen> {
     focusNode = FocusNode();
     debouncer = Debouncer(milliseconds: 500);
     editingController = TextEditingController(text: '');
-
     getIt<MapBloc>().getEvents(EventRequest(query: '', page: 1, limit: 5));
   }
 
@@ -119,6 +125,7 @@ class _MapScreenState extends State<MapScreen> {
                         focusNode.unfocus();
                         editingController.text = '';
                         _text.value = '';
+                        getIt<MapBloc>().getEvents(EventRequest(query: '', page: 1, limit: 5));
                       },
                       child: const Icon(
                         Icons.close,
@@ -136,117 +143,131 @@ class _MapScreenState extends State<MapScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.secondaryButtonColor,
-      resizeToAvoidBottomInset: false,
-      appBar: CommonAppBar(
-        title: context.l10n.t_map,
-      ),
-      body: Stack(
-        children: [
-          Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(10),
-                child: Row(
-                  children: [
-                    _buidSearchInput(),
-                    const SizedBox(width: 10),
-                    _buildFilter(),
-                  ],
+    return GestureDetector(
+      onTap: () {
+        FocusManager.instance.primaryFocus?.unfocus();
+      },
+      child: Scaffold(
+        backgroundColor: AppColors.secondaryButtonColor,
+        resizeToAvoidBottomInset: false,
+        appBar: CommonAppBar(
+          title: context.l10n.t_map,
+        ),
+        body: Stack(
+          children: [
+            Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: Row(
+                    children: [
+                      _buidSearchInput(),
+                      const SizedBox(width: 10),
+                      _buildFilter(),
+                    ],
+                  ),
                 ),
-              ),
-              const SizedBox(height: 20),
-              StreamBuilder<BlocState<List<EventResponse>>>(
-                initialData: const BlocState.loading(),
-                stream: getIt<MapBloc>().getListEventStream,
-                builder: (context, snapshot) {
-                  final state = snapshot.data!;
+                const SizedBox(height: 20),
+                StreamBuilder<BlocState<List<EventResponse>>>(
+                  initialData: const BlocState.loading(),
+                  stream: getIt<MapBloc>().getListEventStream,
+                  builder: (context, snapshot) {
+                    final state = snapshot.data!;
 
-                  return state.when(
-                    success: (success) {
-                      final events = success as List<EventResponse>;
-                      for (final event in events) {
-                        markers.add(
-                          Marker(
-                            markerId: const MarkerId(''),
-                            position: LatLng(
-                              double.parse(event.lat ?? ''),
-                              double.parse(event.lng ?? ''),
-                            ), //position of marker
+                    return state.when(
+                      success: (success) {
+                        final events = success as List<EventResponse>;
+                        for (final event in events) {
+                          markers.add(
+                            Marker(
+                              markerId: const MarkerId(''),
+                              position: LatLng(
+                                double.parse(event.lat ?? ''),
+                                double.parse(event.lng ?? ''),
+                              ),
+                              icon: BitmapDescriptor.fromBytes(widget.iconMarker!),
+                            ),
+                          );
+                        }
+
+                        return Expanded(
+                          child: GoogleMap(
+                            onTap: (lng) {
+                              FocusManager.instance.primaryFocus?.unfocus();
+                            },
+                            initialCameraPosition: CameraPosition(
+                              target: LatLng(
+                                double.parse(events.isEmpty ? '0.0' : events[0].lat ?? ''),
+                                double.parse(events.isEmpty ? '0.0' : events[0].lng ?? ''),
+                              ),
+                              zoom: 10,
+                            ),
+                            markers: markers,
+                            onMapCreated: (controller) {
+                              _controller = controller;
+                              FileUtils.getJsonFile(AppAssets.nightMapJson).then((value) {
+                                _controller.setMapStyle(value);
+                              });
+                            },
                           ),
                         );
-                      }
-
-                      return Expanded(
-                        child: GoogleMap(
-                          initialCameraPosition: CameraPosition(
-                            target: LatLng(
-                              double.parse(events.isEmpty ? '0.0' : events[0].lat ?? ''),
-                              double.parse(events.isEmpty ? '0.0' : events[0].lng ?? ''),
-                            ),
-                            zoom: 14,
-                          ),
-                          markers: markers,
-                          onMapCreated: _controller.complete,
-                        ),
-                      );
-                    },
-                    loading: () {
-                      return const Center(child: LoadingWidget());
-                    },
-                    error: (error) {
-                      return ErrorSectionWidget(
-                        errorMessage: error,
-                        onRetryTap: () {},
+                      },
+                      loading: () {
+                        return const Center(child: LoadingWidget());
+                      },
+                      error: (error) {
+                        return ErrorSectionWidget(
+                          errorMessage: error,
+                          onRetryTap: () {},
+                        );
+                      },
+                    );
+                  },
+                )
+              ],
+            ),
+            Positioned(
+              bottom: 0,
+              child: GestureDetector(
+                onTap: () {
+                  showMaterialModalBottomSheet(
+                    context: context,
+                    backgroundColor: Colors.transparent,
+                    builder: (context) {
+                      return EventPopUp(
+                        query: _text.value,
                       );
                     },
                   );
                 },
-              )
-            ],
-          ),
-          Positioned(
-            bottom: 0,
-            child: GestureDetector(
-              onTap: () {
-                showMaterialModalBottomSheet(
-                  context: context,
-                  backgroundColor: Colors.transparent,
-                  builder: (context) {
-                    return EventPopUp(
-                      query: _text.value,
-                    );
-                  },
-                );
-              },
-              child: Container(
-                width: MediaQuery.of(context).size.width,
-                padding: const EdgeInsets.all(14),
-                decoration: BoxDecoration(
-                  color: AppColors.mainColor,
-                ),
-                child: Row(
-                  children: [
-                    SvgPicture.asset(
-                      AppAssets.arrowUp,
-                      width: 20,
-                      height: 20,
-                    ),
-                    const SizedBox(width: 10),
-                    Text(
-                      context.l10n.t_view_events,
-                      style: context.bodyTextStyle()?.copyWith(
-                            color: Colors.white,
-                            fontSize: 12,
-                          ),
-                    ),
-                  ],
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  padding: const EdgeInsets.all(14),
+                  decoration: BoxDecoration(
+                    color: AppColors.mainColor,
+                  ),
+                  child: Row(
+                    children: [
+                      SvgPicture.asset(
+                        AppAssets.arrowUp,
+                        width: 20,
+                        height: 20,
+                      ),
+                      const SizedBox(width: 10),
+                      Text(
+                        context.l10n.t_view_events,
+                        style: context.bodyTextStyle()?.copyWith(
+                              color: Colors.white,
+                              fontSize: 12,
+                            ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-          )
-        ],
+            )
+          ],
+        ),
       ),
     );
   }
