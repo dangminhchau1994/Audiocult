@@ -35,11 +35,11 @@ Map<String, dynamic> _$AtlasCategoryToJson(AtlasCategory instance) =>
 
 AtlasSubCategory _$AtlasSubCategoryFromJson(Map<String, dynamic> json) =>
     AtlasSubCategory()
-      ..optionId = json['optionId'] as String?
+      ..optionId = json['option_id'] as String?
       ..title = json['title'] as String?;
 
 Map<String, dynamic> _$AtlasSubCategoryToJson(AtlasSubCategory instance) =>
     <String, dynamic>{
-      'optionId': instance.optionId,
+      'option_id': instance.optionId,
       'title': instance.title,
     };

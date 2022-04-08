@@ -58,6 +58,7 @@ class _FilterAtlasScreenState extends State<FilterAtlasScreen> {
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   child: _userGroupMenuWidget(),
                 ),
+                _categoryMenuWidget(),
                 Divider(
                   thickness: 1,
                   color: AppColors.deepTeal,
@@ -102,6 +103,28 @@ class _FilterAtlasScreenState extends State<FilterAtlasScreen> {
               () {},
             );
           },
+        );
+      },
+    );
+  }
+
+  Widget _categoryMenuWidget() {
+    return Selector<AtlasFilterProvider, List<SelectMenuModel>>(
+      shouldRebuild: (list1, list2) => list1 != list2,
+      selector: (_, provider) => provider.subCategoryOptions ?? [],
+      builder: (_, options, __) {
+        if (options.isEmpty) {
+          return Container();
+        }
+        return Padding(
+          padding: const EdgeInsets.symmetric(vertical: 16),
+          child: _dropdownWidget(
+            context.l10n.t_choose_category,
+            options,
+            options.firstWhereOrNull((element) => element.isSelected == true),
+            context.read<AtlasFilterProvider>().selectSubCategory,
+            () {},
+          ),
         );
       },
     );
@@ -251,12 +274,8 @@ class _FilterAtlasScreenState extends State<FilterAtlasScreen> {
       color: AppColors.activeLabelItem,
       text: context.l10n.t_filter,
       onTap: () {
-        context.loaderOverlay.show(
-          widget: const LoadingWidget(
-            backgroundColor: Colors.black12,
-          ),
-        );
         final request = context.read<AtlasFilterProvider>().getFilterAtlasUsers();
+        if (request == null) return;
         Navigator.pushNamed(
           context,
           AppRoute.routeAtlasFilterResult,

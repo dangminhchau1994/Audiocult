@@ -29,6 +29,7 @@ class AtlasCategory {
 
 @JsonSerializable()
 class AtlasSubCategory {
+  @JsonKey(name: 'option_id')
   String? optionId;
   String? title;
 
