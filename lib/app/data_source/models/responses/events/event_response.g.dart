@@ -32,6 +32,7 @@ EventResponse _$EventResponseFromJson(Map<String, dynamic> json) =>
       totalLike: json['total_like'] as String?,
       gmap: json['gmap'] as String?,
       address: json['address'] as String?,
+      tags: json['tags'] as String?,
       lat: json['lat'] as String?,
       lng: json['lng'] as String?,
       description: json['description'] as String?,
@@ -39,6 +40,9 @@ EventResponse _$EventResponseFromJson(Map<String, dynamic> json) =>
       categories: (json['categories'] as List<dynamic>?)
           ?.map((e) => (e as List<dynamic>).map((e) => e as String).toList())
           .toList(),
+      lineup: json['lineup'] == null || json['lineup'] is bool
+          ? null
+          : Lineup.fromJson(json['lineup'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$EventResponseToJson(EventResponse instance) =>
@@ -68,8 +72,20 @@ Map<String, dynamic> _$EventResponseToJson(EventResponse instance) =>
       'gmap': instance.gmap,
       'address': instance.address,
       'lat': instance.lat,
+      'tags': instance.tags,
       'lng': instance.lng,
       'description': instance.description,
       'event_date': instance.eventDate,
       'categories': instance.categories,
+      'lineup': instance.lineup,
+    };
+
+Lineup _$LineupFromJson(Map<String, dynamic> json) => Lineup(
+      artist: (json['artist'] as List<dynamic>?)
+          ?.map((e) => ArtistUser.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+
+Map<String, dynamic> _$LineupToJson(Lineup instance) => <String, dynamic>{
+      'artist': instance.artist,
     };

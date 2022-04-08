@@ -11,6 +11,14 @@ class AppAssets {
 
   static const arrowUp = 'assets/icons/arrow_up.svg';
 
+  static const mailIcon = 'assets/icons/mail.svg';
+
+  static const attendStarIcon = 'assets/icons/attend_star.svg';
+
+  static const maybeStarIcon = 'assets/icons/maybe_star.svg';
+
+  static const starIcon = 'assets/icons/star.svg';
+
   static const addPlaylistIcon = 'assets/icons/add_playlist.svg';
 
   static const shareIcon = 'assets/icons/share.svg';

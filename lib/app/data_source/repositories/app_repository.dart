@@ -119,6 +119,12 @@ class AppRepository extends BaseRepository {
     );
   }
 
+  Future<Either<EventResponse, Exception>> getEventDetail(int id) {
+    return safeCall(
+      () => appServiceProvider.getEventDetail(id),
+    );
+  }
+
   Future<Either<CommentResponse, Exception>> editComment(
     String text,
     int id,

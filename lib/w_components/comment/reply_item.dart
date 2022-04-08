@@ -50,6 +50,8 @@ class _ReplyItemState extends State<ReplyItem> {
         return 'advancedmusic_playlist';
       case CommentType.song:
         return 'music_song';
+      case CommentType.event:
+        return 'event';
       case CommentType.home:
         return '';
     }

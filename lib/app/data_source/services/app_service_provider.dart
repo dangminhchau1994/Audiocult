@@ -78,6 +78,17 @@ class AppServiceProvider {
     );
   }
 
+  Future<EventResponse> getEventDetail(int id) async {
+    final response = await _dioHelper.get(
+      route: '/restful_api/event/$id',
+      options: Options(headers: {'Content-Type': 'application/x-www-form-urlencoded'}),
+      responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
+    );
+    return response.mapData(
+      (json) => EventResponse.fromJson(json as Map<String, dynamic>),
+    );
+  }
+
   Future<List<EventResponse>> getEvents(EventRequest request) async {
     final response = await _dioHelper.get(
       route: '/restful_api/event',
