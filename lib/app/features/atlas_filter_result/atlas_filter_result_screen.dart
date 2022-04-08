@@ -39,6 +39,7 @@ class _AtlasFilterResultScreenState extends State<AtlasFilterResultScreen> {
     _pagingController.addPageRequestListener((pageNumber) async {
       final request = FilterUsersRequest(
         groupId: widget.dataRequest.groupId,
+        categoryId: widget.dataRequest.categoryId,
         countryISO: widget.dataRequest.countryISO,
         genreIds: widget.dataRequest.genreIds,
         page: pageNumber,

@@ -73,5 +73,6 @@
     "t_no_data": "No data found",
     "t_confirm_password":"Confirm new password",
     "t_save":"Save",
-    "t_music_genre":"Music Genre"
+    "t_music_genre":"Music Genre",
+    "t_choose_category":"Choose category"
 }
