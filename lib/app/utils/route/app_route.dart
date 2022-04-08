@@ -1,5 +1,3 @@
-import 'dart:typed_data';
-
 import 'package:audio_cult/app/data_source/models/requests/event_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/filter_users_request.dart';
 import 'package:audio_cult/app/data_source/models/responses/comment/comment_response.dart';
@@ -167,9 +165,7 @@ class AppRoute {
         final arguments = asType(settings.arguments);
         return _pageRoute(
           settings,
-          MapScreen(
-            iconMarker: arguments['icon_marker'] as Uint8List,
-          ),
+          const MapScreen(),
         );
       case routeDetailPlayList:
         final arguments = asType(settings.arguments);

@@ -25,10 +25,7 @@ import '../../../utils/route/app_route.dart';
 class MapScreen extends StatefulWidget {
   const MapScreen({
     Key? key,
-    this.iconMarker,
   }) : super(key: key);
-
-  final Uint8List? iconMarker;
 
   @override
   State<MapScreen> createState() => _MapScreenState();
@@ -36,6 +33,7 @@ class MapScreen extends StatefulWidget {
 
 class _MapScreenState extends State<MapScreen> {
   late GoogleMapController _controller;
+  late Uint8List iconMarker;
   final _text = ValueNotifier<String>('');
   final Set<Marker> markers = {};
   late FocusNode focusNode;
@@ -49,6 +47,11 @@ class _MapScreenState extends State<MapScreen> {
     debouncer = Debouncer(milliseconds: 500);
     editingController = TextEditingController(text: '');
     getIt<MapBloc>().getEvents(EventRequest(query: '', page: 1, limit: 5));
+    FileUtils.getBytesFromAsset(AppAssets.markerIcon, 80).then((value) {
+      setState(() {
+        iconMarker = value;
+      });
+    });
   }
 
   Widget _buildFilter() {
@@ -184,7 +187,7 @@ class _MapScreenState extends State<MapScreen> {
                                 double.parse(event.lat ?? ''),
                                 double.parse(event.lng ?? ''),
                               ),
-                              icon: BitmapDescriptor.fromBytes(widget.iconMarker!),
+                              icon: BitmapDescriptor.fromBytes(iconMarker),
                             ),
                           );
                         }
