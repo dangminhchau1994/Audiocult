@@ -69,8 +69,8 @@ class GlobalConstants {
 
   static List<SelectMenuModel> getSelectedMenu(BuildContext context) {
     return [
-      SelectMenuModel(title: context.l10n.t_attending),
-      SelectMenuModel(title: context.l10n.t_maybe_attending),
+      SelectMenuModel(id: 1, title: context.l10n.t_attending),
+      SelectMenuModel(id: 2, title: context.l10n.t_maybe_attending),
     ];
   }
 

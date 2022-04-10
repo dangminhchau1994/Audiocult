@@ -1,4 +1,6 @@
 import 'package:audio_cult/app/constants/global_constants.dart';
+import 'package:audio_cult/app/features/events/detail/event_detail_bloc.dart';
+import 'package:audio_cult/app/injections.dart';
 import 'package:audio_cult/app/utils/constants/app_assets.dart';
 import 'package:audio_cult/app/utils/constants/app_dimens.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
@@ -9,8 +11,55 @@ import 'package:flutter_svg/svg.dart';
 
 import '../../../../utils/constants/app_colors.dart';
 
-class EventDetailAttending extends StatelessWidget {
-  const EventDetailAttending({Key? key}) : super(key: key);
+class EventDetailAttending extends StatefulWidget {
+  const EventDetailAttending({
+    Key? key,
+    this.rsvpId,
+    this.eventId,
+  }) : super(key: key);
+
+  final String? rsvpId;
+  final int? eventId;
+
+  @override
+  State<EventDetailAttending> createState() => _EventDetailAttendingState();
+}
+
+class _EventDetailAttendingState extends State<EventDetailAttending> {
+  String _iconPath = '';
+  String _title = '';
+  String _rsvpId = '';
+  final EventDetailBloc _eventDetailBloc = EventDetailBloc(locator.get());
+  late SelectMenuModel _attendSelected;
+
+  String _getIconPath(String id) {
+    switch (id) {
+      case '1':
+        return _iconPath = AppAssets.attendStarIcon;
+      case '2':
+        return _iconPath = AppAssets.maybeStarIcon;
+      default:
+        return _iconPath = AppAssets.starIcon;
+    }
+  }
+
+  String _getTitle(String id) {
+    switch (id) {
+      case '1':
+        return _title = context.l10n.t_attending;
+      case '2':
+        return _title = context.l10n.t_maybe_attending;
+      default:
+        return _title = context.l10n.t_attending;
+    }
+  }
+
+  @override
+  void initState() {
+    _rsvpId = widget.rsvpId ?? '';
+    _attendSelected = SelectMenuModel(id: -1);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,14 +79,22 @@ class EventDetailAttending extends StatelessWidget {
                   left: 30,
                 ),
                 child: SvgPicture.asset(
-                  AppAssets.starIcon,
+                  _getIconPath(_rsvpId),
                 ),
               ),
               CommonDropdown(
-                hint: 'Attending',
+                hint: _getTitle(_rsvpId),
                 isBorderVisible: false,
+                selection: _attendSelected,
                 backgroundColor: Colors.transparent,
                 data: GlobalConstants.getSelectedMenu(context),
+                onChanged: (value) {
+                  setState(() {
+                    _attendSelected = value!;
+                    _rsvpId = value.id.toString();
+                    _eventDetailBloc.updateEventStatus(widget.eventId ?? 0, value.id ?? 0);
+                  });
+                },
               ),
             ),
           ),

@@ -125,6 +125,12 @@ class AppRepository extends BaseRepository {
     );
   }
 
+  Future<Either<List<EventResponse>, Exception>> updateEventStatus(int id, int rsvp) {
+    return safeCall(
+      () => appServiceProvider.updateEventStatus(id, rsvp),
+    );
+  }
+
   Future<Either<CommentResponse, Exception>> editComment(
     String text,
     int id,

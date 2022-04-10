@@ -33,11 +33,11 @@ class EventDetailComment extends StatefulWidget {
 }
 
 class _EventDetailCommentState extends State<EventDetailComment> {
-  EventDetailBloc albumBloc = EventDetailBloc(locator.get());
+  final EventDetailBloc _eventDetailBloc = EventDetailBloc(locator.get());
 
   @override
   void initState() {
-    albumBloc.getComments(widget.id ?? 0, 'event', 1, 3);
+    _eventDetailBloc.getComments(widget.id ?? 0, 'event', 1, 3);
     super.initState();
   }
 
@@ -97,7 +97,7 @@ class _EventDetailCommentState extends State<EventDetailComment> {
           ),
           StreamBuilder<BlocState<List<CommentResponse>>>(
             initialData: const BlocState.loading(),
-            stream: albumBloc.getCommentsStream,
+            stream: _eventDetailBloc.getCommentsStream,
             builder: (context, snapshot) {
               final state = snapshot.data!;
 

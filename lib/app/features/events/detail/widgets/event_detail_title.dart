@@ -15,7 +15,7 @@ class EventDetailTitle extends StatelessWidget {
       bottom: 50,
       left: 20,
       child: Text(
-        'Oblivion : Chapter 2 ',
+        title ?? 'N/A',
         style: context.bodyTextPrimaryStyle()!.copyWith(
               color: Colors.white,
               fontSize: 20,

@@ -84,7 +84,10 @@ class _EventDetailState extends State<EventDetail> {
                         ],
                       ),
                       EventDetaiInfo(data: data),
-                      const EventDetailAttending(),
+                      EventDetailAttending(
+                        eventId: widget.id ?? 0,
+                        rsvpId: data.rsvpId,
+                      ),
                       Padding(
                         padding: const EdgeInsets.symmetric(
                           horizontal: kHorizontalSpacing,

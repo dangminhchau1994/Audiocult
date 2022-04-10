@@ -87,7 +87,11 @@ class EventDetaiInfo extends StatelessWidget {
         ),
         const SizedBox(width: 10),
         Text(
-          data!.eventDate!.split('-')[1].contains(',') ? '${getEventTime(0)}\n\n${getEventTime(1)}' : getEventTime(0),
+          data!.eventDate!.contains('-')
+              ? data!.eventDate!.split('-')[1].contains(',')
+                  ? '${getEventTime(0)}\n\n${getEventTime(1)}'
+                  : getEventTime(0)
+              : data!.eventDate!,
           style: context.bodyTextStyle()?.copyWith(
                 color: AppColors.subTitleColor,
                 fontSize: 14,

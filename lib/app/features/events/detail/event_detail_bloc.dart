@@ -12,10 +12,22 @@ class EventDetailBloc extends BaseBloc {
   EventDetailBloc(this._appRepository);
 
   final _getEventDetailSubject = PublishSubject<BlocState<EventResponse>>();
+  final _updateEventSubject = PublishSubject<BlocState<List<EventResponse>>>();
   final _getCommentsSubject = PublishSubject<BlocState<List<CommentResponse>>>();
 
   Stream<BlocState<EventResponse>> get getEventDetailStream => _getEventDetailSubject.stream;
   Stream<BlocState<List<CommentResponse>>> get getCommentsStream => _getCommentsSubject.stream;
+  Stream<BlocState<List<EventResponse>>> get udpateEventStream => _updateEventSubject.stream;
+
+  void updateEventStatus(int id, int rsvp) async {
+    final result = await _appRepository.updateEventStatus(id, rsvp);
+
+    result.fold((success) {
+      _updateEventSubject.sink.add(BlocState.success(success));
+    }, (error) {
+      _updateEventSubject.sink.add(BlocState.error(error.toString()));
+    });
+  }
 
   void getEventDetail(int id) async {
     _getEventDetailSubject.sink.add(const BlocState.loading());
