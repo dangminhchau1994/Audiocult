@@ -10,6 +10,7 @@ import 'package:audio_cult/app/features/auth/login/login_screen.dart';
 import 'package:audio_cult/app/features/auth/place_location/place_location_screen.dart';
 import 'package:audio_cult/app/features/auth/resent_password/resent_password_screen.dart';
 import 'package:audio_cult/app/features/events/calendar/calendar_screen.dart';
+import 'package:audio_cult/app/features/events/create_event/create_event_screen.dart';
 import 'package:audio_cult/app/features/events/detail/event_detail_screen.dart';
 import 'package:audio_cult/app/features/events/filter/filter_event_screen.dart';
 import 'package:audio_cult/app/features/events/result/result_screen.dart';
@@ -76,6 +77,7 @@ class AppRoute {
   static const String routeAtlasFilter = '/atlas_filter';
   static const String routeAtlasFilterResult = '/atlas_filter_result';
   static const String routeEventDetail = '/route_event_detail';
+  static const String routeCreateEvent = '/route_create_event';
 
   ///#end region
 
@@ -173,6 +175,11 @@ class AppRoute {
           DetailPlayListScreen(
             playListId: arguments['playlist_id'] as String,
           ),
+        );
+      case routeCreateEvent:
+        return _pageRoute(
+          settings,
+          const CreateEventScreen(),
         );
       case routeFeaturedAlbum:
         final SearchArgs? arguments = asType(settings.arguments);

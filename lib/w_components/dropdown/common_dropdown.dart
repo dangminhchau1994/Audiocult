@@ -61,7 +61,7 @@ class _CommonDropdownState extends State<CommonDropdown> {
           child: CustomDropdownButton2(
             onTap: widget.onTap,
             hintAlignment: Alignment.centerLeft,
-            icon: const Icon(Icons.keyboard_arrow_down_rounded, size: 24, color: Colors.white),
+            icon: Icon(Icons.keyboard_arrow_down_rounded, size: 24, color: AppColors.unActiveLabelItem),
             buttonDecoration: const BoxDecoration(
               color: Colors.transparent,
             ),

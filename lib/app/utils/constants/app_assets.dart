@@ -9,6 +9,8 @@ class AppAssets {
 
   static const markerIcon = 'assets/icons/marker.png';
 
+  static const timePicker = 'assets/icons/time_picker.svg';
+
   static const arrowUp = 'assets/icons/arrow_up.svg';
 
   static const mailIcon = 'assets/icons/mail.svg';

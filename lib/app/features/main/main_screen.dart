@@ -4,6 +4,7 @@ import 'package:audio_cult/app/features/audio_player/miniplayer.dart';
 import 'package:audio_cult/app/features/main/main_bloc.dart';
 import 'package:audio_cult/app/features/music/music_screen.dart';
 import 'package:audio_cult/app/injections.dart';
+import 'package:audio_cult/app/utils/route/app_route.dart';
 import 'package:audio_cult/l10n/l10n.dart';
 import 'package:audio_cult/w_components/bottom_navigation_bar/common_bottom_bar.dart';
 import 'package:audio_cult/w_components/menus/common_circular_menu.dart';
@@ -182,7 +183,9 @@ class _MainScreenState extends State<MainScreen> {
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         floatingActionButton: CommonCircularMenu(
           onMusicTap: () {},
-          onEventTap: () {},
+          onEventTap: () {
+            Navigator.pushNamed(context, AppRoute.routeCreateEvent);
+          },
           onPostTap: () {},
         ),
       ),

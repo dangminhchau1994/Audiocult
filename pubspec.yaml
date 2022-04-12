@@ -50,6 +50,7 @@ dependencies:
   hive_flutter: ^1.1.0
   path_provider: 2.0.9
   image_cropper: ^1.5.0
+  datetime_picker_formfield: ^2.0.0
   audio_service: ^0.18.4
   just_audio: ^0.9.20
   readmore: ^2.1.0
