@@ -11,7 +11,8 @@ class PlaylistResponse with _$PlaylistResponse {
     String? userServerId,
     // ignore: invalid_annotation_target
     @JsonKey(name: 'user_name') String? userName,
-    String? fullName,
+    // ignore: invalid_annotation_target
+    @JsonKey(name: 'full_name') String? fullName,
     String? gender,
     String? userImage,
     String? isInvisible,

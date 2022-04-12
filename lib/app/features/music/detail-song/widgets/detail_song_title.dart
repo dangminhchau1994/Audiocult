@@ -17,9 +17,9 @@ class DetailSongTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PositionedDirectional(
+    return Positioned(
       top: 238,
-      start: 16,
+      left: 16,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -37,7 +37,7 @@ class DetailSongTitle extends StatelessWidget {
           Row(
             children: [
               Text(
-                artistName ?? '',
+                artistName ?? 'N/A',
                 style: context.bodyTextPrimaryStyle()!.copyWith(
                       color: Colors.white,
                     ),

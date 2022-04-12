@@ -32,6 +32,7 @@ enum CommentType {
   song,
   album,
   playlist,
+  event,
 }
 
 class CommentListScreen extends StatefulWidget {
@@ -66,6 +67,8 @@ class _CommentListScreenState extends State<CommentListScreen> {
         return 'music_song';
       case CommentType.home:
         return '';
+      case CommentType.event:
+        return 'event';
     }
   }
 

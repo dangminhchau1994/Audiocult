@@ -1,4 +1,5 @@
 import 'package:audio_cult/l10n/l10n.dart';
+import 'package:audio_cult/w_components/dropdown/common_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -64,6 +65,13 @@ class GlobalConstants {
         ),
         context.l10n.t_delete,
       ),
+    ];
+  }
+
+  static List<SelectMenuModel> getSelectedMenu(BuildContext context) {
+    return [
+      SelectMenuModel(id: 1, title: context.l10n.t_attending),
+      SelectMenuModel(id: 2, title: context.l10n.t_maybe_attending),
     ];
   }
 

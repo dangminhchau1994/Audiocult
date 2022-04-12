@@ -27,7 +27,7 @@ class _$PlaylistResponseTearOff {
       String? profilePageId,
       String? userServerId,
       @JsonKey(name: 'user_name') String? userName,
-      String? fullName,
+      @JsonKey(name: 'full_name') String? fullName,
       String? gender,
       String? userImage,
       String? isInvisible,
@@ -96,7 +96,9 @@ mixin _$PlaylistResponse {
   String? get userServerId =>
       throw _privateConstructorUsedError; // ignore: invalid_annotation_target
   @JsonKey(name: 'user_name')
-  String? get userName => throw _privateConstructorUsedError;
+  String? get userName =>
+      throw _privateConstructorUsedError; // ignore: invalid_annotation_target
+  @JsonKey(name: 'full_name')
   String? get fullName => throw _privateConstructorUsedError;
   String? get gender => throw _privateConstructorUsedError;
   String? get userImage => throw _privateConstructorUsedError;
@@ -153,7 +155,7 @@ abstract class $PlaylistResponseCopyWith<$Res> {
       String? profilePageId,
       String? userServerId,
       @JsonKey(name: 'user_name') String? userName,
-      String? fullName,
+      @JsonKey(name: 'full_name') String? fullName,
       String? gender,
       String? userImage,
       String? isInvisible,
@@ -342,7 +344,7 @@ abstract class _$PlaylistResponseCopyWith<$Res>
       String? profilePageId,
       String? userServerId,
       @JsonKey(name: 'user_name') String? userName,
-      String? fullName,
+      @JsonKey(name: 'full_name') String? fullName,
       String? gender,
       String? userImage,
       String? isInvisible,
@@ -529,7 +531,7 @@ class _$_PlaylistResponse implements _PlaylistResponse {
       this.profilePageId,
       this.userServerId,
       @JsonKey(name: 'user_name') this.userName,
-      this.fullName,
+      @JsonKey(name: 'full_name') this.fullName,
       this.gender,
       this.userImage,
       this.isInvisible,
@@ -566,7 +568,8 @@ class _$_PlaylistResponse implements _PlaylistResponse {
   @override // ignore: invalid_annotation_target
   @JsonKey(name: 'user_name')
   final String? userName;
-  @override
+  @override // ignore: invalid_annotation_target
+  @JsonKey(name: 'full_name')
   final String? fullName;
   @override
   final String? gender;
@@ -721,7 +724,7 @@ abstract class _PlaylistResponse implements PlaylistResponse {
       String? profilePageId,
       String? userServerId,
       @JsonKey(name: 'user_name') String? userName,
-      String? fullName,
+      @JsonKey(name: 'full_name') String? fullName,
       String? gender,
       String? userImage,
       String? isInvisible,
@@ -758,7 +761,8 @@ abstract class _PlaylistResponse implements PlaylistResponse {
   @override // ignore: invalid_annotation_target
   @JsonKey(name: 'user_name')
   String? get userName;
-  @override
+  @override // ignore: invalid_annotation_target
+  @JsonKey(name: 'full_name')
   String? get fullName;
   @override
   String? get gender;

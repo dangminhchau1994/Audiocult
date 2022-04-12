@@ -45,7 +45,6 @@ class ShowEvents extends StatelessWidget {
                 await Navigator.pushNamed(
                   context,
                   AppRoute.routeEventMap,
-                  arguments: {'icon_marker': await FileUtils.getBytesFromAsset(AppAssets.markerIcon, 80)},
                 );
               },
               child: _buildButton(

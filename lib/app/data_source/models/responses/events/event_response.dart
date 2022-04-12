@@ -1,3 +1,4 @@
+import 'package:audio_cult/app/data_source/models/responses/song_detail/song_detail_response.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'event_response.g.dart';
@@ -29,10 +30,12 @@ class EventResponse {
   String? gmap;
   String? address;
   String? lat;
+  String? tags;
   String? lng;
   String? description;
   String? eventDate;
   List<List<String>>? categories;
+  Lineup? lineup;
 
   EventResponse({
     this.rsvpId,
@@ -59,12 +62,23 @@ class EventResponse {
     this.totalLike,
     this.gmap,
     this.address,
+    this.tags,
     this.lat,
     this.lng,
     this.description,
     this.eventDate,
     this.categories,
+    this.lineup,
   });
 
   factory EventResponse.fromJson(Map<String, dynamic> json) => _$EventResponseFromJson(json);
+}
+
+@JsonSerializable(fieldRename: FieldRename.snake)
+class Lineup {
+  List<ArtistUser>? artist;
+
+  Lineup({this.artist});
+
+  factory Lineup.fromJson(Map<String, dynamic> json) => _$LineupFromJson(json);
 }

@@ -5,9 +5,9 @@ class DetailSongPlayButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PositionedDirectional(
+    return Positioned(
       top: 276,
-      end: 30,
+      right: 30,
       child: Container(
         padding: const EdgeInsets.all(10),
         decoration: const BoxDecoration(

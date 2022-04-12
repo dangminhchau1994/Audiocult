@@ -76,7 +76,7 @@ class _DetailAlbumScreenState extends State<DetailAlbumScreen> {
                             //Title
                             DetailAlbumTitle(
                               time: detail.timeStamp,
-                              artistName: detail.artistUser?.fullName ?? '',
+                              userName: detail.fullName ?? '',
                               title: detail.name,
                             ),
                             // Play Button

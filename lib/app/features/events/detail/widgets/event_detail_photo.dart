@@ -1,8 +1,9 @@
-import 'package:audio_cult/w_components/images/common_image_network.dart';
 import 'package:flutter/material.dart';
 
-class DetailAlbumPhoto extends StatelessWidget {
-  const DetailAlbumPhoto({
+import '../../../../../w_components/images/common_image_network.dart';
+
+class EventDetailPhoto extends StatelessWidget {
+  const EventDetailPhoto({
     Key? key,
     this.imagePath,
   }) : super(key: key);
@@ -12,11 +13,12 @@ class DetailAlbumPhoto extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: const EdgeInsets.only(bottom: 30),
       width: MediaQuery.of(context).size.width,
       height: 300,
-      margin: const EdgeInsets.only(bottom: 30),
       child: CommonImageNetWork(
         width: double.infinity,
+        height: 300,
         imagePath: imagePath ?? '',
       ),
     );

@@ -11,23 +11,25 @@ class CommonDropdown extends StatefulWidget {
   final List<SelectMenuModel>? data;
   final Function()? onTap;
   final Function(SelectMenuModel? value)? onChanged;
+  final Color? backgroundColor;
   EdgeInsets? padding;
   double? dropDownWith;
   bool isValidate;
   bool isBorderVisible;
 
-  CommonDropdown(
-      {Key? key,
-      this.hint,
-      this.data,
-      this.onTap,
-      this.onChanged,
-      this.selection,
-      this.padding,
-      this.dropDownWith,
-      this.isBorderVisible = true,
-      this.isValidate = false})
-      : super(key: key);
+  CommonDropdown({
+    Key? key,
+    this.hint,
+    this.data,
+    this.onTap,
+    this.onChanged,
+    this.selection,
+    this.padding,
+    this.dropDownWith,
+    this.backgroundColor,
+    this.isBorderVisible = true,
+    this.isValidate = false,
+  }) : super(key: key);
 
   @override
   State<CommonDropdown> createState() => _CommonDropdownState();
@@ -46,7 +48,7 @@ class _CommonDropdownState extends State<CommonDropdown> {
         Container(
           padding: widget.padding ??= const EdgeInsets.symmetric(vertical: 8),
           decoration: BoxDecoration(
-            color: AppColors.inputFillColor.withOpacity(0.4),
+            color: widget.backgroundColor ?? AppColors.inputFillColor.withOpacity(0.4),
             borderRadius: BorderRadius.circular(4),
             border: Border.all(
               color: widget.selection == null && widget.isValidate

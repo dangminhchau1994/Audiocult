@@ -7,19 +7,19 @@ class DetailAlbumTitle extends StatelessWidget {
   const DetailAlbumTitle({
     Key? key,
     this.title,
-    this.artistName,
+    this.userName,
     this.time,
   }) : super(key: key);
 
   final String? title;
-  final String? artistName;
+  final String? userName;
   final String? time;
 
   @override
   Widget build(BuildContext context) {
-    return PositionedDirectional(
+    return Positioned(
       top: 238,
-      start: 16,
+      left: 16,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -37,7 +37,7 @@ class DetailAlbumTitle extends StatelessWidget {
           Row(
             children: [
               Text(
-                artistName ?? '',
+                userName ?? 'N/A',
                 style: context.bodyTextPrimaryStyle()!.copyWith(
                       color: Colors.white,
                     ),

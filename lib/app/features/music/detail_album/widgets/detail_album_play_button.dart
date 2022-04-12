@@ -35,9 +35,9 @@ class _DetailAlbumPlayButtonState extends State<DetailAlbumPlayButton> {
 
   @override
   Widget build(BuildContext context) {
-    return PositionedDirectional(
+    return Positioned(
       top: 276,
-      end: 30,
+      right: 30,
       child: WButtonInkwell(
         onPressed: () {
           // ignore: cast_nullable_to_non_nullable
