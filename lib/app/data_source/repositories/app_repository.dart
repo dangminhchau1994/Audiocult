@@ -244,8 +244,15 @@ class AppRepository extends BaseRepository {
   }
 
   Future<Either<List<Song>, Exception>> getMixTapSongs(
-      String query, String sort, int page, int limit, String view, String type,
-      {String? userId, String? albumId}) {
+    String query,
+    String sort,
+    int page,
+    int limit,
+    String view,
+    String type, {
+    String? userId,
+    String? albumId,
+  }) {
     return safeCall(
       () => appServiceProvider.getMixTapSongs(query, sort, page, limit, view, type, userId: userId, albumId: albumId),
     );
@@ -400,7 +407,7 @@ class AppRepository extends BaseRepository {
     return safeCall(() => appServiceProvider.getAtlasUsers(params));
   }
 
-  Future<Either<UserSubscriptionResponse, Exception>> subcribeUser(AtlasUser user) async {
+  Future<Either<UserSubscriptionResponse, Exception>> subscribeUser(AtlasUser user) async {
     return safeCall(() => appServiceProvider.subscribeUser(user));
   }
 

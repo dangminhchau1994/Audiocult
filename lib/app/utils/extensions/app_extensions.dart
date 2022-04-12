@@ -34,13 +34,13 @@ extension AppTextExtension on BuildContext {
 
   TextTheme textTheme() => Theme.of(this).textTheme;
 
-  TextStyle? headerStyle() => textTheme().headline6?.copyWith(color: Colors.white, fontWeight: FontWeight.w700);
+  TextStyle? headerStyle() => textTheme().headline6?.copyWith(color: Colors.white, fontWeight: FontWeight.w400);
 
   TextStyle? headerStyle1() => textTheme().headline5?.copyWith(color: Colors.white, fontWeight: FontWeight.w700);
 
   TextStyle? bodyTextStyle() => textTheme().bodyText2;
 
-  TextStyle? buttonTextStyle() => bodyTextStyle()?.copyWith(fontSize: AppFontSize.size14, fontWeight: FontWeight.w600);
+  TextStyle? buttonTextStyle() => bodyTextStyle()?.copyWith(fontSize: AppFontSize.size16, fontWeight: FontWeight.w600);
 
   TextStyle? bodyTextPrimaryStyle() => textTheme().bodyText2?.copyWith(
         fontWeight: FontWeight.w400,

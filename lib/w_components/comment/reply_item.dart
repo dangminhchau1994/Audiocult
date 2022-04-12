@@ -33,12 +33,12 @@ class ReplyItem extends StatefulWidget {
 }
 
 class _ReplyItemState extends State<ReplyItem> {
-  final CommenntListBloc _commenntListBloc = CommenntListBloc(locator.get());
+  final CommentListBloc _commentListBloc = CommentListBloc(locator.get());
 
   @override
   void initState() {
     super.initState();
-    _commenntListBloc.getReplies(widget.parentId ?? 0, widget.id ?? 0, getType(), 1, 2);
+    _commentListBloc.getReplies(widget.parentId ?? 0, widget.id ?? 0, getType(), 1, 2);
   }
 
   String getType() {
@@ -47,7 +47,7 @@ class _ReplyItemState extends State<ReplyItem> {
       case CommentType.album:
         return 'music_album';
       case CommentType.playlist:
-        return 'advancedmusic_playlist';
+        return 'advanced_music_playlist';
       case CommentType.song:
         return 'music_song';
       case CommentType.event:
@@ -66,7 +66,7 @@ class _ReplyItemState extends State<ReplyItem> {
       ),
       child: StreamBuilder<BlocState<List<CommentResponse>>>(
         initialData: const BlocState.loading(),
-        stream: _commenntListBloc.getRepliesStream,
+        stream: _commentListBloc.getRepliesStream,
         builder: (context, snapshot) {
           final state = snapshot.data!;
 
@@ -123,7 +123,6 @@ class _ReplyItemState extends State<ReplyItem> {
                             data[index].userName ?? '',
                             style: context.bodyTextPrimaryStyle()!.copyWith(
                                   color: AppColors.lightBlue,
-                                  fontSize: 14,
                                   fontWeight: FontWeight.bold,
                                 ),
                           ),
@@ -137,7 +136,6 @@ class _ReplyItemState extends State<ReplyItem> {
                               overflow: TextOverflow.ellipsis,
                               style: context.bodyTextPrimaryStyle()!.copyWith(
                                     color: AppColors.subTitleColor,
-                                    fontSize: 12,
                                     fontWeight: FontWeight.bold,
                                   ),
                             ),

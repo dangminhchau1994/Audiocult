@@ -2,12 +2,12 @@ import 'package:audio_cult/app/features/music/playlist_dialog_bloc.dart';
 import 'package:audio_cult/app/features/music/search/search_item.dart';
 import 'package:audio_cult/l10n/l10n.dart';
 import 'package:flutter/material.dart';
+
 import '../../../di/bloc_locator.dart';
 import '../../../w_components/buttons/w_button_inkwell.dart';
 import '../../../w_components/error_empty/error_section.dart';
 import '../../../w_components/loading/loading_widget.dart';
 import '../../base/bloc_state.dart';
-import '../../constants/app_text_styles.dart';
 import '../../data_source/models/responses/playlist/playlist_response.dart';
 import '../../utils/constants/app_colors.dart';
 import '../../utils/constants/app_dimens.dart';
@@ -48,7 +48,7 @@ class _PlayListDialogState extends State<PlayListDialog> {
     });
   }
 
-  Widget _buidSearchInput() {
+  Widget _buildSearchInput() {
     return Padding(
       padding: const EdgeInsets.all(12),
       child: TextField(
@@ -61,7 +61,6 @@ class _PlayListDialogState extends State<PlayListDialog> {
             query = value;
           });
         },
-        style: AppTextStyles.regular,
         decoration: InputDecoration(
           filled: true,
           focusColor: AppColors.outlineBorderColor,
@@ -81,7 +80,6 @@ class _PlayListDialogState extends State<PlayListDialog> {
             ),
           ),
           hintText: context.l10n.t_search,
-          hintStyle: AppTextStyles.regular,
           contentPadding: const EdgeInsets.only(
             top: 20,
             left: 10,
@@ -124,7 +122,7 @@ class _PlayListDialogState extends State<PlayListDialog> {
             ),
             child: Column(
               children: [
-                _buidSearchInput(),
+                _buildSearchInput(),
                 Expanded(
                   child: StreamBuilder<BlocState<List<PlaylistResponse>>>(
                     initialData: const BlocState.loading(),
@@ -170,7 +168,6 @@ class _PlayListDialogState extends State<PlayListDialog> {
                               children: [
                                 Text(
                                   context.l10n.t_no_data,
-                                  style: AppTextStyles.normal,
                                 )
                               ],
                             );

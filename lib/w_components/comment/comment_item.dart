@@ -10,6 +10,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_reaction_button/flutter_reaction_button.dart';
 import 'package:flutter_svg/svg.dart';
+
 import '../../app/utils/constants/app_colors.dart';
 
 class CommentItem extends StatefulWidget {
@@ -76,7 +77,6 @@ class _CommentItemState extends State<CommentItem> {
                       widget.data?.userName ?? '',
                       style: context.bodyTextPrimaryStyle()!.copyWith(
                             color: AppColors.lightBlue,
-                            fontSize: 14,
                             fontWeight: FontWeight.bold,
                           ),
                     ),
@@ -87,7 +87,6 @@ class _CommentItemState extends State<CommentItem> {
                       DateTimeUtils.formatCommonDate('hh:mm', int.parse(widget.data?.timeStamp ?? '')),
                       style: context.bodyTextPrimaryStyle()!.copyWith(
                             color: AppColors.subTitleColor,
-                            fontSize: 12,
                             fontWeight: FontWeight.bold,
                           ),
                     ),
@@ -102,7 +101,6 @@ class _CommentItemState extends State<CommentItem> {
                   overflow: TextOverflow.ellipsis,
                   style: context.bodyTextPrimaryStyle()!.copyWith(
                         color: Colors.white,
-                        fontSize: 14,
                         fontWeight: FontWeight.bold,
                       ),
                 ),
@@ -118,7 +116,6 @@ class _CommentItemState extends State<CommentItem> {
                           DateTimeUtils.convertToAgo(int.parse(widget.data?.timeStamp ?? '')),
                           style: context.bodyTextPrimaryStyle()!.copyWith(
                                 color: AppColors.subTitleColor,
-                                fontSize: 12,
                               ),
                         ),
                         const SizedBox(
@@ -132,7 +129,6 @@ class _CommentItemState extends State<CommentItem> {
                             'Reply',
                             style: context.bodyTextPrimaryStyle()!.copyWith(
                                   color: Colors.lightBlue,
-                                  fontSize: 12,
                                 ),
                           ),
                         ),
@@ -211,7 +207,6 @@ class _CommentItemState extends State<CommentItem> {
                           widget.data?.totalLike ?? '',
                           style: context.bodyTextPrimaryStyle()!.copyWith(
                                 color: AppColors.subTitleColor,
-                                fontSize: 14,
                               ),
                         ),
                       ],
@@ -232,7 +227,6 @@ Widget _buildTitle(String title) {
     title,
     style: const TextStyle(
       color: Colors.white,
-      fontSize: 12,
       fontWeight: FontWeight.bold,
     ),
   );

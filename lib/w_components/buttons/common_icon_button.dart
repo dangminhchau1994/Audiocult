@@ -1,4 +1,4 @@
-import 'package:audio_cult/app/constants/app_text_styles.dart';
+import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:flutter/material.dart';
 
 class CommonIconButton extends StatelessWidget {
@@ -38,7 +38,7 @@ class CommonIconButton extends StatelessWidget {
         icon: icon ?? const SizedBox.shrink(),
         label: Padding(
           padding: const EdgeInsets.symmetric(vertical: 16),
-          child: Text(text ?? '', style: AppTextStyles.regular.copyWith(color: textColor)),
+          child: Text(text ?? '', style:context.bodyTextStyle()?.copyWith(color: textColor)),
         ),
       ),
     );

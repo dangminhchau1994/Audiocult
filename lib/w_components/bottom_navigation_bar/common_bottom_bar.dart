@@ -62,6 +62,8 @@ class CommonBottomBar extends StatelessWidget {
               onTap: onTap,
               selectedItemColor: AppColors.activeLabelItem,
               unselectedItemColor: Colors.white,
+              selectedFontSize: 16,
+              unselectedFontSize: 16,
             ),
           ],
         ),

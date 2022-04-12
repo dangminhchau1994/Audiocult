@@ -10,12 +10,13 @@ class BaseRes<T> {
 
   factory BaseRes.fromJson(Map<String, dynamic> json) {
     return BaseRes(
-        data: json['data'] as T ?? json['predictions'] as T,
-        message: json['message'],
-        code: json['code'] as int?,
-        status: json['status'],
-        error: json['error'],
-        isSuccess: json['status'] == StatusString.success);
+      data: json['data'] as T ?? json['predictions'] as T,
+      message: json['message'],
+      code: json['code'] as int?,
+      status: json['status'],
+      error: json['error'],
+      isSuccess: json['status'] == StatusString.success,
+    );
   }
 
   S mapData<S>(Function(dynamic json) mapper) {

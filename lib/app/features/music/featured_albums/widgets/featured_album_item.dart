@@ -6,12 +6,11 @@ import 'package:audio_cult/app/injections.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/l10n/l10n.dart';
 import 'package:audio_cult/w_components/images/common_image_network.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+
 import '../../../../../w_components/buttons/w_button_inkwell.dart';
 import '../../../../../w_components/error_empty/error_section.dart';
 import '../../../../../w_components/loading/loading_widget.dart';
-import '../../../../constants/app_text_styles.dart';
 import '../../../../data_source/repositories/app_repository.dart';
 import '../../../../utils/constants/app_colors.dart';
 import '../../../../utils/datetime/date_time_utils.dart';
@@ -164,7 +163,6 @@ class _FeaturedAlbumItemState extends State<FeaturedAlbumItem> {
                       : Center(
                           child: Text(
                             context.l10n.t_no_data,
-                            style: AppTextStyles.normal,
                           ),
                         );
                 },

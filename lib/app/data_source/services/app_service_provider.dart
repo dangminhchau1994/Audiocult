@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:audio_cult/app/data_source/local/pref_provider.dart';
-import 'package:audio_cult/app/data_source/models/requests/create_playlist_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/event_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/filter_users_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/register_request.dart';
@@ -176,8 +175,16 @@ class AppServiceProvider {
     );
   }
 
-  Future<List<Song>> getMixTapSongs(String query, String sort, int page, int limit, String view, String type,
-      {String? userId, String? albumId}) async {
+  Future<List<Song>> getMixTapSongs(
+    String query,
+    String sort,
+    int page,
+    int limit,
+    String view,
+    String type, {
+    String? userId,
+    String? albumId,
+  }) async {
     final response = await _dioHelper.get(
       route: '/restful_api/song',
       options: Options(headers: {'Content-Type': 'application/x-www-form-urlencoded'}),
@@ -548,9 +555,10 @@ class AppServiceProvider {
 
     if (response.status == StatusString.success) {
       return RegisterResponse(
-          // ignore: cast_nullable_to_non_nullable
-          status: response.status as String,
-          message: response.message as String?);
+        // ignore: cast_nullable_to_non_nullable
+        status: response.status as String,
+        message: response.message as String?,
+      );
     } else {
       return RegisterResponse(status: response.status as String, message: response.error['message'] as String);
     }
@@ -566,10 +574,11 @@ class AppServiceProvider {
 
     if (response.status == StatusString.success) {
       return CreateAlbumResponse(
-          // ignore: cast_nullable_to_non_nullable
-          status: response.status as String,
-          message: response.message as String?,
-          data: response.data['album_id'] as String?);
+        // ignore: cast_nullable_to_non_nullable
+        status: response.status as String,
+        message: response.message as String?,
+        data: response.data['album_id'] as String?,
+      );
     } else {
       return CreateAlbumResponse(status: response.status as String, message: response.error['message'] as String);
     }
@@ -583,10 +592,11 @@ class AppServiceProvider {
 
     if (response.isSuccess!) {
       return CreateAlbumResponse(
-          // ignore: cast_nullable_to_non_nullable
-          status: response.status as String,
-          message: response.message as String?,
-          data: response.data['message'] as String?);
+        // ignore: cast_nullable_to_non_nullable
+        status: response.status as String,
+        message: response.message as String?,
+        data: response.data['message'] as String?,
+      );
     } else {
       return CreateAlbumResponse(status: response.status as String, message: response.error['message'] as String);
     }
@@ -600,10 +610,11 @@ class AppServiceProvider {
 
     if (response.isSuccess!) {
       return CreateAlbumResponse(
-          // ignore: cast_nullable_to_non_nullable
-          status: response.status as String,
-          message: response.message as String?,
-          data: response.message as String?);
+        // ignore: cast_nullable_to_non_nullable
+        status: response.status as String,
+        message: response.message as String?,
+        data: response.message as String?,
+      );
     } else {
       return CreateAlbumResponse(status: response.status as String, message: response.error['message'] as String);
     }
@@ -641,7 +652,7 @@ class AppServiceProvider {
       route: '/restful_api/user/${user.userId!}/subscribe',
       requestParams: {
         'val[is_subscribed]':
-            user.isSubcribed == true ? SubscriptionStatus.unsubcribe.value : SubscriptionStatus.subcribe.value
+            user.isSubscribed == true ? SubscriptionStatus.unsubscribe.value : SubscriptionStatus.subscribe.value
       },
       responseBodyMapper: (json) => UserSubscriptionResponse.fromJson(json as Map<String, dynamic>),
     );

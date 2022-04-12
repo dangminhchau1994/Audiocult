@@ -121,7 +121,7 @@ class _EventDetailAttendingState extends State<EventDetailAttending> {
 
   Widget _buildComponent(Widget icon, Widget child) {
     return Container(
-      height: 70,
+      height: 90,
       decoration: BoxDecoration(
         color: AppColors.secondaryButtonColor,
         borderRadius: BorderRadius.circular(10),

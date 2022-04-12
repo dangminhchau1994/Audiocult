@@ -1,9 +1,6 @@
 import 'package:audio_cult/app/base/bloc_state.dart';
 import 'package:audio_cult/app/features/music/discover/discover_bloc.dart';
 import 'package:audio_cult/app/features/music/discover/widgets/song_item.dart';
-import 'package:audio_cult/app/features/player_widgets/player_screen.dart';
-import 'package:audio_cult/app/utils/route/app_route.dart';
-import 'package:audio_cult/w_components/buttons/w_button_inkwell.dart';
 import 'package:audio_cult/w_components/error_empty/error_section.dart';
 import 'package:audio_cult/w_components/loading/loading_widget.dart';
 import 'package:flutter/material.dart';

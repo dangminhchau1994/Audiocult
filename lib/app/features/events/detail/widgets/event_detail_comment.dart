@@ -49,7 +49,7 @@ class _EventDetailCommentState extends State<EventDetailComment> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           TextField(
-            maxLines: 5,
+            maxLines: 3,
             showCursor: false, //add this line
             readOnly: true,
             onTap: () {
@@ -66,7 +66,7 @@ class _EventDetailCommentState extends State<EventDetailComment> {
             },
             cursorColor: Colors.white,
             onChanged: (value) {},
-            style: AppTextStyles.regular,
+            style: const TextStyle(fontSize: 20),
             decoration: InputDecoration(
               filled: true,
               focusColor: AppColors.outlineBorderColor,

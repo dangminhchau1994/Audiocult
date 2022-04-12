@@ -1,5 +1,3 @@
-import 'dart:typed_data';
-import 'dart:ui' as ui;
 import 'package:audio_cult/app/utils/constants/app_assets.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
@@ -8,7 +6,6 @@ import 'package:audio_cult/app/utils/route/app_route.dart';
 import 'package:audio_cult/l10n/l10n.dart';
 import 'package:audio_cult/w_components/buttons/w_button_inkwell.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 
 class ShowEvents extends StatelessWidget {
@@ -23,7 +20,6 @@ class ShowEvents extends StatelessWidget {
           context.l10n.t_show_events,
           style: context.bodyTextStyle()?.copyWith(
                 color: AppColors.subTitleColor.withOpacity(0.7),
-                fontSize: 14,
               ),
         ),
         const SizedBox(
@@ -84,7 +80,6 @@ class ShowEvents extends StatelessWidget {
             title,
             style: context.bodyTextStyle()?.copyWith(
                   color: Colors.white,
-                  fontSize: 14,
                 ),
           ),
         ],

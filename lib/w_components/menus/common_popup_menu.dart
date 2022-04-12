@@ -15,7 +15,7 @@ class CommonPopupMenu extends StatelessWidget {
     return PopupMenuButton<int>(
       color: AppColors.inputFillColor,
       icon: SvgPicture.asset(
-        AppAssets.horizIcon,
+        AppAssets.horizontalIcon,
         width: 16,
         height: 16,
       ),

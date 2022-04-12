@@ -1,4 +1,4 @@
-import 'package:audio_cult/app/constants/app_text_styles.dart';
+import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/libs/textfields_tags/lib/textfield_tags.dart';
 import 'package:flutter/material.dart';
 
@@ -21,9 +21,9 @@ class CommonInputTags extends StatelessWidget {
       initialTags: initTags,
       textEditingController: controller ?? TextEditingController(),
       tagsStyler: TagsStyler(
-        tagTextStyle: AppTextStyles.regular.copyWith(
-          fontWeight: FontWeight.bold,
-        ),
+        tagTextStyle: context.bodyTextStyle()?.copyWith(
+              fontWeight: FontWeight.bold,
+            ),
         tagDecoration: BoxDecoration(
           color: AppColors.primaryButtonColor,
           borderRadius: BorderRadius.circular(12),
@@ -45,9 +45,7 @@ class CommonInputTags extends StatelessWidget {
         helperText: '',
         textStyle: const TextStyle(
           color: Colors.white,
-          fontSize: 14,
         ),
-        hintStyle: AppTextStyles.regular,
         textFieldFilledColor: AppColors.inputFillColor.withOpacity(0.4),
         textFieldEnabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(4),

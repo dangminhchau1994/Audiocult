@@ -58,6 +58,7 @@ class _FilterAtlasScreenState extends State<FilterAtlasScreen> {
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   child: _userGroupMenuWidget(),
                 ),
+                _categoryMenuWidget(),
                 Divider(
                   thickness: 1,
                   color: AppColors.deepTeal,
@@ -107,6 +108,28 @@ class _FilterAtlasScreenState extends State<FilterAtlasScreen> {
     );
   }
 
+  Widget _categoryMenuWidget() {
+    return Selector<AtlasFilterProvider, List<SelectMenuModel>>(
+      shouldRebuild: (list1, list2) => list1 != list2,
+      selector: (_, provider) => provider.subCategoryOptions ?? [],
+      builder: (_, options, __) {
+        if (options.isEmpty) {
+          return Container();
+        }
+        return Padding(
+          padding: const EdgeInsets.symmetric(vertical: 16),
+          child: _dropdownWidget(
+            context.l10n.t_choose_category,
+            options,
+            options.firstWhereOrNull((element) => element.isSelected == true),
+            context.read<AtlasFilterProvider>().selectSubCategory,
+            () {},
+          ),
+        );
+      },
+    );
+  }
+
   Widget _countriesMenuWidget() {
     return Selector<AtlasFilterProvider, bool>(
       selector: (_, provider) => provider.countriesIsLoading,
@@ -135,7 +158,7 @@ class _FilterAtlasScreenState extends State<FilterAtlasScreen> {
     String? title,
     List<SelectMenuModel>? options,
     SelectMenuModel? selectedOption,
-    Function(SelectMenuModel?) onChannged,
+    Function(SelectMenuModel?) onChanged,
     Function() onTap,
   ) {
     return Container(
@@ -152,7 +175,7 @@ class _FilterAtlasScreenState extends State<FilterAtlasScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 14),
             child: Text(
               title ?? '',
-              style: context.title1TextStyle()?.copyWith(fontSize: 12, color: AppColors.pealSky),
+              style: context.title1TextStyle()?.copyWith(color: AppColors.pealSky),
             ),
           ),
           if (options?.isNotEmpty != true)
@@ -166,7 +189,7 @@ class _FilterAtlasScreenState extends State<FilterAtlasScreen> {
             CommonDropdown(
               isBorderVisible: false,
               selection: selectedOption,
-              onChanged: (value) => onChannged(value),
+              onChanged: (value) => onChanged(value),
               onTap: onTap,
               data: options,
               hint: '',
@@ -251,12 +274,8 @@ class _FilterAtlasScreenState extends State<FilterAtlasScreen> {
       color: AppColors.activeLabelItem,
       text: context.l10n.t_filter,
       onTap: () {
-        context.loaderOverlay.show(
-          widget: const LoadingWidget(
-            backgroundColor: Colors.black12,
-          ),
-        );
         final request = context.read<AtlasFilterProvider>().getFilterAtlasUsers();
+        if (request == null) return;
         Navigator.pushNamed(
           context,
           AppRoute.routeAtlasFilterResult,

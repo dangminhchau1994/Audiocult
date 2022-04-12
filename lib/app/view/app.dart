@@ -54,7 +54,7 @@ class _AppState extends State<App> {
           colorScheme: ColorScheme.fromSwatch(
             accentColor: Colors.white,
           ),
-          textTheme: Theme.of(context).textTheme.apply(
+          textTheme: Theme.of(context).textTheme.copyWith(bodyText2: const TextStyle(fontSize: 16)).apply(
                 bodyColor: Colors.white,
                 displayColor: Colors.white,
               ),

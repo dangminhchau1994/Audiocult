@@ -22,14 +22,14 @@ extension RequestStatusExtension on RequestStatus {
   }
 }
 
-enum SubscriptionStatus { subcribe, unsubcribe }
+enum SubscriptionStatus { subscribe, unsubscribe }
 
 extension SubscriptionStatusExtension on SubscriptionStatus {
   int get value {
     switch (this) {
-      case SubscriptionStatus.subcribe:
+      case SubscriptionStatus.subscribe:
         return 1;
-      case SubscriptionStatus.unsubcribe:
+      case SubscriptionStatus.unsubscribe:
         return 0;
     }
   }

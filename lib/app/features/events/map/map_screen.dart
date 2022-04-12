@@ -1,4 +1,5 @@
 import 'dart:typed_data';
+
 import 'package:audio_cult/app/base/bloc_state.dart';
 import 'package:audio_cult/app/data_source/models/responses/events/event_response.dart';
 import 'package:audio_cult/app/features/events/map/map_bloc.dart';
@@ -13,10 +14,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+
 import '../../../../w_components/buttons/w_button_inkwell.dart';
 import '../../../../w_components/error_empty/error_section.dart';
 import '../../../../w_components/loading/loading_widget.dart';
-import '../../../constants/app_text_styles.dart';
 import '../../../data_source/models/requests/event_request.dart';
 import '../../../utils/constants/app_assets.dart';
 import '../../../utils/debouncer.dart';
@@ -74,7 +75,7 @@ class _MapScreenState extends State<MapScreen> {
     );
   }
 
-  Widget _buidSearchInput() {
+  Widget _buildSearchInput() {
     return Flexible(
       child: ValueListenableBuilder<String>(
         valueListenable: _text,
@@ -86,7 +87,6 @@ class _MapScreenState extends State<MapScreen> {
               _text.value = value;
               getIt<MapBloc>().getEvents(EventRequest(query: value, page: 1, limit: 5));
             },
-            style: AppTextStyles.regular,
             decoration: InputDecoration(
               filled: true,
               focusColor: AppColors.outlineBorderColor,
@@ -106,7 +106,6 @@ class _MapScreenState extends State<MapScreen> {
                 ),
               ),
               hintText: context.l10n.t_search,
-              hintStyle: AppTextStyles.regular,
               prefixIcon: GestureDetector(
                 onTap: () {
                   if (query.isNotEmpty) {}
@@ -163,7 +162,7 @@ class _MapScreenState extends State<MapScreen> {
                   padding: const EdgeInsets.all(10),
                   child: Row(
                     children: [
-                      _buidSearchInput(),
+                      _buildSearchInput(),
                       const SizedBox(width: 10),
                       _buildFilter(),
                     ],
@@ -260,7 +259,6 @@ class _MapScreenState extends State<MapScreen> {
                         context.l10n.t_view_events,
                         style: context.bodyTextStyle()?.copyWith(
                               color: Colors.white,
-                              fontSize: 12,
                             ),
                       ),
                     ],

@@ -407,8 +407,7 @@ class NameNControls extends StatelessWidget {
                         child: Text(
                           'Current Playlist',
                           textAlign: TextAlign.center,
-                          style:
-                              TextStyle(fontWeight: FontWeight.w400, fontSize: 14, color: AppColors.unActiveLabelItem),
+                          style: TextStyle(fontWeight: FontWeight.w400, color: AppColors.unActiveLabelItem),
                         ),
                       ),
                     ),

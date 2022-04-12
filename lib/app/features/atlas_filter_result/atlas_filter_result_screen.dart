@@ -39,6 +39,7 @@ class _AtlasFilterResultScreenState extends State<AtlasFilterResultScreen> {
     _pagingController.addPageRequestListener((pageNumber) async {
       final request = FilterUsersRequest(
         groupId: widget.dataRequest.groupId,
+        categoryId: widget.dataRequest.categoryId,
         countryISO: widget.dataRequest.countryISO,
         genreIds: widget.dataRequest.genreIds,
         page: pageNumber,
@@ -83,13 +84,13 @@ class _AtlasFilterResultScreenState extends State<AtlasFilterResultScreen> {
                 final latestSubscriptionCount =
                     updatedSubscriptionData?.firstWhereOrNull((e) => e.userId == user.userId)?.subscriptionCount;
                 final latestSubscriptionValue =
-                    updatedSubscriptionData?.firstWhereOrNull((e) => e.userId == user.userId)?.isSubcribed;
+                    updatedSubscriptionData?.firstWhereOrNull((e) => e.userId == user.userId)?.isSubscribed;
                 return AtlasUserWidget(
                   user,
                   updatedSubscriptionCount: latestSubscriptionCount,
                   updatedSubscriptionStatus: latestSubscriptionValue,
                   userSubscriptionInProcess: subscriptionsInProcess?[user.userId] ?? false,
-                  subscriptionOnChanged: () => _bloc.subcribeUser(user),
+                  subscriptionOnChanged: () => _bloc.subscribeUser(user),
                 );
               },
             ),

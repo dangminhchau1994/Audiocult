@@ -3,6 +3,7 @@ import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/w_components/buttons/w_button_inkwell.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+
 import '../../../../../w_components/images/common_image_network.dart';
 import '../../../../data_source/models/responses/events/event_response.dart';
 import '../../../../utils/route/app_route.dart';
@@ -56,7 +57,6 @@ class CalendarEventItem extends StatelessWidget {
                 '$hour - $month $date, $year',
                 style: context.bodyTextStyle()?.copyWith(
                       color: AppColors.subTitleColor,
-                      fontSize: 12,
                     ),
               ),
               const SizedBox(height: 10),

@@ -59,7 +59,6 @@ class PopularEventItem extends StatelessWidget {
             '$hour - $month $date, $year',
             style: context.bodyTextPrimaryStyle()!.copyWith(
                   color: AppColors.subTitleColor,
-                  fontSize: 12,
                 ),
           ),
           const SizedBox(height: 6),

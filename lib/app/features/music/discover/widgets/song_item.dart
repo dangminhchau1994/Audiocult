@@ -5,25 +5,25 @@ import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/w_components/buttons/w_button_inkwell.dart';
 import 'package:audio_cult/w_components/images/common_image_network.dart';
 import 'package:audio_cult/w_components/menus/common_popup_menu.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+
 import '../../../../data_source/models/responses/song/song_response.dart';
 import '../../../../utils/constants/app_colors.dart';
 import '../../../../utils/route/app_route.dart';
 import '../../../player_widgets/player_screen.dart';
 
 class SongItem extends StatelessWidget {
-  const SongItem(
-      {Key? key,
-      this.song,
-      this.imageSize = 40,
-      this.hasMenu = true,
-      this.fromDetail = false,
-      this.songs,
-      this.index,
-      this.customizeMenu})
-      : super(key: key);
+  const SongItem({
+    Key? key,
+    this.song,
+    this.imageSize = 40,
+    this.hasMenu = true,
+    this.fromDetail = false,
+    this.songs,
+    this.index,
+    this.customizeMenu,
+  }) : super(key: key);
 
   final Song? song;
   final bool? hasMenu;
@@ -135,7 +135,7 @@ class SongItem extends StatelessWidget {
                   case 2:
                     Navigator.pushNamed(
                       context,
-                      AppRoute.routeDetaiSong,
+                      AppRoute.routeDetailSong,
                       arguments: {'song_id': song!.songId},
                     );
                     break;

@@ -98,10 +98,6 @@ class CircularMenuItem extends StatelessWidget {
                       bottom: 0,
                       child: Text(
                         label ?? '',
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 12,
-                        ),
                       ),
                     )
                   ],

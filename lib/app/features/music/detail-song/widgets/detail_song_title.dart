@@ -40,7 +40,6 @@ class DetailSongTitle extends StatelessWidget {
                 artistName ?? 'N/A',
                 style: context.bodyTextPrimaryStyle()!.copyWith(
                       color: Colors.white,
-                      fontSize: 14,
                     ),
               ),
               const SizedBox(
@@ -58,7 +57,6 @@ class DetailSongTitle extends StatelessWidget {
                 DateTimeUtils.formatyMMMMd(int.parse(time ?? '')),
                 style: context.bodyTextPrimaryStyle()!.copyWith(
                       color: Colors.white,
-                      fontSize: 14,
                     ),
               ),
             ],

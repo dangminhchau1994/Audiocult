@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_brace_in_string_interps
+
 import 'package:json_annotation/json_annotation.dart';
 
 part 'atlas_user.g.dart';
@@ -33,7 +35,7 @@ class AtlasUser {
   @JsonKey(name: 'user_group_title')
   String? userGroupTitle;
   @JsonKey(name: 'is_subscribed')
-  bool? isSubcribed;
+  bool? isSubscribed;
   @JsonKey(name: 'location_name')
   String? locationName;
 
@@ -44,17 +46,17 @@ class AtlasUser {
   Map<String, dynamic> toJson() => _$AtlasUserToJson(this);
 
   void subscribe() {
-    isSubcribed = true;
+    isSubscribed = true;
     subscriptionCount = (subscriptionCount ?? 0) + 1;
   }
 
-  void unsubcribe() {
-    isSubcribed = false;
+  void unsubscribe() {
+    isSubscribed = false;
     subscriptionCount = (subscriptionCount ?? 0) - 1;
   }
 
   @override
   String toString() {
-    return 'fullname:${fullName} - userId:${userId} - subscriptionCount:${subscriptionCount} - isSubScription:${isSubcribed}';
+    return 'fullname:${fullName} - userId:${userId} - subscriptionCount:${subscriptionCount} - isSubScription:${isSubscribed}';
   }
 }

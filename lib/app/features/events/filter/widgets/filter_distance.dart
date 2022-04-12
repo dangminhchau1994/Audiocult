@@ -24,7 +24,6 @@ class FilterDistance extends StatelessWidget {
           context.l10n.t_distance,
           style: context.bodyTextStyle()?.copyWith(
                 color: Colors.white,
-                fontSize: 14,
               ),
         ),
         const SizedBox(height: 20),

@@ -12,9 +12,11 @@ class AtlasFilterProvider extends ChangeNotifier {
   final _defaultSelectOption = SelectMenuModel(id: -1, title: 'All', isSelected: true);
   List<Genre>? musicGenres;
   List<Country>? countries;
+  List<AtlasCategory>? userGroups;
+  List<AtlasSubCategory>? subCategories;
   List<SelectMenuModel>? countryOptions;
   List<SelectMenuModel>? userGroupOptions;
-  List<AtlasCategory>? userGroups;
+  List<SelectMenuModel>? subCategoryOptions;
   bool musicGenresIsLoading = false;
   bool countriesIsLoading = false;
   bool userGroupIsLoading = false;
@@ -36,10 +38,16 @@ class AtlasFilterProvider extends ChangeNotifier {
   void _handleGetUserGroupsSuccess(List<AtlasCategory> userGroups) {
     userGroupIsLoading = false;
     this.userGroups = userGroups;
-    userGroupOptions = userGroups.mapIndexed((index, element) {
-      return SelectMenuModel(id: index, title: element.title);
+    userGroupOptions = userGroups.map((element) {
+      return SelectMenuModel(id: int.parse(element.userGroupId ?? '0'), title: element.title);
     }).toList();
-    userGroupOptions?.insert(0, _defaultSelectOption);
+    userGroupOptions?.insert(
+      0,
+      SelectMenuModel()
+        ..id = _defaultSelectOption.id
+        ..title = _defaultSelectOption.title
+        ..isSelected = _defaultSelectOption.isSelected,
+    );
     notifyListeners();
   }
 
@@ -58,6 +66,39 @@ class AtlasFilterProvider extends ChangeNotifier {
     if (index == null) return;
     userGroupOptions?[index].isSelected = true;
     userGroupOptions = userGroupOptions?.toList();
+    _updateSubcategoryData();
+    notifyListeners();
+  }
+
+  // SUB CATEGORY
+  void _updateSubcategoryData() {
+    final selectedOptionOfUserGroup = userGroupOptions?.firstWhereOrNull((element) => element.isSelected);
+    final userGroup = userGroups?.firstWhereOrNull(
+      (element) => element.userGroupId == selectedOptionOfUserGroup?.id.toString(),
+    );
+    subCategories = userGroup?.subCategories;
+    subCategoryOptions = subCategories?.map((element) {
+      return SelectMenuModel(id: int.parse(element.optionId ?? '0'), title: element.title);
+    }).toList();
+    subCategoryOptions?.insert(
+      0,
+      SelectMenuModel()
+        ..id = _defaultSelectOption.id
+        ..title = _defaultSelectOption.title
+        ..isSelected = _defaultSelectOption.isSelected,
+    );
+  }
+
+  void selectSubCategory(SelectMenuModel? option) {
+    if (option == null) return;
+    final previousSelectedOption = subCategoryOptions?.firstWhereOrNull((element) => element.isSelected);
+    previousSelectedOption?.isSelected = false;
+    final index = subCategoryOptions?.indexOf(option);
+    if (index == null) return;
+    subCategoryOptions?[index].isSelected = true;
+    subCategoryOptions = subCategoryOptions?.toList();
+    print(subCategoryOptions?[index]);
+
     notifyListeners();
   }
 
@@ -108,7 +149,13 @@ class AtlasFilterProvider extends ChangeNotifier {
     countryOptions = countries.mapIndexed((index, element) {
       return SelectMenuModel(id: index, title: element.name);
     }).toList();
-    countryOptions?.insert(0, _defaultSelectOption);
+    countryOptions?.insert(
+      0,
+      SelectMenuModel()
+        ..id = _defaultSelectOption.id
+        ..title = _defaultSelectOption.title
+        ..isSelected = _defaultSelectOption.isSelected,
+    );
     notifyListeners();
   }
 
@@ -148,14 +195,16 @@ class AtlasFilterProvider extends ChangeNotifier {
       return null;
     }
     final selectedUserGroupOption = userGroupOptions?.firstWhereOrNull((element) => element.isSelected);
-    final selectedUserGroup = userGroups
-        ?.firstWhereOrNull((element) => element.title?.toLowerCase() == selectedUserGroupOption?.title?.toLowerCase());
+    final selectedOptionOfSubCategory = subCategoryOptions?.firstWhereOrNull((element) => element.isSelected);
+
     final selectedCountryOption = countryOptions?.firstWhereOrNull((element) => element.isSelected);
     final selectedCountry = countries
         ?.firstWhereOrNull((element) => element.name?.toLowerCase() == selectedCountryOption?.title?.toLowerCase());
+
     final selectedGenres = musicGenres?.where((e) => e.isSelected == true).toList();
     return FilterUsersRequest(
-      groupId: selectedUserGroup?.userGroupId != null ? int.parse(selectedUserGroup!.userGroupId!) : null,
+      groupId: (selectedUserGroupOption?.id ?? -1) < 0 ? null : selectedUserGroupOption?.id,
+      categoryId: (selectedOptionOfSubCategory?.id ?? -1) < 0 ? null : selectedOptionOfSubCategory?.id,
       countryISO: selectedCountry?.countryISO,
       genreIds: selectedGenres?.map((e) => e.genreId ?? '-1').toList(),
     );

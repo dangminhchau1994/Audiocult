@@ -22,13 +22,14 @@ class _DetailAlbumPlayButtonState extends State<DetailAlbumPlayButton> {
     super.initState();
     widget.albumBloc!.getSongByIdStream.listen((event) {
       event.when(
-          success: (success) {
-            setState(() {
-              songs = success as List<Song>;
-            });
-          },
-          loading: () {},
-          error: (_) {});
+        success: (success) {
+          setState(() {
+            songs = success as List<Song>;
+          });
+        },
+        loading: () {},
+        error: (_) {},
+      );
     });
   }
 

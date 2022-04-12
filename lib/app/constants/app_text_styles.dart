@@ -8,11 +8,11 @@ class AppTextStyles {
 
   static const normal = TextStyle(
     color: Colors.white,
-    fontSize: 14,
+    fontSize: 34,
   );
 
   static const regular = TextStyle(
     color: Colors.white,
-    fontSize: 12,
+    fontSize: 34,
   );
 }

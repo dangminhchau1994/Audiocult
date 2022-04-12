@@ -9,11 +9,11 @@ import 'package:flutter_svg/svg.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
+
 import '../../../../di/bloc_locator.dart';
 import '../../../../w_components/buttons/w_button_inkwell.dart';
 import '../../../../w_components/loading/loading_builder.dart';
 import '../../../../w_components/loading/loading_widget.dart';
-import '../../../constants/app_text_styles.dart';
 import '../../../constants/global_constants.dart';
 import '../../../data_source/models/requests/event_request.dart';
 import '../../../data_source/models/responses/events/event_response.dart';
@@ -122,7 +122,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                 children: [
                   Row(
                     children: [
-                      _buidSearchInput(),
+                      _buildSearchInput(),
                       const SizedBox(width: 10),
                       _buildFilter(),
                     ],
@@ -280,7 +280,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
     );
   }
 
-  Widget _buidSearchInput() {
+  Widget _buildSearchInput() {
     return Flexible(
       child: ValueListenableBuilder<String>(
         valueListenable: _text,
@@ -292,7 +292,6 @@ class _CalendarScreenState extends State<CalendarScreen> {
               _text.value = value;
               callData(_text.value, 1, _rangeStart!, _rangeEnd!);
             },
-            style: AppTextStyles.regular,
             decoration: InputDecoration(
               filled: true,
               focusColor: AppColors.outlineBorderColor,
@@ -312,7 +311,6 @@ class _CalendarScreenState extends State<CalendarScreen> {
                 ),
               ),
               hintText: context.l10n.t_search,
-              hintStyle: AppTextStyles.regular,
               prefixIcon: GestureDetector(
                 onTap: () {
                   if (query.isNotEmpty) {

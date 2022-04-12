@@ -21,7 +21,6 @@ import 'package:audio_cult/app/features/music/featured_albums/featured_album_scr
 import 'package:audio_cult/app/features/music/featured_mixtape/featured_mixtapes_screen.dart';
 import 'package:audio_cult/app/features/music/filter/music_filter_screen.dart';
 import 'package:audio_cult/app/features/music/library/create_playlist_screen.dart';
-import 'package:audio_cult/app/features/music/my_album/upload_album/upload_album_screen.dart';
 import 'package:audio_cult/app/features/music/my_album/upload_song/upload_song_screen.dart';
 import 'package:audio_cult/app/features/music/top_playlist/top_playlist_screen.dart';
 import 'package:audio_cult/app/features/player_widgets/player_screen.dart';
@@ -59,7 +58,7 @@ class AppRoute {
   static const String routeTopPlaylist = 'top_playlist';
   static const String routeSearch = 'search';
   static const String routeMusicFilter = '/search';
-  static const String routeDetaiSong = '/detail_song';
+  static const String routeDetailSong = '/detail_song';
   static const String routeDetailAlbum = '/detail_album';
   static const String routeDetailPlayList = '/detail_playlist';
   static const String routeCommentEdit = '/comment_edit';
@@ -132,7 +131,7 @@ class AppRoute {
         );
       case routeMusicFilter:
         return _pageRoute(settings, const MusicFilterScreen());
-      case routeDetaiSong:
+      case routeDetailSong:
         final arguments = asType(settings.arguments);
         return _pageRoute(
           settings,
@@ -197,7 +196,7 @@ class AppRoute {
         final arguments = asType(settings.arguments);
         return _pageRoute(
           settings,
-          CommmentEditScreen(
+          CommentEditScreen(
             argument: arguments['comment_response'] as CommentResponse,
           ),
         );
@@ -228,7 +227,7 @@ class AppRoute {
         final CommentArgs? arguments = asType(settings.arguments);
         return _pageRoute(
           settings,
-          CommmentListScreen(
+          CommentListScreen(
             commentArgs: arguments!,
           ),
         );
@@ -244,11 +243,6 @@ class AppRoute {
         return _pageRoute(
           settings,
           UploadSongScreen(params: asType(settings.arguments) as Map<String, dynamic>),
-        );
-      case routeUploadAlbum:
-        return _pageRoute(
-          settings,
-          const UploadAlbumScreen(),
         );
       case routeAtlasFilter:
         return _pageRoute(

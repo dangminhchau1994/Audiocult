@@ -23,7 +23,6 @@ class FilterWhen extends StatelessWidget {
           context.l10n.t_when,
           style: context.bodyTextStyle()?.copyWith(
                 color: Colors.white,
-                fontSize: 14,
               ),
         ),
         const SizedBox(height: 20),

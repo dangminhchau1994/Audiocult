@@ -6,14 +6,13 @@ import 'package:audio_cult/w_components/buttons/w_button_inkwell.dart';
 import 'package:audio_cult/w_components/comment/comment_args.dart';
 import 'package:audio_cult/w_components/comment/comment_list_screen.dart';
 import 'package:audio_cult/w_components/comment/reply_item.dart';
-import 'package:audio_cult/w_components/textfields/common_input.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
+
 import '../../../../../w_components/comment/comment_item.dart';
 import '../../../../../w_components/error_empty/error_section.dart';
 import '../../../../../w_components/loading/loading_widget.dart';
 import '../../../../base/bloc_state.dart';
-import '../../../../constants/app_text_styles.dart';
 import '../../../../data_source/models/responses/comment/comment_response.dart';
 import '../../../../injections.dart';
 import '../../../../utils/constants/app_colors.dart';
@@ -66,7 +65,6 @@ class _DetailAlbumCommentState extends State<DetailAlbumComment> {
             },
             cursorColor: Colors.white,
             onChanged: (value) {},
-            style: AppTextStyles.regular,
             decoration: InputDecoration(
               filled: true,
               focusColor: AppColors.outlineBorderColor,
@@ -88,7 +86,6 @@ class _DetailAlbumCommentState extends State<DetailAlbumComment> {
               hintText: context.l10n.t_leave_comment,
               hintStyle: context.bodyTextPrimaryStyle()!.copyWith(
                     color: AppColors.subTitleColor,
-                    fontSize: 14,
                   ),
             ),
           ),
@@ -178,7 +175,6 @@ class _DetailAlbumCommentState extends State<DetailAlbumComment> {
                               context.l10n.t_view_more_comment,
                               style: context.bodyTextPrimaryStyle()!.copyWith(
                                     color: AppColors.lightBlue,
-                                    fontSize: 14,
                                     fontWeight: FontWeight.bold,
                                   ),
                             ),
