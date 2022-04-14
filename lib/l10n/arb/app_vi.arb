@@ -74,5 +74,9 @@
     "t_confirm_password":"Confirm new password",
     "t_save":"Save",
     "t_music_genre":"Music Genre",
-    "t_choose_category":"Choose category"
+    "t_choose_category":"Choose category",
+    "t_already_bought":"Already bought",
+    "t_attending":"Attending",
+    "t_maybe_attending":"Maybe attending",
+    "t_today":"Today"
 }

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:audio_cult/app/data_source/models/cache_filter.dart';
 import 'package:audio_cult/app/data_source/models/requests/filter_users_request.dart';
+import 'package:audio_cult/app/data_source/models/requests/my_diary_event_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/register_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/upload_request.dart';
 import 'package:audio_cult/app/data_source/models/responses/album/album_response.dart';
@@ -431,5 +432,9 @@ class AppRepository extends BaseRepository {
       }
       return left(countries);
     });
+  }
+
+  Future<Either<List<EventResponse>, Exception>> getMyDiaryEvents(MyDiaryEventRequest request) async {
+    return safeCall(() => appServiceProvider.getMyDiaryEvents(request));
   }
 }
