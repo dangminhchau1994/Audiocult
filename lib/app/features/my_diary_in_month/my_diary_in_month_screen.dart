@@ -105,7 +105,7 @@ class _MyDiaryInMonthScreenState extends State<MyDiaryInMonthScreen> {
           monthViewSettings: const MonthViewSettings(appointmentDisplayMode: MonthAppointmentDisplayMode.appointment),
           onTap: (details) {
             if (details.appointments?.isNotEmpty == true) {
-              _selectDateOnCalendar(snapshot.data!);
+              _selectDateOnCalendar(details.appointments!);
             }
           },
         );
@@ -113,7 +113,7 @@ class _MyDiaryInMonthScreenState extends State<MyDiaryInMonthScreen> {
     );
   }
 
-  void _selectDateOnCalendar(List<EventResponse> events) {
+  void _selectDateOnCalendar(List<dynamic> events) {
     showModalBottomSheet(
       backgroundColor: Colors.transparent,
       enableDrag: true,
@@ -133,7 +133,7 @@ class _MyDiaryInMonthScreenState extends State<MyDiaryInMonthScreen> {
             padding: const EdgeInsets.only(bottom: 12),
             itemCount: events.length,
             itemBuilder: (_, index) {
-              return MyDiaryEventWidget(events[index]);
+              return MyDiaryEventWidget(events[index] as EventResponse);
             },
           ),
         );
@@ -155,14 +155,12 @@ class EventCalendarDatasource extends CalendarDataSource {
   @override
   DateTime getStartTime(int index) {
     final timeStamp = int.parse(appointments?[index]?.startTime as String);
-    final dateTime = DateTime.fromMillisecondsSinceEpoch(timeStamp * 1000);
-    return dateTime;
+    return DateTime.fromMillisecondsSinceEpoch(timeStamp * 1000);
   }
 
   @override
   DateTime getEndTime(int index) {
-    final timeStamp = int.parse(appointments?[index]?.endTime as String);
-    final dateTime = DateTime.fromMillisecondsSinceEpoch(timeStamp * 1000);
-    return dateTime;
+    final timeStamp = int.parse(appointments?[index]?.startTime as String);
+    return DateTime.fromMillisecondsSinceEpoch(timeStamp * 1000);
   }
 }

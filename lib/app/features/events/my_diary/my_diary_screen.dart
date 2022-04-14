@@ -326,7 +326,7 @@ class _MyDiaryScreenState extends State<MyDiaryScreen> with AutomaticKeepAliveCl
                     if (notification.direction == ScrollDirection.idle) {
                       return true;
                     }
-                    _bloc.viewStartScroll(notification.direction == ScrollDirection.forward);
+                    _bloc.viewStartScrolling(notification.direction == ScrollDirection.forward);
                     return true;
                   },
                   child: SizedBox(
@@ -349,9 +349,7 @@ class _MyDiaryScreenState extends State<MyDiaryScreen> with AutomaticKeepAliveCl
           }, error: (error) {
             return ErrorSectionWidget(
               errorMessage: error,
-              onRetryTap: () {
-                _pagingController.refresh();
-              },
+              onRetryTap: _pagingController.refresh,
             );
           });
         });
