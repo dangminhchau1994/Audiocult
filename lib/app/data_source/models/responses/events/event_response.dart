@@ -1,5 +1,6 @@
 import 'package:audio_cult/app/data_source/models/responses/song_detail/song_detail_response.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:intl/intl.dart';
 
 part 'event_response.g.dart';
 
@@ -72,6 +73,12 @@ class EventResponse {
   });
 
   factory EventResponse.fromJson(Map<String, dynamic> json) => _$EventResponseFromJson(json);
+
+  String getFormatedDateTime() {
+    final formatter1 = DateFormat(r'''EEEE, MMMM dd, yyyy hh:mm''').parse(eventDate!);
+    final dateTimeFromStr = DateFormat('MMM dd, yyyy - hh a').format(formatter1);
+    return dateTimeFromStr;
+  }
 }
 
 @JsonSerializable(fieldRename: FieldRename.snake)

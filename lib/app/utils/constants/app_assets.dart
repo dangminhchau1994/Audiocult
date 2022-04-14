@@ -105,6 +105,14 @@ class AppAssets {
 
   static const squareUncheckedIcon = 'assets/icons/square_unchecked_icon.svg';
 
+  static const icAllEvents = 'assets/icons/ic_all_events.svg';
+
+  static const icAlreadyBought = 'assets/icons/ic_already_bought.svg';
+
+  static const icAttending = 'assets/icons/ic_attending.svg';
+
+  static const icMaybeAttending = 'assets/icons/ic_maybe_attending.svg';
+
   static const logoIcon = 'assets/icons/ic_logo.png';
 
   static const authVectorIcon = 'assets/icons/ic_auth_vector.png';
