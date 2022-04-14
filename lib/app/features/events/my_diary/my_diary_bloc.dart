@@ -88,7 +88,7 @@ class MyDiaryBloc extends BaseBloc {
   }
 
   // ignore: avoid_positional_boolean_parameters
-  void viewStartScroll(bool isScrollingToTop) {
+  void viewStartScrolling(bool isScrollingToTop) {
     _isScrollToTop = isScrollingToTop;
   }
 }

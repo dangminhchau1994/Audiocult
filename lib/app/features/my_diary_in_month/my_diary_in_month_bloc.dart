@@ -14,7 +14,7 @@ class MyDiaryInMonthBloc extends BaseBloc {
   MyDiaryInMonthBloc(this._appRepository);
 
   void loadAllEventsInMyDiary() async {
-    final result = await _appRepository.getMyDiaryEvents(MyDiaryEventRequest());
+    final result = await _appRepository.getMyDiaryEvents(MyDiaryEventRequest()..limit = 100);
     result.fold(
       (events) {
         _myEventsStreamController.sink.add(events);

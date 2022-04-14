@@ -165,13 +165,4 @@ class EventCalendarDatasource extends CalendarDataSource {
     final dateTime = DateTime.fromMillisecondsSinceEpoch(timeStamp * 1000);
     return dateTime;
   }
-
-  EventResponse _gettingEventData(int index) {
-    final dynamic meeting = appointments![index];
-    late final EventResponse meetingData;
-    if (meeting is EventResponse) {
-      meetingData = meeting;
-    }
-    return meetingData;
-  }
 }
