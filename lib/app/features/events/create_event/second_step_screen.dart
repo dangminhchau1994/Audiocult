@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:audio_cult/app/features/events/create_event/widgets/insert_photo.dart';
 import 'package:audio_cult/app/utils/constants/app_dimens.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
@@ -7,10 +9,28 @@ import 'package:audio_cult/w_components/textfields/common_input.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../w_components/buttons/common_button.dart';
+import '../../../data_source/models/requests/create_event_request.dart';
 import '../../../utils/constants/app_colors.dart';
 
-class SecondStepScreen extends StatelessWidget {
-  const SecondStepScreen({Key? key}) : super(key: key);
+class SecondStepScreen extends StatefulWidget {
+  const SecondStepScreen({
+    Key? key,
+    this.onNext,
+    this.onBack,
+    this.createEventRequest,
+  }) : super(key: key);
+
+  final Function()? onNext;
+  final Function()? onBack;
+  final CreateEventRequest? createEventRequest;
+
+  @override
+  State<SecondStepScreen> createState() => _SecondStepScreenState();
+}
+
+class _SecondStepScreenState extends State<SecondStepScreen> {
+  final List<Map<String, dynamic>> _artistIds = [];
+  final List<Map<String, dynamic>> _entertainmentIds = [];
 
   @override
   Widget build(BuildContext context) {
@@ -39,11 +59,17 @@ class SecondStepScreen extends StatelessWidget {
               const SizedBox(height: 20),
               CommonInput(
                 hintText: context.l10n.t_tags_event,
+                onChanged: (value) {
+                  widget.createEventRequest?.tags = value;
+                },
               ),
               const SizedBox(height: 20),
-              const CommonInput(
+              CommonInput(
                 maxLine: 5,
                 hintText: 'Description',
+                onChanged: (value) {
+                  widget.createEventRequest?.description = value;
+                },
               ),
               const SizedBox(height: 20),
               const InsertPhoto(),
@@ -55,6 +81,10 @@ class SecondStepScreen extends StatelessWidget {
               const SizedBox(height: 10),
               CommonChipInput(
                 hintText: context.l10n.t_artist_line_up_hint,
+                onChooseTag: (value) {
+                  _artistIds.add(UserId(id: value.userId).toJson());
+                  widget.createEventRequest?.artist = jsonEncode(_artistIds);
+                },
               ),
               const SizedBox(height: 20),
               Text(
@@ -64,6 +94,11 @@ class SecondStepScreen extends StatelessWidget {
               const SizedBox(height: 10),
               CommonChipInput(
                 hintText: context.l10n.t_artist_line_up_hint,
+                onChooseTag: (value) {
+                  _entertainmentIds.add(UserId(id: value.userId).toJson());
+                  widget.createEventRequest?.entertainment = jsonEncode(_entertainmentIds);
+                },
+                onDeleteTag: (value) {},
               ),
               Padding(
                 padding: const EdgeInsets.only(bottom: 10, top: 40),
@@ -74,6 +109,7 @@ class SecondStepScreen extends StatelessWidget {
                       child: CommonButton(
                         color: AppColors.ebonyClay,
                         text: context.l10n.btn_back,
+                        onTap: widget.onBack,
                       ),
                     ),
                     const SizedBox(width: 10),
@@ -82,6 +118,9 @@ class SecondStepScreen extends StatelessWidget {
                       child: CommonButton(
                         color: AppColors.primaryButtonColor,
                         text: context.l10n.btn_next,
+                        onTap: () {
+                          widget.onNext!();
+                        },
                       ),
                     ),
                   ],

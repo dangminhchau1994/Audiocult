@@ -129,12 +129,16 @@ class AllEventItem extends StatelessWidget {
                 height: 20,
               ),
               const SizedBox(width: 8),
-              Text(
-                data?.location ?? '',
-                style: context.bodyTextStyle()?.copyWith(
-                      color: AppColors.subTitleColor,
-                      fontSize: 12,
-                    ),
+              SizedBox(
+                width: 300,
+                child: Text(
+                  data?.location ?? '',
+                  overflow: TextOverflow.ellipsis,
+                  style: context.bodyTextStyle()?.copyWith(
+                        color: AppColors.subTitleColor,
+                        fontSize: 14,
+                      ),
+                ),
               ),
             ],
           )

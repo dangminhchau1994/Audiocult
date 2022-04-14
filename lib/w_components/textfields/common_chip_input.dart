@@ -71,7 +71,9 @@ class _CommonChipInputState extends State<CommonChipInput> {
           avatar: CircleAvatar(
             backgroundImage: NetworkImage(data.userImage ?? ''),
           ),
-          onDeleted: () => state.deleteChip(data),
+          onDeleted: () {
+            state.deleteChip(data);
+          },
           materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
         );
       },

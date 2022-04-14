@@ -8,7 +8,18 @@ import 'package:intl/intl.dart';
 import '../../../../utils/constants/app_colors.dart';
 
 class EventDateTimeField extends StatelessWidget {
-  const EventDateTimeField({Key? key}) : super(key: key);
+  const EventDateTimeField({
+    Key? key,
+    this.onChanged,
+  }) : super(key: key);
+
+  final Function(
+    int date,
+    int month,
+    int year,
+    int hour,
+    int minute,
+  )? onChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -90,6 +101,7 @@ class EventDateTimeField extends StatelessWidget {
               );
             },
           );
+          onChanged!(date.day, date.month, date.year, time!.hour, time.minute);
           return DateTimeField.combine(date, time);
         } else {
           return currentValue;
