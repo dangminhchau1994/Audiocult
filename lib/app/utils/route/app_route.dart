@@ -272,6 +272,7 @@ class AppRoute {
         return _pageRoute(
           settings,
           const MyDiaryInMonthScreen(),
+        );
       case routeProfile:
         return _pageRoute(
           settings,

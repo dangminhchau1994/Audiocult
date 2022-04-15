@@ -130,7 +130,6 @@
     "t_festival":"FESTIVAL",
     "t_attending":"Attending",
     "t_maybe_attending":"Maybe Attending",
-    "t_all_events":"All Events",
     "t_my_diary":"My Diary",
     "t_my_tickets":"My Tickets",
     "t_invitations":"Invitations",
@@ -141,7 +140,6 @@
     "t_take_picture":"Camera",
     "t_choose_gallery":"Albums",
     "t_create_event":"Create Event",
-    "t_main_info":"Main Info",
     "t_please_fill":"Please fill in the basic information about event.",
     "t_buy":"Buy",
     "t_artist":"Artist",
@@ -174,9 +172,7 @@
     "t_music_genre":"Music Genre",
     "t_choose_category":"Choose category",
     "t_already_bought":"Already bought",
-    "t_attending":"Attending",
-    "t_maybe_attending":"Maybe attending",
-    "t_today":"Today"
+    "t_today":"Today",
     "t_subscriptions":"Subscriptions",
     "t_settings":"Settings"
 }
