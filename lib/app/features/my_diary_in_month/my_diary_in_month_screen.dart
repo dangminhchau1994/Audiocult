@@ -155,12 +155,14 @@ class EventCalendarDatasource extends CalendarDataSource {
   @override
   DateTime getStartTime(int index) {
     final timeStamp = int.parse(appointments?[index]?.startTime as String);
-    return DateTime.fromMillisecondsSinceEpoch(timeStamp * 1000);
+    final date = DateTime.fromMillisecondsSinceEpoch(timeStamp * 1000).toUtc();
+    return DateTime(date.year, date.month, date.day);
   }
 
   @override
   DateTime getEndTime(int index) {
     final timeStamp = int.parse(appointments?[index]?.startTime as String);
-    return DateTime.fromMillisecondsSinceEpoch(timeStamp * 1000);
+    final date = DateTime.fromMillisecondsSinceEpoch(timeStamp * 1000).toUtc();
+    return DateTime(date.year, date.month, date.day);
   }
 }
