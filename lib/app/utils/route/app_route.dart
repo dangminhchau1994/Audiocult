@@ -10,6 +10,7 @@ import 'package:audio_cult/app/features/auth/login/login_screen.dart';
 import 'package:audio_cult/app/features/auth/place_location/place_location_screen.dart';
 import 'package:audio_cult/app/features/auth/resent_password/resent_password_screen.dart';
 import 'package:audio_cult/app/features/events/calendar/calendar_screen.dart';
+import 'package:audio_cult/app/features/events/create_event/create_event_screen.dart';
 import 'package:audio_cult/app/features/events/detail/event_detail_screen.dart';
 import 'package:audio_cult/app/features/events/filter/filter_event_screen.dart';
 import 'package:audio_cult/app/features/events/result/result_screen.dart';
@@ -23,6 +24,7 @@ import 'package:audio_cult/app/features/music/filter/music_filter_screen.dart';
 import 'package:audio_cult/app/features/music/library/create_playlist_screen.dart';
 import 'package:audio_cult/app/features/music/my_album/upload_song/upload_song_screen.dart';
 import 'package:audio_cult/app/features/music/top_playlist/top_playlist_screen.dart';
+import 'package:audio_cult/app/features/my_diary_in_month/my_diary_in_month_screen.dart';
 import 'package:audio_cult/app/features/player_widgets/player_screen.dart';
 import 'package:audio_cult/app/features/profile/profile_screen.dart';
 import 'package:audio_cult/app/injections.dart';
@@ -77,6 +79,8 @@ class AppRoute {
   static const String routeAtlasFilter = '/atlas_filter';
   static const String routeAtlasFilterResult = '/atlas_filter_result';
   static const String routeEventDetail = '/route_event_detail';
+  static const String routeCreateEvent = '/route_create_event';
+  static const String routeMyDiaryOnMonth = '/my_diary_on_month';
   static const String routeProfile = '/route_profile';
 
   ///#end region
@@ -176,6 +180,11 @@ class AppRoute {
             playListId: arguments['playlist_id'] as String,
           ),
         );
+      case routeCreateEvent:
+        return _pageRoute(
+          settings,
+          const CreateEventScreen(),
+        );
       case routeFeaturedAlbum:
         final SearchArgs? arguments = asType(settings.arguments);
         return _pageRoute(
@@ -259,6 +268,10 @@ class AppRoute {
           settings,
           AtlasFilterResultScreen(asType(settings.arguments) as FilterUsersRequest),
         );
+      case routeMyDiaryOnMonth:
+        return _pageRoute(
+          settings,
+          const MyDiaryInMonthScreen(),
       case routeProfile:
         return _pageRoute(
           settings,

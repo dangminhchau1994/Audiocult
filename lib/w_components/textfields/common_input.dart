@@ -19,6 +19,7 @@ class CommonInput extends StatelessWidget {
     this.isReadOnly = false,
     this.textInputType,
     this.labelRight,
+    this.suffixIcon,
     this.fillColor,
   }) : super(key: key);
 
@@ -35,6 +36,7 @@ class CommonInput extends StatelessWidget {
   final TextEditingController? editingController;
   final TextInputType? textInputType;
   final String? labelRight;
+  final Widget? suffixIcon;
   final Color? fillColor;
 
   @override
@@ -54,7 +56,7 @@ class CommonInput extends StatelessWidget {
                   }
                   return null;
                 },
-                keyboardType: textInputType,
+                keyboardType: textInputType ?? TextInputType.text,
                 maxLines: maxLine,
                 controller: editingController,
                 readOnly: isReadOnly ?? false,
@@ -94,6 +96,7 @@ class CommonInput extends StatelessWidget {
                     ),
                   ),
                   hintText: hintText,
+                  hintStyle: TextStyle(color: AppColors.unActiveLabelItem),
                   suffixIcon: isPasswordField!
                       ? InkWell(
                           onTap: togglePassword,
@@ -102,7 +105,7 @@ class CommonInput extends StatelessWidget {
                             color: Colors.white,
                           ),
                         )
-                      : const SizedBox(),
+                      : Container(padding: const EdgeInsets.all(18), child: suffixIcon ?? const SizedBox()),
                   errorText: errorText,
                 ),
               ),

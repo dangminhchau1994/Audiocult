@@ -4,6 +4,7 @@ import 'package:audio_cult/app/features/atlas/atlas_bloc.dart';
 import 'package:audio_cult/app/features/atlas_filter_result/atlas_filter_result_bloc.dart';
 import 'package:audio_cult/app/features/events/all_event_bloc.dart';
 import 'package:audio_cult/app/features/events/calendar/calendar_bloc.dart';
+import 'package:audio_cult/app/features/events/my_diary/my_diary_bloc.dart';
 import 'package:audio_cult/app/features/events/result/result_bloc.dart';
 import 'package:audio_cult/app/features/music/detail-song/detail_song_bloc.dart';
 import 'package:audio_cult/app/features/music/detail_album/detail_album_bloc.dart';
@@ -13,6 +14,7 @@ import 'package:audio_cult/app/features/music/featured_mixtape/featured_mixtapes
 import 'package:audio_cult/app/features/music/library/create_playlist_bloc.dart';
 import 'package:audio_cult/app/features/music/playlist_dialog_bloc.dart';
 import 'package:audio_cult/app/features/music/search/search_bloc.dart';
+import 'package:audio_cult/app/features/my_diary_in_month/my_diary_in_month_bloc.dart';
 import 'package:audio_cult/app/injections.dart';
 import 'package:audio_cult/w_components/comment/comment_item_bloc.dart';
 import 'package:audio_cult/w_components/comment/reply_list_bloc.dart';
@@ -97,4 +99,8 @@ void setupLocator() {
     () => MapBloc(locator.get<AppRepository>()),
   );
   getIt.registerFactory<AtlasFilterResultBloc>(() => AtlasFilterResultBloc(locator.get<AppRepository>()));
+
+  getIt.registerFactory<MyDiaryBloc>(() => MyDiaryBloc(locator.get<AppRepository>()));
+
+  getIt.registerFactory<MyDiaryInMonthBloc>(() => MyDiaryInMonthBloc(locator.get<AppRepository>()));
 }

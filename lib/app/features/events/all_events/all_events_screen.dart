@@ -35,7 +35,8 @@ class _AllEventsScreenState extends State<AllEventsScreen> with AutomaticKeepAli
         onRefresh: () async {
           _pagePopularEventController.refresh();
           _pagingAllEventController.refresh();
-          getIt<AllEventBloc>().requestData(params: EventRequest(page: 1, limit: GlobalConstants.loadMoreItem));
+          getIt<AllEventBloc>()
+              .requestData(params: EventRequest(page: 1, limit: GlobalConstants.loadMoreItem, sort: 'latest'));
           getIt<PopularEventBloc>().requestData(
             params: EventRequest(
               query: '',

@@ -4,6 +4,7 @@ import 'package:audio_cult/app/features/audio_player/miniplayer.dart';
 import 'package:audio_cult/app/features/main/main_bloc.dart';
 import 'package:audio_cult/app/features/music/music_screen.dart';
 import 'package:audio_cult/app/injections.dart';
+import 'package:audio_cult/app/utils/route/app_route.dart';
 import 'package:audio_cult/l10n/l10n.dart';
 import 'package:audio_cult/w_components/bottom_navigation_bar/common_bottom_bar.dart';
 import 'package:audio_cult/w_components/menus/common_circular_menu.dart';
@@ -14,10 +15,14 @@ import '../../../di/bloc_locator.dart';
 import '../../../w_components/appbar/common_appbar.dart';
 import '../../../w_components/images/no_image_available.dart';
 import '../../../w_components/menus/common_fab_menu.dart';
+import '../../constants/global_constants.dart';
+import '../../data_source/models/requests/event_request.dart';
 import '../../data_source/models/responses/profile_data.dart';
 import '../../utils/constants/app_assets.dart';
 import '../../utils/constants/app_colors.dart';
+import '../events/all_event_bloc.dart';
 import '../events/event_screen.dart';
+import '../events/popular_event_bloc.dart';
 import '../menu_settings/drawer/my_drawer.dart';
 
 class MainScreen extends StatefulWidget {
@@ -182,7 +187,9 @@ class _MainScreenState extends State<MainScreen> {
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         floatingActionButton: CommonCircularMenu(
           onMusicTap: () {},
-          onEventTap: () {},
+          onEventTap: () {
+            Navigator.pushNamed(context, AppRoute.routeCreateEvent);
+          },
           onPostTap: () {},
         ),
       ),
