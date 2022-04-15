@@ -514,9 +514,9 @@ class AppServiceProvider {
     );
   }
 
-  Future<dynamic> getUserProfile() async {
+  Future<dynamic> getUserProfile(String userId, {String data = 'general'}) async {
     final response = await _dioHelper.get(
-      route: '/restful_api/user/mine',
+      route: '/restful_api/user/$userId?data=$data',
       responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
     );
     return response.data;

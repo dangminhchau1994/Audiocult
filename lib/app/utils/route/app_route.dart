@@ -24,6 +24,7 @@ import 'package:audio_cult/app/features/music/library/create_playlist_screen.dar
 import 'package:audio_cult/app/features/music/my_album/upload_song/upload_song_screen.dart';
 import 'package:audio_cult/app/features/music/top_playlist/top_playlist_screen.dart';
 import 'package:audio_cult/app/features/player_widgets/player_screen.dart';
+import 'package:audio_cult/app/features/profile/profile_screen.dart';
 import 'package:audio_cult/app/injections.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/w_components/comment/comment_args.dart';
@@ -76,6 +77,7 @@ class AppRoute {
   static const String routeAtlasFilter = '/atlas_filter';
   static const String routeAtlasFilterResult = '/atlas_filter_result';
   static const String routeEventDetail = '/route_event_detail';
+  static const String routeProfile = '/route_profile';
 
   ///#end region
 
@@ -256,6 +258,13 @@ class AppRoute {
         return _pageRoute(
           settings,
           AtlasFilterResultScreen(asType(settings.arguments) as FilterUsersRequest),
+        );
+      case routeProfile:
+        return _pageRoute(
+          settings,
+          ProfileScreen(
+            params: asType(settings.arguments) as Map<String, dynamic>,
+          ),
         );
       default:
         return null;

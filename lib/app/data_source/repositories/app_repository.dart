@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:audio_cult/app/data_source/local/pref_provider.dart';
 import 'package:audio_cult/app/data_source/models/cache_filter.dart';
 import 'package:audio_cult/app/data_source/models/requests/filter_users_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/register_request.dart';
@@ -41,12 +42,14 @@ class AppRepository extends BaseRepository {
   final PlaceServiceProvider placeServiceProvider;
   final HiveServiceProvider hiveServiceProvider;
   final AssetsLocalServiceProvider assetsLocalServiceProvider;
+  final PrefProvider prefProvider;
 
   AppRepository({
     required this.appServiceProvider,
     required this.placeServiceProvider,
     required this.hiveServiceProvider,
     required this.assetsLocalServiceProvider,
+    required this.prefProvider,
   });
 
   Future<Either<LoginResponse, Exception>> login(LoginRequest request) {
@@ -312,11 +315,13 @@ class AppRepository extends BaseRepository {
     return safeCall(() => placeServiceProvider.getPlaceDetailFromId(placeId));
   }
 
-  Future<Either<ProfileData?, Exception>> getUserProfile() async {
-    final userProfile = await safeCall(appServiceProvider.getUserProfile);
+  Future<Either<ProfileData?, Exception>> getUserProfile(String userId, {String data = 'general'}) async {
+    final userProfile = await safeCall(() => appServiceProvider.getUserProfile(userId, data: data));
     return userProfile.fold(
       (l) {
-        hiveServiceProvider.saveProfile(l);
+        if (userId == prefProvider.currentUserId) {
+          hiveServiceProvider.saveProfile(l);
+        }
         return left(ProfileData.fromJson(l as Map<String, dynamic>));
       },
       (r) {
