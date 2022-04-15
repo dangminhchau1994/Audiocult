@@ -82,7 +82,7 @@ class CustomDropdownButton2 extends StatelessWidget {
             maxLines: 1,
             style: TextStyle(
               fontSize: 16,
-              color: Theme.of(context).hintColor,
+              color: AppColors.unActiveLabelItem,
             ),
           ),
         ),

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:audio_cult/app/data_source/models/cache_filter.dart';
+import 'package:audio_cult/app/data_source/models/requests/create_event_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/filter_users_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/my_diary_event_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/register_request.dart';
@@ -265,6 +266,12 @@ class AppRepository extends BaseRepository {
   ) {
     return safeCall(
       () => appServiceProvider.createPlayList(name, image),
+    );
+  }
+
+  Future<Either<EventResponse, Exception>> createEvent(CreateEventRequest request) {
+    return safeCall(
+      () => appServiceProvider.createEvent(request),
     );
   }
 

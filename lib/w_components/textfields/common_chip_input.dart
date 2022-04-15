@@ -40,12 +40,13 @@ class _CommonChipInputState extends State<CommonChipInput> {
   @override
   Widget build(BuildContext context) {
     return ChipsInput<ProfileData>(
-      initialValue: widget.initTags!,
+      initialValue: widget.initTags ?? [],
       decoration: InputDecoration(
         hintText: widget.hintText,
         filled: true,
         contentPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
         focusColor: AppColors.outlineBorderColor,
+        hintStyle: TextStyle(color: AppColors.unActiveLabelItem),
         fillColor: AppColors.inputFillColor.withOpacity(0.4),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(4),
@@ -70,7 +71,9 @@ class _CommonChipInputState extends State<CommonChipInput> {
           avatar: CircleAvatar(
             backgroundImage: NetworkImage(data.userImage ?? ''),
           ),
-          onDeleted: () => state.deleteChip(data),
+          onDeleted: () {
+            state.deleteChip(data);
+          },
           materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
         );
       },

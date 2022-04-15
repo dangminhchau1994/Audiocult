@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:audio_cult/app/data_source/local/pref_provider.dart';
+import 'package:audio_cult/app/data_source/models/requests/create_event_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/event_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/filter_users_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/my_diary_event_request.dart';
@@ -375,6 +376,46 @@ class AppServiceProvider {
     );
     return response.mapData(
       (json) => CreatePlayListResponse.fromJson(json as Map<String, dynamic>),
+    );
+  }
+
+  Future<EventResponse> createEvent(CreateEventRequest request) async {
+    final response = await _dioHelper.post(
+      route: '/restful_api/event',
+      options: Options(headers: {'Content-Type': 'multipart/form-data'}),
+      responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
+      requestBody: FormData.fromMap({
+        'val[category]': 2,
+        'val[title]': request.title,
+        'val[location]': request.location,
+        'val[lat]': request.lat,
+        'val[lng]': request.lng,
+        'val[attachment]': request.attachment,
+        'val[tags]': request.tags,
+        'val[line_up][artist]': request.artist,
+        'val[line_up][entertainment]': request.entertainment,
+        'val[start_day]': request.startDate,
+        'val[start_month]': request.starMonth,
+        'val[start_year]': request.startYear,
+        'val[start_hour]': request.startHour,
+        'val[start_minute]': request.startMinute,
+        'val[end_day]': request.endDate,
+        'val[end_month]': request.endMonth,
+        'val[end_year]': request.endYear,
+        'val[end_hour]': request.endHour,
+        'val[end_minute]': request.endMinute,
+        'image': await MultipartFile.fromFile(request.image?.path ?? ''),
+        'val[host_name]': request.hostName,
+        'val[host_description]': request.hostDescription,
+        'val[website]': request.hostWebsite,
+        'val[facebook]': request.hostFacebook,
+        'val[twitter]': request.hostTwitter,
+        'val[privacy]': request.privacy,
+        'val[privacy_comment]': request.privacyComment,
+      }),
+    );
+    return response.mapData(
+      (json) => EventResponse.fromJson(json as Map<String, dynamic>),
     );
   }
 
