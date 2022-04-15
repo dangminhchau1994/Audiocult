@@ -172,5 +172,9 @@
     "t_feature_song":"Features song",
     "t_song_of_the_day":"Song of the day",
     "t_music_genre":"Music Genre",
-    "t_choose_category":"Choose category"
+    "t_choose_category":"Choose category",
+    "t_already_bought":"Already bought",
+    "t_attending":"Attending",
+    "t_maybe_attending":"Maybe attending",
+    "t_today":"Today"
 }

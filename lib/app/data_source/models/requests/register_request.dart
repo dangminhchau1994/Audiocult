@@ -23,7 +23,7 @@ class RegisterRequest {
 
   Map<String, dynamic> toJson() {
     final data = <String, dynamic>{};
-    data['access_token'] = accessToken;
+    // data['access_token'] = accessToken;
     data['val[email]'] = valEmail;
     data['val[full_name]'] = valFullName;
     data['val[user_name]'] = valUserName;

@@ -6,11 +6,15 @@ part of 'atlas_user.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-AtlasUserResponse _$AtlasUserResponseFromJson(Map<String, dynamic> json) => AtlasUserResponse()
-  ..status = json['status'] as String?
-  ..data = (json['data'] as List<dynamic>?)?.map((e) => AtlasUser.fromJson(e as Map<String, dynamic>)).toList();
+AtlasUserResponse _$AtlasUserResponseFromJson(Map<String, dynamic> json) =>
+    AtlasUserResponse()
+      ..status = json['status'] as String?
+      ..data = (json['data'] as List<dynamic>?)
+          ?.map((e) => AtlasUser.fromJson(e as Map<String, dynamic>))
+          .toList();
 
-Map<String, dynamic> _$AtlasUserResponseToJson(AtlasUserResponse instance) => <String, dynamic>{
+Map<String, dynamic> _$AtlasUserResponseToJson(AtlasUserResponse instance) =>
+    <String, dynamic>{
       'status': instance.status,
       'data': instance.data,
     };

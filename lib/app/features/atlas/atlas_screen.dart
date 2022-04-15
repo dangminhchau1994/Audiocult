@@ -111,7 +111,6 @@ class _AtlasScreenState extends State<AtlasScreen> {
           Expanded(
             child: Container(
               padding: const EdgeInsets.only(bottom: 1),
-              // color: Colors.green,
               child: TextField(
                 controller: _searchTextController,
                 decoration: const InputDecoration(

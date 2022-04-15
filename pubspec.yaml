@@ -66,6 +66,7 @@ dependencies:
   http_parser: ^4.0.0
   http: ^0.13.4
   tuple: ^2.0.0
+  syncfusion_flutter_calendar: ^20.1.47
 
 dev_dependencies:
   bloc_test: ^9.0.2
