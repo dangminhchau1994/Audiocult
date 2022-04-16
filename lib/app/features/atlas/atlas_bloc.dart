@@ -6,6 +6,7 @@ import 'package:audio_cult/app/data_source/models/responses/atlas_user.dart';
 import 'package:audio_cult/app/data_source/repositories/app_repository.dart';
 import 'package:audio_cult/app/utils/constants/app_constants.dart';
 import 'package:collection/collection.dart';
+import 'package:dio/dio.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:tuple/tuple.dart';
 
@@ -18,6 +19,9 @@ class AtlasBloc extends BaseBloc {
   final UserSubscriptionDataType _subscriptionsInProcess = {};
   final _allUsers = <AtlasUser>[];
   final _updatedSubscriptionData = <AtlasUser>[];
+  final maximumNumberOfItems = 24;
+  String? _keyword;
+  CancelToken? _cancel;
 
   final _getAtlasUsers = PublishSubject<BlocState<Tuple2<List<AtlasUser>, Exception?>>>();
   Stream<BlocState<Tuple2<List<AtlasUser>, Exception?>>> get getAtlasUsersStream => _getAtlasUsers.stream;
@@ -29,17 +33,25 @@ class AtlasBloc extends BaseBloc {
   AtlasBloc(this._appRepository);
 
   Future<void> getAtlasUsers(int pageNumber) async {
+    showOverLayLoading();
+    _cancel?.cancel();
+    _cancel = CancelToken();
     if (pageNumber == 1) {
-      _allUsers.clear();
+      await refreshAtlasUserData();
     }
-    final result = await _appRepository.getAtlasUsers(FilterUsersRequest(page: pageNumber));
+    final result = await _appRepository.getAtlasUsers(
+      FilterUsersRequest(keyword: _keyword, page: pageNumber),
+      cancel: _cancel,
+    );
     return result.fold(
       (users) {
         _allUsers.addAll(users);
         _getAtlasUsers.sink.add(BlocState.success(Tuple2(users, null)));
+        hideOverlayLoading();
       },
       (error) {
         _getAtlasUsers.sink.add(BlocState.success(Tuple2([], error)));
+        hideOverlayLoading();
       },
     );
   }
@@ -48,7 +60,6 @@ class AtlasBloc extends BaseBloc {
     _allUsers.clear();
     _updatedSubscriptionData.clear();
     _subscriptionsInProcess.clear();
-    await getAtlasUsers(1);
   }
 
   void subscribeUser(AtlasUser user) async {
@@ -83,6 +94,14 @@ class AtlasBloc extends BaseBloc {
   void _cancelSubscriptionInProcess(AtlasUser user) {
     _subscriptionsInProcess[user.userId] = false;
     _updatedUserSubscription.add(Tuple2(_updatedSubscriptionData, _subscriptionsInProcess));
+  }
+
+  void keywordOnChanged(String keyword) {
+    if ((_keyword ?? '').isEmpty && keyword.isEmpty) {
+      return;
+    }
+    refreshAtlasUserData();
+    _keyword = keyword;
   }
 
   @override
