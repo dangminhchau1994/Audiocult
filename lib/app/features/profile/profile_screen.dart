@@ -1,4 +1,5 @@
-import 'package:audio_cult/app/utils/constants/app_assets.dart';
+import 'package:audio_cult/app/features/profile/my_sliver_appbar.dart';
+import 'package:audio_cult/app/utils/constants/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -13,38 +14,65 @@ class ProfileScreen extends StatefulWidget {
   State<ProfileScreen> createState() => _ProfileScreenState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> {
+class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateMixin {
+  final ScrollController _scrollController = ScrollController();
+  TabController? _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(
+      initialIndex: 0,
+      length: 5,
+      vsync: this,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: CustomScrollView(
-      slivers: [
-        SliverAppBar(
-          backgroundColor: Colors.transparent,
-          expandedHeight: 260,
-          pinned: true,
-          flexibleSpace: FlexibleSpaceBar(
-            title: Text(
-              'Goa',
-            ),
-            background: Image.asset(
-              AppAssets.imgHeaderDrawer,
-              fit: BoxFit.fill,
-            ),
+        backgroundColor: AppColors.mainColor,
+        body: DefaultTabController(
+          length: 5,
+          child: CustomScrollView(
+            controller: _scrollController,
+            physics: const ClampingScrollPhysics(),
+            slivers: [
+              MySliverAppBar(controller: _scrollController, tabController: _tabController),
+              SliverFillRemaining(
+                child: TabBarView(
+                  controller: _tabController,
+                  children: [
+                    Container(
+                      child: Center(
+                        child: Text('Tab 1'),
+                      ),
+                    ),
+                    Container(
+                      child: Center(
+                        child: Text('Tab 2'),
+                      ),
+                    ),
+                    Container(
+                      child: Center(
+                        child: Text('Tab 3'),
+                      ),
+                    ),
+                    Container(
+                      child: Center(
+                        child: Text('Tab 4'),
+                      ),
+                    ),
+                    Container(
+                      child: Center(
+                        child: Text('Tab 5'),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
-        ),
-        SliverList(
-          delegate: SliverChildBuilderDelegate(
-            (_, int index) {
-              return ListTile(
-                leading: Container(padding: EdgeInsets.all(8), width: 100, child: Placeholder()),
-                title: Text('Place ${index + 1}', textScaleFactor: 2),
-              );
-            },
-            childCount: 40,
-          ),
-        ),
-      ],
-    ));
+        ));
   }
 }

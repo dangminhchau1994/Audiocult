@@ -142,4 +142,5 @@ class AppAssets {
   static const icFeatureSong = 'assets/icons/ic_feature_song.png';
   static const icDelete = 'assets/icons/ic_delete.png';
   static const imagePlaceholder = 'assets/imgs/img_placeholder.png';
+  static const iconInfo = 'assets/icons/ic_info.svg';
 }

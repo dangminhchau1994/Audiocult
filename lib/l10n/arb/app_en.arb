@@ -174,5 +174,10 @@
     "t_already_bought":"Already bought",
     "t_today":"Today",
     "t_subscriptions":"Subscriptions",
-    "t_settings":"Settings"
+    "t_settings":"Settings",
+    "t_subscribed":"Subscribed",
+    "t_message":"Message",
+    "t_post":"Post",
+    "t_about":"About",
+    "t_videos":"Videos"
 }
