@@ -683,10 +683,11 @@ class AppServiceProvider {
     return _atlasCategories!;
   }
 
-  Future<List<AtlasUser>> getAtlasUsers(FilterUsersRequest params) async {
+  Future<List<AtlasUser>> getAtlasUsers(FilterUsersRequest params, {CancelToken? cancel}) async {
     final response = await _dioHelper.get(
       route: '/restful_api/atlas',
       requestParams: params.toJson(),
+      cancelToken: cancel,
       responseBodyMapper: (jsonMapper) => AtlasUserResponse.fromJson(jsonMapper as Map<String, dynamic>),
     );
     return Future.value(response.data);

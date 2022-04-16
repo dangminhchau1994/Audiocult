@@ -25,6 +25,7 @@ import 'package:audio_cult/app/data_source/services/hive_service_provider.dart';
 import 'package:audio_cult/app/features/auth/widgets/register_page.dart';
 import 'package:audio_cult/w_components/dropdown/common_dropdown.dart';
 import 'package:dartz/dartz.dart';
+import 'package:dio/dio.dart';
 
 import '../models/requests/event_request.dart';
 import '../models/requests/login_request.dart';
@@ -416,8 +417,8 @@ class AppRepository extends BaseRepository {
     });
   }
 
-  Future<Either<List<AtlasUser>, Exception>> getAtlasUsers(FilterUsersRequest params) async {
-    return safeCall(() => appServiceProvider.getAtlasUsers(params));
+  Future<Either<List<AtlasUser>, Exception>> getAtlasUsers(FilterUsersRequest params, {CancelToken? cancel}) async {
+    return safeCall(() => appServiceProvider.getAtlasUsers(params, cancel: cancel));
   }
 
   Future<Either<UserSubscriptionResponse, Exception>> subscribeUser(AtlasUser user) async {
