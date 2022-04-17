@@ -7,9 +7,12 @@ part 'my_diary_event_request.g.dart';
 
 @JsonSerializable()
 class MyDiaryEventRequest {
+  String? title;
   MyDiaryEventView? view;
-  @JsonKey(name: 'date')
-  String? dateTime; //Date Y-m-d 1982-01-01
+  @JsonKey(name: 'start_date')
+  String? startDate; //Date Y-m-d 1982-01-01
+  @JsonKey(name: 'end_date')
+  String? endDate; //Date Y-m-d 1982-01-01
   @JsonKey(name: 'page')
   int? pageNumber;
   int limit = 10;
@@ -19,11 +22,6 @@ class MyDiaryEventRequest {
   factory MyDiaryEventRequest.fromJson(Map<String, dynamic> json) => _$MyDiaryEventRequestFromJson(json);
 
   Map<String, dynamic> toJson() => _$MyDiaryEventRequestToJson(this);
-
-  @override
-  String toString() {
-    return 'MyDiaryEventRequest: ${view?.iconPath} -- ${dateTime} -- $pageNumber --- $limit';
-  }
 }
 
 enum MyDiaryEventView {

@@ -447,7 +447,8 @@ class AppRepository extends BaseRepository {
     });
   }
 
-  Future<Either<List<EventResponse>, Exception>> getMyDiaryEvents(MyDiaryEventRequest request) async {
-    return safeCall(() => appServiceProvider.getMyDiaryEvents(request));
+  Future<Either<List<EventResponse>, Exception>> getMyDiaryEvents(MyDiaryEventRequest request,
+      {CancelToken? cancel}) async {
+    return safeCall(() => appServiceProvider.getMyDiaryEvents(request, cancel: cancel));
   }
 }
