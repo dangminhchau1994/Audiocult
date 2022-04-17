@@ -1,5 +1,6 @@
 import 'package:audio_cult/app/data_source/models/requests/event_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/filter_users_request.dart';
+import 'package:audio_cult/app/data_source/models/requests/my_diary_event_request.dart';
 import 'package:audio_cult/app/data_source/models/responses/comment/comment_response.dart';
 import 'package:audio_cult/app/data_source/repositories/app_repository.dart';
 import 'package:audio_cult/app/features/atlas_filter/atlas_filter_provider.dart';
@@ -271,7 +272,7 @@ class AppRoute {
       case routeMyDiaryOnMonth:
         return _pageRoute(
           settings,
-          const MyDiaryInMonthScreen(),
+          MyDiaryInMonthScreen(myDiaryParams: asType<MyDiaryEventRequest>(settings.arguments)),
         );
       case routeProfile:
         return _pageRoute(

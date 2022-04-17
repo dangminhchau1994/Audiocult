@@ -1,6 +1,8 @@
+import 'dart:math';
+
 import 'package:audio_cult/app/base/bloc_handle.dart';
 import 'package:audio_cult/app/base/bloc_state.dart';
-import 'package:audio_cult/app/data_source/models/event_view_entity.dart';
+import 'package:audio_cult/app/data_source/models/event_view_wrapper.dart';
 import 'package:audio_cult/app/data_source/models/requests/my_diary_event_request.dart';
 import 'package:audio_cult/app/data_source/models/responses/events/event_response.dart';
 import 'package:audio_cult/app/features/events/my_diary/my_diary_bloc.dart';
@@ -10,14 +12,20 @@ import 'package:audio_cult/app/utils/constants/app_colors.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/app/utils/route/app_route.dart';
 import 'package:audio_cult/di/bloc_locator.dart';
+import 'package:audio_cult/l10n/l10n.dart';
 import 'package:audio_cult/w_components/error_empty/error_section.dart';
 import 'package:audio_cult/w_components/loading/loading_widget.dart';
+import 'package:audio_cult/w_components/w_keyboard_dismiss.dart';
 import 'package:blur/blur.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:tuple/tuple.dart';
+import '../../../utils/debouncer.dart';
+
+part 'my_diary_calendar_widget.dart';
+part 'my_diary_list_widget.dart';
 
 class MyDiaryScreen extends StatefulWidget {
   const MyDiaryScreen({Key? key}) : super(key: key);
@@ -29,33 +37,16 @@ class MyDiaryScreen extends StatefulWidget {
 class _MyDiaryScreenState extends State<MyDiaryScreen> with AutomaticKeepAliveClientMixin {
   late MyDiaryBloc _bloc;
   final _searchTextController = TextEditingController();
-  final _pagingController = PagingController<int, EventResponse>(firstPageKey: 1);
   final _scrollController = ScrollController();
+  final _debouncer = Debouncer(milliseconds: 1500);
 
   @override
   void initState() {
     super.initState();
     _bloc = getIt.get<MyDiaryBloc>();
-
-    _pagingController.addPageRequestListener((pageKey) {
-      _bloc.loadEvents(pageNumber: pageKey);
-    });
-    _bloc.myEventsStream.listen(
-      (state) {
-        state.whenOrNull(
-          success: (data) {
-            final events = data as List<EventResponse>;
-            _pagingController.appendLastPage(events);
-          },
-          error: (error) {
-            _pagingController.error = error;
-          },
-        );
-      },
-    );
-    _bloc.loadEvents(pageNumber: 1);
-    _scrollController.addListener(() {
-      _bloc.viewIsScrolling(_scrollController.offset);
+    _bloc.loadInitialEvents();
+    _searchTextController.addListener(() {
+      _debouncer.run(() => _bloc.keywordOnChanged(_searchTextController.text));
     });
   }
 
@@ -67,7 +58,6 @@ class _MyDiaryScreenState extends State<MyDiaryScreen> with AutomaticKeepAliveCl
 
   @override
   void dispose() {
-    _pagingController.dispose();
     _searchTextController.dispose();
     _scrollController.dispose();
     super.dispose();
@@ -76,15 +66,17 @@ class _MyDiaryScreenState extends State<MyDiaryScreen> with AutomaticKeepAliveCl
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return BlocHandle(
-      bloc: _bloc,
-      child: Container(
-        color: AppColors.mainColor,
-        child: Stack(
-          children: [
-            _listView(),
-            _animatedTopWidget(),
-          ],
+    return WKeyboardDismiss(
+      child: BlocHandle(
+        bloc: _bloc,
+        child: Container(
+          color: AppColors.mainColor,
+          child: Stack(
+            children: [
+              _listView(),
+              _animatedTopWidget(),
+            ],
+          ),
         ),
       ),
     );
@@ -150,7 +142,7 @@ class _MyDiaryScreenState extends State<MyDiaryScreen> with AutomaticKeepAliveCl
         borderRadius: BorderRadius.circular(19),
         color: AppColors.ebonyClay,
       ),
-      child: StreamBuilder<List<EventViewEntity>>(
+      child: StreamBuilder<List<EventViewWrapper>>(
         stream: _bloc.eventViewStream,
         initialData: const [],
         builder: (_, snapshot) {
@@ -176,10 +168,7 @@ class _MyDiaryScreenState extends State<MyDiaryScreen> with AutomaticKeepAliveCl
     return _bloc.eventViews
         .map(
           (e) => PopupMenuItem(
-            onTap: () {
-              _bloc.filterEventsByView(e);
-              _pagingController.refresh();
-            },
+            onTap: () => _bloc.filterEventsByView(e),
             child: Row(
               children: [
                 SvgPicture.asset(
@@ -207,12 +196,7 @@ class _MyDiaryScreenState extends State<MyDiaryScreen> with AutomaticKeepAliveCl
         color: AppColors.ebonyClay,
       ),
       child: IconButton(
-        onPressed: () {
-          Navigator.pushNamed(
-            context,
-            AppRoute.routeMyDiaryOnMonth,
-          );
-        },
+        onPressed: _navigateToMyDiaryInMonth,
         icon: Container(
           width: 56,
           decoration: BoxDecoration(
@@ -226,6 +210,16 @@ class _MyDiaryScreenState extends State<MyDiaryScreen> with AutomaticKeepAliveCl
           ),
         ),
       ),
+    );
+  }
+
+  void _navigateToMyDiaryInMonth() {
+    Navigator.pushNamed(
+      context,
+      AppRoute.routeMyDiaryOnMonth,
+      arguments: MyDiaryEventRequest()
+        ..title = _searchTextController.text
+        ..view = _bloc.currentEventView,
     );
   }
 
@@ -248,9 +242,9 @@ class _MyDiaryScreenState extends State<MyDiaryScreen> with AutomaticKeepAliveCl
               padding: const EdgeInsets.only(bottom: 1),
               child: TextField(
                 controller: _searchTextController,
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   border: InputBorder.none,
-                  hintText: 'Search',
+                  hintText: context.l10n.t_search,
                 ),
               ),
             ),
@@ -262,48 +256,17 @@ class _MyDiaryScreenState extends State<MyDiaryScreen> with AutomaticKeepAliveCl
 
   Widget _calendarWidget() {
     return StreamBuilder(
-      stream: _bloc.currentDateTimeStream,
+      stream: _bloc.dateTimeInRangeStream,
       builder: (_, data) {
-        var selectedDateTime = DateTime.now();
+        Tuple2<DateTime?, DateTime?>? dateTimeInRange;
         if (data.hasData) {
-          selectedDateTime = data.data! as DateTime;
+          dateTimeInRange = data.data! as Tuple2<DateTime?, DateTime?>;
         }
-        return TableCalendar(
-          firstDay: DateTime.utc(2010, 10, 16),
-          lastDay: DateTime.utc(2030, 3, 14),
-          focusedDay: selectedDateTime,
-          selectedDayPredicate: (day) => isSameDay(selectedDateTime, day),
-          calendarFormat: CalendarFormat.week,
-          headerVisible: true,
-          daysOfWeekStyle: const DaysOfWeekStyle(
-            weekdayStyle: TextStyle(color: Colors.white),
-            weekendStyle: TextStyle(color: Colors.white),
-          ),
-          calendarStyle: CalendarStyle(
-            disabledTextStyle: const TextStyle(color: Colors.white),
-            selectedTextStyle: const TextStyle(color: Colors.white),
-            weekendTextStyle: const TextStyle(color: Colors.white),
-            rangeStartDecoration: BoxDecoration(
-              color: AppColors.activeLabelItem,
-              shape: BoxShape.circle,
-            ),
-            rangeEndDecoration: BoxDecoration(
-              color: AppColors.activeLabelItem,
-              shape: BoxShape.circle,
-            ),
-            todayDecoration: BoxDecoration(
-              color: isSameDay(selectedDateTime, DateTime.now()) ? AppColors.activeLabelItem : Colors.transparent,
-              shape: BoxShape.circle,
-            ),
-            selectedDecoration: BoxDecoration(
-              color: AppColors.activeLabelItem,
-              shape: BoxShape.circle,
-            ),
-          ),
-          rangeSelectionMode: RangeSelectionMode.disabled,
-          onDaySelected: (selectedDay, _) {
-            _bloc.dateTimeOnChanged(selectedDay);
-            _pagingController.refresh();
+        return MyDiaryCalendarWidget(
+          startDateInRange: dateTimeInRange?.item1,
+          endDateInRange: dateTimeInRange?.item2,
+          focusRangeDateOnChanged: (dateInRange) {
+            _bloc.dateTimeRangeOnChanged(startDate: dateInRange.item1, endDate: dateInRange.item2);
           },
         );
       },
@@ -312,51 +275,37 @@ class _MyDiaryScreenState extends State<MyDiaryScreen> with AutomaticKeepAliveCl
 
   Widget _listView() {
     return StreamBuilder<BlocState<List<EventResponse>>>(
-        stream: _bloc.myEventsStream,
-        initialData: const BlocState.loading(),
-        builder: (_, snapshot) {
-          final state = snapshot.data;
-          return state!.when(success: (data) {
-            return RefreshIndicator(
-              onRefresh: refreshMyDiaryEventsList,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: NotificationListener<UserScrollNotification>(
-                  onNotification: (notification) {
-                    if (notification.direction == ScrollDirection.idle) {
-                      return true;
-                    }
-                    _bloc.viewStartScrolling(notification.direction == ScrollDirection.forward);
-                    return true;
-                  },
-                  child: SizedBox(
-                    height: double.infinity,
-                    child: PagedListView<int, EventResponse>(
-                      scrollController: _scrollController,
-                      padding: const EdgeInsets.only(top: 225, bottom: 100),
-                      shrinkWrap: true,
-                      pagingController: _pagingController,
-                      builderDelegate: PagedChildBuilderDelegate<EventResponse>(
-                        itemBuilder: (context, event, index) => MyDiaryEventWidget(event),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            );
-          }, loading: () {
-            return const LoadingWidget();
-          }, error: (error) {
-            return ErrorSectionWidget(
-              errorMessage: error,
-              onRetryTap: _pagingController.refresh,
-            );
-          });
+      stream: _bloc.myEventsStream,
+      initialData: const BlocState.loading(),
+      builder: (_, snapshot) {
+        final state = snapshot.data;
+        return state!.when(success: (data) {
+          final events = data as List<EventResponse>;
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: NotificationListener<UserScrollNotification>(
+              onNotification: (notification) {
+                if (notification.direction == ScrollDirection.idle) {
+                  return true;
+                }
+                _bloc.viewStartScrolling(notification.direction == ScrollDirection.forward);
+                return true;
+              },
+              child: MyDiaryListWidget(events, (offset) {
+                _bloc.viewIsScrolling(offset);
+              }),
+            ),
+          );
+        }, loading: () {
+          return const LoadingWidget();
+        }, error: (error) {
+          return ErrorSectionWidget(
+            errorMessage: error,
+            onRetryTap: () {},
+          );
         });
-  }
-
-  Future refreshMyDiaryEventsList() async {
-    _pagingController.refresh();
+      },
+    );
   }
 
   @override

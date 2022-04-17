@@ -762,10 +762,11 @@ class AppServiceProvider {
     return _countries ?? [];
   }
 
-  Future<List<EventResponse>> getMyDiaryEvents(MyDiaryEventRequest request) async {
+  Future<List<EventResponse>> getMyDiaryEvents(MyDiaryEventRequest request, {CancelToken? cancel}) async {
     final response = await _dioHelper.get(
         route: '/restful_api/advancedevent/my_diary',
         requestParams: request.toJson(),
+        cancelToken: cancel,
         responseBodyMapper: (json) => BaseRes.fromJson(json as Map<String, dynamic>));
     return response.mapData(
       (json) => asType<List<dynamic>>(json)?.map((e) => EventResponse.fromJson(e as Map<String, dynamic>)).toList(),

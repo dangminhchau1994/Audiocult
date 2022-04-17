@@ -8,16 +8,20 @@ part of 'my_diary_event_request.dart';
 
 MyDiaryEventRequest _$MyDiaryEventRequestFromJson(Map<String, dynamic> json) =>
     MyDiaryEventRequest()
+      ..title = json['title'] as String?
       ..view = $enumDecodeNullable(_$MyDiaryEventViewEnumMap, json['view'])
-      ..dateTime = json['date'] as String?
+      ..startDate = json['start_date'] as String?
+      ..endDate = json['end_date'] as String?
       ..pageNumber = json['page'] as int?
       ..limit = json['limit'] as int;
 
 Map<String, dynamic> _$MyDiaryEventRequestToJson(
         MyDiaryEventRequest instance) =>
     <String, dynamic>{
+      'title': instance.title,
       'view': _$MyDiaryEventViewEnumMap[instance.view],
-      'date': instance.dateTime,
+      'start_date': instance.startDate,
+      'end_date': instance.endDate,
       'page': instance.pageNumber,
       'limit': instance.limit,
     };
