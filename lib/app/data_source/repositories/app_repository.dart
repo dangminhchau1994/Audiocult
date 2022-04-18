@@ -31,6 +31,7 @@ import '../models/requests/event_request.dart';
 import '../models/requests/login_request.dart';
 import '../models/responses/atlas_user.dart';
 import '../models/responses/create_album_response.dart';
+import '../models/responses/events/event_category_response.dart';
 import '../models/responses/login_response.dart';
 import '../models/responses/register_response.dart';
 import '../models/responses/song/song_response.dart';
@@ -246,6 +247,12 @@ class AppRepository extends BaseRepository {
   ) {
     return safeCall(
       () => appServiceProvider.createReply(parentId, itemId, type, text),
+    );
+  }
+
+  Future<Either<List<EventCategoryResponse>, Exception>> getEventCategories() {
+    return safeCall(
+      appServiceProvider.getEventCategories,
     );
   }
 

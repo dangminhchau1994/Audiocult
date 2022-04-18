@@ -52,6 +52,7 @@ dependencies:
   image_cropper: ^1.5.0
   datetime_picker_formfield: ^2.0.0
   audio_service: ^0.18.4
+  permission_handler: ^9.2.0
   just_audio: ^0.9.20
   readmore: ^2.1.0
   flip_card: ^0.6.0
