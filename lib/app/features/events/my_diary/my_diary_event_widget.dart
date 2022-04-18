@@ -2,24 +2,29 @@ import 'package:audio_cult/app/data_source/models/responses/events/event_respons
 import 'package:audio_cult/app/utils/constants/app_assets.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
+import 'package:audio_cult/w_components/buttons/w_button_inkwell.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class MyDiaryEventWidget extends StatelessWidget {
   final EventResponse event;
+  final VoidCallback? onTapped;
 
-  const MyDiaryEventWidget(this.event, {Key? key}) : super(key: key);
+  const MyDiaryEventWidget(this.event, {this.onTapped, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.only(top: 30),
-      child: Row(
-        children: [
-          _imageWidget(),
-          const SizedBox(width: 10),
-          _infoWidget(context),
-        ],
+    return WButtonInkwell(
+      onPressed: onTapped,
+      child: Container(
+        padding: const EdgeInsets.only(top: 30),
+        child: Row(
+          children: [
+            _imageWidget(),
+            const SizedBox(width: 10),
+            _infoWidget(context),
+          ],
+        ),
       ),
     );
   }
