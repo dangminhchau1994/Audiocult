@@ -1,4 +1,9 @@
 import 'package:audio_cult/app/features/profile/my_sliver_appbar.dart';
+import 'package:audio_cult/app/features/profile/pages/about_page.dart';
+import 'package:audio_cult/app/features/profile/pages/events_page.dart';
+import 'package:audio_cult/app/features/profile/pages/musics_page.dart';
+import 'package:audio_cult/app/features/profile/pages/post_page.dart';
+import 'package:audio_cult/app/features/profile/pages/videos_page.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
 import 'package:flutter/material.dart';
 
@@ -42,32 +47,12 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
               SliverFillRemaining(
                 child: TabBarView(
                   controller: _tabController,
-                  children: [
-                    Container(
-                      child: Center(
-                        child: Text('Tab 1'),
-                      ),
-                    ),
-                    Container(
-                      child: Center(
-                        child: Text('Tab 2'),
-                      ),
-                    ),
-                    Container(
-                      child: Center(
-                        child: Text('Tab 3'),
-                      ),
-                    ),
-                    Container(
-                      child: Center(
-                        child: Text('Tab 4'),
-                      ),
-                    ),
-                    Container(
-                      child: Center(
-                        child: Text('Tab 5'),
-                      ),
-                    ),
+                  children: const [
+                    PostPage(),
+                    AboutPage(),
+                    VideosPage(),
+                    MusicsPage(),
+                    EventsPage(),
                   ],
                 ),
               ),
