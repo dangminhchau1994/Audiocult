@@ -1,5 +1,6 @@
 import 'package:audio_cult/app/data_source/models/requests/event_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/filter_users_request.dart';
+import 'package:audio_cult/app/data_source/models/requests/my_diary_event_request.dart';
 import 'package:audio_cult/app/data_source/models/responses/comment/comment_response.dart';
 import 'package:audio_cult/app/data_source/repositories/app_repository.dart';
 import 'package:audio_cult/app/features/atlas_filter/atlas_filter_provider.dart';
@@ -26,6 +27,7 @@ import 'package:audio_cult/app/features/music/my_album/upload_song/upload_song_s
 import 'package:audio_cult/app/features/music/top_playlist/top_playlist_screen.dart';
 import 'package:audio_cult/app/features/my_diary_in_month/my_diary_in_month_screen.dart';
 import 'package:audio_cult/app/features/player_widgets/player_screen.dart';
+import 'package:audio_cult/app/features/profile/profile_screen.dart';
 import 'package:audio_cult/app/injections.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/w_components/comment/comment_args.dart';
@@ -80,6 +82,7 @@ class AppRoute {
   static const String routeEventDetail = '/route_event_detail';
   static const String routeCreateEvent = '/route_create_event';
   static const String routeMyDiaryOnMonth = '/my_diary_on_month';
+  static const String routeProfile = '/route_profile';
 
   ///#end region
 
@@ -269,7 +272,14 @@ class AppRoute {
       case routeMyDiaryOnMonth:
         return _pageRoute(
           settings,
-          const MyDiaryInMonthScreen(),
+          MyDiaryInMonthScreen(myDiaryParams: asType<MyDiaryEventRequest>(settings.arguments)),
+        );
+      case routeProfile:
+        return _pageRoute(
+          settings,
+          ProfileScreen(
+            params: asType(settings.arguments) as Map<String, dynamic>,
+          ),
         );
       default:
         return null;

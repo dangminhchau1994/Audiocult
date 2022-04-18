@@ -1,6 +1,10 @@
+import 'package:audio_cult/app/data_source/local/pref_provider.dart';
+import 'package:audio_cult/app/features/profile/profile_screen.dart';
+import 'package:audio_cult/app/injections.dart';
 import 'package:audio_cult/app/utils/constants/app_assets.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
 import 'package:audio_cult/app/utils/constants/app_dimens.dart';
+import 'package:audio_cult/app/utils/constants/app_font_sizes.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/app/utils/mixins/disposable_state_mixin.dart';
 import 'package:audio_cult/app/utils/route/app_route.dart';
@@ -11,6 +15,7 @@ import 'package:flutter/material.dart';
 import '../../../../di/bloc_locator.dart';
 import '../../../../w_components/buttons/w_button_inkwell.dart';
 import '../../../../w_components/dialogs/app_dialog.dart';
+import '../../../data_source/models/responses/profile_data.dart';
 import '../../main/main_bloc.dart';
 
 class MyDrawer extends StatefulWidget {
@@ -24,6 +29,7 @@ class _MyDrawerState extends State<MyDrawer> with DisposableStateMixin {
   @override
   void initState() {
     super.initState();
+    getIt.get<MainBloc>().getUserProfile();
     getIt.get<MainBloc>().logoutStream.listen((event) {
       Navigator.pushNamedAndRemoveUntil(context, AppRoute.routeLogin, (route) => false);
     }).disposeOn(disposeBag);
@@ -35,7 +41,41 @@ class _MyDrawerState extends State<MyDrawer> with DisposableStateMixin {
       color: Colors.transparent,
       child: Column(
         children: [
-          Image.asset(AppAssets.imgHeaderDrawer),
+          Stack(
+            children: [
+              Image.asset(AppAssets.imgHeaderDrawer),
+              Positioned(
+                left: 16,
+                right: 0,
+                bottom: 16,
+                child: WButtonInkwell(
+                  splashColor: Colors.transparent,
+                  onPressed: () {
+                    Navigator.pushNamed(context, AppRoute.routeProfile,
+                        arguments: ProfileScreen.createArguments(id: locator.get<PrefProvider>().currentUserId!));
+                  },
+                  child: StreamBuilder<ProfileData?>(
+                      initialData: locator.get<MainBloc>().profileData,
+                      stream: locator.get<MainBloc>().profileStream,
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                '${snapshot.data?.fullName}',
+                                style: context.body1TextStyle()?.copyWith(fontSize: AppFontSize.size16),
+                              ),
+                              Text('${snapshot.data?.title}'),
+                            ],
+                          );
+                        }
+                        return Container();
+                      }),
+                ),
+              )
+            ],
+          ),
           Expanded(
             child: Stack(
               children: [
@@ -44,49 +84,87 @@ class _MyDrawerState extends State<MyDrawer> with DisposableStateMixin {
                   blurColor: AppColors.secondaryButtonColor,
                   child: Container(),
                 ),
-                Positioned(
-                  left: 0,
-                  right: 0,
-                  bottom: 56,
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: kHorizontalSpacing),
-                    child: Column(
+                Column(
+                  children: [
+                    Expanded(
+                        child: Column(
                       children: [
-                        Divider(
-                          color: AppColors.inputFillColor,
-                        ),
                         WButtonInkwell(
-                          onPressed: () {
-                            AppDialog.showYesNoDialog(
-                              context,
-                              message: context.l10n.t_question_logout,
-                              onYesPressed: () {
-                                getIt.get<MainBloc>().logout();
-                              },
-                            );
-                          },
+                          onPressed: () {},
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: kVerticalSpacing),
+                            padding: const EdgeInsets.all(8),
                             child: Row(
                               children: [
                                 Image.asset(
-                                  AppAssets.icLogout,
+                                  AppAssets.icSubscription,
                                   width: 24,
                                 ),
                                 const SizedBox(
                                   width: 8,
                                 ),
-                                Text(
-                                  context.l10n.t_logout,
-                                  style: context.bodyTextStyle()?.copyWith(color: AppColors.subTitleColor),
-                                )
+                                Text(context.l10n.t_subscriptions)
+                              ],
+                            ),
+                          ),
+                        ),
+                        WButtonInkwell(
+                          onPressed: () {},
+                          child: Padding(
+                            padding: const EdgeInsets.all(8),
+                            child: Row(
+                              children: [
+                                Image.asset(AppAssets.icSetting, width: 24),
+                                const SizedBox(
+                                  width: 8,
+                                ),
+                                Text(context.l10n.t_settings)
                               ],
                             ),
                           ),
                         )
                       ],
+                    )),
+                    Container(
+                      margin: const EdgeInsets.only(bottom: 56),
+                      padding: const EdgeInsets.symmetric(horizontal: kHorizontalSpacing),
+                      child: Column(
+                        children: [
+                          Divider(
+                            color: AppColors.inputFillColor,
+                          ),
+                          WButtonInkwell(
+                            onPressed: () {
+                              AppDialog.showYesNoDialog(
+                                context,
+                                message: context.l10n.t_question_logout,
+                                onYesPressed: () {
+                                  getIt.get<MainBloc>().logout();
+                                },
+                              );
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(vertical: kVerticalSpacing),
+                              child: Row(
+                                children: [
+                                  Image.asset(
+                                    AppAssets.icLogout,
+                                    width: 24,
+                                  ),
+                                  const SizedBox(
+                                    width: 8,
+                                  ),
+                                  Text(
+                                    context.l10n.t_logout,
+                                    style: context.bodyTextStyle()?.copyWith(color: AppColors.subTitleColor),
+                                  )
+                                ],
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
                     ),
-                  ),
+                  ],
                 )
               ],
             ),

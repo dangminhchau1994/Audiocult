@@ -1,20 +1,23 @@
+import 'package:audio_cult/app/base/bloc_handle.dart';
+import 'package:audio_cult/app/data_source/models/requests/my_diary_event_request.dart';
 import 'package:audio_cult/app/data_source/models/responses/events/event_response.dart';
 import 'package:audio_cult/app/features/events/my_diary/my_diary_event_widget.dart';
 import 'package:audio_cult/app/features/my_diary_in_month/my_diary_in_month_bloc.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
+import 'package:audio_cult/app/utils/route/app_route.dart';
 import 'package:audio_cult/di/bloc_locator.dart';
 import 'package:audio_cult/l10n/l10n.dart';
 import 'package:audio_cult/w_components/appbar/common_appbar.dart';
-import 'package:audio_cult/w_components/loading/loading_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:loader_overlay/loader_overlay.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:syncfusion_flutter_core/theme.dart';
 
 import '../../utils/extensions/app_extensions.dart';
 
 class MyDiaryInMonthScreen extends StatefulWidget {
-  const MyDiaryInMonthScreen({Key? key}) : super(key: key);
+  final MyDiaryEventRequest? myDiaryParams;
+
+  const MyDiaryInMonthScreen({Key? key, this.myDiaryParams}) : super(key: key);
 
   @override
   State<MyDiaryInMonthScreen> createState() => _MyDiaryInMonthScreenState();
@@ -28,18 +31,7 @@ class _MyDiaryInMonthScreenState extends State<MyDiaryInMonthScreen> {
   void initState() {
     super.initState();
     _bloc = getIt.get<MyDiaryInMonthBloc>();
-    _bloc.loadAllEventsInMyDiary();
-    _bloc.myEventsStream.listen((event) {
-      context.loaderOverlay.hide();
-    });
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    context.loaderOverlay.show(
-      widget: const LoadingWidget(backgroundColor: Colors.black12),
-    );
+    _bloc.myDiaryParams = widget.myDiaryParams;
   }
 
   @override
@@ -60,25 +52,29 @@ class _MyDiaryInMonthScreenState extends State<MyDiaryInMonthScreen> {
           ),
         ],
       ),
-      body: SfCalendarTheme(
-        data: SfCalendarThemeData(
-          brightness: Brightness.dark,
-          backgroundColor: AppColors.mainColor,
-          viewHeaderDayTextStyle: context.body1TextStyle(),
-          agendaDayTextStyle: context.body1TextStyle(),
-          timeTextStyle: context.body1TextStyle(),
-          weekNumberTextStyle: context.body1TextStyle(),
-          activeDatesTextStyle: context.body1TextStyle(),
-          blackoutDatesTextStyle: context.body1TextStyle()?.copyWith(color: AppColors.deepTeal),
-          leadingDatesTextStyle: context.body1TextStyle()?.copyWith(color: AppColors.unActiveLabelItem.withAlpha(50)),
-          trailingDatesTextStyle: context.body1TextStyle()?.copyWith(color: AppColors.unActiveLabelItem.withAlpha(50)),
-          todayHighlightColor: AppColors.persianGreen,
-          cellBorderColor: Colors.blueGrey.withAlpha(80),
-          selectionBorderColor: AppColors.persianGreen,
-          headerTextStyle: context.bodyTextPrimaryStyle()?.copyWith(fontWeight: FontWeight.bold),
-          viewHeaderDateTextStyle: context.bodyTextPrimaryStyle(),
+      body: BlocHandle(
+        bloc: _bloc,
+        child: SfCalendarTheme(
+          data: SfCalendarThemeData(
+            brightness: Brightness.dark,
+            backgroundColor: AppColors.mainColor,
+            viewHeaderDayTextStyle: context.body1TextStyle(),
+            agendaDayTextStyle: context.body1TextStyle(),
+            timeTextStyle: context.body1TextStyle(),
+            weekNumberTextStyle: context.body1TextStyle(),
+            activeDatesTextStyle: context.body1TextStyle(),
+            blackoutDatesTextStyle: context.body1TextStyle()?.copyWith(color: AppColors.deepTeal),
+            leadingDatesTextStyle: context.body1TextStyle()?.copyWith(color: AppColors.unActiveLabelItem.withAlpha(50)),
+            trailingDatesTextStyle:
+                context.body1TextStyle()?.copyWith(color: AppColors.unActiveLabelItem.withAlpha(50)),
+            todayHighlightColor: AppColors.persianGreen,
+            cellBorderColor: Colors.blueGrey.withAlpha(80),
+            selectionBorderColor: AppColors.persianGreen,
+            headerTextStyle: context.bodyTextPrimaryStyle()?.copyWith(fontWeight: FontWeight.bold),
+            viewHeaderDateTextStyle: context.bodyTextPrimaryStyle(),
+          ),
+          child: _calendarWidget(),
         ),
-        child: _calendarWidget(),
       ),
     );
   }
@@ -99,6 +95,12 @@ class _MyDiaryInMonthScreenState extends State<MyDiaryInMonthScreen> {
         }
         return SfCalendar(
           controller: _calendarController,
+          onViewChanged: (details) {
+            _bloc.loadAllEventsInMyDiary(
+              startDate: details.visibleDates.first,
+              endDate: details.visibleDates.last,
+            );
+          },
           view: CalendarView.month,
           firstDayOfWeek: 1,
           dataSource: EventCalendarDatasource(snapshot.data!),
@@ -133,7 +135,20 @@ class _MyDiaryInMonthScreenState extends State<MyDiaryInMonthScreen> {
             padding: const EdgeInsets.only(bottom: 12),
             itemCount: events.length,
             itemBuilder: (_, index) {
-              return MyDiaryEventWidget(events[index] as EventResponse);
+              final event = events[index] as EventResponse;
+              return MyDiaryEventWidget(
+                events[index] as EventResponse,
+                onTapped: () {
+                  if (event.eventId?.isNotEmpty != true) return;
+                  Navigator.pushNamed(
+                    context,
+                    AppRoute.routeEventDetail,
+                    arguments: {
+                      'event_id': int.parse(event.eventId!),
+                    },
+                  );
+                },
+              );
             },
           ),
         );
@@ -155,12 +170,14 @@ class EventCalendarDatasource extends CalendarDataSource {
   @override
   DateTime getStartTime(int index) {
     final timeStamp = int.parse(appointments?[index]?.startTime as String);
-    return DateTime.fromMillisecondsSinceEpoch(timeStamp * 1000);
+    final date = DateTime.fromMillisecondsSinceEpoch(timeStamp * 1000).toUtc();
+    return DateTime(date.year, date.month, date.day);
   }
 
   @override
   DateTime getEndTime(int index) {
     final timeStamp = int.parse(appointments?[index]?.startTime as String);
-    return DateTime.fromMillisecondsSinceEpoch(timeStamp * 1000);
+    final date = DateTime.fromMillisecondsSinceEpoch(timeStamp * 1000).toUtc();
+    return DateTime(date.year, date.month, date.day);
   }
 }

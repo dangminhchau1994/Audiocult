@@ -11,18 +11,15 @@ import 'package:audio_cult/w_components/menus/common_circular_menu.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+
 import '../../../di/bloc_locator.dart';
 import '../../../w_components/appbar/common_appbar.dart';
 import '../../../w_components/images/no_image_available.dart';
 import '../../../w_components/menus/common_fab_menu.dart';
-import '../../constants/global_constants.dart';
-import '../../data_source/models/requests/event_request.dart';
 import '../../data_source/models/responses/profile_data.dart';
 import '../../utils/constants/app_assets.dart';
 import '../../utils/constants/app_colors.dart';
-import '../events/all_event_bloc.dart';
 import '../events/event_screen.dart';
-import '../events/popular_event_bloc.dart';
 import '../menu_settings/drawer/my_drawer.dart';
 
 class MainScreen extends StatefulWidget {

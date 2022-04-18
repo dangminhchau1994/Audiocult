@@ -1,14 +1,23 @@
 class FilterUsersRequest {
+  final String? keyword;
   final int? groupId;
   final int? categoryId;
   final String? countryISO;
   final List<String>? genreIds;
   final int? page;
 
-  FilterUsersRequest({this.groupId, this.categoryId, this.countryISO, this.genreIds, this.page});
+  FilterUsersRequest({
+    this.keyword,
+    this.groupId,
+    this.categoryId,
+    this.countryISO,
+    this.genreIds,
+    this.page,
+  });
 
   Map<String, dynamic> toJson() {
     final data = <String, dynamic>{};
+    data['keyword'] = keyword;
     data['group_id'] = groupId;
     data['category_id'] = categoryId;
     data['country_iso'] = countryISO;
@@ -19,6 +28,6 @@ class FilterUsersRequest {
 
   @override
   String toString() {
-    return 'FilterUsersRequestParams: $groupId-$categoryId-$countryISO-$genreIds';
+    return 'FilterUsersRequestParams: $keyword $groupId-$categoryId-$countryISO-$genreIds';
   }
 }

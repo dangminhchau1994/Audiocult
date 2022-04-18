@@ -21,6 +21,7 @@ class LoginBloc extends BaseBloc {
     result.fold(
       (data) async {
         await _prefProvider.setAuthentication(data.accessToken!);
+        await _prefProvider.setUserId(data.userId!);
         _navigateMain.sink.add(true);
       },
       showError,

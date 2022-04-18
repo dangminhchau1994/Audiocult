@@ -2,27 +2,40 @@ import 'dart:async';
 
 import 'package:audio_cult/app/base/base_bloc.dart';
 import 'package:audio_cult/app/base/bloc_state.dart';
-import 'package:audio_cult/app/data_source/models/event_view_entity.dart';
+import 'package:audio_cult/app/data_source/models/event_view_wrapper.dart';
 import 'package:audio_cult/app/data_source/models/requests/my_diary_event_request.dart';
 import 'package:audio_cult/app/data_source/models/responses/events/event_response.dart';
 import 'package:audio_cult/app/data_source/repositories/app_repository.dart';
 import 'package:collection/collection.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
+import 'package:tuple/tuple.dart';
+import '../../../utils/debouncer.dart';
 
 class MyDiaryBloc extends BaseBloc {
-  DateTime? _selectedDate;
-
   final AppRepository _appRepository;
-  List<EventViewEntity>? _eventViews;
-  List<EventViewEntity> get eventViews => _eventViews ?? [];
-  int get numberOfItems => 10;
+  final formatStr = 'yyyy-MM-dd';
+  final _myDiaryEventRequest = MyDiaryEventRequest();
+  final _debouncer = Debouncer(milliseconds: 1500);
+  List<EventViewWrapper>? _eventViews;
+  List<EventViewWrapper> get eventViews => _eventViews ?? [];
+  int get numberOfItems => 100;
   bool? _isScrollToTop;
+  CancelToken? _cancel;
+
+  MyDiaryEventView? get currentEventView => _eventViews?.firstWhereOrNull((view) {
+        return view.isSelected == true;
+      })?.view;
+
+  int getHashCode(DateTime key) {
+    return key.day * 1000000 + key.month * 10000 + key.year;
+  }
 
   MyDiaryBloc(this._appRepository);
 
-  final _selectedDateTimeStreamController = StreamController<DateTime>.broadcast();
-  Stream<DateTime> get currentDateTimeStream => _selectedDateTimeStreamController.stream;
+  final _dateTimeInRangeStreamController = StreamController<Tuple2<DateTime?, DateTime?>>.broadcast();
+  Stream<Tuple2<DateTime?, DateTime?>> get dateTimeInRangeStream => _dateTimeInRangeStreamController.stream;
 
   final _myEventsStreamController = StreamController<BlocState<List<EventResponse>>>.broadcast();
   Stream<BlocState<List<EventResponse>>> get myEventsStream => _myEventsStreamController.stream;
@@ -30,44 +43,50 @@ class MyDiaryBloc extends BaseBloc {
   final _viewScrollStreamController = StreamController<bool>.broadcast();
   Stream<bool> get viewScrollStream => _viewScrollStreamController.stream;
 
-  final _eventViewStreamController = StreamController<List<EventViewEntity>>.broadcast();
-  Stream<List<EventViewEntity>> get eventViewStream => _eventViewStreamController.stream;
+  final _eventViewStreamController = StreamController<List<EventViewWrapper>>.broadcast();
+  Stream<List<EventViewWrapper>> get eventViewStream => _eventViewStreamController.stream;
 
   void initMetadataOfEventView(BuildContext context) {
     _eventViews = [
-      EventViewEntity()
+      EventViewWrapper()
         ..view = MyDiaryEventView.all
         ..isSelected = true,
-      EventViewEntity()..view = MyDiaryEventView.notAttending,
-      EventViewEntity()..view = MyDiaryEventView.attending,
-      EventViewEntity()..view = MyDiaryEventView.mayAttend,
+      EventViewWrapper()..view = MyDiaryEventView.notAttending,
+      EventViewWrapper()..view = MyDiaryEventView.attending,
+      EventViewWrapper()..view = MyDiaryEventView.mayAttend,
     ];
     _eventViewStreamController.sink.add(_eventViews!);
   }
 
-  void dateTimeOnChanged(DateTime dateTime) {
-    _selectedDate = dateTime;
-    _selectedDateTimeStreamController.sink.add(dateTime);
+  void dateTimeRangeOnChanged({required DateTime? startDate, required DateTime? endDate}) {
+    _dateTimeInRangeStreamController.sink.add(Tuple2(startDate, endDate));
+    if (startDate == null) return;
+    _myDiaryEventRequest.startDate = DateFormat(formatStr).format(startDate);
+    _myDiaryEventRequest.endDate = DateFormat(formatStr).format(endDate ?? startDate);
+    _debouncer.run(loadEventsWithParams);
   }
 
-  void loadEvents({int? pageNumber, DateTime? dateTime, EventViewEntity? eventView}) async {
+  void loadEventsWithParams() async {
     showOverLayLoading();
-    final request = MyDiaryEventRequest()
-      ..pageNumber = pageNumber
-      ..dateTime = DateFormat('yyyy-MM-dd').format(_selectedDate ?? DateTime.now())
-      ..view = _eventViews?.firstWhereOrNull((element) => element.isSelected == true)?.view ?? MyDiaryEventView.all
-      ..limit = numberOfItems;
-    final result = await _appRepository.getMyDiaryEvents(request);
+    _cancel?.cancel();
+    _cancel = CancelToken();
+    final result = await _appRepository.getMyDiaryEvents(_myDiaryEventRequest, cancel: _cancel);
     result.fold((result) {
       _myEventsStreamController.sink.add(BlocState.success(result));
       hideOverlayLoading();
     }, (exception) {
-      _myEventsStreamController.sink.add(BlocState.error(exception.toString()));
+      _myEventsStreamController.sink.add(const BlocState.success([]));
       hideOverlayLoading();
     });
   }
 
-  void filterEventsByView(EventViewEntity eventView) {
+  void loadInitialEvents() {
+    _myDiaryEventRequest.startDate = DateFormat(formatStr).format(DateTime.now());
+    _myDiaryEventRequest.endDate = DateFormat(formatStr).format(DateTime.now());
+    loadEventsWithParams();
+  }
+
+  void filterEventsByView(EventViewWrapper eventView) {
     final previousIndex = _eventViews?.indexWhere((element) => element.isSelected);
     final index = _eventViews?.indexWhere((element) => element == eventView);
     if (previousIndex != null && previousIndex >= 0 && previousIndex < (_eventViews?.length ?? 0)) {
@@ -76,7 +95,9 @@ class MyDiaryBloc extends BaseBloc {
     if (index != null && index >= 0 && index < (_eventViews?.length ?? 0)) {
       _eventViews?[index].isSelected = true;
     }
+    _myDiaryEventRequest.view = currentEventView;
     _eventViewStreamController.sink.add(_eventViews ?? []);
+    loadEventsWithParams();
   }
 
   void viewIsScrolling(double offset) {
@@ -87,8 +108,13 @@ class MyDiaryBloc extends BaseBloc {
     }
   }
 
-  // ignore: avoid_positional_boolean_parameters
+  // ignore: avoid_positional_boolean_parameters, use_setters_to_change_properties
   void viewStartScrolling(bool isScrollingToTop) {
     _isScrollToTop = isScrollingToTop;
+  }
+
+  void keywordOnChanged(String keyword) {
+    _myDiaryEventRequest.title = keyword;
+    loadEventsWithParams();
   }
 }

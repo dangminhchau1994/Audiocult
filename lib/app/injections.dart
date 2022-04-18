@@ -64,11 +64,11 @@ Future<void> initDependency() async {
 
   locator.registerLazySingleton(
     () => AppRepository(
-      appServiceProvider: locator.get(),
-      placeServiceProvider: locator.get(),
-      hiveServiceProvider: locator.get(),
-      assetsLocalServiceProvider: locator.get(),
-    ),
+        appServiceProvider: locator.get(),
+        placeServiceProvider: locator.get(),
+        hiveServiceProvider: locator.get(),
+        assetsLocalServiceProvider: locator.get(),
+        prefProvider: locator.get()),
   );
   locator.registerLazySingleton(HiveServiceProvider.new);
   locator.registerLazySingleton(AssetsLocalServiceProvider.new);

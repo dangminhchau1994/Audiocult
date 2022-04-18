@@ -572,9 +572,9 @@ class AppServiceProvider {
     );
   }
 
-  Future<dynamic> getUserProfile() async {
+  Future<dynamic> getUserProfile(String userId, {String data = 'info'}) async {
     final response = await _dioHelper.get(
-      route: '/restful_api/user/mine',
+      route: '/restful_api/user/$userId?data=$data',
       responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
     );
     return response.data;
@@ -699,10 +699,11 @@ class AppServiceProvider {
     return _atlasCategories!;
   }
 
-  Future<List<AtlasUser>> getAtlasUsers(FilterUsersRequest params) async {
+  Future<List<AtlasUser>> getAtlasUsers(FilterUsersRequest params, {CancelToken? cancel}) async {
     final response = await _dioHelper.get(
       route: '/restful_api/atlas',
       requestParams: params.toJson(),
+      cancelToken: cancel,
       responseBodyMapper: (jsonMapper) => AtlasUserResponse.fromJson(jsonMapper as Map<String, dynamic>),
     );
     return Future.value(response.data);
@@ -777,10 +778,11 @@ class AppServiceProvider {
     return _countries ?? [];
   }
 
-  Future<List<EventResponse>> getMyDiaryEvents(MyDiaryEventRequest request) async {
+  Future<List<EventResponse>> getMyDiaryEvents(MyDiaryEventRequest request, {CancelToken? cancel}) async {
     final response = await _dioHelper.get(
         route: '/restful_api/advancedevent/my_diary',
         requestParams: request.toJson(),
+        cancelToken: cancel,
         responseBodyMapper: (json) => BaseRes.fromJson(json as Map<String, dynamic>));
     return response.mapData(
       (json) => asType<List<dynamic>>(json)?.map((e) => EventResponse.fromJson(e as Map<String, dynamic>)).toList(),

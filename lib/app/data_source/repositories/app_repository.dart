@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:audio_cult/app/data_source/local/pref_provider.dart';
 import 'package:audio_cult/app/data_source/models/cache_filter.dart';
 import 'package:audio_cult/app/data_source/models/requests/create_event_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/filter_users_request.dart';
@@ -24,6 +25,7 @@ import 'package:audio_cult/app/data_source/services/hive_service_provider.dart';
 import 'package:audio_cult/app/features/auth/widgets/register_page.dart';
 import 'package:audio_cult/w_components/dropdown/common_dropdown.dart';
 import 'package:dartz/dartz.dart';
+import 'package:dio/dio.dart';
 
 import '../models/requests/event_request.dart';
 import '../models/requests/login_request.dart';
@@ -44,12 +46,14 @@ class AppRepository extends BaseRepository {
   final PlaceServiceProvider placeServiceProvider;
   final HiveServiceProvider hiveServiceProvider;
   final AssetsLocalServiceProvider assetsLocalServiceProvider;
+  final PrefProvider prefProvider;
 
   AppRepository({
     required this.appServiceProvider,
     required this.placeServiceProvider,
     required this.hiveServiceProvider,
     required this.assetsLocalServiceProvider,
+    required this.prefProvider,
   });
 
   Future<Either<LoginResponse, Exception>> login(LoginRequest request) {
@@ -327,11 +331,13 @@ class AppRepository extends BaseRepository {
     return safeCall(() => placeServiceProvider.getPlaceDetailFromId(placeId));
   }
 
-  Future<Either<ProfileData?, Exception>> getUserProfile() async {
-    final userProfile = await safeCall(appServiceProvider.getUserProfile);
+  Future<Either<ProfileData?, Exception>> getUserProfile(String userId, {String data = 'info'}) async {
+    final userProfile = await safeCall(() => appServiceProvider.getUserProfile(userId, data: data));
     return userProfile.fold(
       (l) {
-        hiveServiceProvider.saveProfile(l);
+        if (userId == prefProvider.currentUserId) {
+          hiveServiceProvider.saveProfile(l);
+        }
         return left(ProfileData.fromJson(l as Map<String, dynamic>));
       },
       (r) {
@@ -418,8 +424,8 @@ class AppRepository extends BaseRepository {
     });
   }
 
-  Future<Either<List<AtlasUser>, Exception>> getAtlasUsers(FilterUsersRequest params) async {
-    return safeCall(() => appServiceProvider.getAtlasUsers(params));
+  Future<Either<List<AtlasUser>, Exception>> getAtlasUsers(FilterUsersRequest params, {CancelToken? cancel}) async {
+    return safeCall(() => appServiceProvider.getAtlasUsers(params, cancel: cancel));
   }
 
   Future<Either<UserSubscriptionResponse, Exception>> subscribeUser(AtlasUser user) async {
@@ -448,7 +454,8 @@ class AppRepository extends BaseRepository {
     });
   }
 
-  Future<Either<List<EventResponse>, Exception>> getMyDiaryEvents(MyDiaryEventRequest request) async {
-    return safeCall(() => appServiceProvider.getMyDiaryEvents(request));
+  Future<Either<List<EventResponse>, Exception>> getMyDiaryEvents(MyDiaryEventRequest request,
+      {CancelToken? cancel}) async {
+    return safeCall(() => appServiceProvider.getMyDiaryEvents(request, cancel: cancel));
   }
 }

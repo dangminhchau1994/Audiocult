@@ -68,6 +68,10 @@ dependencies:
   http: ^0.13.4
   tuple: ^2.0.0
   syncfusion_flutter_calendar: ^20.1.47
+  sliver_header_delegate:
+   git:
+    url: https://github.com/lngyeen/flutter_sliver_header_delegate.git
+    ref: bugfix/cannot-click-on-header
 
 dev_dependencies:
   bloc_test: ^9.0.2

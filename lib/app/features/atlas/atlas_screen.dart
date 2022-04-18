@@ -1,3 +1,4 @@
+import 'package:audio_cult/app/base/bloc_handle.dart';
 import 'package:audio_cult/app/base/bloc_state.dart';
 import 'package:audio_cult/app/data_source/models/responses/atlas_user.dart';
 import 'package:audio_cult/app/features/atlas/atlas_bloc.dart';
@@ -7,6 +8,7 @@ import 'package:audio_cult/app/utils/constants/app_colors.dart';
 import 'package:audio_cult/app/utils/route/app_route.dart';
 import 'package:audio_cult/di/bloc_locator.dart';
 import 'package:collection/collection.dart';
+import 'package:debounce_throttle/debounce_throttle.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -19,21 +21,29 @@ class AtlasScreen extends StatefulWidget {
   State<AtlasScreen> createState() => _AtlasScreenState();
 }
 
-class _AtlasScreenState extends State<AtlasScreen> {
-  late AtlasBloc _bloc;
+class _AtlasScreenState extends State<AtlasScreen> with AutomaticKeepAliveClientMixin {
+  final _keywordOnChangedDebouncer = Debouncer<String>(const Duration(milliseconds: 500), initialValue: '');
   final _searchTextController = TextEditingController();
   final _scrollController = ScrollController();
-  final PagingController<int, AtlasUser> _pagingController = PagingController(firstPageKey: 1);
+  final _pagingController = PagingController<int, AtlasUser>(firstPageKey: 1);
+  late AtlasBloc _bloc;
 
   @override
   void initState() {
     super.initState();
     _bloc = getIt.get<AtlasBloc>();
     _bloc.getAtlasUsersStream.listen(_listenData);
-    _pagingController.addPageRequestListener((number) {
-      _bloc.getAtlasUsers(number);
-    });
+    _pagingController.addPageRequestListener(_bloc.getAtlasUsers);
+    _searchTextController.addListener(_listenKeywordChange);
     _scrollController.addListener(_listenScrollView);
+  }
+
+  void _listenKeywordChange() {
+    _bloc.keywordOnChanged(_searchTextController.text);
+    _keywordOnChangedDebouncer.value = _searchTextController.text;
+    _keywordOnChangedDebouncer.values.listen((search) {
+      _pagingController.refresh();
+    });
   }
 
   void _listenData(BlocState<Tuple2<List<AtlasUser>, Exception?>> event) {
@@ -45,7 +55,7 @@ class _AtlasScreenState extends State<AtlasScreen> {
         if (error != null) {
           _pagingController.error = error;
         } else {
-          if (users.isEmpty) {
+          if (users.length < _bloc.maximumNumberOfItems) {
             _pagingController.appendLastPage(users);
           } else {
             _pagingController.appendPage(
@@ -72,25 +82,29 @@ class _AtlasScreenState extends State<AtlasScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: FocusManager.instance.primaryFocus?.unfocus,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
-        child: Column(
-          children: [
-            SizedBox(
-              height: 40,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Expanded(flex: 6, child: _searchTextField()),
-                  const SizedBox(width: 8),
-                  Expanded(child: _filterButton()),
-                ],
+    super.build(context);
+    return BlocHandle(
+      bloc: _bloc,
+      child: GestureDetector(
+        onTap: FocusManager.instance.primaryFocus?.unfocus,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
+          child: Column(
+            children: [
+              SizedBox(
+                height: 40,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Expanded(flex: 6, child: _searchTextField()),
+                    const SizedBox(width: 8),
+                    Expanded(child: _filterButton()),
+                  ],
+                ),
               ),
-            ),
-            Expanded(child: _atlasListWidget()),
-          ],
+              Expanded(child: _atlasListWidget()),
+            ],
+          ),
         ),
       ),
     );
@@ -188,4 +202,7 @@ class _AtlasScreenState extends State<AtlasScreen> {
     await _bloc.refreshAtlasUserData();
     _pagingController.refresh();
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

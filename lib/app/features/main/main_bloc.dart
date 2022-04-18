@@ -19,10 +19,29 @@ class MainBloc extends BaseBloc {
   MainBloc(this._appRepository, this._prefProvider);
 
   void getUserProfile() async {
-    final result = await _appRepository.getUserProfile();
-    result.fold((l) => {profileData = l, _profileSubject.add(l)}, (r) {
-      profileData = null;
-      _profileSubject.add(null);
+    final currentUserId = _prefProvider.currentUserId;
+    if (profileData == null) {
+      final result = await _appRepository.getUserProfile(currentUserId!);
+      result.fold(
+          (l) => {
+                if (currentUserId == l?.userId) {profileData = l},
+                _profileSubject.add(l)
+              }, (r) {
+        profileData = null;
+        _profileSubject.add(null);
+      });
+    } else {
+      _profileSubject.add(profileData);
+    }
+  }
+
+  Future<ProfileData?> getUserProfileById(String id) async {
+    final result = await _appRepository.getUserProfile(id);
+    return result.fold((l) {
+      return l;
+    }, (r) {
+      showError(r);
+      return null;
     });
   }
 
@@ -34,6 +53,7 @@ class MainBloc extends BaseBloc {
     result.fold(
       (data) async {
         await _prefProvider.clearAuthentication();
+        await _prefProvider.clearUserId();
         _appRepository.clearProfile();
         _logoutSubject.add(true);
       },
