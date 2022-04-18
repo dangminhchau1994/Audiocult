@@ -40,7 +40,20 @@ class _MyDiaryListWidgetState extends State<MyDiaryListWidget> {
             child: Center(child: Text(context.l10n.t_no_data_found)),
           );
         }
-        return MyDiaryEventWidget(widget.events[index]);
+        final event = widget.events[index];
+        return MyDiaryEventWidget(
+          event,
+          onTapped: () {
+            if (event.eventId?.isNotEmpty != true) return;
+            Navigator.pushNamed(
+              context,
+              AppRoute.routeEventDetail,
+              arguments: {
+                'event_id': int.parse(event.eventId!),
+              },
+            );
+          },
+        );
       },
     );
   }

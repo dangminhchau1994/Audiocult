@@ -4,12 +4,11 @@ import 'package:audio_cult/app/data_source/models/responses/events/event_respons
 import 'package:audio_cult/app/features/events/my_diary/my_diary_event_widget.dart';
 import 'package:audio_cult/app/features/my_diary_in_month/my_diary_in_month_bloc.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
+import 'package:audio_cult/app/utils/route/app_route.dart';
 import 'package:audio_cult/di/bloc_locator.dart';
 import 'package:audio_cult/l10n/l10n.dart';
 import 'package:audio_cult/w_components/appbar/common_appbar.dart';
-import 'package:audio_cult/w_components/loading/loading_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:loader_overlay/loader_overlay.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:syncfusion_flutter_core/theme.dart';
 
@@ -136,7 +135,20 @@ class _MyDiaryInMonthScreenState extends State<MyDiaryInMonthScreen> {
             padding: const EdgeInsets.only(bottom: 12),
             itemCount: events.length,
             itemBuilder: (_, index) {
-              return MyDiaryEventWidget(events[index] as EventResponse);
+              final event = events[index] as EventResponse;
+              return MyDiaryEventWidget(
+                events[index] as EventResponse,
+                onTapped: () {
+                  if (event.eventId?.isNotEmpty != true) return;
+                  Navigator.pushNamed(
+                    context,
+                    AppRoute.routeEventDetail,
+                    arguments: {
+                      'event_id': int.parse(event.eventId!),
+                    },
+                  );
+                },
+              );
             },
           ),
         );
