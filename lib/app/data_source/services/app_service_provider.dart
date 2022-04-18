@@ -27,6 +27,7 @@ import '../models/base_response.dart';
 import '../models/requests/login_request.dart';
 import '../models/responses/atlas_user.dart';
 import '../models/responses/create_album_response.dart';
+import '../models/responses/events/event_category_response.dart';
 import '../models/responses/profile_data.dart';
 import '../models/responses/register_response.dart';
 import '../models/responses/song/song_response.dart';
@@ -379,13 +380,28 @@ class AppServiceProvider {
     );
   }
 
+  Future<List<EventCategoryResponse>> getEventCategories() async {
+    final response = await _dioHelper.get(
+      route: '/restful_api/event/category',
+      options: Options(headers: {'Content-Type': 'application/x-www-form-urlencoded'}),
+      responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
+    );
+    return response.mapData((json) =>
+        asType<List<dynamic>>(json)?.map((e) => EventCategoryResponse.fromJson(e as Map<String, dynamic>)).toList());
+  }
+
   Future<EventResponse> createEvent(CreateEventRequest request) async {
+    var imageFile;
+
+    if (request.image != null) {
+      imageFile = await MultipartFile.fromFile(request.image?.path ?? '');
+    }
     final response = await _dioHelper.post(
       route: '/restful_api/event',
       options: Options(headers: {'Content-Type': 'multipart/form-data'}),
       responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
       requestBody: FormData.fromMap({
-        'val[category]': 2,
+        'val[category]': request.categoryId,
         'val[title]': request.title,
         'val[location]': request.location,
         'val[lat]': request.lat,
@@ -404,7 +420,7 @@ class AppServiceProvider {
         'val[end_year]': request.endYear,
         'val[end_hour]': request.endHour,
         'val[end_minute]': request.endMinute,
-        'image': await MultipartFile.fromFile(request.image?.path ?? ''),
+        'image': imageFile,
         'val[host_name]': request.hostName,
         'val[host_description]': request.hostDescription,
         'val[website]': request.hostWebsite,

@@ -16,14 +16,20 @@ class CommonChipInput extends StatefulWidget {
     this.initTags,
     this.hintText,
     this.groupUserId,
+    this.onChooseMultipleTag,
+    this.maxChip,
+    this.fromEvent = false,
   }) : super(key: key);
 
   final Function(ProfileData tag)? onChooseTag;
+  final Function(List<ProfileData> tags)? onChooseMultipleTag;
   final Function(ProfileData tag)? onDeleteTag;
   final List<ProfileData>? initTags;
   final TextEditingController? controller;
   final String? hintText;
   final String? groupUserId;
+  final int? maxChip;
+  final bool? fromEvent;
 
   @override
   State<CommonChipInput> createState() => _CommonChipInputState();
@@ -63,7 +69,7 @@ class _CommonChipInputState extends State<CommonChipInput> {
           ),
         ),
       ),
-      maxChips: 1,
+      maxChips: widget.maxChip ?? 1,
       chipBuilder: (BuildContext context, ChipsInputState<ProfileData> state, data) {
         return InputChip(
           key: ObjectKey(data),
@@ -86,7 +92,11 @@ class _CommonChipInputState extends State<CommonChipInput> {
         }
       },
       onChanged: (List<ProfileData> value) {
-        widget.onChooseTag?.call(value[0]);
+        if (widget.fromEvent!) {
+          widget.onChooseMultipleTag!(value);
+        } else {
+          widget.onChooseTag?.call(value[0]);
+        }
       },
       suggestionBuilder: (BuildContext context, ChipsInputState<ProfileData?> state, ProfileData profile) {
         return ListTile(

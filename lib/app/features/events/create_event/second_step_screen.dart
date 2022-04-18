@@ -29,9 +29,6 @@ class SecondStepScreen extends StatefulWidget {
 }
 
 class _SecondStepScreenState extends State<SecondStepScreen> {
-  final List<Map<String, dynamic>> _artistIds = [];
-  final List<Map<String, dynamic>> _entertainmentIds = [];
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -81,10 +78,12 @@ class _SecondStepScreenState extends State<SecondStepScreen> {
               const SizedBox(height: 10),
               CommonChipInput(
                 hintText: context.l10n.t_artist_line_up_hint,
-                onChooseTag: (value) {
-                  _artistIds.add(UserId(id: value.userId).toJson());
-                  widget.createEventRequest?.artist = jsonEncode(_artistIds);
+                maxChip: 10,
+                fromEvent: true,
+                onChooseMultipleTag: (value) {
+                  widget.createEventRequest?.artist = jsonEncode(value);
                 },
+                onDeleteTag: (value) {},
               ),
               const SizedBox(height: 20),
               Text(
@@ -94,10 +93,9 @@ class _SecondStepScreenState extends State<SecondStepScreen> {
               const SizedBox(height: 10),
               CommonChipInput(
                 hintText: context.l10n.t_artist_line_up_hint,
-                onChooseTag: (value) {
-                  _entertainmentIds.add(UserId(id: value.userId).toJson());
-                  widget.createEventRequest?.entertainment = jsonEncode(_entertainmentIds);
-                },
+                maxChip: 10,
+                fromEvent: true,
+                onChooseMultipleTag: (value) {},
                 onDeleteTag: (value) {},
               ),
               Padding(

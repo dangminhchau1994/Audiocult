@@ -4,7 +4,12 @@ import 'package:audio_cult/l10n/l10n.dart';
 import 'package:flutter/material.dart';
 
 class EventDetailFestiVal extends StatelessWidget {
-  const EventDetailFestiVal({Key? key}) : super(key: key);
+  const EventDetailFestiVal({
+    Key? key,
+    this.category,
+  }) : super(key: key);
+
+  final String? category;
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +23,7 @@ class EventDetailFestiVal extends StatelessWidget {
         ),
         padding: const EdgeInsets.all(14),
         child: Text(
-          context.l10n.t_festival,
+          category ?? '',
           style: context.bodyTextPrimaryStyle()!.copyWith(
                 color: AppColors.activeLabelItem,
                 fontSize: 16,

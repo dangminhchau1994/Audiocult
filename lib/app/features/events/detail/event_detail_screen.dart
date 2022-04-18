@@ -80,7 +80,9 @@ class _EventDetailState extends State<EventDetail> {
                           EventDetailPhoto(imagePath: data.imagePath ?? ''),
                           const EventDetailNavBar(),
                           EventDetailTitle(title: data.title ?? ''),
-                          const EventDetailFestiVal(),
+                          EventDetailFestiVal(
+                            category: data.categories![0][0],
+                          ),
                         ],
                       ),
                       EventDetaiInfo(data: data),
