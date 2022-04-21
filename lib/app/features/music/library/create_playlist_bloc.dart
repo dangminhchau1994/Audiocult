@@ -16,13 +16,10 @@ class CreatePlayListBloc extends BaseBloc<CreatePlayListRequest, CreatePlayListR
 
   Stream<BlocState<CreatePlayListResponse>> get createPlayListStream => _createListSubject.stream;
 
-  void createPlayList(CreatePlayListRequest? params) async {
+  void createPlayList(CreatePlayListRequest params) async {
     _createListSubject.sink.add(const BlocState.loading());
 
-    final result = await _appRepository.createPlayList(
-      params?.title ?? '',
-      params?.file ?? File(''),
-    );
+    final result = await _appRepository.createPlayList(params);
 
     result.fold((success) {
       _createListSubject.sink.add(BlocState.success(success));

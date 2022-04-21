@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:audio_cult/app/data_source/local/pref_provider.dart';
 import 'package:audio_cult/app/data_source/models/requests/create_event_request.dart';
+import 'package:audio_cult/app/data_source/models/requests/create_playlist_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/event_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/filter_users_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/my_diary_event_request.dart';
@@ -365,14 +366,21 @@ class AppServiceProvider {
     );
   }
 
-  Future<CreatePlayListResponse> createPlayList(String name, File image) async {
+  Future<CreatePlayListResponse> createPlayList(CreatePlayListRequest request) async {
+    var imageFile;
+
+    if (request.file != null) {
+      imageFile = await MultipartFile.fromFile(request.file?.path ?? '');
+    }
+
     final response = await _dioHelper.post(
       route: '/restful_api/playlist',
       options: Options(headers: {'Content-Type': 'multipart/form-data'}),
       responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
       requestBody: FormData.fromMap({
-        'val[title]': name,
-        'image': await MultipartFile.fromFile(image.path),
+        'val[title]': request.title,
+        'image': imageFile,
+        'val[description]': request.description,
       }),
     );
     return response.mapData(

@@ -79,6 +79,8 @@
     "t_read_less":"Read less",
     "t_key":"Key",
     "t_lower":"Lower",
+    "t_access_photo":"You have granted access to some photos. You can add photos or allow access to all photos",
+    "t_manage":"Manage",
     "t_empty_event_title":"Please fill event title",
     "t_empty_event_location":"Please fill event location",
     "t_higher":"Higher",

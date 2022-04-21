@@ -1,11 +1,13 @@
 import 'dart:io';
 
 class CreatePlayListRequest {
-  final String? title;
-  final File? file;
+  String? title;
+  String? description;
+  File? file;
 
   CreatePlayListRequest({
     this.title,
+    this.description,
     this.file,
   });
 }
