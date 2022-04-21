@@ -183,6 +183,7 @@ class _LibraryScreenState extends State<LibraryScreen> with AutomaticKeepAliveCl
                 onPressed: () async {
                   final result = await Navigator.pushNamed(context, AppRoute.routeCreatePlayList);
                   if (result != null) {
+                    _pagingController.refresh();
                     _libraryBloc.requestData(
                       params: AlbumPlaylistRequest(
                         query: '',
