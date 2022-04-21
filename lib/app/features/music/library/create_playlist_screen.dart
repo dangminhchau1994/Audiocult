@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 import 'package:audio_cult/app/base/bloc_state.dart';
 import 'package:audio_cult/app/data_source/models/requests/create_playlist_request.dart';
 import 'package:audio_cult/app/data_source/models/responses/create_playlist/create_playlist_response.dart';
@@ -25,15 +26,14 @@ class CreatePlayListScreen extends StatefulWidget {
 class _CreatePlayListScreenState extends State<CreatePlayListScreen> {
   List<File>? _imageFileList;
   String? _pickImageError;
+  String? errorTitle = '';
   bool runStream = false;
-  final _nameController = TextEditingController();
-  final _descriptionController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+  final _createPlayListRequest = CreatePlayListRequest();
 
   @override
   void dispose() {
     super.dispose();
-    _descriptionController.dispose();
-    _nameController.dispose();
   }
 
   Widget _buildPreViewImage() {
@@ -45,6 +45,7 @@ class _CreatePlayListScreenState extends State<CreatePlayListScreen> {
   }
 
   Widget _buildImagePicked() {
+    _createPlayListRequest.file = _imageFileList![0];
     return Container(
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
@@ -159,55 +160,76 @@ class _CreatePlayListScreenState extends State<CreatePlayListScreen> {
           ),
           child: Stack(
             children: [
-              SingleChildScrollView(
-                child: Column(
-                  children: [
-                    _buildPreViewImage(),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    CommonInput(
-                      hintText: context.l10n.t_playlist_name,
-                      onChanged: (value) {
-                        setState(() {
-                          _nameController.text = value;
-                        });
-                      },
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    CommonInput(
-                      hintText: context.l10n.t_optional_description,
-                      fillColor: AppColors.mainColor,
-                      maxLine: 5,
-                      textInputType: TextInputType.text,
-                      height: 100,
-                      onChanged: (value) {},
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    CommonButton(
-                      color: _nameController.text.isEmpty || _imageFileList == null
-                          ? Colors.grey
-                          : AppColors.primaryButtonColor,
-                      text: context.l10n.t_apply,
-                      onTap: _nameController.text.isEmpty || _imageFileList == null
-                          ? null
-                          : () {
+              Form(
+                key: _formKey,
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      _buildPreViewImage(),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      CommonInput(
+                        hintText: context.l10n.t_playlist_name,
+                        onChanged: (value) {
+                          _createPlayListRequest.title = value;
+                        },
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      TextField(
+                        keyboardType: TextInputType.text,
+                        maxLines: 5,
+                        cursorColor: Colors.white,
+                        onChanged: (value) {
+                          _createPlayListRequest.description = value;
+                        },
+                        decoration: InputDecoration(
+                          filled: true,
+                          errorText: errorTitle!.isEmpty ? null : errorTitle,
+                          focusColor: AppColors.outlineBorderColor,
+                          fillColor: AppColors.inputFillColor.withOpacity(0.4),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(4),
+                            borderSide: BorderSide(
+                              color: AppColors.outlineBorderColor,
+                              width: 2,
+                            ),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(4),
+                            borderSide: BorderSide(
+                              color: AppColors.outlineBorderColor,
+                              width: 2,
+                            ),
+                          ),
+                          hintText: context.l10n.t_optional_description,
+                          hintStyle: TextStyle(color: AppColors.unActiveLabelItem),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      CommonButton(
+                          color: AppColors.primaryButtonColor,
+                          text: context.l10n.t_apply,
+                          onTap: () {
+                            if (_formKey.currentState!.validate()) {
                               setState(() {
                                 runStream = true;
                               });
                               getIt<CreatePlayListBloc>().createPlayList(
                                 CreatePlayListRequest(
-                                  title: _nameController.text,
-                                  file: _imageFileList![0],
+                                  title: _createPlayListRequest.title,
+                                  file: _createPlayListRequest.file,
+                                  description: _createPlayListRequest.description,
                                 ),
                               );
-                            },
-                    ),
-                  ],
+                            }
+                          }),
+                    ],
+                  ),
                 ),
               ),
               if (runStream)
@@ -233,8 +255,9 @@ class _CreatePlayListScreenState extends State<CreatePlayListScreen> {
                           onRetryTap: () {
                             getIt<CreatePlayListBloc>().createPlayList(
                               CreatePlayListRequest(
-                                title: _nameController.text,
-                                file: _imageFileList![0],
+                                title: _createPlayListRequest.title,
+                                file: _createPlayListRequest.file,
+                                description: _createPlayListRequest.description,
                               ),
                             );
                           },

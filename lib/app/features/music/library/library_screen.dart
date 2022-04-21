@@ -49,7 +49,7 @@ class _LibraryScreenState extends State<LibraryScreen> with AutomaticKeepAliveCl
         query: '',
         page: 1,
         limit: GlobalConstants.loadMoreItem,
-        sort: 'most-liked',
+        sort: 'latest',
         getAll: 0,
       ),
     );
@@ -62,7 +62,7 @@ class _LibraryScreenState extends State<LibraryScreen> with AutomaticKeepAliveCl
           query: '',
           page: pageKey,
           limit: GlobalConstants.loadMoreItem,
-          sort: 'most-liked',
+          sort: 'latest',
           getAll: 0,
         ),
       );
@@ -106,7 +106,7 @@ class _LibraryScreenState extends State<LibraryScreen> with AutomaticKeepAliveCl
                     query: '',
                     page: 1,
                     limit: GlobalConstants.loadMoreItem,
-                    sort: 'most-liked',
+                    sort: 'latest',
                     getAll: 0,
                   ),
                 );
@@ -126,8 +126,9 @@ class _LibraryScreenState extends State<LibraryScreen> with AutomaticKeepAliveCl
                   } else {
                     _pagingController.appendPage(data, _pagingController.firstPageKey + 1);
                   }
-                  return SizedBox(
+                  return Container(
                     height: 500,
+                    padding: const EdgeInsets.only(bottom: 20),
                     child: PagedListView<int, PlaylistResponse>.separated(
                       shrinkWrap: true,
                       padding: const EdgeInsets.symmetric(
@@ -149,7 +150,7 @@ class _LibraryScreenState extends State<LibraryScreen> with AutomaticKeepAliveCl
                                 context,
                                 AppRoute.routeDetailPlayList,
                                 arguments: {
-                                  'playlist_id': data[index].playlistId,
+                                  'playlist_id': item.playlistId,
                                 },
                               );
                             },
@@ -169,7 +170,7 @@ class _LibraryScreenState extends State<LibraryScreen> with AutomaticKeepAliveCl
                       query: '',
                       page: 1,
                       limit: GlobalConstants.loadMoreItem,
-                      sort: 'most-liked',
+                      sort: 'latest',
                       getAll: 0,
                     ),
                   );
@@ -187,7 +188,7 @@ class _LibraryScreenState extends State<LibraryScreen> with AutomaticKeepAliveCl
                         query: '',
                         page: 1,
                         limit: GlobalConstants.loadMoreItem,
-                        sort: 'most-liked',
+                        sort: 'latest',
                         getAll: 0,
                       ),
                     );
