@@ -77,5 +77,7 @@
     "t_already_bought":"Already bought",
     "t_attending":"Attending",
     "t_maybe_attending":"Maybe attending",
-    "t_today":"Today"
+    "t_today":"Today",
+    "t_account":"Account",
+    "t_notification":"Notification"
 }

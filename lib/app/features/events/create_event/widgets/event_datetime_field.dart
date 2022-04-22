@@ -11,6 +11,8 @@ class EventDateTimeField extends StatelessWidget {
   const EventDateTimeField({
     Key? key,
     this.onChanged,
+    this.shouldIgnoreTime = false,
+    this.initialDateTime,
   }) : super(key: key);
 
   final Function(
@@ -20,11 +22,13 @@ class EventDateTimeField extends StatelessWidget {
     int hour,
     int minute,
   )? onChanged;
+  final bool shouldIgnoreTime;
+  final DateTime? initialDateTime;
 
   @override
   Widget build(BuildContext context) {
     return DateTimeField(
-      initialValue: DateTime.now(),
+      initialValue: initialDateTime ?? DateTime.now(),
       decoration: InputDecoration(
         filled: true,
         hintText: context.l10n.t_choose_date,
@@ -67,7 +71,7 @@ class EventDateTimeField extends StatelessWidget {
           ),
         ),
       ),
-      format: DateFormat('yyyy/MM/dd HH:mm'),
+      format: shouldIgnoreTime ? DateFormat('yyyy/MM/dd') : DateFormat('yyyy/MM/dd HH:mm'),
       onShowPicker: (context, currentValue) async {
         final date = await showDatePicker(
             context: context,
@@ -85,7 +89,7 @@ class EventDateTimeField extends StatelessWidget {
               );
             },
             lastDate: DateTime(2100));
-        if (date != null) {
+        if (date != null && !shouldIgnoreTime) {
           final time = await showTimePicker(
             context: context,
             initialTime: TimeOfDay.fromDateTime(currentValue ?? DateTime.now()),

@@ -186,5 +186,7 @@
     "t_post":"Post",
     "t_about":"About",
     "t_videos":"Videos",
-    "t_edit_page":"Edit Pages"
+    "t_edit_page":"Edit Pages",
+    "t_account":"Account",
+    "t_notification":"Notification"
 }

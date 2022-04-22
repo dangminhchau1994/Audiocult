@@ -13,7 +13,6 @@ import 'package:audio_cult/w_components/w_keyboard_dismiss.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:loader_overlay/loader_overlay.dart';
 import 'package:provider/provider.dart';
 
 class FilterAtlasScreen extends StatefulWidget {

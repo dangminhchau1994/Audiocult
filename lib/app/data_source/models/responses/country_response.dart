@@ -7,8 +7,8 @@ class Country {
   String? name;
   @JsonKey(name: 'country_iso')
   String? countryISO;
-  @JsonKey(name: 'children')
-  // List<City>? cities;
+  @JsonKey(ignore: true)
+  List<City>? cities;
 
   Country();
 
