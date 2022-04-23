@@ -331,7 +331,7 @@ class AppRepository extends BaseRepository {
     return safeCall(() => placeServiceProvider.getPlaceDetailFromId(placeId));
   }
 
-  Future<Either<ProfileData?, Exception>> getUserProfile(String userId, {String data = 'info'}) async {
+  Future<Either<ProfileData, Exception>> getUserProfile(String? userId, {String data = 'info'}) async {
     final userProfile = await safeCall(() => appServiceProvider.getUserProfile(userId, data: data));
     return userProfile.fold(
       (l) {

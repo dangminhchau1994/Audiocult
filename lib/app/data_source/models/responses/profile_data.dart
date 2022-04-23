@@ -22,30 +22,34 @@ class ProfileData {
   String? relationId;
   String? relationWithId;
   String? relationPhrase;
+  String? coverPhoto;
+  String? locationString;
+  int? totalSubscriptions;
+  int? totalSubscribers;
 
-  ProfileData({
-    this.coverPhotoExists,
-    this.userId,
-    this.userGroupId,
-    this.userName,
-    this.fullName,
-    this.email,
-    this.gender,
-    this.birthday,
-    this.birthdaySearch,
-    this.countryIso,
-    this.languageId,
-    this.timeZone,
-    this.userImage,
-    this.isOnline,
-    this.title,
-    this.isFriend,
-    this.isFriendOfFriend,
-    this.isFriendRequest,
-    this.relationId,
-    this.relationWithId,
-    this.relationPhrase,
-  });
+  ProfileData(
+      {this.coverPhotoExists,
+      this.userId,
+      this.userGroupId,
+      this.userName,
+      this.fullName,
+      this.email,
+      this.gender,
+      this.birthday,
+      this.birthdaySearch,
+      this.countryIso,
+      this.languageId,
+      this.timeZone,
+      this.userImage,
+      this.isOnline,
+      this.title,
+      this.isFriend,
+      this.isFriendOfFriend,
+      this.isFriendRequest,
+      this.relationId,
+      this.relationWithId,
+      this.relationPhrase,
+      this.coverPhoto});
 
   ProfileData.fromJson(Map<String, dynamic> json) {
     final iw = IW(json);
@@ -71,6 +75,10 @@ class ProfileData {
     relationId = iw['relation_id'].get();
     relationWithId = iw['relation_with_id'].get();
     relationPhrase = iw['relation_phrase'].get();
+    coverPhoto = iw['cover_photo'].get();
+    locationString = iw['location'].get();
+    totalSubscriptions = iw['total_subscriptions'].get();
+    totalSubscribers = iw['total_subscribers'].get();
   }
 
   Map<String, dynamic> toJson() {
@@ -96,6 +104,10 @@ class ProfileData {
     data['relation_id'] = relationId;
     data['relation_with_id'] = relationWithId;
     data['relation_phrase'] = relationPhrase;
+    data['cover_photo'] = coverPhoto;
+    data['location'] = locationString;
+    data['total_subscriptions'] = totalSubscriptions;
+    data['total_subscribers'] = totalSubscribers;
     return data;
   }
 }

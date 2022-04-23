@@ -1,5 +1,6 @@
 import 'package:audio_cult/app/injections.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../app/base/base_bloc.dart';
 import '../../app/base/state.dart';
 import '../error_empty/error_section.dart';
@@ -15,13 +16,14 @@ class LoadingBuilder<T extends BaseBloc, TModel> extends StatefulWidget {
   final Function(dynamic params)? reloadAction;
 
   // ignore: use_key_in_widget_constructors
-  const LoadingBuilder(
-      {required this.builder,
-      this.errorBuilder,
-      this.initBuilder,
-      this.noDataBuilder,
-      this.loadingBuilder,
-      this.reloadAction,});
+  const LoadingBuilder({
+    required this.builder,
+    this.errorBuilder,
+    this.initBuilder,
+    this.noDataBuilder,
+    this.loadingBuilder,
+    this.reloadAction,
+  });
 
   @override
   // ignore: library_private_types_in_public_api
@@ -33,7 +35,11 @@ class _LoadingBuilderState<T extends BaseBloc, TModel> extends State<LoadingBuil
   @override
   void initState() {
     super.initState();
-    bloc = locator.get<T>();
+    if (locator.isRegistered<T>()) {
+      bloc = locator.get<T>();
+    } else {
+      bloc = Provider.of<T>(context, listen: false);
+    }
   }
 
   @override
