@@ -26,6 +26,9 @@ class ProfileData {
   String? locationString;
   int? totalSubscriptions;
   int? totalSubscribers;
+  String? biography;
+  List<String>? favoriteGenresOfMusic;
+  List<String>? audioArtistCategory;
 
   ProfileData(
       {this.coverPhotoExists,
@@ -49,7 +52,10 @@ class ProfileData {
       this.relationId,
       this.relationWithId,
       this.relationPhrase,
-      this.coverPhoto});
+      this.coverPhoto,
+      this.biography,
+      this.audioArtistCategory,
+      this.favoriteGenresOfMusic});
 
   ProfileData.fromJson(Map<String, dynamic> json) {
     final iw = IW(json);
@@ -79,6 +85,11 @@ class ProfileData {
     locationString = iw['location'].get();
     totalSubscriptions = iw['total_subscriptions'].get();
     totalSubscribers = iw['total_subscribers'].get();
+    biography = iw['biography'].get();
+    favoriteGenresOfMusic =
+        iw['favorite_genres_of_music'].getList(defaultValue: [], itemRawBuilder: (values) => values)?.cast<String>();
+    audioArtistCategory =
+        iw['audio_artist_category'].getList(defaultValue: [], itemRawBuilder: (values) => values)?.cast<String>();
   }
 
   Map<String, dynamic> toJson() {
@@ -108,6 +119,7 @@ class ProfileData {
     data['location'] = locationString;
     data['total_subscriptions'] = totalSubscriptions;
     data['total_subscribers'] = totalSubscribers;
+    data['biography'] = biography;
     return data;
   }
 }

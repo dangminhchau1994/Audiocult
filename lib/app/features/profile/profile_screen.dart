@@ -62,7 +62,7 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
                       controller: _tabController,
                       children: [
                         PostPage(profile: data),
-                        AboutPage(),
+                        AboutPage(profile: data),
                         VideosPage(),
                         MusicsPage(),
                         EventsPage(),

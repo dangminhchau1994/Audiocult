@@ -42,6 +42,7 @@ class Song {
   String? peaksJsonUrl;
   int? noPhoto;
   String? genreName;
+  String? image400;
 
   Song({
     this.userId,
@@ -123,5 +124,6 @@ class Song {
     peaksJsonUrl = iw['peaks_json_url'].get();
     noPhoto = iw['no_photo'].get();
     genreName = iw['genre_name'].get();
+    image400 = iw['image_path_400'].get();
   }
 }
