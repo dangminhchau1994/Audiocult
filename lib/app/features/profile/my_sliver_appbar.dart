@@ -88,14 +88,21 @@ class _MySliverAppBarState extends State<MySliverAppBar> {
             collapsedAlignment: Alignment.bottomLeft,
             expandedMargin: const EdgeInsets.only(bottom: 24),
             child: SizedBox(
-                width: (200 - offset * 0.5) > 90 ? 200 - offset * 0.5 : 90,
-                height: 200,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(MediaQuery.of(context).size.width),
-                  child: CommonImageNetWork(
-                    imagePath: widget.profile?.userImage ?? '',
-                  ),
-                )),
+              width: (200 - offset * 0.5) > 90 ? 200 - offset * 0.5 : 90,
+              height: (200 - offset * 0.5) > 90 ? 200 - offset * 0.5 : 90,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(1000),
+                child: CommonImageNetWork(
+                  imagePath: widget.profile?.userImage ?? '',
+                ),
+              ),
+            ),
+            // ClipRRect(
+            //     borderRadius: BorderRadius.circular(MediaQuery.of(context).size.width),
+            //     child: CircleAvatar(
+            //       radius: 40,
+            //       backgroundImage: NetworkImage(widget.profile?.userImage ?? ''),
+            //     ))),
           ),
           FlexibleTextItem(
             expandedPadding: EdgeInsets.symmetric(vertical: 169 + bottomPadding),

@@ -1,3 +1,4 @@
+import 'package:audio_cult/w_components/loading/loading_widget.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
@@ -31,10 +32,11 @@ class CommonImageNetWork extends StatelessWidget {
         ),
       ),
       placeholder: (context, url) => Center(
-        child: CircularProgressIndicator(
-          color: AppColors.primaryButtonColor,
-        ),
-      ),
+          child: Container(
+        alignment: Alignment.center,
+        constraints: const BoxConstraints(minHeight: 50),
+        child: const LoadingWidget(),
+      )),
       errorWidget: (
         BuildContext context,
         _,
