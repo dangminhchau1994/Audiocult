@@ -1,12 +1,10 @@
-import 'dart:io';
-import 'dart:math';
 import 'package:audio_cult/app/base/bloc_state.dart';
 import 'package:audio_cult/app/data_source/models/requests/create_playlist_request.dart';
 import 'package:audio_cult/app/data_source/models/responses/create_playlist/create_playlist_response.dart';
 import 'package:audio_cult/app/features/music/library/create_playlist_bloc.dart';
+import 'package:audio_cult/app/features/music/library/widgets/preview_image.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
 import 'package:audio_cult/app/utils/constants/app_dimens.dart';
-import 'package:audio_cult/app/utils/image/image_utils.dart';
 import 'package:audio_cult/di/bloc_locator.dart';
 import 'package:audio_cult/l10n/l10n.dart';
 import 'package:audio_cult/w_components/appbar/common_appbar.dart';
@@ -24,123 +22,10 @@ class CreatePlayListScreen extends StatefulWidget {
 }
 
 class _CreatePlayListScreenState extends State<CreatePlayListScreen> {
-  List<File>? _imageFileList;
-  String? _pickImageError;
-  String? errorTitle = '';
+  String errorTitle = '';
   bool runStream = false;
   final _formKey = GlobalKey<FormState>();
   final _createPlayListRequest = CreatePlayListRequest();
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
-  Widget _buildPreViewImage() {
-    if (_imageFileList != null) {
-      return _buildImagePicked();
-    } else {
-      return _buildChooseImage();
-    }
-  }
-
-  Widget _buildImagePicked() {
-    _createPlayListRequest.file = _imageFileList![0];
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      decoration: BoxDecoration(
-        color: AppColors.inputFillColor.withOpacity(0.4),
-        border: Border.all(color: AppColors.outlineBorderColor, width: 2),
-        borderRadius: BorderRadius.circular(4),
-      ),
-      child: Stack(
-        children: [
-          GestureDetector(
-            onTap: () async {
-              await ImageUtils.onPickGallery(
-                context: context,
-                onChooseImage: (image) {
-                  setState(() {
-                    _imageFileList = image == null ? null : <File>[image];
-                  });
-                },
-                onError: (error) {
-                  setState(() {
-                    _pickImageError = error.toString();
-                  });
-                },
-              );
-            },
-            child: Image.file(
-              File(_imageFileList![0].path),
-              filterQuality: FilterQuality.high,
-            ),
-          ),
-          Positioned(
-            top: 10,
-            right: 10,
-            child: GestureDetector(
-              onTap: () {
-                setState(() {
-                  _imageFileList = null;
-                });
-              },
-              child: const Icon(
-                Icons.close,
-                size: 25,
-                color: Colors.white,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildChooseImage() {
-    return GestureDetector(
-      onTap: () async {
-        await ImageUtils.onPickGallery(
-          context: context,
-          onChooseImage: (image) {
-            setState(() {
-              _imageFileList = image == null ? null : <File>[image];
-            });
-          },
-          onError: (error) {
-            setState(() {
-              _pickImageError = error.toString();
-            });
-          },
-        );
-      },
-      child: Container(
-        padding: const EdgeInsets.all(35),
-        width: MediaQuery.of(context).size.width,
-        decoration: BoxDecoration(
-          color: AppColors.secondaryButtonColor,
-          border: Border.all(color: AppColors.outlineBorderColor, width: 2),
-          borderRadius: BorderRadius.circular(4),
-        ),
-        child: Center(
-          child: Container(
-            padding: const EdgeInsets.all(15),
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: AppColors.activeLabelItem.withOpacity(0.5),
-            ),
-            child: Center(
-              child: Icon(
-                Icons.add,
-                size: 24,
-                color: AppColors.activeLabelItem,
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -165,7 +50,9 @@ class _CreatePlayListScreenState extends State<CreatePlayListScreen> {
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
-                      _buildPreViewImage(),
+                      PreViewImage(
+                        request: _createPlayListRequest,
+                      ),
                       const SizedBox(
                         height: 20,
                       ),
@@ -187,7 +74,7 @@ class _CreatePlayListScreenState extends State<CreatePlayListScreen> {
                         },
                         decoration: InputDecoration(
                           filled: true,
-                          errorText: errorTitle!.isEmpty ? null : errorTitle,
+                          errorText: errorTitle.isEmpty ? null : errorTitle,
                           focusColor: AppColors.outlineBorderColor,
                           fillColor: AppColors.inputFillColor.withOpacity(0.4),
                           focusedBorder: OutlineInputBorder(

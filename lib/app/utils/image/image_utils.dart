@@ -7,7 +7,7 @@ import '../constants/app_colors.dart';
 class ImageUtils {
   static final ImagePicker _picker = ImagePicker();
 
-  static Future<File?> _cropImage(String image) async {
+  static Future<File?> cropImage(String image) async {
     final croppedFile = await ImageCropper().cropImage(
       sourcePath: image,
       maxHeight: 1080,
@@ -41,7 +41,7 @@ class ImageUtils {
         maxWidth: 1920,
         imageQuality: 100,
       );
-      image = await _cropImage(pickedFile!.path);
+      image = await cropImage(pickedFile!.path);
       onChooseImage!(image);
     } catch (e) {
       onError!(e.toString());
