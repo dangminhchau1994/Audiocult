@@ -400,44 +400,12 @@ class AppServiceProvider {
   }
 
   Future<EventResponse> createEvent(CreateEventRequest request) async {
-    var imageFile;
-
-    if (request.image != null) {
-      imageFile = await MultipartFile.fromFile(request.image?.path ?? '');
-    }
+    final params = await request.toJson();
     final response = await _dioHelper.post(
       route: '/restful_api/event',
       options: Options(headers: {'Content-Type': 'multipart/form-data'}),
       responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
-      requestBody: FormData.fromMap({
-        'val[category]': request.categoryId,
-        'val[title]': request.title,
-        'val[location]': request.location,
-        'val[lat]': request.lat,
-        'val[lng]': request.lng,
-        'val[attachment]': request.attachment,
-        'val[tags]': request.tags,
-        'val[line_up][artist]': request.artist,
-        'val[line_up][entertainment]': request.entertainment,
-        'val[start_day]': request.startDate,
-        'val[start_month]': request.starMonth,
-        'val[start_year]': request.startYear,
-        'val[start_hour]': request.startHour,
-        'val[start_minute]': request.startMinute,
-        'val[end_day]': request.endDate,
-        'val[end_month]': request.endMonth,
-        'val[end_year]': request.endYear,
-        'val[end_hour]': request.endHour,
-        'val[end_minute]': request.endMinute,
-        'image': imageFile,
-        'val[host_name]': request.hostName,
-        'val[host_description]': request.hostDescription,
-        'val[website]': request.hostWebsite,
-        'val[facebook]': request.hostFacebook,
-        'val[twitter]': request.hostTwitter,
-        'val[privacy]': request.privacy,
-        'val[privacy_comment]': request.privacyComment,
-      }),
+      requestBody: FormData.fromMap(params),
     );
     return response.mapData(
       (json) => EventResponse.fromJson(json as Map<String, dynamic>),
