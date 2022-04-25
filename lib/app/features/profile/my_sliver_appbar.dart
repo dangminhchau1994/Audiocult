@@ -1,16 +1,20 @@
 import 'package:audio_cult/app/utils/constants/app_assets.dart';
+import 'package:audio_cult/app/utils/constants/app_dimens.dart';
 import 'package:audio_cult/l10n/l10n.dart';
 import 'package:audio_cult/w_components/buttons/common_icon_button.dart';
+import 'package:audio_cult/w_components/images/common_image_network.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sliver_header_delegate/sliver_header_delegate.dart';
 
+import '../../data_source/models/responses/profile_data.dart';
 import '../../utils/constants/app_colors.dart';
 
 class MySliverAppBar extends StatefulWidget {
   final ScrollController? controller;
   final TabController? tabController;
-  const MySliverAppBar({Key? key, this.controller, this.tabController}) : super(key: key);
+  final ProfileData? profile;
+  const MySliverAppBar({Key? key, this.controller, this.tabController, this.profile}) : super(key: key);
 
   @override
   State<MySliverAppBar> createState() => _MySliverAppBarState();
@@ -60,13 +64,11 @@ class _MySliverAppBarState extends State<MySliverAppBar> {
         collapsedElevation: 0,
         collapsedHeight: 200,
         background: Container(
-          color: AppColors.ebonyClay,
-          padding: EdgeInsets.only(bottom: 312 - (offset * 0.7) >= 102 ? 312 - (offset * 0.7) : 102),
-          child: Image.network(
-            'https://images.pexels.com/photos/396547/pexels-photo-396547.jpeg?auto=compress&cs=tinysrgb&h=350',
-            fit: BoxFit.cover,
-          ),
-        ),
+            color: AppColors.ebonyClay,
+            padding: EdgeInsets.only(bottom: 312 - (offset * 0.7) >= 102 ? 312 - (offset * 0.7) : 102),
+            child: CommonImageNetWork(
+              imagePath: widget.profile?.coverPhoto ?? '',
+            )),
         actions: [
           IconButton(
             icon: const Icon(Icons.search),
@@ -87,20 +89,27 @@ class _MySliverAppBarState extends State<MySliverAppBar> {
             expandedMargin: const EdgeInsets.only(bottom: 24),
             child: SizedBox(
               width: (200 - offset * 0.5) > 90 ? 200 - offset * 0.5 : 90,
-              height: 200,
-              child: const CircleAvatar(
-                radius: 30,
-                backgroundImage: NetworkImage('https://via.placeholder.com/150'),
-                backgroundColor: Colors.transparent,
+              height: (200 - offset * 0.5) > 90 ? 200 - offset * 0.5 : 90,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(1000),
+                child: CommonImageNetWork(
+                  imagePath: widget.profile?.userImage ?? '',
+                ),
               ),
             ),
+            // ClipRRect(
+            //     borderRadius: BorderRadius.circular(MediaQuery.of(context).size.width),
+            //     child: CircleAvatar(
+            //       radius: 40,
+            //       backgroundImage: NetworkImage(widget.profile?.userImage ?? ''),
+            //     ))),
           ),
           FlexibleTextItem(
             expandedPadding: EdgeInsets.symmetric(vertical: 169 + bottomPadding),
             collapsedPadding: const EdgeInsets.symmetric(horizontal: 108, vertical: 72),
             collapsedStyle: const TextStyle(color: Colors.red, fontSize: 16),
             expandedStyle: const TextStyle(color: Colors.red, fontSize: 22),
-            text: 'Mountains',
+            text: widget.profile?.fullName ?? '',
             expandedAlignment: Alignment.bottomCenter,
             collapsedAlignment: Alignment.bottomLeft,
           ),
@@ -110,7 +119,8 @@ class _MySliverAppBarState extends State<MySliverAppBar> {
             collapsedPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 32),
             expandedAlignment: Alignment.bottomCenter,
             collapsedAlignment: Alignment.bottomLeft,
-            child: Row(mainAxisAlignment: MainAxisAlignment.center, children: const [Text('Stockholm, Sweden')]),
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.center, children: [Text(widget.profile?.locationString ?? '')]),
           ),
           FlexibleHeaderItem(
             options: const [HeaderItemOptions.hide],
@@ -121,9 +131,12 @@ class _MySliverAppBarState extends State<MySliverAppBar> {
             expandedMargin: const EdgeInsets.only(bottom: 24),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                Text('322 subscribers'),
-                Text('322 subscribers'),
+              children: [
+                Text('${widget.profile?.totalSubscribers ?? 0} subscribers'),
+                const SizedBox(
+                  width: kHorizontalSpacing,
+                ),
+                Text('${widget.profile?.totalSubscriptions ?? 0} subscribed'),
               ],
             ),
           ),

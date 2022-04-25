@@ -24,7 +24,7 @@ class MainBloc extends BaseBloc {
       final result = await _appRepository.getUserProfile(currentUserId!);
       result.fold(
           (l) => {
-                if (currentUserId == l?.userId) {profileData = l},
+                if (currentUserId == l.userId) {profileData = l},
                 _profileSubject.add(l)
               }, (r) {
         profileData = null;
@@ -35,15 +35,15 @@ class MainBloc extends BaseBloc {
     }
   }
 
-  Future<ProfileData?> getUserProfileById(String id) async {
-    final result = await _appRepository.getUserProfile(id);
-    return result.fold((l) {
-      return l;
-    }, (r) {
-      showError(r);
-      return null;
-    });
-  }
+  // Future<ProfileData?> getUserProfileById(String id) async {
+  //   final result = await _appRepository.getUserProfile(id);
+  //   return result.fold((l) {
+  //     return l;
+  //   }, (r) {
+  //     showError(r);
+  //     return null;
+  //   });
+  // }
 
   // ignore: avoid_void_async
   void logout() async {

@@ -20,6 +20,7 @@ import 'package:audio_cult/app/data_source/models/responses/playlist/playlist_re
 import 'package:audio_cult/app/data_source/models/responses/profile_data.dart';
 import 'package:audio_cult/app/data_source/models/responses/reaction_icon/reaction_icon_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/song_detail/song_detail_response.dart';
+import 'package:audio_cult/app/data_source/models/responses/subscriptions_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/user_subscription_response.dart';
 import 'package:audio_cult/app/data_source/networks/exceptions/no_cache_exception.dart';
 import 'package:audio_cult/app/data_source/services/hive_service_provider.dart';
@@ -331,7 +332,7 @@ class AppRepository extends BaseRepository {
     return safeCall(() => placeServiceProvider.getPlaceDetailFromId(placeId));
   }
 
-  Future<Either<ProfileData?, Exception>> getUserProfile(String userId, {String data = 'info'}) async {
+  Future<Either<ProfileData, Exception>> getUserProfile(String? userId, {String data = 'info'}) async {
     final userProfile = await safeCall(() => appServiceProvider.getUserProfile(userId, data: data));
     return userProfile.fold(
       (l) {
@@ -457,5 +458,9 @@ class AppRepository extends BaseRepository {
   Future<Either<List<EventResponse>, Exception>> getMyDiaryEvents(MyDiaryEventRequest request,
       {CancelToken? cancel}) async {
     return safeCall(() => appServiceProvider.getMyDiaryEvents(request, cancel: cancel));
+  }
+
+  Future<Either<List<Subscriptions>, Exception>> getListSubscriptions(String? userId, int page, int limit) {
+    return safeCall(() => appServiceProvider.getListSubscriptions(userId, page, limit));
   }
 }

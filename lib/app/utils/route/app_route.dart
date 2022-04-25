@@ -27,6 +27,7 @@ import 'package:audio_cult/app/features/music/my_album/upload_song/upload_song_s
 import 'package:audio_cult/app/features/music/top_playlist/top_playlist_screen.dart';
 import 'package:audio_cult/app/features/my_diary_in_month/my_diary_in_month_screen.dart';
 import 'package:audio_cult/app/features/player_widgets/player_screen.dart';
+import 'package:audio_cult/app/features/profile/profile_bloc.dart';
 import 'package:audio_cult/app/features/profile/profile_screen.dart';
 import 'package:audio_cult/app/injections.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
@@ -277,8 +278,12 @@ class AppRoute {
       case routeProfile:
         return _pageRoute(
           settings,
-          ProfileScreen(
-            params: asType(settings.arguments) as Map<String, dynamic>,
+          Provider<ProfileBloc>(
+            create: (context) => ProfileBloc(locator.get()),
+            dispose: (context, bloc) => bloc.dispose(),
+            child: ProfileScreen(
+              params: asType(settings.arguments) as Map<String, dynamic>,
+            ),
           ),
         );
       default:
