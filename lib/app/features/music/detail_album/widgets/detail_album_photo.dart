@@ -12,12 +12,23 @@ class DetailAlbumPhoto extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: const EdgeInsets.only(bottom: 30),
       width: MediaQuery.of(context).size.width,
       height: 300,
-      margin: const EdgeInsets.only(bottom: 30),
-      child: CommonImageNetWork(
-        width: double.infinity,
-        imagePath: imagePath ?? '',
+      child: Stack(
+        children: [
+          CommonImageNetWork(
+            width: double.infinity,
+            height: 300,
+            imagePath: imagePath ?? '',
+          ),
+          Container(
+            height: 300,
+            decoration: const BoxDecoration(
+              color: Colors.black45,
+            ),
+          )
+        ],
       ),
     );
   }

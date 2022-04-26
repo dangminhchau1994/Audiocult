@@ -2,6 +2,7 @@ import 'package:audio_cult/app/data_source/models/requests/event_request.dart';
 import 'package:audio_cult/app/data_source/models/responses/events/event_response.dart';
 import 'package:audio_cult/app/features/events/all_events/widgets/popular_event_item.dart';
 import 'package:audio_cult/app/features/events/popular_event_bloc.dart';
+import 'package:audio_cult/app/utils/constants/app_dimens.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/di/bloc_locator.dart';
 import 'package:audio_cult/l10n/l10n.dart';
@@ -75,69 +76,79 @@ class _PopularEventsState extends State<PopularEvents> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          context.l10n.t_popular_events,
-          style: context.bodyTextStyle()?.copyWith(
-                color: Colors.white,
+    return SliverList(
+      delegate: SliverChildListDelegate([
+        Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: kHorizontalSpacing,
+            vertical: kVerticalSpacing,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                context.l10n.t_popular_events,
+                style: context.bodyTextStyle()?.copyWith(
+                      color: Colors.white,
+                    ),
               ),
-        ),
-        const SizedBox(
-          height: 20,
-        ),
-        SizedBox(
-          height: 300,
-          child: LoadingBuilder<PopularEventBloc, List<EventResponse>>(
-            noDataBuilder: (state) {
-              return EmptyPlayList(
-                title: context.l10n.t_no_data_found,
-                content: context.l10n.t_no_data_found_content,
-              );
-            },
-            builder: (data, _) {
-              //only first page
-              final isLastPage = data.length == GlobalConstants.loadMoreItem - 1;
-              if (isLastPage) {
-                _pagingController.appendLastPage(data);
-              } else {
-                _pagingController.appendPage(data, _pagingController.firstPageKey + 1);
-              }
-              return PagedListView<int, EventResponse>.separated(
-                scrollDirection: Axis.horizontal,
-                shrinkWrap: true,
-                padding: const EdgeInsets.symmetric(
-                  vertical: 16,
-                ),
-                pagingController: _pagingController,
-                separatorBuilder: (context, index) => const SizedBox(width: 1),
-                builderDelegate: PagedChildBuilderDelegate<EventResponse>(
-                  firstPageProgressIndicatorBuilder: (context) => Container(),
-                  newPageProgressIndicatorBuilder: (context) => const LoadingWidget(),
-                  animateTransitions: true,
-                  itemBuilder: (context, item, index) {
-                    return PopularEventItem(
-                      data: item,
+              const SizedBox(
+                height: 20,
+              ),
+              SizedBox(
+                height: 300,
+                child: LoadingBuilder<PopularEventBloc, List<EventResponse>>(
+                  noDataBuilder: (state) {
+                    return EmptyPlayList(
+                      title: context.l10n.t_no_data_found,
+                      content: context.l10n.t_no_data_found_content,
+                    );
+                  },
+                  builder: (data, _) {
+                    //only first page
+                    final isLastPage = data.length == GlobalConstants.loadMoreItem - 1;
+                    if (isLastPage) {
+                      _pagingController.appendLastPage(data);
+                    } else {
+                      _pagingController.appendPage(data, _pagingController.firstPageKey + 1);
+                    }
+                    return PagedListView<int, EventResponse>.separated(
+                      scrollDirection: Axis.horizontal,
+                      shrinkWrap: true,
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 16,
+                      ),
+                      pagingController: _pagingController,
+                      separatorBuilder: (context, index) => const SizedBox(width: 1),
+                      builderDelegate: PagedChildBuilderDelegate<EventResponse>(
+                        firstPageProgressIndicatorBuilder: (context) => Container(),
+                        newPageProgressIndicatorBuilder: (context) => const LoadingWidget(),
+                        animateTransitions: true,
+                        itemBuilder: (context, item, index) {
+                          return PopularEventItem(
+                            data: item,
+                          );
+                        },
+                      ),
+                    );
+                  },
+                  reloadAction: (_) {
+                    _pagingController.refresh();
+                    _popularEventBloc.requestData(
+                      params: EventRequest(
+                        query: '',
+                        sort: 'most-liked',
+                        page: 1,
+                        limit: GlobalConstants.loadMoreItem,
+                      ),
                     );
                   },
                 ),
-              );
-            },
-            reloadAction: (_) {
-              _pagingController.refresh();
-              _popularEventBloc.requestData(
-                params: EventRequest(
-                  query: '',
-                  sort: 'most-liked',
-                  page: 1,
-                  limit: GlobalConstants.loadMoreItem,
-                ),
-              );
-            },
+              ),
+            ],
           ),
-        ),
-      ],
+        )
+      ]),
     );
   }
 }

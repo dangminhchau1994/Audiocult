@@ -1,3 +1,4 @@
+import 'package:audio_cult/app/utils/constants/app_colors.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../w_components/images/common_image_network.dart';
@@ -16,10 +17,20 @@ class EventDetailPhoto extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 30),
       width: MediaQuery.of(context).size.width,
       height: 300,
-      child: CommonImageNetWork(
-        width: double.infinity,
-        height: 300,
-        imagePath: imagePath ?? '',
+      child: Stack(
+        children: [
+          CommonImageNetWork(
+            width: double.infinity,
+            height: 300,
+            imagePath: imagePath ?? '',
+          ),
+          Container(
+            height: 300,
+            decoration: const BoxDecoration(
+              color: Colors.black45,
+            ),
+          )
+        ],
       ),
     );
   }

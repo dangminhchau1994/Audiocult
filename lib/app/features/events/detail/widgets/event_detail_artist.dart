@@ -33,51 +33,49 @@ class ArtistLineUp extends StatelessWidget {
                         fontSize: 16,
                       ),
                 ),
-                SizedBox(
-                  height: 240,
-                  child: GridView.count(
-                    shrinkWrap: true,
-                    crossAxisSpacing: 14,
-                    mainAxisSpacing: 25,
-                    crossAxisCount: 2,
-                    childAspectRatio: 8 / 2,
-                    children: data!.lineup!.artist!
-                        .map(
-                          (e) => Row(
-                            children: [
-                              CachedNetworkImage(
-                                width: 50,
-                                height: 50,
-                                imageUrl: e.userImage ?? '',
-                                imageBuilder: (context, imageProvider) => Container(
-                                  decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                      image: imageProvider,
-                                      fit: BoxFit.cover,
-                                    ),
-                                    shape: BoxShape.circle,
+                GridView.count(
+                  shrinkWrap: true,
+                  crossAxisSpacing: 14,
+                  mainAxisSpacing: 25,
+                  physics: const NeverScrollableScrollPhysics(),
+                  crossAxisCount: 2,
+                  childAspectRatio: 8 / 2,
+                  children: data!.lineup!.artist!
+                      .map(
+                        (e) => Row(
+                          children: [
+                            CachedNetworkImage(
+                              width: 50,
+                              height: 50,
+                              imageUrl: e.userImage ?? '',
+                              imageBuilder: (context, imageProvider) => Container(
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                    image: imageProvider,
+                                    fit: BoxFit.cover,
                                   ),
+                                  shape: BoxShape.circle,
                                 ),
-                                placeholder: (context, url) => Center(
-                                  child: CircularProgressIndicator(
-                                    color: AppColors.primaryButtonColor,
+                              ),
+                              placeholder: (context, url) => Center(
+                                child: CircularProgressIndicator(
+                                  color: AppColors.primaryButtonColor,
+                                ),
+                              ),
+                              errorWidget: (context, url, error) => const Icon(Icons.error),
+                            ),
+                            const SizedBox(width: 20),
+                            Text(
+                              e.fullName ?? '',
+                              style: context.bodyTextPrimaryStyle()!.copyWith(
+                                    color: AppColors.unActiveLabelItem,
+                                    fontSize: 14,
                                   ),
-                                ),
-                                errorWidget: (context, url, error) => const Icon(Icons.error),
-                              ),
-                              const SizedBox(width: 20),
-                              Text(
-                                e.fullName ?? '',
-                                style: context.bodyTextPrimaryStyle()!.copyWith(
-                                      color: AppColors.unActiveLabelItem,
-                                      fontSize: 14,
-                                    ),
-                              ),
-                            ],
-                          ),
-                        )
-                        .toList(),
-                  ),
+                            ),
+                          ],
+                        ),
+                      )
+                      .toList(),
                 ),
               ],
             ),

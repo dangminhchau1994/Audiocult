@@ -12,16 +12,23 @@ class DetailPlayListPhoto extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 300,
-      width: MediaQuery.of(context).size.width,
       margin: const EdgeInsets.only(bottom: 30),
-      child: SizedBox(
-        width: MediaQuery.of(context).size.width,
-        child: CommonImageNetWork(
-          width: double.infinity,
-          height: 300,
-          imagePath: imagePath ?? '',
-        ),
+      width: MediaQuery.of(context).size.width,
+      height: 300,
+      child: Stack(
+        children: [
+          CommonImageNetWork(
+            width: double.infinity,
+            height: 300,
+            imagePath: imagePath ?? '',
+          ),
+          Container(
+            height: 300,
+            decoration: const BoxDecoration(
+              color: Colors.black45,
+            ),
+          )
+        ],
       ),
     );
   }

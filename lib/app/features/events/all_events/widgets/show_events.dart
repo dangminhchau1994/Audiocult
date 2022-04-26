@@ -1,5 +1,6 @@
 import 'package:audio_cult/app/utils/constants/app_assets.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
+import 'package:audio_cult/app/utils/constants/app_dimens.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/app/utils/file/file_utils.dart';
 import 'package:audio_cult/app/utils/route/app_route.dart';
@@ -13,49 +14,59 @@ class ShowEvents extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          context.l10n.t_show_events,
-          style: context.bodyTextStyle()?.copyWith(
-                color: AppColors.subTitleColor.withOpacity(0.7),
+    return SliverList(
+      delegate: SliverChildListDelegate([
+        Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: kHorizontalSpacing,
+            vertical: kVerticalSpacing,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                context.l10n.t_show_events,
+                style: context.bodyTextStyle()?.copyWith(
+                      color: AppColors.subTitleColor.withOpacity(0.7),
+                    ),
               ),
+              const SizedBox(
+                height: 14,
+              ),
+              Row(
+                children: [
+                  WButtonInkwell(
+                    onPressed: () {
+                      Navigator.pushNamed(context, AppRoute.routeCalendarEvent);
+                    },
+                    child: _buildButton(
+                      AppAssets.calendarIcon,
+                      context.l10n.t_in_calendar,
+                      context,
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 8,
+                  ),
+                  WButtonInkwell(
+                    onPressed: () async {
+                      await Navigator.pushNamed(
+                        context,
+                        AppRoute.routeEventMap,
+                      );
+                    },
+                    child: _buildButton(
+                      AppAssets.locationIcon,
+                      context.l10n.t_on_map,
+                      context,
+                    ),
+                  ),
+                ],
+              )
+            ],
+          ),
         ),
-        const SizedBox(
-          height: 14,
-        ),
-        Row(
-          children: [
-            WButtonInkwell(
-              onPressed: () {
-                Navigator.pushNamed(context, AppRoute.routeCalendarEvent);
-              },
-              child: _buildButton(
-                AppAssets.calendarIcon,
-                context.l10n.t_in_calendar,
-                context,
-              ),
-            ),
-            const SizedBox(
-              width: 8,
-            ),
-            WButtonInkwell(
-              onPressed: () async {
-                await Navigator.pushNamed(
-                  context,
-                  AppRoute.routeEventMap,
-                );
-              },
-              child: _buildButton(
-                AppAssets.locationIcon,
-                context.l10n.t_on_map,
-                context,
-              ),
-            ),
-          ],
-        )
-      ],
+      ]),
     );
   }
 

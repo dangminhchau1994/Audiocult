@@ -10,26 +10,31 @@ class DetailSongNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(
-        top: 30,
-        left: 23,
-        right: 23,
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          WButtonInkwell(
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(
+            top: 30,
+            left: 20,
+          ),
+          child: WButtonInkwell(
             onPressed: () {
               Navigator.pop(context);
             },
             child: const Icon(
               Icons.arrow_back_ios,
-              size: 20,
+              size: 24,
               color: Colors.white,
             ),
           ),
-          Container(
+        ),
+        Padding(
+          padding: const EdgeInsets.only(
+            top: 30,
+            right: 20,
+          ),
+          child: Container(
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
               shape: BoxShape.circle,
@@ -40,9 +45,9 @@ class DetailSongNavBar extends StatelessWidget {
               width: 30,
               height: 30,
             ),
-          )
-        ],
-      ),
+          ),
+        )
+      ],
     );
   }
 }

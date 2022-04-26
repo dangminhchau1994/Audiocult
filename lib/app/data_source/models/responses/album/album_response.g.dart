@@ -63,17 +63,17 @@ _$_Album _$$_AlbumFromJson(Map<String, dynamic> json) => _$_Album(
       googleplay: json['googleplay'] as String?,
       youtube: json['youtube'],
       soundcloud: json['soundcloud'] as String?,
-      labelUser: json['label_user'] == null
-          ? null
-          : ProfileData.fromJson(json['label_user'] as Map<String, dynamic>),
-      labelUserId: json['labelUserId'] as String?,
-      artistUser: json['artist_user'] == null
-          ? null
-          : ProfileData.fromJson(json['artist_user'] as Map<String, dynamic>),
-      artistUserId: json['artistUserId'] as String?,
-      collabUser: json['collab_user'] == null
-          ? null
-          : ProfileData.fromJson(json['collab_user'] as Map<String, dynamic>),
+      // labelUser: json['label_user'] == null 
+      //     ? null
+      //     : ProfileData.fromJson(json['label_user'] as Map<String, dynamic>),
+      // labelUserId: json['labelUserId'] as String?,
+      // artistUser: json['artist_user'] == null
+      //     ? null
+      //     : ProfileData.fromJson(json['artist_user'] as Map<String, dynamic>),
+      // artistUserId: json['artistUserId'] as String?,
+      // collabUser: json['collab_user'] == null
+      //     ? null
+      //     : ProfileData.fromJson(json['collab_user'] as Map<String, dynamic>),
       collabUserId: json['collabUserId'] as String?,
       canEdit: json['canEdit'] as bool?,
       canAddSong: json['canAddSong'] as bool?,
