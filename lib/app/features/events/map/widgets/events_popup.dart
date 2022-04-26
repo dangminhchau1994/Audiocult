@@ -76,15 +76,16 @@ class _EventPopUpState extends State<EventPopUp> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 337,
+      height: 400,
       decoration: BoxDecoration(
         color: AppColors.mainColor,
         borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(10),
-          topRight: Radius.circular(10),
+          topLeft: Radius.circular(20),
+          topRight: Radius.circular(20),
         ),
       ),
-      child: SizedBox(
+      child: Container(
+        margin: const EdgeInsets.only(top: 30),
         height: 300,
         child: LoadingBuilder<MapBloc, List<EventResponse>>(
           noDataBuilder: (state) {
@@ -109,7 +110,7 @@ class _EventPopUpState extends State<EventPopUp> {
                 horizontal: 14,
               ),
               pagingController: _pagingController,
-              separatorBuilder: (context, index) => const SizedBox(width: 20),
+              separatorBuilder: (context, index) => const SizedBox(width: 0),
               builderDelegate: PagedChildBuilderDelegate<EventResponse>(
                 firstPageProgressIndicatorBuilder: (context) => Container(),
                 newPageProgressIndicatorBuilder: (context) => const LoadingWidget(),
