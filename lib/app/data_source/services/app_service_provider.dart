@@ -123,6 +123,7 @@ class AppServiceProvider {
         'sort': request.sort,
         'page': request.page,
         'limit': request.limit,
+        'user_id':request.userId
       },
     );
     return response.mapData(

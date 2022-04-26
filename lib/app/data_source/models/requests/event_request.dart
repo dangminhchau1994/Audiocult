@@ -9,6 +9,7 @@ class EventRequest {
   final String? startTime;
   final String? endTime;
   final String? sort;
+  final String? userId;
   final int? page;
   final int? limit;
 
@@ -25,5 +26,6 @@ class EventRequest {
     this.sort,
     this.page,
     this.limit,
+    this.userId
   });
 }

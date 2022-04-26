@@ -1,5 +1,4 @@
 import 'package:audio_cult/app/constants/global_constants.dart';
-import 'package:audio_cult/app/data_source/local/pref_provider.dart';
 import 'package:audio_cult/app/data_source/models/responses/profile_data.dart';
 import 'package:audio_cult/app/data_source/models/responses/song/song_response.dart';
 import 'package:audio_cult/app/injections.dart';
@@ -8,6 +7,7 @@ import 'package:audio_cult/w_components/loading/loading_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
+import '../../../../w_components/error_empty/error_section.dart';
 import '../../music/discover/discover_bloc.dart';
 import '../../music/discover/widgets/song_item.dart';
 
@@ -50,7 +50,9 @@ class _MusicsPageState extends State<MusicsPage> {
             }
           },
           loading: () {},
-          error: (_) {});
+          error: (e) {
+            _pagingController.error = e;
+          });
     });
   }
 
@@ -66,6 +68,16 @@ class _MusicsPageState extends State<MusicsPage> {
           pagingController: _pagingController,
           builderDelegate: PagedChildBuilderDelegate<Song>(
             firstPageProgressIndicatorBuilder: (_) => const LoadingWidget(),
+            firstPageErrorIndicatorBuilder: (_) {
+              return ErrorSectionWidget(
+                errorMessage: _pagingController.error as String,
+                onRetryTap: () {
+                  _pagingController.refresh();
+                  _discoverBloc.getMixTapSongs('', 'sort', 1, GlobalConstants.loadMoreItem, '', '',
+                      userId: widget.profile.userId);
+                },
+              );
+            },
             itemBuilder: (context, item, index) {
               return SongItem(
                 song: item,

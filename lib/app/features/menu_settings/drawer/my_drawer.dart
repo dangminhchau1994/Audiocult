@@ -45,11 +45,11 @@ class _MyDrawerState extends State<MyDrawer> with DisposableStateMixin {
           Stack(
             children: [
               Image.asset(AppAssets.imgHeaderDrawer),
-              Positioned.fill(
-                child: CommonImageNetWork(
-                  imagePath: locator.get<MainBloc>().profileData?.coverPhoto,
-                ),
-              ),
+              // Positioned.fill(
+              //   child: CommonImageNetWork(
+              //     imagePath: locator.get<MainBloc>().profileData?.coverPhoto,
+              //   ),
+              // ),
               Positioned(
                 left: 16,
                 right: 0,
