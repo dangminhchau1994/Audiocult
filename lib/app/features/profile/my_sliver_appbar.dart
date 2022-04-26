@@ -102,6 +102,7 @@ class _MySliverAppBarState extends State<MySliverAppBar> {
                 borderRadius: BorderRadius.circular(MediaQuery.of(context).size.width),
                 child: CircleAvatar(
                   radius: 40,
+                  backgroundColor: AppColors.mainColor,
                   backgroundImage: NetworkImage(widget.profile?.userImage ?? ''),
                 ))),
           ),

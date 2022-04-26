@@ -1,5 +1,6 @@
 import 'package:audio_cult/app/constants/global_constants.dart';
 import 'package:audio_cult/app/data_source/local/pref_provider.dart';
+import 'package:audio_cult/app/data_source/models/responses/profile_data.dart';
 import 'package:audio_cult/app/data_source/models/responses/song/song_response.dart';
 import 'package:audio_cult/app/injections.dart';
 import 'package:audio_cult/app/utils/constants/app_dimens.dart';
@@ -12,7 +13,8 @@ import '../../music/discover/widgets/song_item.dart';
 
 class MusicsPage extends StatefulWidget {
   final ScrollController scrollController;
-  const MusicsPage({Key? key, required this.scrollController}) : super(key: key);
+  final ProfileData profile;
+  const MusicsPage({Key? key, required this.scrollController, required this.profile}) : super(key: key);
 
   @override
   State<MusicsPage> createState() => _MusicsPageState();
@@ -29,12 +31,11 @@ class _MusicsPageState extends State<MusicsPage> {
       widget.scrollController
           .animateTo(_scrollController.offset, duration: const Duration(milliseconds: 50), curve: Curves.easeOut);
     });
-    _discoverBloc.getMixTapSongs('', 'sort', 1, GlobalConstants.loadMoreItem, '', '',
-        userId: locator.get<PrefProvider>().currentUserId);
+    _discoverBloc.getMixTapSongs('', 'sort', 1, GlobalConstants.loadMoreItem, '', '', userId: widget.profile.userId);
     _pagingController.addPageRequestListener((pageKey) {
       if (pageKey > 1) {
         _discoverBloc.getMixTapSongs('', 'sort', 1, GlobalConstants.loadMoreItem, '', '',
-            userId: locator.get<PrefProvider>().currentUserId);
+            userId: widget.profile.userId);
       }
     });
     _discoverBloc.getMixTapSongsStream.listen((data) {
