@@ -14,13 +14,16 @@ import 'package:flutter_svg/svg.dart';
 
 import '../../../di/bloc_locator.dart';
 import '../../../w_components/appbar/common_appbar.dart';
+import '../../../w_components/dialogs/app_dialog.dart';
 import '../../../w_components/images/no_image_available.dart';
 import '../../../w_components/menus/common_fab_menu.dart';
+import '../../base/pair.dart';
 import '../../data_source/models/responses/profile_data.dart';
 import '../../utils/constants/app_assets.dart';
 import '../../utils/constants/app_colors.dart';
 import '../events/event_screen.dart';
 import '../menu_settings/drawer/my_drawer.dart';
+import '../music/my_album/upload_song/upload_song_screen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
@@ -183,7 +186,39 @@ class _MainScreenState extends State<MainScreen> {
         backgroundColor: AppColors.mainColor,
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         floatingActionButton: CommonCircularMenu(
-          onMusicTap: () {},
+          onMusicTap: () {
+            AppDialog.showSelectionBottomSheet(
+              context,
+              listSelection: [
+                Pair(
+                  Pair(
+                    0,
+                    Container(),
+                  ),
+                  context.l10n.t_upload_song,
+                ),
+                Pair(
+                  Pair(
+                    1,
+                    Container(),
+                  ),
+                  context.l10n.t_upload_album,
+                ),
+              ],
+              onTap: (index) {
+                Navigator.pop(context);
+                Navigator.pushNamed(
+                  context,
+                  AppRoute.routeUploadSong,
+                  arguments: UploadSongScreen.createArguments(
+                      // ignore: avoid_bool_literals_in_conditional_expressions
+                      isUploadSong: index == 0 ? true : false,
+                      song: null,
+                      album: null),
+                );
+              },
+            );
+          },
           onEventTap: () {
             Navigator.pushNamed(context, AppRoute.routeCreateEvent);
           },
