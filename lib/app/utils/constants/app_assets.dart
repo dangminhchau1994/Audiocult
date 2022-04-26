@@ -143,4 +143,5 @@ class AppAssets {
   static const icDelete = 'assets/icons/ic_delete.png';
   static const imagePlaceholder = 'assets/imgs/img_placeholder.png';
   static const iconInfo = 'assets/icons/ic_info.svg';
+  static const iconCamera = 'assets/icons/ic_camera.png';
 }

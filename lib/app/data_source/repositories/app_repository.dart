@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:audio_cult/app/data_source/local/pref_provider.dart';
 import 'package:audio_cult/app/data_source/models/cache_filter.dart';
 import 'package:audio_cult/app/data_source/models/requests/create_event_request.dart';
@@ -28,6 +26,7 @@ import 'package:audio_cult/app/features/auth/widgets/register_page.dart';
 import 'package:audio_cult/w_components/dropdown/common_dropdown.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../models/requests/event_request.dart';
 import '../models/requests/login_request.dart';
@@ -462,5 +461,9 @@ class AppRepository extends BaseRepository {
 
   Future<Either<List<Subscriptions>, Exception>> getListSubscriptions(String? userId, int page, int limit) {
     return safeCall(() => appServiceProvider.getListSubscriptions(userId, page, limit));
+  }
+
+  Future<Either<String, Exception>> uploadAvatar(XFile file) {
+    return safeCall(() => appServiceProvider.uploadAvatar(file));
   }
 }

@@ -185,5 +185,6 @@
     "t_message":"Message",
     "t_post":"Post",
     "t_about":"About",
-    "t_videos":"Videos"
+    "t_videos":"Videos",
+    "t_edit_page":"Edit Pages"
 }
