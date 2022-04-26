@@ -11,7 +11,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_reaction_button/flutter_reaction_button.dart';
 import 'package:flutter_svg/svg.dart';
 
+import '../../app/features/profile/profile_screen.dart';
 import '../../app/utils/constants/app_colors.dart';
+import '../../app/utils/route/app_route.dart';
 
 class CommentItem extends StatefulWidget {
   const CommentItem({
@@ -44,25 +46,31 @@ class _CommentItemState extends State<CommentItem> {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          CachedNetworkImage(
-            width: 50,
-            height: 50,
-            imageUrl: widget.data?.userImage ?? '',
-            imageBuilder: (context, imageProvider) => Container(
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: imageProvider,
-                  fit: BoxFit.cover,
+          GestureDetector(
+            onTap: () {
+              Navigator.pushNamed(context, AppRoute.routeProfile,
+                  arguments: ProfileScreen.createArguments(id: widget.data!.userId!));
+            },
+            child: CachedNetworkImage(
+              width: 50,
+              height: 50,
+              imageUrl: widget.data?.userImage ?? '',
+              imageBuilder: (context, imageProvider) => Container(
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: imageProvider,
+                    fit: BoxFit.cover,
+                  ),
+                  shape: BoxShape.circle,
                 ),
-                shape: BoxShape.circle,
               ),
-            ),
-            placeholder: (context, url) => Center(
-              child: CircularProgressIndicator(
-                color: AppColors.primaryButtonColor,
+              placeholder: (context, url) => Center(
+                child: CircularProgressIndicator(
+                  color: AppColors.primaryButtonColor,
+                ),
               ),
+              errorWidget: (context, url, error) => const Icon(Icons.error),
             ),
-            errorWidget: (context, url, error) => const Icon(Icons.error),
           ),
           const SizedBox(
             width: 10,
@@ -73,12 +81,18 @@ class _CommentItemState extends State<CommentItem> {
               children: [
                 Row(
                   children: [
-                    Text(
-                      widget.data?.userName ?? '',
-                      style: context.bodyTextPrimaryStyle()!.copyWith(
-                            color: AppColors.lightBlue,
-                            fontWeight: FontWeight.bold,
-                          ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, AppRoute.routeProfile,
+                            arguments: ProfileScreen.createArguments(id: widget.data!.userId!));
+                      },
+                      child: Text(
+                        widget.data?.userName ?? '',
+                        style: context.bodyTextPrimaryStyle()!.copyWith(
+                              color: AppColors.lightBlue,
+                              fontWeight: FontWeight.bold,
+                            ),
+                      ),
                     ),
                     const SizedBox(
                       width: 10,

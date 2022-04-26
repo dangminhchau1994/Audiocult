@@ -22,6 +22,8 @@ import '../../../../base/pair.dart';
 import '../../../../data_source/models/requests/upload_request.dart';
 import '../../../../utils/constants/app_colors.dart';
 import '../../../../utils/constants/app_dimens.dart';
+import '../../../../utils/route/app_route.dart';
+import '../../../profile/profile_screen.dart';
 
 class SongStep2 extends StatefulWidget {
   final Function()? onNext;
@@ -233,6 +235,10 @@ class SongStep2State extends State<SongStep2> {
                             _uploadRequest.artistUserId = value.userId;
                           });
                         },
+                        onPressedChip: (ProfileData value) {
+                          Navigator.pushNamed(context, AppRoute.routeProfile,
+                              arguments: ProfileScreen.createArguments(id: value.userId!));
+                        },
                         // onDeleteTag: (value) {},
                       );
                     }
@@ -243,6 +249,10 @@ class SongStep2State extends State<SongStep2> {
                   height: 12,
                 ),
                 CommonChipInput(
+                  onPressedChip: (ProfileData value) {
+                    Navigator.pushNamed(context, AppRoute.routeProfile,
+                        arguments: ProfileScreen.createArguments(id: value.userId!));
+                  },
                   hintText: context.l10n.t_collab_remix,
                   initTags: collabUser == null ? [] : [collabUser!],
                   onChooseTag: (value) {
@@ -265,14 +275,24 @@ class SongStep2State extends State<SongStep2> {
                           return Row(
                             children: [
                               Text('${context.l10n.t_label}: '),
-                              Text(
-                                data.fullName ?? '',
-                                style: context.body1TextStyle()?.copyWith(color: AppColors.activeLabelItem),
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.pushNamed(context, AppRoute.routeProfile,
+                                      arguments: ProfileScreen.createArguments(id: data.userId!));
+                                },
+                                child: Text(
+                                  data.fullName ?? '',
+                                  style: context.body1TextStyle()?.copyWith(color: AppColors.activeLabelItem),
+                                ),
                               )
                             ],
                           );
                         }
                         return CommonChipInput(
+                          onPressedChip: (ProfileData value) {
+                            Navigator.pushNamed(context, AppRoute.routeProfile,
+                                arguments: ProfileScreen.createArguments(id: value.userId!));
+                          },
                           groupUserId: '9',
                           initTags: labelUser == null ? [] : [labelUser!],
                           hintText: context.l10n.t_label,

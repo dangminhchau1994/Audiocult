@@ -36,7 +36,6 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
     super.initState();
     _profileBloc = Provider.of<ProfileBloc>(context, listen: false);
     _tabController = TabController(
-      initialIndex: 3,
       length: 5,
       vsync: this,
     );
