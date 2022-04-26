@@ -112,6 +112,7 @@ class _MainScreenState extends State<MainScreen> {
     return BlocHandle(
       bloc: getIt.get<MainBloc>(),
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         key: _drawerKey,
         drawerScrimColor: Colors.transparent,
         appBar: CommonAppBar(
