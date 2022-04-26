@@ -41,112 +41,115 @@ class SongItem extends StatelessWidget {
           context,
           AppRoute.routePlayerScreen,
           arguments: PlayerScreen.createArguments(
-            listSong: songs!,
+            listSong: songs ?? [],
             index: index!,
           ),
         );
       },
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Expanded(
-            child: Row(
-              children: [
-                CommonImageNetWork(
-                  width: imageSize,
-                  height: imageSize,
-                  imagePath: song?.imagePath ?? '',
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      width: 200,
-                      child: Text(
-                        song?.title ?? '',
-                        overflow: TextOverflow.ellipsis,
-                        style: context.bodyTextPrimaryStyle()!.copyWith(
-                              fontSize: 16,
-                            ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
+              child: Row(
+                children: [
+                  CommonImageNetWork(
+                    width: imageSize,
+                    height: imageSize,
+                    imagePath: song?.imagePath ?? '',
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        width: 200,
+                        child: Text(
+                          song?.title ?? '',
+                          overflow: TextOverflow.ellipsis,
+                          style: context.bodyTextPrimaryStyle()!.copyWith(
+                                fontSize: 16,
+                              ),
+                        ),
                       ),
-                    ),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          song?.artistUser?.userName ?? 'N/A',
-                          style: context.bodyTextPrimaryStyle()!.copyWith(
-                                color: AppColors.subTitleColor,
-                                fontSize: 16,
-                              ),
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        const Icon(
-                          Icons.circle,
-                          color: Colors.grey,
-                          size: 5,
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        Text(
-                          fromDetail!
-                              ? DateTimeUtils.formatyMMMMd(int.parse(song?.timeStamp ?? ''))
-                              : DateTimeUtils.formatCommonDate('hh:mm', int.parse(song?.timeStamp ?? '')),
-                          style: context.bodyTextPrimaryStyle()!.copyWith(
-                                color: AppColors.subTitleColor,
-                                fontSize: 16,
-                              ),
-                        ),
-                      ],
-                    )
-                  ],
-                )
-              ],
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      Row(
+                        children: [
+                          Text(
+                            song?.artistUser?.userName ?? 'N/A',
+                            style: context.bodyTextPrimaryStyle()!.copyWith(
+                                  color: AppColors.subTitleColor,
+                                  fontSize: 16,
+                                ),
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          const Icon(
+                            Icons.circle,
+                            color: Colors.grey,
+                            size: 5,
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          Text(
+                            fromDetail!
+                                ? DateTimeUtils.formatyMMMMd(int.parse(song?.timeStamp ?? ''))
+                                : DateTimeUtils.formatCommonDate('hh:mm', int.parse(song?.timeStamp ?? '')),
+                            style: context.bodyTextPrimaryStyle()!.copyWith(
+                                  color: AppColors.subTitleColor,
+                                  fontSize: 16,
+                                ),
+                          ),
+                        ],
+                      )
+                    ],
+                  )
+                ],
+              ),
             ),
-          ),
-          if (hasMenu!)
-            CommonPopupMenu(
-              items: fromDetail!
-                  ? GlobalConstants.menuItemsWithOutDetail(context)
-                  : GlobalConstants.menuItemsWithDetail(context),
-              onSelected: (selected) {
-                switch (selected) {
-                  case 0:
-                    showMaterialModalBottomSheet(
-                      context: context,
-                      backgroundColor: Colors.transparent,
-                      builder: (context) {
-                        return PlayListDialog(
-                          songId: song?.songId,
-                        );
-                      },
-                    );
-                    break;
-                  case 1:
-                    break;
-                  case 2:
-                    Navigator.pushNamed(
-                      context,
-                      AppRoute.routeDetailSong,
-                      arguments: {'song_id': song!.songId},
-                    );
-                    break;
-                  default:
-                }
-              },
-            )
-          else
-            const SizedBox(),
-          if (customizeMenu != null) customizeMenu! else const SizedBox.shrink()
-        ],
+            if (hasMenu!)
+              CommonPopupMenu(
+                items: fromDetail!
+                    ? GlobalConstants.menuItemsWithOutDetail(context)
+                    : GlobalConstants.menuItemsWithDetail(context),
+                onSelected: (selected) {
+                  switch (selected) {
+                    case 0:
+                      showMaterialModalBottomSheet(
+                        context: context,
+                        backgroundColor: Colors.transparent,
+                        builder: (context) {
+                          return PlayListDialog(
+                            songId: song?.songId,
+                          );
+                        },
+                      );
+                      break;
+                    case 1:
+                      break;
+                    case 2:
+                      Navigator.pushNamed(
+                        context,
+                        AppRoute.routeDetailSong,
+                        arguments: {'song_id': song!.songId},
+                      );
+                      break;
+                    default:
+                  }
+                },
+              )
+            else
+              const SizedBox(),
+            if (customizeMenu != null) customizeMenu! else const SizedBox.shrink()
+          ],
+        ),
       ),
     );
   }

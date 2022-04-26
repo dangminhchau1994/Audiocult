@@ -6,7 +6,6 @@ import 'package:audio_cult/app/features/profile/pages/musics_page.dart';
 import 'package:audio_cult/app/features/profile/pages/post_page.dart';
 import 'package:audio_cult/app/features/profile/pages/videos_page.dart';
 import 'package:audio_cult/app/features/profile/profile_bloc.dart';
-import 'package:audio_cult/app/injections.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
 import 'package:audio_cult/w_components/loading/loading_builder.dart';
 import 'package:flutter/material.dart';
@@ -30,11 +29,13 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
   final ScrollController _scrollController = ScrollController();
   TabController? _tabController;
   ProfileBloc? _profileBloc;
+
   @override
   void initState() {
     super.initState();
     _profileBloc = Provider.of<ProfileBloc>(context, listen: false);
     _tabController = TabController(
+      initialIndex: 3,
       length: 5,
       vsync: this,
     );
@@ -53,6 +54,7 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
                 _profileBloc?.requestData(params: ProfileRequest(userId: widget.params['userId'] as String));
               },
               child: CustomScrollView(
+                shrinkWrap: true,
                 controller: _scrollController,
                 physics: const ClampingScrollPhysics(),
                 slivers: [
@@ -61,10 +63,10 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
                     child: TabBarView(
                       controller: _tabController,
                       children: [
-                        PostPage(profile: data),
+                        PostPage(profile: data, scrollController: _scrollController),
                         AboutPage(profile: data),
                         VideosPage(),
-                        MusicsPage(),
+                        MusicsPage(scrollController: _scrollController),
                         EventsPage(),
                       ],
                     ),
