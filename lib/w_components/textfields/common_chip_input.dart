@@ -8,18 +8,19 @@ import 'package:flutter_chips_input/flutter_chips_input.dart';
 import '../../app/utils/constants/app_colors.dart';
 
 class CommonChipInput extends StatefulWidget {
-  const CommonChipInput({
-    Key? key,
-    this.onChooseTag,
-    this.onDeleteTag,
-    this.controller,
-    this.initTags,
-    this.hintText,
-    this.groupUserId,
-    this.onChooseMultipleTag,
-    this.maxChip,
-    this.fromEvent = false,
-  }) : super(key: key);
+  const CommonChipInput(
+      {Key? key,
+      this.onChooseTag,
+      this.onDeleteTag,
+      this.controller,
+      this.initTags,
+      this.hintText,
+      this.groupUserId,
+      this.onChooseMultipleTag,
+      this.maxChip,
+      this.fromEvent = false,
+      required this.onPressedChip})
+      : super(key: key);
 
   final Function(ProfileData tag)? onChooseTag;
   final Function(List<ProfileData> tags)? onChooseMultipleTag;
@@ -30,6 +31,7 @@ class CommonChipInput extends StatefulWidget {
   final String? groupUserId;
   final int? maxChip;
   final bool? fromEvent;
+  final Function(ProfileData data) onPressedChip;
 
   @override
   State<CommonChipInput> createState() => _CommonChipInputState();
@@ -72,6 +74,9 @@ class _CommonChipInputState extends State<CommonChipInput> {
       maxChips: widget.maxChip ?? 1,
       chipBuilder: (BuildContext context, ChipsInputState<ProfileData> state, data) {
         return InputChip(
+          onPressed: () {
+            widget.onPressedChip(data);
+          },
           key: ObjectKey(data),
           label: Text(data.fullName ?? ''),
           avatar: CircleAvatar(

@@ -10,7 +10,10 @@ import 'package:flutter/material.dart';
 
 import '../../../../w_components/buttons/common_button.dart';
 import '../../../data_source/models/requests/create_event_request.dart';
+import '../../../data_source/models/responses/profile_data.dart';
 import '../../../utils/constants/app_colors.dart';
+import '../../../utils/route/app_route.dart';
+import '../../profile/profile_screen.dart';
 
 class SecondStepScreen extends StatefulWidget {
   const SecondStepScreen({
@@ -84,6 +87,10 @@ class _SecondStepScreenState extends State<SecondStepScreen> {
                   widget.createEventRequest?.artist = jsonEncode(value);
                 },
                 onDeleteTag: (value) {},
+                onPressedChip: (ProfileData value) {
+                  Navigator.pushNamed(context, AppRoute.routeProfile,
+                      arguments: ProfileScreen.createArguments(id: value.userId!));
+                },
               ),
               const SizedBox(height: 20),
               Text(
@@ -97,6 +104,10 @@ class _SecondStepScreenState extends State<SecondStepScreen> {
                 fromEvent: true,
                 onChooseMultipleTag: (value) {},
                 onDeleteTag: (value) {},
+                onPressedChip: (ProfileData value) {
+                  Navigator.pushNamed(context, AppRoute.routeProfile,
+                      arguments: ProfileScreen.createArguments(id: value.userId!));
+                },
               ),
               Padding(
                 padding: const EdgeInsets.only(bottom: 10, top: 40),

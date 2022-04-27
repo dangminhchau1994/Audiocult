@@ -20,17 +20,30 @@ import '../../../utils/route/app_route.dart';
 import '../profile_screen.dart';
 
 class PostPage extends StatefulWidget {
+  final ScrollController? scrollController;
   final ProfileData? profile;
-  const PostPage({Key? key, this.profile}) : super(key: key);
+  const PostPage({Key? key, this.profile, this.scrollController}) : super(key: key);
 
   @override
   State<PostPage> createState() => _PostPageState();
 }
 
 class _PostPageState extends State<PostPage> {
+  double height = 8;
   @override
   void initState() {
     super.initState();
+    widget.scrollController?.addListener(() {
+      if (widget.scrollController!.offset > 350) {
+        setState(() {
+          height = (widget.scrollController!.offset - 350) + 64;
+        });
+      } else {
+        setState(() {
+          height = 8;
+        });
+      }
+    });
     Provider.of<ProfileBloc>(context, listen: false)
         .getListSubscriptions(widget.profile?.userId, 1, GlobalConstants.loadMoreItem);
   }
@@ -39,6 +52,7 @@ class _PostPageState extends State<PostPage> {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        SizedBox(height: height),
         Container(
           margin: const EdgeInsets.all(kVerticalSpacing),
           padding: const EdgeInsets.all(kVerticalSpacing),
@@ -78,6 +92,7 @@ class _PostPageState extends State<PostPage> {
               ),
               SizedBox(
                 width: double.infinity,
+                height: 96,
                 child: StreamBuilder<BlocState<List<Subscriptions>>>(
                     initialData: const BlocState.loading(),
                     stream: Provider.of<ProfileBloc>(context, listen: false).getListSubscriptionsStream,
@@ -86,7 +101,6 @@ class _PostPageState extends State<PostPage> {
                       return state.when(
                         success: (data) {
                           final subscriptions = data as List<Subscriptions>;
-
                           return ListView.builder(
                               itemCount: subscriptions.length,
                               scrollDirection: Axis.horizontal,

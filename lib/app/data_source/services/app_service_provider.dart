@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:audio_cult/app/data_source/local/pref_provider.dart';
 import 'package:audio_cult/app/data_source/models/requests/create_event_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/create_playlist_request.dart';
@@ -23,6 +21,8 @@ import 'package:audio_cult/app/data_source/models/responses/user_subscription_re
 import 'package:audio_cult/app/injections.dart';
 import 'package:audio_cult/app/utils/constants/app_constants.dart';
 import 'package:dio/dio.dart';
+import 'package:http_parser/http_parser.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../../utils/extensions/app_extensions.dart';
 import '../models/base_response.dart';
@@ -123,6 +123,7 @@ class AppServiceProvider {
         'sort': request.sort,
         'page': request.page,
         'limit': request.limit,
+        'user_id': request.userId
       },
     );
     return response.mapData(
@@ -780,5 +781,20 @@ class AppServiceProvider {
             .toList();
       }
     });
+  }
+
+  Future<String> uploadAvatar(XFile file) async {
+    final response = await _dioHelper.post(
+      route: '/restful_api/user/profile-image',
+      requestBody: FormData.fromMap({
+        'image': await MultipartFile.fromFile(
+          file.path,
+          filename: file.name,
+          contentType: MediaType('image', 'jpeg'),
+        )
+      }),
+      responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
+    );
+    return response.data['user_image'] as String;
   }
 }

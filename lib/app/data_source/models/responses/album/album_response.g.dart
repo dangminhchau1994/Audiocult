@@ -63,11 +63,11 @@ _$_Album _$$_AlbumFromJson(Map<String, dynamic> json) => _$_Album(
           ? null
           : ProfileData.fromJson(json['label_user'] as Map<String, dynamic>),
       labelUserId: json['labelUserId'] as String?,
-      artistUser: json['artist_user'] == null || json['artist_user'] is String
+      artistUser: json['artist_user'] == null|| json['artist_user'] is String
           ? null
           : ProfileData.fromJson(json['artist_user'] as Map<String, dynamic>),
       artistUserId: json['artistUserId'] as String?,
-      collabUser: json['collab_user'] == null || json['collab_user'] is String
+      collabUser: json['collab_user'] == null|| json['collab_user'] is String
           ? null
           : ProfileData.fromJson(json['collab_user'] as Map<String, dynamic>),
       collabUserId: json['collabUserId'] as String?,

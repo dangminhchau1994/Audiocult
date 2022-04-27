@@ -4,7 +4,6 @@ import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/l10n/l10n.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-
 import '../../../../utils/constants/app_colors.dart';
 
 class ArtistLineUp extends StatelessWidget {

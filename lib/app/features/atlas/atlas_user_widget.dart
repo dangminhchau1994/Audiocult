@@ -1,4 +1,5 @@
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
+import 'package:audio_cult/w_components/buttons/w_button_inkwell.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -7,6 +8,8 @@ import '../../data_source/models/responses/atlas_user.dart';
 import '../../utils/constants/app_assets.dart';
 import '../../utils/constants/app_colors.dart';
 import '../../utils/constants/app_font_sizes.dart';
+import '../../utils/route/app_route.dart';
+import '../profile/profile_screen.dart';
 
 class AtlasUserWidget extends StatelessWidget {
   final AtlasUser atlasUser;
@@ -26,23 +29,29 @@ class AtlasUserWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: AppColors.mainColor,
-      child: Column(
-        children: [
-          _thumbnailWidget(context),
-          Padding(
-            padding: const EdgeInsets.only(top: 12, bottom: 16),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                _infoWidget(context),
-                _subscribeButton(context),
-              ],
-            ),
-          )
-        ],
+    return WButtonInkwell(
+      onPressed: () {
+        Navigator.pushNamed(context, AppRoute.routeProfile,
+            arguments: ProfileScreen.createArguments(id: atlasUser.userId!));
+      },
+      child: Container(
+        color: AppColors.mainColor,
+        child: Column(
+          children: [
+            _thumbnailWidget(context),
+            Padding(
+              padding: const EdgeInsets.only(top: 12, bottom: 16),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  _infoWidget(context),
+                  _subscribeButton(context),
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

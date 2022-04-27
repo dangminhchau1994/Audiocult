@@ -1,5 +1,6 @@
 import 'package:audio_cult/app/base/base_bloc.dart';
 import 'package:dartz/dartz.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../../base/bloc_state.dart';
@@ -11,7 +12,9 @@ import '../../data_source/repositories/app_repository.dart';
 class ProfileBloc extends BaseBloc<ProfileRequest, ProfileData> {
   final AppRepository _appRepository;
   final _getListSubscriptionsSubject = PublishSubject<BlocState<List<Subscriptions>>>();
+  final _uploadAvatarSubject = PublishSubject<String>();
   Stream<BlocState<List<Subscriptions>>> get getListSubscriptionsStream => _getListSubscriptionsSubject.stream;
+  Stream<String> get uploadAvatarStream => _uploadAvatarSubject.stream;
 
   ProfileBloc(this._appRepository);
 
@@ -30,5 +33,12 @@ class ProfileBloc extends BaseBloc<ProfileRequest, ProfileData> {
     }, (r) {
       _getListSubscriptionsSubject.sink.add(BlocState.error(r.toString()));
     });
+  }
+
+  void uploadAvatar(XFile value) async {
+    showOverLayLoading();
+    final results = await _appRepository.uploadAvatar(value);
+    hideOverlayLoading();
+    results.fold(_uploadAvatarSubject.add, showError);
   }
 }
