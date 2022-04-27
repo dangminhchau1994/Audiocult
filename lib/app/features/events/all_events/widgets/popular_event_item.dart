@@ -49,7 +49,7 @@ class PopularEventItem extends StatelessWidget {
             data?.title ?? '',
             style: context.bodyTextStyle()?.copyWith(
                   color: Colors.white,
-                  fontSize: 14,
+                  fontSize: 16,
                 ),
           ),
           const SizedBox(
@@ -69,7 +69,7 @@ class PopularEventItem extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
               style: context.bodyTextStyle()?.copyWith(
                     color: AppColors.subTitleColor,
-                    fontSize: 12,
+                    fontSize: 16,
                   ),
             ),
           ),

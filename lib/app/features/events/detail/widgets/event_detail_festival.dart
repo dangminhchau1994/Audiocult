@@ -16,20 +16,22 @@ class EventDetailFestiVal extends StatelessWidget {
     return Positioned(
       top: 276,
       right: 25,
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
-          color: AppColors.secondaryButtonColor,
-        ),
-        padding: const EdgeInsets.all(14),
-        child: Text(
-          category ?? '',
-          style: context.bodyTextPrimaryStyle()!.copyWith(
-                color: AppColors.activeLabelItem,
-                fontSize: 16,
+      child: category != null
+          ? Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                color: AppColors.secondaryButtonColor,
               ),
-        ),
-      ),
+              padding: const EdgeInsets.all(14),
+              child: Text(
+                category ?? '',
+                style: context.bodyTextPrimaryStyle()!.copyWith(
+                      color: AppColors.activeLabelItem,
+                      fontSize: 16,
+                    ),
+              ),
+            )
+          : const SizedBox(),
     );
   }
 }

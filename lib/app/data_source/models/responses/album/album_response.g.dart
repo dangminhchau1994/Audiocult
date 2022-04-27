@@ -6,18 +6,14 @@ part of 'album_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_AlbumResponse _$$_AlbumResponseFromJson(Map<String, dynamic> json) =>
-    _$_AlbumResponse(
+_$_AlbumResponse _$$_AlbumResponseFromJson(Map<String, dynamic> json) => _$_AlbumResponse(
       status: json['status'] as String?,
-      data: (json['data'] as List<dynamic>?)
-          ?.map((e) => Album.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      data: (json['data'] as List<dynamic>?)?.map((e) => Album.fromJson(e as Map<String, dynamic>)).toList(),
       message: json['message'] as String?,
       error: json['error'],
     );
 
-Map<String, dynamic> _$$_AlbumResponseToJson(_$_AlbumResponse instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$$_AlbumResponseToJson(_$_AlbumResponse instance) => <String, dynamic>{
       'status': instance.status,
       'data': instance.data,
       'message': instance.message,

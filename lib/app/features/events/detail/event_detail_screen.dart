@@ -81,7 +81,7 @@ class _EventDetailState extends State<EventDetail> {
                           const EventDetailNavBar(),
                           EventDetailTitle(title: data.title ?? ''),
                           EventDetailFestiVal(
-                            category: data.categories![0][0],
+                            category: data.categories?[0][0],
                           ),
                         ],
                       ),

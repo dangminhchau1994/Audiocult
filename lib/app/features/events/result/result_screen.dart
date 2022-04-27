@@ -118,7 +118,6 @@ class _ResultScreenState extends State<ResultScreen> {
             return PagedListView<int, EventResponse>.separated(
               shrinkWrap: true,
               padding: const EdgeInsets.symmetric(
-                horizontal: 16,
                 vertical: 16,
               ),
               pagingController: _pagingController,
