@@ -126,7 +126,7 @@ class _TopPlaylistItemState extends State<TopPlaylistItem> {
 
   Widget _buildPages() {
     return SizedBox(
-      height: 196,
+      height: 250,
       child: PageView.builder(
         onPageChanged: (index) {
           _playlistBloc.getSongByPlaylistId(int.parse(widget.playlist!.playlistId!), index + 1, 3);

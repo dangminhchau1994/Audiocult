@@ -71,8 +71,8 @@ class _EventDetailMapState extends State<EventDetailMap> {
               },
               initialCameraPosition: CameraPosition(
                 target: LatLng(
-                  double.parse(widget.data?.lat ?? ''),
-                  double.parse(widget.data?.lng ?? ''),
+                  double.parse(widget.data?.lat ?? '0.0'),
+                  double.parse(widget.data?.lng ?? '0.0'),
                 ),
                 zoom: 10,
               ),
@@ -80,8 +80,8 @@ class _EventDetailMapState extends State<EventDetailMap> {
                 Marker(
                   markerId: const MarkerId(''),
                   position: LatLng(
-                    double.parse(widget.data?.lat ?? ''),
-                    double.parse(widget.data?.lng ?? ''),
+                    double.parse(widget.data?.lat ?? '0.0'),
+                    double.parse(widget.data?.lng ?? '0.0'),
                   ),
                   icon: BitmapDescriptor.fromBytes(widget.iconMarker!),
                 ),

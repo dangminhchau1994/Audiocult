@@ -93,44 +93,41 @@ class _LibraryScreenState extends State<LibraryScreen> with AutomaticKeepAliveCl
           horizontal: kHorizontalSpacing - 10,
           vertical: kVerticalSpacing - 10,
         ),
-        child: Stack(
-          fit: StackFit.expand,
+        child: Column(
           children: [
-            RefreshIndicator(
-              color: AppColors.primaryButtonColor,
-              backgroundColor: AppColors.secondaryButtonColor,
-              onRefresh: () async {
-                _pagingController.refresh();
-                _libraryBloc.requestData(
-                  params: AlbumPlaylistRequest(
-                    query: '',
-                    page: 1,
-                    limit: GlobalConstants.loadMoreItem,
-                    sort: 'latest',
-                    getAll: 0,
-                  ),
-                );
-              },
-              child: LoadingBuilder<LibraryBloc, List<PlaylistResponse>>(
-                builder: (data, _) {
-                  if (data.isEmpty) {
-                    return EmptyPlayList(
-                      title: context.l10n.t_empty_playlist,
-                      content: context.l10n.t_create_first_playlist,
-                    );
-                  }
-                  //only first page
-                  final isLastPage = data.length == GlobalConstants.loadMoreItem - 1;
-                  if (isLastPage) {
-                    _pagingController.appendLastPage(data);
-                  } else {
-                    _pagingController.appendPage(data, _pagingController.firstPageKey + 1);
-                  }
-                  return Container(
-                    height: 500,
-                    padding: const EdgeInsets.only(bottom: 20),
-                    child: PagedListView<int, PlaylistResponse>.separated(
-                      shrinkWrap: true,
+            Expanded(
+              flex: 2,
+              child: RefreshIndicator(
+                color: AppColors.primaryButtonColor,
+                backgroundColor: AppColors.secondaryButtonColor,
+                onRefresh: () async {
+                  _pagingController.refresh();
+                  _libraryBloc.requestData(
+                    params: AlbumPlaylistRequest(
+                      query: '',
+                      page: 1,
+                      limit: GlobalConstants.loadMoreItem,
+                      sort: 'latest',
+                      getAll: 0,
+                    ),
+                  );
+                },
+                child: LoadingBuilder<LibraryBloc, List<PlaylistResponse>>(
+                  builder: (data, _) {
+                    if (data.isEmpty) {
+                      return EmptyPlayList(
+                        title: context.l10n.t_empty_playlist,
+                        content: context.l10n.t_create_first_playlist,
+                      );
+                    }
+                    //only first page
+                    final isLastPage = data.length == GlobalConstants.loadMoreItem - 1;
+                    if (isLastPage) {
+                      _pagingController.appendLastPage(data);
+                    } else {
+                      _pagingController.appendPage(data, _pagingController.firstPageKey + 1);
+                    }
+                    return PagedListView<int, PlaylistResponse>.separated(
                       padding: const EdgeInsets.symmetric(
                         horizontal: 16,
                         vertical: 16,
@@ -160,29 +157,9 @@ class _LibraryScreenState extends State<LibraryScreen> with AutomaticKeepAliveCl
                           );
                         },
                       ),
-                    ),
-                  );
-                },
-                reloadAction: (_) {
-                  _pagingController.refresh();
-                  _libraryBloc.requestData(
-                    params: AlbumPlaylistRequest(
-                      query: '',
-                      page: 1,
-                      limit: GlobalConstants.loadMoreItem,
-                      sort: 'latest',
-                      getAll: 0,
-                    ),
-                  );
-                },
-              ),
-            ),
-            Positioned(
-              bottom: 150,
-              child: WButtonInkwell(
-                onPressed: () async {
-                  final result = await Navigator.pushNamed(context, AppRoute.routeCreatePlayList);
-                  if (result != null) {
+                    );
+                  },
+                  reloadAction: (_) {
                     _pagingController.refresh();
                     _libraryBloc.requestData(
                       params: AlbumPlaylistRequest(
@@ -193,38 +170,63 @@ class _LibraryScreenState extends State<LibraryScreen> with AutomaticKeepAliveCl
                         getAll: 0,
                       ),
                     );
-                  }
-                },
-                child: Container(
-                  height: 50,
-                  padding: const EdgeInsets.all(10),
-                  width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(
-                    color: AppColors.secondaryButtonColor,
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SvgPicture.asset(
-                        AppAssets.activeEdit,
-                        width: 20,
-                        height: 20,
-                      ),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      Text(
-                        context.l10n.t_create_playlist,
-                        style: TextStyle(
-                          color: AppColors.activeLabelItem,
-                        ),
-                      )
-                    ],
-                  ),
+                  },
                 ),
               ),
             ),
+            Expanded(
+              child: Align(
+                alignment: FractionalOffset.bottomCenter,
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 150),
+                  child: WButtonInkwell(
+                    onPressed: () async {
+                      final result = await Navigator.pushNamed(context, AppRoute.routeCreatePlayList);
+                      if (result != null) {
+                        _pagingController.refresh();
+                        _libraryBloc.requestData(
+                          params: AlbumPlaylistRequest(
+                            query: '',
+                            page: 1,
+                            limit: GlobalConstants.loadMoreItem,
+                            sort: 'latest',
+                            getAll: 0,
+                          ),
+                        );
+                      }
+                    },
+                    child: Container(
+                      height: 50,
+                      padding: const EdgeInsets.all(10),
+                      width: MediaQuery.of(context).size.width,
+                      decoration: BoxDecoration(
+                        color: AppColors.secondaryButtonColor,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SvgPicture.asset(
+                            AppAssets.activeEdit,
+                            width: 20,
+                            height: 20,
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          Text(
+                            context.l10n.t_create_playlist,
+                            style: TextStyle(
+                              color: AppColors.activeLabelItem,
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            )
           ],
         ),
       ),

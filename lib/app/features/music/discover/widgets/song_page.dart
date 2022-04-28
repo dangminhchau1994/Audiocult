@@ -4,7 +4,6 @@ import 'package:audio_cult/app/features/music/discover/widgets/song_item.dart';
 import 'package:audio_cult/w_components/error_empty/error_section.dart';
 import 'package:audio_cult/w_components/loading/loading_widget.dart';
 import 'package:flutter/material.dart';
-
 import '../../../../../di/bloc_locator.dart';
 import '../../../../data_source/models/responses/song/song_response.dart';
 
@@ -30,7 +29,7 @@ class _SongPageState extends State<SongPage> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 210,
+      height: 250,
       child: PageView.builder(
         onPageChanged: widget.onPageChange,
         controller: widget.pageController,
@@ -48,6 +47,7 @@ class _SongPageState extends State<SongPage> {
                 success: (data) {
                   final songs = data as List<Song>;
                   return ListView.separated(
+                    shrinkWrap: true,
                     separatorBuilder: (context, index) => const Divider(height: 20),
                     physics: const NeverScrollableScrollPhysics(),
                     itemCount: songs.length,
