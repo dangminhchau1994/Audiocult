@@ -1,4 +1,5 @@
 import 'package:audio_cult/app/base/bloc_state.dart';
+import 'package:audio_cult/app/data_source/models/responses/song/song_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/song_detail/song_detail_response.dart';
 import 'package:audio_cult/app/features/music/detail-song/detail_song_bloc.dart';
 import 'package:audio_cult/app/features/music/detail-song/widgets/detail_song_comment.dart';
@@ -8,11 +9,13 @@ import 'package:audio_cult/app/features/music/detail-song/widgets/detail_song_ph
 import 'package:audio_cult/app/features/music/detail-song/widgets/detail_song_play_button.dart';
 import 'package:audio_cult/app/features/music/detail-song/widgets/detail_song_recommended.dart';
 import 'package:audio_cult/app/features/music/detail-song/widgets/detail_song_title.dart';
+import 'package:audio_cult/w_components/appbar/common_appbar.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter_svg/svg.dart';
 import '../../../../di/bloc_locator.dart';
 import '../../../../w_components/error_empty/error_section.dart';
 import '../../../../w_components/loading/loading_widget.dart';
+import '../../../utils/constants/app_assets.dart';
 import '../../../utils/constants/app_colors.dart';
 
 class DetailSongScreen extends StatefulWidget {
@@ -58,43 +61,29 @@ class _DetailSongScreenState extends State<DetailSongScreen> {
                 success: (data) {
                   final detail = data as SongDetailResponse;
 
-                  return SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Stack(
-                          children: [
-                            //Photo
-                            DetailPhotoSong(
-                              imagePath: detail.imagePath,
-                            ),
-                            //Navbar
-                            const DetailSongNavBar(),
-                            //Title
-                            DetailSongTitle(
-                              time: detail.timeStamp,
-                              artistName: detail.artistUser?.userName,
-                              title: detail.title,
-                            ),
-                            // Play Button
-                            const DetailSongPlayButton(),
-                          ],
+                  return CustomScrollView(
+                    slivers: [
+                      SliverPersistentHeader(
+                        pinned: true,
+                        delegate: CustomSliverAppBarDelegate(
+                          detail: detail,
+                          expandedHeight: 300,
                         ),
-                        //Description
-                        DetailSongDescription(
-                          data: detail,
-                        ),
-                        //Comment
-                        DetailSongComment(
-                          id: int.parse(widget.songId ?? ''),
-                          title: detail.title,
-                        ),
-                        //Recommended Songs
-                        DetailSongRecommended(
-                          id: int.parse(widget.songId ?? ''),
-                        ),
-                      ],
-                    ),
+                      ),
+                      //Description
+                      DetailSongDescription(
+                        data: detail,
+                      ),
+                      //Comment
+                      DetailSongComment(
+                        id: int.parse(widget.songId ?? ''),
+                        title: detail.title,
+                      ),
+                      //Recommended Songs
+                      DetailSongRecommended(
+                        id: int.parse(widget.songId ?? ''),
+                      ),
+                    ],
                   );
                 },
                 loading: () {
@@ -115,4 +104,62 @@ class _DetailSongScreenState extends State<DetailSongScreen> {
       ),
     );
   }
+}
+
+class CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
+  final double? expandedHeight;
+  final SongDetailResponse? detail;
+
+  const CustomSliverAppBarDelegate({
+    this.expandedHeight,
+    this.detail,
+  });
+
+  @override
+  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
+    const size = 60;
+    final top = expandedHeight! - shrinkOffset - size / 2;
+
+    return Stack(
+      children: [
+        //Photo
+        DetailPhotoSong(
+          imagePath: detail?.imagePath,
+        ),
+        //Navbar
+        const DetailSongNavBar(),
+        //Title
+        DetailSongTitle(
+          time: detail?.timeStamp,
+          artistName: detail?.artistUser?.userName,
+          title: detail?.title,
+          appear: appear(shrinkOffset),
+        ),
+        // Play Button
+        DetailSongPlayButton(
+          appear: appear(shrinkOffset),
+        ),
+        buildAppBar(shrinkOffset),
+      ],
+    );
+  }
+
+  double appear(double shrinkOffset) => shrinkOffset / expandedHeight!;
+
+  double disappear(double shrinkOffset) => 1 - shrinkOffset / expandedHeight!;
+
+  Widget buildAppBar(double shrinkOffset) => Opacity(
+      opacity: appear(shrinkOffset),
+      child: CommonAppBar(
+        title: detail?.title ?? '',
+      ));
+
+  @override
+  double get maxExtent => expandedHeight!;
+
+  @override
+  double get minExtent => kToolbarHeight + 30;
+
+  @override
+  bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) => true;
 }

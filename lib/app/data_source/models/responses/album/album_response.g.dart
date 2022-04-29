@@ -6,14 +6,18 @@ part of 'album_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_AlbumResponse _$$_AlbumResponseFromJson(Map<String, dynamic> json) => _$_AlbumResponse(
+_$_AlbumResponse _$$_AlbumResponseFromJson(Map<String, dynamic> json) =>
+    _$_AlbumResponse(
       status: json['status'] as String?,
-      data: (json['data'] as List<dynamic>?)?.map((e) => Album.fromJson(e as Map<String, dynamic>)).toList(),
+      data: (json['data'] as List<dynamic>?)
+          ?.map((e) => Album.fromJson(e as Map<String, dynamic>))
+          .toList(),
       message: json['message'] as String?,
       error: json['error'],
     );
 
-Map<String, dynamic> _$$_AlbumResponseToJson(_$_AlbumResponse instance) => <String, dynamic>{
+Map<String, dynamic> _$$_AlbumResponseToJson(_$_AlbumResponse instance) =>
+    <String, dynamic>{
       'status': instance.status,
       'data': instance.data,
       'message': instance.message,
@@ -59,15 +63,15 @@ _$_Album _$$_AlbumFromJson(Map<String, dynamic> json) => _$_Album(
       googleplay: json['googleplay'] as String?,
       youtube: json['youtube'],
       soundcloud: json['soundcloud'] as String?,
-      labelUser: json['label_user'] == null || json['label_user'] is String
+      labelUser: json['label_user'] == null
           ? null
           : ProfileData.fromJson(json['label_user'] as Map<String, dynamic>),
       labelUserId: json['labelUserId'] as String?,
-      artistUser: json['artist_user'] == null|| json['artist_user'] is String
+      artistUser: json['artist_user'] == null
           ? null
           : ProfileData.fromJson(json['artist_user'] as Map<String, dynamic>),
       artistUserId: json['artistUserId'] as String?,
-      collabUser: json['collab_user'] == null|| json['collab_user'] is String
+      collabUser: json['collab_user'] == null
           ? null
           : ProfileData.fromJson(json['collab_user'] as Map<String, dynamic>),
       collabUserId: json['collabUserId'] as String?,

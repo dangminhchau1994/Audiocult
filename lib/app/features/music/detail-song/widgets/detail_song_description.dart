@@ -20,130 +20,132 @@ class DetailSongDescription extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(
-        left: kVerticalSpacing,
-        right: kVerticalSpacing,
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            context.l10n.t_description,
-            style: context.bodyTextPrimaryStyle()!.copyWith(
-                  color: AppColors.subTitleColor,
-                  fontSize: 16,
+    return SliverToBoxAdapter(
+      child: Padding(
+        padding: const EdgeInsets.only(
+          left: kVerticalSpacing,
+          right: kVerticalSpacing,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              context.l10n.t_description,
+              style: context.bodyTextPrimaryStyle()!.copyWith(
+                    color: AppColors.subTitleColor,
+                    fontSize: 16,
+                  ),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            //first row
+            Row(
+              children: [
+                DetailDescriptionLabel(
+                  title: 'ARTIST',
+                  value: data?.artistUser?.userName ?? 'N/A',
                 ),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          //first row
-          Row(
-            children: [
-              DetailDescriptionLabel(
-                title: 'ARTIST',
-                value: data?.artistUser?.userName ?? 'N/A',
-              ),
-              const SizedBox(
-                width: 32,
-              ),
-              DetailDescriptionLabel(
-                title: 'LABEL',
-                value: data?.labelUser?.userName ?? 'N/A',
-              ),
-              const SizedBox(
-                width: 32,
-              ),
-              const DetailDescriptionLabel(
-                title: 'Remixers',
-                value: '',
-              )
-            ],
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          //second row
-          Row(
-            children: [
-              DetailDescriptionLabel(
-                title: 'GENRE',
-                value: data?.genreName ?? 'N/A',
-              ),
-            ],
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          //genre tags
-          Wrap(
-            spacing: 8,
-            runSpacing: 4,
-            children: data!.tags!
-                .split('')
-                .map(
-                  (e) => Text(
-                    e,
-                    style: TextStyle(color: AppColors.lightBlue),
-                  ),
+                const SizedBox(
+                  width: 32,
+                ),
+                DetailDescriptionLabel(
+                  title: 'LABEL',
+                  value: data?.labelUser?.userName ?? 'N/A',
+                ),
+                const SizedBox(
+                  width: 32,
+                ),
+                const DetailDescriptionLabel(
+                  title: 'Remixers',
+                  value: '',
                 )
-                .toList(),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          //read more text
-          if (data?.description != null)
-            ReadMoreText(
-              data?.description ?? '',
-              trimLines: 3,
-              colorClickableText: Colors.pink,
-              trimMode: TrimMode.Line,
-              trimCollapsedText: context.l10n.t_read_more,
-              trimExpandedText: context.l10n.t_read_less,
-              moreStyle: TextStyle(
-                color: AppColors.lightBlueColor,
-              ),
-              lessStyle: TextStyle(
-                color: AppColors.lightBlueColor,
-              ),
-            )
-          else
-            const SizedBox(),
-          //heart, comment
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  _buildIcon(
-                    SvgPicture.asset(AppAssets.heartIcon),
-                    data?.totalLike ?? '',
-                    context,
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  _buildIcon(
-                    SvgPicture.asset(AppAssets.commentIcon),
-                    data?.totalComment ?? '',
-                    context,
+              ],
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            //second row
+            Row(
+              children: [
+                DetailDescriptionLabel(
+                  title: 'GENRE',
+                  value: data?.genreName ?? 'N/A',
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            //genre tags
+            Wrap(
+              spacing: 8,
+              runSpacing: 4,
+              children: data!.tags!
+                  .split('')
+                  .map(
+                    (e) => Text(
+                      e,
+                      style: TextStyle(color: AppColors.lightBlue),
+                    ),
                   )
-                ],
-              ),
-              _buildPlayCount(data?.totalPlay ?? '', context)
-            ],
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          Container(
-            width: double.infinity,
-            color: AppColors.secondaryButtonColor,
-            height: 1,
-          )
-        ],
+                  .toList(),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            //read more text
+            if (data?.description != null)
+              ReadMoreText(
+                data?.description ?? '',
+                trimLines: 3,
+                colorClickableText: Colors.pink,
+                trimMode: TrimMode.Line,
+                trimCollapsedText: context.l10n.t_read_more,
+                trimExpandedText: context.l10n.t_read_less,
+                moreStyle: TextStyle(
+                  color: AppColors.lightBlueColor,
+                ),
+                lessStyle: TextStyle(
+                  color: AppColors.lightBlueColor,
+                ),
+              )
+            else
+              const SizedBox(),
+            //heart, comment
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    _buildIcon(
+                      SvgPicture.asset(AppAssets.heartIcon),
+                      data?.totalLike ?? '',
+                      context,
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    _buildIcon(
+                      SvgPicture.asset(AppAssets.commentIcon),
+                      data?.totalComment ?? '',
+                      context,
+                    )
+                  ],
+                ),
+                _buildPlayCount(data?.totalPlay ?? '', context)
+              ],
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Container(
+              width: double.infinity,
+              color: AppColors.secondaryButtonColor,
+              height: 1,
+            )
+          ],
+        ),
       ),
     );
   }

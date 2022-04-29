@@ -40,7 +40,7 @@ EventResponse _$EventResponseFromJson(Map<String, dynamic> json) =>
       categories: (json['categories'] as List<dynamic>?)
           ?.map((e) => (e as List<dynamic>).map((e) => e as String).toList())
           .toList(),
-      lineup: json['lineup'] == null || json['lineup'] is bool
+      lineup: json['lineup'] == null
           ? null
           : Lineup.fromJson(json['lineup'] as Map<String, dynamic>),
     );
