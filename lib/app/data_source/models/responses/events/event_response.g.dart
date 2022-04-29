@@ -6,8 +6,7 @@ part of 'event_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-EventResponse _$EventResponseFromJson(Map<String, dynamic> json) =>
-    EventResponse(
+EventResponse _$EventResponseFromJson(Map<String, dynamic> json) => EventResponse(
       rsvpId: json['rsvp_id'] as String?,
       eventId: json['event_id'] as String?,
       viewId: json['view_id'] as String?,
@@ -45,8 +44,7 @@ EventResponse _$EventResponseFromJson(Map<String, dynamic> json) =>
           : Lineup.fromJson(json['lineup'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$EventResponseToJson(EventResponse instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$EventResponseToJson(EventResponse instance) => <String, dynamic>{
       'rsvp_id': instance.rsvpId,
       'event_id': instance.eventId,
       'view_id': instance.viewId,
@@ -81,9 +79,7 @@ Map<String, dynamic> _$EventResponseToJson(EventResponse instance) =>
     };
 
 Lineup _$LineupFromJson(Map<String, dynamic> json) => Lineup(
-      artist: (json['artist'] as List<dynamic>?)
-          ?.map((e) => ArtistUser.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      artist: (json['artist'] as List<dynamic>?)?.map((e) => ArtistUser.fromJson(e as Map<String, dynamic>)).toList(),
     );
 
 Map<String, dynamic> _$LineupToJson(Lineup instance) => <String, dynamic>{

@@ -19,96 +19,98 @@ class DetailAlbumDescription extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(
-        top: kVerticalSpacing,
-        left: kVerticalSpacing,
-        right: kVerticalSpacing,
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            context.l10n.t_description,
-            style: context.bodyTextPrimaryStyle()!.copyWith(
-                  color: AppColors.subTitleColor,
-                  fontSize: 16,
+    return SliverToBoxAdapter(
+      child: Padding(
+        padding: const EdgeInsets.only(
+          top: kVerticalSpacing,
+          left: kVerticalSpacing,
+          right: kVerticalSpacing,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              context.l10n.t_description,
+              style: context.bodyTextPrimaryStyle()!.copyWith(
+                    color: AppColors.subTitleColor,
+                    fontSize: 16,
+                  ),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            //first row
+            Row(
+              children: [
+                DetailDescriptionLabel(
+                  title: 'ARTIST',
+                  value: data?.artistUser?.fullName ?? 'N/A',
                 ),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          //first row
-          Row(
-            children: [
-              DetailDescriptionLabel(
-                title: 'ARTIST',
-                value: data?.artistUser?.fullName ?? 'N/A',
-              ),
-              const SizedBox(
-                width: 32,
-              ),
-              DetailDescriptionLabel(
-                title: 'LABEL',
-                value: data?.labelUser?.fullName ?? 'N/A',
-              ),
-            ],
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          //heart, comment
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  _buildIcon(
-                    SvgPicture.asset(AppAssets.heartIcon),
-                    data?.totalLike ?? '',
-                    context,
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  _buildIcon(
-                    SvgPicture.asset(AppAssets.commentIcon),
-                    data?.totalComment ?? '',
-                    context,
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: AppColors.secondaryButtonColor,
+                const SizedBox(
+                  width: 32,
+                ),
+                DetailDescriptionLabel(
+                  title: 'LABEL',
+                  value: data?.labelUser?.fullName ?? 'N/A',
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            //heart, comment
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    _buildIcon(
+                      SvgPicture.asset(AppAssets.heartIcon),
+                      data?.totalLike ?? '',
+                      context,
                     ),
-                    padding: const EdgeInsets.all(12),
-                    child: Center(
-                      child: SvgPicture.asset(AppAssets.shareIcon),
+                    const SizedBox(
+                      width: 10,
                     ),
-                  )
-                ],
-              ),
-              _buildPlayCount(data?.totalPlay ?? '', context)
-            ],
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          Container(
-            width: double.infinity,
-            color: AppColors.secondaryButtonColor,
-            height: 1,
-          )
-        ],
+                    _buildIcon(
+                      SvgPicture.asset(AppAssets.commentIcon),
+                      data?.totalComment ?? '',
+                      context,
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: AppColors.secondaryButtonColor,
+                      ),
+                      padding: const EdgeInsets.all(12),
+                      child: Center(
+                        child: SvgPicture.asset(AppAssets.shareIcon),
+                      ),
+                    )
+                  ],
+                ),
+                _buildPlayCount(data?.totalPlay ?? '', context)
+              ],
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Container(
+              width: double.infinity,
+              color: AppColors.secondaryButtonColor,
+              height: 1,
+            )
+          ],
+        ),
       ),
     );
   }

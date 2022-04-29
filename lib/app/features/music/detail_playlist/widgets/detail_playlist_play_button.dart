@@ -6,7 +6,7 @@ class DetailPlayListPlayButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Positioned(
-      top: 276,
+      top: 250,
       right: 30,
       child: Container(
         padding: const EdgeInsets.all(10),

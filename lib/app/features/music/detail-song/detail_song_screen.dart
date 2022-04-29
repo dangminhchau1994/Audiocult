@@ -1,15 +1,11 @@
 import 'package:audio_cult/app/base/bloc_state.dart';
 import 'package:audio_cult/app/data_source/models/responses/song_detail/song_detail_response.dart';
 import 'package:audio_cult/app/features/music/detail-song/detail_song_bloc.dart';
+import 'package:audio_cult/app/features/music/detail-song/widgets/custom_sliver_song.dart';
 import 'package:audio_cult/app/features/music/detail-song/widgets/detail_song_comment.dart';
 import 'package:audio_cult/app/features/music/detail-song/widgets/detail_song_description.dart';
-import 'package:audio_cult/app/features/music/detail-song/widgets/detail_song_navbar.dart';
-import 'package:audio_cult/app/features/music/detail-song/widgets/detail_song_photo.dart';
-import 'package:audio_cult/app/features/music/detail-song/widgets/detail_song_play_button.dart';
 import 'package:audio_cult/app/features/music/detail-song/widgets/detail_song_recommended.dart';
-import 'package:audio_cult/app/features/music/detail-song/widgets/detail_song_title.dart';
 import 'package:flutter/material.dart';
-
 import '../../../../di/bloc_locator.dart';
 import '../../../../w_components/error_empty/error_section.dart';
 import '../../../../w_components/loading/loading_widget.dart';
@@ -58,43 +54,29 @@ class _DetailSongScreenState extends State<DetailSongScreen> {
                 success: (data) {
                   final detail = data as SongDetailResponse;
 
-                  return SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Stack(
-                          children: [
-                            //Photo
-                            DetailPhotoSong(
-                              imagePath: detail.imagePath,
-                            ),
-                            //Navbar
-                            const DetailSongNavBar(),
-                            //Title
-                            DetailSongTitle(
-                              time: detail.timeStamp,
-                              artistName: detail.artistUser?.userName,
-                              title: detail.title,
-                            ),
-                            // Play Button
-                            const DetailSongPlayButton(),
-                          ],
+                  return CustomScrollView(
+                    slivers: [
+                      SliverPersistentHeader(
+                        pinned: true,
+                        delegate: CustomSliverSong(
+                          detail: detail,
+                          expandedHeight: 300,
                         ),
-                        //Description
-                        DetailSongDescription(
-                          data: detail,
-                        ),
-                        //Comment
-                        DetailSongComment(
-                          id: int.parse(widget.songId ?? ''),
-                          title: detail.title,
-                        ),
-                        //Recommended Songs
-                        DetailSongRecommended(
-                          id: int.parse(widget.songId ?? ''),
-                        ),
-                      ],
-                    ),
+                      ),
+                      //Description
+                      DetailSongDescription(
+                        data: detail,
+                      ),
+                      //Comment
+                      DetailSongComment(
+                        id: int.parse(widget.songId ?? ''),
+                        title: detail.title,
+                      ),
+                      //Recommended Songs
+                      DetailSongRecommended(
+                        id: int.parse(widget.songId ?? ''),
+                      ),
+                    ],
                   );
                 },
                 loading: () {
@@ -116,3 +98,4 @@ class _DetailSongScreenState extends State<DetailSongScreen> {
     );
   }
 }
+

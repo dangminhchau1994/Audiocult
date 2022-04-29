@@ -18,7 +18,7 @@ class EventDetailTitle extends StatelessWidget {
         title ?? 'N/A',
         style: context.bodyTextPrimaryStyle()!.copyWith(
               color: Colors.white,
-              fontSize: 20,
+              fontSize: 18,
               fontWeight: FontWeight.bold,
             ),
       ),

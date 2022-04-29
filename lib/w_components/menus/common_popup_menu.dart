@@ -14,6 +14,11 @@ class CommonPopupMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     return PopupMenuButton<int>(
       color: AppColors.inputFillColor,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(
+          Radius.circular(14),
+        ),
+      ),
       icon: SvgPicture.asset(
         AppAssets.horizontalIcon,
         width: 16,

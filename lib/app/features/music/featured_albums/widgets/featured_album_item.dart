@@ -127,7 +127,7 @@ class _FeaturedAlbumItemState extends State<FeaturedAlbumItem> {
 
   Widget _buildPages() {
     return SizedBox(
-      height: 196,
+      height: 250,
       child: PageView.builder(
         onPageChanged: (index) {
           _featuredAlbumBloc.getSongByAlbumId(int.parse(widget.album!.albumId!), index + 1, 3);
@@ -151,6 +151,7 @@ class _FeaturedAlbumItemState extends State<FeaturedAlbumItem> {
                       ? ListView.separated(
                           physics: const NeverScrollableScrollPhysics(),
                           itemCount: songs.length,
+                          shrinkWrap: true,
                           separatorBuilder: (context, index) => const SizedBox(height: 20),
                           itemBuilder: (context, index) {
                             return SongItem(

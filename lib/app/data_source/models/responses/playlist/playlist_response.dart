@@ -106,7 +106,7 @@ class Songs with _$Songs {
     String? licenseType,
     String? songPath,
     String? explicit,
-    int? duration,
+    String? duration,
     String? ordering,
     String? imageServerId,
     String? totalPlay,

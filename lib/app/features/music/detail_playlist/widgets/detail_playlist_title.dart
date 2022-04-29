@@ -18,7 +18,7 @@ class DetailPlayListTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Positioned(
-      top: 238,
+      top: 200,
       left: 16,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -27,7 +27,7 @@ class DetailPlayListTitle extends StatelessWidget {
             title ?? '',
             style: context.bodyTextPrimaryStyle()!.copyWith(
                   color: Colors.white,
-                  fontSize: 16,
+                  fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),
           ),
@@ -40,6 +40,7 @@ class DetailPlayListTitle extends StatelessWidget {
                 userName ?? 'N/A',
                 style: context.bodyTextPrimaryStyle()!.copyWith(
                       color: Colors.white,
+                      fontSize: 16,
                     ),
               ),
               const SizedBox(
@@ -57,6 +58,7 @@ class DetailPlayListTitle extends StatelessWidget {
                 DateTimeUtils.formatyMMMMd(int.parse(time ?? '')),
                 style: context.bodyTextPrimaryStyle()!.copyWith(
                       color: Colors.white,
+                      fontSize: 16,
                     ),
               ),
             ],

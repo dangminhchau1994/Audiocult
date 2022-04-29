@@ -12,7 +12,6 @@ import '../../../../../w_components/comment/reply_item.dart';
 import '../../../../../w_components/error_empty/error_section.dart';
 import '../../../../../w_components/loading/loading_widget.dart';
 import '../../../../base/bloc_state.dart';
-import '../../../../constants/app_text_styles.dart';
 import '../../../../data_source/models/responses/comment/comment_response.dart';
 import '../../../../injections.dart';
 import '../../../../utils/constants/app_colors.dart';
@@ -43,166 +42,168 @@ class _EventDetailCommentState extends State<EventDetailComment> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          TextField(
-            maxLines: 3,
-            showCursor: false, //add this line
-            readOnly: true,
-            onTap: () {
-              Navigator.pushNamed(
-                context,
-                AppRoute.routeCommentListScreen,
-                arguments: CommentArgs(
-                  itemId: widget.id ?? 0,
-                  title: widget.title ?? '',
-                  commentType: CommentType.event,
-                  data: null,
-                ),
-              );
-            },
-            cursorColor: Colors.white,
-            onChanged: (value) {},
-            style: const TextStyle(fontSize: 20),
-            decoration: InputDecoration(
-              filled: true,
-              focusColor: AppColors.outlineBorderColor,
-              fillColor: AppColors.secondaryButtonColor,
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(4),
-                borderSide: BorderSide(
-                  color: AppColors.outlineBorderColor,
-                  width: 2,
-                ),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(4),
-                borderSide: BorderSide(
-                  color: AppColors.outlineBorderColor,
-                  width: 2,
-                ),
-              ),
-              hintText: context.l10n.t_leave_comment,
-              hintStyle: context.bodyTextPrimaryStyle()!.copyWith(
-                    color: AppColors.subTitleColor,
-                    fontSize: 14,
+    return SliverToBoxAdapter(
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            TextField(
+              maxLines: 3,
+              showCursor: false, //add this line
+              readOnly: true,
+              onTap: () {
+                Navigator.pushNamed(
+                  context,
+                  AppRoute.routeCommentListScreen,
+                  arguments: CommentArgs(
+                    itemId: widget.id ?? 0,
+                    title: widget.title ?? '',
+                    commentType: CommentType.event,
+                    data: null,
                   ),
+                );
+              },
+              cursorColor: Colors.white,
+              onChanged: (value) {},
+              style: const TextStyle(fontSize: 20),
+              decoration: InputDecoration(
+                filled: true,
+                focusColor: AppColors.outlineBorderColor,
+                fillColor: AppColors.secondaryButtonColor,
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(4),
+                  borderSide: BorderSide(
+                    color: AppColors.outlineBorderColor,
+                    width: 2,
+                  ),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(4),
+                  borderSide: BorderSide(
+                    color: AppColors.outlineBorderColor,
+                    width: 2,
+                  ),
+                ),
+                hintText: context.l10n.t_leave_comment,
+                hintStyle: context.bodyTextPrimaryStyle()!.copyWith(
+                      color: AppColors.subTitleColor,
+                      fontSize: 14,
+                    ),
+              ),
             ),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          StreamBuilder<BlocState<List<CommentResponse>>>(
-            initialData: const BlocState.loading(),
-            stream: _eventDetailBloc.getCommentsStream,
-            builder: (context, snapshot) {
-              final state = snapshot.data!;
+            const SizedBox(
+              height: 20,
+            ),
+            StreamBuilder<BlocState<List<CommentResponse>>>(
+              initialData: const BlocState.loading(),
+              stream: _eventDetailBloc.getCommentsStream,
+              builder: (context, snapshot) {
+                final state = snapshot.data!;
 
-              return state.when(
-                success: (success) {
-                  final data = success as List<CommentResponse>;
+                return state.when(
+                  success: (success) {
+                    final data = success as List<CommentResponse>;
 
-                  if (data.isEmpty) {
-                    return const Center(
-                      child: Text(
-                        'No comments for this event',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    );
-                  }
+                    if (data.isEmpty) {
+                      return const Center(
+                        child: Text(
+                          'No comments for this event',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      );
+                    }
 
-                  return Column(
-                    children: [
-                      ListView.separated(
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: data.length,
-                        shrinkWrap: true,
-                        separatorBuilder: (context, index) => const Divider(height: 30),
-                        itemBuilder: (context, index) {
-                          return ExpandablePanel(
-                            controller: ExpandableController(initialExpanded: true),
-                            header: CommentItem(
-                              data: data[index],
-                              onReply: (data) {
-                                Navigator.pushNamed(
-                                  context,
-                                  AppRoute.routeReplyListScreen,
-                                  arguments: CommentArgs(
-                                    data: data,
-                                    itemId: widget.id,
-                                    commentType: CommentType.album,
-                                  ),
-                                );
-                              },
-                            ),
-                            theme: const ExpandableThemeData(
-                              hasIcon: false,
-                              tapBodyToExpand: false,
-                              useInkWell: false,
-                              tapHeaderToExpand: false,
-                            ),
-                            collapsed: Container(),
-                            expanded: ReplyItem(
-                              parentId: int.parse(data[index].commentId ?? ''),
-                              id: widget.id,
-                              commentParent: data[index],
-                              commentType: CommentType.event,
-                            ),
-                          );
-                        },
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      if (data.isEmpty)
-                        const SizedBox()
-                      else
-                        WButtonInkwell(
-                          onPressed: () {
-                            Navigator.pushNamed(
-                              context,
-                              AppRoute.routeCommentListScreen,
-                              arguments: CommentArgs(
-                                itemId: widget.id ?? 0,
-                                title: widget.title ?? '',
+                    return Column(
+                      children: [
+                        ListView.separated(
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: data.length,
+                          shrinkWrap: true,
+                          separatorBuilder: (context, index) => const Divider(height: 30),
+                          itemBuilder: (context, index) {
+                            return ExpandablePanel(
+                              controller: ExpandableController(initialExpanded: true),
+                              header: CommentItem(
+                                data: data[index],
+                                onReply: (data) {
+                                  Navigator.pushNamed(
+                                    context,
+                                    AppRoute.routeReplyListScreen,
+                                    arguments: CommentArgs(
+                                      data: data,
+                                      itemId: widget.id,
+                                      commentType: CommentType.album,
+                                    ),
+                                  );
+                                },
+                              ),
+                              theme: const ExpandableThemeData(
+                                hasIcon: false,
+                                tapBodyToExpand: false,
+                                useInkWell: false,
+                                tapHeaderToExpand: false,
+                              ),
+                              collapsed: Container(),
+                              expanded: ReplyItem(
+                                parentId: int.parse(data[index].commentId ?? ''),
+                                id: widget.id,
+                                commentParent: data[index],
                                 commentType: CommentType.event,
-                                data: null,
                               ),
                             );
                           },
-                          child: Center(
-                            child: Text(
-                              context.l10n.t_view_more_comment,
-                              style: context.bodyTextPrimaryStyle()!.copyWith(
-                                    color: AppColors.lightBlue,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        if (data.isEmpty)
+                          const SizedBox()
+                        else
+                          WButtonInkwell(
+                            onPressed: () {
+                              Navigator.pushNamed(
+                                context,
+                                AppRoute.routeCommentListScreen,
+                                arguments: CommentArgs(
+                                  itemId: widget.id ?? 0,
+                                  title: widget.title ?? '',
+                                  commentType: CommentType.event,
+                                  data: null,
+                                ),
+                              );
+                            },
+                            child: Center(
+                              child: Text(
+                                context.l10n.t_view_more_comment,
+                                style: context.bodyTextPrimaryStyle()!.copyWith(
+                                      color: AppColors.lightBlue,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                              ),
                             ),
-                          ),
-                        )
-                    ],
-                  );
-                },
-                loading: () {
-                  return const Center(
-                    child: LoadingWidget(),
-                  );
-                },
-                error: (error) {
-                  return ErrorSectionWidget(
-                    errorMessage: error,
-                    onRetryTap: () {},
-                  );
-                },
-              );
-            },
-          ),
-          const SizedBox(height: 20),
-        ],
+                          )
+                      ],
+                    );
+                  },
+                  loading: () {
+                    return const Center(
+                      child: LoadingWidget(),
+                    );
+                  },
+                  error: (error) {
+                    return ErrorSectionWidget(
+                      errorMessage: error,
+                      onRetryTap: () {},
+                    );
+                  },
+                );
+              },
+            ),
+            const SizedBox(height: 20),
+          ],
+        ),
       ),
     );
   }

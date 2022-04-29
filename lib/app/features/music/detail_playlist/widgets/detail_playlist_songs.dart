@@ -45,110 +45,112 @@ class _DetailPlayListSongsState extends State<DetailPlayListSongs> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(
-        top: 10,
-        left: 16,
-        right: 16,
-      ),
-      child: Column(
-        children: [
-          StreamBuilder<BlocState<List<Song>>>(
-            initialData: const BlocState.loading(),
-            stream: playListBloc.getSongByIdStream,
-            builder: (context, snapshot) {
-              final state = snapshot.data!;
-
-              return state.when(
-                success: (data) {
-                  final songs = data as List<Song>;
-                  return songs.isNotEmpty
-                      ? ListView.separated(
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemCount: songs.length,
-                          shrinkWrap: true,
-                          separatorBuilder: (context, index) => const SizedBox(height: 20),
-                          itemBuilder: (context, index) {
-                            return SongItem(
-                              song: songs[index],
-                              songs: songs,
-                              index: index,
-                              fromDetail: true,
-                            );
-                          },
-                        )
-                      : Center(
-                          child: Text(
-                            context.l10n.t_no_data,
-                          ),
-                        );
-                },
-                loading: () {
-                  return const Center(
-                    child: LoadingWidget(),
-                  );
-                },
-                error: (error) {
-                  return ErrorSectionWidget(
-                    errorMessage: error,
-                    onRetryTap: () {
-                      playListBloc.getSongByPlayListId(
-                          int.parse(widget.playListId ?? ''), 1, GlobalConstants.loadMoreItem,);
-                    },
-                  );
-                },
-              );
-            },
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          //heart, comment
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  _buildIcon(
-                    SvgPicture.asset(AppAssets.heartIcon),
-                    widget.totalLike ?? '0',
-                    context,
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  _buildIcon(
-                    SvgPicture.asset(AppAssets.commentIcon),
-                    widget.totalComments ?? '0',
-                    context,
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: AppColors.secondaryButtonColor,
+    return SliverToBoxAdapter(
+      child: Padding(
+        padding: const EdgeInsets.only(
+          top: 10,
+          left: 16,
+          right: 16,
+        ),
+        child: Column(
+          children: [
+            StreamBuilder<BlocState<List<Song>>>(
+              initialData: const BlocState.loading(),
+              stream: playListBloc.getSongByIdStream,
+              builder: (context, snapshot) {
+                final state = snapshot.data!;
+    
+                return state.when(
+                  success: (data) {
+                    final songs = data as List<Song>;
+                    return songs.isNotEmpty
+                        ? ListView.separated(
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: songs.length,
+                            shrinkWrap: true,
+                            separatorBuilder: (context, index) => const SizedBox(height: 20),
+                            itemBuilder: (context, index) {
+                              return SongItem(
+                                song: songs[index],
+                                songs: songs,
+                                index: index,
+                                fromDetail: true,
+                              );
+                            },
+                          )
+                        : Center(
+                            child: Text(
+                              context.l10n.t_no_data,
+                            ),
+                          );
+                  },
+                  loading: () {
+                    return const Center(
+                      child: LoadingWidget(),
+                    );
+                  },
+                  error: (error) {
+                    return ErrorSectionWidget(
+                      errorMessage: error,
+                      onRetryTap: () {
+                        playListBloc.getSongByPlayListId(
+                            int.parse(widget.playListId ?? ''), 1, GlobalConstants.loadMoreItem,);
+                      },
+                    );
+                  },
+                );
+              },
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            //heart, comment
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    _buildIcon(
+                      SvgPicture.asset(AppAssets.heartIcon),
+                      widget.totalLike ?? '0',
+                      context,
                     ),
-                    padding: const EdgeInsets.all(12),
-                    child: Center(
-                      child: SvgPicture.asset(AppAssets.shareIcon),
+                    const SizedBox(
+                      width: 10,
                     ),
-                  )
-                ],
-              ),
-              _buildPlayCount(widget.totalViews ?? '', context)
-            ],
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          Container(
-            width: double.infinity,
-            color: AppColors.secondaryButtonColor,
-            height: 1,
-          )
-        ],
+                    _buildIcon(
+                      SvgPicture.asset(AppAssets.commentIcon),
+                      widget.totalComments ?? '0',
+                      context,
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: AppColors.secondaryButtonColor,
+                      ),
+                      padding: const EdgeInsets.all(12),
+                      child: Center(
+                        child: SvgPicture.asset(AppAssets.shareIcon),
+                      ),
+                    )
+                  ],
+                ),
+                _buildPlayCount(widget.totalViews ?? '', context)
+              ],
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Container(
+              width: double.infinity,
+              color: AppColors.secondaryButtonColor,
+              height: 1,
+            )
+          ],
+        ),
       ),
     );
   }

@@ -885,7 +885,7 @@ class _$SongsTearOff {
       String? licenseType,
       String? songPath,
       String? explicit,
-      int? duration,
+      String? duration,
       String? ordering,
       String? imageServerId,
       String? totalPlay,
@@ -1085,7 +1085,7 @@ mixin _$Songs {
   String? get licenseType => throw _privateConstructorUsedError;
   String? get songPath => throw _privateConstructorUsedError;
   String? get explicit => throw _privateConstructorUsedError;
-  int? get duration => throw _privateConstructorUsedError;
+  String? get duration => throw _privateConstructorUsedError;
   String? get ordering => throw _privateConstructorUsedError;
   String? get imageServerId => throw _privateConstructorUsedError;
   String? get totalPlay => throw _privateConstructorUsedError;
@@ -1189,7 +1189,7 @@ abstract class $SongsCopyWith<$Res> {
       String? licenseType,
       String? songPath,
       String? explicit,
-      int? duration,
+      String? duration,
       String? ordering,
       String? imageServerId,
       String? totalPlay,
@@ -1560,7 +1560,7 @@ class _$SongsCopyWithImpl<$Res> implements $SongsCopyWith<$Res> {
       duration: duration == freezed
           ? _value.duration
           : duration // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as String?,
       ordering: ordering == freezed
           ? _value.ordering
           : ordering // ignore: cast_nullable_to_non_nullable
@@ -1771,7 +1771,7 @@ abstract class _$SongsCopyWith<$Res> implements $SongsCopyWith<$Res> {
       String? licenseType,
       String? songPath,
       String? explicit,
-      int? duration,
+      String? duration,
       String? ordering,
       String? imageServerId,
       String? totalPlay,
@@ -2143,7 +2143,7 @@ class __$SongsCopyWithImpl<$Res> extends _$SongsCopyWithImpl<$Res>
       duration: duration == freezed
           ? _value.duration
           : duration // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as String?,
       ordering: ordering == freezed
           ? _value.ordering
           : ordering // ignore: cast_nullable_to_non_nullable
@@ -2506,7 +2506,7 @@ class _$_Songs implements _Songs {
   @override
   final String? explicit;
   @override
-  final int? duration;
+  final String? duration;
   @override
   final String? ordering;
   @override
@@ -2890,7 +2890,7 @@ abstract class _Songs implements Songs {
       String? licenseType,
       String? songPath,
       String? explicit,
-      int? duration,
+      String? duration,
       String? ordering,
       String? imageServerId,
       String? totalPlay,
@@ -3043,7 +3043,7 @@ abstract class _Songs implements Songs {
   @override
   String? get explicit;
   @override
-  int? get duration;
+  String? get duration;
   @override
   String? get ordering;
   @override

@@ -127,7 +127,7 @@ _$_Songs _$$_SongsFromJson(Map<String, dynamic> json) => _$_Songs(
       licenseType: json['licenseType'] as String?,
       songPath: json['songPath'] as String?,
       explicit: json['explicit'] as String?,
-      duration: json['duration'] as int?,
+      duration: json['duration'] as String?,
       ordering: json['ordering'] as String?,
       imageServerId: json['imageServerId'] as String?,
       totalPlay: json['totalPlay'] as String?,

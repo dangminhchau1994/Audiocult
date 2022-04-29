@@ -8,7 +8,10 @@ import '../../../player_widgets/player_screen.dart';
 
 class DetailAlbumPlayButton extends StatefulWidget {
   final DetailAlbumBloc? albumBloc;
-  const DetailAlbumPlayButton({Key? key, this.albumBloc}) : super(key: key);
+  const DetailAlbumPlayButton({
+    Key? key,
+    this.albumBloc,
+  }) : super(key: key);
 
   @override
   State<DetailAlbumPlayButton> createState() => _DetailAlbumPlayButtonState();
@@ -36,7 +39,7 @@ class _DetailAlbumPlayButtonState extends State<DetailAlbumPlayButton> {
   @override
   Widget build(BuildContext context) {
     return Positioned(
-      top: 276,
+      top: 250,
       right: 30,
       child: WButtonInkwell(
         onPressed: () {

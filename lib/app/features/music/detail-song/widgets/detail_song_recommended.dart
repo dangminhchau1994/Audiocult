@@ -33,70 +33,72 @@ class _DetailSongRecommendedState extends State<DetailSongRecommended> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<BlocState<List<Song>>>(
-      initialData: const BlocState.loading(),
-      stream: songBloc.getSongRecommendedStream,
-      builder: (context, snapshot) {
-        final state = snapshot.data!;
+    return SliverToBoxAdapter(
+      child: StreamBuilder<BlocState<List<Song>>>(
+        initialData: const BlocState.loading(),
+        stream: songBloc.getSongRecommendedStream,
+        builder: (context, snapshot) {
+          final state = snapshot.data!;
 
-        return state.when(
-          success: (success) {
-            final data = success as List<Song>;
+          return state.when(
+            success: (success) {
+              final data = success as List<Song>;
 
-            return Padding(
-              padding: const EdgeInsets.only(
-                top: 20,
-                left: 16,
-                right: 16,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    context.l10n.t_recommended_song,
-                    style: context.buttonTextStyle()!.copyWith(
-                          fontSize: 18,
-                        ),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      bottom: 30,
+              return Padding(
+                padding: const EdgeInsets.only(
+                  top: 20,
+                  left: 16,
+                  right: 16,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      context.l10n.t_recommended_song,
+                      style: context.buttonTextStyle()!.copyWith(
+                            fontSize: 18,
+                          ),
                     ),
-                    child: ListView.separated(
-                      itemCount: data.length,
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemBuilder: (context, index) => SongItem(
-                        song: data[index],
-                        songs: data,
-                        index: index,
-                        fromDetail: true,
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        bottom: 30,
                       ),
-                      separatorBuilder: (context, index) => const Divider(height: 40),
+                      child: ListView.separated(
+                        itemCount: data.length,
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemBuilder: (context, index) => SongItem(
+                          song: data[index],
+                          songs: data,
+                          index: index,
+                          fromDetail: true,
+                        ),
+                        separatorBuilder: (context, index) => const Divider(height: 20),
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            );
-          },
-          loading: () {
-            return const Center(
-              child: LoadingWidget(),
-            );
-          },
-          error: (error) {
-            return ErrorSectionWidget(
-              errorMessage: error,
-              onRetryTap: () {
-                songBloc.getSongRecommended(widget.id ?? 0);
-              },
-            );
-          },
-        );
-      },
+                  ],
+                ),
+              );
+            },
+            loading: () {
+              return const Center(
+                child: LoadingWidget(),
+              );
+            },
+            error: (error) {
+              return ErrorSectionWidget(
+                errorMessage: error,
+                onRetryTap: () {
+                  songBloc.getSongRecommended(widget.id ?? 0);
+                },
+              );
+            },
+          );
+        },
+      ),
     );
   }
 }

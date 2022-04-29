@@ -32,7 +32,7 @@ class DetailSongNavBar extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(
             top: 30,
-            right: 20,
+            right: 10,
           ),
           child: Container(
             padding: const EdgeInsets.all(10),

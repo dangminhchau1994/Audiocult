@@ -23,7 +23,7 @@ class SongDetailResponse {
   String? songPath;
   String? serverId;
   String? explicit;
-  int? duration;
+  String? duration;
   String? ordering;
   String? imageServerId;
   String? totalPlay;

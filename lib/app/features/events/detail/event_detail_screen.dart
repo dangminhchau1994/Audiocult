@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:audio_cult/app/base/bloc_state.dart';
 import 'package:audio_cult/app/data_source/models/responses/events/event_response.dart';
 import 'package:audio_cult/app/features/events/detail/event_detail_bloc.dart';
+import 'package:audio_cult/app/features/events/detail/widgets/custom_event_sliver.dart';
 import 'package:audio_cult/app/features/events/detail/widgets/event_detail_artist.dart';
 import 'package:audio_cult/app/features/events/detail/widgets/event_detail_attending.dart';
 import 'package:audio_cult/app/features/events/detail/widgets/event_detail_comment.dart';
@@ -71,26 +72,22 @@ class _EventDetailState extends State<EventDetail> {
               success: (success) {
                 final data = success as EventResponse;
 
-                return SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Stack(
-                        children: [
-                          EventDetailPhoto(imagePath: data.imagePath ?? ''),
-                          const EventDetailNavBar(),
-                          EventDetailTitle(title: data.title ?? ''),
-                          EventDetailFestiVal(
-                            category: data.categories?[0][0],
-                          ),
-                        ],
+                return CustomScrollView(
+                  slivers: [
+                    SliverPersistentHeader(
+                      pinned: true,
+                      delegate: CustomEventSliver(
+                        data: data,
+                        expandedHeight: 300,
                       ),
-                      EventDetaiInfo(data: data),
-                      EventDetailAttending(
-                        eventId: widget.id ?? 0,
-                        rsvpId: data.rsvpId,
-                      ),
-                      Padding(
+                    ),
+                    EventDetaiInfo(data: data),
+                    EventDetailAttending(
+                      eventId: widget.id ?? 0,
+                      rsvpId: data.rsvpId,
+                    ),
+                    SliverToBoxAdapter(
+                      child: Padding(
                         padding: const EdgeInsets.symmetric(
                           horizontal: kHorizontalSpacing,
                           vertical: kVerticalSpacing,
@@ -101,12 +98,12 @@ class _EventDetailState extends State<EventDetail> {
                           onTap: () {},
                         ),
                       ),
-                      ArtistLineUp(data: data),
-                      EventDetailDescription(data: data),
-                      EventDetailMap(iconMarker: _iconMarker, data: data),
-                      EventDetailComment(id: widget.id, title: data.title)
-                    ],
-                  ),
+                    ),
+                    ArtistLineUp(data: data),
+                    EventDetailDescription(data: data),
+                    EventDetailMap(iconMarker: _iconMarker, data: data),
+                    EventDetailComment(id: widget.id, title: data.title)
+                  ],
                 );
               },
               loading: () {

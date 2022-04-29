@@ -18,17 +18,19 @@ class EventDetaiInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(
-        vertical: kVerticalSpacing,
-        horizontal: kHorizontalSpacing,
-      ),
-      child: Column(
-        children: [
-          _buildLocation(context, data!),
-          const SizedBox(height: 30),
-          _buildTime(context),
-        ],
+    return SliverToBoxAdapter(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          vertical: kVerticalSpacing,
+          horizontal: kHorizontalSpacing,
+        ),
+        child: Column(
+          children: [
+            _buildLocation(context, data!),
+            const SizedBox(height: 30),
+            _buildTime(context),
+          ],
+        ),
       ),
     );
   }
