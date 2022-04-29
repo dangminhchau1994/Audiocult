@@ -14,7 +14,7 @@ class EventDetailFestiVal extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Positioned(
-      top: 276,
+      top: 250,
       right: 25,
       child: category != null
           ? Container(

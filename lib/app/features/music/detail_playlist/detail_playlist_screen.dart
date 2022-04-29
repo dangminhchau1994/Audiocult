@@ -1,5 +1,6 @@
 import 'package:audio_cult/app/data_source/models/responses/playlist/playlist_response.dart';
 import 'package:audio_cult/app/features/music/detail_playlist/detail_playlist_bloc.dart';
+import 'package:audio_cult/app/features/music/detail_playlist/widgets/custom_sliver_playlist.dart';
 import 'package:audio_cult/app/features/music/detail_playlist/widgets/detail_playlist_comment.dart';
 import 'package:audio_cult/app/features/music/detail_playlist/widgets/detail_playlist_navbar.dart';
 import 'package:audio_cult/app/features/music/detail_playlist/widgets/detail_playlist_photo.dart';
@@ -57,46 +58,32 @@ class _DetailPlayListScreenState extends State<DetailPlayListScreen> {
                 success: (data) {
                   final detail = data as PlaylistResponse;
 
-                  return SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Stack(
-                          children: [
-                            //Photo
-                            DetailPlayListPhoto(
-                              imagePath: detail.imagePath,
-                            ),
-                            //Navbar
-                            const DetailPlayListNavBar(),
-                            //Title
-                            DetailPlayListTitle(
-                              time: detail.timeStamp,
-                              userName: detail.fullName,
-                              title: detail.title,
-                            ),
-                            // Play Button
-                            const DetailPlayListPlayButton(),
-                          ],
+                  return CustomScrollView(
+                    slivers: [
+                      SliverPersistentHeader(
+                        pinned: true,
+                        delegate: CustomSliverPlayList(
+                          detail: detail,
+                          expandedHeight: 300,
                         ),
-                        //Detail songs by album id
-                        DetailPlayListSongs(
-                          playListId: widget.playListId ?? '',
-                          totalComments: detail.totalComments,
-                          totalLike: detail.totalLikes,
-                          totalViews: detail.totalView,
-                        ),
-                        //Comment
-                        DetailPlayListComment(
-                          id: int.parse(widget.playListId ?? ''),
-                          title: detail.title,
-                        ),
-                        //Recommended Songs
-                        DetailPlayListRecommended(
-                          id: int.parse(widget.playListId ?? ''),
-                        ),
-                      ],
-                    ),
+                      ),
+                      //Detail songs by album id
+                      DetailPlayListSongs(
+                        playListId: widget.playListId ?? '',
+                        totalComments: detail.totalComments,
+                        totalLike: detail.totalLikes,
+                        totalViews: detail.totalView,
+                      ),
+                      //Comment
+                      DetailPlayListComment(
+                        id: int.parse(widget.playListId ?? ''),
+                        title: detail.title,
+                      ),
+                      //Recommended Songs
+                      DetailPlayListRecommended(
+                        id: int.parse(widget.playListId ?? ''),
+                      ),
+                    ],
                   );
                 },
                 loading: () {

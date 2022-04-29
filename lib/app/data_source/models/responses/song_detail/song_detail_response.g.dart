@@ -28,7 +28,7 @@ SongDetailResponse _$SongDetailResponseFromJson(Map<String, dynamic> json) =>
       songPath: json['song_path'] as String?,
       serverId: json['server_id'] as String?,
       explicit: json['explicit'] as String?,
-      duration: json['duration'] as int?,
+      duration: json['duration'] as String?,
       ordering: json['ordering'] as String?,
       imageServerId: json['image_server_id'] as String?,
       totalPlay: json['total_play'] as String?,

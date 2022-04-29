@@ -63,58 +63,60 @@ class _EventDetailAttendingState extends State<EventDetailAttending> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: kHorizontalSpacing,
-        vertical: kVerticalSpacing,
-      ),
-      child: Row(
-        children: [
-          Expanded(
-            flex: 2,
-            child: _buildComponent(
-              Padding(
-                padding: const EdgeInsets.only(
-                  bottom: 10,
-                  left: 30,
+    return SliverToBoxAdapter(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: kHorizontalSpacing,
+          vertical: kVerticalSpacing,
+        ),
+        child: Row(
+          children: [
+            Expanded(
+              flex: 2,
+              child: _buildComponent(
+                Padding(
+                  padding: const EdgeInsets.only(
+                    bottom: 10,
+                    left: 30,
+                  ),
+                  child: SvgPicture.asset(
+                    _getIconPath(_rsvpId),
+                  ),
                 ),
-                child: SvgPicture.asset(
-                  _getIconPath(_rsvpId),
+                CommonDropdown(
+                  hint: _getTitle(_rsvpId),
+                  isBorderVisible: false,
+                  selection: _attendSelected,
+                  backgroundColor: Colors.transparent,
+                  data: GlobalConstants.getSelectedMenu(context),
+                  onChanged: (value) {
+                    setState(() {
+                      _attendSelected = value!;
+                      _rsvpId = value.id.toString();
+                      _eventDetailBloc.updateEventStatus(widget.eventId ?? 0, value.id ?? 0);
+                    });
+                  },
                 ),
-              ),
-              CommonDropdown(
-                hint: _getTitle(_rsvpId),
-                isBorderVisible: false,
-                selection: _attendSelected,
-                backgroundColor: Colors.transparent,
-                data: GlobalConstants.getSelectedMenu(context),
-                onChanged: (value) {
-                  setState(() {
-                    _attendSelected = value!;
-                    _rsvpId = value.id.toString();
-                    _eventDetailBloc.updateEventStatus(widget.eventId ?? 0, value.id ?? 0);
-                  });
-                },
               ),
             ),
-          ),
-          const SizedBox(width: 20),
-          Expanded(
-            flex: 2,
-            child: _buildComponent(
-              SvgPicture.asset(
-                AppAssets.mailIcon,
+            const SizedBox(width: 20),
+            Expanded(
+              flex: 2,
+              child: _buildComponent(
+                SvgPicture.asset(
+                  AppAssets.mailIcon,
+                ),
+                Text(
+                  context.l10n.t_invite_friend,
+                  style: context.bodyTextPrimaryStyle()!.copyWith(
+                        color: Colors.white,
+                        fontSize: 16,
+                      ),
+                ),
               ),
-              Text(
-                context.l10n.t_invite_friend,
-                style: context.bodyTextPrimaryStyle()!.copyWith(
-                      color: Colors.white,
-                      fontSize: 16,
-                    ),
-              ),
-            ),
-          )
-        ],
+            )
+          ],
+        ),
       ),
     );
   }

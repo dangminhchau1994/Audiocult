@@ -9,13 +9,11 @@ class DetailSongTitle extends StatelessWidget {
     this.title,
     this.artistName,
     this.time,
-    this.appear,
   }) : super(key: key);
 
   final String? title;
   final String? artistName;
   final String? time;
-  final double? appear;
 
   @override
   Widget build(BuildContext context) {
@@ -42,6 +40,7 @@ class DetailSongTitle extends StatelessWidget {
                 artistName ?? 'N/A',
                 style: context.bodyTextPrimaryStyle()!.copyWith(
                       color: Colors.white,
+                      fontSize: 16
                     ),
               ),
               const SizedBox(

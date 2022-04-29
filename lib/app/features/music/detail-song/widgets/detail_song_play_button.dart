@@ -3,10 +3,7 @@ import 'package:flutter/material.dart';
 class DetailSongPlayButton extends StatelessWidget {
   const DetailSongPlayButton({
     Key? key,
-    this.appear,
   }) : super(key: key);
-
-  final double? appear;
 
   @override
   Widget build(BuildContext context) {

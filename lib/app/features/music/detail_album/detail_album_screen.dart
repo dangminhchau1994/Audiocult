@@ -1,5 +1,6 @@
 import 'package:audio_cult/app/data_source/models/responses/album/album_response.dart';
 import 'package:audio_cult/app/features/music/detail_album/detail_album_bloc.dart';
+import 'package:audio_cult/app/features/music/detail_album/widgets/custom_sliver_album.dart';
 import 'package:audio_cult/app/features/music/detail_album/widgets/detail_album_comment.dart';
 import 'package:audio_cult/app/features/music/detail_album/widgets/detail_album_description.dart';
 import 'package:audio_cult/app/features/music/detail_album/widgets/detail_album_navbar.dart';
@@ -61,50 +62,35 @@ class _DetailAlbumScreenState extends State<DetailAlbumScreen> {
                 success: (data) {
                   final detail = data as Album;
 
-                  return SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Stack(
-                          children: [
-                            //Photo
-                            DetailAlbumPhoto(
-                              imagePath: detail.imagePath,
-                            ),
-                            //Navbar
-                            const DetailAlbumNavBar(),
-                            //Title
-                            DetailAlbumTitle(
-                              time: detail.timeStamp,
-                              userName: detail.fullName ?? '',
-                              title: detail.name,
-                            ),
-                            // Play Button
-                            DetailAlbumPlayButton(
-                              albumBloc: albumBloc,
-                            ),
-                          ],
+                  return CustomScrollView(
+                    slivers: [
+                      SliverPersistentHeader(
+                        pinned: true,
+                        delegate: CustomSliverAlbum(
+                          detail: detail,
+                          expandedHeight: 300,
+                          albumBloc: albumBloc
                         ),
-                        //Detail songs by album id
-                        DetailAlbumSongs(
-                          albumBloc: albumBloc,
-                          albumId: widget.albumId ?? '',
-                        ),
-                        //Description
-                        DetailAlbumDescription(
-                          data: detail,
-                        ),
-                        //Comment
-                        DetailAlbumComment(
-                          id: int.parse(widget.albumId ?? ''),
-                          title: detail.name,
-                        ),
-                        //Recommended Songs
-                        DetailAlbumRecommended(
-                          id: widget.albumId ?? '',
-                        ),
-                      ],
-                    ),
+                      ),
+                      //Detail songs by album id
+                      DetailAlbumSongs(
+                        albumBloc: albumBloc,
+                        albumId: widget.albumId ?? '',
+                      ),
+                      //Description
+                      DetailAlbumDescription(
+                        data: detail,
+                      ),
+                      //Comment
+                      DetailAlbumComment(
+                        id: int.parse(widget.albumId ?? ''),
+                        title: detail.name,
+                      ),
+                      //Recommended Songs
+                      DetailAlbumRecommended(
+                        id: widget.albumId ?? '',
+                      ),
+                    ],
                   );
                 },
                 loading: () {

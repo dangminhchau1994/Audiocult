@@ -32,67 +32,69 @@ class _DetailPlayListRecommendedState extends State<DetailPlayListRecommended> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<BlocState<List<PlaylistResponse>>>(
-      initialData: const BlocState.loading(),
-      stream: playListBloc.getPlayListRecommendedStream,
-      builder: (context, snapshot) {
-        final state = snapshot.data!;
-
-        return state.when(
-          success: (success) {
-            final data = success as List<PlaylistResponse>;
-
-            return Padding(
-              padding: const EdgeInsets.only(
-                top: 20,
-                left: 16,
-                right: 16,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    context.l10n.t_recommended_playlist,
-                    style: context.buttonTextStyle()!.copyWith(
-                          fontSize: 18,
-                        ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      bottom: 30,
+    return SliverToBoxAdapter(
+      child: StreamBuilder<BlocState<List<PlaylistResponse>>>(
+        initialData: const BlocState.loading(),
+        stream: playListBloc.getPlayListRecommendedStream,
+        builder: (context, snapshot) {
+          final state = snapshot.data!;
+    
+          return state.when(
+            success: (success) {
+              final data = success as List<PlaylistResponse>;
+    
+              return Padding(
+                padding: const EdgeInsets.only(
+                  top: 20,
+                  left: 16,
+                  right: 16,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      context.l10n.t_recommended_playlist,
+                      style: context.buttonTextStyle()!.copyWith(
+                            fontSize: 18,
+                          ),
                     ),
-                    child: ListView.separated(
-                      itemCount: data.length,
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemBuilder: (context, index) => SearchItem(
-                        playlist: data[index],
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        bottom: 30,
                       ),
-                      separatorBuilder: (context, index) => const Divider(height: 40),
+                      child: ListView.separated(
+                        itemCount: data.length,
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemBuilder: (context, index) => SearchItem(
+                          playlist: data[index],
+                        ),
+                        separatorBuilder: (context, index) => const Divider(height: 40),
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            );
-          },
-          loading: () {
-            return const Center(
-              child: LoadingWidget(),
-            );
-          },
-          error: (error) {
-            return ErrorSectionWidget(
-              errorMessage: error,
-              onRetryTap: () {
-                playListBloc.getPlayListRecommended(widget.id ?? 0);
-              },
-            );
-          },
-        );
-      },
+                  ],
+                ),
+              );
+            },
+            loading: () {
+              return const Center(
+                child: LoadingWidget(),
+              );
+            },
+            error: (error) {
+              return ErrorSectionWidget(
+                errorMessage: error,
+                onRetryTap: () {
+                  playListBloc.getPlayListRecommended(widget.id ?? 0);
+                },
+              );
+            },
+          );
+        },
+      ),
     );
   }
 }
