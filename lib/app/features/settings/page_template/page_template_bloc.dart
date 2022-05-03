@@ -3,10 +3,10 @@ import 'dart:async';
 import 'package:audio_cult/app/base/base_bloc.dart';
 import 'package:audio_cult/app/base/bloc_state.dart';
 import 'package:audio_cult/app/data_source/local/pref_provider.dart';
+import 'package:audio_cult/app/data_source/models/page_template_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/atlas_category.dart';
 import 'package:audio_cult/app/data_source/models/responses/country_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/genre.dart';
-import 'package:audio_cult/app/data_source/models/page_template_response.dart';
 import 'package:audio_cult/app/data_source/repositories/app_repository.dart';
 import 'package:audio_cult/app/utils/constants/gender_enum.dart';
 import 'package:audio_cult/w_components/dropdown/common_dropdown.dart';
@@ -145,16 +145,6 @@ class PageTemplateBloc extends BaseBloc {
   void selectDateOfBirth(DateTime dateTime) {
     _userProfile?.updateBirthday(dateTime);
     _userProfileStreamController.sink.add(BlocState.success(_userProfile));
-  }
-
-  void selectArtistCategory(SelectMenuModel option) {
-    _selectedCategory = _allPageTemplates?.firstWhereOrNull((element) => element.title == option.title);
-    _loadCategoriesStreamController.sink.add(BlocState.success(Tuple2(_allPageTemplates ?? [], _selectedCategory)));
-  }
-
-  void selectMusicGenre(SelectMenuModel option) {
-    _selectedMusicGenre = _genres?.firstWhereOrNull((element) => element.name == option.title);
-    _loadMusicGenresStreamController.sink.add(BlocState.success(Tuple2(_genres ?? [], _selectedMusicGenre)));
   }
 
   void pinLatLng(LatLng latlng) {
