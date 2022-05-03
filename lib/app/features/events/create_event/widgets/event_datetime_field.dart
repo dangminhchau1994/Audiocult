@@ -11,6 +11,11 @@ class EventDateTimeField extends StatelessWidget {
   const EventDateTimeField({
     Key? key,
     this.onChanged,
+    this.shouldIgnoreTime = false,
+    this.initialDateTime,
+    this.dateFormat,
+    this.isBorderVisible = true,
+    this.backgroundColor,
   }) : super(key: key);
 
   final Function(
@@ -20,11 +25,16 @@ class EventDateTimeField extends StatelessWidget {
     int hour,
     int minute,
   )? onChanged;
+  final bool shouldIgnoreTime;
+  final DateTime? initialDateTime;
+  final DateFormat? dateFormat;
+  final bool isBorderVisible;
+  final Color? backgroundColor;
 
   @override
   Widget build(BuildContext context) {
     return DateTimeField(
-      initialValue: DateTime.now(),
+      initialValue: initialDateTime,
       decoration: InputDecoration(
         filled: true,
         hintText: context.l10n.t_choose_date,
@@ -37,55 +47,72 @@ class EventDateTimeField extends StatelessWidget {
         ),
         focusColor: AppColors.outlineBorderColor,
         hintStyle: TextStyle(color: AppColors.unActiveLabelItem),
-        fillColor: AppColors.inputFillColor.withOpacity(0.4),
+        fillColor: backgroundColor ?? AppColors.inputFillColor.withOpacity(0.4),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(4),
-          borderSide: BorderSide(
-            color: AppColors.outlineBorderColor,
-            width: 2,
-          ),
+          borderSide: isBorderVisible
+              ? BorderSide(
+                  color: AppColors.outlineBorderColor,
+                  width: 2,
+                )
+              : BorderSide.none,
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(4),
-          borderSide: BorderSide(
-            color: Colors.red.withOpacity(0.4),
-            width: 2,
-          ),
+          borderSide: isBorderVisible
+              ? BorderSide(
+                  color: Colors.red.withOpacity(0.4),
+                  width: 2,
+                )
+              : BorderSide.none,
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(4),
-          borderSide: BorderSide(
-            color: Colors.red.withOpacity(0.4),
-            width: 2,
-          ),
+          borderSide: isBorderVisible
+              ? BorderSide(
+                  color: Colors.red.withOpacity(0.4),
+                  width: 2,
+                )
+              : BorderSide.none,
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(4),
-          borderSide: BorderSide(
-            color: AppColors.outlineBorderColor,
-            width: 2,
-          ),
+          borderSide: isBorderVisible
+              ? BorderSide(
+                  color: AppColors.outlineBorderColor,
+                  width: 2,
+                )
+              : BorderSide.none,
         ),
       ),
-      format: DateFormat('yyyy/MM/dd HH:mm'),
+      format: dateFormat ?? (shouldIgnoreTime ? DateFormat('yyyy/MM/dd') : DateFormat('yyyy/MM/dd HH:mm')),
       onShowPicker: (context, currentValue) async {
         final date = await showDatePicker(
-            context: context,
-            firstDate: DateTime(1900),
-            initialDate: currentValue ?? DateTime.now(),
-            builder: (context, child) {
-              return Theme(
-                data: Theme.of(context).copyWith(
-                  colorScheme: ColorScheme.light(
-                    primary: AppColors.primaryButtonColor, // header background color
-                    // body text color
-                  ),
+          context: context,
+          firstDate: DateTime(1900),
+          initialDate: currentValue ?? DateTime.now(),
+          builder: (context, child) {
+            return Theme(
+              data: Theme.of(context).copyWith(
+                colorScheme: ColorScheme.light(
+                  primary: AppColors.primaryButtonColor, // header background color
+                  // body text color
                 ),
-                child: child!,
-              );
-            },
-            lastDate: DateTime(2100));
+              ),
+              child: child!,
+            );
+          },
+          lastDate: DateTime(2100),
+        );
+
         if (date != null) {
+          if (shouldIgnoreTime) {
+            onChanged!(date.day, date.month, date.year, 0, 0);
+            return DateTimeField.combine(
+              DateTime(date.year, date.month, date.day),
+              const TimeOfDay(hour: 0, minute: 0),
+            );
+          }
           final time = await showTimePicker(
             context: context,
             initialTime: TimeOfDay.fromDateTime(currentValue ?? DateTime.now()),

@@ -29,6 +29,7 @@ import 'package:audio_cult/app/features/my_diary_in_month/my_diary_in_month_scre
 import 'package:audio_cult/app/features/player_widgets/player_screen.dart';
 import 'package:audio_cult/app/features/profile/profile_bloc.dart';
 import 'package:audio_cult/app/features/profile/profile_screen.dart';
+import 'package:audio_cult/app/features/settings/settings_screen.dart';
 import 'package:audio_cult/app/injections.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/w_components/comment/comment_args.dart';
@@ -84,6 +85,7 @@ class AppRoute {
   static const String routeCreateEvent = '/route_create_event';
   static const String routeMyDiaryOnMonth = '/my_diary_on_month';
   static const String routeProfile = '/route_profile';
+  static const String routeSettings = '/route_settings';
 
   ///#end region
 
@@ -286,6 +288,8 @@ class AppRoute {
             ),
           ),
         );
+      case routeSettings:
+        return _pageRoute(settings, const SettingsScreen());
       default:
         return null;
     }

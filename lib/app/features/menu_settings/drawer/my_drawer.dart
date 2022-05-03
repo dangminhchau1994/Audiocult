@@ -114,7 +114,9 @@ class _MyDrawerState extends State<MyDrawer> with DisposableStateMixin {
                           ),
                         ),
                         WButtonInkwell(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.pushNamed(context, AppRoute.routeSettings);
+                          },
                           child: Padding(
                             padding: const EdgeInsets.all(8),
                             child: Row(

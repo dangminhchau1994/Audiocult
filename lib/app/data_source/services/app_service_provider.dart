@@ -18,6 +18,7 @@ import 'package:audio_cult/app/data_source/models/responses/reaction_icon/reacti
 import 'package:audio_cult/app/data_source/models/responses/song_detail/song_detail_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/subscriptions_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/user_subscription_response.dart';
+import 'package:audio_cult/app/data_source/models/page_template_response.dart';
 import 'package:audio_cult/app/injections.dart';
 import 'package:audio_cult/app/utils/constants/app_constants.dart';
 import 'package:dio/dio.dart';
@@ -752,7 +753,6 @@ class AppServiceProvider {
         }).toList();
       },
     );
-
     return _countries ?? [];
   }
 
@@ -796,5 +796,49 @@ class AppServiceProvider {
       responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
     );
     return response.data['user_image'] as String;
+  }
+
+  Future<PageTemplateResponse> getPageTemplateData(String userId) async {
+    List<SelectableOption>? getSelectableOptions(dynamic json) {
+      if (json != null && json.keys != null) {
+        final keys = json.keys as Iterable<String>;
+        if (keys.isNotEmpty) {
+          return keys.map((e) {
+            final option = SelectableOption.fromJson(json[e] as Map<String, dynamic>);
+            option.key = e;
+            return option;
+          }).toList();
+        }
+        return null;
+      }
+      return null;
+    }
+
+    List<PageTemplateCustomField>? getCustomFields(dynamic json) {
+      if (json != null && json.keys != null) {
+        final keys = json.keys as Iterable<String>;
+        if (keys.isNotEmpty) {
+          return keys.map((e) {
+            final customField = PageTemplateCustomField.fromJson(json[e] as Map<String, dynamic>);
+            customField.options = getSelectableOptions(json[e]['options']);
+            return customField;
+          }).toList();
+        }
+        return null;
+      }
+      return null;
+    }
+
+    final userProfile = await _dioHelper.get(
+      route: '/restful_api/user/profile',
+      responseBodyMapper: (json) {
+        final dataJson = json['data'] as Map<String, dynamic>;
+        final userProfile = PageTemplateResponse.fromJson(dataJson);
+        final customFieldsJson = json['data']['custom_fields'];
+        userProfile.customFields = getCustomFields(customFieldsJson);
+        return userProfile;
+      },
+    );
+    return userProfile;
   }
 }

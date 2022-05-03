@@ -23,7 +23,7 @@ class City {
   @JsonKey(name: 'name_decoded')
   String? nameDecoded;
   @JsonKey(name: 'child_id')
-  int? childID;
+  String? childID;
 
   City();
 

@@ -18,7 +18,7 @@ Map<String, dynamic> _$CountryToJson(Country instance) => <String, dynamic>{
 City _$CityFromJson(Map<String, dynamic> json) => City()
   ..name = json['name'] as String?
   ..nameDecoded = json['name_decoded'] as String?
-  ..childID = json['child_id'] as int?;
+  ..childID = json['child_id'] as String?;
 
 Map<String, dynamic> _$CityToJson(City instance) => <String, dynamic>{
       'name': instance.name,

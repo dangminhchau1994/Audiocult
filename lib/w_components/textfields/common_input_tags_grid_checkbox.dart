@@ -10,11 +10,20 @@ class CommonInputTagsGridCheckBox extends StatefulWidget {
   final String? hintText;
   final List<String> initTags;
   final Function(InputTagSelect, bool isAdded)? onChange;
+  final Color? fillColor;
+  final bool? isBorderVisible;
+  final SliverGridDelegateWithFixedCrossAxisCount? gridDelegate;
+  final bool? validator;
+
   const CommonInputTagsGridCheckBox({
     Key? key,
     required this.listCheckBox,
     this.hintText,
     this.onChange,
+    this.fillColor,
+    this.isBorderVisible,
+    this.gridDelegate,
+    this.validator,
     required this.initTags,
   }) : super(key: key);
 
@@ -53,10 +62,13 @@ class _CommonInputTagsGridCheckBoxState extends State<CommonInputTagsGridCheckBo
             });
           },
           child: CommonInputTags(
+            validator: widget.validator,
             key: _myKey,
             initTags: widget.initTags,
             hintText: widget.hintText,
             controller: _controller,
+            fillColor: widget.fillColor,
+            isBorderVisible: widget.isBorderVisible,
             onChooseTag: (value) async {
               widget.onChange?.call(InputTagSelect(const Uuid().v4(), true, value), true);
             },
@@ -75,32 +87,37 @@ class _CommonInputTagsGridCheckBoxState extends State<CommonInputTagsGridCheckBo
         if (!isFocused)
           const SizedBox.shrink()
         else
-          GridView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: widget.listCheckBox.length,
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 3,
-              childAspectRatio: 1 / .4,
+          Padding(
+            padding: const EdgeInsets.only(bottom: 16),
+            child: GridView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: widget.listCheckBox.length,
+              gridDelegate: widget.gridDelegate ??
+                  const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3,
+                    childAspectRatio: 1 / .4,
+                  ),
+              itemBuilder: (_, int index) {
+                return CommonCheckbox(
+                  isChecked: widget.listCheckBox[index].isSelected,
+                  onChanged: (v) {
+                    widget.listCheckBox[index].isSelected = v;
+                    if (v) {
+                      _myKey.currentState?.onSubmit(widget.listCheckBox[index].title);
+                      widget.onChange?.call(widget.listCheckBox[index], false);
+                    } else {
+                      _myKey.currentState?.onDeleted(widget.listCheckBox[index].title);
+                      widget.onChange?.call(widget.listCheckBox[index], false);
+                    }
+                    setState(() {});
+                  },
+                  title: widget.listCheckBox[index].title,
+                );
+              },
             ),
-            itemBuilder: (_, int index) {
-              return CommonCheckbox(
-                isChecked: widget.listCheckBox[index].isSelected,
-                onChanged: (v) {
-                  widget.listCheckBox[index].isSelected = v;
-                  if (v) {
-                    _myKey.currentState?.onSubmit(widget.listCheckBox[index].title);
-                    widget.onChange?.call(widget.listCheckBox[index], false);
-                  } else {
-                    _myKey.currentState?.onDeleted(widget.listCheckBox[index].title);
-                    widget.onChange?.call(widget.listCheckBox[index], false);
-                  }
-                  setState(() {});
-                },
-                title: widget.listCheckBox[index].title,
-              );
-            },
-          )
+          ),
+        // SizedBox(height: 16),
       ],
     );
   }

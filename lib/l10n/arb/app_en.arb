@@ -186,5 +186,21 @@
     "t_post":"Post",
     "t_about":"About",
     "t_videos":"Videos",
-    "t_edit_page":"Edit Pages"
+    "t_edit_page":"Edit Pages",
+    "t_account":"Account",
+    "t_notification":"Notification",
+    "t_basic_information":"Basic information",
+    "t_page_template":"Page template",
+    "t_podtal_code":"Zip/Postal code",
+    "t_about_me":"About me",
+    "t_page_temlate_desc":"Text description call to action to fills in the information.",
+    "t_update":"Update",
+    "t_add_pin_on_map":"Add your pin on map",
+    "t_male":"Male",
+    "t_female":"Female",
+    "t_alian":"Alian",
+    "t_panda":"Panda",
+    "t_custom":"Custom",
+    "t_birthday":"Birthday",
+    "t_city":"City"
 }

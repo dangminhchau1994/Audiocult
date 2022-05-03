@@ -21,6 +21,7 @@ class CommonInput extends StatelessWidget {
     this.labelRight,
     this.suffixIcon,
     this.fillColor,
+    this.isBorderVisible = true,
   }) : super(key: key);
 
   final double? width;
@@ -38,6 +39,7 @@ class CommonInput extends StatelessWidget {
   final String? labelRight;
   final Widget? suffixIcon;
   final Color? fillColor;
+  final bool isBorderVisible;
 
   @override
   Widget build(BuildContext context) {
@@ -66,34 +68,42 @@ class CommonInput extends StatelessWidget {
                 decoration: InputDecoration(
                   filled: true,
                   focusColor: AppColors.outlineBorderColor,
-                  fillColor: AppColors.inputFillColor.withOpacity(0.4),
+                  fillColor: fillColor ?? AppColors.inputFillColor.withOpacity(0.4),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(4),
-                    borderSide: BorderSide(
-                      color: AppColors.outlineBorderColor,
-                      width: 2,
-                    ),
+                    borderSide: !isBorderVisible
+                        ? BorderSide.none
+                        : BorderSide(
+                            color: AppColors.outlineBorderColor,
+                            width: 2,
+                          ),
                   ),
                   focusedErrorBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(4),
-                    borderSide: BorderSide(
-                      color: Colors.red.withOpacity(0.4),
-                      width: 2,
-                    ),
+                    borderSide: !isBorderVisible
+                        ? BorderSide.none
+                        : BorderSide(
+                            color: Colors.red.withOpacity(0.4),
+                            width: 2,
+                          ),
                   ),
                   errorBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(4),
-                    borderSide: BorderSide(
-                      color: Colors.red.withOpacity(0.4),
-                      width: 2,
-                    ),
+                    borderSide: !isBorderVisible
+                        ? BorderSide.none
+                        : BorderSide(
+                            color: Colors.red.withOpacity(0.4),
+                            width: 2,
+                          ),
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(4),
-                    borderSide: BorderSide(
-                      color: AppColors.outlineBorderColor,
-                      width: 2,
-                    ),
+                    borderSide: !isBorderVisible
+                        ? BorderSide.none
+                        : BorderSide(
+                            color: AppColors.outlineBorderColor,
+                            width: 2,
+                          ),
                   ),
                   hintText: hintText,
                   hintStyle: TextStyle(color: AppColors.unActiveLabelItem),

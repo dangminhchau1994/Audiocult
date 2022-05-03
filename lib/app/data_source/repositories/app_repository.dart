@@ -20,6 +20,7 @@ import 'package:audio_cult/app/data_source/models/responses/reaction_icon/reacti
 import 'package:audio_cult/app/data_source/models/responses/song_detail/song_detail_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/subscriptions_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/user_subscription_response.dart';
+import 'package:audio_cult/app/data_source/models/page_template_response.dart';
 import 'package:audio_cult/app/data_source/networks/exceptions/no_cache_exception.dart';
 import 'package:audio_cult/app/data_source/services/hive_service_provider.dart';
 import 'package:audio_cult/app/features/auth/widgets/register_page.dart';
@@ -465,5 +466,9 @@ class AppRepository extends BaseRepository {
 
   Future<Either<String, Exception>> uploadAvatar(XFile file) {
     return safeCall(() => appServiceProvider.uploadAvatar(file));
+  }
+
+  Future<Either<PageTemplateResponse, Exception>> getPageTemplateData(String userId) async {
+    return safeCall(() => appServiceProvider.getPageTemplateData(userId));
   }
 }
