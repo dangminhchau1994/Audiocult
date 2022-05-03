@@ -3,6 +3,8 @@ import 'dart:typed_data';
 import 'package:audio_cult/app/data_source/models/responses/events/event_response.dart';
 import 'package:audio_cult/app/utils/constants/app_dimens.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -67,6 +69,11 @@ class _EventDetailMapState extends State<EventDetailMap> {
             SizedBox(
               height: 500,
               child: GoogleMap(
+                gestureRecognizers: const <Factory<OneSequenceGestureRecognizer>>{
+                  Factory<OneSequenceGestureRecognizer>(
+                    EagerGestureRecognizer.new,
+                  ),
+                },
                 onTap: (lng) {
                   FocusManager.instance.primaryFocus?.unfocus();
                 },

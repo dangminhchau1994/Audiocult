@@ -4,6 +4,7 @@ class CommentRequest {
   final String? typeId;
   final int? page;
   final int? limit;
+  final String? sort;
 
   CommentRequest({
     this.parentId,
@@ -11,5 +12,6 @@ class CommentRequest {
     this.typeId,
     this.page,
     this.limit,
+    this.sort,
   });
 }

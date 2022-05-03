@@ -62,7 +62,7 @@ class _CommentListScreenState extends State<CommentListScreen> {
       case CommentType.album:
         return 'music_album';
       case CommentType.playlist:
-        return 'advanced_music_playlist';
+        return 'advancedmusic_playlist';
       case CommentType.song:
         return 'music_song';
       case CommentType.home:
@@ -103,6 +103,7 @@ class _CommentListScreenState extends State<CommentListScreen> {
         typeId: getType(),
         page: 1,
         limit: GlobalConstants.loadMoreItem,
+        sort: 'latest',
       ),
     );
   }
@@ -132,6 +133,7 @@ class _CommentListScreenState extends State<CommentListScreen> {
         typeId: getType(),
         page: 1,
         limit: GlobalConstants.loadMoreItem,
+        sort: 'latest',
       ),
     );
   }
@@ -144,6 +146,7 @@ class _CommentListScreenState extends State<CommentListScreen> {
           typeId: getType(),
           page: pageKey,
           limit: GlobalConstants.loadMoreItem,
+          sort: 'latest',
         ),
       );
       newItems.fold(
@@ -226,6 +229,7 @@ class _CommentListScreenState extends State<CommentListScreen> {
                     typeId: getType(),
                     page: 1,
                     limit: GlobalConstants.loadMoreItem,
+                    sort: 'latest',
                   ),
                 );
               },
@@ -284,6 +288,7 @@ class _CommentListScreenState extends State<CommentListScreen> {
                       typeId: getType(),
                       page: 1,
                       limit: GlobalConstants.loadMoreItem,
+                      sort: 'latest',
                     ),
                   );
                 },
@@ -365,6 +370,7 @@ class _CommentListScreenState extends State<CommentListScreen> {
                         typeId: getType(),
                         page: 1,
                         limit: GlobalConstants.loadMoreItem,
+                        sort: 'latest',
                       ),
                     );
                   },

@@ -36,7 +36,7 @@ class _EventDetailCommentState extends State<EventDetailComment> {
 
   @override
   void initState() {
-    _eventDetailBloc.getComments(widget.id ?? 0, 'event', 1, 3);
+    _eventDetailBloc.getComments(widget.id ?? 0, 'event', 1, 3, 'latest');
     super.initState();
   }
 

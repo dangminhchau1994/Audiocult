@@ -100,6 +100,7 @@ class _ReplyListScreenState extends State<ReplyListScreen> {
         typeId: getType(),
         page: 1,
         limit: GlobalConstants.loadMoreItem,
+        sort: 'latest',
       ),
     );
   }
@@ -113,6 +114,7 @@ class _ReplyListScreenState extends State<ReplyListScreen> {
           typeId: getType(),
           page: pageKey,
           limit: GlobalConstants.loadMoreItem,
+          sort: 'latest',
         ),
       );
       newItems.fold(
@@ -151,6 +153,7 @@ class _ReplyListScreenState extends State<ReplyListScreen> {
         typeId: getType(),
         page: 1,
         limit: GlobalConstants.loadMoreItem,
+        sort: 'latest',
       ),
     );
   }
@@ -229,6 +232,7 @@ class _ReplyListScreenState extends State<ReplyListScreen> {
                     typeId: getType(),
                     page: 1,
                     limit: GlobalConstants.loadMoreItem,
+                    sort: 'latest',
                   ),
                 );
               },

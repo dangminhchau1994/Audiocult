@@ -44,10 +44,10 @@ class DetailSongBloc extends BaseBloc {
     });
   }
 
-  void getComments(int id, String typeId, int page, int limit) async {
+  void getComments(int id, String typeId, int page, int limit, String sort) async {
     _getCommentsSubject.sink.add(const BlocState.loading());
 
-    final result = await _appRepository.getComments(id, typeId, page, limit);
+    final result = await _appRepository.getComments(id, typeId, page, limit, sort);
 
     result.fold((success) {
       _getCommentsSubject.sink.add(BlocState.success(success));

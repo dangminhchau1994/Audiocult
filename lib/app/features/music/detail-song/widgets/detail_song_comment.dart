@@ -36,7 +36,7 @@ class _DetailSongCommentState extends State<DetailSongComment> {
 
   @override
   void initState() {
-    songBloc.getComments(widget.id ?? 0, 'music_song', 1, 3);
+    songBloc.getComments(widget.id ?? 0, 'music_song', 1, 3, 'latest');
     super.initState();
   }
 

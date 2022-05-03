@@ -285,7 +285,7 @@ class AppServiceProvider {
     );
   }
 
-  Future<List<CommentResponse>> getComments(int id, String typeId, int page, int limit) async {
+  Future<List<CommentResponse>> getComments(int id, String typeId, int page, int limit, String sort) async {
     final response = await _dioHelper.get(
       route: '/restful_api/comment',
       options: Options(headers: {'Content-Type': 'application/x-www-form-urlencoded'}),
@@ -294,6 +294,7 @@ class AppServiceProvider {
         'type_id': typeId,
         'page': page,
         'limit': limit,
+        'sort': sort,
       },
       responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
     );
@@ -322,7 +323,14 @@ class AppServiceProvider {
     );
   }
 
-  Future<List<CommentResponse>> getReplies(int parentId, int itemId, String typeId, int page, int limit) async {
+  Future<List<CommentResponse>> getReplies(
+    int parentId,
+    int itemId,
+    String typeId,
+    int page,
+    int limit,
+    String sort,
+  ) async {
     final response = await _dioHelper.get(
       route: '/restful_api/comment',
       options: Options(headers: {'Content-Type': 'application/x-www-form-urlencoded'}),
@@ -332,6 +340,7 @@ class AppServiceProvider {
         'type_id': typeId,
         'page': page,
         'limit': limit,
+        'sort': sort,
       },
       responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
     );

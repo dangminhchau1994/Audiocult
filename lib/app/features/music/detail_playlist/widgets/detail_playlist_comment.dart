@@ -36,7 +36,7 @@ class _DetailPlayListCommentState extends State<DetailPlayListComment> {
 
   @override
   void initState() {
-    playListBloc.getComments(widget.id ?? 0, 'advanced_music_playlist', 1, 3);
+    playListBloc.getComments(widget.id ?? 0, 'advancedmusic_playlist', 1, 3, 'latest');
     super.initState();
   }
 
@@ -96,11 +96,11 @@ class _DetailPlayListCommentState extends State<DetailPlayListComment> {
               stream: playListBloc.getCommentsStream,
               builder: (context, snapshot) {
                 final state = snapshot.data!;
-    
+
                 return state.when(
                   success: (success) {
                     final data = success as List<CommentResponse>;
-    
+
                     if (data.isEmpty) {
                       return const Center(
                         child: Text(
@@ -109,7 +109,7 @@ class _DetailPlayListCommentState extends State<DetailPlayListComment> {
                         ),
                       );
                     }
-    
+
                     return Column(
                       children: [
                         ListView.separated(

@@ -38,7 +38,7 @@ class _ReplyItemState extends State<ReplyItem> {
   @override
   void initState() {
     super.initState();
-    _commentListBloc.getReplies(widget.parentId ?? 0, widget.id ?? 0, getType(), 1, 2);
+    _commentListBloc.getReplies(widget.parentId ?? 0, widget.id ?? 0, getType(), 1, 2, 'latest');
   }
 
   String getType() {

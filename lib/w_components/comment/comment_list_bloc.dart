@@ -27,12 +27,13 @@ class CommentListBloc extends BaseBloc<CommentRequest, List<CommentResponse>> {
       params?.typeId ?? '',
       params?.page ?? 0,
       params?.limit ?? 0,
+      params?.sort ?? '',
     );
     return result;
   }
 
-  void getReplies(int parentId, int id, String typeId, int page, int limit) async {
-    final result = await _appRepository.getReplies(parentId, id, typeId, page, limit);
+  void getReplies(int parentId, int id, String typeId, int page, int limit, String sort) async {
+    final result = await _appRepository.getReplies(parentId, id, typeId, page, limit, sort);
 
     result.fold((success) {
       _getRepliesSubject.sink.add(BlocState.success(success));
