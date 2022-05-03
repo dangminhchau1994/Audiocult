@@ -5,14 +5,26 @@ import 'package:flutter/material.dart';
 import '../../app/utils/constants/app_colors.dart';
 
 class CommonInputTags extends StatelessWidget {
-  const CommonInputTags({Key? key, this.onChooseTag, this.onDeleteTag, this.controller, this.initTags, this.hintText})
-      : super(key: key);
+  const CommonInputTags({
+    Key? key,
+    this.onChooseTag,
+    this.onDeleteTag,
+    this.controller,
+    this.initTags,
+    this.hintText,
+    this.fillColor,
+    this.isBorderVisible,
+    this.validator = true,
+  }) : super(key: key);
 
   final Function(String tag)? onChooseTag;
   final Function(String tag)? onDeleteTag;
   final List<String>? initTags;
   final TextEditingController? controller;
   final String? hintText;
+  final Color? fillColor;
+  final bool? isBorderVisible;
+  final bool? validator;
 
   @override
   Widget build(BuildContext context) {
@@ -46,25 +58,27 @@ class CommonInputTags extends StatelessWidget {
         textStyle: const TextStyle(
           color: Colors.white,
         ),
-        textFieldFilledColor: AppColors.inputFillColor.withOpacity(0.4),
-        textFieldEnabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(4),
-          borderSide: BorderSide(
-            color: AppColors.outlineBorderColor,
-            width: 2,
-          ),
-        ),
+        textFieldFilledColor: fillColor ?? AppColors.inputFillColor.withOpacity(0.4),
+        textFieldEnabledBorder: !(isBorderVisible ?? true)
+            ? InputBorder.none
+            : OutlineInputBorder(
+                borderRadius: BorderRadius.circular(4),
+                borderSide: BorderSide(
+                  color: AppColors.outlineBorderColor,
+                  width: 2,
+                ),
+              ),
         textFieldFocusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(4),
-          borderSide: BorderSide(
-            color: AppColors.outlineBorderColor,
-            width: 2,
-          ),
+          borderSide: BorderSide.none,
         ),
       ),
       onTag: onChooseTag!,
       onDelete: onDeleteTag!,
       validator: (tag) {
+        if (validator == false) {
+          return null;
+        }
         if (tag.length > 15) {
           return "hey that's too long";
         } else if (tag.isEmpty) {

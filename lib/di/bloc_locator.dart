@@ -105,5 +105,6 @@ void setupLocator() {
 
   getIt.registerFactory<MyDiaryInMonthBloc>(() => MyDiaryInMonthBloc(locator.get<AppRepository>()));
 
-  getIt.registerFactory<PageTemplateBloc>(() => PageTemplateBloc(locator.get<AppRepository>()));
+  getIt.registerFactory<PageTemplateBloc>(
+      () => PageTemplateBloc(locator.get<AppRepository>(), locator.get<PrefProvider>()));
 }

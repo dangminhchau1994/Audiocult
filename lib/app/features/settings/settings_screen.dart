@@ -105,65 +105,6 @@
 //                 width: MediaQuery.of(context).size.width / _pageCount,
 //                 currentIndex: _currentIndex,
 //                 title: context.l10n.t_all_events,
-//                 hasIcon: false,
-//               );
-//             case 1:
-//               return CommonTabbarItem(
-//                 index: index,
-//                 width: MediaQuery.of(context).size.width / _pageCount,
-//                 currentIndex: _currentIndex,
-//                 title: context.l10n.t_my_diary,
-//                 hasIcon: false,
-//               );
-//             case 2:
-//               return CommonTabbarItem(
-//                 index: index,
-//                 width: MediaQuery.of(context).size.width / _pageCount,
-//                 currentIndex: _currentIndex,
-//                 title: context.l10n.t_my_tickets,
-//                 hasIcon: false,
-//               );
-//             case 3:
-//               return CommonTabbarItem(
-//                 index: index,
-//                 width: MediaQuery.of(context).size.width / _pageCount,
-//                 currentIndex: _currentIndex,
-//                 title: context.l10n.t_invitations,
-//                 hasIcon: false,
-//               );
-//             default:
-//               return const SizedBox();
-//           }
-//         },
-//         pageViewBuilder: (context, index) {
-//           switch (index) {
-//             case 0:
-//               return const PageTemplateScreen();
-//             case 1:
-//               return const PageTemplateScreen();
-//             case 2:
-//               return const SizedBox();
-//             case 3:
-//               return const SizedBox();
-//             default:
-//               return const SizedBox();
-//           }
-//         },
-//         onTapItem: (index) {
-//           // setState(() {
-//           //   _currentIndex = index;
-//           // });
-//         },
-//         onPageChanged: (index) {
-//           // setState(() {
-//           //   _currentIndex = index;
-//           // });
-//         },
-//       ),
-//     );
-//   }
-// }
-
 import 'package:audio_cult/app/features/atlas/atlas_screen.dart';
 import 'package:audio_cult/app/features/events/all_events/all_events_screen.dart';
 import 'package:audio_cult/app/features/events/my_diary/my_diary_screen.dart';
@@ -210,30 +151,30 @@ class _SettingsScreenState extends State<SettingsScreen> {
     _tabbarItems.addAll([
       CommonTabbarItem(
         index: 0,
-        width: MediaQuery.of(context).size.width / 4,
+        // width: MediaQuery.of(context).size.width / 2,
         currentIndex: _currentPageIndex,
-        title: context.l10n.t_my_tickets,
+        title: 'Page template',
         hasIcon: false,
       ),
       CommonTabbarItem(
         index: 1,
-        width: MediaQuery.of(context).size.width / 4,
+        // width: MediaQuery.of(context).size.width / 4,
         currentIndex: _currentPageIndex,
-        title: context.l10n.t_account,
+        title: 'Account',
         hasIcon: false,
       ),
       CommonTabbarItem(
         index: 2,
-        width: MediaQuery.of(context).size.width / 4,
+        // width: MediaQuery.of(context).size.width / 4,
         currentIndex: _currentPageIndex,
-        title: context.l10n.t_privacy,
+        title: 'Privacy',
         hasIcon: false,
       ),
       CommonTabbarItem(
         index: 3,
-        width: MediaQuery.of(context).size.width / 4,
+        // width: MediaQuery.of(context).size.width / 4,
         currentIndex: _currentPageIndex,
-        title: context.l10n.t_notification,
+        title: 'Notification',
         hasIcon: false,
       ),
     ]);
@@ -273,43 +214,43 @@ class _SettingsScreenState extends State<SettingsScreen> {
           tabBarController: _tabController,
           currentIndex: _currentIndex,
           tabbarItemBuilder: (context, index) {
-            // return _tabbarItems[index];
-            switch (index) {
-              case 0:
-                return CommonTabbarItem(
-                  index: index,
-                  width: MediaQuery.of(context).size.width / _pageCount,
-                  currentIndex: _currentIndex,
-                  title: context.l10n.t_all_events,
-                  hasIcon: false,
-                );
-              case 1:
-                return CommonTabbarItem(
-                  index: index,
-                  width: MediaQuery.of(context).size.width / _pageCount,
-                  currentIndex: _currentIndex,
-                  title: context.l10n.t_my_diary,
-                  hasIcon: false,
-                );
-              case 2:
-                return CommonTabbarItem(
-                  index: index,
-                  width: MediaQuery.of(context).size.width / _pageCount,
-                  currentIndex: _currentIndex,
-                  title: context.l10n.t_my_tickets,
-                  hasIcon: false,
-                );
-              case 3:
-                return CommonTabbarItem(
-                  index: index,
-                  width: MediaQuery.of(context).size.width / _pageCount,
-                  currentIndex: _currentIndex,
-                  title: context.l10n.t_invitations,
-                  hasIcon: false,
-                );
-              default:
-                return const SizedBox();
-            }
+            return _tabbarItems[index];
+            // switch (index) {
+            //   case 0:
+            //     return CommonTabbarItem(
+            //       index: index,
+            //       // width: MediaQuery.of(context).size.width / 2,
+            //       currentIndex: _currentIndex,
+            //       title: context.l10n.t_all_events,
+            //       hasIcon: false,
+            //     );
+            //   case 1:
+            //     return CommonTabbarItem(
+            //       index: index,
+            //       // width: MediaQuery.of(context).size.width / _pageCount,
+            //       currentIndex: _currentIndex,
+            //       title: context.l10n.t_my_diary,
+            //       hasIcon: false,
+            //     );
+            //   case 2:
+            //     return CommonTabbarItem(
+            //       index: index,
+            //       // width: MediaQuery.of(context).size.width / _pageCount,
+            //       currentIndex: _currentIndex,
+            //       title: context.l10n.t_my_tickets,
+            //       hasIcon: false,
+            //     );
+            //   case 3:
+            //     return CommonTabbarItem(
+            //       index: index,
+            //       // width: MediaQuery.of(context).size.width / _pageCount,
+            //       currentIndex: _currentIndex,
+            //       title: context.l10n.t_invitations,
+            //       hasIcon: false,
+            //     );
+            //   default:
+            //     return const SizedBox();
+            // }
           },
           pageViewBuilder: (context, index) {
             switch (index) {

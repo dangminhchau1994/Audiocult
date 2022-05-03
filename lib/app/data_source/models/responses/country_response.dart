@@ -7,8 +7,8 @@ class Country {
   String? name;
   @JsonKey(name: 'country_iso')
   String? countryISO;
-  @JsonKey(ignore: true)
-  List<City>? cities;
+  @JsonKey(name: 'children')
+  // List<City>? cities;
 
   Country();
 
@@ -23,7 +23,7 @@ class City {
   @JsonKey(name: 'name_decoded')
   String? nameDecoded;
   @JsonKey(name: 'child_id')
-  int? childID;
+  String? childID;
 
   City();
 
