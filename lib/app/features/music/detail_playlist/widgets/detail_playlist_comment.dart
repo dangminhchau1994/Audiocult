@@ -129,7 +129,7 @@ class _DetailPlayListCommentState extends State<DetailPlayListComment> {
                                     arguments: CommentArgs(
                                       data: data,
                                       itemId: widget.id,
-                                      commentType: CommentType.album,
+                                      commentType: CommentType.playlist,
                                     ),
                                   );
                                 },
@@ -145,7 +145,7 @@ class _DetailPlayListCommentState extends State<DetailPlayListComment> {
                                 parentId: int.parse(data[index].commentId ?? ''),
                                 id: widget.id,
                                 commentParent: data[index],
-                                commentType: CommentType.album,
+                                commentType: CommentType.playlist,
                               ),
                             );
                           },

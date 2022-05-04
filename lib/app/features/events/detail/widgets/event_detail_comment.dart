@@ -133,7 +133,7 @@ class _EventDetailCommentState extends State<EventDetailComment> {
                                     arguments: CommentArgs(
                                       data: data,
                                       itemId: widget.id,
-                                      commentType: CommentType.album,
+                                      commentType: CommentType.event,
                                     ),
                                   );
                                 },
