@@ -1,9 +1,10 @@
 import 'dart:typed_data';
 
 import 'package:audio_cult/app/base/bloc_state.dart';
-import 'package:audio_cult/app/data_source/models/page_template_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/atlas_category.dart';
 import 'package:audio_cult/app/data_source/models/responses/country_response.dart';
+import 'package:audio_cult/app/data_source/models/responses/page_template_custom_field_response.dart';
+import 'package:audio_cult/app/data_source/models/responses/page_template_response.dart';
 import 'package:audio_cult/app/features/events/create_event/widgets/event_datetime_field.dart';
 import 'package:audio_cult/app/features/settings/page_template/page_template_bloc.dart';
 import 'package:audio_cult/app/features/settings/page_template/page_template_widgets/multi_selection_widget.dart';
@@ -17,6 +18,7 @@ import 'package:audio_cult/app/utils/constants/gender_enum.dart';
 import 'package:audio_cult/app/utils/constants/page_template_field_type.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/app/utils/file/file_utils.dart';
+import 'package:audio_cult/app/utils/toast/toast_utils.dart';
 import 'package:audio_cult/di/bloc_locator.dart';
 import 'package:audio_cult/l10n/l10n.dart';
 import 'package:audio_cult/w_components/buttons/common_button.dart';
@@ -31,6 +33,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:tuple/tuple.dart';
 
 class PageTemplateScreen extends StatefulWidget {
@@ -123,7 +126,7 @@ class _PageTemplateScreenState extends State<PageTemplateScreen> with AutomaticK
   Widget _pageTemplatesWidget() {
     return StreamBuilder<BlocState<Tuple2<List<AtlasCategory>, AtlasCategory?>>>(
         initialData: const BlocState.loading(),
-        stream: _bloc.loadCategoriesStream,
+        stream: _bloc.loadPageTemplatesStream,
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return Container();
@@ -465,32 +468,33 @@ class _PageTemplateScreenState extends State<PageTemplateScreen> with AutomaticK
   }
 
   Widget _multiSelectionWidget(PageTemplateCustomField field) {
-    final values = field.getValues;
+    final selectedOptions = field.getSelectedOptions?.map((e) => e?.key).toList();
     return MultiSelectionWidget(
       field.phrase ?? '',
-      tagOnChanged: (tag) => _bloc.multiSelectionFieldOnChanged(field: field, title: tag.title),
-      tags: field.options?.map((e) {
-            return InputTagSelect(
-              e.key,
-              values?.contains(e.key),
-              e.value ?? '',
-            );
-          }).toList() ??
+      tagOnChanged: (tag) => _bloc.selectableFieldOnChanged(
+          field: field,
+          option: SelectableOption()
+            ..key = tag.id
+            ..value = tag.title
+            ..selected = tag.isSelected),
+      tags: field.options
+              ?.map(
+                (e) => InputTagSelect(
+                  e.key,
+                  selectedOptions?.contains(e.key),
+                  e.value ?? '',
+                ),
+              )
+              .toList() ??
           [],
-      checkedTags: values == null || (values.length == 1 && values.first == null)
+      checkedTags: (field.getSelectedOptions == null ||
+              (field.getSelectedOptions?.length == 1 && field.getSelectedOptions?.first == null))
           ? []
-          : values.map((value) {
-              if (value != null) {
-                return InputTagSelect(
-                  value,
-                  true,
-                  field.options!.firstWhere((element) => element.key == value).value ?? '',
-                );
-              }
+          : field.getSelectedOptions?.map((option) {
               return InputTagSelect(
-                value,
+                option?.key,
                 true,
-                field.options!.firstWhere((element) => element.key == value).value ?? '',
+                option?.value ?? '',
               );
             }).toList(),
     );
@@ -503,12 +507,19 @@ class _PageTemplateScreenState extends State<PageTemplateScreen> with AutomaticK
           .map(
             (e) => SelectMenuModel(
               title: e.value,
-              isSelected: e.selected ?? field.getValues?.contains(e.value) ?? false,
+              isSelected: e.selected ?? false,
             ),
           )
           .toList(),
       onSelected: (option) {
-        _bloc.singleSelectionFieldOnChanged(field: field, value: option.title);
+        if (option.title != null) {
+          _bloc.selectableFieldOnChanged(
+              field: field,
+              option: SelectableOption()
+                ..key = option.id.toString()
+                ..value = option.title
+                ..selected = option.isSelected);
+        }
       },
     );
   }
@@ -516,7 +527,7 @@ class _PageTemplateScreenState extends State<PageTemplateScreen> with AutomaticK
   Widget _textAreaWidget(PageTemplateCustomField field) {
     return TextareaWidget(
       field.phrase ?? '',
-      initialText: field.getValues?.first ?? '',
+      initialText: field.getTextValue ?? '',
       onChanged: (string) {
         _bloc.textFieldOnChanged(field: field, string: string);
       },
@@ -526,6 +537,7 @@ class _PageTemplateScreenState extends State<PageTemplateScreen> with AutomaticK
   Widget _textFieldWidget(PageTemplateCustomField field) {
     return TextfieldWidget(
       field.phrase ?? '',
+      initialText: field.getTextValue,
       onChanged: (string) {
         _bloc.textFieldOnChanged(field: field, string: string);
       },
@@ -537,7 +549,7 @@ class _PageTemplateScreenState extends State<PageTemplateScreen> with AutomaticK
       field.phrase ?? '',
       field.options ?? [],
       onChanged: (selection) {
-        _bloc.radioOnChanged(field: field, selection: selection);
+        _bloc.selectableFieldOnChanged(field: field, option: selection);
       },
     );
   }
@@ -586,36 +598,95 @@ class _PageTemplateScreenState extends State<PageTemplateScreen> with AutomaticK
   }
 
   Widget _mapWidget(LatLng latlng) {
-    return GoogleMap(
-      gestureRecognizers: const <Factory<OneSequenceGestureRecognizer>>{
-        Factory<OneSequenceGestureRecognizer>(
-          EagerGestureRecognizer.new,
-        ),
-      },
-      onTap: (lng) {
-        FocusManager.instance.primaryFocus?.unfocus();
-        _bloc.pinLatLng(lng);
-      },
-      initialCameraPosition: CameraPosition(
-        target: latlng,
-        zoom: 10,
-      ),
-      markers: {
-        Marker(
-          markerId: const MarkerId(''),
-          position: latlng,
-          icon: BitmapDescriptor.fromBytes(_iconMarker),
-        ),
+    return StreamBuilder<MapType>(
+      stream: _bloc.mapTypeStream,
+      initialData: MapType.normal,
+      builder: (_, snapshot) {
+        final mapType = snapshot.data ?? MapType.normal;
+        return Stack(
+          children: [
+            GoogleMap(
+              mapType: mapType,
+              gestureRecognizers: const <Factory<OneSequenceGestureRecognizer>>{
+                Factory<OneSequenceGestureRecognizer>(EagerGestureRecognizer.new),
+              },
+              onTap: (lng) {
+                FocusManager.instance.primaryFocus?.unfocus();
+                _bloc.pinLatLng(lng);
+              },
+              initialCameraPosition: CameraPosition(target: latlng, zoom: 10),
+              markers: {
+                Marker(
+                  markerId: const MarkerId(''),
+                  position: latlng,
+                  icon: BitmapDescriptor.fromBytes(_iconMarker),
+                ),
+              },
+            ),
+            Positioned(
+              top: 10,
+              left: 10,
+              height: 45,
+              child: _mapTypeButtons(mapType),
+            ),
+          ],
+        );
       },
     );
   }
 
+  Widget _mapTypeButtons(MapType mapType) {
+    return Container(
+      color: AppColors.mainColor,
+      child: Row(
+        children: [
+          TextButton(
+            child: Text(
+              context.l10n.t_map,
+              style: context
+                  .title1TextStyle()
+                  ?.copyWith(color: Colors.white.withOpacity(mapType == MapType.normal ? 1 : 0.3)),
+            ),
+            onPressed: () => _bloc.changeMapType(MapType.normal),
+          ),
+          Container(width: 1, height: 45, color: AppColors.lightBlueColor),
+          TextButton(
+            child: Text(
+              context.l10n.t_satellite,
+              style: context
+                  .title1TextStyle()
+                  ?.copyWith(color: Colors.white.withOpacity(mapType == MapType.satellite ? 1 : 0.3)),
+            ),
+            onPressed: () => _bloc.changeMapType(MapType.satellite),
+          )
+        ],
+      ),
+    );
+  }
+
   Widget _updateButton() {
-    return CommonButton(
-      color: AppColors.primaryButtonColor,
-      text: context.l10n.t_update,
-      onTap: () {
-        // TODO: handle update button
+    return StreamBuilder<bool>(
+      stream: _bloc.profileModified,
+      initialData: false,
+      builder: (_, snapshot) {
+        return CommonButton(
+          color: AppColors.primaryButtonColor,
+          text: context.l10n.t_update,
+          onTap: snapshot.data == false
+              ? null
+              : () async {
+                  context.loaderOverlay.show(
+                    widget: const LoadingWidget(
+                      backgroundColor: Colors.black12,
+                    ),
+                  );
+                  final result = await _bloc.updatePageTemplate();
+                  if (result) {
+                    context.loaderOverlay.hide();
+                    ToastUtility.showSuccess(context: context, message: context.l10n.t_success);
+                  }
+                },
+        );
       },
     );
   }

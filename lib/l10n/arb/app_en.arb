@@ -126,6 +126,7 @@
     "t_end_time":"End time",
     "t_on_map":"On map",
     "t_map":"Map",
+    "t_satellite":"Satellite",
     "t_view_events":"Click to view events",
     "t_show_events":"SHOW EVENTS",
     "t_all_events":"All Events",

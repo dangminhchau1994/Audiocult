@@ -49,6 +49,7 @@
     "t_calendar":"Calendar",
     "t_on_map":"On map",
     "t_map":"Map",
+    "t_satellite":"Satellite",
     "t_my_diary":"My Diary",
     "t_my_tickets":"My Tickets",
     "t_invitations":"Invitations",

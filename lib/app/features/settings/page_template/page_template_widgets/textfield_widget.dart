@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 
 class TextfieldWidget extends PageTemplateWidget {
   final Function(String)? onChanged;
-
-  const TextfieldWidget(String title, {this.onChanged, Key? key}) : super(title, key: key);
+  final String? initialText;
+  const TextfieldWidget(String title, {this.initialText, this.onChanged, Key? key}) : super(title, key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,6 +19,7 @@ class TextfieldWidget extends PageTemplateWidget {
   @override
   Widget content() {
     return CommonInput(
+      editingController: TextEditingController()..text = initialText ?? '',
       onChanged: onChanged,
       hintText: '...',
       fillColor: Colors.transparent,

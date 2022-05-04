@@ -1,72 +1,6 @@
-// ignore_for_file: no_default_cases
-
-import 'package:audio_cult/app/base/index_walker.dart';
-import 'package:audio_cult/app/utils/constants/gender_enum.dart';
+import 'package:audio_cult/app/data_source/models/responses/page_template_response.dart';
 import 'package:audio_cult/app/utils/constants/page_template_field_type.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:intl/intl.dart';
-import 'package:json_annotation/json_annotation.dart';
-
-part 'page_template_response.g.dart';
-
-@JsonSerializable()
-class PageTemplateResponse {
-  final _dateFormat = DateFormat('dd/MM/yyyy');
-
-  @JsonKey(name: 'country_iso')
-  String? countryISO;
-  Gender? gender;
-  @JsonKey(name: 'city_location')
-  String? cityLocation;
-  @JsonKey(name: 'postal_code')
-  String? postalCode;
-  String? birthday;
-  String? email;
-  @JsonKey(ignore: true)
-  List<PageTemplateCustomField>? customFields;
-  @JsonKey(name: 'ac_page_lat_pin')
-  String? latPin;
-  @JsonKey(name: 'ac_page_long_pin')
-  String? lngPin;
-  @JsonKey(name: 'user_group_id')
-  String? userGroupId;
-
-  PageTemplateResponse();
-
-  factory PageTemplateResponse.fromJson(Map<String, dynamic> json) => _$PageTemplateResponseFromJson(json);
-
-  Map<String, dynamic> toJson() => _$PageTemplateResponseToJson(this);
-
-  DateTime? get dateTimeBirthDay {
-    if (birthday?.isNotEmpty == true) {
-      return _dateFormat.parse(birthday!);
-    }
-    return null;
-  }
-
-  void updateBirthday(DateTime dateTime) {
-    birthday = _dateFormat.format(dateTime);
-  }
-
-  LatLng get latlngPin {
-    return LatLng(
-      double.parse(latPin ?? '0'),
-      double.parse(lngPin ?? '0'),
-    );
-  }
-}
-
-class SelectableOption {
-  String? key;
-  String? value;
-  bool? selected;
-
-  SelectableOption.fromJson(Map<String, dynamic> json) {
-    final iw = IW(json);
-    value = iw['value'].get();
-    selected = iw['selected'].get();
-  }
-}
+import 'package:collection/collection.dart';
 
 class PageTemplateCustomField {
   String? fieldId;
@@ -124,12 +58,33 @@ class PageTemplateCustomField {
     return profile;
   }
 
-  List<String?>? get getValues {
-    switch (varType) {
-      case PageTemplateFieldType.multiselect:
-        return customValue;
-      default:
-        return [value];
+  List<SelectableOption?>? get getSelectedOptions {
+    if (options?.isNotEmpty == true) {
+      return options?.where((element) => element.selected == true).toList();
     }
+    return null;
+  }
+
+  String? get getTextValue {
+    return value;
+  }
+
+  void updateSelectedOption(SelectableOption option) {
+    if (varType == PageTemplateFieldType.multiselect) {
+      final selectedOption =
+          options?.firstWhereOrNull((element) => element.value?.toLowerCase() == option.value?.toLowerCase());
+      selectedOption?.selected = !(selectedOption.selected ?? false);
+    } else if (varType == PageTemplateFieldType.select || varType == PageTemplateFieldType.radio) {
+      final oldSelectedOption = options?.firstWhereOrNull((element) => element.selected == true);
+      oldSelectedOption?.selected = false;
+      final newSelectedOption =
+          options?.firstWhereOrNull((element) => element.value?.toLowerCase() == option.value?.toLowerCase());
+      newSelectedOption?.selected = true;
+    }
+  }
+
+  // ignore: use_setters_to_change_properties
+  void updateTextValue(String? string) {
+    value = string;
   }
 }
