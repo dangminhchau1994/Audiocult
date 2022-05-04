@@ -36,7 +36,7 @@ class _EventDetailCommentState extends State<EventDetailComment> {
 
   @override
   void initState() {
-    _eventDetailBloc.getComments(widget.id ?? 0, 'event', 1, 3);
+    _eventDetailBloc.getComments(widget.id ?? 0, 'event', 1, 3, 'latest');
     super.initState();
   }
 
@@ -133,7 +133,7 @@ class _EventDetailCommentState extends State<EventDetailComment> {
                                     arguments: CommentArgs(
                                       data: data,
                                       itemId: widget.id,
-                                      commentType: CommentType.album,
+                                      commentType: CommentType.event,
                                     ),
                                   );
                                 },

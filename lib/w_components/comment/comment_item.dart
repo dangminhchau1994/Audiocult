@@ -174,11 +174,7 @@ class _CommentItemState extends State<CommentItem> {
 
                                 return ReactionButtonToggle<ReactionIconResponse>(
                                   boxPosition: Position.BOTTOM,
-                                  boxPadding: const EdgeInsets.only(
-                                    left: 10,
-                                    top: 10,
-                                    bottom: 10,
-                                  ),
+                                  boxPadding: const EdgeInsets.all(4),
                                   boxColor: AppColors.secondaryButtonColor,
                                   onReactionChanged: (ReactionIconResponse? value, bool isChecked) {
                                     getIt.get<CommentItemBloc>().postReactionIcon(
@@ -192,8 +188,8 @@ class _CommentItemState extends State<CommentItem> {
                                     value: ReactionIconResponse(),
                                     icon: SvgPicture.network(
                                       widget.data?.lastIcon?.imagePath ?? data[0].imagePath!,
-                                      height: 25,
-                                      width: 25,
+                                      height: 35,
+                                      width: 35,
                                       placeholderBuilder: (BuildContext context) => const Center(
                                         child: CircularProgressIndicator(),
                                       ),
@@ -219,9 +215,7 @@ class _CommentItemState extends State<CommentItem> {
                         ),
                         Text(
                           widget.data?.totalLike ?? '',
-                          style: context.bodyTextPrimaryStyle()!.copyWith(
-                                color: AppColors.subTitleColor,
-                              ),
+                          style: context.bodyTextPrimaryStyle()!.copyWith(color: AppColors.subTitleColor, fontSize: 18),
                         ),
                       ],
                     ),
@@ -237,22 +231,28 @@ class _CommentItemState extends State<CommentItem> {
 }
 
 Widget _buildTitle(String title) {
-  return Text(
-    title,
-    style: const TextStyle(
-      color: Colors.white,
-      fontWeight: FontWeight.bold,
+  return SizedBox(
+    width: 45,
+    child: Text(
+      title,
+      style: const TextStyle(
+        color: Colors.white,
+        fontSize: 14,
+      ),
     ),
   );
 }
 
 Widget _buildReactionsIcon(String path) {
-  return SvgPicture.network(
-    path,
-    height: 25,
-    width: 25,
-    placeholderBuilder: (BuildContext context) => const Center(
-      child: CircularProgressIndicator(),
+  return Padding(
+    padding: const EdgeInsets.only(bottom: 30, top: 10),
+    child: SvgPicture.network(
+      path,
+      height: 35,
+      width: 35,
+      placeholderBuilder: (BuildContext context) => const Center(
+        child: CircularProgressIndicator(),
+      ),
     ),
   );
 }

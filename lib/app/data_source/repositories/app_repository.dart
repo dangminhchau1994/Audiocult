@@ -183,9 +183,16 @@ class AppRepository extends BaseRepository {
     );
   }
 
-  Future<Either<List<CommentResponse>, Exception>> getComments(int id, String typeId, int page, int limit) {
+  Future<Either<List<CommentResponse>, Exception>> getComments(
+      int id, String typeId, int page, int limit, String sort) {
     return safeCall(
-      () => appServiceProvider.getComments(id, typeId, page, limit),
+      () => appServiceProvider.getComments(
+        id,
+        typeId,
+        page,
+        limit,
+        sort,
+      ),
     );
   }
 
@@ -235,9 +242,10 @@ class AppRepository extends BaseRepository {
     String typeId,
     int page,
     int limit,
+    String sort,
   ) {
     return safeCall(
-      () => appServiceProvider.getReplies(parentId, id, typeId, page, limit),
+      () => appServiceProvider.getReplies(parentId, id, typeId, page, limit, sort),
     );
   }
 

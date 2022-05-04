@@ -36,7 +36,7 @@ class _DetailAlbumCommentState extends State<DetailAlbumComment> {
 
   @override
   void initState() {
-    albumBloc.getComments(widget.id ?? 0, 'music_album', 1, 3);
+    albumBloc.getComments(widget.id ?? 0, 'music_album', 1, 3, 'latest');
     super.initState();
   }
 

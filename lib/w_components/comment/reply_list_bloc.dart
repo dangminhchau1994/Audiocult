@@ -25,6 +25,7 @@ class ReplyListBloc extends BaseBloc<CommentRequest, List<CommentResponse>> {
       params?.typeId ?? '',
       params?.page ?? 0,
       params?.limit ?? 0,
+      params?.sort ?? '',
     );
     return result;
   }

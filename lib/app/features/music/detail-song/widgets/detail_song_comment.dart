@@ -36,7 +36,7 @@ class _DetailSongCommentState extends State<DetailSongComment> {
 
   @override
   void initState() {
-    songBloc.getComments(widget.id ?? 0, 'music_song', 1, 3);
+    songBloc.getComments(widget.id ?? 0, 'music_song', 1, 3, 'latest');
     super.initState();
   }
 
@@ -129,7 +129,7 @@ class _DetailSongCommentState extends State<DetailSongComment> {
                                     arguments: CommentArgs(
                                       data: data,
                                       itemId: widget.id,
-                                      commentType: CommentType.album,
+                                      commentType: CommentType.song,
                                     ),
                                   );
                                 },
@@ -145,7 +145,7 @@ class _DetailSongCommentState extends State<DetailSongComment> {
                                 parentId: int.parse(data[index].commentId ?? ''),
                                 id: widget.id,
                                 commentParent: data[index],
-                                commentType: CommentType.album,
+                                commentType: CommentType.song,
                               ),
                             );
                           },
