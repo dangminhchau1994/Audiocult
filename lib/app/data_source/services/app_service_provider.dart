@@ -7,11 +7,13 @@ import 'package:audio_cult/app/data_source/models/requests/my_diary_event_reques
 import 'package:audio_cult/app/data_source/models/requests/register_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/upload_request.dart';
 import 'package:audio_cult/app/data_source/models/responses/album/album_response.dart';
+import 'package:audio_cult/app/data_source/models/responses/announcement/announcement_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/atlas_category.dart';
 import 'package:audio_cult/app/data_source/models/responses/comment/comment_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/country_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/create_playlist/create_playlist_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/events/event_response.dart';
+import 'package:audio_cult/app/data_source/models/responses/feed/feed_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/login_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/playlist/playlist_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/reaction_icon/reaction_icon_response.dart';
@@ -80,6 +82,37 @@ class AppServiceProvider {
     );
     return response.mapData(
       (json) => PlaylistResponse.fromJson(json as Map<String, dynamic>),
+    );
+  }
+
+  Future<List<AnnouncementResponse>> getAnnouncements(int page, int limit) async {
+    final response = await _dioHelper.get(
+      route: '/restful_api/announcement',
+      options: Options(headers: {'Content-Type': 'application/x-www-form-urlencoded'}),
+      requestParams: {
+        'page': page,
+        'limit': limit,
+      },
+      responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
+    );
+    return response.mapData(
+      (json) =>
+          asType<List<dynamic>>(json)?.map((e) => AnnouncementResponse.fromJson(e as Map<String, dynamic>)).toList(),
+    );
+  }
+
+  Future<List<FeedResponse>> getFeeds(int page, int limit) async {
+    final response = await _dioHelper.get(
+      route: '/restful_api/announcement',
+      options: Options(headers: {'Content-Type': 'application/x-www-form-urlencoded'}),
+      requestParams: {
+        'page': page,
+        'limit': limit,
+      },
+      responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
+    );
+    return response.mapData(
+      (json) => asType<List<dynamic>>(json)?.map((e) => FeedResponse.fromJson(e as Map<String, dynamic>)).toList(),
     );
   }
 

@@ -7,11 +7,13 @@ import 'package:audio_cult/app/data_source/models/requests/my_diary_event_reques
 import 'package:audio_cult/app/data_source/models/requests/register_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/upload_request.dart';
 import 'package:audio_cult/app/data_source/models/responses/album/album_response.dart';
+import 'package:audio_cult/app/data_source/models/responses/announcement/announcement_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/atlas_category.dart';
 import 'package:audio_cult/app/data_source/models/responses/comment/comment_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/country_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/create_playlist/create_playlist_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/events/event_response.dart';
+import 'package:audio_cult/app/data_source/models/responses/feed/feed_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/genre.dart';
 import 'package:audio_cult/app/data_source/models/responses/place.dart';
 import 'package:audio_cult/app/data_source/models/responses/playlist/playlist_response.dart';
@@ -90,6 +92,24 @@ class AppRepository extends BaseRepository {
   ) {
     return safeCall(
       () => appServiceProvider.getSongsByPlaylistId(playlistId, page, limit),
+    );
+  }
+
+  Future<Either<List<AnnouncementResponse>, Exception>> getAnnouncements(
+    int page,
+    int limit,
+  ) {
+    return safeCall(
+      () => appServiceProvider.getAnnouncements(page, limit),
+    );
+  }
+
+  Future<Either<List<FeedResponse>, Exception>> getFeeds(
+    int page,
+    int limit,
+  ) {
+    return safeCall(
+      () => appServiceProvider.getFeeds(page, limit),
     );
   }
 
