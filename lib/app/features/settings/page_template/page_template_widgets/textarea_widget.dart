@@ -26,6 +26,7 @@ class TextareaWidget extends PageTemplateWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 4),
       child: TextField(
+        onChanged: onChanged,
         controller: TextEditingController()..text = initialText,
         minLines: 3,
         maxLines: null,

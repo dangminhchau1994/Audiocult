@@ -19,37 +19,40 @@ class CommonRadioButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return InkWell(
       onTap: () {
         onChanged!(index ?? 0);
       },
-      child: Row(
-        children: [
-          Container(
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: AppColors.inputFillColor,
-              border: isSelected!
-                  ? null
-                  : Border.all(
-                      color: AppColors.outlineBorderColor,
-                      width: 2,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8),
+        child: Row(
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: AppColors.inputFillColor,
+                border: isSelected!
+                    ? null
+                    : Border.all(
+                        color: AppColors.outlineBorderColor,
+                        width: 2,
+                      ),
+              ),
+              child: isSelected!
+                  ? SvgPicture.asset(AppAssets.activeRadio)
+                  : const SizedBox(
+                      width: 16,
+                      height: 16,
                     ),
             ),
-            child: isSelected!
-                ? SvgPicture.asset(AppAssets.activeRadio)
-                : const SizedBox(
-                    width: 16,
-                    height: 16,
-                  ),
-          ),
-          const SizedBox(
-            width: 10,
-          ),
-          Text(
-            title ?? '',
-          )
-        ],
+            const SizedBox(
+              width: 10,
+            ),
+            Text(
+              title ?? '',
+            )
+          ],
+        ),
       ),
     );
   }
