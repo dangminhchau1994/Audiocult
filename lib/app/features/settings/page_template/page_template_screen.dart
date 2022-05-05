@@ -338,7 +338,7 @@ class _PageTemplateScreenState extends State<PageTemplateScreen> with AutomaticK
                   _bloc.selectGender(option);
                 },
               ),
-              if (gender == Gender.custom) _genderCustomInputWidget() else Container(),
+              if (gender == Gender.custom) _genderCustomTextFieldWidget() else Container(),
             ],
           );
         },
@@ -346,9 +346,9 @@ class _PageTemplateScreenState extends State<PageTemplateScreen> with AutomaticK
     );
   }
 
-  Widget _genderCustomInputWidget() {
+  Widget _genderCustomTextFieldWidget() {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 16),
+      padding: const EdgeInsets.only(top: 30),
       child: CommonInput(
         editingController: _genderTextController,
         hintText: '...',

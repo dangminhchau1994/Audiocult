@@ -83,6 +83,11 @@ class PageTemplateResponse {
       double.parse(lngPin ?? '0'),
     );
   }
+
+  void updateLatLng(LatLng latlng) {
+    latPin = latlng.latitude.toString();
+    lngPin = latlng.longitude.toString();
+  }
 }
 
 class SelectableOption {

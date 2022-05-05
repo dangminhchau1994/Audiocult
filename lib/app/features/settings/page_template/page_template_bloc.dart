@@ -21,7 +21,6 @@ class PageTemplateBloc extends BaseBloc {
 
   AtlasCategory? _selectedCategory;
   Genre? _selectedMusicGenre;
-  LatLng? _latlng;
   PageTemplateResponse? _userProfile;
 
   List<Country>? _countries;
@@ -146,8 +145,8 @@ class PageTemplateBloc extends BaseBloc {
   }
 
   void pinLatLng(LatLng latlng) {
-    _latlng = latlng;
-    _latLngChangeStreamController.sink.add(BlocState.success(_latlng));
+    _userProfile?.updateLatLng(latlng);
+    _userProfileStreamController.sink.add(BlocState.success(_userProfile));
   }
 
   void selectableFieldOnChanged({required PageTemplateCustomField field, required SelectableOption option}) {
