@@ -35,10 +35,7 @@ class _MyDiaryListWidgetState extends State<MyDiaryListWidget> {
       itemCount: max(widget.events.length, 1),
       itemBuilder: (context, index) {
         if (widget.events.isEmpty) {
-          return Padding(
-            padding: const EdgeInsets.only(top: 28),
-            child: Center(child: Text(context.l10n.t_no_data_found)),
-          );
+          return const NoDataWidget();
         }
         final event = widget.events[index];
         return MyDiaryEventWidget(

@@ -4,11 +4,15 @@ import 'package:audio_cult/app/data_source/models/responses/atlas_user.dart';
 import 'package:audio_cult/app/features/atlas/atlas_user_widget.dart';
 import 'package:audio_cult/app/features/atlas_filter_result/atlas_filter_result_bloc.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
+import 'package:audio_cult/app/view/no_data_widget.dart';
 import 'package:audio_cult/di/bloc_locator.dart';
 import 'package:audio_cult/w_components/appbar/common_appbar.dart';
+import 'package:audio_cult/w_components/error_empty/widget_state.dart';
+import 'package:audio_cult/w_components/loading/loading_widget.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:tuple/tuple.dart';
 
 class AtlasFilterResultScreen extends StatefulWidget {
@@ -28,12 +32,12 @@ class _AtlasFilterResultScreenState extends State<AtlasFilterResultScreen> {
   void initState() {
     super.initState();
     _bloc = getIt.get<AtlasFilterResultBloc>();
+    _bloc.getUsers(widget.dataRequest);
     _bloc.getAtlasUsersStream.listen((event) {
       if (event.item1.isEmpty) {
         _pagingController.appendLastPage([]);
       } else {
         _pagingController.appendPage(event.item1, (_pagingController.nextPageKey ?? 0) + 1);
-        _bloc.updateUsersList(event.item1);
       }
     });
     _pagingController.addPageRequestListener((pageNumber) async {
@@ -49,6 +53,16 @@ class _AtlasFilterResultScreenState extends State<AtlasFilterResultScreen> {
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    context.loaderOverlay.show(
+      widget: const LoadingWidget(
+        backgroundColor: Colors.black12,
+      ),
+    );
+  }
+
+  @override
   void dispose() {
     _pagingController.dispose();
     super.dispose();
@@ -59,7 +73,10 @@ class _AtlasFilterResultScreenState extends State<AtlasFilterResultScreen> {
     return Scaffold(
       backgroundColor: AppColors.mainColor,
       appBar: const CommonAppBar(title: 'Results'),
-      body: BlocHandle(bloc: _bloc, child: _usersListWidget()),
+      body: BlocHandle(
+        bloc: _bloc,
+        child: _refreshableListView(),
+      ),
     );
   }
 
@@ -81,6 +98,7 @@ class _AtlasFilterResultScreenState extends State<AtlasFilterResultScreen> {
             pagingController: _pagingController,
             builderDelegate: PagedChildBuilderDelegate<AtlasUser>(
               itemBuilder: (context, user, index) {
+                print('--------${user.userName}-------:${user.userId}');
                 final latestSubscriptionCount =
                     updatedSubscriptionData?.firstWhereOrNull((e) => e.userId == user.userId)?.subscriptionCount;
                 final latestSubscriptionValue =
@@ -96,6 +114,20 @@ class _AtlasFilterResultScreenState extends State<AtlasFilterResultScreen> {
             ),
           ),
         );
+      },
+    );
+  }
+
+  Widget _refreshableListView() {
+    return StreamBuilder<Tuple2<List<AtlasUser>, Exception?>>(
+      stream: _bloc.getAtlasUsersStream,
+      builder: (_, __) {
+        if (_bloc.allUsers == null) {
+          return Container();
+        } else if (_bloc.allUsers!.isEmpty) {
+          return const NoDataWidget();
+        }
+        return _usersListWidget();
       },
     );
   }

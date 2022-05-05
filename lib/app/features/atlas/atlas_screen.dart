@@ -6,6 +6,7 @@ import 'package:audio_cult/app/features/atlas/atlas_user_widget.dart';
 import 'package:audio_cult/app/utils/constants/app_assets.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
 import 'package:audio_cult/app/utils/route/app_route.dart';
+import 'package:audio_cult/app/view/no_data_widget.dart';
 import 'package:audio_cult/di/bloc_locator.dart';
 import 'package:audio_cult/l10n/l10n.dart';
 import 'package:audio_cult/w_components/error_empty/widget_state.dart';
@@ -129,26 +130,11 @@ class _AtlasScreenState extends State<AtlasScreen> with AutomaticKeepAliveClient
           if (_bloc.allUsers == null) {
             return Container();
           } else if (_bloc.allUsers!.isEmpty) {
-            _refreshWidget();
+            const NoDataWidget();
           }
           return _atlasListWidget();
         },
       ),
-    );
-  }
-
-  Widget _refreshWidget() {
-    return const CustomScrollView(
-      physics: AlwaysScrollableScrollPhysics(),
-      slivers: [
-        SliverFillRemaining(
-          hasScrollBody: false,
-          child: Padding(
-            padding: EdgeInsets.only(top: 40),
-            child: Expanded(child: EmptyDataStateWidget(null)),
-          ),
-        ),
-      ],
     );
   }
 
@@ -214,6 +200,8 @@ class _AtlasScreenState extends State<AtlasScreen> with AutomaticKeepAliveClient
           pagingController: _pagingController,
           builderDelegate: PagedChildBuilderDelegate<AtlasUser>(
             itemBuilder: (context, user, index) {
+              print('--------${user.userName}-------:${user.userId}');
+
               final latestSubscriptionCount =
                   updatedSubscriptionData?.firstWhereOrNull((e) => e.userId == user.userId)?.subscriptionCount;
               final latestSubscriptionValue =
@@ -235,7 +223,6 @@ class _AtlasScreenState extends State<AtlasScreen> with AutomaticKeepAliveClient
   }
 
   Future<void> _pullRefresh() async {
-    print('------1231314124');
     await _bloc.refreshAtlasUserData();
     _pagingController.refresh();
   }
