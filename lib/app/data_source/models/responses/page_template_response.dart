@@ -67,7 +67,6 @@ class PageTemplateResponse {
         mappingJson[key] = field.getTextValue;
       }
     }
-    print('-------😎: ${mappingJson}');
     return mappingJson;
   }
 
