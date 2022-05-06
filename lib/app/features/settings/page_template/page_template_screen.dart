@@ -60,6 +60,9 @@ class _PageTemplateScreenState extends State<PageTemplateScreen> with AutomaticK
         _iconMarker = value;
       });
     });
+    _genderTextController.addListener(() {
+      _bloc.genderTextOnChanged(_genderTextController.text);
+    });
     _bloc.loadAllPageTemplates();
     _bloc.loadUserProfile();
   }
@@ -311,18 +314,18 @@ class _PageTemplateScreenState extends State<PageTemplateScreen> with AutomaticK
   Widget _genderDropDownWidget() {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 12),
-      child: StreamBuilder<Gender>(
+      child: StreamBuilder<Tuple2<Gender, String?>>(
         stream: _bloc.genderChangedStream,
-        initialData: Gender.none,
+        initialData: const Tuple2(Gender.none, null),
         builder: (context, snapshot) {
-          final gender = snapshot.data ?? Gender.none;
-          final selectedOption = SelectMenuModel(id: gender.index, title: gender.title(context), isSelected: true);
+          final gender = snapshot.data?.item1 ?? Gender.none;
+          final genderText = snapshot.data?.item2;
           final options = _bloc.allGenders
               .map(
                 (e) => SelectMenuModel(
-                  id: e.index,
+                  id: e.indexs,
                   title: e.title(context),
-                  isSelected: e.index == selectedOption.id,
+                  isSelected: e.indexs == gender.indexs,
                 ),
               )
               .toList();
@@ -330,7 +333,7 @@ class _PageTemplateScreenState extends State<PageTemplateScreen> with AutomaticK
             children: [
               CommonDropdown(
                 data: options,
-                selection: options.firstWhereOrNull((element) => element.isSelected),
+                selection: options.firstWhereOrNull((element) => element.isSelected == true),
                 onChanged: (option) {
                   if (option == null) {
                     return;
@@ -338,7 +341,7 @@ class _PageTemplateScreenState extends State<PageTemplateScreen> with AutomaticK
                   _bloc.selectGender(option);
                 },
               ),
-              if (gender == Gender.custom) _genderCustomTextFieldWidget() else Container(),
+              if (gender == Gender.custom) _customGenderTextField(genderText ?? '') else Container(),
             ],
           );
         },
@@ -346,11 +349,11 @@ class _PageTemplateScreenState extends State<PageTemplateScreen> with AutomaticK
     );
   }
 
-  Widget _genderCustomTextFieldWidget() {
+  Widget _customGenderTextField(String text) {
     return Padding(
       padding: const EdgeInsets.only(top: 30),
       child: CommonInput(
-        editingController: _genderTextController,
+        editingController: _genderTextController..text = text,
         hintText: '...',
       ),
     );

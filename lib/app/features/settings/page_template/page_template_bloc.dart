@@ -44,8 +44,8 @@ class PageTemplateBloc extends BaseBloc {
   Stream<BlocState<Tuple2<List<AtlasCategory>, AtlasCategory?>>> get loadPageTemplatesStream =>
       _loadPageTemplatesStreamController.stream;
 
-  final _selectedGenderChanged = StreamController<Gender>.broadcast();
-  Stream<Gender> get genderChangedStream => _selectedGenderChanged.stream;
+  final _selectedGenderChanged = StreamController<Tuple2<Gender, String?>>.broadcast();
+  Stream<Tuple2<Gender, String?>> get genderChangedStream => _selectedGenderChanged.stream;
 
   final _dateOfBirthChanged = StreamController<DateTime>.broadcast();
   Stream<DateTime> get dobChangedStream => _dateOfBirthChanged.stream;
@@ -131,12 +131,18 @@ class PageTemplateBloc extends BaseBloc {
 
   void selectGender(SelectMenuModel? option) {
     if (option != null) {
-      _userProfile?.gender =
-          allGenders.firstWhereOrNull((element) => element.name.toLowerCase() == option.title?.toLowerCase());
+      _userProfile?.gender = allGenders.firstWhereOrNull((element) => element.indexs == option.id);
     } else {
       _userProfile?.gender = allGenders.firstWhereOrNull((element) => element == _userProfile?.gender);
     }
-    _selectedGenderChanged.sink.add(_userProfile?.gender ?? Gender.none);
+    _selectedGenderChanged.sink.add(Tuple2(
+      _userProfile?.gender ?? Gender.none,
+      (_userProfile?.genderText?.isNotEmpty == true) ? _userProfile?.genderText?.first : null,
+    ));
+  }
+
+  void genderTextOnChanged(String text) {
+    _userProfile?.genderText?[0] = text;
   }
 
   void selectDateOfBirth(DateTime dateTime) {
