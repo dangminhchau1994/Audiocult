@@ -46,8 +46,6 @@ class PageTemplateScreen extends StatefulWidget {
 class _PageTemplateScreenState extends State<PageTemplateScreen> with AutomaticKeepAliveClientMixin {
   final _bloc = getIt.get<PageTemplateBloc>();
   final _zipCodeTextController = TextEditingController();
-  final _emailTextController = TextEditingController();
-  final _webLinkTextController = TextEditingController();
   final _genderTextController = TextEditingController();
   final _cityTextController = TextEditingController();
   late Uint8List _iconMarker;
@@ -63,6 +61,12 @@ class _PageTemplateScreenState extends State<PageTemplateScreen> with AutomaticK
     _genderTextController.addListener(() {
       _bloc.genderTextOnChanged(_genderTextController.text);
     });
+    _zipCodeTextController.addListener(() {
+      _bloc.zipCodeOnChanged(_zipCodeTextController.text);
+    });
+    _cityTextController.addListener(() {
+      _bloc.cityOnChanged(_cityTextController.text);
+    });
     _bloc.loadAllPageTemplates();
     _bloc.loadUserProfile();
   }
@@ -70,8 +74,6 @@ class _PageTemplateScreenState extends State<PageTemplateScreen> with AutomaticK
   @override
   void dispose() {
     _zipCodeTextController.dispose();
-    _emailTextController.dispose();
-    _webLinkTextController.dispose();
     _genderTextController.dispose();
     _cityTextController.dispose();
     super.dispose();
@@ -615,7 +617,7 @@ class _PageTemplateScreenState extends State<PageTemplateScreen> with AutomaticK
               },
               onTap: (lng) {
                 FocusManager.instance.primaryFocus?.unfocus();
-                _bloc.pinLatLng(lng);
+                _bloc.pinLatLngOnChanged(lng);
               },
               initialCameraPosition: CameraPosition(target: latlng, zoom: 10),
               markers: {
