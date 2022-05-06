@@ -6,7 +6,10 @@ import 'package:audio_cult/app/features/atlas/atlas_user_widget.dart';
 import 'package:audio_cult/app/utils/constants/app_assets.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
 import 'package:audio_cult/app/utils/route/app_route.dart';
+import 'package:audio_cult/app/view/no_data_widget.dart';
 import 'package:audio_cult/di/bloc_locator.dart';
+import 'package:audio_cult/l10n/l10n.dart';
+import 'package:audio_cult/w_components/error_empty/widget_state.dart';
 import 'package:collection/collection.dart';
 import 'package:debounce_throttle/debounce_throttle.dart';
 import 'package:flutter/material.dart';
@@ -33,6 +36,7 @@ class _AtlasScreenState extends State<AtlasScreen> with AutomaticKeepAliveClient
     super.initState();
     _bloc = getIt.get<AtlasBloc>();
     _bloc.getAtlasUsersStream.listen(_listenData);
+    _bloc.getAtlasUsers(1);
     _pagingController.addPageRequestListener(_bloc.getAtlasUsers);
     _searchTextController.addListener(_listenKeywordChange);
     _scrollController.addListener(_listenScrollView);
@@ -91,21 +95,45 @@ class _AtlasScreenState extends State<AtlasScreen> with AutomaticKeepAliveClient
           padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
           child: Column(
             children: [
-              SizedBox(
-                height: 40,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Expanded(flex: 6, child: _searchTextField()),
-                    const SizedBox(width: 8),
-                    Expanded(child: _filterButton()),
-                  ],
-                ),
-              ),
-              Expanded(child: _atlasListWidget()),
+              _searchWrapper(),
+              Expanded(child: _refreshableListView()),
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _searchWrapper() {
+    return SizedBox(
+      height: 40,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Expanded(flex: 6, child: _searchTextField()),
+          const SizedBox(width: 8),
+          Expanded(child: _filterButton()),
+        ],
+      ),
+    );
+  }
+
+  Widget _refreshableListView() {
+    return RefreshIndicator(
+      onRefresh: () async {
+        await _pullRefresh();
+        return _bloc.getAtlasUsers(1);
+      },
+      child: StreamBuilder<BlocState<Tuple2<List<AtlasUser>, Exception?>>>(
+        stream: _bloc.getAtlasUsersStream,
+        builder: (_, snapshot) {
+          if (_bloc.allUsers == null) {
+            return Container();
+          } else if (_bloc.allUsers!.isEmpty) {
+            const NoDataWidget();
+          }
+          return _atlasListWidget();
+        },
       ),
     );
   }
@@ -127,9 +155,9 @@ class _AtlasScreenState extends State<AtlasScreen> with AutomaticKeepAliveClient
               padding: const EdgeInsets.only(bottom: 1),
               child: TextField(
                 controller: _searchTextController,
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   border: InputBorder.none,
-                  hintText: 'Search',
+                  hintText: context.l10n.t_search,
                 ),
               ),
             ),
@@ -156,45 +184,41 @@ class _AtlasScreenState extends State<AtlasScreen> with AutomaticKeepAliveClient
   }
 
   Widget _atlasListWidget() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 16),
-      child: RefreshIndicator(
-        onRefresh: _pullRefresh,
-        child: StreamBuilder(
-          stream: _bloc.updatedUserSubscriptionStream,
-          builder: (context, data) {
-            List<AtlasUser>? updatedSubscriptionData;
-            UserSubscriptionDataType? subscriptionInProcess;
-            if (data.hasData) {
-              final tupleData = data.data! as Tuple2<List<AtlasUser>, UserSubscriptionDataType>;
-              updatedSubscriptionData = tupleData.item1;
-              subscriptionInProcess = tupleData.item2;
-            }
-            return PagedListView<int, AtlasUser>(
-              padding: const EdgeInsets.only(bottom: 100),
-              scrollController: _scrollController,
-              pagingController: _pagingController,
-              builderDelegate: PagedChildBuilderDelegate<AtlasUser>(
-                itemBuilder: (context, user, index) {
-                  final latestSubscriptionCount =
-                      updatedSubscriptionData?.firstWhereOrNull((e) => e.userId == user.userId)?.subscriptionCount;
-                  final latestSubscriptionValue =
-                      updatedSubscriptionData?.firstWhereOrNull((e) => e.userId == user.userId)?.isSubscribed;
-                  return AtlasUserWidget(
-                    user,
-                    updatedSubscriptionCount: latestSubscriptionCount,
-                    updatedSubscriptionStatus: latestSubscriptionValue,
-                    userSubscriptionInProcess: subscriptionInProcess?[user.userId] ?? false,
-                    subscriptionOnChanged: () {
-                      _bloc.subscribeUser(user);
-                    },
-                  );
+    return StreamBuilder(
+      stream: _bloc.updatedUserSubscriptionStream,
+      builder: (context, data) {
+        List<AtlasUser>? updatedSubscriptionData;
+        UserSubscriptionDataType? subscriptionInProcess;
+        if (data.hasData) {
+          final tupleData = data.data! as Tuple2<List<AtlasUser>, UserSubscriptionDataType>;
+          updatedSubscriptionData = tupleData.item1;
+          subscriptionInProcess = tupleData.item2;
+        }
+        return PagedListView<int, AtlasUser>(
+          padding: const EdgeInsets.symmetric(vertical: 24),
+          scrollController: _scrollController,
+          pagingController: _pagingController,
+          builderDelegate: PagedChildBuilderDelegate<AtlasUser>(
+            itemBuilder: (context, user, index) {
+              print('--------${user.userName}-------:${user.userId}');
+
+              final latestSubscriptionCount =
+                  updatedSubscriptionData?.firstWhereOrNull((e) => e.userId == user.userId)?.subscriptionCount;
+              final latestSubscriptionValue =
+                  updatedSubscriptionData?.firstWhereOrNull((e) => e.userId == user.userId)?.isSubscribed;
+              return AtlasUserWidget(
+                user,
+                updatedSubscriptionCount: latestSubscriptionCount,
+                updatedSubscriptionStatus: latestSubscriptionValue,
+                userSubscriptionInProcess: subscriptionInProcess?[user.userId] ?? false,
+                subscriptionOnChanged: () {
+                  _bloc.subscribeUser(user);
                 },
-              ),
-            );
-          },
-        ),
-      ),
+              );
+            },
+          ),
+        );
+      },
     );
   }
 

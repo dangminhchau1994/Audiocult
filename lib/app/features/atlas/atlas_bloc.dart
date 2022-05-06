@@ -17,11 +17,12 @@ typedef UserSubscriptionDataType = Map<String?, bool?>;
 class AtlasBloc extends BaseBloc {
   final AppRepository _appRepository;
   final UserSubscriptionDataType _subscriptionsInProcess = {};
-  final _allUsers = <AtlasUser>[];
+  List<AtlasUser>? _allUsers;
   final _updatedSubscriptionData = <AtlasUser>[];
   final maximumNumberOfItems = 24;
   String? _keyword;
   CancelToken? _cancel;
+  List<AtlasUser>? get allUsers => _allUsers;
 
   final _getAtlasUsers = PublishSubject<BlocState<Tuple2<List<AtlasUser>, Exception?>>>();
   Stream<BlocState<Tuple2<List<AtlasUser>, Exception?>>> get getAtlasUsersStream => _getAtlasUsers.stream;
@@ -45,7 +46,7 @@ class AtlasBloc extends BaseBloc {
     );
     return result.fold(
       (users) {
-        _allUsers.addAll(users);
+        (_allUsers ??= []).addAll(users);
         _getAtlasUsers.sink.add(BlocState.success(Tuple2(users, null)));
         hideOverlayLoading();
       },
@@ -57,7 +58,7 @@ class AtlasBloc extends BaseBloc {
   }
 
   Future<void> refreshAtlasUserData() async {
-    _allUsers.clear();
+    _allUsers?.clear();
     _updatedSubscriptionData.clear();
     _subscriptionsInProcess.clear();
   }
@@ -81,12 +82,12 @@ class AtlasBloc extends BaseBloc {
   }
 
   void _updateSubscriptionDataOfUser(AtlasUser user) {
-    final filteredUser = _allUsers.firstWhereOrNull((element) => element.userId == user.userId);
+    final filteredUser = _allUsers?.firstWhereOrNull((element) => element.userId == user.userId);
     if (filteredUser == null) return;
     (filteredUser.isSubscribed ?? true) ? filteredUser.unsubscribe() : filteredUser.subscribe();
     _updatedSubscriptionData.removeWhere((element) => element.userId == user.userId);
-    _allUsers.removeWhere((element) => element.userId == user.userId);
-    _allUsers.add(filteredUser);
+    _allUsers?.removeWhere((element) => element.userId == user.userId);
+    _allUsers?.add(filteredUser);
     _updatedSubscriptionData.add(filteredUser);
     _updatedUserSubscription.add(Tuple2(_updatedSubscriptionData, _subscriptionsInProcess));
   }

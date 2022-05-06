@@ -14,7 +14,8 @@ class AtlasFilterResultBloc extends BaseBloc {
   final AppRepository appRepository;
   final UserSubscriptionDataType _subscriptionsInProcess = {};
   final _updatedSubscriptionData = <AtlasUser>[];
-  final _allUsers = <AtlasUser>[];
+  List<AtlasUser>? _allUsers;
+  List<AtlasUser>? get allUsers => _allUsers;
 
   final _getAtlasUsers = StreamController<Tuple2<List<AtlasUser>, Exception?>>.broadcast();
   Stream<Tuple2<List<AtlasUser>, Exception?>> get getAtlasUsersStream => _getAtlasUsers.stream;
@@ -28,19 +29,16 @@ class AtlasFilterResultBloc extends BaseBloc {
   void getUsers(FilterUsersRequest request) async {
     if (request.page == 1) {
       showOverLayLoading();
-      _allUsers.clear();
+      _allUsers?.clear();
     }
     final result = await appRepository.getAtlasUsers(request);
     hideOverlayLoading();
     result.fold((users) {
+      (_allUsers ??= []).addAll(users);
       _getAtlasUsers.add(Tuple2(users, null));
     }, (error) {
       _getAtlasUsers.add(Tuple2([], error));
     });
-  }
-
-  void updateUsersList(List<AtlasUser> users) {
-    _allUsers.addAll(users);
   }
 
   void subscribeUser(AtlasUser user) async {
@@ -62,12 +60,12 @@ class AtlasFilterResultBloc extends BaseBloc {
   }
 
   void _updateSubscriptionDataOfUser(AtlasUser user) {
-    final filteredUser = _allUsers.firstWhereOrNull((element) => element.userId == user.userId);
+    final filteredUser = _allUsers?.firstWhereOrNull((element) => element.userId == user.userId);
     if (filteredUser == null) return;
     (filteredUser.isSubscribed ?? true) ? filteredUser.unsubscribe() : filteredUser.subscribe();
     _updatedSubscriptionData.removeWhere((element) => element.userId == user.userId);
-    _allUsers.removeWhere((element) => element.userId == user.userId);
-    _allUsers.add(filteredUser);
+    _allUsers?.removeWhere((element) => element.userId == user.userId);
+    _allUsers?.add(filteredUser);
     _updatedSubscriptionData.add(filteredUser);
     _updatedUserSubscription.add(Tuple2(_updatedSubscriptionData, _subscriptionsInProcess));
   }
