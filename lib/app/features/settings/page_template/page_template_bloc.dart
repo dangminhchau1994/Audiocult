@@ -124,12 +124,14 @@ class PageTemplateBloc extends BaseBloc {
   }
 
   void selectCountry(SelectMenuModel option) async {
+    _profileIsModifiedStreamController.sink.add(true);
     final selectedCountry = _countries?.firstWhereOrNull((element) => element.name == option.title);
     _userProfile?.countryISO = selectedCountry?.countryISO;
     _loadCountriesStreamController.sink.add(BlocState.success(Tuple2(_countries ?? [], selectedCountry)));
   }
 
   void selectGender(SelectMenuModel? option) {
+    _profileIsModifiedStreamController.sink.add(true);
     if (option != null) {
       _userProfile?.gender = allGenders.firstWhereOrNull((element) => element.indexs == option.id);
     } else {
@@ -143,16 +145,19 @@ class PageTemplateBloc extends BaseBloc {
 
   void genderTextOnChanged(String text) {
     _userProfile?.genderText?[0] = text;
+    _profileIsModifiedStreamController.sink.add(true);
   }
 
   void selectDateOfBirth(DateTime dateTime) {
     _userProfile?.updateBirthday(dateTime);
     _userProfileStreamController.sink.add(BlocState.success(_userProfile));
+    _profileIsModifiedStreamController.sink.add(true);
   }
 
   void pinLatLng(LatLng latlng) {
     _userProfile?.updateLatLng(latlng);
     _userProfileStreamController.sink.add(BlocState.success(_userProfile));
+    _profileIsModifiedStreamController.sink.add(true);
   }
 
   void selectableFieldOnChanged({required PageTemplateCustomField field, required SelectableOption option}) {
