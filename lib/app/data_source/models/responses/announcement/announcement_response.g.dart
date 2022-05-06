@@ -22,7 +22,7 @@ AnnouncementResponse _$AnnouncementResponseFromJson(
       buttonText: json['button_text'] as String?,
       imagePath: json['image_path'] as String?,
       postedOn: json['posted_on'] as String?,
-      iconImage: json['icon_image'],
+      iconImage: json['icon_image'] as String?,
     );
 
 Map<String, dynamic> _$AnnouncementResponseToJson(

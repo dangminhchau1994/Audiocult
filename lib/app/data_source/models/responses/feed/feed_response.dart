@@ -2,6 +2,17 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'feed_response.g.dart';
 
+enum FeedType {
+  video,
+  photo,
+  userStatus,
+  advancedSong,
+  advancedEvent,
+  userCover,
+  userPhoto,
+  none,
+}
+
 @JsonSerializable(fieldRename: FieldRename.snake)
 class FeedResponse {
   String? feedId;
@@ -39,12 +50,13 @@ class FeedResponse {
   String? feedLink;
   String? feedIcon;
   String? feedTotalLike;
-  bool? feedIsLiked;
+  //bool? feedIsLiked;
   bool? enableLike;
   String? likeTypeId;
   String? totalComment;
   CustomDataCache? customDataCache;
   String? feedCustomHtml;
+  String? embedCode;
   //List<Null>? likes;
   bool? bShowEnterCommentBlock;
   bool? canLike;
@@ -52,7 +64,7 @@ class FeedResponse {
   bool? canShare;
   int? totalAction;
   String? sContent;
-  bool? statusBackground;
+  String? statusBackground;
   String? privacyIconClass;
   String? feedMonthYear;
   String? likeItemId;
@@ -104,9 +116,10 @@ class FeedResponse {
     this.feedTitle,
     this.feedInfo,
     this.feedLink,
+    this.embedCode,
     this.feedIcon,
     this.feedTotalLike,
-    this.feedIsLiked,
+    //this.feedIsLiked,
     this.enableLike,
     this.likeTypeId,
     this.totalComment,
@@ -137,6 +150,27 @@ class FeedResponse {
     this.customJs,
     this.noTargetBlank,
   });
+
+  FeedType getFeedType() {
+    switch (typeId) {
+      case 'v':
+        return FeedType.video;
+      case 'photo':
+        return FeedType.photo;
+      case 'user_status':
+        return FeedType.userStatus;
+      case 'advancedmusic_song':
+        return FeedType.advancedSong;
+      case 'advancedevent':
+        return FeedType.advancedEvent;
+      case 'user_cover':
+        return FeedType.userCover;
+      case 'user_photo':
+        return FeedType.userPhoto;
+      default:
+        return FeedType.none;
+    }
+  }
 
   factory FeedResponse.fromJson(Map<String, dynamic> json) => _$FeedResponseFromJson(json);
 }

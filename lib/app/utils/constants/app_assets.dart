@@ -1,6 +1,8 @@
 class AppAssets {
   static const String fontFamily = 'NunitoSans';
 
+  static const viewIcons = 'assets/icons/views.svg';
+
   static const nightMapJson = 'assets/night_map.json';
 
   static const searchIcon = 'assets/icons/search.svg';

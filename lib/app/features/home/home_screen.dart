@@ -2,6 +2,7 @@ import 'package:audio_cult/app/data_source/models/requests/feed_request.dart';
 import 'package:audio_cult/app/data_source/models/responses/feed/feed_response.dart';
 import 'package:audio_cult/app/features/home/home_bloc.dart';
 import 'package:audio_cult/app/features/home/widgets/announcement_post.dart';
+import 'package:audio_cult/app/features/home/widgets/feed_item.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
 import 'package:audio_cult/app/utils/constants/app_dimens.dart';
 import 'package:audio_cult/di/bloc_locator.dart';
@@ -9,6 +10,7 @@ import 'package:audio_cult/w_components/loading/loading_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
+import '../../../w_components/loading/loading_widget.dart';
 import '../../constants/global_constants.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -25,7 +27,12 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    _homeBloc = getIt<HomeBloc>();
+    _pagingFeedController.addPageRequestListener((pageKey) {
+      if (pageKey > 1) {
+        _fetchPage(pageKey);
+      }
+    });
+    _homeBloc = getIt.get<HomeBloc>();
     _homeBloc.requestData(
       params: FeedRequest(
         page: 1,
@@ -85,10 +92,34 @@ class _HomeScreenState extends State<HomeScreen> {
               _pagingFeedController.appendPage(data, _pagingFeedController.firstPageKey + 1);
             }
 
-            return const CustomScrollView(
+            return CustomScrollView(
               slivers: [
-                AnnouncementPost(),
+                const AnnouncementPost(),
+                const SliverToBoxAdapter(child: SizedBox(height: 40)),
+                PagedSliverList<int, FeedResponse>.separated(
+                  pagingController: _pagingFeedController,
+                  separatorBuilder: (context, index) => const Divider(height: 24),
+                  builderDelegate: PagedChildBuilderDelegate<FeedResponse>(
+                    firstPageProgressIndicatorBuilder: (context) => Container(),
+                    newPageProgressIndicatorBuilder: (context) => const LoadingWidget(),
+                    animateTransitions: true,
+                    itemBuilder: (context, item, index) {
+                      return FeedItem(
+                        data: item,
+                      );
+                    },
+                  ),
+                )
               ],
+            );
+          },
+          reloadAction: (_) {
+            _pagingFeedController.refresh();
+            _homeBloc.requestData(
+              params: FeedRequest(
+                page: 1,
+                limit: GlobalConstants.loadMoreItem,
+              ),
             );
           },
         ),

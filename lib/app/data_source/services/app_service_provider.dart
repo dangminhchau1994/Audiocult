@@ -103,7 +103,7 @@ class AppServiceProvider {
 
   Future<List<FeedResponse>> getFeeds(int page, int limit) async {
     final response = await _dioHelper.get(
-      route: '/restful_api/announcement',
+      route: '/restful_api/feed',
       options: Options(headers: {'Content-Type': 'application/x-www-form-urlencoded'}),
       requestParams: {
         'page': page,
