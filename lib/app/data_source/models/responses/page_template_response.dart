@@ -17,6 +17,8 @@ class PageTemplateResponse {
   @JsonKey(name: 'country_iso')
   String? countryISO;
   Gender? gender;
+  @JsonKey(name: 'custom_gender')
+  List<String>? genderText;
   @JsonKey(name: 'city_location')
   String? cityLocation;
   @JsonKey(name: 'postal_code')
@@ -41,13 +43,15 @@ class PageTemplateResponse {
       'val[country_iso]': countryISO,
       'val[city_location]': cityLocation,
       'val[postal_code]': postalCode,
-      'val[gender]': gender?.index,
+      'val[gender]': gender?.paramValue,
       'val[month]': dateTimeBirthDay?.month,
       'val[day]': dateTimeBirthDay?.day,
       'val[year]': dateTimeBirthDay?.year,
+      'val[ac_page_lat_pin]': latPin,
+      'val[ac_page_long_pin]': lngPin,
     };
     if (gender?.index == Gender.custom.index) {
-      mappingJson['val[custom_gender][]'] = gender?.index.toString();
+      mappingJson['val[custom_gender][]'] = genderText;
     }
 
     for (final field in customFields ?? <PageTemplateCustomField>[]) {

@@ -12,6 +12,7 @@ enum Gender {
   alien,
   @JsonValue('4')
   panda,
+  @JsonValue('127')
   custom
 }
 
@@ -33,7 +34,24 @@ extension GenderExtension on Gender {
     }
   }
 
-  int? get index {
+  String? get paramValue {
+    switch (this) {
+      case Gender.none:
+        return null;
+      case Gender.male:
+        return '1';
+      case Gender.female:
+        return '2';
+      case Gender.alien:
+        return '3';
+      case Gender.panda:
+        return '4';
+      case Gender.custom:
+        return 'custom';
+    }
+  }
+
+  int? get indexs {
     switch (this) {
       case Gender.none:
         return null;
@@ -46,7 +64,7 @@ extension GenderExtension on Gender {
       case Gender.panda:
         return 4;
       case Gender.custom:
-        return -1;
+        return 127;
     }
   }
 
