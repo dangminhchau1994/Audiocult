@@ -95,5 +95,16 @@
     "t_panda":"Panda",
     "t_custom":"Custom",
     "t_birthday":"Birthday",
-    "t_city":"City"
+    "t_city":"City",
+    "t_account_settings":"Account Settings",
+    "t_change_password":"Change Password",
+    "t_payment_methods":"Payment Methods",
+    "t_primary_language":"Primary Language",
+    "t_timezone":"Time Zone",
+    "t_change_password_note":"Some tips for creating a password, contains a capital letter, a number, etc.",
+    "t_current_password":"Curernt Password",
+    "t_new_password":"New Password",
+    "t_confirm_new_password":"Confirm New Password",
+    "t_payment_methods_note":"Please, indicate the email that represents your PayPal account.",
+    "t_paypal_email":"Paypal Email"
 }

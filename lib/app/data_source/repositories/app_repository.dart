@@ -1,4 +1,5 @@
 import 'package:audio_cult/app/data_source/local/pref_provider.dart';
+import 'package:audio_cult/app/data_source/models/account_settings.dart';
 import 'package:audio_cult/app/data_source/models/cache_filter.dart';
 import 'package:audio_cult/app/data_source/models/requests/create_event_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/create_playlist_request.dart';
@@ -21,6 +22,7 @@ import 'package:audio_cult/app/data_source/models/responses/reaction_icon/reacti
 import 'package:audio_cult/app/data_source/models/responses/song_detail/song_detail_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/subscriptions_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/user_subscription_response.dart';
+import 'package:audio_cult/app/data_source/models/update_account_settings_response.dart';
 import 'package:audio_cult/app/data_source/networks/exceptions/no_cache_exception.dart';
 import 'package:audio_cult/app/data_source/services/hive_service_provider.dart';
 import 'package:audio_cult/app/features/auth/widgets/register_page.dart';
@@ -482,5 +484,9 @@ class AppRepository extends BaseRepository {
 
   Future<Either<bool, Exception>> updatePageTemplate(Map<String, dynamic> params) {
     return safeCall(() => appServiceProvider.updatePageTemplate(params));
+  }
+
+  Future<Either<UpdateAccountSettingsResponse, Exception>> updateAccountSettings(AccountSettings accountSettings) {
+    return safeCall(() => appServiceProvider.updateAccountSettings(accountSettings));
   }
 }
