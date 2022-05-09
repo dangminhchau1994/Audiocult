@@ -98,7 +98,6 @@ class _AtlasFilterResultScreenState extends State<AtlasFilterResultScreen> {
             pagingController: _pagingController,
             builderDelegate: PagedChildBuilderDelegate<AtlasUser>(
               itemBuilder: (context, user, index) {
-                print('--------${user.userName}-------:${user.userId}');
                 final latestSubscriptionCount =
                     updatedSubscriptionData?.firstWhereOrNull((e) => e.userId == user.userId)?.subscriptionCount;
                 final latestSubscriptionValue =

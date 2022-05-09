@@ -1,6 +1,5 @@
 import 'package:audio_cult/app/data_source/local/pref_provider.dart';
-import 'package:audio_cult/app/data_source/models/responses/page_template_custom_field_response.dart';
-import 'package:audio_cult/app/data_source/models/responses/page_template_response.dart';
+import 'package:audio_cult/app/data_source/models/account_settings.dart';
 import 'package:audio_cult/app/data_source/models/requests/create_event_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/create_playlist_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/event_request.dart';
@@ -15,11 +14,14 @@ import 'package:audio_cult/app/data_source/models/responses/country_response.dar
 import 'package:audio_cult/app/data_source/models/responses/create_playlist/create_playlist_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/events/event_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/login_response.dart';
+import 'package:audio_cult/app/data_source/models/responses/page_template_custom_field_response.dart';
+import 'package:audio_cult/app/data_source/models/responses/page_template_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/playlist/playlist_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/reaction_icon/reaction_icon_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/song_detail/song_detail_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/subscriptions_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/user_subscription_response.dart';
+import 'package:audio_cult/app/data_source/models/update_account_settings_response.dart';
 import 'package:audio_cult/app/injections.dart';
 import 'package:audio_cult/app/utils/constants/app_constants.dart';
 import 'package:dio/dio.dart';
@@ -858,6 +860,17 @@ class AppServiceProvider {
       requestBody: FormData.fromMap(params),
       responseBodyMapper: (jsonMapper) {
         return jsonMapper['status'] == StatusString.success;
+      },
+    );
+    return result;
+  }
+
+  Future<UpdateAccountSettingsResponse> updateAccountSettings(AccountSettings accountSettings) async {
+    final result = await _dioHelper.post(
+      route: '/restful_api/user/settings',
+      requestBody: FormData.fromMap(accountSettings.toJson()),
+      responseBodyMapper: (jsonMapper) {
+        return UpdateAccountSettingsResponse.fromJson(jsonMapper as Map<String, dynamic>);
       },
     );
     return result;

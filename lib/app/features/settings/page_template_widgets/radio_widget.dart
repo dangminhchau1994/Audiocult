@@ -1,5 +1,5 @@
 import 'package:audio_cult/app/data_source/models/responses/page_template_response.dart';
-import 'package:audio_cult/app/features/settings/page_template/page_template_widgets/page_template_widget.dart';
+import 'package:audio_cult/app/features/settings/page_template_widgets/page_template_widget.dart';
 import 'package:audio_cult/w_components/radios/common_radio_button.dart';
 import 'package:flutter/material.dart';
 

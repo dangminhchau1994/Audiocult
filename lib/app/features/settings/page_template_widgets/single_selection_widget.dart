@@ -1,4 +1,4 @@
-import 'package:audio_cult/app/features/settings/page_template/page_template_widgets/page_template_widget.dart';
+import 'package:audio_cult/app/features/settings/page_template_widgets/page_template_widget.dart';
 import 'package:audio_cult/w_components/dropdown/common_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';

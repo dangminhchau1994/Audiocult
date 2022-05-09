@@ -9,7 +9,6 @@ import 'package:audio_cult/app/utils/route/app_route.dart';
 import 'package:audio_cult/app/view/no_data_widget.dart';
 import 'package:audio_cult/di/bloc_locator.dart';
 import 'package:audio_cult/l10n/l10n.dart';
-import 'package:audio_cult/w_components/error_empty/widget_state.dart';
 import 'package:collection/collection.dart';
 import 'package:debounce_throttle/debounce_throttle.dart';
 import 'package:flutter/material.dart';
@@ -200,8 +199,6 @@ class _AtlasScreenState extends State<AtlasScreen> with AutomaticKeepAliveClient
           pagingController: _pagingController,
           builderDelegate: PagedChildBuilderDelegate<AtlasUser>(
             itemBuilder: (context, user, index) {
-              print('--------${user.userName}-------:${user.userId}');
-
               final latestSubscriptionCount =
                   updatedSubscriptionData?.firstWhereOrNull((e) => e.userId == user.userId)?.subscriptionCount;
               final latestSubscriptionValue =
