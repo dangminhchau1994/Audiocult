@@ -101,10 +101,15 @@ class _CommentEditScreenState extends State<CommentEditScreen> {
                   Container(),
                   Row(
                     children: [
-                      CommonButton(
-                        text: context.l10n.t_cancel,
-                        width: 150,
-                        color: AppColors.secondaryButtonColor,
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: CommonButton(
+                          text: context.l10n.t_cancel,
+                          width: 150,
+                          color: AppColors.secondaryButtonColor,
+                        ),
                       ),
                       const SizedBox(
                         width: 10,

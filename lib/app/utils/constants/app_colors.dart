@@ -32,4 +32,8 @@ class AppColors {
   static final pealSky = HexColor.fromHex('#6B7280');
 
   static final persianGreen = HexColor.fromHex('#00A8A8');
+
+  static final orangeColor = HexColor.fromHex('#F99147');
+
+  static final deepOrangeColor = HexColor.fromHex('#FF2D55');
 }

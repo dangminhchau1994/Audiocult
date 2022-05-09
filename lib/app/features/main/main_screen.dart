@@ -22,6 +22,7 @@ import '../../data_source/models/responses/profile_data.dart';
 import '../../utils/constants/app_assets.dart';
 import '../../utils/constants/app_colors.dart';
 import '../events/event_screen.dart';
+import '../home/home_screen.dart';
 import '../menu_settings/drawer/my_drawer.dart';
 import '../music/my_album/upload_song/upload_song_screen.dart';
 
@@ -52,23 +53,11 @@ class _MainScreenState extends State<MainScreen> {
 
   List<Widget> _buildPages() {
     final pages = <Widget>[];
-    pages.add(
-      const SizedBox(
-        child: Center(
-          child: Text('Home Screen'),
-        ),
-      ),
-    );
+    pages.add(const HomeScreen());
     pages.add(const AtlasScreen());
-    pages.add(
-      const SizedBox(),
-    );
-    pages.add(
-      const MusicScreen(),
-    );
-    pages.add(
-      const EventScreen(),
-    );
+    pages.add(const SizedBox());
+    pages.add(const MusicScreen());
+    pages.add(const EventScreen());
     return pages;
   }
 

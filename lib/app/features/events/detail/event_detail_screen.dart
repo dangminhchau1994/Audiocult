@@ -74,11 +74,16 @@ class _EventDetailState extends State<EventDetail> {
 
                 return CustomScrollView(
                   slivers: [
-                    SliverPersistentHeader(
-                      pinned: true,
-                      delegate: CustomEventSliver(
-                        data: data,
-                        expandedHeight: 300,
+                    SliverToBoxAdapter(
+                      child: Stack(
+                        children: [
+                          EventDetailPhoto(imagePath: data.imagePath ?? ''),
+                          const EventDetailNavBar(),
+                          EventDetailTitle(title: data.title ?? ''),
+                          EventDetailFestiVal(
+                            category: data.categories?[0][0],
+                          ),
+                        ],
                       ),
                     ),
                     EventDetaiInfo(data: data),

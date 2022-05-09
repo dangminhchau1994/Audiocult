@@ -199,7 +199,9 @@ class _CommentItemState extends State<CommentItem> {
                                 );
                               },
                               loading: () {
-                                return Container();
+                                return CircularProgressIndicator(
+                                  color: AppColors.primaryButtonColor,
+                                );
                               },
                               error: (error) {
                                 return ErrorSectionWidget(
