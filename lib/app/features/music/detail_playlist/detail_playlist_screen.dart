@@ -8,6 +8,7 @@ import 'package:audio_cult/app/features/music/detail_playlist/widgets/detail_pla
 import 'package:audio_cult/app/features/music/detail_playlist/widgets/detail_playlist_recommended.dart';
 import 'package:audio_cult/app/features/music/detail_playlist/widgets/detail_playlist_songs.dart';
 import 'package:audio_cult/app/features/music/detail_playlist/widgets/detail_playlist_title.dart';
+import 'package:audio_cult/app/injections.dart';
 import 'package:audio_cult/di/bloc_locator.dart';
 import 'package:flutter/material.dart';
 import '../../../../w_components/error_empty/error_section.dart';
@@ -28,10 +29,12 @@ class DetailPlayListScreen extends StatefulWidget {
 }
 
 class _DetailPlayListScreenState extends State<DetailPlayListScreen> {
+   DetailPlayListBloc playListBloc = DetailPlayListBloc(locator.get());
+
   @override
   void initState() {
     super.initState();
-    getIt.get<DetailPlayListBloc>().getPlayListDetail(int.parse(widget.playListId ?? ''));
+    playListBloc.getPlayListDetail(int.parse(widget.playListId ?? ''));
   }
 
   @override
@@ -46,11 +49,11 @@ class _DetailPlayListScreenState extends State<DetailPlayListScreen> {
           color: AppColors.primaryButtonColor,
           backgroundColor: AppColors.secondaryButtonColor,
           onRefresh: () async {
-            getIt.get<DetailPlayListBloc>().getPlayListDetail(int.parse(widget.playListId ?? ''));
+            playListBloc.getPlayListDetail(int.parse(widget.playListId ?? ''));
           },
           child: StreamBuilder<BlocState<PlaylistResponse>>(
             initialData: const BlocState.loading(),
-            stream: getIt.get<DetailPlayListBloc>().getPlayListDetailStream,
+            stream: playListBloc.getPlayListDetailStream,
             builder: (context, snapshot) {
               final state = snapshot.data!;
 
@@ -60,11 +63,26 @@ class _DetailPlayListScreenState extends State<DetailPlayListScreen> {
 
                   return CustomScrollView(
                     slivers: [
-                      SliverPersistentHeader(
-                        pinned: true,
-                        delegate: CustomSliverPlayList(
-                          detail: detail,
-                          expandedHeight: 300,
+                      SliverToBoxAdapter(
+                        child: Stack(
+                          children: [
+                            //Photo
+                            DetailPlayListPhoto(
+                              imagePath: detail.imagePath,
+                            ),
+                            //Navbar
+                            const DetailPlayListNavBar(),
+                            //Title
+                            DetailPlayListTitle(
+                              time: detail.timeStamp,
+                              userName: detail.fullName,
+                              title: detail.title,
+                            ),
+                            // Play Button
+                            DetailPlayListPlayButton(
+                              detailPlayListBloc: playListBloc,
+                            ),
+                          ],
                         ),
                       ),
                       //Detail songs by album id

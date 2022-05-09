@@ -30,7 +30,7 @@ class _DetailSongPlayButtonState extends State<DetailSongPlayButton> {
   @override
   Widget build(BuildContext context) {
     return Positioned(
-      top: 250,
+      top: 280,
       right: 30,
       child: WButtonInkwell(
         onPressed: () {

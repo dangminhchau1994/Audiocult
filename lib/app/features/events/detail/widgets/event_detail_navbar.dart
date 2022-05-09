@@ -7,7 +7,7 @@ class EventDetailNavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 40, left: 20),
+      padding: const EdgeInsets.only(top: 50, left: 20),
       child: WButtonInkwell(
         onPressed: () {
           Navigator.pop(context);

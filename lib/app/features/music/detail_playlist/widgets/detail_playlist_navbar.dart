@@ -15,7 +15,7 @@ class DetailPlayListNavBar extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.only(
-            top: 30,
+            top: 50,
             left: 20,
           ),
           child: WButtonInkwell(
@@ -29,24 +29,6 @@ class DetailPlayListNavBar extends StatelessWidget {
             ),
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.only(
-            top: 30,
-            right: 20,
-          ),
-          child: Container(
-            padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: AppColors.secondaryButtonColor,
-            ),
-            child: SvgPicture.asset(
-              AppAssets.menuFilter,
-              width: 30,
-              height: 30,
-            ),
-          ),
-        )
       ],
     );
   }

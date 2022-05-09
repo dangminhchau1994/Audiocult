@@ -64,12 +64,26 @@ class _DetailAlbumScreenState extends State<DetailAlbumScreen> {
 
                   return CustomScrollView(
                     slivers: [
-                      SliverPersistentHeader(
-                        pinned: true,
-                        delegate: CustomSliverAlbum(
-                          detail: detail,
-                          expandedHeight: 300,
-                          albumBloc: albumBloc
+                      SliverToBoxAdapter(
+                        child: Stack(
+                          children: [
+                            //Photo
+                            DetailAlbumPhoto(
+                              imagePath: detail.imagePath,
+                            ),
+                            //Navbar
+                            const DetailAlbumNavBar(),
+                            //Title
+                            DetailAlbumTitle(
+                              time: detail.timeStamp,
+                              userName: detail.fullName ?? '',
+                              title: detail.name,
+                            ),
+                            // Play Button
+                            DetailAlbumPlayButton(
+                              albumBloc: albumBloc,
+                            ),
+                          ],
                         ),
                       ),
                       //Detail songs by album id

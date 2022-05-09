@@ -24,6 +24,7 @@ class _DetailAlbumPlayButtonState extends State<DetailAlbumPlayButton> {
   void initState() {
     super.initState();
     widget.albumBloc!.getSongByIdStream.listen((event) {
+      debugPrint('songAlbum ${songs.length}');
       event.when(
         success: (success) {
           setState(() {
@@ -39,11 +40,12 @@ class _DetailAlbumPlayButtonState extends State<DetailAlbumPlayButton> {
   @override
   Widget build(BuildContext context) {
     return Positioned(
-      top: 250,
+      top: 280,
       right: 30,
       child: WButtonInkwell(
         onPressed: () {
           // ignore: cast_nullable_to_non_nullable
+          
           if (songs.isNotEmpty) {
             setState(() {
               isPlay = true;

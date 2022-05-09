@@ -18,7 +18,7 @@ class DetailSongTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Positioned(
-      top: 200,
+      top: 230,
       left: 16,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
