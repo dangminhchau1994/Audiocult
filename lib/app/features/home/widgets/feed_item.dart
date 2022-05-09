@@ -375,10 +375,6 @@ class _FeedItemState extends State<FeedItem> {
             ),
           ),
         );
-      case FeedType.advancedSong:
-        return Html(
-          data: widget.data?.feedCustomHtml ?? '',
-        );
       case FeedType.video:
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
