@@ -101,13 +101,14 @@ class AppServiceProvider {
     );
   }
 
-  Future<List<FeedResponse>> getFeeds(int page, int limit) async {
+  Future<List<FeedResponse>> getFeeds(int page, int limit, int lastFeedId) async {
     final response = await _dioHelper.get(
       route: '/restful_api/feed',
       options: Options(headers: {'Content-Type': 'application/x-www-form-urlencoded'}),
       requestParams: {
         'page': page,
         'limit': limit,
+        'last_feed_id': lastFeedId,
       },
       responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
     );
@@ -297,14 +298,14 @@ class AppServiceProvider {
     );
   }
 
-  Future<SongDetailResponse> getSongDetail(int id) async {
+  Future<Song> getSongDetail(int id) async {
     final response = await _dioHelper.get(
       route: '/restful_api/music/$id',
       options: Options(headers: {'Content-Type': 'application/x-www-form-urlencoded'}),
       responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
     );
     return response.mapData(
-      (json) => SongDetailResponse.fromJson(json as Map<String, dynamic>),
+      (json) => Song.fromJson(json as Map<String, dynamic>),
     );
   }
 

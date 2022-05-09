@@ -1,4 +1,5 @@
 import 'package:audio_cult/app/base/bloc_state.dart';
+import 'package:audio_cult/app/data_source/models/responses/song/song_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/song_detail/song_detail_response.dart';
 import 'package:audio_cult/app/features/music/detail-song/detail_song_bloc.dart';
 import 'package:audio_cult/app/features/music/detail-song/widgets/custom_sliver_song.dart';
@@ -44,7 +45,7 @@ class _DetailSongScreenState extends State<DetailSongScreen> {
           onRefresh: () async {
             getIt.get<DetailSongBloc>().getSongDetail(int.parse(widget.songId ?? ''));
           },
-          child: StreamBuilder<BlocState<SongDetailResponse>>(
+          child: StreamBuilder<BlocState<Song>>(
             initialData: const BlocState.loading(),
             stream: getIt.get<DetailSongBloc>().getSongDetailStream,
             builder: (context, snapshot) {
@@ -52,7 +53,7 @@ class _DetailSongScreenState extends State<DetailSongScreen> {
 
               return state.when(
                 success: (data) {
-                  final detail = data as SongDetailResponse;
+                  final detail = data as Song;
 
                   return CustomScrollView(
                     slivers: [
@@ -98,4 +99,3 @@ class _DetailSongScreenState extends State<DetailSongScreen> {
     );
   }
 }
-

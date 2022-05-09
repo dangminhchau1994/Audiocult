@@ -1,3 +1,4 @@
+import 'package:audio_cult/app/data_source/models/responses/song/song_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/song_detail/song_detail_response.dart';
 import 'package:audio_cult/app/features/music/detail-song/widgets/detail_description_label.dart';
 import 'package:audio_cult/app/utils/constants/app_assets.dart';
@@ -16,7 +17,7 @@ class DetailSongDescription extends StatelessWidget {
     this.data,
   }) : super(key: key);
 
-  final SongDetailResponse? data;
+  final Song? data;
 
   @override
   Widget build(BuildContext context) {

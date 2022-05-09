@@ -2,8 +2,6 @@ import 'package:audio_cult/w_components/loading/loading_widget.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
-import '../../app/utils/constants/app_colors.dart';
-
 class CommonImageNetWork extends StatelessWidget {
   const CommonImageNetWork({
     Key? key,

@@ -49,7 +49,7 @@ class FeedResponse {
   String? feedInfo;
   String? feedLink;
   String? feedIcon;
-  String? feedTotalLike;
+  dynamic feedTotalLike;
   //bool? feedIsLiked;
   bool? enableLike;
   String? likeTypeId;
@@ -75,7 +75,7 @@ class FeedResponse {
   String? commentTypeId;
   String? totalFriendsTagged;
   int? totalImage;
-  List<String>? feedImage;
+  List<String>? apiFeedImage;
   List<String>? feedImageUrl;
   String? customCss;
   String? customRel;
@@ -143,7 +143,7 @@ class FeedResponse {
     this.commentTypeId,
     this.totalFriendsTagged,
     this.totalImage,
-    this.feedImage,
+    this.apiFeedImage,
     this.feedImageUrl,
     this.customCss,
     this.customRel,
@@ -183,6 +183,7 @@ class CustomDataCache {
   String? userName;
   String? fullName;
   String? gender;
+  String? songId;
   String? userImage;
   String? isInvisible;
   String? userGroupId;
@@ -235,6 +236,7 @@ class CustomDataCache {
   String? totalVote;
   String? totalBattle;
   String? totalDislike;
+  String? totalPlay;
   String? isFeatured;
   String? isCover;
   String? allowDownload;
@@ -264,6 +266,7 @@ class CustomDataCache {
       this.languageId,
       this.lastActivity,
       this.birthday,
+      this.totalPlay,
       this.countryIso,
       this.startTime,
       this.endTime,
@@ -275,6 +278,7 @@ class CustomDataCache {
       this.imagePath,
       this.totalLike,
       this.totalComment,
+      this.songId,
       this.location,
       this.privacy,
       this.privacyComment,

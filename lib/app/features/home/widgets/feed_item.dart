@@ -9,8 +9,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_svg/svg.dart';
+import '../../../../w_components/loading/loading_widget.dart';
 import '../../../utils/constants/app_assets.dart';
 import '../../../utils/datetime/date_time_utils.dart';
+import '../../../utils/route/app_route.dart';
 
 class FeedItem extends StatefulWidget {
   const FeedItem({Key? key, this.data}) : super(key: key);
@@ -33,6 +35,7 @@ class _FeedItemState extends State<FeedItem> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: AppColors.secondaryButtonColor,
         borderRadius: BorderRadius.circular(8),
@@ -41,6 +44,7 @@ class _FeedItemState extends State<FeedItem> {
       child: Stack(
         children: [
           Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
               Row(
@@ -65,11 +69,12 @@ class _FeedItemState extends State<FeedItem> {
                     ),
                     errorWidget: (context, url, error) => const Icon(Icons.error),
                   ),
+                  const SizedBox(width: 10),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        '${widget.data?.userName ?? ''} ${widget.data?.feedInfo}',
+                        '${widget.data?.userName ?? ''} ${widget.data?.feedInfo ?? ''}',
                         style: context.buttonTextStyle()!.copyWith(
                               fontSize: 16,
                               color: Colors.white,
@@ -97,7 +102,7 @@ class _FeedItemState extends State<FeedItem> {
                     children: [
                       _buildIcon(
                         SvgPicture.asset(AppAssets.heartIcon),
-                        widget.data!.totalLikes.toString(),
+                        widget.data!.feedTotalLike.toString(),
                         context,
                       ),
                       const SizedBox(
@@ -143,12 +148,12 @@ class _FeedItemState extends State<FeedItem> {
           const SizedBox(
             width: 10,
           ),
-          Text(
-            value,
-            style: context.bodyTextPrimaryStyle()!.copyWith(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
+          Padding(
+            padding: const EdgeInsets.only(top: 6),
+            child: Text(
+              value,
+              style: context.bodyTextPrimaryStyle()!.copyWith(color: Colors.white, fontSize: 16),
+            ),
           )
         ],
       ),
@@ -159,7 +164,7 @@ class _FeedItemState extends State<FeedItem> {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
-        color: AppColors.secondaryButtonColor,
+        color: Colors.blueGrey.withOpacity(0.2),
       ),
       padding: const EdgeInsets.all(12),
       child: Row(
@@ -186,14 +191,115 @@ class _FeedItemState extends State<FeedItem> {
         return Html(
           data: widget.data?.feedCustomHtml ?? '',
         );
-      case FeedType.userStatus:
-        return Text(
-          widget.data?.feedStatus ?? '',
-          style: context.buttonTextStyle()!.copyWith(
-                fontSize: 14,
-                color: Colors.grey,
+      case FeedType.advancedSong:
+        return Container(
+          padding: const EdgeInsets.all(14),
+          width: double.infinity,
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: AppColors.mainColor),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                widget.data?.customDataCache?.title ?? '',
+                style: context.buttonTextStyle()!.copyWith(
+                      fontSize: 16,
+                      color: Colors.white,
+                    ),
               ),
+              const SizedBox(width: 10),
+              Row(
+                children: [
+                  RichText(
+                    text: TextSpan(
+                      style: DefaultTextStyle.of(context).style,
+                      children: <TextSpan>[
+                        TextSpan(
+                          text: widget.data?.customDataCache?.totalPlay ?? '0',
+                          style: context.buttonTextStyle()!.copyWith(
+                                fontSize: 16,
+                                color: Colors.white,
+                              ),
+                        ),
+                        TextSpan(
+                          text: '  plays',
+                          style: context.buttonTextStyle()!.copyWith(
+                                fontSize: 14,
+                                color: AppColors.subTitleColor,
+                              ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(width: 15),
+                  InkWell(
+                    onTap: () {
+                      Navigator.pushNamed(
+                        context,
+                        AppRoute.routeDetailSong,
+                        arguments: {'song_id': widget.data?.customDataCache!.songId},
+                      );
+                    },
+                    child: SvgPicture.asset(
+                      AppAssets.songDetailIcon,
+                      width: 20,
+                      height: 20,
+                    ),
+                  ),
+                  const SizedBox(width: 15),
+                  const Icon(
+                    Icons.download,
+                    color: Colors.white,
+                    size: 28,
+                  )
+                ],
+              )
+            ],
+          ),
         );
+      case FeedType.userStatus:
+        if (widget.data!.statusBackground!.isEmpty) {
+          return Text(
+            widget.data?.feedStatus ?? '',
+            style: context.buttonTextStyle()!.copyWith(
+                  fontSize: 16,
+                  color: Colors.white,
+                ),
+          );
+        } else {
+          return Stack(
+            alignment: Alignment.center,
+            children: [
+              CachedNetworkImage(
+                imageUrl: widget.data?.statusBackground ?? '',
+                fit: BoxFit.cover,
+                placeholder: (context, url) => Center(
+                    child: Container(
+                  alignment: Alignment.center,
+                  constraints: const BoxConstraints(minHeight: 50),
+                  child: const LoadingWidget(),
+                )),
+                errorWidget: (
+                  BuildContext context,
+                  _,
+                  __,
+                ) =>
+                    const Image(
+                  fit: BoxFit.cover,
+                  image: AssetImage(
+                    'assets/cover.jpg',
+                  ),
+                ),
+              ),
+              Text(
+                widget.data?.feedStatus ?? '',
+                style: context.buttonTextStyle()!.copyWith(
+                      fontSize: 18,
+                      color: Colors.white,
+                    ),
+              ),
+            ],
+          );
+        }
       case FeedType.photo:
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -201,32 +307,95 @@ class _FeedItemState extends State<FeedItem> {
             Text(
               widget.data?.feedStatus ?? '',
               style: context.buttonTextStyle()!.copyWith(
-                    fontSize: 14,
-                    color: Colors.grey,
+                    fontSize: 16,
+                    color: Colors.white,
                   ),
             ),
             const SizedBox(height: 20),
-            GridView.count(
-              shrinkWrap: true,
-              crossAxisSpacing: 14,
-              mainAxisSpacing: 25,
-              physics: const NeverScrollableScrollPhysics(),
-              crossAxisCount: 2,
-              childAspectRatio: 8 / 2,
-              children: widget.data!.feedImage!.map((e) => Html(data: e)).toList(),
-            ),
+            if (widget.data?.apiFeedImage != null)
+              GridView.count(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                crossAxisCount: 2,
+                childAspectRatio: 0.5,
+                children: widget.data!.feedImageUrl!
+                    .map(
+                      (e) => CachedNetworkImage(
+                        imageUrl: e,
+                        fit: BoxFit.cover,
+                      ),
+                    )
+                    .toList(),
+              )
+            else
+              const SizedBox(),
           ],
         );
       case FeedType.userCover:
-        return Container();
+        return CachedNetworkImage(
+          imageUrl: widget.data?.feedImageUrl?[0] ?? '',
+          fit: BoxFit.cover,
+          placeholder: (context, url) => Center(
+              child: Container(
+            alignment: Alignment.center,
+            constraints: const BoxConstraints(minHeight: 50),
+            child: const LoadingWidget(),
+          )),
+          errorWidget: (
+            BuildContext context,
+            _,
+            __,
+          ) =>
+              const Image(
+            fit: BoxFit.cover,
+            image: AssetImage(
+              'assets/cover.jpg',
+            ),
+          ),
+        );
       case FeedType.userPhoto:
-        return Container();
+        return CachedNetworkImage(
+          imageUrl: widget.data?.feedImageUrl?[0] ?? '',
+          fit: BoxFit.cover,
+          placeholder: (context, url) => Center(
+              child: Container(
+            alignment: Alignment.center,
+            constraints: const BoxConstraints(minHeight: 50),
+            child: const LoadingWidget(),
+          )),
+          errorWidget: (
+            BuildContext context,
+            _,
+            __,
+          ) =>
+              const Image(
+            fit: BoxFit.cover,
+            image: AssetImage(
+              'assets/cover.jpg',
+            ),
+          ),
+        );
       case FeedType.advancedSong:
         return Html(
           data: widget.data?.feedCustomHtml ?? '',
         );
       case FeedType.video:
-        return Container();
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              widget.data?.feedStatus ?? '',
+              style: context.buttonTextStyle()!.copyWith(
+                    fontSize: 16,
+                    color: Colors.white,
+                  ),
+            ),
+            const SizedBox(height: 20),
+            Html(
+              data: widget.data?.embedCode ?? '',
+            )
+          ],
+        );
       case FeedType.none:
         return Container();
     }

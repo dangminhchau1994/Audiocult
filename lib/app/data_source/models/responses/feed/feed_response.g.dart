@@ -42,7 +42,7 @@ FeedResponse _$FeedResponseFromJson(Map<String, dynamic> json) => FeedResponse(
       feedLink: json['feed_link'] as String?,
       embedCode: json['embed_code'] as String?,
       feedIcon: json['feed_icon'] as String?,
-      feedTotalLike: json['feed_total_like'] as String?,
+      feedTotalLike: json['feed_total_like'],
       enableLike: json['enable_like'] as bool?,
       likeTypeId: json['like_type_id'] as String?,
       totalComment: json['total_comment'] as String?,
@@ -68,7 +68,7 @@ FeedResponse _$FeedResponseFromJson(Map<String, dynamic> json) => FeedResponse(
       commentTypeId: json['comment_type_id'] as String?,
       totalFriendsTagged: json['total_friends_tagged'] as String?,
       totalImage: json['total_image'] as int?,
-      feedImage: (json['feed_image'] as List<dynamic>?)
+      apiFeedImage: (json['api_feed_image'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
       feedImageUrl: (json['feed_image_url'] as List<dynamic>?)
@@ -140,7 +140,7 @@ Map<String, dynamic> _$FeedResponseToJson(FeedResponse instance) =>
       'comment_type_id': instance.commentTypeId,
       'total_friends_tagged': instance.totalFriendsTagged,
       'total_image': instance.totalImage,
-      'feed_image': instance.feedImage,
+      'api_feed_image': instance.apiFeedImage,
       'feed_image_url': instance.feedImageUrl,
       'custom_css': instance.customCss,
       'custom_rel': instance.customRel,
@@ -162,6 +162,7 @@ CustomDataCache _$CustomDataCacheFromJson(Map<String, dynamic> json) =>
       languageId: json['language_id'] as String?,
       lastActivity: json['last_activity'] as String?,
       birthday: json['birthday'] as String?,
+      totalPlay: json['total_play'] as String?,
       countryIso: json['country_iso'] as String?,
       startTime: json['start_time'] as String?,
       endTime: json['end_time'] as String?,
@@ -173,6 +174,7 @@ CustomDataCache _$CustomDataCacheFromJson(Map<String, dynamic> json) =>
       imagePath: json['image_path'] as String?,
       totalLike: json['total_like'] as String?,
       totalComment: json['total_comment'] as String?,
+      songId: json['song_id'] as String?,
       location: json['location'] as String?,
       privacy: json['privacy'] as String?,
       privacyComment: json['privacy_comment'] as String?,
@@ -230,6 +232,7 @@ Map<String, dynamic> _$CustomDataCacheToJson(CustomDataCache instance) =>
       'user_name': instance.userName,
       'full_name': instance.fullName,
       'gender': instance.gender,
+      'song_id': instance.songId,
       'user_image': instance.userImage,
       'is_invisible': instance.isInvisible,
       'user_group_id': instance.userGroupId,
@@ -282,6 +285,7 @@ Map<String, dynamic> _$CustomDataCacheToJson(CustomDataCache instance) =>
       'total_vote': instance.totalVote,
       'total_battle': instance.totalBattle,
       'total_dislike': instance.totalDislike,
+      'total_play': instance.totalPlay,
       'is_featured': instance.isFeatured,
       'is_cover': instance.isCover,
       'allow_download': instance.allowDownload,

@@ -12,11 +12,11 @@ class DetailSongBloc extends BaseBloc {
 
   DetailSongBloc(this._appRepository);
 
-  final _getSongDetailSubject = PublishSubject<BlocState<SongDetailResponse>>();
+  final _getSongDetailSubject = PublishSubject<BlocState<Song>>();
   final _getCommentsSubject = PublishSubject<BlocState<List<CommentResponse>>>();
   final _getSongRecommendedSubject = PublishSubject<BlocState<List<Song>>>();
 
-  Stream<BlocState<SongDetailResponse>> get getSongDetailStream => _getSongDetailSubject.stream;
+  Stream<BlocState<Song>> get getSongDetailStream => _getSongDetailSubject.stream;
   Stream<BlocState<List<CommentResponse>>> get getCommentsStream => _getCommentsSubject.stream;
   Stream<BlocState<List<Song>>> get getSongRecommendedStream => _getSongRecommendedSubject.stream;
 
