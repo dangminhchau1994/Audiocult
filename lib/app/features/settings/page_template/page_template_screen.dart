@@ -7,11 +7,11 @@ import 'package:audio_cult/app/data_source/models/responses/page_template_custom
 import 'package:audio_cult/app/data_source/models/responses/page_template_response.dart';
 import 'package:audio_cult/app/features/events/create_event/widgets/event_datetime_field.dart';
 import 'package:audio_cult/app/features/settings/page_template/page_template_bloc.dart';
-import 'package:audio_cult/app/features/settings/page_template/page_template_widgets/multi_selection_widget.dart';
-import 'package:audio_cult/app/features/settings/page_template/page_template_widgets/radio_widget.dart';
-import 'package:audio_cult/app/features/settings/page_template/page_template_widgets/single_selection_widget.dart';
-import 'package:audio_cult/app/features/settings/page_template/page_template_widgets/textarea_widget.dart';
-import 'package:audio_cult/app/features/settings/page_template/page_template_widgets/textfield_widget.dart';
+import 'package:audio_cult/app/features/settings/page_template_widgets/multi_selection_widget.dart';
+import 'package:audio_cult/app/features/settings/page_template_widgets/radio_widget.dart';
+import 'package:audio_cult/app/features/settings/page_template_widgets/single_selection_widget.dart';
+import 'package:audio_cult/app/features/settings/page_template_widgets/textarea_widget.dart';
+import 'package:audio_cult/app/features/settings/page_template_widgets/textfield_widget.dart';
 import 'package:audio_cult/app/utils/constants/app_assets.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
 import 'package:audio_cult/app/utils/constants/gender_enum.dart';
