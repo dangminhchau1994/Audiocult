@@ -11,6 +11,9 @@ PageTemplateResponse _$PageTemplateResponseFromJson(
     PageTemplateResponse()
       ..countryISO = json['country_iso'] as String?
       ..gender = $enumDecodeNullable(_$GenderEnumMap, json['gender'])
+      ..genderText = (json['custom_gender'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList()
       ..cityLocation = json['city_location'] as String?
       ..postalCode = json['postal_code'] as String?
       ..birthday = json['birthday'] as String?
@@ -24,6 +27,7 @@ Map<String, dynamic> _$PageTemplateResponseToJson(
     <String, dynamic>{
       'country_iso': instance.countryISO,
       'gender': _$GenderEnumMap[instance.gender],
+      'custom_gender': instance.genderText,
       'city_location': instance.cityLocation,
       'postal_code': instance.postalCode,
       'birthday': instance.birthday,
@@ -39,5 +43,5 @@ const _$GenderEnumMap = {
   Gender.female: '2',
   Gender.alien: '3',
   Gender.panda: '4',
-  Gender.custom: 'custom',
+  Gender.custom: '127',
 };

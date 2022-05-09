@@ -11,6 +11,7 @@ import 'package:audio_cult/app/utils/constants/app_assets.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/app/utils/route/app_route.dart';
+import 'package:audio_cult/app/view/no_data_widget.dart';
 import 'package:audio_cult/di/bloc_locator.dart';
 import 'package:audio_cult/l10n/l10n.dart';
 import 'package:audio_cult/w_components/error_empty/error_section.dart';
@@ -291,9 +292,14 @@ class _MyDiaryScreenState extends State<MyDiaryScreen> with AutomaticKeepAliveCl
                 _bloc.viewStartScrolling(notification.direction == ScrollDirection.forward);
                 return true;
               },
-              child: MyDiaryListWidget(events, (offset) {
-                _bloc.viewIsScrolling(offset);
-              }),
+              child: events.isEmpty
+                  ? const NoDataWidget()
+                  : MyDiaryListWidget(
+                      events,
+                      (offset) {
+                        _bloc.viewIsScrolling(offset);
+                      },
+                    ),
             ),
           );
         }, loading: () {

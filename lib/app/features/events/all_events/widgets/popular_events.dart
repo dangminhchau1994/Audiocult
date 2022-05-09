@@ -4,6 +4,7 @@ import 'package:audio_cult/app/features/events/all_events/widgets/popular_event_
 import 'package:audio_cult/app/features/events/popular_event_bloc.dart';
 import 'package:audio_cult/app/utils/constants/app_dimens.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
+import 'package:audio_cult/app/view/no_data_widget.dart';
 import 'package:audio_cult/di/bloc_locator.dart';
 import 'package:audio_cult/l10n/l10n.dart';
 import 'package:flutter/material.dart';
@@ -99,10 +100,7 @@ class _PopularEventsState extends State<PopularEvents> {
                 height: 300,
                 child: LoadingBuilder<PopularEventBloc, List<EventResponse>>(
                   noDataBuilder: (state) {
-                    return EmptyPlayList(
-                      title: context.l10n.t_no_data_found,
-                      content: context.l10n.t_no_data_found_content,
-                    );
+                    return const NoDataWidget();
                   },
                   builder: (data, _) {
                     //only first page

@@ -33,17 +33,25 @@ class EmptyDataStateWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SvgPicture.asset(
-              AppAssets.photo,
-              width: MediaQuery.of(context).size.width * 0.2,
+              AppAssets.eventIcon,
+              width: MediaQuery.of(context).size.width * 0.12,
             ),
-            const SizedBox(
-              height: kVerticalSpacing,
-            ),
+            const SizedBox(height: kVerticalSpacing),
             Text(
-              message ?? 'Empty Data',
-              style: context
-                  .buttonTextStyle()
-                  ?.copyWith(color: Colors.white, fontWeight: FontWeight.w500, fontSize: AppFontSize.size20),
+              message ?? 'Sorry, no result was found',
+              style: context.body3TextStyle()?.copyWith(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w700,
+                    fontSize: AppFontSize.size19,
+                  ),
+            ),
+            const SizedBox(height: 16),
+            Text(
+              "We couldn't find what you're looking for",
+              style: context.body3TextStyle()?.copyWith(
+                    color: Colors.grey,
+                    fontSize: AppFontSize.size17,
+                  ),
             ),
           ],
         ),

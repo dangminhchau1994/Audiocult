@@ -2,6 +2,7 @@ import 'package:audio_cult/app/features/events/calendar/calendar_bloc.dart';
 import 'package:audio_cult/app/features/events/calendar/widgets/calendar_event_item.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
 import 'package:audio_cult/app/utils/constants/app_dimens.dart';
+import 'package:audio_cult/app/view/no_data_widget.dart';
 import 'package:audio_cult/l10n/l10n.dart';
 import 'package:audio_cult/w_components/appbar/common_appbar.dart';
 import 'package:flutter/material.dart';
@@ -143,10 +144,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
               },
               child: LoadingBuilder<CalendarBloc, List<EventResponse>>(
                 noDataBuilder: (state) {
-                  return EmptyPlayList(
-                    title: context.l10n.t_no_data_found,
-                    content: context.l10n.t_no_data_found_content,
-                  );
+                  return const NoDataWidget();
                 },
                 builder: (data, _) {
                   //only first page

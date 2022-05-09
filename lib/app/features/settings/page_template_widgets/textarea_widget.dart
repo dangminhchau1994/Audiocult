@@ -1,4 +1,4 @@
-import 'package:audio_cult/app/features/settings/page_template/page_template_widgets/page_template_widget.dart';
+import 'package:audio_cult/app/features/settings/page_template_widgets/page_template_widget.dart';
 import 'package:flutter/material.dart';
 
 class TextareaWidget extends PageTemplateWidget {
@@ -26,6 +26,7 @@ class TextareaWidget extends PageTemplateWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 4),
       child: TextField(
+        onChanged: onChanged,
         controller: TextEditingController()..text = initialText,
         minLines: 3,
         maxLines: null,

@@ -95,7 +95,7 @@ class _FilterAtlasScreenState extends State<FilterAtlasScreen> {
           selector: (_, provider) => provider.userGroupOptions ?? [],
           builder: (_, options, __) {
             return _dropdownWidget(
-              context.l10n.t_choose_your_role,
+              context.l10n.t_choose_role,
               options,
               options.firstWhereOrNull((element) => element.isSelected == true),
               context.read<AtlasFilterProvider>().selectUserGroup,
