@@ -6,14 +6,13 @@ import 'package:rxdart/rxdart.dart';
 import '../../base/bloc_state.dart';
 import '../../data_source/models/requests/profile_request.dart';
 import '../../data_source/models/responses/profile_data.dart';
-import '../../data_source/models/responses/subscriptions_response.dart';
 import '../../data_source/repositories/app_repository.dart';
 
 class ProfileBloc extends BaseBloc<ProfileRequest, ProfileData> {
   final AppRepository _appRepository;
-  final _getListSubscriptionsSubject = PublishSubject<BlocState<List<Subscriptions>>>();
+  final _getListSubscriptionsSubject = PublishSubject<BlocState<List<ProfileData>>>();
   final _uploadAvatarSubject = PublishSubject<String>();
-  Stream<BlocState<List<Subscriptions>>> get getListSubscriptionsStream => _getListSubscriptionsSubject.stream;
+  Stream<BlocState<List<ProfileData>>> get getListSubscriptionsStream => _getListSubscriptionsSubject.stream;
   Stream<String> get uploadAvatarStream => _uploadAvatarSubject.stream;
 
   ProfileBloc(this._appRepository);

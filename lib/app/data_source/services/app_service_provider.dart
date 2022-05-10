@@ -20,8 +20,6 @@ import 'package:audio_cult/app/data_source/models/responses/page_template_custom
 import 'package:audio_cult/app/data_source/models/responses/page_template_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/playlist/playlist_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/reaction_icon/reaction_icon_response.dart';
-import 'package:audio_cult/app/data_source/models/responses/song_detail/song_detail_response.dart';
-import 'package:audio_cult/app/data_source/models/responses/subscriptions_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/user_subscription_response.dart';
 import 'package:audio_cult/app/data_source/models/update_account_settings_response.dart';
 import 'package:audio_cult/app/injections.dart';
@@ -813,17 +811,17 @@ class AppServiceProvider {
     );
   }
 
-  Future<List<Subscriptions>> getListSubscriptions(String? userId, int page, int limit) async {
+  Future<List<ProfileData>> getListSubscriptions(String? userId, int page, int limit) async {
     final response = await _dioHelper.get(
         route: '/restful_api/user/$userId/subscriptions?page=$page&limit=$limit',
         responseBodyMapper: (json) => BaseRes.fromJson(json as Map<String, dynamic>));
 
     return response.mapData((json) {
       if (json == null) {
-        return <Subscriptions>[];
+        return <ProfileData>[];
       } else {
         return asType<List<dynamic>>(json['subscriptions'])
-            ?.map((e) => Subscriptions.fromJson(e as Map<String, dynamic>))
+            ?.map((e) => ProfileData.fromJson(e as Map<String, dynamic>))
             .toList();
       }
     });

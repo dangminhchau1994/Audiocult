@@ -21,8 +21,6 @@ import 'package:audio_cult/app/data_source/models/responses/place.dart';
 import 'package:audio_cult/app/data_source/models/responses/playlist/playlist_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/profile_data.dart';
 import 'package:audio_cult/app/data_source/models/responses/reaction_icon/reaction_icon_response.dart';
-import 'package:audio_cult/app/data_source/models/responses/song_detail/song_detail_response.dart';
-import 'package:audio_cult/app/data_source/models/responses/subscriptions_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/user_subscription_response.dart';
 import 'package:audio_cult/app/data_source/models/update_account_settings_response.dart';
 import 'package:audio_cult/app/data_source/networks/exceptions/no_cache_exception.dart';
@@ -491,7 +489,7 @@ class AppRepository extends BaseRepository {
     return safeCall(() => appServiceProvider.getMyDiaryEvents(request, cancel: cancel));
   }
 
-  Future<Either<List<Subscriptions>, Exception>> getListSubscriptions(String? userId, int page, int limit) {
+  Future<Either<List<ProfileData>, Exception>> getListSubscriptions(String? userId, int page, int limit) {
     return safeCall(() => appServiceProvider.getListSubscriptions(userId, page, limit));
   }
 
