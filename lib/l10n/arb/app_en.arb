@@ -215,5 +215,7 @@
     "t_current_password":"Curernt Password",
     "t_confirm_new_password":"Confirm New Password",
     "t_payment_methods_note":"Please, indicate the email that represents your PayPal account.",
-    "t_paypal_email":"Paypal Email"
+    "t_paypal_email":"Paypal Email",
+    "t_notification_settings":"Notification Settings"
+
 }

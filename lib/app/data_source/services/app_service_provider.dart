@@ -1,5 +1,6 @@
 import 'package:audio_cult/app/data_source/local/pref_provider.dart';
 import 'package:audio_cult/app/data_source/models/account_settings.dart';
+import 'package:audio_cult/app/data_source/models/notification_option.dart';
 import 'package:audio_cult/app/data_source/models/requests/create_event_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/create_playlist_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/event_request.dart';
@@ -906,5 +907,34 @@ class AppServiceProvider {
       },
     );
     return result;
+  }
+
+  Future<List<NotificationOption>> getAllNotificationOptions() async {
+    final result = await _dioHelper.get(
+        route: '/restful_api/user/notifications',
+        responseBodyMapper: (json) {
+          final dataJson = json['data'] as Map<String, dynamic>;
+          final keys = dataJson.keys;
+          final notifications = keys.map((key) {
+            return NotificationOption.fromJson(key, dataJson[key] as Map<String, dynamic>);
+          }).toList();
+          return notifications;
+        });
+    return result;
+  }
+
+  Future<bool> updateNotificationData(List<NotificationOption> notifications) async {
+    final params = <String, dynamic>{};
+    for (final noti in notifications) {
+      params['val[${noti.key}]'] = noti.isChecked == true ? 1 : 0;
+    }
+    final result = await _dioHelper.post(
+      route: '/restful_api/user/notifications',
+      requestBody: FormData.fromMap(params),
+      responseBodyMapper: (json) {
+        print('--------------: ${json}');
+      },
+    );
+    return false;
   }
 }
