@@ -6,10 +6,20 @@ import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/l10n/l10n.dart';
 import 'package:audio_cult/w_components/textfields/common_input.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_svg/svg.dart';
+import '../../../../di/bloc_locator.dart';
+import '../../../../w_components/buttons/w_button_inkwell.dart';
+import '../../../../w_components/comment/comment_args.dart';
+import '../../../../w_components/comment/comment_item.dart';
+import '../../../../w_components/comment/comment_list_screen.dart';
+import '../../../../w_components/comment/reply_item.dart';
+import '../../../../w_components/error_empty/error_section.dart';
 import '../../../../w_components/loading/loading_widget.dart';
+import '../../../base/bloc_state.dart';
+import '../../../data_source/models/responses/comment/comment_response.dart';
 import '../../../utils/constants/app_assets.dart';
 import '../../../utils/datetime/date_time_utils.dart';
 import '../../../utils/route/app_route.dart';
@@ -28,7 +38,8 @@ class _FeedItemState extends State<FeedItem> {
 
   @override
   void initState() {
-    // _homeBloc.getComments(int.parse(widget.data?.feedId ?? ''), 'music_song', 1, 3, 'latest');
+    _homeBloc.getComments(int.parse(widget.data?.feedId ?? ''), 'feed', 1, 3, 'latest');
+    getIt.get<HomeBloc>().getReactionIcons();
     super.initState();
   }
 
@@ -108,10 +119,24 @@ class _FeedItemState extends State<FeedItem> {
                       const SizedBox(
                         width: 10,
                       ),
-                      _buildIcon(
-                        SvgPicture.asset(AppAssets.commentIcon),
-                        widget.data?.totalComment ?? '',
-                        context,
+                      WButtonInkwell(
+                        onPressed: () {
+                          Navigator.pushNamed(
+                            context,
+                            AppRoute.routeCommentListScreen,
+                            arguments: CommentArgs(
+                              itemId: int.parse(widget.data?.feedId ?? ''),
+                              title: 'Comments',
+                              commentType: CommentType.home,
+                              data: null,
+                            ),
+                          );
+                        },
+                        child: _buildIcon(
+                          SvgPicture.asset(AppAssets.commentIcon),
+                          widget.data?.totalComment ?? '',
+                          context,
+                        ),
                       )
                     ],
                   ),
@@ -121,9 +146,88 @@ class _FeedItemState extends State<FeedItem> {
               const SizedBox(height: 20),
               const Divider(height: 0.5, color: Colors.grey),
               const SizedBox(height: 20),
+              StreamBuilder<BlocState<List<CommentResponse>>>(
+                initialData: const BlocState.loading(),
+                stream: _homeBloc.getCommentsStream,
+                builder: (context, snapshot) {
+                  final state = snapshot.data!;
+
+                  return state.when(
+                    success: (success) {
+                      final data = success as List<CommentResponse>;
+
+                      return Column(
+                        children: [
+                          ListView.separated(
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: data.length,
+                            shrinkWrap: true,
+                            separatorBuilder: (context, index) => const Divider(height: 30),
+                            itemBuilder: (context, index) {
+                              return ExpandablePanel(
+                                controller: ExpandableController(initialExpanded: true),
+                                header: CommentItem(
+                                  data: data[index],
+                                  onReply: (data) {
+                                    Navigator.pushNamed(
+                                      context,
+                                      AppRoute.routeReplyListScreen,
+                                      arguments: CommentArgs(
+                                        data: data,
+                                        itemId: int.parse(widget.data?.feedId ?? ''),
+                                        commentType: CommentType.home,
+                                      ),
+                                    );
+                                  },
+                                ),
+                                theme: const ExpandableThemeData(
+                                  hasIcon: false,
+                                  tapBodyToExpand: false,
+                                  useInkWell: false,
+                                  tapHeaderToExpand: false,
+                                ),
+                                collapsed: Container(),
+                                expanded: ReplyItem(
+                                  parentId: int.parse(data[index].commentId ?? ''),
+                                  id: int.parse(widget.data?.feedId ?? ''),
+                                  commentParent: data[index],
+                                  commentType: CommentType.home,
+                                ),
+                              );
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                    loading: () {
+                      return const Center(
+                        child: LoadingWidget(),
+                      );
+                    },
+                    error: (error) {
+                      return ErrorSectionWidget(
+                        errorMessage: error,
+                        onRetryTap: () {},
+                      );
+                    },
+                  );
+                },
+              ),
               CommonInput(
                 maxLine: 5,
                 hintText: context.l10n.t_leave_comment,
+                onTap: () {
+                  Navigator.pushNamed(
+                    context,
+                    AppRoute.routeCommentListScreen,
+                    arguments: CommentArgs(
+                      itemId: int.parse(widget.data?.feedId ?? ''),
+                      title: 'Comments',
+                      commentType: CommentType.home,
+                      data: null,
+                    ),
+                  );
+                },
               ),
             ],
           )

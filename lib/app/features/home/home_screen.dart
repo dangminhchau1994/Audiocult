@@ -20,7 +20,7 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMixin{
+class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMixin {
   final PagingController<int, FeedResponse> _pagingFeedController = PagingController(firstPageKey: 1);
   late HomeBloc _homeBloc;
 
@@ -73,70 +73,21 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.mainColor,
-      body: Container(
-        margin: const EdgeInsets.symmetric(
-          horizontal: kHorizontalSpacing,
-          vertical: kVerticalSpacing,
-        ),
-        child: RefreshIndicator(
-          color: AppColors.primaryButtonColor,
-          backgroundColor: AppColors.secondaryButtonColor,
-          onRefresh: () async {
-            _pagingFeedController.refresh();
-            _homeBloc.requestData(
-              params: FeedRequest(
-                page: 1,
-                limit: GlobalConstants.loadMoreItem,
-              ),
-            );
-          },
-          child: LoadingBuilder<HomeBloc, List<FeedResponse>>(
-            noDataBuilder: (state) {
-              return const CustomScrollView(
-                slivers: [
-                  AnnouncementPost(),
-                ],
-              );
-            },
-            builder: (data, _) {
-              // only first page
-              final isLastPage = data.length == GlobalConstants.loadMoreItem - 1;
-              if (isLastPage) {
-                _pagingFeedController.appendLastPage(data);
-              } else {
-                _pagingFeedController.appendPage(data, _pagingFeedController.firstPageKey + 1);
-              }
-
-              return CustomScrollView(
-                slivers: [
-                  const AnnouncementPost(),
-                  const SliverToBoxAdapter(child: SizedBox(height: 40)),
-                  PagedSliverList<int, FeedResponse>.separated(
-                    pagingController: _pagingFeedController,
-                    separatorBuilder: (context, index) => const Divider(height: 24),
-                    builderDelegate: PagedChildBuilderDelegate<FeedResponse>(
-                      firstPageProgressIndicatorBuilder: (context) => Container(),
-                      newPageProgressIndicatorBuilder: (context) => const LoadingWidget(),
-                      animateTransitions: true,
-                      itemBuilder: (context, item, index) {
-                        return FeedItem(
-                          data: item,
-                        );
-                      },
-                    ),
-                  ),
-                  SliverToBoxAdapter(
-                    child: Padding(
-                      padding: const EdgeInsets.only(bottom: 150),
-                      child: Container(),
-                    ),
-                  )
-                ],
-              );
-            },
-            reloadAction: (_) {
+    return GestureDetector(
+      onTap: () {
+        FocusManager.instance.primaryFocus?.unfocus();
+      },
+      child: Scaffold(
+        backgroundColor: AppColors.mainColor,
+        body: Container(
+          margin: const EdgeInsets.symmetric(
+            horizontal: kHorizontalSpacing,
+            vertical: kVerticalSpacing,
+          ),
+          child: RefreshIndicator(
+            color: AppColors.primaryButtonColor,
+            backgroundColor: AppColors.secondaryButtonColor,
+            onRefresh: () async {
               _pagingFeedController.refresh();
               _homeBloc.requestData(
                 params: FeedRequest(
@@ -145,6 +96,60 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
                 ),
               );
             },
+            child: LoadingBuilder<HomeBloc, List<FeedResponse>>(
+              noDataBuilder: (state) {
+                return const CustomScrollView(
+                  slivers: [
+                    AnnouncementPost(),
+                  ],
+                );
+              },
+              builder: (data, _) {
+                // only first page
+                final isLastPage = data.length == GlobalConstants.loadMoreItem - 1;
+                if (isLastPage) {
+                  _pagingFeedController.appendLastPage(data);
+                } else {
+                  _pagingFeedController.appendPage(data, _pagingFeedController.firstPageKey + 1);
+                }
+
+                return CustomScrollView(
+                  slivers: [
+                    const AnnouncementPost(),
+                    const SliverToBoxAdapter(child: SizedBox(height: 40)),
+                    PagedSliverList<int, FeedResponse>.separated(
+                      pagingController: _pagingFeedController,
+                      separatorBuilder: (context, index) => const Divider(height: 24),
+                      builderDelegate: PagedChildBuilderDelegate<FeedResponse>(
+                        firstPageProgressIndicatorBuilder: (context) => Container(),
+                        newPageProgressIndicatorBuilder: (context) => const LoadingWidget(),
+                        animateTransitions: true,
+                        itemBuilder: (context, item, index) {
+                          return FeedItem(
+                            data: item,
+                          );
+                        },
+                      ),
+                    ),
+                    SliverToBoxAdapter(
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 150),
+                        child: Container(),
+                      ),
+                    )
+                  ],
+                );
+              },
+              reloadAction: (_) {
+                _pagingFeedController.refresh();
+                _homeBloc.requestData(
+                  params: FeedRequest(
+                    page: 1,
+                    limit: GlobalConstants.loadMoreItem,
+                  ),
+                );
+              },
+            ),
           ),
         ),
       ),

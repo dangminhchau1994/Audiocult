@@ -24,7 +24,6 @@ class _DetailAlbumPlayButtonState extends State<DetailAlbumPlayButton> {
   void initState() {
     super.initState();
     widget.albumBloc!.getSongByIdStream.listen((event) {
-      debugPrint('songAlbum ${songs.length}');
       event.when(
         success: (success) {
           setState(() {

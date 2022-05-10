@@ -91,6 +91,7 @@ class _DetailPlayListScreenState extends State<DetailPlayListScreen> {
                         totalComments: detail.totalComments,
                         totalLike: detail.totalLikes,
                         totalViews: detail.totalView,
+                        detailPlayListBloc: playListBloc,
                       ),
                       //Comment
                       DetailPlayListComment(

@@ -35,11 +35,28 @@ class CommonFabMenu extends StatelessWidget {
           );
         } else {
           return _buildActionIcon(
-            GestureDetector(
-              onTap: toggleChildren,
-              child: SvgPicture.asset(
-                AppAssets.actionMenu,
-              ),
+            Stack(
+              fit: StackFit.expand,
+              children: [
+                GestureDetector(
+                  onTap: toggleChildren,
+                  child: SvgPicture.asset(
+                    AppAssets.actionMenu,
+                  ),
+                ),
+                // Positioned(
+                //   top: 10,
+                //   right: 0,
+                //   child: Container(
+                //     width: 10,
+                //     height: 10,
+                //     decoration: const BoxDecoration(
+                //       shape: BoxShape.circle,
+                //       color: Colors.red,
+                //     ),
+                //   ),
+                // )
+              ],
             ),
             false,
           );

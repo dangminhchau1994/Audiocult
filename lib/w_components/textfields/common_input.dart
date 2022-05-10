@@ -21,6 +21,7 @@ class CommonInput extends StatelessWidget {
     this.labelRight,
     this.suffixIcon,
     this.fillColor,
+    this.onTap,
     this.isBorderVisible = true,
   }) : super(key: key);
 
@@ -32,6 +33,7 @@ class CommonInput extends StatelessWidget {
   final String? hintText;
   final String? errorText;
   final Function()? togglePassword;
+  final Function()? onTap;
   final int? maxLine;
   final Function(String value)? onChanged;
   final TextEditingController? editingController;
@@ -60,6 +62,7 @@ class CommonInput extends StatelessWidget {
                 },
                 keyboardType: textInputType ?? TextInputType.text,
                 maxLines: maxLine,
+                onTap: onTap,
                 controller: editingController,
                 readOnly: isReadOnly ?? false,
                 cursorColor: Colors.white,

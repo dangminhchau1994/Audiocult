@@ -53,7 +53,7 @@ class _ReplyItemState extends State<ReplyItem> {
       case CommentType.event:
         return 'event';
       case CommentType.home:
-        return '';
+        return 'feed';
     }
   }
 

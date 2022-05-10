@@ -66,7 +66,7 @@ class _CommentListScreenState extends State<CommentListScreen> {
       case CommentType.song:
         return 'music_song';
       case CommentType.home:
-        return '';
+        return 'feed';
       case CommentType.event:
         return 'event';
     }
@@ -91,7 +91,14 @@ class _CommentListScreenState extends State<CommentListScreen> {
   }
 
   void _submitComment() {
-    _commentListBloc.createComment(widget.commentArgs.itemId ?? 0, getType(), _text.value);
+    _commentListBloc.createComment(
+      widget.commentArgs.itemId ?? 0,
+      getType(),
+      _text.value,
+      feedId: widget.commentArgs.itemId,
+    );
+
+    //clear text and reload data
     _text.value = '';
     _emojiShowing.value = false;
     _textEditingController.text = '';
