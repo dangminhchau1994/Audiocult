@@ -25,8 +25,11 @@ class AccountSettingsScreen extends StatefulWidget {
   State<AccountSettingsScreen> createState() => _AccountSettingsScreenState();
 }
 
-class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
+class _AccountSettingsScreenState extends State<AccountSettingsScreen> with AutomaticKeepAliveClientMixin {
   final _bloc = getIt.get<AccountSettingsBloc>();
+
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   void didChangeDependencies() {
@@ -51,6 +54,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return WKeyboardDismiss(
         child: BlocHandle(
       bloc: _bloc,

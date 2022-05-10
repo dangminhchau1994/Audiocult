@@ -1,6 +1,7 @@
 import 'package:audio_cult/app/data_source/local/pref_provider.dart';
 import 'package:audio_cult/app/data_source/models/account_settings.dart';
 import 'package:audio_cult/app/data_source/models/cache_filter.dart';
+import 'package:audio_cult/app/data_source/models/notification_option.dart';
 import 'package:audio_cult/app/data_source/models/requests/create_event_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/create_playlist_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/filter_users_request.dart';
@@ -488,5 +489,13 @@ class AppRepository extends BaseRepository {
 
   Future<Either<UpdateAccountSettingsResponse, Exception>> updateAccountSettings(AccountSettings accountSettings) {
     return safeCall(() => appServiceProvider.updateAccountSettings(accountSettings));
+  }
+
+  Future<Either<List<NotificationOption>, Exception>> getAllNotifications() {
+    return safeCall(appServiceProvider.getAllNotificationOptions);
+  }
+
+  Future<Either<bool, Exception>> updateNotificationData(List<NotificationOption> notifications) {
+    return safeCall(() => appServiceProvider.updateNotificationData(notifications));
   }
 }

@@ -16,6 +16,7 @@ import 'package:audio_cult/app/features/music/playlist_dialog_bloc.dart';
 import 'package:audio_cult/app/features/music/search/search_bloc.dart';
 import 'package:audio_cult/app/features/my_diary_in_month/my_diary_in_month_bloc.dart';
 import 'package:audio_cult/app/features/settings/account_settings/account_settings_bloc.dart';
+import 'package:audio_cult/app/features/settings/notifications_settings/notification_settings_bloc.dart';
 import 'package:audio_cult/app/features/settings/page_template/page_template_bloc.dart';
 import 'package:audio_cult/app/injections.dart';
 import 'package:audio_cult/w_components/comment/comment_item_bloc.dart';
@@ -111,4 +112,6 @@ void setupLocator() {
 
   getIt.registerFactory<AccountSettingsBloc>(
       () => AccountSettingsBloc(locator.get<AppRepository>(), locator.get<PrefProvider>()));
+
+  getIt.registerFactory<NotificationSettingsBloc>(() => NotificationSettingsBloc(locator.get<AppRepository>()));
 }
