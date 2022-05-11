@@ -228,7 +228,10 @@ class _RegisterPageState extends State<RegisterPage> with DisposableStateMixin, 
                           ..valRole = _selectMenuModel?.id;
                         _registerBloc.submitRegister(registerRequest);
                       },
-              )
+              ),
+              const SizedBox(
+                height: kVerticalSpacing,
+              ),
             ],
           ),
         ),

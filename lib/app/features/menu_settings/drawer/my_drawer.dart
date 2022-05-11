@@ -96,9 +96,12 @@ class _MyDrawerState extends State<MyDrawer> with DisposableStateMixin {
                         child: Column(
                       children: [
                         WButtonInkwell(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.pushNamed(context, AppRoute.routeSubscriptions,
+                                arguments: {'user_id': locator.get<MainBloc>().profileData?.userId});
+                          },
                           child: Padding(
-                            padding: const EdgeInsets.all(8),
+                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 24),
                             child: Row(
                               children: [
                                 Image.asset(
@@ -118,7 +121,7 @@ class _MyDrawerState extends State<MyDrawer> with DisposableStateMixin {
                             Navigator.pushNamed(context, AppRoute.routeSettings);
                           },
                           child: Padding(
-                            padding: const EdgeInsets.all(8),
+                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 24),
                             child: Row(
                               children: [
                                 Image.asset(AppAssets.icSetting, width: 24),

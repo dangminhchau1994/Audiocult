@@ -48,6 +48,7 @@ class _EventsPageState extends State<EventsPage> {
         EventRequest(
           page: pageKey,
           limit: GlobalConstants.loadMoreItem,
+          userId: widget.profile.userId
         ),
       );
       newItems.fold(

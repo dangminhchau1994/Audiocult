@@ -1,6 +1,7 @@
 import 'package:audio_cult/app/data_source/local/pref_provider.dart';
 import 'package:audio_cult/app/data_source/models/account_settings.dart';
 import 'package:audio_cult/app/data_source/models/cache_filter.dart';
+import 'package:audio_cult/app/data_source/models/notification_option.dart';
 import 'package:audio_cult/app/data_source/models/requests/create_event_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/create_playlist_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/filter_users_request.dart';
@@ -21,8 +22,6 @@ import 'package:audio_cult/app/data_source/models/responses/place.dart';
 import 'package:audio_cult/app/data_source/models/responses/playlist/playlist_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/profile_data.dart';
 import 'package:audio_cult/app/data_source/models/responses/reaction_icon/reaction_icon_response.dart';
-import 'package:audio_cult/app/data_source/models/responses/song_detail/song_detail_response.dart';
-import 'package:audio_cult/app/data_source/models/responses/subscriptions_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/user_subscription_response.dart';
 import 'package:audio_cult/app/data_source/models/update_account_settings_response.dart';
 import 'package:audio_cult/app/data_source/networks/exceptions/no_cache_exception.dart';
@@ -483,7 +482,7 @@ class AppRepository extends BaseRepository {
     return safeCall(() => appServiceProvider.getMyDiaryEvents(request, cancel: cancel));
   }
 
-  Future<Either<List<Subscriptions>, Exception>> getListSubscriptions(String? userId, int page, int limit) {
+  Future<Either<List<ProfileData>, Exception>> getListSubscriptions(String? userId, int page, int limit) {
     return safeCall(() => appServiceProvider.getListSubscriptions(userId, page, limit));
   }
 
@@ -501,5 +500,13 @@ class AppRepository extends BaseRepository {
 
   Future<Either<UpdateAccountSettingsResponse, Exception>> updateAccountSettings(AccountSettings accountSettings) {
     return safeCall(() => appServiceProvider.updateAccountSettings(accountSettings));
+  }
+
+  Future<Either<List<NotificationOption>, Exception>> getAllNotifications() {
+    return safeCall(appServiceProvider.getAllNotificationOptions);
+  }
+
+  Future<Either<bool, Exception>> updateNotificationData(List<NotificationOption> notifications) {
+    return safeCall(() => appServiceProvider.updateNotificationData(notifications));
   }
 }

@@ -1,4 +1,5 @@
 import 'package:audio_cult/app/features/settings/account_settings/account_settings_screen.dart';
+import 'package:audio_cult/app/features/settings/notifications_settings/notification_settings_widget.dart';
 import 'package:audio_cult/app/features/settings/page_template/page_template_screen.dart';
 import 'package:audio_cult/app/utils/constants/app_assets.dart';
 import 'package:audio_cult/w_components/appbar/common_appbar.dart';
@@ -102,11 +103,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
               case 0:
                 return const PageTemplateScreen();
               case 1:
-                return AccountSettingsScreen();
+                return const AccountSettingsScreen();
               case 2:
                 return const SizedBox();
               case 3:
-                return const SizedBox();
+                return const NotificationSettingsWidget();
               default:
                 return const SizedBox();
             }

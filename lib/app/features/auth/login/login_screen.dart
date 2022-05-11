@@ -32,42 +32,47 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.mainColor,
-      resizeToAvoidBottomInset: false,
+      // resizeToAvoidBottomInset: false,
       body: WKeyboardDismiss(
-        child: SafeArea(
-          top: false,
-          child: WAuthPage(
-            child: DefaultTabController(
-              length: 2,
-              initialIndex: 1,
-              child: Column(
-                children: [
-                  TabBar(
-                    controller: _controller,
-                    onTap: (i) {
-                      FocusScope.of(context).requestFocus(FocusNode());
-                    },
-                    labelStyle: context.bodyTextStyle(),
-                    tabs: [
-                      Tab(text: context.l10n.t_sign_up),
-                      Tab(text: context.l10n.t_sign_in),
-                    ],
-                  ),
-                  Expanded(
-                    child: TabBarView(
-                      physics: const NeverScrollableScrollPhysics(),
+        child: Center(
+          child: SafeArea(
+            top: false,
+            child: WAuthPage(
+              isHideHeader: MediaQuery.of(context).viewInsets.bottom > 0,
+              child: DefaultTabController(
+                length: 2,
+                initialIndex: 1,
+                child: Column(
+                  children: [
+                    TabBar(
                       controller: _controller,
-                      children: [
-                        RegisterPage(
-                          onSuccess: () {
-                            _controller?.animateTo(1);
-                          },
-                        ),
-                        const LoginPage(),
+                      onTap: (i) {
+                        FocusScope.of(context).requestFocus(FocusNode());
+                      },
+                      labelStyle: context.bodyTextStyle(),
+                      tabs: [
+                        Tab(text: context.l10n.t_sign_up),
+                        Tab(text: context.l10n.t_sign_in),
                       ],
                     ),
-                  ),
-                ],
+                    Expanded(
+                      child: Center(
+                        child: TabBarView(
+                          physics: const NeverScrollableScrollPhysics(),
+                          controller: _controller,
+                          children: [
+                            RegisterPage(
+                              onSuccess: () {
+                                _controller?.animateTo(1);
+                              },
+                            ),
+                            const LoginPage(),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

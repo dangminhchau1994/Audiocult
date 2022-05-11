@@ -1,8 +1,6 @@
 import 'package:audio_cult/app/constants/global_constants.dart';
 import 'package:audio_cult/app/data_source/models/responses/profile_data.dart';
-import 'package:audio_cult/app/data_source/models/responses/subscriptions_response.dart';
 import 'package:audio_cult/app/features/profile/profile_bloc.dart';
-import 'package:audio_cult/app/utils/constants/app_constants.dart';
 import 'package:audio_cult/app/utils/constants/app_dimens.dart';
 import 'package:audio_cult/app/utils/constants/app_font_sizes.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
@@ -76,7 +74,10 @@ class _PostPageState extends State<PostPage> {
                   ),
                   const Expanded(child: SizedBox.shrink()),
                   WButtonInkwell(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pushNamed(context, AppRoute.routeSubscriptions,
+                          arguments: {'user_id': widget.profile?.userId});
+                    },
                     child: Padding(
                       padding: const EdgeInsets.all(8),
                       child: Text(
@@ -93,14 +94,14 @@ class _PostPageState extends State<PostPage> {
               SizedBox(
                 width: double.infinity,
                 height: 96,
-                child: StreamBuilder<BlocState<List<Subscriptions>>>(
+                child: StreamBuilder<BlocState<List<ProfileData>>>(
                     initialData: const BlocState.loading(),
                     stream: Provider.of<ProfileBloc>(context, listen: false).getListSubscriptionsStream,
                     builder: (context, snapshot) {
                       final state = snapshot.data!;
                       return state.when(
                         success: (data) {
-                          final subscriptions = data as List<Subscriptions>;
+                          final subscriptions = data as List<ProfileData>;
                           return ListView.builder(
                               itemCount: subscriptions.length,
                               scrollDirection: Axis.horizontal,

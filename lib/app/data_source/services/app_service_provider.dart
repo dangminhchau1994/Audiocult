@@ -1,5 +1,6 @@
 import 'package:audio_cult/app/data_source/local/pref_provider.dart';
 import 'package:audio_cult/app/data_source/models/account_settings.dart';
+import 'package:audio_cult/app/data_source/models/notification_option.dart';
 import 'package:audio_cult/app/data_source/models/requests/create_event_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/create_playlist_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/event_request.dart';
@@ -20,8 +21,6 @@ import 'package:audio_cult/app/data_source/models/responses/page_template_custom
 import 'package:audio_cult/app/data_source/models/responses/page_template_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/playlist/playlist_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/reaction_icon/reaction_icon_response.dart';
-import 'package:audio_cult/app/data_source/models/responses/song_detail/song_detail_response.dart';
-import 'package:audio_cult/app/data_source/models/responses/subscriptions_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/user_subscription_response.dart';
 import 'package:audio_cult/app/data_source/models/update_account_settings_response.dart';
 import 'package:audio_cult/app/injections.dart';
@@ -806,17 +805,17 @@ class AppServiceProvider {
     );
   }
 
-  Future<List<Subscriptions>> getListSubscriptions(String? userId, int page, int limit) async {
+  Future<List<ProfileData>> getListSubscriptions(String? userId, int page, int limit) async {
     final response = await _dioHelper.get(
         route: '/restful_api/user/$userId/subscriptions?page=$page&limit=$limit',
         responseBodyMapper: (json) => BaseRes.fromJson(json as Map<String, dynamic>));
 
     return response.mapData((json) {
       if (json == null) {
-        return <Subscriptions>[];
+        return <ProfileData>[];
       } else {
         return asType<List<dynamic>>(json['subscriptions'])
-            ?.map((e) => Subscriptions.fromJson(e as Map<String, dynamic>))
+            ?.map((e) => ProfileData.fromJson(e as Map<String, dynamic>))
             .toList();
       }
     });
@@ -901,5 +900,34 @@ class AppServiceProvider {
       },
     );
     return result;
+  }
+
+  Future<List<NotificationOption>> getAllNotificationOptions() async {
+    final result = await _dioHelper.get(
+        route: '/restful_api/user/notifications',
+        responseBodyMapper: (json) {
+          final dataJson = json['data'] as Map<String, dynamic>;
+          final keys = dataJson.keys;
+          final notifications = keys.map((key) {
+            return NotificationOption.fromJson(key, dataJson[key] as Map<String, dynamic>);
+          }).toList();
+          return notifications;
+        });
+    return result;
+  }
+
+  Future<bool> updateNotificationData(List<NotificationOption> notifications) async {
+    final params = <String, dynamic>{};
+    for (final noti in notifications) {
+      params['val[${noti.key}]'] = noti.isChecked == true ? 1 : 0;
+    }
+    final result = await _dioHelper.post(
+      route: '/restful_api/user/notifications',
+      requestBody: FormData.fromMap(params),
+      responseBodyMapper: (json) {
+        print('--------------: ${json}');
+      },
+    );
+    return false;
   }
 }
