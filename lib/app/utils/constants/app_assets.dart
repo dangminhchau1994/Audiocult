@@ -61,6 +61,8 @@ class AppAssets {
 
   static const pdfIcon = 'assets/icons/pdf.svg';
 
+  static const verticalIcon = 'assets/icons/vertical_icon.svg';
+
   static const horizontalIcon = 'assets/icons/horiz.svg';
 
   static const activeRadio = 'assets/icons/active_radio.svg';

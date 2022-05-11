@@ -5,10 +5,16 @@ import '../../app/utils/constants/app_assets.dart';
 import '../../app/utils/constants/app_colors.dart';
 
 class CommonPopupMenu extends StatelessWidget {
-  const CommonPopupMenu({Key? key, this.onSelected, this.items}) : super(key: key);
+  const CommonPopupMenu({
+    Key? key,
+    this.onSelected,
+    this.items,
+    this.icon,
+  }) : super(key: key);
 
   final Function(int selected)? onSelected;
   final List<PopupMenuEntry<int>>? items;
+  final Widget? icon;
 
   @override
   Widget build(BuildContext context) {
@@ -19,11 +25,12 @@ class CommonPopupMenu extends StatelessWidget {
           Radius.circular(14),
         ),
       ),
-      icon: SvgPicture.asset(
-        AppAssets.horizontalIcon,
-        width: 16,
-        height: 16,
-      ),
+      icon: icon ??
+          SvgPicture.asset(
+            AppAssets.horizontalIcon,
+            width: 16,
+            height: 16,
+          ),
       itemBuilder: (context) => items!,
       onSelected: onSelected,
     );
