@@ -20,11 +20,13 @@ class DetailPlayListSongs extends StatefulWidget {
     this.songs,
     this.playListId,
     this.totalComments,
+    this.detailPlayListBloc,
     this.totalLike,
     this.totalViews,
   }) : super(key: key);
 
   final List<Song>? songs;
+  final DetailPlayListBloc? detailPlayListBloc;
   final String? playListId;
   final String? totalLike;
   final String? totalComments;
@@ -35,12 +37,11 @@ class DetailPlayListSongs extends StatefulWidget {
 }
 
 class _DetailPlayListSongsState extends State<DetailPlayListSongs> {
-  DetailPlayListBloc playListBloc = DetailPlayListBloc(locator.get());
 
   @override
   void initState() {
     super.initState();
-    playListBloc.getSongByPlayListId(int.parse(widget.playListId ?? ''), 1, GlobalConstants.loadMoreItem);
+    widget.detailPlayListBloc?.getSongByPlayListId(int.parse(widget.playListId ?? ''), 1, GlobalConstants.loadMoreItem);
   }
 
   @override
@@ -56,7 +57,7 @@ class _DetailPlayListSongsState extends State<DetailPlayListSongs> {
           children: [
             StreamBuilder<BlocState<List<Song>>>(
               initialData: const BlocState.loading(),
-              stream: playListBloc.getSongByIdStream,
+              stream: widget.detailPlayListBloc?.getSongByIdStream,
               builder: (context, snapshot) {
                 final state = snapshot.data!;
     
@@ -93,7 +94,7 @@ class _DetailPlayListSongsState extends State<DetailPlayListSongs> {
                     return ErrorSectionWidget(
                       errorMessage: error,
                       onRetryTap: () {
-                        playListBloc.getSongByPlayListId(
+                        widget.detailPlayListBloc?.getSongByPlayListId(
                             int.parse(widget.playListId ?? ''), 1, GlobalConstants.loadMoreItem,);
                       },
                     );

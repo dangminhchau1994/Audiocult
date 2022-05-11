@@ -136,6 +136,59 @@ class GlobalConstants {
     ];
   }
 
+  static List<PopupMenuEntry<int>> menuFeedItem(BuildContext context) {
+    return [
+      PopupMenuItem<int>(
+        value: 0,
+        child: Row(
+          children: [
+            const Icon(
+              Icons.edit,
+            ),
+            const SizedBox(
+              width: 10,
+            ),
+            Text(
+              context.l10n.t_edit,
+            )
+          ],
+        ),
+      ),
+      PopupMenuItem<int>(
+        value: 0,
+        child: Row(
+          children: [
+            const Icon(
+              Icons.delete,
+            ),
+            const SizedBox(
+             width: 10,
+            ),
+            Text(
+              context.l10n.t_delete,
+            )
+          ],
+        ),
+      ),
+      PopupMenuItem<int>(
+        value: 0,
+        child: Row(
+          children: [
+            const Icon(
+              Icons.flag_sharp,
+            ),
+            const SizedBox(
+              width: 10,
+            ),
+            Text(
+              context.l10n.t_save,
+            )
+          ],
+        ),
+      ),
+    ];
+  }
+
   static List<PopupMenuEntry<int>> menuItemsWithDetail(BuildContext context) {
     return [
       PopupMenuItem<int>(
@@ -156,7 +209,6 @@ class GlobalConstants {
           ],
         ),
       ),
-      const PopupMenuDivider(),
       PopupMenuItem<int>(
         value: 1,
         child: Row(
@@ -175,7 +227,6 @@ class GlobalConstants {
           ],
         ),
       ),
-      const PopupMenuDivider(),
       PopupMenuItem<int>(
         value: 2,
         child: Row(

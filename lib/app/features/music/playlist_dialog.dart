@@ -1,6 +1,8 @@
+import 'package:audio_cult/app/base/bloc_handle.dart';
 import 'package:audio_cult/app/features/music/playlist_dialog_bloc.dart';
 import 'package:audio_cult/app/features/music/search/search_item.dart';
 import 'package:audio_cult/l10n/l10n.dart';
+import 'package:disposing/disposing.dart';
 import 'package:flutter/material.dart';
 
 import '../../../di/bloc_locator.dart';
@@ -12,6 +14,7 @@ import '../../data_source/models/responses/playlist/playlist_response.dart';
 import '../../utils/constants/app_colors.dart';
 import '../../utils/constants/app_dimens.dart';
 import '../../utils/debouncer.dart';
+import '../../utils/mixins/disposable_state_mixin.dart';
 import '../../utils/toast/toast_utils.dart';
 
 class PlayListDialog extends StatefulWidget {
@@ -26,7 +29,7 @@ class PlayListDialog extends StatefulWidget {
   State<PlayListDialog> createState() => _PlayListDialogState();
 }
 
-class _PlayListDialogState extends State<PlayListDialog> {
+class _PlayListDialogState extends State<PlayListDialog> with DisposableStateMixin {
   String query = '';
   late FocusNode focusNode;
   late Debouncer debouncer;
@@ -38,13 +41,17 @@ class _PlayListDialogState extends State<PlayListDialog> {
     focusNode = FocusNode();
     debouncer = Debouncer(milliseconds: 500);
     editingController = TextEditingController(text: '');
+    getIt.get<PlayListDialogBloc>().addPlaylistStream.listen((profile) {
+      ToastUtility.showSuccess(context: context, message: 'Added To PlayList!');
+      Navigator.pop(context);
+    }).disposeOn(disposeBag);
 
     callData('');
   }
 
   void callData(String value) {
     debouncer.run(() {
-      getIt.get<PlayListDialogBloc>().getPlaylist(value, 1, 10, 'most-liked', 0);
+      getIt.get<PlayListDialogBloc>().getPlaylist(value, 1, 10, 'latest', 0);
     });
   }
 
@@ -112,81 +119,83 @@ class _PlayListDialogState extends State<PlayListDialog> {
       onTap: () {
         FocusManager.instance.primaryFocus?.unfocus();
       },
-      child: SafeArea(
-        child: Padding(
-          padding: MediaQuery.of(context).viewInsets,
-          child: Container(
-            height: 600,
-            decoration: BoxDecoration(
-              color: AppColors.mainColor,
-            ),
-            child: Column(
-              children: [
-                _buildSearchInput(),
-                Expanded(
-                  child: StreamBuilder<BlocState<List<PlaylistResponse>>>(
-                    initialData: const BlocState.loading(),
-                    stream: getIt.get<PlayListDialogBloc>().getPlaylistStream,
-                    builder: (context, snapshot) {
-                      final state = snapshot.data!;
+      child: BlocHandle(
+        bloc: getIt.get<PlayListDialogBloc>(),
+        child: SafeArea(
+          child: Padding(
+            padding: MediaQuery.of(context).viewInsets,
+            child: Container(
+              height: 600,
+              decoration: BoxDecoration(
+                color: AppColors.mainColor,
+              ),
+              child: Column(
+                children: [
+                  _buildSearchInput(),
+                  Expanded(
+                    child: StreamBuilder<BlocState<List<PlaylistResponse>>>(
+                      initialData: const BlocState.loading(),
+                      stream: getIt.get<PlayListDialogBloc>().getPlaylistStream,
+                      builder: (context, snapshot) {
+                        final state = snapshot.data!;
 
-                      return state.when(
-                        success: (success) {
-                          final data = success as List<PlaylistResponse>;
+                        return state.when(
+                          success: (success) {
+                            final data = success as List<PlaylistResponse>;
 
-                          if (data.isNotEmpty) {
-                            return Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: kHorizontalSpacing,
-                                vertical: kVerticalSpacing,
-                              ),
-                              child: ListView.separated(
-                                shrinkWrap: true,
-                                physics: const AlwaysScrollableScrollPhysics(),
-                                itemBuilder: (context, index) {
-                                  return WButtonInkwell(
-                                    onPressed: () {
-                                      getIt.get<PlayListDialogBloc>().addToPlaylist(
-                                            data[index].playlistId ?? '',
-                                            widget.songId ?? '',
-                                          );
-                                      Navigator.pop(context);
-                                      ToastUtility.showSuccess(
-                                          context: context, message: 'Add to playList successful!');
-                                    },
-                                    child: SearchItem(
-                                      playlist: data[index],
-                                    ),
-                                  );
-                                },
-                                separatorBuilder: (context, index) => const SizedBox(height: 24),
-                                itemCount: data.length,
-                              ),
+                            if (data.isNotEmpty) {
+                              return Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: kHorizontalSpacing,
+                                  vertical: kVerticalSpacing,
+                                ),
+                                child: ListView.separated(
+                                  shrinkWrap: true,
+                                  physics: const AlwaysScrollableScrollPhysics(),
+                                  itemBuilder: (context, index) {
+                                    return WButtonInkwell(
+                                      onPressed: () {
+                                        getIt.get<PlayListDialogBloc>().addToPlaylist(
+                                              data[index].playlistId ?? '',
+                                              widget.songId ?? '',
+                                            );
+                                      },
+                                      child: SearchItem(
+                                        playlist: data[index],
+                                      ),
+                                    );
+                                  },
+                                  separatorBuilder: (context, index) => const SizedBox(height: 24),
+                                  itemCount: data.length,
+                                ),
+                              );
+                            } else {
+                              return Column(
+                                children: [
+                                  Text(
+                                    context.l10n.t_no_data,
+                                  )
+                                ],
+                              );
+                            }
+                          },
+                          loading: () {
+                            return const Center(child: LoadingWidget());
+                          },
+                          error: (error) {
+                            return ErrorSectionWidget(
+                              errorMessage: error,
+                              onRetryTap: () {
+                                callData(query);
+                              },
                             );
-                          } else {
-                            return Column(
-                              children: [
-                                Text(
-                                  context.l10n.t_no_data,
-                                )
-                              ],
-                            );
-                          }
-                        },
-                        loading: () {
-                          return const Center(child: LoadingWidget());
-                        },
-                        error: (error) {
-                          return ErrorSectionWidget(
-                            errorMessage: error,
-                            onRetryTap: () {},
-                          );
-                        },
-                      );
-                    },
+                          },
+                        );
+                      },
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

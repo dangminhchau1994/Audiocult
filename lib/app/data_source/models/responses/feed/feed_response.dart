@@ -72,6 +72,7 @@ class FeedResponse {
   String? feedLikePhrase;
   String? serverId;
   String? feedStatus;
+  String? feedContent;
   String? commentTypeId;
   String? totalFriendsTagged;
   int? totalImage;
@@ -105,6 +106,7 @@ class FeedResponse {
     this.gender,
     this.userImage,
     this.isInvisible,
+    this.feedContent,
     this.userGroupId,
     this.languageId,
     this.lastActivity,
@@ -210,6 +212,7 @@ class CustomDataCache {
   dynamic isLiked;
   bool? isOnFeed;
   String? parentUserId;
+  dynamic videoUrl;
   dynamic parentProfilePageId;
   dynamic userParentServerId;
   dynamic parentUserName;
@@ -269,6 +272,7 @@ class CustomDataCache {
       this.totalPlay,
       this.countryIso,
       this.startTime,
+      this.videoUrl,
       this.endTime,
       this.eventId,
       this.moduleId,

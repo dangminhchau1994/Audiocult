@@ -40,8 +40,8 @@ class ReplyListBloc extends BaseBloc<CommentRequest, List<CommentResponse>> {
     });
   }
 
-  void createReply(int parentId, int itemId, String type, String text) async {
-    final result = await _appRepository.createReply(parentId, itemId, type, text);
+  void createReply(int parentId, int itemId, String type, String text, {int? feedId}) async {
+    final result = await _appRepository.createReply(parentId, itemId, type, text, feedId: feedId);
 
     result.fold((success) {
       _createReplySubject.sink.add(BlocState.success(success));

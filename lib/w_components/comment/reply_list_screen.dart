@@ -61,7 +61,7 @@ class _ReplyListScreenState extends State<ReplyListScreen> {
       case CommentType.event:
         return 'event';
       case CommentType.home:
-        return '';
+        return 'feed';
     }
   }
 
@@ -140,7 +140,10 @@ class _ReplyListScreenState extends State<ReplyListScreen> {
       widget.commentArgs.itemId ?? 0,
       getType(),
       _text.value,
+      feedId: widget.commentArgs.itemId,
     );
+
+    //clear text and reload data
     _text.value = '';
     _emojiShowing.value = false;
     _textEditingController.text = '';
@@ -310,7 +313,6 @@ class _ReplyListScreenState extends State<ReplyListScreen> {
                             height: 650,
                             padding: const EdgeInsets.only(bottom: 50, left: 40),
                             child: PagedListView<int, CommentResponse>.separated(
-                              shrinkWrap: true,
                               padding: const EdgeInsets.symmetric(
                                 vertical: 20,
                               ),

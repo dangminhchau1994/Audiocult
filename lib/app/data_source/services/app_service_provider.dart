@@ -340,11 +340,7 @@ class AppServiceProvider {
     );
   }
 
-  Future<CommentResponse> createComment(
-    int itemId,
-    String type,
-    String text,
-  ) async {
+  Future<CommentResponse> createComment(int itemId, String type, String text, {int? feedId}) async {
     final response = await _dioHelper.post(
       route: '/restful_api/comment',
       options: Options(headers: {'Content-Type': 'application/x-www-form-urlencoded'}),
@@ -352,6 +348,7 @@ class AppServiceProvider {
         'val[item_id]': itemId,
         'val[type]': type,
         'val[text]': text,
+        'val[feed_id]': feedId,
       }),
       responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
     );
@@ -529,12 +526,7 @@ class AppServiceProvider {
     );
   }
 
-  Future<CommentResponse> createReply(
-    int parentId,
-    int itemId,
-    String type,
-    String text,
-  ) async {
+  Future<CommentResponse> createReply(int parentId, int itemId, String type, String text, {int? feedId}) async {
     final response = await _dioHelper.post(
       route: '/restful_api/comment',
       options: Options(headers: {'Content-Type': 'application/x-www-form-urlencoded'}),
@@ -543,6 +535,7 @@ class AppServiceProvider {
         'val[item_id]': itemId,
         'val[type]': type,
         'val[text]': text,
+        'val[feed_id]': feedId,
       }),
       responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
     );

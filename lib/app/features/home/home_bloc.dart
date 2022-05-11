@@ -6,6 +6,7 @@ import 'package:audio_cult/app/data_source/models/responses/feed/feed_response.d
 import 'package:dartz/dartz.dart';
 import 'package:rxdart/subjects.dart';
 import '../../data_source/models/responses/comment/comment_response.dart';
+import '../../data_source/models/responses/reaction_icon/reaction_icon_response.dart';
 import '../../data_source/repositories/app_repository.dart';
 
 class HomeBloc extends BaseBloc<FeedRequest, List<FeedResponse>> {
@@ -15,9 +16,33 @@ class HomeBloc extends BaseBloc<FeedRequest, List<FeedResponse>> {
 
   final _getAnnouncementSubject = PublishSubject<BlocState<List<AnnouncementResponse>>>();
   final _getCommentsSubject = PublishSubject<BlocState<List<CommentResponse>>>();
+  final _getReactionIconSubject = PublishSubject<BlocState<List<ReactionIconResponse>>>();
+  final _postReactionIconSubject = PublishSubject<BlocState<CommentResponse>>();
 
   Stream<BlocState<List<AnnouncementResponse>>> get getAnnoucementStream => _getAnnouncementSubject.stream;
   Stream<BlocState<List<CommentResponse>>> get getCommentsStream => _getCommentsSubject.stream;
+  Stream<BlocState<List<ReactionIconResponse>>> get getReactionIconStream => _getReactionIconSubject.stream;
+  Stream<BlocState<CommentResponse>> get postReactionIconStream => _postReactionIconSubject.stream;
+
+  void postReactionIcon(String typeId, int itemId, int likeType) async {
+    final result = await _appRepository.postReactionIcon(typeId, itemId, likeType);
+
+    result.fold((success) {
+      _postReactionIconSubject.sink.add(BlocState.success(success));
+    }, (error) {
+      _postReactionIconSubject.sink.add(BlocState.error(error.toString()));
+    });
+  }
+
+  void getReactionIcons() async {
+    final result = await _appRepository.getReactionIcons();
+
+    result.fold((success) {
+      _getReactionIconSubject.sink.add(BlocState.success(success));
+    }, (error) {
+      _getReactionIconSubject.sink.add(BlocState.error(error.toString()));
+    });
+  }
 
   void getAnnouncements(int page, int limit) async {
     _getAnnouncementSubject.sink.add(const BlocState.loading());
