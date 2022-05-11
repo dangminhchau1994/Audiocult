@@ -44,44 +44,53 @@ class _FeedItemState extends State<FeedItem> {
         borderRadius: BorderRadius.circular(8),
       ),
       width: double.infinity,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
+      child: Stack(
         children: [
-          FeedItemUserInfo(
-            data: widget.data,
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              FeedItemUserInfo(
+                data: widget.data,
+              ),
+              const SizedBox(height: 20),
+              FeedItemContent(
+                data: widget.data,
+              ),
+              const SizedBox(height: 20),
+              FeedItemInteraction(
+                data: widget.data,
+              ),
+              const SizedBox(height: 20),
+              const Divider(height: 0.5, color: Colors.grey),
+              const SizedBox(height: 20),
+              FeedItemComment(
+                homeBloc: _homeBloc,
+                feedId: widget.data?.feedId,
+              ),
+              CommonInput(
+                maxLine: 5,
+                hintText: context.l10n.t_leave_comment,
+                onTap: () {
+                  Navigator.pushNamed(
+                    context,
+                    AppRoute.routeCommentListScreen,
+                    arguments: CommentArgs(
+                      itemId: int.parse(widget.data?.feedId ?? ''),
+                      title: 'Comments',
+                      commentType: CommentType.home,
+                      data: null,
+                    ),
+                  );
+                },
+              ),
+            ],
           ),
-          const SizedBox(height: 20),
-          FeedItemContent(
-            data: widget.data,
-          ),
-          const SizedBox(height: 20),
-          FeedItemInteraction(
-            data: widget.data,
-          ),
-          const SizedBox(height: 20),
-          const Divider(height: 0.5, color: Colors.grey),
-          const SizedBox(height: 20),
-          FeedItemComment(
-            homeBloc: _homeBloc,
-            feedId: widget.data?.feedId,
-          ),
-          CommonInput(
-            maxLine: 5,
-            hintText: context.l10n.t_leave_comment,
-            onTap: () {
-              Navigator.pushNamed(
-                context,
-                AppRoute.routeCommentListScreen,
-                arguments: CommentArgs(
-                  itemId: int.parse(widget.data?.feedId ?? ''),
-                  title: 'Comments',
-                  commentType: CommentType.home,
-                  data: null,
-                ),
-              );
-            },
-          ),
+          const Positioned(
+            top: 0,
+            right: 0,
+            child: FeedItemModify(),
+          )
         ],
       ),
     );
