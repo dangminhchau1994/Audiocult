@@ -17,11 +17,13 @@ import 'package:audio_cult/app/data_source/models/responses/country_response.dar
 import 'package:audio_cult/app/data_source/models/responses/create_playlist/create_playlist_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/events/event_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/feed/feed_response.dart';
+import 'package:audio_cult/app/data_source/models/responses/language_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/login_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/page_template_custom_field_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/page_template_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/playlist/playlist_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/reaction_icon/reaction_icon_response.dart';
+import 'package:audio_cult/app/data_source/models/responses/timezone/timezone_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/user_subscription_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/video_data.dart';
 import 'package:audio_cult/app/data_source/models/update_account_settings_response.dart';
@@ -941,5 +943,21 @@ class AppServiceProvider {
     return result.mapData(
       (json) => asType<List<dynamic>>(json)?.map((e) => Video.fromJson(e as Map<String, dynamic>)).toList(),
     );
+  }
+
+  Future<TimeZoneReponse> getAllTimezones() async {
+    final result = await _dioHelper.get(
+      route: '/restful_api/user/timezones',
+      responseBodyMapper: (json) => TimeZoneReponse.fromJson(json as Map<String, dynamic>),
+    );
+    return result;
+  }
+
+  Future<LanguageResponse> getSupportedLanguages() async {
+    final result = await _dioHelper.get(
+      route: '/restful_api/language',
+      responseBodyMapper: (json) => LanguageResponse.fromJson(json as Map<String, dynamic>),
+    );
+    return result;
   }
 }
