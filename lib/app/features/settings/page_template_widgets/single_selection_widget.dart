@@ -23,7 +23,7 @@ class SingleSelectionWidget extends PageTemplateWidget {
     return CommonDropdown(
       backgroundColor: Colors.transparent,
       isBorderVisible: false,
-      selection: options.firstWhereOrNull((element) => element.isSelected),
+      // selection: options.firstWhereOrNull((element) => element.isSelected),
       onChanged: (value) => onSelected?.call(value!),
       onTap: () {},
       data: options,

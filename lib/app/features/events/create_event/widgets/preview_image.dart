@@ -139,7 +139,8 @@ class _PreViewImageState extends State<PreViewImage> {
       if (result != null) {
         result.file.then((value) async {
           file = value as File;
-          file = await ImageUtils.cropImage(file?.path ?? '');
+          final cropFile = await ImageUtils.cropImage(file?.path ?? '');
+          file = File(cropFile!.path);
           setState(() {});
         });
       }
