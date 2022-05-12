@@ -34,8 +34,12 @@ class _CheckEmailPageState extends State<CheckEmailPage> {
             style: context.bodyTextStyle()?.copyWith(color: AppColors.unActiveLabelItem),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: kVerticalSpacing),
-            child: CommonInput(hintText: context.l10n.t_email),
+            padding: const EdgeInsets.symmetric(vertical: kVerticalSpacing * 2),
+            child: Container(
+              width: MediaQuery.of(context).size.width * 0.5,
+              height: 1,
+              color: AppColors.inputFillColor,
+            ),
           ),
           Padding(
             padding: const EdgeInsets.only(top: kVerticalSpacing),
@@ -44,9 +48,14 @@ class _CheckEmailPageState extends State<CheckEmailPage> {
               style: context.bodyTextStyle()?.copyWith(color: AppColors.unActiveLabelItem),
             ),
           ),
-          Text(
-            context.l10n.t_bottom1_check_email,
-            style: context.bodyTextStyle()?.copyWith(color: AppColors.lightBlueColor),
+          GestureDetector(
+            onTap: () {
+              Navigator.pop(context);
+            },
+            child: Text(
+              context.l10n.t_bottom1_check_email,
+              style: context.bodyTextStyle()?.copyWith(color: AppColors.lightBlueColor),
+            ),
           ),
         ],
       ),

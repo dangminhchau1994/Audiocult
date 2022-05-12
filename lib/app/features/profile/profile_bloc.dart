@@ -5,15 +5,19 @@ import 'package:rxdart/rxdart.dart';
 
 import '../../base/bloc_state.dart';
 import '../../data_source/models/requests/profile_request.dart';
+import '../../data_source/models/responses/atlas_user.dart';
 import '../../data_source/models/responses/profile_data.dart';
 import '../../data_source/repositories/app_repository.dart';
+import '../../utils/constants/app_constants.dart';
 
 class ProfileBloc extends BaseBloc<ProfileRequest, ProfileData> {
   final AppRepository _appRepository;
   final _getListSubscriptionsSubject = PublishSubject<BlocState<List<ProfileData>>>();
   final _uploadAvatarSubject = PublishSubject<String>();
+  final _subscribeSubject = PublishSubject<int>();
   Stream<BlocState<List<ProfileData>>> get getListSubscriptionsStream => _getListSubscriptionsSubject.stream;
   Stream<String> get uploadAvatarStream => _uploadAvatarSubject.stream;
+  Stream<int> get subscribeStream => _subscribeSubject.stream;
 
   ProfileBloc(this._appRepository);
 
@@ -21,6 +25,21 @@ class ProfileBloc extends BaseBloc<ProfileRequest, ProfileData> {
   Future<Either<ProfileData, Exception>> loadData(ProfileRequest? params) async {
     final result = await _appRepository.getUserProfile(params?.userId);
     return result;
+  }
+
+  void subscribeUser(AtlasUser user) async {
+    showOverLayLoading();
+    final result = await _appRepository.subscribeUser(user);
+    hideOverlayLoading();
+    result.fold(
+      (subscribeResponse) {
+        if (subscribeResponse.status == RequestStatus.success && subscribeResponse.error == null) {
+          _subscribeSubject.add(
+              user.isSubscribed == true ? SubscriptionStatus.unsubscribe.value : SubscriptionStatus.subscribe.value);
+        }
+      },
+      showError,
+    );
   }
 
   void getListSubscriptions(String? userId, int page, int limit) async {

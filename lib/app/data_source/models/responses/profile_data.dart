@@ -29,6 +29,7 @@ class ProfileData {
   String? biography;
   List<String>? favoriteGenresOfMusic;
   List<String>? audioArtistCategory;
+  int? isSubscribed;
 
   ProfileData(
       {this.coverPhotoExists,
@@ -86,6 +87,7 @@ class ProfileData {
     totalSubscriptions = iw['total_subscriptions'].get();
     totalSubscribers = iw['total_subscribers'].get();
     biography = iw['biography'].get();
+    isSubscribed = iw['is_subscribed'].get();
     favoriteGenresOfMusic =
         iw['favorite_genres_of_music'].getList(defaultValue: [], itemRawBuilder: (values) => values)?.cast<String>();
     audioArtistCategory =
