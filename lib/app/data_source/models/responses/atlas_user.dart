@@ -31,7 +31,7 @@ class AtlasUser {
   @JsonKey(name: 'cover_photo')
   String? coverPhoto;
   @JsonKey(name: 'subscription_count')
-  int? subscriptionCount;
+  String? subscriptionCount;
   @JsonKey(name: 'user_group_title')
   String? userGroupTitle;
   @JsonKey(name: 'is_subscribed')
@@ -47,12 +47,12 @@ class AtlasUser {
 
   void subscribe() {
     isSubscribed = true;
-    subscriptionCount = (subscriptionCount ?? 0) + 1;
+    subscriptionCount = '${(int.tryParse(subscriptionCount ?? '0') ?? 0) + 1}';
   }
 
   void unsubscribe() {
     isSubscribed = false;
-    subscriptionCount = (subscriptionCount ?? 0) - 1;
+    subscriptionCount = '${(int.tryParse(subscriptionCount ?? '0') ?? 0) - 1}';
   }
 
   @override

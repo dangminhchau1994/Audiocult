@@ -99,43 +99,45 @@ class _AboutPageState extends State<AboutPage> {
             ),
             SizedBox(
               height: 500,
-              child: GoogleMap(
-                gestureRecognizers: const <Factory<OneSequenceGestureRecognizer>>{
-                  Factory<OneSequenceGestureRecognizer>(
-                    EagerGestureRecognizer.new,
-                  ),
-                },
-                onTap: (lng) {
-                  FocusManager.instance.primaryFocus?.unfocus();
-                },
-                initialCameraPosition: CameraPosition(
-                  target: LatLng(
-                    double.parse(widget.profile?.lat ?? '0.0'),
-                    double.parse(widget.profile?.lng ?? '0.0'),
-                  ),
-                  zoom: 10,
-                ),
-                markers: {
-                  if (_iconMarker != null)
-                    Marker(
-                      markerId: const MarkerId(''),
-                      position: LatLng(
-                        double.parse(widget.profile?.lat ?? '0.0'),
-                        double.parse(widget.profile?.lng ?? '0.0'),
-                      ),
-                      icon: BitmapDescriptor.fromBytes(_iconMarker!),
+              child: AbsorbPointer(
+                child: GoogleMap(
+                  gestureRecognizers: const <Factory<OneSequenceGestureRecognizer>>{
+                    Factory<OneSequenceGestureRecognizer>(
+                      EagerGestureRecognizer.new,
                     ),
-                },
-                onMapCreated: (controller) {
-                  _controller = controller;
-                  FileUtils.getJsonFile(AppAssets.nightMapJson).then((value) {
-                    _controller.setMapStyle(value);
-                  });
-                },
+                  },
+                  onTap: (lng) {
+                    FocusManager.instance.primaryFocus?.unfocus();
+                  },
+                  initialCameraPosition: CameraPosition(
+                    target: LatLng(
+                      double.parse(widget.profile?.lat ?? '0.0'),
+                      double.parse(widget.profile?.lng ?? '0.0'),
+                    ),
+                    zoom: 10,
+                  ),
+                  markers: {
+                    if (_iconMarker != null)
+                      Marker(
+                        markerId: const MarkerId(''),
+                        position: LatLng(
+                          double.parse(widget.profile?.lat ?? '0.0'),
+                          double.parse(widget.profile?.lng ?? '0.0'),
+                        ),
+                        icon: BitmapDescriptor.fromBytes(_iconMarker!),
+                      ),
+                  },
+                  onMapCreated: (controller) {
+                    _controller = controller;
+                    FileUtils.getJsonFile(AppAssets.nightMapJson).then((value) {
+                      _controller.setMapStyle(value);
+                    });
+                  },
+                ),
               ),
             ),
             const SizedBox(
-              height: 500,
+              height: 50,
             )
           ],
         ),

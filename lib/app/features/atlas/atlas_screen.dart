@@ -205,7 +205,7 @@ class _AtlasScreenState extends State<AtlasScreen> with AutomaticKeepAliveClient
                   updatedSubscriptionData?.firstWhereOrNull((e) => e.userId == user.userId)?.isSubscribed;
               return AtlasUserWidget(
                 user,
-                updatedSubscriptionCount: latestSubscriptionCount,
+                updatedSubscriptionCount: int.tryParse(latestSubscriptionCount ?? '0'),
                 updatedSubscriptionStatus: latestSubscriptionValue,
                 userSubscriptionInProcess: subscriptionInProcess?[user.userId] ?? false,
                 subscriptionOnChanged: () {
