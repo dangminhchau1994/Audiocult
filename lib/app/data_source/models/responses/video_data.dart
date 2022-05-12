@@ -20,6 +20,8 @@ class Video {
   String? totalRating;
   String? timeStamp;
   String? totalView;
+  String? destination;
+  String? videoUrl;
 
   Video(
       {this.userId,
@@ -64,6 +66,8 @@ class Video {
     totalRating = iw['total_rating'].get();
     timeStamp = iw['time_stamp'].get();
     totalView = iw['total_view'].get();
+    destination = iw['destination'].get();
+    videoUrl = iw['video_url'].get();
   }
 
   Map<String, dynamic> toJson() {
