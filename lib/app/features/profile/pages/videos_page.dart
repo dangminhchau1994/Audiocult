@@ -1,7 +1,6 @@
 import 'package:audio_cult/app/data_source/models/requests/video_request.dart';
 import 'package:audio_cult/app/data_source/models/responses/video_data.dart';
 import 'package:audio_cult/app/injections.dart';
-import 'package:audio_cult/app/utils/constants/app_assets.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
 import 'package:audio_cult/app/utils/route/app_route.dart';
 import 'package:audio_cult/w_components/buttons/w_button_inkwell.dart';
@@ -16,7 +15,9 @@ import '../../../constants/global_constants.dart';
 import '../bloc/profile_video_bloc.dart';
 
 class VideosPage extends StatefulWidget {
-  const VideosPage({Key? key}) : super(key: key);
+  final ScrollController scrollController;
+
+  const VideosPage({Key? key, required this.scrollController}) : super(key: key);
 
   @override
   State<VideosPage> createState() => _VideosPageState();
@@ -25,9 +26,15 @@ class VideosPage extends StatefulWidget {
 class _VideosPageState extends State<VideosPage> {
   final ProfileVideoBloc _profileVideoBloc = ProfileVideoBloc(locator.get());
   final PagingController<int, Video> _pagingController = PagingController(firstPageKey: 1);
+  final ScrollController _scrollController = ScrollController();
+
   @override
   void initState() {
     super.initState();
+    _scrollController.addListener(() {
+      widget.scrollController
+          .animateTo(_scrollController.offset, duration: const Duration(milliseconds: 50), curve: Curves.easeOut);
+    });
     _fetchPage(1);
     _pagingController.addPageRequestListener((pageKey) {
       if (pageKey > 1) {
@@ -70,6 +77,7 @@ class _VideosPageState extends State<VideosPage> {
         context: context,
         removeTop: true,
         child: PagedGridView(
+          scrollController: _scrollController,
           physics: const ClampingScrollPhysics(),
           pagingController: _pagingController,
           builderDelegate: PagedChildBuilderDelegate<Video>(
