@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 import '../../../../w_components/error_empty/error_section.dart';
+import '../../../../w_components/error_empty/widget_state.dart';
 import '../../../../w_components/loading/loading_widget.dart';
-import '../../../base/state.dart';
 import '../../../constants/global_constants.dart';
 import '../../../data_source/models/requests/event_request.dart';
 import '../../../data_source/models/responses/events/event_response.dart';
@@ -45,11 +45,7 @@ class _EventsPageState extends State<EventsPage> {
   Future<void> _fetchPage(int pageKey) async {
     try {
       final newItems = await _allEventBloc.loadData(
-        EventRequest(
-          page: pageKey,
-          limit: GlobalConstants.loadMoreItem,
-          userId: widget.profile.userId
-        ),
+        EventRequest(page: pageKey, limit: GlobalConstants.loadMoreItem, userId: widget.profile.userId),
       );
       newItems.fold(
         (l) {
@@ -84,6 +80,7 @@ class _EventsPageState extends State<EventsPage> {
           pagingController: _pagingController,
           builderDelegate: PagedChildBuilderDelegate<EventResponse>(
             firstPageProgressIndicatorBuilder: (_) => const LoadingWidget(),
+            noItemsFoundIndicatorBuilder: (_) => const EmptyDataStateWidget(null),
             firstPageErrorIndicatorBuilder: (_) {
               return ErrorSectionWidget(
                 errorMessage: _pagingController.error as String,

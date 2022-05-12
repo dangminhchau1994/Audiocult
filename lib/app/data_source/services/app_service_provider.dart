@@ -8,6 +8,7 @@ import 'package:audio_cult/app/data_source/models/requests/filter_users_request.
 import 'package:audio_cult/app/data_source/models/requests/my_diary_event_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/register_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/upload_request.dart';
+import 'package:audio_cult/app/data_source/models/requests/video_request.dart';
 import 'package:audio_cult/app/data_source/models/responses/album/album_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/announcement/announcement_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/atlas_category.dart';
@@ -22,6 +23,7 @@ import 'package:audio_cult/app/data_source/models/responses/page_template_respon
 import 'package:audio_cult/app/data_source/models/responses/playlist/playlist_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/reaction_icon/reaction_icon_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/user_subscription_response.dart';
+import 'package:audio_cult/app/data_source/models/responses/video_data.dart';
 import 'package:audio_cult/app/data_source/models/update_account_settings_response.dart';
 import 'package:audio_cult/app/injections.dart';
 import 'package:audio_cult/app/utils/constants/app_constants.dart';
@@ -924,10 +926,20 @@ class AppServiceProvider {
     final result = await _dioHelper.post(
       route: '/restful_api/user/notifications',
       requestBody: FormData.fromMap(params),
-      responseBodyMapper: (json) {
-        print('--------------: ${json}');
-      },
+      responseBodyMapper: (json) {},
     );
     return false;
+  }
+
+  Future<List<Video>> getVideos(VideoRequest? params) async {
+    final result = await _dioHelper.get(
+      requestParams: params?.toJson(),
+      route: '/restful_api/user/profile/video',
+      responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
+    );
+
+    return result.mapData(
+      (json) => asType<List<dynamic>>(json)?.map((e) => Video.fromJson(e as Map<String, dynamic>)).toList(),
+    );
   }
 }
