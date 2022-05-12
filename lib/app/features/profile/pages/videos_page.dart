@@ -3,6 +3,8 @@ import 'package:audio_cult/app/data_source/models/responses/video_data.dart';
 import 'package:audio_cult/app/injections.dart';
 import 'package:audio_cult/app/utils/constants/app_assets.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
+import 'package:audio_cult/app/utils/route/app_route.dart';
+import 'package:audio_cult/w_components/buttons/w_button_inkwell.dart';
 import 'package:audio_cult/w_components/images/common_image_network.dart';
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -83,27 +85,32 @@ class _VideosPageState extends State<VideosPage> {
                 },
               );
             },
-            itemBuilder: (context, item, index) => Stack(
-              alignment: Alignment.center,
-              children: [
-                Positioned.fill(
-                  child: CommonImageNetWork(
-                    imagePath: item.imagePath,
+            itemBuilder: (context, item, index) => WButtonInkwell(
+              onPressed: () {
+                Navigator.pushNamed(context, AppRoute.routeVideoPlayer, arguments: {'data': item});
+              },
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  Positioned.fill(
+                    child: CommonImageNetWork(
+                      imagePath: item.imagePath,
+                    ),
                   ),
-                ),
-                Container(
-                  color: AppColors.mainColor.withOpacity(0.1),
-                ),
-                Container(
-                  width: 64,
-                  height: 64,
-                  decoration: BoxDecoration(shape: BoxShape.circle, color: AppColors.mainColor.withOpacity(0.7)),
-                  child: const Icon(
-                    Icons.play_arrow_rounded,
-                    color: Colors.white,
+                  Container(
+                    color: AppColors.mainColor.withOpacity(0.1),
                   ),
-                )
-              ],
+                  Container(
+                    width: 64,
+                    height: 64,
+                    decoration: BoxDecoration(shape: BoxShape.circle, color: AppColors.mainColor.withOpacity(0.7)),
+                    child: const Icon(
+                      Icons.play_arrow_rounded,
+                      color: Colors.white,
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
