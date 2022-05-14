@@ -477,40 +477,35 @@ class _PageTemplateScreenState extends State<PageTemplateScreen> with AutomaticK
   }
 
   Widget _multiSelectionWidget(PageTemplateCustomFieldConfig field) {
-    return StreamBuilder(
-      stream: _bloc.loadCustomFieldsStream,
-      builder: (_, ___) {
-        final selectedOptions = field.getSelectedOptions?.map((e) => e?.key).toList();
-        return MultiSelectionWidget(
-          field.phrase ?? '',
-          tagOnChanged: (tag) => _bloc.selectableFieldOnChanged(
-              field: field,
-              option: SelectableOption()
-                ..key = tag.id
-                ..value = tag.title
-                ..selected = tag.isSelected),
-          tags: field.options
-                  ?.map(
-                    (e) => InputTagSelect(
-                      e.key,
-                      selectedOptions?.contains(e.key),
-                      e.value ?? '',
-                    ),
-                  )
-                  .toList() ??
-              [],
-          checkedTags: (field.getSelectedOptions == null ||
-                  (field.getSelectedOptions?.length == 1 && field.getSelectedOptions?.first == null))
-              ? []
-              : field.getSelectedOptions?.map((option) {
-                  return InputTagSelect(
-                    option?.key,
-                    selectedOptions?.contains(option?.key),
-                    option?.value ?? '',
-                  );
-                }).toList(),
-        );
-      },
+    final selectedOptions = field.getSelectedOptions?.map((e) => e?.key).toList();
+    return MultiSelectionWidget(
+      field.phrase ?? '',
+      tagOnChanged: (tag) => _bloc.selectableFieldOnChanged(
+          field: field,
+          option: SelectableOption()
+            ..key = tag.id
+            ..value = tag.title
+            ..selected = tag.isSelected),
+      tags: field.options
+              ?.map(
+                (e) => InputTagSelect(
+                  e.key,
+                  selectedOptions?.contains(e.key),
+                  e.value ?? '',
+                ),
+              )
+              .toList() ??
+          [],
+      checkedTags: (field.getSelectedOptions == null ||
+              (field.getSelectedOptions?.length == 1 && field.getSelectedOptions?.first == null))
+          ? []
+          : field.getSelectedOptions?.map((option) {
+              return InputTagSelect(
+                option?.key,
+                selectedOptions?.contains(option?.key),
+                option?.value ?? '',
+              );
+            }).toList(),
     );
   }
 
