@@ -525,4 +525,8 @@ class AppRepository extends BaseRepository {
   Future<Either<LanguageResponse, Exception>> getAllSupportedLanguages() async {
     return safeCall(appServiceProvider.getSupportedLanguages);
   }
+
+  Future<Either<ProfileData, Exception>> getMyUserInfo() {
+    return safeCall(appServiceProvider.getMyUserInfo);
+  }
 }
