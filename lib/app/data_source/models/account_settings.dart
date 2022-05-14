@@ -7,12 +7,14 @@ class AccountSettings {
   String? newPass;
   String? confirmPass;
   String? languageId;
-  String? timezone;
+  String? timezoneId;
   String? paypalEmail;
 
   AccountSettings(ProfileData? profile) {
     fullName = profile?.fullName;
     email = profile?.email;
+    timezoneId = profile?.timeZone;
+    languageId = profile?.languageId;
   }
 
   Map<String, dynamic> toJson() {
@@ -23,7 +25,7 @@ class AccountSettings {
     params['val[new_password]'] = newPass;
     params['val[confirm_password]'] = confirmPass;
     params['val[language_id]'] = languageId;
-    params['val[time_zone]'] = timezone;
+    params['val[time_zone]'] = timezoneId;
     params['val[paypal_email]'] = paypalEmail;
     return params;
   }
@@ -36,7 +38,7 @@ class AccountSettings {
       ..newPass = newPass
       ..confirmPass = confirmPass
       ..languageId = languageId
-      ..timezone = timezone
+      ..timezoneId = timezoneId
       ..paypalEmail = paypalEmail;
   }
 }

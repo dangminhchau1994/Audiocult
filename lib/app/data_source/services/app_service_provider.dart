@@ -960,4 +960,12 @@ class AppServiceProvider {
     );
     return result;
   }
+
+  Future<ProfileData> getMyUserInfo() async {
+    final result = await _dioHelper.get(
+      route: '/restful_api/user/mine',
+      responseBodyMapper: (json) => ProfileData.fromJson(json['data'] as Map<String, dynamic>),
+    );
+    return result;
+  }
 }

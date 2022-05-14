@@ -8,6 +8,7 @@ import 'package:audio_cult/app/data_source/models/responses/language_response.da
 import 'package:audio_cult/app/data_source/models/responses/timezone/timezone_response.dart';
 import 'package:audio_cult/app/data_source/models/update_account_settings_response.dart';
 import 'package:audio_cult/app/data_source/repositories/app_repository.dart';
+import 'package:collection/collection.dart';
 import 'package:tuple/tuple.dart';
 
 class AccountSettingsBloc extends BaseBloc {
@@ -22,8 +23,10 @@ class AccountSettingsBloc extends BaseBloc {
   final _loadProfileStreamController = StreamController<BlocState<AccountSettings?>>.broadcast();
   Stream<BlocState<AccountSettings?>> get loadProfileStream => _loadProfileStreamController.stream;
 
-  final _updateAccountStreamController = StreamController<BlocState<UpdateAccountSettingsResponse?>>.broadcast();
-  Stream<BlocState<UpdateAccountSettingsResponse?>> get updateAccountStream => _updateAccountStreamController.stream;
+  final _updateAccountStreamController =
+      StreamController<BlocState<Tuple2<UpdateAccountSettingsResponse?, bool?>>>.broadcast();
+  Stream<BlocState<Tuple2<UpdateAccountSettingsResponse?, bool?>>> get updateAccountStream =>
+      _updateAccountStreamController.stream;
 
   final _accountUpdatedStreamController = StreamController<bool>.broadcast();
   Stream<bool> get accountUpdatedStream => _accountUpdatedStreamController.stream;
@@ -47,10 +50,10 @@ class AccountSettingsBloc extends BaseBloc {
   void loadUserProfile() async {
     final userId = _prefProvider.currentUserId;
     if (userId?.isNotEmpty == true) {
-      final result = await _appRepository.getUserProfile(userId, data: 'general');
+      final result = await _appRepository.getMyUserInfo();
       result.fold(
-        (profile) {
-          _accountSettings = AccountSettings(profile);
+        (myInfo) {
+          _accountSettings = AccountSettings(myInfo);
           _loadProfileStreamController.sink.add(BlocState.success(_accountSettings));
           _loadAllSupportedLanguages();
           _loadAllTimeZones();
@@ -67,6 +70,9 @@ class AccountSettingsBloc extends BaseBloc {
     result.fold(
       (l) {
         _timezones = l.timezones;
+        _currentTimeZone = _timezones?.firstWhereOrNull(
+          (element) => element.id == _accountSettings?.timezoneId,
+        );
         _loadTimeZonesStreamController.sink.add(BlocState.success(Tuple2(
           l.timezones ?? [],
           _currentTimeZone ?? l.timezones?.first,
@@ -83,6 +89,9 @@ class AccountSettingsBloc extends BaseBloc {
     result.fold(
       (l) {
         _languages = l.languages;
+        _currentLanguage = _languages?.firstWhereOrNull(
+          (element) => element.languageId == _accountSettings?.languageId,
+        );
         _loadLanguagesStreamController.sink.add(BlocState.success(Tuple2(
           l.languages ?? [],
           _currentLanguage ?? l.languages?.first,
@@ -110,9 +119,12 @@ class AccountSettingsBloc extends BaseBloc {
   void updateAccountSettings() async {
     showOverLayLoading();
     if (_accountSettings != null) {
+      final shouldBackToHome = _accountSettings?.timezoneId != _currentTimeZone?.id;
+      _accountSettings?.timezoneId = _currentTimeZone?.id;
+      _accountSettings?.languageId = _currentLanguage?.languageId;
       final result = await _appRepository.updateAccountSettings(_accountSettings!);
       result.fold((response) {
-        _updateAccountStreamController.sink.add(BlocState.success(response));
+        _updateAccountStreamController.sink.add(BlocState.success(Tuple2(response, shouldBackToHome)));
         hideOverlayLoading();
       }, (exception) {
         _updateAccountStreamController.sink.add(BlocState.error(exception.toString()));
@@ -123,8 +135,7 @@ class AccountSettingsBloc extends BaseBloc {
 
   void languageOnChanged(Language? language) {
     if (language == null) return;
-    _accountSettings?.languageId = language.languageId;
-    _paymentMethodUpdatedStreamController.sink.add(true);
+    _accountUpdatedStreamController.sink.add(true);
     _currentLanguage = language;
     _loadLanguagesStreamController.sink.add(BlocState.success(Tuple2(
       _languages ?? [],
@@ -134,8 +145,7 @@ class AccountSettingsBloc extends BaseBloc {
 
   void timezoneOnChanged(TimeZone? timezone) {
     if (timezone == null) return;
-    _accountSettings?.timezone = timezone.key;
-    _paymentMethodUpdatedStreamController.sink.add(true);
+    _accountUpdatedStreamController.sink.add(true);
     _currentTimeZone = timezone;
     _loadTimeZonesStreamController.sink.add(BlocState.success(Tuple2(
       _timezones ?? [],

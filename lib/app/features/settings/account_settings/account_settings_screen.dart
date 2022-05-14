@@ -10,6 +10,7 @@ import 'package:audio_cult/app/features/settings/account_settings/account_settin
 import 'package:audio_cult/app/features/settings/page_template_widgets/single_selection_widget.dart';
 import 'package:audio_cult/app/features/settings/page_template_widgets/textfield_widget.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
+import 'package:audio_cult/app/utils/route/app_route.dart';
 import 'package:audio_cult/app/utils/toast/toast_utils.dart';
 import 'package:audio_cult/di/bloc_locator.dart';
 import 'package:audio_cult/l10n/l10n.dart';
@@ -37,16 +38,21 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> with Auto
   bool get wantKeepAlive => true;
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
+  void initState() {
+    super.initState();
     _bloc.updateAccountStream.listen((event) {
       event.when(
         success: (data) {
-          final response = data as UpdateAccountSettingsResponse;
-          if (response.error == null) {
-            ToastUtility.showSuccess(context: context, message: response.message);
+          final tupleData = data as Tuple2<UpdateAccountSettingsResponse?, bool?>;
+          final response = tupleData.item1;
+          final shouldBackHome = tupleData.item2 ?? false;
+          if (tupleData.item1?.error == null) {
+            ToastUtility.showSuccess(context: context, message: response?.message);
+            if (shouldBackHome) {
+              Navigator.of(context).pushReplacementNamed(AppRoute.routeMain);
+            }
           } else {
-            ToastUtility.showError(context: context, message: response.error);
+            ToastUtility.showError(context: context, message: response?.error);
           }
         },
         loading: () {},
@@ -144,7 +150,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> with Auto
   Widget _updateAccountButton() {
     return StreamBuilder<bool>(
       initialData: false,
-      stream: _bloc.paymentMethodStream,
+      stream: _bloc.accountUpdatedStream,
       builder: (_, snapshot) {
         return CommonButton(
           text: context.l10n.t_update,
@@ -255,13 +261,13 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> with Auto
             },
           ),
           const SizedBox(height: 24),
-          _changePaddwordButton(),
+          _changePasswordButton(),
         ],
       ),
     );
   }
 
-  Widget _changePaddwordButton() {
+  Widget _changePasswordButton() {
     return StreamBuilder<bool>(
       initialData: false,
       stream: _bloc.passwordUpdatedStream,

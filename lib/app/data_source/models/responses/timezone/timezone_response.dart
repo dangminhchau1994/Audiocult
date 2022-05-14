@@ -14,13 +14,13 @@ class TimeZoneReponse {
     iw = IW(dataJson);
     timezones = dataJson.keys.map((e) {
       return TimeZone()
-        ..key = e
+        ..id = e
         ..value = iw[e].get();
     }).toList();
   }
 }
 
 class TimeZone {
-  String? key;
+  String? id;
   String? value;
 }
