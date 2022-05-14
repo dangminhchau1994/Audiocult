@@ -50,10 +50,9 @@ class PageTemplateResponse {
       'val[ac_page_lat_pin]': latPin,
       'val[ac_page_long_pin]': lngPin,
     };
-    if (gender?.index == Gender.custom.index) {
+    if (gender == Gender.custom) {
       mappingJson['val[custom_gender][]'] = genderText;
     }
-
     for (final field in customFields ?? <PageTemplateCustomFieldConfig>[]) {
       var key = 'custom[${field.fieldId}]';
       if (field.varType == PageTemplateFieldType.multiselect) {
@@ -67,6 +66,7 @@ class PageTemplateResponse {
         mappingJson[key] = field.getTextValue;
       }
     }
+    print('-----------:${mappingJson}');
     return mappingJson;
   }
 

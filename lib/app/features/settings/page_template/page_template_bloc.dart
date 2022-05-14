@@ -10,8 +10,10 @@ import 'package:audio_cult/app/data_source/models/responses/page_template_custom
 import 'package:audio_cult/app/data_source/models/responses/page_template_response.dart';
 import 'package:audio_cult/app/data_source/repositories/app_repository.dart';
 import 'package:audio_cult/app/utils/constants/gender_enum.dart';
+import 'package:audio_cult/l10n/l10n.dart';
 import 'package:audio_cult/w_components/dropdown/common_dropdown.dart';
 import 'package:collection/collection.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:tuple/tuple.dart';
 
@@ -219,9 +221,6 @@ class PageTemplateBloc extends BaseBloc {
 
   void selectableFieldOnChanged({required PageTemplateCustomFieldConfig field, required SelectableOption option}) {
     field.updateSelectedOption(option);
-    field.options?.forEach((element) {
-      print('----:${element.selected}');
-    });
     final index = _customFieldConfigs?.indexWhere((element) => element.fieldId == field.fieldId);
     if (index != null) {
       _customFieldConfigs?[index] = field;
@@ -237,8 +236,12 @@ class PageTemplateBloc extends BaseBloc {
     _profileIsModifiedStreamController.sink.add(true);
   }
 
-  Future<bool> updatePageTemplate() async {
+  Future<bool> updatePageTemplate(BuildContext context) async {
     if (_userProfile == null) {
+      return false;
+    }
+    if (_userProfile?.gender == Gender.custom && _userProfile?.genderText?.first.isNotEmpty != true) {
+      showError(Exception([context.l10n.t_require_your_custom_gender]));
       return false;
     }
     showOverLayLoading();

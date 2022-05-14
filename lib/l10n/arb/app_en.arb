@@ -216,6 +216,7 @@
     "t_confirm_new_password":"Confirm New Password",
     "t_payment_methods_note":"Please, indicate the email that represents your PayPal account.",
     "t_paypal_email":"Paypal Email",
-    "t_notification_settings":"Notification Settings"
-
+    "t_notification_settings":"Notification Settings",
+    "t_your_gender": "Your gender",
+    "t_require_your_custom_gender": "Required manual input for custom gender"
 }
