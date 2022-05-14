@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:audio_cult/app/base/bloc_handle.dart';
 import 'package:audio_cult/app/base/bloc_state.dart';
 import 'package:audio_cult/app/data_source/models/responses/atlas_category.dart';
 import 'package:audio_cult/app/data_source/models/responses/country_response.dart';
@@ -33,7 +34,6 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
-import 'package:loader_overlay/loader_overlay.dart';
 import 'package:tuple/tuple.dart';
 
 class PageTemplateScreen extends StatefulWidget {
@@ -48,6 +48,7 @@ class _PageTemplateScreenState extends State<PageTemplateScreen> with AutomaticK
   final _zipCodeTextController = TextEditingController();
   final _genderTextController = TextEditingController();
   final _cityTextController = TextEditingController();
+  final _customGenderFocusNode = FocusNode();
   late Uint8List _iconMarker;
 
   @override
@@ -76,6 +77,7 @@ class _PageTemplateScreenState extends State<PageTemplateScreen> with AutomaticK
     _zipCodeTextController.dispose();
     _genderTextController.dispose();
     _cityTextController.dispose();
+    _customGenderFocusNode.dispose();
     super.dispose();
   }
 
@@ -86,29 +88,32 @@ class _PageTemplateScreenState extends State<PageTemplateScreen> with AutomaticK
   Widget build(BuildContext context) {
     super.build(context);
     return WKeyboardDismiss(
-      child: Container(
-        color: AppColors.mainColor,
-        padding: const EdgeInsets.all(16),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                context.l10n.t_basic_information,
-                style: context.title1TextStyle()?.copyWith(fontWeight: FontWeight.w600),
-              ),
-              _countriesDropdownMenuWidget(),
-              _cityAndPostalCodeWidget(),
-              _genderDropDownWidget(),
-              _dateOfBirthWidget(),
-              _pageTemplatesWidget(),
-              const SizedBox(height: 30),
-              _aboutMeWidget(),
-              const SizedBox(height: 30),
-              _mapViewContainer(),
-              const SizedBox(height: 30),
-              _updateButton(),
-            ],
+      child: BlocHandle(
+        bloc: _bloc,
+        child: Container(
+          color: AppColors.mainColor,
+          padding: const EdgeInsets.all(16),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  context.l10n.t_basic_information,
+                  style: context.title1TextStyle()?.copyWith(fontWeight: FontWeight.w600),
+                ),
+                _countriesDropdownMenuWidget(),
+                _cityAndPostalCodeWidget(),
+                _genderDropDownWidget(),
+                _dateOfBirthWidget(),
+                _pageTemplatesWidget(),
+                const SizedBox(height: 30),
+                _aboutMeWidget(),
+                const SizedBox(height: 30),
+                _mapViewContainer(),
+                const SizedBox(height: 30),
+                _updateButton(),
+              ],
+            ),
           ),
         ),
       ),
@@ -339,12 +344,13 @@ class _PageTemplateScreenState extends State<PageTemplateScreen> with AutomaticK
             children: [
               CommonDropdown(
                 data: options,
+                hint: context.l10n.t_your_gender,
                 selection: options.firstWhereOrNull((element) => element.isSelected == true),
-                onChanged: (option) {
-                  if (option == null) {
-                    return;
-                  }
-                  _bloc.selectGender(option);
+                onChanged: (selection) {
+                  if (selection == null) return;
+                  _focusCustomGenderTextFieldIfNeed(
+                      selection.title?.toLowerCase() == Gender.custom.title(context).toLowerCase());
+                  _bloc.selectGender(selection);
                 },
               ),
               if (gender == Gender.custom) _customGenderTextField(genderText ?? '') else Container(),
@@ -355,12 +361,18 @@ class _PageTemplateScreenState extends State<PageTemplateScreen> with AutomaticK
     );
   }
 
+  void _focusCustomGenderTextFieldIfNeed(bool isTrue) {
+    if (!isTrue) return;
+    _customGenderFocusNode.requestFocus();
+  }
+
   Widget _customGenderTextField(String text) {
     return Padding(
       padding: const EdgeInsets.only(top: 30),
       child: CommonInput(
+        focusNode: _customGenderFocusNode,
         editingController: _genderTextController..text = text,
-        hintText: '...',
+        hintText: '${context.l10n.t_your_gender}...',
       ),
     );
   }
@@ -684,14 +696,8 @@ class _PageTemplateScreenState extends State<PageTemplateScreen> with AutomaticK
           onTap: snapshot.data == false
               ? null
               : () async {
-                  context.loaderOverlay.show(
-                    widget: const LoadingWidget(
-                      backgroundColor: Colors.black12,
-                    ),
-                  );
-                  final result = await _bloc.updatePageTemplate();
+                  final result = await _bloc.updatePageTemplate(context);
                   if (result) {
-                    context.loaderOverlay.hide();
                     ToastUtility.showSuccess(context: context, message: context.l10n.t_success);
                   }
                 },

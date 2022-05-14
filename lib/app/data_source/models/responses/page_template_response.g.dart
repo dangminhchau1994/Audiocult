@@ -38,7 +38,7 @@ Map<String, dynamic> _$PageTemplateResponseToJson(
     };
 
 const _$GenderEnumMap = {
-  Gender.none: 'none',
+  Gender.none: '0',
   Gender.male: '1',
   Gender.female: '2',
   Gender.alien: '3',
