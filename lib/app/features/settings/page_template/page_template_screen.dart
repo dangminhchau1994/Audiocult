@@ -68,7 +68,7 @@ class _PageTemplateScreenState extends State<PageTemplateScreen> with AutomaticK
       _bloc.cityOnChanged(_cityTextController.text);
     });
     _bloc.loadAllPageTemplates();
-    _bloc.loadUserProfile();
+    _bloc.loadPageTemplateData();
   }
 
   @override
@@ -156,7 +156,11 @@ class _PageTemplateScreenState extends State<PageTemplateScreen> with AutomaticK
                   context.l10n.t_page_template,
                   options,
                   options.firstWhereOrNull((element) => element.isSelected == true),
-                  (p0) => null,
+                  (selection) {
+                    if (selection != null) {
+                      _bloc.selectPageTemplate(selection);
+                    }
+                  },
                   () => null,
                 ),
               );
@@ -418,15 +422,15 @@ class _PageTemplateScreenState extends State<PageTemplateScreen> with AutomaticK
   }
 
   Widget _aboutMeWidget() {
-    return StreamBuilder<BlocState<PageTemplateResponse?>>(
+    return StreamBuilder<BlocState<List<PageTemplateCustomFieldConfig>?>>(
       initialData: const BlocState.loading(),
-      stream: _bloc.userProfileStream,
+      stream: _bloc.loadCustomFieldsStream,
       builder: (_, snapshot) {
         if (!snapshot.hasData) return Container();
         final state = snapshot.data!;
         return state.when(
             success: (data) {
-              final profile = data as PageTemplateResponse;
+              final fieldsConfig = data as List<PageTemplateCustomFieldConfig>;
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -436,7 +440,7 @@ class _PageTemplateScreenState extends State<PageTemplateScreen> with AutomaticK
                   ),
                   const SizedBox(height: 8),
                   Text(context.l10n.t_page_temlate_desc),
-                  ..._aboutMeComponents(profile.customFields ?? [])
+                  ..._aboutMeComponents(fieldsConfig)
                 ],
               );
             },
@@ -448,7 +452,7 @@ class _PageTemplateScreenState extends State<PageTemplateScreen> with AutomaticK
     );
   }
 
-  List<Widget> _aboutMeComponents(List<PageTemplateCustomField> customFields) {
+  List<Widget> _aboutMeComponents(List<PageTemplateCustomFieldConfig> customFields) {
     return customFields.map((field) {
       switch (field.varType) {
         case PageTemplateFieldType.textarea:
@@ -472,40 +476,45 @@ class _PageTemplateScreenState extends State<PageTemplateScreen> with AutomaticK
     }).toList();
   }
 
-  Widget _multiSelectionWidget(PageTemplateCustomField field) {
-    final selectedOptions = field.getSelectedOptions?.map((e) => e?.key).toList();
-    return MultiSelectionWidget(
-      field.phrase ?? '',
-      tagOnChanged: (tag) => _bloc.selectableFieldOnChanged(
-          field: field,
-          option: SelectableOption()
-            ..key = tag.id
-            ..value = tag.title
-            ..selected = tag.isSelected),
-      tags: field.options
-              ?.map(
-                (e) => InputTagSelect(
-                  e.key,
-                  selectedOptions?.contains(e.key),
-                  e.value ?? '',
-                ),
-              )
-              .toList() ??
-          [],
-      checkedTags: (field.getSelectedOptions == null ||
-              (field.getSelectedOptions?.length == 1 && field.getSelectedOptions?.first == null))
-          ? []
-          : field.getSelectedOptions?.map((option) {
-              return InputTagSelect(
-                option?.key,
-                true,
-                option?.value ?? '',
-              );
-            }).toList(),
+  Widget _multiSelectionWidget(PageTemplateCustomFieldConfig field) {
+    return StreamBuilder(
+      stream: _bloc.loadCustomFieldsStream,
+      builder: (_, ___) {
+        final selectedOptions = field.getSelectedOptions?.map((e) => e?.key).toList();
+        return MultiSelectionWidget(
+          field.phrase ?? '',
+          tagOnChanged: (tag) => _bloc.selectableFieldOnChanged(
+              field: field,
+              option: SelectableOption()
+                ..key = tag.id
+                ..value = tag.title
+                ..selected = tag.isSelected),
+          tags: field.options
+                  ?.map(
+                    (e) => InputTagSelect(
+                      e.key,
+                      selectedOptions?.contains(e.key),
+                      e.value ?? '',
+                    ),
+                  )
+                  .toList() ??
+              [],
+          checkedTags: (field.getSelectedOptions == null ||
+                  (field.getSelectedOptions?.length == 1 && field.getSelectedOptions?.first == null))
+              ? []
+              : field.getSelectedOptions?.map((option) {
+                  return InputTagSelect(
+                    option?.key,
+                    selectedOptions?.contains(option?.key),
+                    option?.value ?? '',
+                  );
+                }).toList(),
+        );
+      },
     );
   }
 
-  Widget _singleSelectionWidget(PageTemplateCustomField field) {
+  Widget _singleSelectionWidget(PageTemplateCustomFieldConfig field) {
     return SingleSelectionWidget(
       field.phrase ?? '',
       (field.options ?? [])
@@ -529,7 +538,7 @@ class _PageTemplateScreenState extends State<PageTemplateScreen> with AutomaticK
     );
   }
 
-  Widget _textAreaWidget(PageTemplateCustomField field) {
+  Widget _textAreaWidget(PageTemplateCustomFieldConfig field) {
     return TextareaWidget(
       field.phrase ?? '',
       initialText: field.getTextValue ?? '',
@@ -539,7 +548,7 @@ class _PageTemplateScreenState extends State<PageTemplateScreen> with AutomaticK
     );
   }
 
-  Widget _textFieldWidget(PageTemplateCustomField field) {
+  Widget _textFieldWidget(PageTemplateCustomFieldConfig field) {
     return TextfieldWidget(
       field.phrase ?? '',
       initialText: field.getTextValue,
@@ -549,7 +558,7 @@ class _PageTemplateScreenState extends State<PageTemplateScreen> with AutomaticK
     );
   }
 
-  Widget _radioWidget(PageTemplateCustomField field) {
+  Widget _radioWidget(PageTemplateCustomFieldConfig field) {
     return RadioWidget(
       field.phrase ?? '',
       field.options ?? [],

@@ -840,7 +840,7 @@ class AppServiceProvider {
     return response.data['user_image'] as String;
   }
 
-  Future<PageTemplateResponse> getPageTemplateData(String userId) async {
+  Future<PageTemplateResponse> getPageTemplateData({String? userGroupId}) async {
     List<SelectableOption>? getSelectableOptions(dynamic json) {
       if (json != null && json.keys != null) {
         final keys = json.keys as Iterable<String>;
@@ -856,12 +856,12 @@ class AppServiceProvider {
       return null;
     }
 
-    List<PageTemplateCustomField>? getCustomFields(dynamic json) {
+    List<PageTemplateCustomFieldConfig>? getCustomFields(dynamic json) {
       if (json != null && json.keys != null) {
         final keys = json.keys as Iterable<String>;
         if (keys.isNotEmpty) {
           return keys.map((e) {
-            final customField = PageTemplateCustomField.fromJson(json[e] as Map<String, dynamic>);
+            final customField = PageTemplateCustomFieldConfig.fromJson(json[e] as Map<String, dynamic>);
             customField.options = getSelectableOptions(json[e]['options']);
             return customField;
           }).toList();
@@ -873,6 +873,7 @@ class AppServiceProvider {
 
     final userProfile = await _dioHelper.get(
       route: '/restful_api/user/profile',
+      requestParams: {'user_group_id': userGroupId},
       responseBodyMapper: (json) {
         final dataJson = json['data'] as Map<String, dynamic>;
         final userProfile = PageTemplateResponse.fromJson(dataJson);

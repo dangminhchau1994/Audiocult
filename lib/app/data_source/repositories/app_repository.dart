@@ -494,8 +494,8 @@ class AppRepository extends BaseRepository {
     return safeCall(() => appServiceProvider.uploadAvatar(file));
   }
 
-  Future<Either<PageTemplateResponse, Exception>> getPageTemplateData(String userId) async {
-    return safeCall(() => appServiceProvider.getPageTemplateData(userId));
+  Future<Either<PageTemplateResponse, Exception>> getPageTemplateData({String? userGroupId}) async {
+    return safeCall(() => appServiceProvider.getPageTemplateData(userGroupId: userGroupId));
   }
 
   Future<Either<bool, Exception>> updatePageTemplate(Map<String, dynamic> params) {
