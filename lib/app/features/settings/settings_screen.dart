@@ -1,6 +1,7 @@
 import 'package:audio_cult/app/features/settings/account_settings/account_settings_screen.dart';
 import 'package:audio_cult/app/features/settings/notifications_settings/notification_settings_widget.dart';
 import 'package:audio_cult/app/features/settings/page_template/page_template_screen.dart';
+import 'package:audio_cult/app/features/settings/privacy_settings/privacy_settings_screen.dart';
 import 'package:audio_cult/app/utils/constants/app_assets.dart';
 import 'package:audio_cult/w_components/appbar/common_appbar.dart';
 import 'package:audio_cult/w_components/menus/common_fab_menu.dart';
@@ -105,7 +106,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               case 1:
                 return const AccountSettingsScreen();
               case 2:
-                return const SizedBox();
+                return const PrivacySettingsScreen();
               case 3:
                 return const NotificationSettingsWidget();
               default:

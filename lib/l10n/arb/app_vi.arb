@@ -110,5 +110,12 @@
     "t_paypal_email":"Paypal Email",
     "t_notification_settings":"Notification Settings",
     "t_your_gender": "Your gender",
-    "t_require_your_custom_gender": "Required manual input for custom gender"
+    "t_require_your_custom_gender": "Required manual input for custom gender",
+    "t_profile": "Profile",
+    "t_profile_desc": "Customize how other users interact with your profile.",
+    "t_app_sharing_items": "App Sharing Items",
+    "t_app_sharing_items_desc": "Customize your default settings for when sharing new items on the site. Note this only changes your default settings for future items and does not change any items you have already shared. To change the privacy settings on those items you can customize the items privacy by editing the item itself.",
+    "t_blocked": "Blocked",
+    "t_blocked_desc": "Blocked users cannot view your profile, leave comments or send you private messages.",
+    "t_everyone": "Everyone"
 }

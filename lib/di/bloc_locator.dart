@@ -20,6 +20,7 @@ import 'package:audio_cult/app/features/notifications/notification_bloc.dart';
 import 'package:audio_cult/app/features/settings/account_settings/account_settings_bloc.dart';
 import 'package:audio_cult/app/features/settings/notifications_settings/notification_settings_bloc.dart';
 import 'package:audio_cult/app/features/settings/page_template/page_template_bloc.dart';
+import 'package:audio_cult/app/features/settings/privacy_settings/privacy_settings_bloc.dart';
 import 'package:audio_cult/app/injections.dart';
 import 'package:audio_cult/w_components/comment/comment_item_bloc.dart';
 import 'package:audio_cult/w_components/comment/reply_list_bloc.dart';
@@ -124,4 +125,6 @@ void setupLocator() {
       () => AccountSettingsBloc(locator.get<AppRepository>(), locator.get<PrefProvider>()));
 
   getIt.registerFactory<NotificationSettingsBloc>(() => NotificationSettingsBloc(locator.get<AppRepository>()));
+
+  getIt.registerFactory<PrivacySettingsBloc>(() => PrivacySettingsBloc(locator.get<AppRepository>()));
 }
