@@ -34,16 +34,6 @@ class HomeBloc extends BaseBloc<FeedRequest, List<FeedResponse>> {
     });
   }
 
-  void getReactionIcons() async {
-    final result = await _appRepository.getReactionIcons();
-
-    result.fold((success) {
-      _getReactionIconSubject.sink.add(BlocState.success(success));
-    }, (error) {
-      _getReactionIconSubject.sink.add(BlocState.error(error.toString()));
-    });
-  }
-
   void getAnnouncements(int page, int limit) async {
     _getAnnouncementSubject.sink.add(const BlocState.loading());
 

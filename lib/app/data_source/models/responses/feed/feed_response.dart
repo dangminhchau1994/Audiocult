@@ -213,6 +213,8 @@ class CustomDataCache {
   bool? isOnFeed;
   String? parentUserId;
   dynamic videoUrl;
+  dynamic text;
+  dynamic videoTotalView;
   dynamic parentProfilePageId;
   dynamic userParentServerId;
   dynamic parentUserName;
@@ -262,6 +264,8 @@ class CustomDataCache {
       this.serverId,
       this.userName,
       this.fullName,
+      this.text,
+      this.videoTotalView,
       this.gender,
       this.userImage,
       this.isInvisible,
