@@ -12,12 +12,14 @@ import '../../../../w_components/error_empty/error_section.dart';
 import '../../../../w_components/error_empty/widget_state.dart';
 import '../../../../w_components/loading/loading_widget.dart';
 import '../../../constants/global_constants.dart';
+import '../../../data_source/models/responses/profile_data.dart';
 import '../bloc/profile_video_bloc.dart';
 
 class VideosPage extends StatefulWidget {
+  final ProfileData profile;
   final ScrollController scrollController;
 
-  const VideosPage({Key? key, required this.scrollController}) : super(key: key);
+  const VideosPage({Key? key, required this.scrollController, required this.profile}) : super(key: key);
 
   @override
   State<VideosPage> createState() => _VideosPageState();
@@ -47,7 +49,7 @@ class _VideosPageState extends State<VideosPage> {
     try {
       final newItems = await _profileVideoBloc.loadData(
         VideoRequest(
-          profile: 1,
+          userId: widget.profile.userId,
           page: pageKey,
           limit: GlobalConstants.loadMoreItem,
         ),
