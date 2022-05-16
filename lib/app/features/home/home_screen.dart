@@ -29,7 +29,6 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
     super.initState();
     _pagingFeedController.addPageRequestListener((pageKey) {
       if (pageKey > 1) {
-        debugPrint('R7: ${_pagingFeedController.itemList?.last}');
         _fetchPage(
           pageKey,
           int.parse(_pagingFeedController.itemList?.last.feedId ?? ''),

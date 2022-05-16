@@ -8,7 +8,6 @@ import 'package:audio_cult/app/features/home/widgets/feed_item_user_info.dart';
 import 'package:audio_cult/app/injections.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
 import 'package:audio_cult/l10n/l10n.dart';
-import 'package:audio_cult/w_components/menus/common_popup_menu.dart';
 import 'package:audio_cult/w_components/textfields/common_input.dart';
 import 'package:flutter/material.dart';
 import '../../../../di/bloc_locator.dart';
@@ -31,7 +30,6 @@ class _FeedItemState extends State<FeedItem> {
   @override
   void initState() {
     _homeBloc.getComments(int.parse(widget.data?.feedId ?? ''), 'feed', 1, 3, 'latest');
-    getIt.get<HomeBloc>().getReactionIcons();
     super.initState();
   }
 
