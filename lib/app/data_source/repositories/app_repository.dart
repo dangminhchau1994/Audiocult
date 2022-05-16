@@ -8,6 +8,7 @@ import 'package:audio_cult/app/data_source/models/requests/filter_users_request.
 import 'package:audio_cult/app/data_source/models/requests/my_diary_event_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/register_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/upload_request.dart';
+import 'package:audio_cult/app/data_source/models/requests/video_request.dart';
 import 'package:audio_cult/app/data_source/models/responses/album/album_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/announcement/announcement_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/atlas_category.dart';
@@ -17,12 +18,15 @@ import 'package:audio_cult/app/data_source/models/responses/create_playlist/crea
 import 'package:audio_cult/app/data_source/models/responses/events/event_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/feed/feed_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/genre.dart';
+import 'package:audio_cult/app/data_source/models/responses/language_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/page_template_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/place.dart';
 import 'package:audio_cult/app/data_source/models/responses/playlist/playlist_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/profile_data.dart';
 import 'package:audio_cult/app/data_source/models/responses/reaction_icon/reaction_icon_response.dart';
+import 'package:audio_cult/app/data_source/models/responses/timezone/timezone_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/user_subscription_response.dart';
+import 'package:audio_cult/app/data_source/models/responses/video_data.dart';
 import 'package:audio_cult/app/data_source/models/update_account_settings_response.dart';
 import 'package:audio_cult/app/data_source/networks/exceptions/no_cache_exception.dart';
 import 'package:audio_cult/app/data_source/services/hive_service_provider.dart';
@@ -490,8 +494,8 @@ class AppRepository extends BaseRepository {
     return safeCall(() => appServiceProvider.uploadAvatar(file));
   }
 
-  Future<Either<PageTemplateResponse, Exception>> getPageTemplateData(String userId) async {
-    return safeCall(() => appServiceProvider.getPageTemplateData(userId));
+  Future<Either<PageTemplateResponse, Exception>> getPageTemplateData({String? userGroupId}) async {
+    return safeCall(() => appServiceProvider.getPageTemplateData(userGroupId: userGroupId));
   }
 
   Future<Either<bool, Exception>> updatePageTemplate(Map<String, dynamic> params) {
@@ -508,5 +512,21 @@ class AppRepository extends BaseRepository {
 
   Future<Either<bool, Exception>> updateNotificationData(List<NotificationOption> notifications) {
     return safeCall(() => appServiceProvider.updateNotificationData(notifications));
+  }
+
+  Future<Either<List<Video>, Exception>> getVideos(VideoRequest? params) {
+    return safeCall(() => appServiceProvider.getVideos(params));
+  }
+
+  Future<Either<TimeZoneReponse, Exception>> getAllTimezones() async {
+    return safeCall(appServiceProvider.getAllTimezones);
+  }
+
+  Future<Either<LanguageResponse, Exception>> getAllSupportedLanguages() async {
+    return safeCall(appServiceProvider.getSupportedLanguages);
+  }
+
+  Future<Either<ProfileData, Exception>> getMyUserInfo() {
+    return safeCall(appServiceProvider.getMyUserInfo);
   }
 }

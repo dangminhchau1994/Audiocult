@@ -43,6 +43,7 @@ class _ResentPasswordPageState extends State<ResentPasswordPage> {
             color: AppColors.activeLabelItem,
             text: context.l10n.t_submit,
             onTap: () {
+              FocusManager.instance.primaryFocus?.unfocus();
               Navigator.pushNamed(context, AppRoute.routeCheckEmail);
             },
           )

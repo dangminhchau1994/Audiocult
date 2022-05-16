@@ -31,6 +31,7 @@ import 'package:audio_cult/app/features/profile/profile_bloc.dart';
 import 'package:audio_cult/app/features/profile/profile_screen.dart';
 import 'package:audio_cult/app/features/profile/subscriptions/subscriptions_screen.dart';
 import 'package:audio_cult/app/features/settings/settings_screen.dart';
+import 'package:audio_cult/app/features/videos/video_player_screen.dart';
 import 'package:audio_cult/app/injections.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/w_components/comment/comment_args.dart';
@@ -40,6 +41,7 @@ import 'package:audio_cult/w_components/comment/reply_list_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
+import '../../data_source/models/responses/video_data.dart';
 import '../../features/events/map/map_screen.dart';
 import '../../features/music/featured_albums/featured_album_screen.dart';
 import '../../features/music/search/search_args.dart';
@@ -88,6 +90,7 @@ class AppRoute {
   static const String routeProfile = '/route_profile';
   static const String routeSettings = '/route_settings';
   static const String routeSubscriptions = '/route_subscriptions';
+  static const String routeVideoPlayer = '/route_video_player';
 
   ///#end region
 
@@ -298,6 +301,14 @@ class AppRoute {
             settings,
             SubscriptionsScreen(
               userId: arguments['user_id'] as String?,
+            ));
+      case routeVideoPlayer:
+        final arguments = asType(settings.arguments);
+
+        return _pageRoute(
+            settings,
+            VideoPlayerScreen(
+              data: arguments['data'] as Video,
             ));
       default:
         return null;

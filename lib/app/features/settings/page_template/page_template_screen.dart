@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:audio_cult/app/base/bloc_handle.dart';
 import 'package:audio_cult/app/base/bloc_state.dart';
 import 'package:audio_cult/app/data_source/models/responses/atlas_category.dart';
 import 'package:audio_cult/app/data_source/models/responses/country_response.dart';
@@ -33,7 +34,6 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
-import 'package:loader_overlay/loader_overlay.dart';
 import 'package:tuple/tuple.dart';
 
 class PageTemplateScreen extends StatefulWidget {
@@ -48,6 +48,7 @@ class _PageTemplateScreenState extends State<PageTemplateScreen> with AutomaticK
   final _zipCodeTextController = TextEditingController();
   final _genderTextController = TextEditingController();
   final _cityTextController = TextEditingController();
+  final _customGenderFocusNode = FocusNode();
   late Uint8List _iconMarker;
 
   @override
@@ -68,7 +69,7 @@ class _PageTemplateScreenState extends State<PageTemplateScreen> with AutomaticK
       _bloc.cityOnChanged(_cityTextController.text);
     });
     _bloc.loadAllPageTemplates();
-    _bloc.loadUserProfile();
+    _bloc.loadPageTemplateData();
   }
 
   @override
@@ -76,6 +77,7 @@ class _PageTemplateScreenState extends State<PageTemplateScreen> with AutomaticK
     _zipCodeTextController.dispose();
     _genderTextController.dispose();
     _cityTextController.dispose();
+    _customGenderFocusNode.dispose();
     super.dispose();
   }
 
@@ -86,29 +88,32 @@ class _PageTemplateScreenState extends State<PageTemplateScreen> with AutomaticK
   Widget build(BuildContext context) {
     super.build(context);
     return WKeyboardDismiss(
-      child: Container(
-        color: AppColors.mainColor,
-        padding: const EdgeInsets.all(16),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                context.l10n.t_basic_information,
-                style: context.title1TextStyle()?.copyWith(fontWeight: FontWeight.w600),
-              ),
-              _countriesDropdownMenuWidget(),
-              _cityAndPostalCodeWidget(),
-              _genderDropDownWidget(),
-              _dateOfBirthWidget(),
-              _pageTemplatesWidget(),
-              const SizedBox(height: 30),
-              _aboutMeWidget(),
-              const SizedBox(height: 30),
-              _mapViewContainer(),
-              const SizedBox(height: 30),
-              _updateButton(),
-            ],
+      child: BlocHandle(
+        bloc: _bloc,
+        child: Container(
+          color: AppColors.mainColor,
+          padding: const EdgeInsets.all(16),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  context.l10n.t_basic_information,
+                  style: context.title1TextStyle()?.copyWith(fontWeight: FontWeight.w600),
+                ),
+                _countriesDropdownMenuWidget(),
+                _cityAndPostalCodeWidget(),
+                _genderDropDownWidget(),
+                _dateOfBirthWidget(),
+                _pageTemplatesWidget(),
+                const SizedBox(height: 30),
+                _aboutMeWidget(),
+                const SizedBox(height: 30),
+                _mapViewContainer(),
+                const SizedBox(height: 30),
+                _updateButton(),
+              ],
+            ),
           ),
         ),
       ),
@@ -156,7 +161,11 @@ class _PageTemplateScreenState extends State<PageTemplateScreen> with AutomaticK
                   context.l10n.t_page_template,
                   options,
                   options.firstWhereOrNull((element) => element.isSelected == true),
-                  (p0) => null,
+                  (selection) {
+                    if (selection != null) {
+                      _bloc.selectPageTemplate(selection);
+                    }
+                  },
                   () => null,
                 ),
               );
@@ -335,12 +344,13 @@ class _PageTemplateScreenState extends State<PageTemplateScreen> with AutomaticK
             children: [
               CommonDropdown(
                 data: options,
+                hint: context.l10n.t_your_gender,
                 selection: options.firstWhereOrNull((element) => element.isSelected == true),
-                onChanged: (option) {
-                  if (option == null) {
-                    return;
-                  }
-                  _bloc.selectGender(option);
+                onChanged: (selection) {
+                  if (selection == null) return;
+                  _focusCustomGenderTextFieldIfNeed(
+                      selection.title?.toLowerCase() == Gender.custom.title(context).toLowerCase());
+                  _bloc.selectGender(selection);
                 },
               ),
               if (gender == Gender.custom) _customGenderTextField(genderText ?? '') else Container(),
@@ -351,12 +361,18 @@ class _PageTemplateScreenState extends State<PageTemplateScreen> with AutomaticK
     );
   }
 
+  void _focusCustomGenderTextFieldIfNeed(bool isTrue) {
+    if (!isTrue) return;
+    _customGenderFocusNode.requestFocus();
+  }
+
   Widget _customGenderTextField(String text) {
     return Padding(
       padding: const EdgeInsets.only(top: 30),
       child: CommonInput(
+        focusNode: _customGenderFocusNode,
         editingController: _genderTextController..text = text,
-        hintText: '...',
+        hintText: '${context.l10n.t_your_gender}...',
       ),
     );
   }
@@ -418,15 +434,15 @@ class _PageTemplateScreenState extends State<PageTemplateScreen> with AutomaticK
   }
 
   Widget _aboutMeWidget() {
-    return StreamBuilder<BlocState<PageTemplateResponse?>>(
+    return StreamBuilder<BlocState<List<PageTemplateCustomFieldConfig>?>>(
       initialData: const BlocState.loading(),
-      stream: _bloc.userProfileStream,
+      stream: _bloc.loadCustomFieldsStream,
       builder: (_, snapshot) {
         if (!snapshot.hasData) return Container();
         final state = snapshot.data!;
         return state.when(
             success: (data) {
-              final profile = data as PageTemplateResponse;
+              final fieldsConfig = data as List<PageTemplateCustomFieldConfig>;
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -436,7 +452,7 @@ class _PageTemplateScreenState extends State<PageTemplateScreen> with AutomaticK
                   ),
                   const SizedBox(height: 8),
                   Text(context.l10n.t_page_temlate_desc),
-                  ..._aboutMeComponents(profile.customFields ?? [])
+                  ..._aboutMeComponents(fieldsConfig)
                 ],
               );
             },
@@ -448,7 +464,7 @@ class _PageTemplateScreenState extends State<PageTemplateScreen> with AutomaticK
     );
   }
 
-  List<Widget> _aboutMeComponents(List<PageTemplateCustomField> customFields) {
+  List<Widget> _aboutMeComponents(List<PageTemplateCustomFieldConfig> customFields) {
     return customFields.map((field) {
       switch (field.varType) {
         case PageTemplateFieldType.textarea:
@@ -472,7 +488,7 @@ class _PageTemplateScreenState extends State<PageTemplateScreen> with AutomaticK
     }).toList();
   }
 
-  Widget _multiSelectionWidget(PageTemplateCustomField field) {
+  Widget _multiSelectionWidget(PageTemplateCustomFieldConfig field) {
     final selectedOptions = field.getSelectedOptions?.map((e) => e?.key).toList();
     return MultiSelectionWidget(
       field.phrase ?? '',
@@ -498,14 +514,14 @@ class _PageTemplateScreenState extends State<PageTemplateScreen> with AutomaticK
           : field.getSelectedOptions?.map((option) {
               return InputTagSelect(
                 option?.key,
-                true,
+                selectedOptions?.contains(option?.key),
                 option?.value ?? '',
               );
             }).toList(),
     );
   }
 
-  Widget _singleSelectionWidget(PageTemplateCustomField field) {
+  Widget _singleSelectionWidget(PageTemplateCustomFieldConfig field) {
     return SingleSelectionWidget(
       field.phrase ?? '',
       (field.options ?? [])
@@ -529,7 +545,7 @@ class _PageTemplateScreenState extends State<PageTemplateScreen> with AutomaticK
     );
   }
 
-  Widget _textAreaWidget(PageTemplateCustomField field) {
+  Widget _textAreaWidget(PageTemplateCustomFieldConfig field) {
     return TextareaWidget(
       field.phrase ?? '',
       initialText: field.getTextValue ?? '',
@@ -539,7 +555,7 @@ class _PageTemplateScreenState extends State<PageTemplateScreen> with AutomaticK
     );
   }
 
-  Widget _textFieldWidget(PageTemplateCustomField field) {
+  Widget _textFieldWidget(PageTemplateCustomFieldConfig field) {
     return TextfieldWidget(
       field.phrase ?? '',
       initialText: field.getTextValue,
@@ -549,7 +565,7 @@ class _PageTemplateScreenState extends State<PageTemplateScreen> with AutomaticK
     );
   }
 
-  Widget _radioWidget(PageTemplateCustomField field) {
+  Widget _radioWidget(PageTemplateCustomFieldConfig field) {
     return RadioWidget(
       field.phrase ?? '',
       field.options ?? [],
@@ -680,14 +696,8 @@ class _PageTemplateScreenState extends State<PageTemplateScreen> with AutomaticK
           onTap: snapshot.data == false
               ? null
               : () async {
-                  context.loaderOverlay.show(
-                    widget: const LoadingWidget(
-                      backgroundColor: Colors.black12,
-                    ),
-                  );
-                  final result = await _bloc.updatePageTemplate();
+                  final result = await _bloc.updatePageTemplate(context);
                   if (result) {
-                    context.loaderOverlay.hide();
                     ToastUtility.showSuccess(context: context, message: context.l10n.t_success);
                   }
                 },

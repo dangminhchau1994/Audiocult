@@ -1,8 +1,9 @@
+import 'package:audio_cult/app/base/index_walker.dart';
 import 'package:audio_cult/app/data_source/models/responses/page_template_response.dart';
 import 'package:audio_cult/app/utils/constants/page_template_field_type.dart';
 import 'package:collection/collection.dart';
 
-class PageTemplateCustomField {
+class PageTemplateCustomFieldConfig {
   String? fieldId;
   String? fieldName;
   String? moduleId;
@@ -18,7 +19,6 @@ class PageTemplateCustomField {
   String? hasFeed;
   String? onSignup;
   String? ordering;
-  List<String?>? customValue;
   String? value;
   String? isSearch;
   String? cgUserGroupId;
@@ -26,35 +26,31 @@ class PageTemplateCustomField {
   List<SelectableOption>? options;
   String? phrase;
 
-  PageTemplateCustomField();
+  PageTemplateCustomFieldConfig();
 
-  factory PageTemplateCustomField.fromJson(Map<String, dynamic> json) {
-    final profile = PageTemplateCustomField()
-      ..fieldId = json['field_id'] as String?
-      ..fieldName = json['field_name'] as String?
-      ..moduleId = json['module_id'] as String?
-      ..productId = json['product_id'] as String?
-      ..userGroupId = json['user_group_id'] as String?
-      ..typeId = json['type_id'] as String?
-      ..groupId = json['group_id'] as String?
-      ..phraseVarName = json['phrase_var_name'] as String?
-      ..typeName = json['type_name'] as String?
-      ..varType = PageTemplateFieldTypeExtension.init(json['var_type'] as String)
-      ..isActive = json['is_active'] as String?
-      ..isRequired = json['is_required'] as String?
-      ..hasFeed = json['has_feed'] as String?
-      ..onSignup = json['on_signup'] as String?
-      ..ordering = json['ordering'] as String?
-      ..value = json['value'] as String?
-      ..isSearch = json['is_search'] as String?
-      ..cgUserGroupId = json['cg_user_group_id'] as String?
-      ..cgIsActive = json['cg_is_active'] as String?
-      ..phrase = json['phrase'] as String?;
-    if (json['customValue'].runtimeType == String) {
-      profile.customValue = [json['customValue'] as String];
-    } else {
-      profile.customValue = (json['customValue'] as List<dynamic>?)?.map((e) => e as String?).toList();
-    }
+  factory PageTemplateCustomFieldConfig.fromJson(Map<String, dynamic> json) {
+    final iw = IW(json);
+    final profile = PageTemplateCustomFieldConfig()
+      ..fieldId = iw['field_id'].get()
+      ..fieldName = iw['field_name'].get()
+      ..moduleId = iw['module_id'].get()
+      ..productId = iw['product_id'].get()
+      ..userGroupId = iw['user_group_id'].get()
+      ..typeId = iw['type_id'].get()
+      ..groupId = iw['group_id'].get()
+      ..phraseVarName = iw['phrase_var_name'].get()
+      ..typeName = iw['type_name'].get()
+      ..varType = PageTemplateFieldTypeExtension.init(iw['var_type'].getString ?? '')
+      ..isActive = iw['is_active'].get()
+      ..isRequired = iw['is_required'].get()
+      ..hasFeed = iw['has_feed'].get()
+      ..onSignup = iw['on_signup'].get()
+      ..ordering = iw['ordering'].get()
+      ..value = iw['value'].get()
+      ..isSearch = iw['is_search'].get()
+      ..cgUserGroupId = iw['cg_user_group_id'].get()
+      ..cgIsActive = iw['cg_is_active'].get()
+      ..phrase = iw['phrase'].get();
     return profile;
   }
 

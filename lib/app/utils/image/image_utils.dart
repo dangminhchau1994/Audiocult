@@ -7,23 +7,25 @@ import '../constants/app_colors.dart';
 class ImageUtils {
   static final ImagePicker _picker = ImagePicker();
 
-  static Future<File?> cropImage(String image) async {
+  static Future<CroppedFile?> cropImage(String image) async {
     final croppedFile = await ImageCropper().cropImage(
       sourcePath: image,
       maxHeight: 1080,
       maxWidth: 1920,
       aspectRatio: const CropAspectRatio(ratioX: 1, ratioY: 1),
       aspectRatioPresets: Platform.isAndroid ? [CropAspectRatioPreset.square] : [CropAspectRatioPreset.square],
-      androidUiSettings: AndroidUiSettings(
-        toolbarTitle: 'Cropper',
-        toolbarColor: AppColors.secondaryButtonColor,
-        toolbarWidgetColor: Colors.white,
-        initAspectRatio: CropAspectRatioPreset.original,
-        lockAspectRatio: false,
-      ),
-      iosUiSettings: const IOSUiSettings(
-        title: 'Cropper',
-      ),
+      uiSettings: [
+        AndroidUiSettings(
+          toolbarTitle: 'Cropper',
+          toolbarColor: AppColors.secondaryButtonColor,
+          toolbarWidgetColor: Colors.white,
+          initAspectRatio: CropAspectRatioPreset.original,
+          lockAspectRatio: false,
+        ),
+        IOSUiSettings(
+          title: 'Cropper',
+        ),
+      ],
     );
     return croppedFile;
   }
@@ -33,7 +35,7 @@ class ImageUtils {
     Function(File? image)? onChooseImage,
     Function(String? error)? onError,
   }) async {
-    File? image;
+    CroppedFile? image;
     try {
       final pickedFile = await _picker.pickImage(
         source: ImageSource.gallery,
@@ -42,7 +44,7 @@ class ImageUtils {
         imageQuality: 100,
       );
       image = await cropImage(pickedFile!.path);
-      onChooseImage!(image);
+      onChooseImage!(File(image!.path));
     } catch (e) {
       onError!(e.toString());
     }

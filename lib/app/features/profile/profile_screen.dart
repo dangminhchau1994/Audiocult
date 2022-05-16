@@ -72,8 +72,8 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
                         controller: _tabController,
                         children: [
                           PostPage(profile: data, scrollController: _scrollController),
-                          AboutPage(profile: data),
-                          const VideosPage(),
+                          AboutPage(profile: data, scrollController: _scrollController),
+                          VideosPage(scrollController: _scrollController),
                           MusicsPage(profile: data, scrollController: _scrollController),
                           EventsPage(profile: data, scrollController: _scrollController),
                         ],

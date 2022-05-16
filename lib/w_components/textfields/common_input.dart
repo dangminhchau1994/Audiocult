@@ -22,6 +22,7 @@ class CommonInput extends StatelessWidget {
     this.suffixIcon,
     this.fillColor,
     this.onTap,
+    this.focusNode,
     this.isBorderVisible = true,
   }) : super(key: key);
 
@@ -42,6 +43,7 @@ class CommonInput extends StatelessWidget {
   final Widget? suffixIcon;
   final Color? fillColor;
   final bool isBorderVisible;
+  final FocusNode? focusNode;
 
   @override
   Widget build(BuildContext context) {
@@ -54,6 +56,7 @@ class CommonInput extends StatelessWidget {
             height: height,
             child: Center(
               child: TextFormField(
+                focusNode: focusNode,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter some text';

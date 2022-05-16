@@ -18,9 +18,12 @@ class _CreateNewPasswordScreenState extends State<CreateNewPasswordScreen> {
     return Scaffold(
       backgroundColor: AppColors.mainColor,
       appBar: const CommonAppBar(),
-      body: const SafeArea(
+      body: SafeArea(
         top: false,
-        child: WAuthPage(isShowIconRight: false, child: CreateNewPasswordPage()),
+        child: WAuthPage(
+            isHideHeader: MediaQuery.of(context).viewInsets.bottom > 0,
+            isShowIconRight: false,
+            child: const CreateNewPasswordPage()),
       ),
     );
   }

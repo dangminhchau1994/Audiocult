@@ -18,11 +18,12 @@ class _ResentPasswordScreenState extends State<ResentPasswordScreen> {
     return Scaffold(
       backgroundColor: AppColors.mainColor,
       appBar: const CommonAppBar(),
-      body: const SafeArea(
+      body: SafeArea(
         top: false,
         child: WAuthPage(
+          isHideHeader: MediaQuery.of(context).viewInsets.bottom > 0,
           isShowIconRight: false,
-          child: ResentPasswordPage(),
+          child: const ResentPasswordPage(),
         ),
       ),
     );

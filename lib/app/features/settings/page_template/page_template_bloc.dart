@@ -10,8 +10,10 @@ import 'package:audio_cult/app/data_source/models/responses/page_template_custom
 import 'package:audio_cult/app/data_source/models/responses/page_template_response.dart';
 import 'package:audio_cult/app/data_source/repositories/app_repository.dart';
 import 'package:audio_cult/app/utils/constants/gender_enum.dart';
+import 'package:audio_cult/l10n/l10n.dart';
 import 'package:audio_cult/w_components/dropdown/common_dropdown.dart';
 import 'package:collection/collection.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:tuple/tuple.dart';
 
@@ -19,7 +21,6 @@ class PageTemplateBloc extends BaseBloc {
   final AppRepository _appRepo;
   final PrefProvider _prefProvider;
 
-  AtlasCategory? _selectedCategory;
   Genre? _selectedMusicGenre;
   PageTemplateResponse? _userProfile;
 
@@ -27,13 +28,14 @@ class PageTemplateBloc extends BaseBloc {
   List<City>? _cities;
   List<AtlasCategory>? _allPageTemplates;
   List<Genre>? _genres;
+  List<PageTemplateCustomFieldConfig>? _customFieldConfigs;
 
   List<Country> get countries => _countries ?? [];
   List<City> get cities => _cities ?? [];
   List<AtlasCategory> get categories => _allPageTemplates ?? [];
   List<Genre> get genres => _genres ?? [];
+  List<PageTemplateCustomFieldConfig> get customFieldConfigs => _customFieldConfigs ?? [];
 
-  AtlasCategory? get selectedCategory => _selectedCategory;
   Genre? get selectedMusicGenre => _selectedMusicGenre;
 
   final _loadCountriesStreamController = StreamController<BlocState<Tuple2<List<Country>, Country?>>>.broadcast();
@@ -56,6 +58,11 @@ class PageTemplateBloc extends BaseBloc {
   final _userProfileStreamController = StreamController<BlocState<PageTemplateResponse?>>.broadcast();
   Stream<BlocState<PageTemplateResponse?>> get userProfileStream => _userProfileStreamController.stream;
 
+  final _loadCustomFieldsStreamController =
+      StreamController<BlocState<List<PageTemplateCustomFieldConfig>?>>.broadcast();
+  Stream<BlocState<List<PageTemplateCustomFieldConfig>?>> get loadCustomFieldsStream =>
+      _loadCustomFieldsStreamController.stream;
+
   final _mapTypeStreamController = StreamController<MapType>.broadcast();
   Stream<MapType> get mapTypeStream => _mapTypeStreamController.stream;
 
@@ -72,16 +79,18 @@ class PageTemplateBloc extends BaseBloc {
 
   PageTemplateBloc(this._appRepo, this._prefProvider);
 
-  void loadUserProfile() async {
+  void loadPageTemplateData() async {
     final userId = _prefProvider.currentUserId;
     if (userId?.isNotEmpty == true) {
-      final result = await _appRepo.getPageTemplateData(userId!);
+      final result = await _appRepo.getPageTemplateData();
       result.fold(
         (profile) {
           _userProfile = profile;
           loadAllCountries();
           loadAllPageTemplates();
           _userProfileStreamController.sink.add(BlocState.success(profile));
+          _customFieldConfigs = profile.customFields;
+          _loadCustomFieldsStreamController.sink.add(BlocState.success(_customFieldConfigs));
           selectGender(null);
         },
         (exception) {
@@ -143,6 +152,40 @@ class PageTemplateBloc extends BaseBloc {
     ));
   }
 
+  void selectPageTemplate(SelectMenuModel selection) async {
+    final selectedPageTemplate = _allPageTemplates?.firstWhereOrNull(
+      (element) => element.title?.toLowerCase() == selection.title?.toLowerCase(),
+    );
+    _loadPageTemplatesStreamController.sink.add(
+      BlocState.success(Tuple2(_allPageTemplates ?? [], selectedPageTemplate)),
+    );
+    final isPageTemplateChanged = selectedPageTemplate?.userGroupId != _userProfile?.userGroupId;
+    if (isPageTemplateChanged) {
+      _loadNewCustomFieldConfig(selectedPageTemplate?.userGroupId);
+    } else {
+      _loadAvailableCustomFieldConfig();
+    }
+  }
+
+  void _loadNewCustomFieldConfig(String? userGroupId) async {
+    _loadCustomFieldsStreamController.sink.add(const BlocState.loading());
+    final result = await _appRepo.getPageTemplateData(userGroupId: userGroupId);
+    result.fold(
+      (l) {
+        _customFieldConfigs = l.customFields;
+        _loadCustomFieldsStreamController.sink.add(BlocState.success(_customFieldConfigs));
+      },
+      (r) {
+        _loadCustomFieldsStreamController.sink.add(BlocState.error(r.toString()));
+      },
+    );
+  }
+
+  void _loadAvailableCustomFieldConfig() {
+    _customFieldConfigs = _userProfile?.customFields;
+    _loadCustomFieldsStreamController.sink.add(BlocState.success(_customFieldConfigs));
+  }
+
   void genderTextOnChanged(String text) {
     if (_userProfile?.genderText?[0] != text) {
       _profileIsModifiedStreamController.sink.add(true);
@@ -176,28 +219,33 @@ class PageTemplateBloc extends BaseBloc {
     _profileIsModifiedStreamController.sink.add(true);
   }
 
-  void selectableFieldOnChanged({required PageTemplateCustomField field, required SelectableOption option}) {
+  void selectableFieldOnChanged({required PageTemplateCustomFieldConfig field, required SelectableOption option}) {
     field.updateSelectedOption(option);
-    final index = _userProfile?.customFields?.indexWhere((element) => element.fieldId == field.fieldId);
+    final index = _customFieldConfigs?.indexWhere((element) => element.fieldId == field.fieldId);
     if (index != null) {
-      _userProfile?.customFields?[index] = field;
-      _userProfileStreamController.sink.add(BlocState.success(_userProfile));
+      _customFieldConfigs?[index] = field;
+      _loadCustomFieldsStreamController.sink.add(BlocState.success(_customFieldConfigs));
       _profileIsModifiedStreamController.sink.add(true);
     }
   }
 
-  void textFieldOnChanged({required PageTemplateCustomField field, required String string}) {
+  void textFieldOnChanged({required PageTemplateCustomFieldConfig field, required String string}) {
     final customField = _userProfile?.customFields
         ?.firstWhere((element) => element.fieldName?.toLowerCase() == field.fieldName?.toLowerCase());
     customField?.updateTextValue(string);
     _profileIsModifiedStreamController.sink.add(true);
   }
 
-  Future<bool> updatePageTemplate() async {
+  Future<bool> updatePageTemplate(BuildContext context) async {
     if (_userProfile == null) {
       return false;
     }
+    if (_userProfile?.gender == Gender.custom && _userProfile?.genderText?.first.isNotEmpty != true) {
+      showError(Exception([context.l10n.t_require_your_custom_gender]));
+      return false;
+    }
     showOverLayLoading();
+    _userProfile!.customFields = _customFieldConfigs;
     final result = await _appRepo.updatePageTemplate(_userProfile!.toJson());
     return result.fold((result) {
       hideOverlayLoading();

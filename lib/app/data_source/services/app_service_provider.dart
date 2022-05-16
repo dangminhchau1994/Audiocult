@@ -8,6 +8,7 @@ import 'package:audio_cult/app/data_source/models/requests/filter_users_request.
 import 'package:audio_cult/app/data_source/models/requests/my_diary_event_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/register_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/upload_request.dart';
+import 'package:audio_cult/app/data_source/models/requests/video_request.dart';
 import 'package:audio_cult/app/data_source/models/responses/album/album_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/announcement/announcement_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/atlas_category.dart';
@@ -16,12 +17,15 @@ import 'package:audio_cult/app/data_source/models/responses/country_response.dar
 import 'package:audio_cult/app/data_source/models/responses/create_playlist/create_playlist_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/events/event_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/feed/feed_response.dart';
+import 'package:audio_cult/app/data_source/models/responses/language_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/login_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/page_template_custom_field_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/page_template_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/playlist/playlist_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/reaction_icon/reaction_icon_response.dart';
+import 'package:audio_cult/app/data_source/models/responses/timezone/timezone_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/user_subscription_response.dart';
+import 'package:audio_cult/app/data_source/models/responses/video_data.dart';
 import 'package:audio_cult/app/data_source/models/update_account_settings_response.dart';
 import 'package:audio_cult/app/injections.dart';
 import 'package:audio_cult/app/utils/constants/app_constants.dart';
@@ -836,7 +840,7 @@ class AppServiceProvider {
     return response.data['user_image'] as String;
   }
 
-  Future<PageTemplateResponse> getPageTemplateData(String userId) async {
+  Future<PageTemplateResponse> getPageTemplateData({String? userGroupId}) async {
     List<SelectableOption>? getSelectableOptions(dynamic json) {
       if (json != null && json.keys != null) {
         final keys = json.keys as Iterable<String>;
@@ -852,12 +856,12 @@ class AppServiceProvider {
       return null;
     }
 
-    List<PageTemplateCustomField>? getCustomFields(dynamic json) {
+    List<PageTemplateCustomFieldConfig>? getCustomFields(dynamic json) {
       if (json != null && json.keys != null) {
         final keys = json.keys as Iterable<String>;
         if (keys.isNotEmpty) {
           return keys.map((e) {
-            final customField = PageTemplateCustomField.fromJson(json[e] as Map<String, dynamic>);
+            final customField = PageTemplateCustomFieldConfig.fromJson(json[e] as Map<String, dynamic>);
             customField.options = getSelectableOptions(json[e]['options']);
             return customField;
           }).toList();
@@ -869,6 +873,7 @@ class AppServiceProvider {
 
     final userProfile = await _dioHelper.get(
       route: '/restful_api/user/profile',
+      requestParams: {'user_group_id': userGroupId},
       responseBodyMapper: (json) {
         final dataJson = json['data'] as Map<String, dynamic>;
         final userProfile = PageTemplateResponse.fromJson(dataJson);
@@ -924,10 +929,44 @@ class AppServiceProvider {
     final result = await _dioHelper.post(
       route: '/restful_api/user/notifications',
       requestBody: FormData.fromMap(params),
-      responseBodyMapper: (json) {
-        print('--------------: ${json}');
-      },
+      responseBodyMapper: (json) {},
     );
     return false;
+  }
+
+  Future<List<Video>> getVideos(VideoRequest? params) async {
+    final result = await _dioHelper.get(
+      requestParams: params?.toJson(),
+      route: '/restful_api/user/profile/video',
+      responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
+    );
+
+    return result.mapData(
+      (json) => asType<List<dynamic>>(json)?.map((e) => Video.fromJson(e as Map<String, dynamic>)).toList(),
+    );
+  }
+
+  Future<TimeZoneReponse> getAllTimezones() async {
+    final result = await _dioHelper.get(
+      route: '/restful_api/user/timezones',
+      responseBodyMapper: (json) => TimeZoneReponse.fromJson(json as Map<String, dynamic>),
+    );
+    return result;
+  }
+
+  Future<LanguageResponse> getSupportedLanguages() async {
+    final result = await _dioHelper.get(
+      route: '/restful_api/language',
+      responseBodyMapper: (json) => LanguageResponse.fromJson(json as Map<String, dynamic>),
+    );
+    return result;
+  }
+
+  Future<ProfileData> getMyUserInfo() async {
+    final result = await _dioHelper.get(
+      route: '/restful_api/user/mine',
+      responseBodyMapper: (json) => ProfileData.fromJson(json['data'] as Map<String, dynamic>),
+    );
+    return result;
   }
 }

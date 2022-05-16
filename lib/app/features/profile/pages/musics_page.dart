@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 import '../../../../w_components/error_empty/error_section.dart';
+import '../../../../w_components/error_empty/widget_state.dart';
 import '../../music/discover/discover_bloc.dart';
 import '../../music/discover/widgets/song_item.dart';
 
@@ -67,6 +68,7 @@ class _MusicsPageState extends State<MusicsPage> {
           scrollController: _scrollController,
           pagingController: _pagingController,
           builderDelegate: PagedChildBuilderDelegate<Song>(
+            noItemsFoundIndicatorBuilder: (_) => const EmptyDataStateWidget(null),
             firstPageProgressIndicatorBuilder: (_) => const LoadingWidget(),
             firstPageErrorIndicatorBuilder: (_) {
               return ErrorSectionWidget(

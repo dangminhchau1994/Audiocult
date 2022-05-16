@@ -26,7 +26,7 @@ class PageTemplateResponse {
   String? birthday;
   String? email;
   @JsonKey(ignore: true)
-  List<PageTemplateCustomField>? customFields;
+  List<PageTemplateCustomFieldConfig>? customFields;
   @JsonKey(name: 'ac_page_lat_pin')
   String? latPin;
   @JsonKey(name: 'ac_page_long_pin')
@@ -50,11 +50,10 @@ class PageTemplateResponse {
       'val[ac_page_lat_pin]': latPin,
       'val[ac_page_long_pin]': lngPin,
     };
-    if (gender?.index == Gender.custom.index) {
+    if (gender == Gender.custom) {
       mappingJson['val[custom_gender][]'] = genderText;
     }
-
-    for (final field in customFields ?? <PageTemplateCustomField>[]) {
+    for (final field in customFields ?? <PageTemplateCustomFieldConfig>[]) {
       var key = 'custom[${field.fieldId}]';
       if (field.varType == PageTemplateFieldType.multiselect) {
         key = '$key[]';
@@ -67,6 +66,7 @@ class PageTemplateResponse {
         mappingJson[key] = field.getTextValue;
       }
     }
+    print('-----------:${mappingJson}');
     return mappingJson;
   }
 

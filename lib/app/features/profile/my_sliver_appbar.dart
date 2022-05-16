@@ -1,4 +1,5 @@
 import 'package:audio_cult/app/data_source/local/pref_provider.dart';
+import 'package:audio_cult/app/features/atlas/atlas_bloc.dart';
 import 'package:audio_cult/app/injections.dart';
 import 'package:audio_cult/app/utils/constants/app_assets.dart';
 import 'package:audio_cult/app/utils/constants/app_dimens.dart';
@@ -15,6 +16,7 @@ import 'package:sliver_header_delegate/sliver_header_delegate.dart';
 
 import '../../../w_components/dialogs/app_dialog.dart';
 import '../../base/pair.dart';
+import '../../data_source/models/responses/atlas_user.dart';
 import '../../data_source/models/responses/profile_data.dart';
 import '../../utils/constants/app_colors.dart';
 import 'profile_bloc.dart';
@@ -37,10 +39,12 @@ class _MySliverAppBarState extends State<MySliverAppBar> {
   double bottomPadding = 24;
   ScrollController? _scrollController;
   var _currentIndex = 0;
+  ProfileBloc? _profileBloc;
 
   @override
   void initState() {
     super.initState();
+    _profileBloc = Provider.of<ProfileBloc>(context, listen: false);
     if (widget.controller != null) {
       _scrollController = widget.controller;
     } else {
@@ -225,16 +229,33 @@ class _MySliverAppBarState extends State<MySliverAppBar> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                CommonIconButton(
-                  icon: SvgPicture.asset(
-                    AppAssets.unsubscribedUserIcon,
-                    color: Colors.white,
-                  ),
-                  width: 169,
-                  text: context.l10n.t_subscribed,
-                  color: AppColors.inputFillColor,
-                  onTap: () {},
-                ),
+                if (widget.profile?.userId != locator.get<PrefProvider>().currentUserId)
+                  StreamBuilder<int>(
+                      initialData: widget.profile?.isSubscribed,
+                      stream: _profileBloc?.subscribeStream,
+                      builder: (context, snapshot) {
+                        final isSubscribe = snapshot.data;
+                        return CommonIconButton(
+                          icon: isSubscribe == 0
+                              ? SvgPicture.asset(
+                                  AppAssets.unsubscribedUserIcon,
+                                  color: Colors.white,
+                                )
+                              : const Icon(
+                                  Icons.thumb_up,
+                                  color: Colors.white,
+                                ),
+                          width: 169,
+                          text: context.l10n.t_subscribed,
+                          color: isSubscribe == 0 ? AppColors.inputFillColor : AppColors.activeLabelItem,
+                          onTap: () {
+                            final atlasUser = AtlasUser();
+                            atlasUser.userId = widget.profile?.userId;
+                            atlasUser.isSubscribed = isSubscribe == 1;
+                            _profileBloc?.subscribeUser(atlasUser);
+                          },
+                        );
+                      }),
                 const SizedBox(
                   width: 16,
                 ),
@@ -253,7 +274,6 @@ class _MySliverAppBarState extends State<MySliverAppBar> {
                   CommonIconButton(
                     icon: SvgPicture.asset(
                       AppAssets.messageIcon,
-                      color: Colors.white,
                     ),
                     text: context.l10n.t_message,
                     width: 169,

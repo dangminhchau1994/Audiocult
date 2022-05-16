@@ -1,10 +1,12 @@
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flick_video_player/flick_video_player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:video_player/video_player.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import '../../../../w_components/loading/loading_widget.dart';
 import '../../../data_source/models/responses/feed/feed_response.dart';
@@ -22,13 +24,55 @@ class FeedItemContent extends StatefulWidget {
 }
 
 class _FeedItemContentState extends State<FeedItemContent> {
+  late YoutubePlayerController _youtubePlayerController;
+  late FlickManager _flickVideoManager;
+
+  @override
+  void initState() {
+    super.initState();
+    _youtubePlayerController = YoutubePlayerController(
+      initialVideoId: YoutubePlayer.convertUrlToId(
+        widget.data?.customDataCache?.videoUrl.toString() ?? '',
+      ).toString(),
+      flags: const YoutubePlayerFlags(
+        autoPlay: false,
+      ),
+    );
+
+    _flickVideoManager = FlickManager(
+      autoPlay: false,
+      videoPlayerController: VideoPlayerController.network(
+        widget.data?.customDataCache?.destination.toString() ?? '',
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _youtubePlayerController.dispose();
+    _flickVideoManager.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return _buildBody(widget.data!.getFeedType(), widget.data!, context);
+    return _buildBody(
+      widget.data!.getFeedType(),
+      widget.data!,
+      context,
+      _youtubePlayerController,
+      _flickVideoManager,
+    );
   }
 }
 
-Widget _buildBody(FeedType feedType, FeedResponse data, BuildContext context) {
+Widget _buildBody(
+  FeedType feedType,
+  FeedResponse data,
+  BuildContext context,
+  YoutubePlayerController youtubePlayerController,
+  FlickManager flickManager,
+) {
   switch (feedType) {
     case FeedType.advancedEvent:
       return Html(
@@ -222,15 +266,6 @@ Widget _buildBody(FeedType feedType, FeedResponse data, BuildContext context) {
         ),
       );
     case FeedType.video:
-      final _controller = YoutubePlayerController(
-        initialVideoId: YoutubePlayer.convertUrlToId(
-          data.customDataCache?.videoUrl.toString() ?? '',
-        ).toString(),
-        flags: const YoutubePlayerFlags(
-          autoPlay: false,
-        ),
-      );
-
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -249,7 +284,7 @@ Widget _buildBody(FeedType feedType, FeedResponse data, BuildContext context) {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   YoutubePlayer(
-                    controller: _controller,
+                    controller: youtubePlayerController,
                     showVideoProgressIndicator: true,
                   ),
                   Padding(
@@ -295,8 +330,15 @@ Widget _buildBody(FeedType feedType, FeedResponse data, BuildContext context) {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Html(
-                    data: data.embedCode ?? '',
+                  FlickVideoPlayer(
+                    flickManager: flickManager,
+                    flickVideoWithControls: const FlickVideoWithControls(
+                      closedCaptionTextStyle: TextStyle(fontSize: 8),
+                      controls: FlickPortraitControls(),
+                    ),
+                    flickVideoWithControlsFullscreen: const FlickVideoWithControls(
+                      controls: FlickLandscapeControls(),
+                    ),
                   ),
                   const SizedBox(height: 20),
                   Padding(
