@@ -24,6 +24,16 @@ class HomeBloc extends BaseBloc<FeedRequest, List<FeedResponse>> {
   Stream<BlocState<List<ReactionIconResponse>>> get getReactionIconStream => _getReactionIconSubject.stream;
   Stream<BlocState<CommentResponse>> get postReactionIconStream => _postReactionIconSubject.stream;
 
+  void getReactionIcons() async {
+    final result = await _appRepository.getReactionIcons();
+
+    result.fold((success) {
+      _getReactionIconSubject.sink.add(BlocState.success(success));
+    }, (error) {
+      _getReactionIconSubject.sink.add(BlocState.error(error.toString()));
+    });
+  }
+
   void postReactionIcon(String typeId, int itemId, int likeType) async {
     final result = await _appRepository.postReactionIcon(typeId, itemId, likeType);
 

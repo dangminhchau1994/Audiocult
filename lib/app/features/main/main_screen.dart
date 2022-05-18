@@ -1,4 +1,5 @@
 import 'package:audio_cult/app/base/bloc_handle.dart';
+import 'package:audio_cult/app/fcm/fcm_service.dart';
 import 'package:audio_cult/app/features/atlas/atlas_screen.dart';
 import 'package:audio_cult/app/features/audio_player/miniplayer.dart';
 import 'package:audio_cult/app/features/main/main_bloc.dart';
@@ -8,6 +9,7 @@ import 'package:audio_cult/app/utils/route/app_route.dart';
 import 'package:audio_cult/l10n/l10n.dart';
 import 'package:audio_cult/w_components/bottom_navigation_bar/common_bottom_bar.dart';
 import 'package:audio_cult/w_components/menus/common_circular_menu.dart';
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -43,6 +45,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   void initState() {
     super.initState();
+    FCMService(context).askPermission();
     _mainBloc.getUserProfile();
     _mainBloc.profileStream.listen((event) {
       setState(() {
@@ -137,7 +140,9 @@ class _MainScreenState extends State<MainScreen> {
             ),
             CommonFabMenu(
               onSearchTap: () {},
-              onNotificationTap: () {},
+              onNotificationTap: () {
+                Navigator.pushNamed(context, AppRoute.routeNotification);
+              },
               onCartTap: () {},
             ),
           ],

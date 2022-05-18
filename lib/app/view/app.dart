@@ -1,3 +1,4 @@
+import 'package:audio_cult/app/fcm/fcm_service.dart';
 import 'package:audio_cult/app/features/auth/login/login_screen.dart';
 import 'package:audio_cult/app/features/main/main_screen.dart';
 import 'package:audio_cult/app/injections.dart';
@@ -29,6 +30,7 @@ class _AppState extends State<App> {
   void initState() {
     super.initState();
     _splashBloc.checkScreen();
+    FCMService(context).initialize();
   }
 
   @override

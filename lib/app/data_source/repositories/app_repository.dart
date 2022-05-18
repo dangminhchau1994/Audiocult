@@ -6,6 +6,7 @@ import 'package:audio_cult/app/data_source/models/requests/create_event_request.
 import 'package:audio_cult/app/data_source/models/requests/create_playlist_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/filter_users_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/my_diary_event_request.dart';
+import 'package:audio_cult/app/data_source/models/requests/notification_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/register_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/upload_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/video_request.dart';
@@ -19,6 +20,7 @@ import 'package:audio_cult/app/data_source/models/responses/events/event_respons
 import 'package:audio_cult/app/data_source/models/responses/feed/feed_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/genre.dart';
 import 'package:audio_cult/app/data_source/models/responses/language_response.dart';
+import 'package:audio_cult/app/data_source/models/responses/notifications/notification_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/page_template_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/place.dart';
 import 'package:audio_cult/app/data_source/models/responses/playlist/playlist_response.dart';
@@ -116,6 +118,12 @@ class AppRepository extends BaseRepository {
   ) {
     return safeCall(
       () => appServiceProvider.getFeeds(page, limit, lastFeedId),
+    );
+  }
+
+  Future<Either<List<NotificationResponse>, Exception>> getNotifications(NotificationRequest request) {
+    return safeCall(
+      () => appServiceProvider.getNotifications(request),
     );
   }
 
