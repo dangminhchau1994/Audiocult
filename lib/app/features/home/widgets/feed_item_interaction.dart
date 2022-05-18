@@ -53,36 +53,7 @@ class FeedItemInteraction extends StatelessWidget {
             )
           ],
         ),
-        _buildViewCount(data?.totalView ?? '', context)
       ],
-    );
-  }
-
-  Widget _buildViewCount(
-    String value,
-    BuildContext context,
-  ) {
-    return Padding(
-      padding: const EdgeInsets.only(right: 10),
-      child: Row(
-        children: [
-          SvgPicture.asset(
-            AppAssets.viewIcons,
-            width: 24,
-            height: 24,
-          ),
-          const SizedBox(
-            width: 10,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 6),
-            child: Text(
-              value,
-              style: context.bodyTextPrimaryStyle()!.copyWith(color: Colors.white, fontSize: 16),
-            ),
-          )
-        ],
-      ),
     );
   }
 

@@ -6,6 +6,7 @@ import 'package:audio_cult/app/data_source/models/requests/create_playlist_reque
 import 'package:audio_cult/app/data_source/models/requests/event_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/filter_users_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/my_diary_event_request.dart';
+import 'package:audio_cult/app/data_source/models/requests/notification_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/register_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/upload_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/video_request.dart';
@@ -19,6 +20,7 @@ import 'package:audio_cult/app/data_source/models/responses/events/event_respons
 import 'package:audio_cult/app/data_source/models/responses/feed/feed_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/language_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/login_response.dart';
+import 'package:audio_cult/app/data_source/models/responses/notifications/notification_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/page_template_custom_field_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/page_template_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/playlist/playlist_response.dart';
@@ -30,6 +32,7 @@ import 'package:audio_cult/app/data_source/models/update_account_settings_respon
 import 'package:audio_cult/app/injections.dart';
 import 'package:audio_cult/app/utils/constants/app_constants.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -344,6 +347,7 @@ class AppServiceProvider {
     );
   }
 
+
   Future<CommentResponse> createComment(int itemId, String type, String text, {int? feedId}) async {
     final response = await _dioHelper.post(
       route: '/restful_api/comment',
@@ -556,6 +560,22 @@ class AppServiceProvider {
     );
     return response.mapData(
       (json) => Album.fromJson(json as Map<String, dynamic>),
+    );
+  }
+
+  Future<List<NotificationResponse>> getNotifications(NotificationRequest request) async {
+    final response = await _dioHelper.get(
+      route: '/restful_api/notification',
+      requestParams: {
+        'page' : request.page,
+        'limit': request.limit,
+        'group_by_date': request.groupByDate,
+      },
+      options: Options(headers: {'Content-Type': 'application/x-www-form-urlencoded'}),
+      responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
+    );
+    return response.mapData(
+      (json) => asType<List<dynamic>>(json)?.map((e) => NotificationResponse.fromJson(e as Map<String, dynamic>)).toList(),
     );
   }
 

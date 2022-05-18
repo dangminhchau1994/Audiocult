@@ -26,6 +26,7 @@ import 'package:audio_cult/app/features/music/library/create_playlist_screen.dar
 import 'package:audio_cult/app/features/music/my_album/upload_song/upload_song_screen.dart';
 import 'package:audio_cult/app/features/music/top_playlist/top_playlist_screen.dart';
 import 'package:audio_cult/app/features/my_diary_in_month/my_diary_in_month_screen.dart';
+import 'package:audio_cult/app/features/notifications/notification_screen.dart';
 import 'package:audio_cult/app/features/player_widgets/player_screen.dart';
 import 'package:audio_cult/app/features/profile/profile_bloc.dart';
 import 'package:audio_cult/app/features/profile/profile_screen.dart';
@@ -91,6 +92,7 @@ class AppRoute {
   static const String routeSettings = '/route_settings';
   static const String routeSubscriptions = '/route_subscriptions';
   static const String routeVideoPlayer = '/route_video_player';
+  static const String routeNotification = '/route_notification';
 
   ///#end region
 
@@ -133,6 +135,12 @@ class AppRoute {
           FeaturedMixTapesScreen(
             arguments: arguments!,
           ),
+        );
+
+      case routeNotification:
+        return _pageRoute(
+          settings,
+          const NotificationScreen(),
         );
       case routePlaceLocation:
         return _pageRoute(settings, const PlaceLocation());

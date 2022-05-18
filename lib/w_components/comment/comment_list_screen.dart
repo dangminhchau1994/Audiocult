@@ -95,7 +95,7 @@ class _CommentListScreenState extends State<CommentListScreen> {
       widget.commentArgs.itemId ?? 0,
       getType(),
       _text.value,
-      feedId: widget.commentArgs.itemId,
+      feedId: getType() == 'feed' ? widget.commentArgs.itemId : 0,
     );
 
     //clear text and reload data
@@ -316,7 +316,7 @@ class _CommentListScreenState extends State<CommentListScreen> {
                           vertical: 16,
                         ),
                         pagingController: _pagingController,
-                        separatorBuilder: (context, index) => const Divider(height: 24),
+                        separatorBuilder: (context, index) => const Divider(height: 6),
                         builderDelegate: PagedChildBuilderDelegate<CommentResponse>(
                           firstPageProgressIndicatorBuilder: (context) => Container(),
                           newPageProgressIndicatorBuilder: (context) => const LoadingWidget(),
@@ -352,8 +352,9 @@ class _CommentListScreenState extends State<CommentListScreen> {
                               ),
                               theme: const ExpandableThemeData(
                                 hasIcon: false,
-                                tapBodyToExpand: false,
                                 tapHeaderToExpand: false,
+                                tapBodyToCollapse: false,
+                                tapBodyToExpand: false,
                                 useInkWell: false,
                               ),
                               collapsed: Container(),

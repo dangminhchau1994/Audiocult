@@ -67,7 +67,6 @@ class _FeedItemState extends State<FeedItem> {
                 feedId: widget.data?.feedId,
               ),
               CommonInput(
-                maxLine: 5,
                 hintText: context.l10n.t_leave_comment,
                 onTap: () {
                   Navigator.pushNamed(

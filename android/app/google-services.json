@@ -20,6 +20,9 @@
       ],
       "api_key": [
         {
+          "current_key": "AIzaSyBMWZWkSTSz6j31LsRH412zMwq9txhM7FE"
+        },
+        {
           "current_key": "AIzaSyDSt8W388LqNx5_fS1Bu-KOLfMVklMmPgk"
         }
       ],
@@ -29,6 +32,13 @@
             {
               "client_id": "524686110581-3kidhhgu4d1flrq6i64oto7hk10bijt3.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "524686110581-5djoqj8m29o548bvsoq5cmc7fhv908nl.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.audiocult.audio-cult"
+              }
             }
           ]
         }
@@ -49,6 +59,9 @@
       ],
       "api_key": [
         {
+          "current_key": "AIzaSyBMWZWkSTSz6j31LsRH412zMwq9txhM7FE"
+        },
+        {
           "current_key": "AIzaSyDSt8W388LqNx5_fS1Bu-KOLfMVklMmPgk"
         }
       ],
@@ -58,6 +71,13 @@
             {
               "client_id": "524686110581-3kidhhgu4d1flrq6i64oto7hk10bijt3.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "524686110581-5djoqj8m29o548bvsoq5cmc7fhv908nl.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.audiocult.audio-cult"
+              }
             }
           ]
         }
@@ -78,6 +98,9 @@
       ],
       "api_key": [
         {
+          "current_key": "AIzaSyBMWZWkSTSz6j31LsRH412zMwq9txhM7FE"
+        },
+        {
           "current_key": "AIzaSyDSt8W388LqNx5_fS1Bu-KOLfMVklMmPgk"
         }
       ],
@@ -87,6 +110,13 @@
             {
               "client_id": "524686110581-3kidhhgu4d1flrq6i64oto7hk10bijt3.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "524686110581-5djoqj8m29o548bvsoq5cmc7fhv908nl.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.audiocult.audio-cult"
+              }
             }
           ]
         }

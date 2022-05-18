@@ -140,7 +140,7 @@ class _ReplyListScreenState extends State<ReplyListScreen> {
       widget.commentArgs.itemId ?? 0,
       getType(),
       _text.value,
-      feedId: widget.commentArgs.itemId,
+      feedId: getType() == 'feed' ? widget.commentArgs.itemId : 0,
     );
 
     //clear text and reload data
@@ -290,6 +290,8 @@ class _ReplyListScreenState extends State<ReplyListScreen> {
                     child: ExpandablePanel(
                       theme: const ExpandableThemeData(
                         hasIcon: false,
+                        tapHeaderToExpand: false,
+                        tapBodyToCollapse: false,
                         tapBodyToExpand: false,
                         useInkWell: false,
                       ),

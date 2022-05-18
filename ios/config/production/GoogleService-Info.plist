@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>524686110581-5djoqj8m29o548bvsoq5cmc7fhv908nl.apps.googleusercontent.com</string>
+	<string>524686110581-im7oaq7obt4109lkeukpum25vf19t1aq.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.524686110581-5djoqj8m29o548bvsoq5cmc7fhv908nl</string>
+	<string>com.googleusercontent.apps.524686110581-im7oaq7obt4109lkeukpum25vf19t1aq</string>
 	<key>API_KEY</key>
 	<string>AIzaSyCBHa3qDYE6rLjBIxvarnZCnlVhVyknLR4</string>
 	<key>GCM_SENDER_ID</key>
@@ -13,7 +13,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.audiocult.audio-cult</string>
+	<string>com.audiocult</string>
 	<key>PROJECT_ID</key>
 	<string>audiocult-df8da</string>
 	<key>STORAGE_BUCKET</key>
@@ -29,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:524686110581:ios:8a682745a1ce424c552d3c</string>
+	<string>1:524686110581:ios:7c6ccaa05ae1713f552d3c</string>
 </dict>
 </plist>

@@ -1,11 +1,14 @@
 import 'package:audio_cult/app/app.dart';
 import 'package:audio_cult/bootstrap.dart';
-
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/material.dart';
 import 'app/utils/flavor/flavor.dart';
 import 'global.dart';
 
-void main() {
-  bootstrap(
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  await bootstrap(
     () => MyGlobal(
       flavorConfig: FlavorConfig(
         flavor: Flavor.dev,
