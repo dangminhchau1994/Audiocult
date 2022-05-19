@@ -183,8 +183,8 @@ class _MapScreenState extends State<MapScreen> {
                             Marker(
                               markerId: const MarkerId(''),
                               position: LatLng(
-                                double.parse(event.lat ?? ''),
-                                double.parse(event.lng ?? ''),
+                                double.parse(event.lat ?? '0.0'),
+                                double.parse(event.lng ?? '0.0'),
                               ),
                               icon: BitmapDescriptor.fromBytes(iconMarker),
                             ),
