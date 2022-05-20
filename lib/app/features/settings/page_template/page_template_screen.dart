@@ -152,7 +152,7 @@ class _PageTemplateScreenState extends State<PageTemplateScreen> with AutomaticK
                   .map(
                     (e) => SelectMenuModel(
                       title: e.title,
-                      isSelected: e.title?.toLowerCase() == selectedCategoryTitle,
+                      isSelected: e.title?.toLowerCase() == selectedCategoryTitle?.toLowerCase(),
                     ),
                   )
                   .toList();

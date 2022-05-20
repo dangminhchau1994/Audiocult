@@ -153,6 +153,7 @@ class PageTemplateBloc extends BaseBloc {
   }
 
   void selectPageTemplate(SelectMenuModel selection) async {
+    _profileIsModifiedStreamController.sink.add(true);
     final selectedPageTemplate = _allPageTemplates?.firstWhereOrNull(
       (element) => element.title?.toLowerCase() == selection.title?.toLowerCase(),
     );
@@ -161,9 +162,8 @@ class PageTemplateBloc extends BaseBloc {
     );
     final isPageTemplateChanged = selectedPageTemplate?.userGroupId != _userProfile?.userGroupId;
     if (isPageTemplateChanged) {
+      _userProfile?.userGroupId = selectedPageTemplate?.userGroupId;
       _loadNewCustomFieldConfig(selectedPageTemplate?.userGroupId);
-    } else {
-      _loadAvailableCustomFieldConfig();
     }
   }
 
@@ -179,11 +179,6 @@ class PageTemplateBloc extends BaseBloc {
         _loadCustomFieldsStreamController.sink.add(BlocState.error(r.toString()));
       },
     );
-  }
-
-  void _loadAvailableCustomFieldConfig() {
-    _customFieldConfigs = _userProfile?.customFields;
-    _loadCustomFieldsStreamController.sink.add(BlocState.success(_customFieldConfigs));
   }
 
   void genderTextOnChanged(String text) {
