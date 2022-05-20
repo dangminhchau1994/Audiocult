@@ -1,9 +1,11 @@
 import 'package:audio_cult/app/base/index_walker.dart';
+import 'package:audio_cult/app/data_source/models/responses/blocked_user.dart';
 
 class PrivacySettingsReponse {
   String? status;
   List<PrivacySettingItem>? profile;
   List<PrivacySettingItem>? item;
+  List<BlockedUser>? blockedUsers;
   String? message;
 
   PrivacySettingsReponse.fromJson(Map<String, dynamic> json) {
@@ -14,6 +16,8 @@ class PrivacySettingsReponse {
     profile = profileJson.map((e) => PrivacySettingItem.fromJson(e as Map<String, dynamic>)).toList();
     final itemJson = json['data']['item'] as List<dynamic>;
     item = itemJson.map((e) => PrivacySettingItem.fromJson(e as Map<String, dynamic>)).toList();
+    final blockedUserJson = json['data']['blocked_users'] as List<dynamic>;
+    blockedUsers = blockedUserJson.map((e) => BlockedUser.fromJson(e as Map<String, dynamic>)).toList();
     message = iw['message'].get();
   }
 }

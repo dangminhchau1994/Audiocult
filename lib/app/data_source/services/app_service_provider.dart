@@ -348,7 +348,6 @@ class AppServiceProvider {
     );
   }
 
-
   Future<CommentResponse> createComment(int itemId, String type, String text, {int? feedId}) async {
     final response = await _dioHelper.post(
       route: '/restful_api/comment',
@@ -568,7 +567,7 @@ class AppServiceProvider {
     final response = await _dioHelper.get(
       route: '/restful_api/notification',
       requestParams: {
-        'page' : request.page,
+        'page': request.page,
         'limit': request.limit,
         'group_by_date': request.groupByDate,
       },
@@ -576,7 +575,8 @@ class AppServiceProvider {
       responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
     );
     return response.mapData(
-      (json) => asType<List<dynamic>>(json)?.map((e) => NotificationResponse.fromJson(e as Map<String, dynamic>)).toList(),
+      (json) =>
+          asType<List<dynamic>>(json)?.map((e) => NotificationResponse.fromJson(e as Map<String, dynamic>)).toList(),
     );
   }
 
@@ -1008,6 +1008,21 @@ class AppServiceProvider {
       route: '/restful_api/user/privacy',
       requestBody: FormData.fromMap(params),
       responseBodyMapper: (json) => PrivacySettingsReponse.fromJson(json as Map<String, dynamic>),
+    );
+    return result;
+  }
+
+  Future<Exception?> unblockUser(String userId) async {
+    final result = await _dioHelper.delete(
+      route: '/restful_api/user/block-user',
+      requestParams: {'user_id': userId},
+      responseBodyMapper: (json) {
+        final error = json['error'];
+        if (error != null) {
+          return Exception(error['message']);
+        }
+        return null;
+      },
     );
     return result;
   }
