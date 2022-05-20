@@ -49,6 +49,7 @@ class PageTemplateResponse {
       'val[year]': dateTimeBirthDay?.year,
       'val[ac_page_lat_pin]': latPin,
       'val[ac_page_long_pin]': lngPin,
+      'val[user_group_id]': userGroupId,
     };
     if (gender == Gender.custom) {
       mappingJson['val[custom_gender][]'] = genderText;
@@ -66,7 +67,6 @@ class PageTemplateResponse {
         mappingJson[key] = field.getTextValue;
       }
     }
-    print('-----------:${mappingJson}');
     return mappingJson;
   }
 
