@@ -542,4 +542,8 @@ class AppRepository extends BaseRepository {
   Future<Either<PrivacySettingsReponse, Exception>> getPrivacySettings() {
     return safeCall(appServiceProvider.getPrivacySettings);
   }
+
+  Future<Either<PrivacySettingsReponse, Exception>> updatePrivacySettings(List<PrivacySettingItem> items) {
+    return safeCall(() => appServiceProvider.updatePrivacySetting(items));
+  }
 }

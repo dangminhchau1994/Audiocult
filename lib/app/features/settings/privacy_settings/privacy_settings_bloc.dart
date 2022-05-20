@@ -43,4 +43,42 @@ class PrivacySettingsBloc extends BaseBloc {
     if (!isTrue) return;
     _loadPrivacyItemStreamController.sink.add(BlocState.success(_privacyItem ?? []));
   }
+
+  void selectOption({
+    required PrivacySettingsSection section,
+    required PrivacySettingItem item,
+    required PrivacyOption option,
+  }) {
+    item.defaultValue = option.value;
+
+    if (section == PrivacySettingsSection.profile) {
+      _loadPrivacyProfileStreamController.sink.add(BlocState.success(_privacyProfile ?? []));
+    } else if (section == PrivacySettingsSection.appSharing) {
+      _loadPrivacyItemStreamController.sink.add(BlocState.success(_privacyItem ?? []));
+    }
+  }
+
+  void saveDataProfileSection() async {
+    showOverLayLoading();
+    final result = await _appRepo.updatePrivacySettings(_privacyProfile!);
+    result.fold((l) {
+      hideOverlayLoading();
+    }, (r) {
+      hideOverlayLoading();
+      showError(r);
+    });
+  }
+
+  void saveDataAppSharingSection() async {
+    showOverLayLoading();
+    final result = await _appRepo.updatePrivacySettings(_privacyItem!);
+    result.fold((l) {
+      hideOverlayLoading();
+    }, (r) {
+      hideOverlayLoading();
+      showError(r);
+    });
+  }
 }
+
+enum PrivacySettingsSection { profile, appSharing }

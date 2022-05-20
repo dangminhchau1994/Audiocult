@@ -31,7 +31,7 @@ class PrivacySettingItem {
   PrivacySettingItem.fromJson(Map<String, dynamic> json) {
     final iw = IW(json);
     phrase = iw['phrase'].get();
-    defaultValue = iw['default'].get();
+    defaultValue = iw['default'].getInt;
     name = iw['name'].get();
     module = iw['module'].get();
     prefix = iw['prefix'].get();
@@ -39,6 +39,11 @@ class PrivacySettingItem {
     iconClass = iw['icon_class'].get();
     final optionsJson = json['options'] as List<dynamic>;
     options = optionsJson.map((e) => PrivacyOption.fromJson(e as Map<String, dynamic>)).toList();
+  }
+
+  Map<String, dynamic>? toJson() {
+    if (defaultValue == null) return null;
+    return {"val['$prefix']['$name']": defaultValue};
   }
 }
 

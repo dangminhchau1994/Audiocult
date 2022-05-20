@@ -7,10 +7,12 @@ import 'package:audio_cult/app/utils/constants/app_colors.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/di/bloc_locator.dart';
 import 'package:audio_cult/l10n/l10n.dart';
+import 'package:audio_cult/w_components/buttons/common_button.dart';
 import 'package:audio_cult/w_components/error_empty/error_section.dart';
 import 'package:audio_cult/w_components/expandable_wrapper_widget.dart';
 import 'package:audio_cult/w_components/loading/loading_widget.dart';
 import 'package:audio_cult/w_components/w_keyboard_dismiss.dart';
+import 'package:collection/collection.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -107,13 +109,25 @@ class _PrivacySettingsScreenState extends State<PrivacySettingsScreen> {
         return state?.when(
               success: (data) {
                 final items = data as List<PrivacySettingItem>;
-                return ListView.builder(
-                  primary: false,
-                  shrinkWrap: true,
-                  itemCount: items.length,
-                  itemBuilder: (context, index) {
-                    return _listViewItemWidget(items[index]);
-                  },
+                return Column(
+                  children: [
+                    ListView.builder(
+                      primary: false,
+                      shrinkWrap: true,
+                      itemCount: items.length,
+                      itemBuilder: (context, index) {
+                        return _listViewItemWidget(items[index], PrivacySettingsSection.profile);
+                      },
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: CommonButton(
+                        text: context.l10n.t_update,
+                        onTap: _bloc.saveDataProfileSection,
+                        color: AppColors.primaryButtonColor,
+                      ),
+                    ),
+                  ],
                 );
               },
               loading: LoadingWidget.new,
@@ -129,7 +143,11 @@ class _PrivacySettingsScreenState extends State<PrivacySettingsScreen> {
     );
   }
 
-  Widget _listViewItemWidget(PrivacySettingItem item, {bool isUppercase = false}) {
+  Widget _listViewItemWidget(
+    PrivacySettingItem item,
+    PrivacySettingsSection section, {
+    bool isUppercase = false,
+  }) {
     return Container(
       height: 70,
       margin: const EdgeInsets.only(left: 12, right: 12, bottom: 16),
@@ -151,13 +169,23 @@ class _PrivacySettingsScreenState extends State<PrivacySettingsScreen> {
             ),
           ),
           const SizedBox(width: 8),
-          _eventViewButton(item.options ?? []),
+          _eventViewButton(
+            item.options ?? [],
+            (option) {
+              _bloc.selectOption(section: section, item: item, option: option);
+            },
+            item.defaultValue ?? 1,
+          ),
         ],
       ),
     );
   }
 
-  Widget _eventViewButton(List<PrivacyOption> options) {
+  Widget _eventViewButton(
+    List<PrivacyOption> options,
+    Function(PrivacyOption) callback,
+    int selectedValue,
+  ) {
     return PopupMenuButton(
       color: AppColors.mainColor,
       child: Container(
@@ -168,26 +196,34 @@ class _PrivacySettingsScreenState extends State<PrivacySettingsScreen> {
             SvgPicture.asset(AppAssets.icGlobe),
             const SizedBox(width: 8),
             Text(
-              context.l10n.t_everyone,
+              options.firstWhereOrNull((element) => element.value == selectedValue)?.phrase ?? '',
               style: context.body3TextStyle(),
             ),
           ],
         ),
       ),
       itemBuilder: (BuildContext context) => <PopupMenuEntry>[
-        ..._dropdownOptions(options),
+        ..._dropdownOptions(options, callback, selectedValue),
       ],
     );
   }
 
-  List<PopupMenuEntry> _dropdownOptions(List<PrivacyOption> options) {
+  List<PopupMenuEntry> _dropdownOptions(
+    List<PrivacyOption> options,
+    Function(PrivacyOption) callback,
+    int selectedValue,
+  ) {
     return options
         .map(
           (e) => PopupMenuItem(
-            onTap: () {},
+            onTap: () {
+              callback(e);
+            },
             child: Text(
               e.phrase ?? '',
-              style: context.body1TextStyle()?.copyWith(color: AppColors.activeLabelItem),
+              style: context
+                  .body1TextStyle()
+                  ?.copyWith(color: e.value == selectedValue ? AppColors.activeLabelItem : Colors.grey),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
             ),
@@ -220,13 +256,25 @@ class _PrivacySettingsScreenState extends State<PrivacySettingsScreen> {
         return state?.when(
               success: (data) {
                 final items = data as List<PrivacySettingItem>;
-                return ListView.builder(
-                  primary: false,
-                  shrinkWrap: true,
-                  itemCount: items.length,
-                  itemBuilder: (context, index) {
-                    return _listViewItemWidget(items[index]);
-                  },
+                return Column(
+                  children: [
+                    ListView.builder(
+                      primary: false,
+                      shrinkWrap: true,
+                      itemCount: items.length,
+                      itemBuilder: (context, index) {
+                        return _listViewItemWidget(items[index], PrivacySettingsSection.appSharing);
+                      },
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: CommonButton(
+                        text: context.l10n.t_update,
+                        onTap: _bloc.saveDataAppSharingSection,
+                        color: AppColors.primaryButtonColor,
+                      ),
+                    ),
+                  ],
                 );
               },
               loading: LoadingWidget.new,

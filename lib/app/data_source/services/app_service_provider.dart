@@ -998,4 +998,17 @@ class AppServiceProvider {
     );
     return result;
   }
+
+  Future<PrivacySettingsReponse> updatePrivacySetting(List<PrivacySettingItem> items) async {
+    final params = <String, dynamic>{};
+    for (final item in items) {
+      params['val[${item.prefix}][${item.name}]'] = item.defaultValue;
+    }
+    final result = await _dioHelper.post(
+      route: '/restful_api/user/privacy',
+      requestBody: FormData.fromMap(params),
+      responseBodyMapper: (json) => PrivacySettingsReponse.fromJson(json as Map<String, dynamic>),
+    );
+    return result;
+  }
 }

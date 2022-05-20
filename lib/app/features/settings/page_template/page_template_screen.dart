@@ -49,6 +49,7 @@ class _PageTemplateScreenState extends State<PageTemplateScreen> with AutomaticK
   final _genderTextController = TextEditingController();
   final _cityTextController = TextEditingController();
   final _customGenderFocusNode = FocusNode();
+  late GoogleMapController _controller;
   late Uint8List _iconMarker;
 
   @override
@@ -627,6 +628,12 @@ class _PageTemplateScreenState extends State<PageTemplateScreen> with AutomaticK
         return Stack(
           children: [
             GoogleMap(
+              onMapCreated: (controller) {
+                _controller = controller;
+                FileUtils.getJsonFile(AppAssets.nightMapJson).then((value) {
+                  _controller.setMapStyle(value);
+                });
+              },
               mapType: mapType,
               gestureRecognizers: const <Factory<OneSequenceGestureRecognizer>>{
                 Factory<OneSequenceGestureRecognizer>(EagerGestureRecognizer.new),
