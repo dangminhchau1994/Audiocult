@@ -1,3 +1,4 @@
+import 'package:audio_cult/app/data_source/local/pref_provider.dart';
 import 'package:audio_cult/app/utils/constants/app_assets.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -6,8 +7,12 @@ import 'package:flutter/material.dart';
 
 class FCMService {
   final BuildContext? context;
+  final PrefProvider prefProvider;
 
-  FCMService(this.context);
+  FCMService(
+    this.context,
+    this.prefProvider,
+  );
 
   void initialize() async {
     _initAwesomeNotification();
@@ -34,9 +39,9 @@ class FCMService {
   }
 
   void _getFCMToken() async {
-    return FirebaseMessaging.instance.getToken().then((value) {
-      debugPrint('fcmToken: $value');
-    });
+    final fcmToken = await FirebaseMessaging.instance.getToken();
+    debugPrint('fcmToken: $fcmToken');
+    await prefProvider.setFCMToken(fcmToken ?? '');
   }
 
   void _initAwesomeNotification() {
