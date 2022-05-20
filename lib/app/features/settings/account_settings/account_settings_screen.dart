@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:audio_cult/app/base/bloc_handle.dart';
 import 'package:audio_cult/app/base/bloc_state.dart';
 import 'package:audio_cult/app/data_source/models/account_settings.dart';
@@ -70,6 +68,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> with Auto
         child: BlocHandle(
       bloc: _bloc,
       child: Container(
+        padding: const EdgeInsets.only(top: 16),
         color: AppColors.mainColor,
         child: ExpandableTheme(
           data: const ExpandableThemeData(
@@ -106,9 +105,24 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> with Auto
     return ListView(
       physics: const BouncingScrollPhysics(),
       children: <Widget>[
-        ExpandableWrapperWidget(context.l10n.t_account_settings, _accountSettingsWidget(context, account)),
-        ExpandableWrapperWidget(context.l10n.t_change_password, _changePasswordWidget(context, account: account)),
-        ExpandableWrapperWidget(context.l10n.t_payment_methods, _paymentMethodsWidget(context, account: account)),
+        ExpandableWrapperWidget(
+          context.l10n.t_account_settings,
+          _accountSettingsWidget(context, account),
+          headerPadding: EdgeInsets.zero,
+          headerColor: Colors.transparent,
+        ),
+        ExpandableWrapperWidget(
+          context.l10n.t_change_password,
+          _changePasswordWidget(context, account: account),
+          headerPadding: EdgeInsets.zero,
+          headerColor: Colors.transparent,
+        ),
+        ExpandableWrapperWidget(
+          context.l10n.t_payment_methods,
+          _paymentMethodsWidget(context, account: account),
+          headerPadding: EdgeInsets.zero,
+          headerColor: Colors.transparent,
+        ),
       ],
     );
   }

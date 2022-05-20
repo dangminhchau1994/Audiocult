@@ -119,6 +119,8 @@ class AppAssets {
 
   static const icMaybeAttending = 'assets/icons/ic_maybe_attending.svg';
 
+  static const icGlobe = 'assets/icons/ic_globe.svg';
+
   static const logoIcon = 'assets/icons/ic_logo.png';
 
   static const authVectorIcon = 'assets/icons/ic_auth_vector.png';

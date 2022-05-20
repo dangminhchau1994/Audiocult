@@ -24,6 +24,7 @@ import 'package:audio_cult/app/data_source/models/responses/notifications/notifi
 import 'package:audio_cult/app/data_source/models/responses/page_template_custom_field_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/page_template_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/playlist/playlist_response.dart';
+import 'package:audio_cult/app/data_source/models/responses/privacy_settings/privacy_settings_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/reaction_icon/reaction_icon_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/timezone/timezone_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/user_subscription_response.dart';
@@ -986,6 +987,27 @@ class AppServiceProvider {
     final result = await _dioHelper.get(
       route: '/restful_api/user/mine',
       responseBodyMapper: (json) => ProfileData.fromJson(json['data'] as Map<String, dynamic>),
+    );
+    return result;
+  }
+
+  Future<PrivacySettingsReponse> getPrivacySettings() async {
+    final result = await _dioHelper.get(
+      route: '/restful_api/user/privacy',
+      responseBodyMapper: (json) => PrivacySettingsReponse.fromJson(json as Map<String, dynamic>),
+    );
+    return result;
+  }
+
+  Future<PrivacySettingsReponse> updatePrivacySetting(List<PrivacySettingItem> items) async {
+    final params = <String, dynamic>{};
+    for (final item in items) {
+      params['val[${item.prefix}][${item.name}]'] = item.defaultValue;
+    }
+    final result = await _dioHelper.post(
+      route: '/restful_api/user/privacy',
+      requestBody: FormData.fromMap(params),
+      responseBodyMapper: (json) => PrivacySettingsReponse.fromJson(json as Map<String, dynamic>),
     );
     return result;
   }

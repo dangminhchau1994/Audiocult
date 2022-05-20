@@ -24,6 +24,7 @@ import 'package:audio_cult/app/data_source/models/responses/notifications/notifi
 import 'package:audio_cult/app/data_source/models/responses/page_template_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/place.dart';
 import 'package:audio_cult/app/data_source/models/responses/playlist/playlist_response.dart';
+import 'package:audio_cult/app/data_source/models/responses/privacy_settings/privacy_settings_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/profile_data.dart';
 import 'package:audio_cult/app/data_source/models/responses/reaction_icon/reaction_icon_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/timezone/timezone_response.dart';
@@ -536,5 +537,13 @@ class AppRepository extends BaseRepository {
 
   Future<Either<ProfileData, Exception>> getMyUserInfo() {
     return safeCall(appServiceProvider.getMyUserInfo);
+  }
+
+  Future<Either<PrivacySettingsReponse, Exception>> getPrivacySettings() {
+    return safeCall(appServiceProvider.getPrivacySettings);
+  }
+
+  Future<Either<PrivacySettingsReponse, Exception>> updatePrivacySettings(List<PrivacySettingItem> items) {
+    return safeCall(() => appServiceProvider.updatePrivacySetting(items));
   }
 }
