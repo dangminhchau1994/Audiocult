@@ -2,11 +2,13 @@ import 'package:audio_cult/app/data_source/models/responses/playlist/playlist_re
 import 'package:audio_cult/app/features/music/detail_playlist/detail_playlist_bloc.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/l10n/l10n.dart';
+import 'package:audio_cult/w_components/buttons/w_button_inkwell.dart';
 import 'package:flutter/material.dart';
 import '../../../../../w_components/error_empty/error_section.dart';
 import '../../../../../w_components/loading/loading_widget.dart';
 import '../../../../base/bloc_state.dart';
 import '../../../../injections.dart';
+import '../../../../utils/route/app_route.dart';
 import '../../search/search_item.dart';
 
 class DetailPlayListRecommended extends StatefulWidget {
@@ -38,11 +40,11 @@ class _DetailPlayListRecommendedState extends State<DetailPlayListRecommended> {
         stream: playListBloc.getPlayListRecommendedStream,
         builder: (context, snapshot) {
           final state = snapshot.data!;
-    
+
           return state.when(
             success: (success) {
               final data = success as List<PlaylistResponse>;
-    
+
               return Padding(
                 padding: const EdgeInsets.only(
                   top: 20,
@@ -69,8 +71,19 @@ class _DetailPlayListRecommendedState extends State<DetailPlayListRecommended> {
                         itemCount: data.length,
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
-                        itemBuilder: (context, index) => SearchItem(
-                          playlist: data[index],
+                        itemBuilder: (context, index) => WButtonInkwell(
+                          onPressed: () {
+                            Navigator.pushNamed(
+                              context,
+                              AppRoute.routeDetailPlayList,
+                              arguments: {
+                                'playlist_id': data[index].playlistId,
+                              },
+                            );
+                          },
+                          child: SearchItem(
+                            playlist: data[index],
+                          ),
                         ),
                         separatorBuilder: (context, index) => const Divider(height: 40),
                       ),
