@@ -1,5 +1,6 @@
 import 'package:audio_cult/app/base/bloc_handle.dart';
 import 'package:audio_cult/app/base/bloc_state.dart';
+import 'package:audio_cult/app/data_source/models/responses/blocked_user.dart';
 import 'package:audio_cult/app/data_source/models/responses/privacy_settings/privacy_settings_response.dart';
 import 'package:audio_cult/app/features/settings/privacy_settings/privacy_settings_bloc.dart';
 import 'package:audio_cult/app/utils/constants/app_assets.dart';
@@ -9,9 +10,11 @@ import 'package:audio_cult/di/bloc_locator.dart';
 import 'package:audio_cult/l10n/l10n.dart';
 import 'package:audio_cult/w_components/buttons/common_button.dart';
 import 'package:audio_cult/w_components/error_empty/error_section.dart';
+import 'package:audio_cult/w_components/error_empty/widget_state.dart';
 import 'package:audio_cult/w_components/expandable_wrapper_widget.dart';
 import 'package:audio_cult/w_components/loading/loading_widget.dart';
 import 'package:audio_cult/w_components/w_keyboard_dismiss.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:collection/collection.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
@@ -36,28 +39,36 @@ class _PrivacySettingsScreenState extends State<PrivacySettingsScreen> {
     _bloc.loadPrivacySettings();
     _expandableProfileSectionController.addListener(() {
       _bloc.repushPrivacyProfileStreamIfNeed(_expandableProfileSectionController.value);
-      if (_expandableProfileSectionController.value && _expandableAppSharingSectionController.value) {
-        _expandableAppSharingSectionController.toggle();
+      if (_expandableProfileSectionController.value) {
+        closeExpandableWidgetIfOpen(_expandableAppSharingSectionController);
+        closeExpandableWidgetIfOpen(_expandableBlockedSectionController);
       }
     });
     _expandableAppSharingSectionController.addListener(() {
-      _bloc.repushPrivacyItemStreamIfNeed(_expandableAppSharingSectionController.value);
-      if (_expandableAppSharingSectionController.value && _expandableProfileSectionController.value) {
-        _expandableProfileSectionController.toggle();
+      _bloc.repushAppSharingStreamIfNeed(_expandableAppSharingSectionController.value);
+      if (_expandableAppSharingSectionController.value) {
+        closeExpandableWidgetIfOpen(_expandableProfileSectionController);
+        closeExpandableWidgetIfOpen(_expandableBlockedSectionController);
       }
     });
-
     _expandableBlockedSectionController.addListener(() {
-      _bloc.repushPrivacyItemStreamIfNeed(_expandableAppSharingSectionController.value);
-      if (_expandableAppSharingSectionController.value && _expandableProfileSectionController.value) {
-        _expandableProfileSectionController.toggle();
+      _bloc.repushBlockedUsersStreamIfNeed(_expandableBlockedSectionController.value);
+      if (_expandableBlockedSectionController.value) {
+        closeExpandableWidgetIfOpen(_expandableProfileSectionController);
+        closeExpandableWidgetIfOpen(_expandableAppSharingSectionController);
       }
     });
+  }
+
+  void closeExpandableWidgetIfOpen(ExpandableController controller) {
+    if (!controller.value) return;
+    controller.toggle();
   }
 
   @override
   void dispose() {
     _expandableProfileSectionController.dispose();
+    _expandableAppSharingSectionController.dispose();
     _expandableAppSharingSectionController.dispose();
     super.dispose();
   }
@@ -80,7 +91,7 @@ class _PrivacySettingsScreenState extends State<PrivacySettingsScreen> {
           children: [
             _profileSectionWidget(),
             _appSharingItemsSectionWidget(),
-            _blockedSectionWidget(),
+            _blockedUsersSectionWidget(),
           ],
         ));
   }
@@ -121,11 +132,7 @@ class _PrivacySettingsScreenState extends State<PrivacySettingsScreen> {
                     ),
                     Padding(
                       padding: const EdgeInsets.all(16),
-                      child: CommonButton(
-                        text: context.l10n.t_update,
-                        onTap: _bloc.saveDataProfileSection,
-                        color: AppColors.primaryButtonColor,
-                      ),
+                      child: _updateButtonProfile(),
                     ),
                   ],
                 );
@@ -139,6 +146,21 @@ class _PrivacySettingsScreenState extends State<PrivacySettingsScreen> {
               },
             ) ??
             Container();
+      },
+    );
+  }
+
+  Widget _updateButtonProfile() {
+    return StreamBuilder<bool>(
+      initialData: false,
+      stream: _bloc.enableUpdateProfileStream,
+      builder: (_, snapshot) {
+        final isEnable = snapshot.data!;
+        return CommonButton(
+          text: context.l10n.t_update,
+          onTap: isEnable ? _bloc.saveDataAppSharingSection : null,
+          color: AppColors.primaryButtonColor,
+        );
       },
     );
   }
@@ -189,15 +211,20 @@ class _PrivacySettingsScreenState extends State<PrivacySettingsScreen> {
     return PopupMenuButton(
       color: AppColors.mainColor,
       child: Container(
+        width: 120,
         decoration: BoxDecoration(color: AppColors.mainColor, borderRadius: BorderRadius.circular(4)),
         padding: const EdgeInsets.all(12),
         child: Row(
           children: [
             SvgPicture.asset(AppAssets.icGlobe),
             const SizedBox(width: 8),
-            Text(
-              options.firstWhereOrNull((element) => element.value == selectedValue)?.phrase ?? '',
-              style: context.body3TextStyle(),
+            Expanded(
+              child: Text(
+                options.firstWhereOrNull((element) => element.value == selectedValue)?.phrase ?? '',
+                style: context.body3TextStyle(),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
           ],
         ),
@@ -268,11 +295,7 @@ class _PrivacySettingsScreenState extends State<PrivacySettingsScreen> {
                     ),
                     Padding(
                       padding: const EdgeInsets.all(16),
-                      child: CommonButton(
-                        text: context.l10n.t_update,
-                        onTap: _bloc.saveDataAppSharingSection,
-                        color: AppColors.primaryButtonColor,
-                      ),
+                      child: _updateButtonAppSharing(),
                     ),
                   ],
                 );
@@ -290,24 +313,134 @@ class _PrivacySettingsScreenState extends State<PrivacySettingsScreen> {
     );
   }
 
-  Widget _blockedSectionWidget() {
+  Widget _updateButtonAppSharing() {
+    return StreamBuilder<bool>(
+      stream: _bloc.enableUpdateAppSharingStream,
+      initialData: false,
+      builder: (_, snapshot) {
+        final isEnable = snapshot.data!;
+        return CommonButton(
+          text: context.l10n.t_update,
+          onTap: isEnable ? _bloc.saveDataAppSharingSection : null,
+          color: AppColors.primaryButtonColor,
+        );
+      },
+    );
+  }
+
+  Widget _blockedUsersSectionWidget() {
     return ExpandableWrapperWidget(
       context.l10n.t_blocked,
-      Column(
-        children: [
-          Text(context.l10n.t_blocked_desc),
-          ListView.builder(
-              itemCount: 2,
-              itemBuilder: (context, index) {
-                return Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(),
-                    color: Colors.red,
+      _blockedUsersSectionContent(),
+      description: context.l10n.t_blocked_desc,
+      controller: _expandableBlockedSectionController,
+    );
+  }
+
+  Widget _blockedUsersSectionContent() {
+    return StreamBuilder<BlocState<List<BlockedUser>>>(
+      initialData: const BlocState.loading(),
+      stream: _bloc.loadBlockedUsersStream,
+      builder: (_, snapshot) {
+        if (!snapshot.hasData) {
+          return ErrorSectionWidget(
+            errorMessage: context.l10n.t_no_data_found,
+            onRetryTap: _bloc.loadPrivacySettings,
+          );
+        }
+        final state = snapshot.data;
+        return state?.when(
+              success: (data) {
+                final items = data as List<BlockedUser>;
+                if (items.isEmpty) {
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 24),
+                    child: EmptyDataStateWidget(context.l10n.t_no_data),
+                  );
+                }
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 16, left: 20, right: 20),
+                  child: ListView.builder(
+                    primary: false,
+                    shrinkWrap: true,
+                    itemCount: items.length,
+                    itemBuilder: (_, index) => _blockedUserWidget(items[index], index == items.length - 1),
                   ),
                 );
-              })
-        ],
-      ),
+              },
+              loading: LoadingWidget.new,
+              error: (error) {
+                return ErrorSectionWidget(
+                  errorMessage: error,
+                  onRetryTap: _bloc.loadPrivacySettings,
+                );
+              },
+            ) ??
+            Container();
+      },
+    );
+  }
+
+  Widget _blockedUserWidget(BlockedUser user, bool isLast) {
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            SizedBox.square(
+              dimension: 50,
+              child: CachedNetworkImage(
+                imageBuilder: (context, imageProvider) => Container(
+                  decoration: BoxDecoration(
+                    image: DecorationImage(image: imageProvider),
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                ),
+                fit: BoxFit.cover,
+                errorWidget: (BuildContext context, _, __) => const Image(
+                  fit: BoxFit.cover,
+                  image: AssetImage(AppAssets.imagePlaceholder),
+                ),
+                placeholder: (BuildContext context, _) => const LoadingWidget(),
+                imageUrl: user.userImageUrl ?? '',
+              ),
+            ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(user.fullName ?? '', style: context.headerStyle1()?.copyWith(fontWeight: FontWeight.w400)),
+                    Text(
+                      user.userGroupId ?? '',
+                      style: context.bodyTextStyle()?.copyWith(color: AppColors.subTitleColor),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            TextButton(
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(4),
+                  color: AppColors.inputFillColor,
+                ),
+                child: Text(
+                  context.l10n.t_unblock,
+                  style: context.body2TextStyle()?.copyWith(color: Colors.white),
+                ),
+              ),
+              onPressed: () => _bloc.unblockUser(user),
+            )
+          ],
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+          child: isLast ? Container() : Divider(color: AppColors.inputFillColor),
+        )
+      ],
     );
   }
 }

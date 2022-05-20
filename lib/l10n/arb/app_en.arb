@@ -228,5 +228,6 @@
     "t_app_sharing_items_desc": "Customize your default settings for when sharing new items on the site. Note this only changes your default settings for future items and does not change any items you have already shared. To change the privacy settings on those items you can customize the items privacy by editing the item itself.",
     "t_blocked": "Blocked",
     "t_blocked_desc": "Blocked users cannot view your profile, leave comments or send you private messages.",
-    "t_everyone": "Everyone"
+    "t_everyone": "Everyone",
+    "t_unblock": "Unblock"
 }

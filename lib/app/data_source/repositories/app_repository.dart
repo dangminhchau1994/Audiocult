@@ -546,4 +546,8 @@ class AppRepository extends BaseRepository {
   Future<Either<PrivacySettingsReponse, Exception>> updatePrivacySettings(List<PrivacySettingItem> items) {
     return safeCall(() => appServiceProvider.updatePrivacySetting(items));
   }
+
+  Future<Exception?> unblockUser(String userId) {
+    return appServiceProvider.unblockUser(userId);
+  }
 }
