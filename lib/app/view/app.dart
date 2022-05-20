@@ -30,7 +30,7 @@ class _AppState extends State<App> {
   void initState() {
     super.initState();
     _splashBloc.checkScreen();
-    FCMService(context).initialize();
+    FCMService(context, locator.get()).initialize();
   }
 
   @override

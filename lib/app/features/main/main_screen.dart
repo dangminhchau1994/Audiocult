@@ -46,7 +46,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   void initState() {
     super.initState();
-    FCMService(context).askPermission();
+    FCMService(context, locator.get()).askPermission();
     _mainBloc.getUserProfile();
     _mainBloc.profileStream.listen((event) {
       setState(() {
