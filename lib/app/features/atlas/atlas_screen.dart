@@ -3,17 +3,20 @@ import 'package:audio_cult/app/base/bloc_state.dart';
 import 'package:audio_cult/app/data_source/models/responses/atlas_user.dart';
 import 'package:audio_cult/app/features/atlas/atlas_bloc.dart';
 import 'package:audio_cult/app/features/atlas/atlas_user_widget.dart';
+import 'package:audio_cult/app/features/profile/profile_screen.dart';
 import 'package:audio_cult/app/utils/constants/app_assets.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
 import 'package:audio_cult/app/utils/route/app_route.dart';
 import 'package:audio_cult/app/view/no_data_widget.dart';
 import 'package:audio_cult/di/bloc_locator.dart';
 import 'package:audio_cult/l10n/l10n.dart';
+import 'package:audio_cult/w_components/loading/loading_widget.dart';
 import 'package:collection/collection.dart';
 import 'package:debounce_throttle/debounce_throttle.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:tuple/tuple.dart';
 
 class AtlasScreen extends StatefulWidget {
@@ -39,6 +42,14 @@ class _AtlasScreenState extends State<AtlasScreen> with AutomaticKeepAliveClient
     _pagingController.addPageRequestListener(_bloc.getAtlasUsers);
     _searchTextController.addListener(_listenKeywordChange);
     _scrollController.addListener(_listenScrollView);
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    context.loaderOverlay.show(
+      widget: const LoadingWidget(backgroundColor: Colors.black12),
+    );
   }
 
   void _listenKeywordChange() {
@@ -186,6 +197,7 @@ class _AtlasScreenState extends State<AtlasScreen> with AutomaticKeepAliveClient
     return StreamBuilder(
       stream: _bloc.updatedUserSubscriptionStream,
       builder: (context, data) {
+        context.loaderOverlay.hide();
         List<AtlasUser>? updatedSubscriptionData;
         UserSubscriptionDataType? subscriptionInProcess;
         if (data.hasData) {
@@ -198,6 +210,7 @@ class _AtlasScreenState extends State<AtlasScreen> with AutomaticKeepAliveClient
           scrollController: _scrollController,
           pagingController: _pagingController,
           builderDelegate: PagedChildBuilderDelegate<AtlasUser>(
+            newPageProgressIndicatorBuilder: (_) => const LoadingWidget(),
             itemBuilder: (context, user, index) {
               final latestSubscriptionCount =
                   updatedSubscriptionData?.firstWhereOrNull((e) => e.userId == user.userId)?.subscriptionCount;
@@ -205,11 +218,20 @@ class _AtlasScreenState extends State<AtlasScreen> with AutomaticKeepAliveClient
                   updatedSubscriptionData?.firstWhereOrNull((e) => e.userId == user.userId)?.isSubscribed;
               return AtlasUserWidget(
                 user,
-                updatedSubscriptionCount: int.tryParse(latestSubscriptionCount ?? '0'),
+                updatedSubscriptionCount: latestSubscriptionCount,
                 updatedSubscriptionStatus: latestSubscriptionValue,
                 userSubscriptionInProcess: subscriptionInProcess?[user.userId] ?? false,
                 subscriptionOnChanged: () {
                   _bloc.subscribeUser(user);
+                },
+                onTap: () async {
+                  if (user.userId?.isNotEmpty == true) {
+                    await Navigator.pushNamed(
+                      context,
+                      AppRoute.routeProfile,
+                      arguments: ProfileScreen.createArguments(id: user.userId ?? ''),
+                    );
+                  }
                 },
               );
             },

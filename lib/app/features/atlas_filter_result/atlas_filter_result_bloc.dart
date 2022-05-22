@@ -4,6 +4,7 @@ import 'package:audio_cult/app/base/base_bloc.dart';
 import 'package:audio_cult/app/data_source/models/requests/filter_users_request.dart';
 import 'package:audio_cult/app/data_source/models/responses/atlas_user.dart';
 import 'package:audio_cult/app/data_source/repositories/app_repository.dart';
+import 'package:audio_cult/app/features/atlas/subscribe_user_bloc.dart';
 import 'package:audio_cult/app/utils/constants/app_constants.dart';
 import 'package:collection/collection.dart';
 import 'package:tuple/tuple.dart';
@@ -11,7 +12,8 @@ import 'package:tuple/tuple.dart';
 typedef UserSubscriptionDataType = Map<String?, bool?>;
 
 class AtlasFilterResultBloc extends BaseBloc {
-  final AppRepository appRepository;
+  final AppRepository _appRepository;
+  final SubscribeUserBloc _subscribeUserBloc;
   final UserSubscriptionDataType _subscriptionsInProcess = {};
   final _updatedSubscriptionData = <AtlasUser>[];
   List<AtlasUser>? _allUsers;
@@ -24,14 +26,21 @@ class AtlasFilterResultBloc extends BaseBloc {
   Stream<Tuple2<List<AtlasUser>, UserSubscriptionDataType>> get updatedUserSubscriptionStream =>
       _updatedUserSubscription.stream;
 
-  AtlasFilterResultBloc(this.appRepository);
+  AtlasFilterResultBloc(this._appRepository, this._subscribeUserBloc) {
+    _subscribeUserBloc.subsriptionOnChangeStream.listen((data) {
+      if (data.value2 == runtimeType) {
+        return;
+      }
+      _updateSubscriptionDataOfUser(AtlasUser()..userId = data.value1);
+    });
+  }
 
   void getUsers(FilterUsersRequest request) async {
     if (request.page == 1) {
       showOverLayLoading();
       _allUsers?.clear();
     }
-    final result = await appRepository.getAtlasUsers(request);
+    final result = await _appRepository.getAtlasUsers(request);
     hideOverlayLoading();
     result.fold((users) {
       (_allUsers ??= []).addAll(users);
@@ -44,11 +53,12 @@ class AtlasFilterResultBloc extends BaseBloc {
   void subscribeUser(AtlasUser user) async {
     _subscriptionsInProcess[user.userId] = true;
     _updatedUserSubscription.add(Tuple2(_updatedSubscriptionData, _subscriptionsInProcess));
-    final result = await appRepository.subscribeUser(user);
+    final result = await _appRepository.subscribeUser(user);
     result.fold(
       (subscribeResponse) {
         _subscriptionsInProcess[user.userId] = false;
         if (subscribeResponse.status == RequestStatus.success && subscribeResponse.error == null) {
+          _subscribeUserBloc.subscriptionOnChange(user.userId ?? '', runtimeType);
           _updateSubscriptionDataOfUser(user);
         }
       },
@@ -73,5 +83,11 @@ class AtlasFilterResultBloc extends BaseBloc {
   void _cancelSubscriptionInProcess(AtlasUser user) {
     _subscriptionsInProcess[user.userId] = false;
     _updatedUserSubscription.add(Tuple2(_updatedSubscriptionData, _subscriptionsInProcess));
+  }
+
+  @override
+  void dispose() {
+    _subscribeUserBloc.dispose();
+    super.dispose();
   }
 }

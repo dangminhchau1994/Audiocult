@@ -3,6 +3,7 @@ import 'package:audio_cult/app/data_source/models/requests/filter_users_request.
 import 'package:audio_cult/app/data_source/models/requests/my_diary_event_request.dart';
 import 'package:audio_cult/app/data_source/models/responses/comment/comment_response.dart';
 import 'package:audio_cult/app/data_source/repositories/app_repository.dart';
+import 'package:audio_cult/app/features/atlas/subscribe_user_bloc.dart';
 import 'package:audio_cult/app/features/atlas_filter/atlas_filter_provider.dart';
 import 'package:audio_cult/app/features/atlas_filter/atlas_filter_screen.dart';
 import 'package:audio_cult/app/features/atlas_filter_result/atlas_filter_result_screen.dart';
@@ -39,6 +40,7 @@ import 'package:audio_cult/w_components/comment/comment_args.dart';
 import 'package:audio_cult/w_components/comment/comment_edit_screen.dart';
 import 'package:audio_cult/w_components/comment/comment_list_screen.dart';
 import 'package:audio_cult/w_components/comment/reply_list_screen.dart';
+import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
@@ -294,7 +296,7 @@ class AppRoute {
         return _pageRoute(
           settings,
           Provider<ProfileBloc>(
-            create: (context) => ProfileBloc(locator.get()),
+            create: (context) => ProfileBloc(locator.get(), locator.get<SubscribeUserBloc>()),
             dispose: (context, bloc) => bloc.dispose(),
             child: ProfileScreen(
               params: asType(settings.arguments) as Map<String, dynamic>,

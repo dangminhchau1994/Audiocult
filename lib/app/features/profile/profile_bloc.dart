@@ -1,4 +1,5 @@
 import 'package:audio_cult/app/base/base_bloc.dart';
+import 'package:audio_cult/app/features/atlas/subscribe_user_bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:rxdart/rxdart.dart';
@@ -18,8 +19,9 @@ class ProfileBloc extends BaseBloc<ProfileRequest, ProfileData> {
   Stream<BlocState<List<ProfileData>>> get getListSubscriptionsStream => _getListSubscriptionsSubject.stream;
   Stream<String> get uploadAvatarStream => _uploadAvatarSubject.stream;
   Stream<int> get subscribeStream => _subscribeSubject.stream;
+  final SubscribeUserBloc _subscribeUserBloc;
 
-  ProfileBloc(this._appRepository);
+  ProfileBloc(this._appRepository, this._subscribeUserBloc);
 
   @override
   Future<Either<ProfileData, Exception>> loadData(ProfileRequest? params) async {
@@ -34,8 +36,12 @@ class ProfileBloc extends BaseBloc<ProfileRequest, ProfileData> {
     result.fold(
       (subscribeResponse) {
         if (subscribeResponse.status == RequestStatus.success && subscribeResponse.error == null) {
-          _subscribeSubject.add(
-              user.isSubscribed == true ? SubscriptionStatus.unsubscribe.value : SubscriptionStatus.subscribe.value);
+          final subscriptionStatus =
+              user.isSubscribed == true ? SubscriptionStatus.unsubscribe : SubscriptionStatus.subscribe;
+          _subscribeSubject.add(subscriptionStatus.value);
+          if (user.userId?.isNotEmpty == true) {
+            _subscribeUserBloc.subscriptionOnChange(user.userId!, runtimeType);
+          }
         }
       },
       showError,
