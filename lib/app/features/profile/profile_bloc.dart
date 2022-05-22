@@ -36,9 +36,8 @@ class ProfileBloc extends BaseBloc<ProfileRequest, ProfileData> {
     result.fold(
       (subscribeResponse) {
         if (subscribeResponse.status == RequestStatus.success && subscribeResponse.error == null) {
-          final subscriptionStatus =
-              user.isSubscribed == true ? SubscriptionStatus.unsubscribe : SubscriptionStatus.subscribe;
-          _subscribeSubject.add(subscriptionStatus.value);
+          _subscribeSubject.add(
+              user.isSubscribed == true ? SubscriptionStatus.unsubscribe.value : SubscriptionStatus.subscribe.value);
           if (user.userId?.isNotEmpty == true) {
             _subscribeUserBloc.subscriptionOnChange(user.userId!, runtimeType);
           }
