@@ -4,6 +4,7 @@ import 'package:audio_cult/app/base/base_bloc.dart';
 import 'package:audio_cult/app/data_source/models/requests/filter_users_request.dart';
 import 'package:audio_cult/app/data_source/models/responses/atlas_user.dart';
 import 'package:audio_cult/app/data_source/repositories/app_repository.dart';
+import 'package:audio_cult/app/features/atlas/subscribe_user_bloc.dart';
 import 'package:audio_cult/app/utils/constants/app_constants.dart';
 import 'package:collection/collection.dart';
 import 'package:dio/dio.dart';
@@ -16,6 +17,7 @@ typedef UserSubscriptionDataType = Map<String?, bool?>;
 
 class AtlasBloc extends BaseBloc {
   final AppRepository _appRepository;
+  final SubscribeUserBloc _subscribeUserBloc;
   final UserSubscriptionDataType _subscriptionsInProcess = {};
   List<AtlasUser>? _allUsers;
   final _updatedSubscriptionData = <AtlasUser>[];
@@ -31,10 +33,14 @@ class AtlasBloc extends BaseBloc {
   Stream<Tuple2<List<AtlasUser>, UserSubscriptionDataType>> get updatedUserSubscriptionStream =>
       _updatedUserSubscription.stream;
 
-  AtlasBloc(this._appRepository);
+  AtlasBloc(this._appRepository, this._subscribeUserBloc) {
+    _subscribeUserBloc.subsriptionOnChangeStream.listen((data) {
+      if (data.value2 == runtimeType) return;
+      _updateSubscriptionDataOfUser(AtlasUser()..userId = data.value1);
+    });
+  }
 
   Future<void> getAtlasUsers(int pageNumber) async {
-    showOverLayLoading();
     _cancel?.cancel();
     _cancel = CancelToken();
     if (pageNumber == 1) {
@@ -48,11 +54,9 @@ class AtlasBloc extends BaseBloc {
       (users) {
         (_allUsers ??= []).addAll(users);
         _getAtlasUsers.sink.add(BlocState.success(Tuple2(users, null)));
-        hideOverlayLoading();
       },
       (error) {
         _getAtlasUsers.sink.add(BlocState.success(Tuple2([], error)));
-        hideOverlayLoading();
       },
     );
   }
@@ -86,9 +90,9 @@ class AtlasBloc extends BaseBloc {
     if (filteredUser == null) return;
     (filteredUser.isSubscribed ?? true) ? filteredUser.unsubscribe() : filteredUser.subscribe();
     _updatedSubscriptionData.removeWhere((element) => element.userId == user.userId);
+    _updatedSubscriptionData.add(filteredUser);
     _allUsers?.removeWhere((element) => element.userId == user.userId);
     _allUsers?.add(filteredUser);
-    _updatedSubscriptionData.add(filteredUser);
     _updatedUserSubscription.add(Tuple2(_updatedSubscriptionData, _subscriptionsInProcess));
   }
 
@@ -109,6 +113,7 @@ class AtlasBloc extends BaseBloc {
   void dispose() {
     _getAtlasUsers.close();
     _updatedUserSubscription.close();
+    _subscribeUserBloc.dispose();
     super.dispose();
   }
 }

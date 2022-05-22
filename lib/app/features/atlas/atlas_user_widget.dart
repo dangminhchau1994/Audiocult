@@ -8,8 +8,6 @@ import '../../data_source/models/responses/atlas_user.dart';
 import '../../utils/constants/app_assets.dart';
 import '../../utils/constants/app_colors.dart';
 import '../../utils/constants/app_font_sizes.dart';
-import '../../utils/route/app_route.dart';
-import '../profile/profile_screen.dart';
 
 class AtlasUserWidget extends StatelessWidget {
   final AtlasUser atlasUser;
@@ -17,6 +15,7 @@ class AtlasUserWidget extends StatelessWidget {
   final Function? subscriptionOnChanged;
   final bool? updatedSubscriptionStatus;
   final int? updatedSubscriptionCount;
+  final VoidCallback? onTap;
 
   const AtlasUserWidget(
     this.atlasUser, {
@@ -25,15 +24,13 @@ class AtlasUserWidget extends StatelessWidget {
     this.subscriptionOnChanged,
     this.updatedSubscriptionCount,
     this.updatedSubscriptionStatus,
+    this.onTap,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return WButtonInkwell(
-      onPressed: () {
-        Navigator.pushNamed(context, AppRoute.routeProfile,
-            arguments: ProfileScreen.createArguments(id: atlasUser.userId!));
-      },
+      onPressed: onTap?.call,
       child: Container(
         color: AppColors.mainColor,
         child: Column(
@@ -116,24 +113,25 @@ class AtlasUserWidget extends StatelessWidget {
   }
 
   Widget _infoWidget(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          atlasUser.fullName ?? '',
-          style: context.body2TextStyle()?.copyWith(
-                fontSize: AppFontSize.size20,
-                color: Colors.white,
-              ),
-        ),
-        const SizedBox(height: 8),
-        Text(
-          atlasUser.locationName ?? '',
-          style: context.body1TextStyle()?.copyWith(
-                color: AppColors.subTitleColor,
-              ),
-        ),
-      ],
+    return Expanded(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            atlasUser.fullName ?? '',
+            style: context.body2TextStyle()?.copyWith(fontSize: AppFontSize.size20, color: Colors.white),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+          const SizedBox(height: 8),
+          Text(
+            atlasUser.locationName ?? '',
+            style: context.body1TextStyle()?.copyWith(color: AppColors.subTitleColor),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ],
+      ),
     );
   }
 

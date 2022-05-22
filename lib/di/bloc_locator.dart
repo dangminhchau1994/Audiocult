@@ -1,6 +1,7 @@
 import 'package:audio_cult/app/data_source/local/pref_provider.dart';
 import 'package:audio_cult/app/data_source/repositories/app_repository.dart';
 import 'package:audio_cult/app/features/atlas/atlas_bloc.dart';
+import 'package:audio_cult/app/features/atlas/subscribe_user_bloc.dart';
 import 'package:audio_cult/app/features/atlas_filter_result/atlas_filter_result_bloc.dart';
 import 'package:audio_cult/app/features/events/all_event_bloc.dart';
 import 'package:audio_cult/app/features/events/calendar/calendar_bloc.dart';
@@ -91,7 +92,7 @@ void setupLocator() {
   getIt.registerLazySingleton<ResultBloc>(
     () => ResultBloc(locator.get<AppRepository>()),
   );
-  getIt.registerFactory<AtlasBloc>(() => AtlasBloc(locator.get<AppRepository>()));
+  getIt.registerFactory<AtlasBloc>(() => AtlasBloc(locator.get<AppRepository>(), locator.get<SubscribeUserBloc>()));
 
   getIt.registerLazySingleton<CalendarBloc>(
     () => CalendarBloc(locator.get<AppRepository>()),
@@ -104,7 +105,12 @@ void setupLocator() {
   getIt.registerLazySingleton<MapBloc>(
     () => MapBloc(locator.get<AppRepository>()),
   );
-  getIt.registerFactory<AtlasFilterResultBloc>(() => AtlasFilterResultBloc(locator.get<AppRepository>()));
+  getIt.registerFactory<AtlasFilterResultBloc>(
+    () => AtlasFilterResultBloc(
+      locator.get<AppRepository>(),
+      locator.get<SubscribeUserBloc>(),
+    ),
+  );
 
   getIt.registerFactory<MyDiaryBloc>(() => MyDiaryBloc(locator.get<AppRepository>()));
 
@@ -120,11 +126,13 @@ void setupLocator() {
   getIt.registerLazySingleton<NotificationBloc>(
     () => NotificationBloc(locator.get<AppRepository>()),
   );
-  
+
   getIt.registerFactory<AccountSettingsBloc>(
       () => AccountSettingsBloc(locator.get<AppRepository>(), locator.get<PrefProvider>()));
 
   getIt.registerFactory<NotificationSettingsBloc>(() => NotificationSettingsBloc(locator.get<AppRepository>()));
 
   getIt.registerFactory<PrivacySettingsBloc>(() => PrivacySettingsBloc(locator.get<AppRepository>()));
+
+  getIt.registerLazySingleton<SubscribeUserBloc>(SubscribeUserBloc.new);
 }

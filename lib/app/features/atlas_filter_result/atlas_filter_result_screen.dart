@@ -3,11 +3,12 @@ import 'package:audio_cult/app/data_source/models/requests/filter_users_request.
 import 'package:audio_cult/app/data_source/models/responses/atlas_user.dart';
 import 'package:audio_cult/app/features/atlas/atlas_user_widget.dart';
 import 'package:audio_cult/app/features/atlas_filter_result/atlas_filter_result_bloc.dart';
+import 'package:audio_cult/app/features/profile/profile_screen.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
+import 'package:audio_cult/app/utils/route/app_route.dart';
 import 'package:audio_cult/app/view/no_data_widget.dart';
 import 'package:audio_cult/di/bloc_locator.dart';
 import 'package:audio_cult/w_components/appbar/common_appbar.dart';
-import 'package:audio_cult/w_components/error_empty/widget_state.dart';
 import 'package:audio_cult/w_components/loading/loading_widget.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
@@ -56,9 +57,7 @@ class _AtlasFilterResultScreenState extends State<AtlasFilterResultScreen> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     context.loaderOverlay.show(
-      widget: const LoadingWidget(
-        backgroundColor: Colors.black12,
-      ),
+      widget: const LoadingWidget(backgroundColor: Colors.black12),
     );
   }
 
@@ -104,10 +103,19 @@ class _AtlasFilterResultScreenState extends State<AtlasFilterResultScreen> {
                     updatedSubscriptionData?.firstWhereOrNull((e) => e.userId == user.userId)?.isSubscribed;
                 return AtlasUserWidget(
                   user,
-                  updatedSubscriptionCount: int.tryParse(latestSubscriptionCount ?? '0'),
+                  updatedSubscriptionCount: latestSubscriptionCount,
                   updatedSubscriptionStatus: latestSubscriptionValue,
                   userSubscriptionInProcess: subscriptionsInProcess?[user.userId] ?? false,
                   subscriptionOnChanged: () => _bloc.subscribeUser(user),
+                  onTap: () async {
+                    if (user.userId?.isNotEmpty == true) {
+                      await Navigator.pushNamed(
+                        context,
+                        AppRoute.routeProfile,
+                        arguments: ProfileScreen.createArguments(id: user.userId ?? ''),
+                      );
+                    }
+                  },
                 );
               },
             ),
