@@ -89,7 +89,7 @@
       <string>staging.audiocult.net</string>
       <key>CFBundleURLSchemes</key>
       <array>
-        <string>staging.audiocult.net</string>
+        <string>myapp</string>
       </array>
     </dict>
   </array>
