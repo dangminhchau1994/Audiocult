@@ -596,7 +596,12 @@ class AppServiceProvider {
     final response = await _dioHelper.post(
       isAuthRequired: false,
       requestBody: FormData.fromMap(
-        {'client_id': AppConstants.clientId, 'client_secret': AppConstants.clientSecret, 'token': pref.accessToken},
+        {
+          'client_id': AppConstants.clientId,
+          'client_secret': AppConstants.clientSecret,
+          'token': pref.accessToken,
+          'fcm_token': pref.fcmToken
+        },
       ),
       route: '/restful_api/revoke',
     );

@@ -13,6 +13,7 @@ import 'package:disposing/disposing.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../w_components/textfields/common_input.dart';
+import '../../../data_source/local/pref_provider.dart';
 import '../../../utils/mixins/disposable_state_mixin.dart';
 import '../../../utils/toast/toast_utils.dart';
 
@@ -99,7 +100,8 @@ class _LoginPageState extends State<LoginPage> with DisposableStateMixin, Automa
                   ..clientSecret = AppConstants.clientSecret
                   ..grantType = AppConstants.grantType
                   ..username = _email
-                  ..password = _password;
+                  ..password = _password
+                  ..fcmToken = locator.get<PrefProvider>().fcmToken;
                 _loginBloc.submitLogin(loginRequest);
               },
             )

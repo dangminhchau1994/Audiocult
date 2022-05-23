@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:audio_cult/app/data_source/local/pref_provider.dart';
 import 'package:audio_cult/app/utils/constants/app_assets.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
@@ -40,7 +42,6 @@ class FCMService {
 
   void _getFCMToken() async {
     final fcmToken = await FirebaseMessaging.instance.getToken();
-    debugPrint('fcmToken: $fcmToken');
     await prefProvider.setFCMToken(fcmToken ?? '');
   }
 
@@ -65,6 +66,7 @@ class FCMService {
         if (!isAllowed) {
           showDialog(
             context: context!,
+            barrierDismissible: false,
             builder: (context) => CupertinoAlertDialog(
               title: const Text('Allow Notifications'),
               content: const Text('Our app would like to send you notifications'),
@@ -72,6 +74,7 @@ class FCMService {
                 TextButton(
                   onPressed: () {
                     Navigator.pop(context);
+                    exit(0);
                   },
                   child: const Text(
                     "Don't Allow",
