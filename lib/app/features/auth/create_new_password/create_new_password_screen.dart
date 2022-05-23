@@ -6,7 +6,8 @@ import '../../../../w_components/appbar/common_appbar.dart';
 import '../widgets/create_new_password.dart';
 
 class CreateNewPasswordScreen extends StatefulWidget {
-  const CreateNewPasswordScreen({Key? key}) : super(key: key);
+  final String? hashId;
+  const CreateNewPasswordScreen({Key? key, this.hashId}) : super(key: key);
 
   @override
   State<CreateNewPasswordScreen> createState() => _CreateNewPasswordScreenState();
@@ -23,7 +24,9 @@ class _CreateNewPasswordScreenState extends State<CreateNewPasswordScreen> {
         child: WAuthPage(
             isHideHeader: MediaQuery.of(context).viewInsets.bottom > 0,
             isShowIconRight: false,
-            child: const CreateNewPasswordPage()),
+            child: CreateNewPasswordPage(
+              hashId: widget.hashId,
+            )),
       ),
     );
   }

@@ -39,6 +39,7 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../models/base_response.dart';
 import '../models/requests/event_request.dart';
 import '../models/requests/login_request.dart';
 import '../models/responses/atlas_user.dart';
@@ -549,5 +550,13 @@ class AppRepository extends BaseRepository {
 
   Future<Exception?> unblockUser(String userId) {
     return appServiceProvider.unblockUser(userId);
+  }
+
+  Future<Either<bool?, Exception>> resentEmail(String email, String token) {
+    return safeCall(() => appServiceProvider.resentEmail(email, token));
+  }
+
+  Future<Either<BaseRes?, Exception>> resetPassword(String newPassword, String hashId, String token) {
+    return safeCall(() => appServiceProvider.resetPassword(newPassword, hashId, token));
   }
 }

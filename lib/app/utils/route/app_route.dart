@@ -43,7 +43,9 @@ import 'package:audio_cult/w_components/comment/reply_list_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
+
 import '../../data_source/models/responses/video_data.dart';
+import '../../features/auth/create_new_password/create_new_password_screen.dart';
 import '../../features/events/map/map_screen.dart';
 import '../../features/music/featured_albums/featured_album_screen.dart';
 import '../../features/music/search/search_args.dart';
@@ -94,6 +96,7 @@ class AppRoute {
   static const String routeSubscriptions = '/route_subscriptions';
   static const String routeVideoPlayer = '/route_video_player';
   static const String routeNotification = '/route_notification';
+  static const String routeResetPassword = '/route_reset_password';
 
   ///#end region
 
@@ -318,6 +321,14 @@ class AppRoute {
             settings,
             VideoPlayerScreen(
               data: arguments['data'] as Video,
+            ));
+      case routeResetPassword:
+        final arguments = asType(settings.arguments);
+
+        return _pageRoute(
+            settings,
+            CreateNewPasswordScreen(
+              hashId: arguments as String?,
             ));
       default:
         return null;

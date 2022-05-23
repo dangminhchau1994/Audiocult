@@ -33,7 +33,6 @@ import 'package:audio_cult/app/data_source/models/update_account_settings_respon
 import 'package:audio_cult/app/injections.dart';
 import 'package:audio_cult/app/utils/constants/app_constants.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -1030,5 +1029,25 @@ class AppServiceProvider {
       },
     );
     return result;
+  }
+
+  Future<bool?> resentEmail(String email, String token) async {
+    final response = await _dioHelper.post(
+      route: '/restful_api/user/forgot-password',
+      requestBody: FormData.fromMap({'val[email]': email}),
+      options: Options(headers: {'Authorization': 'Bearer $token'}),
+      responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
+    );
+    return response.isSuccess;
+  }
+
+  Future<BaseRes?> resetPassword(String newPassword, String hashId, String token) async {
+    final response = await _dioHelper.post(
+      route: '/restful_api/user/reset-password',
+      requestBody: FormData.fromMap({'val[newpassword]': newPassword, 'val[hash_id]': hashId}),
+      options: Options(headers: {'Authorization': 'Bearer $token'}),
+      responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
+    );
+    return response;
   }
 }
