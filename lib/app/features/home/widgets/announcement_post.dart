@@ -2,7 +2,9 @@ import 'package:audio_cult/app/base/bloc_state.dart';
 import 'package:audio_cult/app/data_source/models/responses/announcement/announcement_response.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/app/utils/number/number_utils.dart';
+import 'package:audio_cult/app/utils/route/app_route.dart';
 import 'package:audio_cult/l10n/l10n.dart';
+import 'package:audio_cult/w_components/buttons/w_button_inkwell.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import '../../../../di/bloc_locator.dart';
@@ -86,7 +88,7 @@ class _AnnouncementPostState extends State<AnnouncementPost> {
                             width: 10,
                           ),
                           Text(
-                            '${NumberUtils.convertNumberToK(result[0].totalView ?? '').toLowerCase()}+ views' ,
+                            '${NumberUtils.convertNumberToK(result[0].totalView ?? '').toLowerCase()}+ views',
                             style: context.bodyTextPrimaryStyle()!.copyWith(
                                   color: Colors.white,
                                   fontSize: 16,
@@ -108,32 +110,37 @@ class _AnnouncementPostState extends State<AnnouncementPost> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                Container(
-                  height: 50,
-                  padding: const EdgeInsets.all(10),
-                  width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(
-                    color: AppColors.secondaryButtonColor,
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SvgPicture.asset(
-                        AppAssets.activeEdit,
-                        width: 20,
-                        height: 20,
-                      ),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      Text(
-                        context.l10n.t_create_post,
-                        style: TextStyle(
-                          color: AppColors.activeLabelItem,
+                WButtonInkwell(
+                  onPressed: () {
+                    Navigator.pushNamed(context, AppRoute.routeCreatePost);
+                  },
+                  child: Container(
+                    height: 50,
+                    padding: const EdgeInsets.all(10),
+                    width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
+                      color: AppColors.secondaryButtonColor,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SvgPicture.asset(
+                          AppAssets.activeEdit,
+                          width: 20,
+                          height: 20,
                         ),
-                      )
-                    ],
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        Text(
+                          context.l10n.t_create_post,
+                          style: TextStyle(
+                            color: AppColors.activeLabelItem,
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ],
