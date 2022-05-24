@@ -83,6 +83,7 @@ dependencies:
     ref: bugfix/cannot-click-on-header
   flick_video_player: 
   video_player: ^2.4.2
+  uni_links: ^0.5.1
 
 dev_dependencies:
   bloc_test: ^9.0.2
@@ -92,6 +93,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   mocktail: ^0.3.0
+  after_layout: any
 
 flutter:
   uses-material-design: true

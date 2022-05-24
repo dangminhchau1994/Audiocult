@@ -1,3 +1,5 @@
+import 'package:after_layout/after_layout.dart';
+import 'package:audio_cult/app/data_source/local/pref_provider.dart';
 import 'package:audio_cult/app/fcm/fcm_service.dart';
 import 'package:audio_cult/app/features/auth/login/login_screen.dart';
 import 'package:audio_cult/app/features/main/main_screen.dart';
@@ -12,10 +14,14 @@ import 'package:loader_overlay/loader_overlay.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
 import 'package:responsive_framework/utils/scroll_behavior.dart';
+import 'package:uni_links/uni_links.dart';
+
 import '../features/splash/splash_bloc.dart';
 import '../features/splash/splash_screen.dart';
 import '../utils/configs/custom_scroll_behavior.dart';
 import '../utils/route/app_route.dart';
+
+final navigatorKey = GlobalKey<NavigatorState>();
 
 class App extends StatefulWidget {
   const App({Key? key}) : super(key: key);
@@ -24,13 +30,49 @@ class App extends StatefulWidget {
   State<App> createState() => _AppState();
 }
 
-class _AppState extends State<App> {
+class _AppState extends State<App> with AfterLayoutMixin<App> {
   final SplashBloc _splashBloc = SplashBloc(locator.get(), locator.get());
   @override
   void initState() {
     super.initState();
     _splashBloc.checkScreen();
     FCMService(context, locator.get()).initialize();
+  }
+
+  @override
+  void afterFirstLayout(BuildContext context) {
+    _handleInitialUri();
+    _handleIncomingLinks(context);
+  }
+
+  Future<void> _handleInitialUri() async {
+    try {
+      await getInitialLink();
+    } on PlatformException {
+      debugPrint('error');
+    }
+  }
+
+  void _handleIncomingLinks(BuildContext ctx) {
+    uriLinkStream.listen((uri) {
+      if (!mounted) return;
+      final shortCode = uri;
+      if (shortCode != null) {
+        debugPrint(shortCode.toString());
+        if (shortCode.path == '/user/password/verify/') {
+          //hardcode unilink change password
+          final hashId = shortCode.queryParameters['id'];
+          if (!locator.get<PrefProvider>().isAuthenticated) {
+            debugPrint(hashId);
+            try {
+              Navigator.pushNamed(navigatorKey.currentState!.context, AppRoute.routeResetPassword, arguments: hashId);
+            } catch (e) {
+              print(e);
+            }
+          }
+        }
+      }
+    });
   }
 
   @override
@@ -46,6 +88,7 @@ class _AppState extends State<App> {
       overlayColor: Colors.black87,
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
+        navigatorKey: navigatorKey,
         theme: ThemeData(
           iconTheme: const IconThemeData(color: Colors.white),
           hintColor: Colors.white,

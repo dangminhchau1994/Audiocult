@@ -1,6 +1,7 @@
 import 'package:audio_cult/app/data_source/local/pref_provider.dart';
 import 'package:audio_cult/app/data_source/repositories/app_repository.dart';
 import 'package:audio_cult/app/features/atlas/atlas_bloc.dart';
+import 'package:audio_cult/app/features/atlas/subscribe_user_bloc.dart';
 import 'package:audio_cult/app/features/atlas_filter_result/atlas_filter_result_bloc.dart';
 import 'package:audio_cult/app/features/events/all_event_bloc.dart';
 import 'package:audio_cult/app/features/events/calendar/calendar_bloc.dart';
@@ -20,6 +21,7 @@ import 'package:audio_cult/app/features/notifications/notification_bloc.dart';
 import 'package:audio_cult/app/features/settings/account_settings/account_settings_bloc.dart';
 import 'package:audio_cult/app/features/settings/notifications_settings/notification_settings_bloc.dart';
 import 'package:audio_cult/app/features/settings/page_template/page_template_bloc.dart';
+import 'package:audio_cult/app/features/settings/privacy_settings/privacy_settings_bloc.dart';
 import 'package:audio_cult/app/injections.dart';
 import 'package:audio_cult/w_components/comment/comment_item_bloc.dart';
 import 'package:audio_cult/w_components/comment/reply_list_bloc.dart';
@@ -90,7 +92,7 @@ void setupLocator() {
   getIt.registerLazySingleton<ResultBloc>(
     () => ResultBloc(locator.get<AppRepository>()),
   );
-  getIt.registerFactory<AtlasBloc>(() => AtlasBloc(locator.get<AppRepository>()));
+  getIt.registerFactory<AtlasBloc>(() => AtlasBloc(locator.get<AppRepository>(), locator.get<SubscribeUserBloc>()));
 
   getIt.registerLazySingleton<CalendarBloc>(
     () => CalendarBloc(locator.get<AppRepository>()),
@@ -103,7 +105,12 @@ void setupLocator() {
   getIt.registerLazySingleton<MapBloc>(
     () => MapBloc(locator.get<AppRepository>()),
   );
-  getIt.registerFactory<AtlasFilterResultBloc>(() => AtlasFilterResultBloc(locator.get<AppRepository>()));
+  getIt.registerFactory<AtlasFilterResultBloc>(
+    () => AtlasFilterResultBloc(
+      locator.get<AppRepository>(),
+      locator.get<SubscribeUserBloc>(),
+    ),
+  );
 
   getIt.registerFactory<MyDiaryBloc>(() => MyDiaryBloc(locator.get<AppRepository>()));
 
@@ -119,9 +126,13 @@ void setupLocator() {
   getIt.registerLazySingleton<NotificationBloc>(
     () => NotificationBloc(locator.get<AppRepository>()),
   );
-  
+
   getIt.registerFactory<AccountSettingsBloc>(
       () => AccountSettingsBloc(locator.get<AppRepository>(), locator.get<PrefProvider>()));
 
   getIt.registerFactory<NotificationSettingsBloc>(() => NotificationSettingsBloc(locator.get<AppRepository>()));
+
+  getIt.registerFactory<PrivacySettingsBloc>(() => PrivacySettingsBloc(locator.get<AppRepository>()));
+
+  getIt.registerLazySingleton<SubscribeUserBloc>(SubscribeUserBloc.new);
 }

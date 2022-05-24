@@ -24,6 +24,7 @@ import 'package:audio_cult/app/data_source/models/responses/notifications/notifi
 import 'package:audio_cult/app/data_source/models/responses/page_template_custom_field_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/page_template_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/playlist/playlist_response.dart';
+import 'package:audio_cult/app/data_source/models/responses/privacy_settings/privacy_settings_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/reaction_icon/reaction_icon_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/timezone/timezone_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/user_subscription_response.dart';
@@ -32,7 +33,6 @@ import 'package:audio_cult/app/data_source/models/update_account_settings_respon
 import 'package:audio_cult/app/injections.dart';
 import 'package:audio_cult/app/utils/constants/app_constants.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -347,7 +347,6 @@ class AppServiceProvider {
     );
   }
 
-
   Future<CommentResponse> createComment(int itemId, String type, String text, {int? feedId}) async {
     final response = await _dioHelper.post(
       route: '/restful_api/comment',
@@ -567,7 +566,7 @@ class AppServiceProvider {
     final response = await _dioHelper.get(
       route: '/restful_api/notification',
       requestParams: {
-        'page' : request.page,
+        'page': request.page,
         'limit': request.limit,
         'group_by_date': request.groupByDate,
       },
@@ -575,7 +574,8 @@ class AppServiceProvider {
       responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
     );
     return response.mapData(
-      (json) => asType<List<dynamic>>(json)?.map((e) => NotificationResponse.fromJson(e as Map<String, dynamic>)).toList(),
+      (json) =>
+          asType<List<dynamic>>(json)?.map((e) => NotificationResponse.fromJson(e as Map<String, dynamic>)).toList(),
     );
   }
 
@@ -595,7 +595,12 @@ class AppServiceProvider {
     final response = await _dioHelper.post(
       isAuthRequired: false,
       requestBody: FormData.fromMap(
-        {'client_id': AppConstants.clientId, 'client_secret': AppConstants.clientSecret, 'token': pref.accessToken},
+        {
+          'client_id': AppConstants.clientId,
+          'client_secret': AppConstants.clientSecret,
+          'token': pref.accessToken,
+          'fcm_token': pref.fcmToken
+        },
       ),
       route: '/restful_api/revoke',
     );
@@ -988,5 +993,61 @@ class AppServiceProvider {
       responseBodyMapper: (json) => ProfileData.fromJson(json['data'] as Map<String, dynamic>),
     );
     return result;
+  }
+
+  Future<PrivacySettingsReponse> getPrivacySettings() async {
+    final result = await _dioHelper.get(
+      route: '/restful_api/user/privacy',
+      responseBodyMapper: (json) => PrivacySettingsReponse.fromJson(json as Map<String, dynamic>),
+    );
+    return result;
+  }
+
+  Future<PrivacySettingsReponse> updatePrivacySetting(List<PrivacySettingItem> items) async {
+    final params = <String, dynamic>{};
+    for (final item in items) {
+      params['val[${item.prefix}][${item.name}]'] = item.defaultValue;
+    }
+    final result = await _dioHelper.post(
+      route: '/restful_api/user/privacy',
+      requestBody: FormData.fromMap(params),
+      responseBodyMapper: (json) => PrivacySettingsReponse.fromJson(json as Map<String, dynamic>),
+    );
+    return result;
+  }
+
+  Future<Exception?> unblockUser(String userId) async {
+    final result = await _dioHelper.delete(
+      route: '/restful_api/user/block-user',
+      requestParams: {'user_id': userId},
+      responseBodyMapper: (json) {
+        final error = json['error'];
+        if (error != null) {
+          return Exception(error['message']);
+        }
+        return null;
+      },
+    );
+    return result;
+  }
+
+  Future<bool?> resentEmail(String email, String token) async {
+    final response = await _dioHelper.post(
+      route: '/restful_api/user/forgot-password',
+      requestBody: FormData.fromMap({'val[email]': email}),
+      options: Options(headers: {'Authorization': 'Bearer $token'}),
+      responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
+    );
+    return response.isSuccess;
+  }
+
+  Future<BaseRes?> resetPassword(String newPassword, String hashId, String token) async {
+    final response = await _dioHelper.post(
+      route: '/restful_api/user/reset-password',
+      requestBody: FormData.fromMap({'val[newpassword]': newPassword, 'val[hash_id]': hashId}),
+      options: Options(headers: {'Authorization': 'Bearer $token'}),
+      responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
+    );
+    return response;
   }
 }

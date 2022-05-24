@@ -1,0 +1,14 @@
+{
+    "applinks": {
+    "apps": [],
+    "details": [
+          { 
+              "appID": "7XSG9BUWWH.com.audiocult.dev", 
+              "paths": [ "*" ] 
+          },
+          {
+              "appID": ["7XSG9BUWWH.com.audiocult.stg"], 
+              "paths": [ "*" ]
+          } 
+     ]
+  }}
