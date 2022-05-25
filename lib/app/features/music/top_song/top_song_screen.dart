@@ -164,31 +164,33 @@ class _TopSongScreenState extends State<TopSongScreen> with AutomaticKeepAliveCl
               } else {
                 _pagingController.appendPage(data, _pagingController.firstPageKey + 1);
               }
-              return PagedListView<int, Song>.separated(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 16,
-                ),
-                pagingController: _pagingController,
-                separatorBuilder: (context, index) => const Divider(height: 24),
-                builderDelegate: PagedChildBuilderDelegate<Song>(
-                  firstPageProgressIndicatorBuilder: (context) => Container(),
-                  newPageProgressIndicatorBuilder: (context) => const LoadingWidget(),
-                  animateTransitions: true,
-                  itemBuilder: (context, item, index) {
-                    return WButtonInkwell(
-                      onPressed: () {
-                        Navigator.pushNamed(context, AppRoute.routePlayerScreen,
-                            arguments:
-                                PlayerScreen.createArguments(listSong: _pagingController.itemList ?? [], index: index));
-                      },
-                      child: SongItem(
-                        song: item,
-                        songs: data,
-                        index: index,
-                      ),
-                    );
-                  },
+              return Scrollbar(
+                child: PagedListView<int, Song>.separated(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 16,
+                  ),
+                  pagingController: _pagingController,
+                  separatorBuilder: (context, index) => const Divider(height: 24),
+                  builderDelegate: PagedChildBuilderDelegate<Song>(
+                    firstPageProgressIndicatorBuilder: (context) => Container(),
+                    newPageProgressIndicatorBuilder: (context) => const LoadingWidget(),
+                    animateTransitions: true,
+                    itemBuilder: (context, item, index) {
+                      return WButtonInkwell(
+                        onPressed: () {
+                          Navigator.pushNamed(context, AppRoute.routePlayerScreen,
+                              arguments: PlayerScreen.createArguments(
+                                  listSong: _pagingController.itemList ?? [], index: index));
+                        },
+                        child: SongItem(
+                          song: item,
+                          songs: data,
+                          index: index,
+                        ),
+                      );
+                    },
+                  ),
                 ),
               );
             },

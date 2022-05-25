@@ -102,25 +102,27 @@ class _EventPopUpState extends State<EventPopUp> {
             } else {
               _pagingController.appendPage(data, _pagingController.firstPageKey + 1);
             }
-            return PagedListView<int, EventResponse>.separated(
-              shrinkWrap: true,
-              scrollDirection: Axis.horizontal,
-              padding: const EdgeInsets.symmetric(
-                vertical: 51,
-                horizontal: 14,
-              ),
-              pagingController: _pagingController,
-              separatorBuilder: (context, index) => const SizedBox(width: 0),
-              builderDelegate: PagedChildBuilderDelegate<EventResponse>(
-                firstPageProgressIndicatorBuilder: (context) => Container(),
-                newPageProgressIndicatorBuilder: (context) => const LoadingWidget(),
-                animateTransitions: true,
-                itemBuilder: (context, item, index) {
-                  return AllEventItem(
-                    data: item,
-                    width: 300,
-                  );
-                },
+            return Scrollbar(
+              child: PagedListView<int, EventResponse>.separated(
+                shrinkWrap: true,
+                scrollDirection: Axis.horizontal,
+                padding: const EdgeInsets.symmetric(
+                  vertical: 51,
+                  horizontal: 14,
+                ),
+                pagingController: _pagingController,
+                separatorBuilder: (context, index) => const SizedBox(width: 0),
+                builderDelegate: PagedChildBuilderDelegate<EventResponse>(
+                  firstPageProgressIndicatorBuilder: (context) => Container(),
+                  newPageProgressIndicatorBuilder: (context) => const LoadingWidget(),
+                  animateTransitions: true,
+                  itemBuilder: (context, item, index) {
+                    return AllEventItem(
+                      data: item,
+                      width: 300,
+                    );
+                  },
+                ),
               ),
             );
           },

@@ -127,35 +127,37 @@ class _LibraryScreenState extends State<LibraryScreen> with AutomaticKeepAliveCl
                     } else {
                       _pagingController.appendPage(data, _pagingController.firstPageKey + 1);
                     }
-                    return PagedListView<int, PlaylistResponse>.separated(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 16,
-                      ),
-                      pagingController: _pagingController,
-                      separatorBuilder: (context, index) => const Divider(
-                        height: 20,
-                      ),
-                      builderDelegate: PagedChildBuilderDelegate<PlaylistResponse>(
-                        firstPageProgressIndicatorBuilder: (context) => Container(),
-                        newPageProgressIndicatorBuilder: (context) => const LoadingWidget(),
-                        animateTransitions: true,
-                        itemBuilder: (context, item, index) {
-                          return WButtonInkwell(
-                            onPressed: () {
-                              Navigator.pushNamed(
-                                context,
-                                AppRoute.routeDetailPlayList,
-                                arguments: {
-                                  'playlist_id': item.playlistId,
-                                },
-                              );
-                            },
-                            child: SearchItem(
-                              playlist: item,
-                            ),
-                          );
-                        },
+                    return Scrollbar(
+                      child: PagedListView<int, PlaylistResponse>.separated(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 16,
+                        ),
+                        pagingController: _pagingController,
+                        separatorBuilder: (context, index) => const Divider(
+                          height: 20,
+                        ),
+                        builderDelegate: PagedChildBuilderDelegate<PlaylistResponse>(
+                          firstPageProgressIndicatorBuilder: (context) => Container(),
+                          newPageProgressIndicatorBuilder: (context) => const LoadingWidget(),
+                          animateTransitions: true,
+                          itemBuilder: (context, item, index) {
+                            return WButtonInkwell(
+                              onPressed: () {
+                                Navigator.pushNamed(
+                                  context,
+                                  AppRoute.routeDetailPlayList,
+                                  arguments: {
+                                    'playlist_id': item.playlistId,
+                                  },
+                                );
+                              },
+                              child: SearchItem(
+                                playlist: item,
+                              ),
+                            );
+                          },
+                        ),
                       ),
                     );
                   },

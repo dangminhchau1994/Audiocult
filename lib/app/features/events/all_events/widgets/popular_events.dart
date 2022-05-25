@@ -110,23 +110,25 @@ class _PopularEventsState extends State<PopularEvents> {
                     } else {
                       _pagingController.appendPage(data, _pagingController.firstPageKey + 1);
                     }
-                    return PagedListView<int, EventResponse>.separated(
-                      scrollDirection: Axis.horizontal,
-                      shrinkWrap: true,
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 16,
-                      ),
-                      pagingController: _pagingController,
-                      separatorBuilder: (context, index) => const SizedBox(width: 1),
-                      builderDelegate: PagedChildBuilderDelegate<EventResponse>(
-                        firstPageProgressIndicatorBuilder: (context) => Container(),
-                        newPageProgressIndicatorBuilder: (context) => const LoadingWidget(),
-                        animateTransitions: true,
-                        itemBuilder: (context, item, index) {
-                          return PopularEventItem(
-                            data: item,
-                          );
-                        },
+                    return Scrollbar(
+                      child: PagedListView<int, EventResponse>.separated(
+                        scrollDirection: Axis.horizontal,
+                        shrinkWrap: true,
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 16,
+                        ),
+                        pagingController: _pagingController,
+                        separatorBuilder: (context, index) => const SizedBox(width: 1),
+                        builderDelegate: PagedChildBuilderDelegate<EventResponse>(
+                          firstPageProgressIndicatorBuilder: (context) => Container(),
+                          newPageProgressIndicatorBuilder: (context) => const LoadingWidget(),
+                          animateTransitions: true,
+                          itemBuilder: (context, item, index) {
+                            return PopularEventItem(
+                              data: item,
+                            );
+                          },
+                        ),
                       ),
                     );
                   },

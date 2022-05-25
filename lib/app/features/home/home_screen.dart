@@ -112,31 +112,33 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
                   _pagingFeedController.appendPage(data, _pagingFeedController.firstPageKey + 1);
                 }
 
-                return CustomScrollView(
-                  slivers: [
-                    const AnnouncementPost(),
-                    const SliverToBoxAdapter(child: SizedBox(height: 40)),
-                    PagedSliverList<int, FeedResponse>.separated(
-                      pagingController: _pagingFeedController,
-                      separatorBuilder: (context, index) => const Divider(height: 24),
-                      builderDelegate: PagedChildBuilderDelegate<FeedResponse>(
-                        firstPageProgressIndicatorBuilder: (context) => Container(),
-                        newPageProgressIndicatorBuilder: (context) => const LoadingWidget(),
-                        animateTransitions: true,
-                        itemBuilder: (context, item, index) {
-                          return FeedItem(
-                            data: item,
-                          );
-                        },
+                return Scrollbar(
+                  child: CustomScrollView(
+                    slivers: [
+                      const AnnouncementPost(),
+                      const SliverToBoxAdapter(child: SizedBox(height: 40)),
+                      PagedSliverList<int, FeedResponse>.separated(
+                        pagingController: _pagingFeedController,
+                        separatorBuilder: (context, index) => const Divider(height: 24),
+                        builderDelegate: PagedChildBuilderDelegate<FeedResponse>(
+                          firstPageProgressIndicatorBuilder: (context) => Container(),
+                          newPageProgressIndicatorBuilder: (context) => const LoadingWidget(),
+                          animateTransitions: true,
+                          itemBuilder: (context, item, index) {
+                            return FeedItem(
+                              data: item,
+                            );
+                          },
+                        ),
                       ),
-                    ),
-                    SliverToBoxAdapter(
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: 150),
-                        child: Container(),
-                      ),
-                    )
-                  ],
+                      SliverToBoxAdapter(
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: 150),
+                          child: Container(),
+                        ),
+                      )
+                    ],
+                  ),
                 );
               },
               reloadAction: (_) {
