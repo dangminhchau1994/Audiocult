@@ -166,25 +166,27 @@ class _TopPlaylistScreenState extends State<TopPlaylistScreen> {
               } else {
                 _pagingController.appendPage(data, _pagingController.firstPageKey + 1);
               }
-              return PagedListView<int, PlaylistResponse>.separated(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: kHorizontalSpacing,
-                  vertical: kVerticalSpacing,
-                ),
-                pagingController: _pagingController,
-                separatorBuilder: (context, index) => Divider(
-                  height: 0.1,
-                  color: Colors.grey.withOpacity(0.5),
-                ),
-                builderDelegate: PagedChildBuilderDelegate<PlaylistResponse>(
-                  firstPageProgressIndicatorBuilder: (context) => Container(),
-                  newPageProgressIndicatorBuilder: (context) => const LoadingWidget(),
-                  animateTransitions: true,
-                  itemBuilder: (context, item, index) {
-                    return TopPlaylistItem(
-                      playlist: item,
-                    );
-                  },
+              return Scrollbar(
+                child: PagedListView<int, PlaylistResponse>.separated(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: kHorizontalSpacing,
+                    vertical: kVerticalSpacing,
+                  ),
+                  pagingController: _pagingController,
+                  separatorBuilder: (context, index) => Divider(
+                    height: 0.1,
+                    color: Colors.grey.withOpacity(0.5),
+                  ),
+                  builderDelegate: PagedChildBuilderDelegate<PlaylistResponse>(
+                    firstPageProgressIndicatorBuilder: (context) => Container(),
+                    newPageProgressIndicatorBuilder: (context) => const LoadingWidget(),
+                    animateTransitions: true,
+                    itemBuilder: (context, item, index) {
+                      return TopPlaylistItem(
+                        playlist: item,
+                      );
+                    },
+                  ),
                 ),
               );
             },

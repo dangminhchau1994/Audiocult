@@ -31,18 +31,20 @@ class _AllEventsState extends State<AllEvents> {
 
   @override
   Widget build(BuildContext context) {
-    return PagedSliverList<int, EventResponse>.separated(
-      pagingController: _pagingController,
-      separatorBuilder: (context, index) => const Divider(height: 24),
-      builderDelegate: PagedChildBuilderDelegate<EventResponse>(
-        firstPageProgressIndicatorBuilder: (context) => Container(),
-        newPageProgressIndicatorBuilder: (context) => const LoadingWidget(),
-        animateTransitions: true,
-        itemBuilder: (context, item, index) {
-          return AllEventItem(
-            data: item,
-          );
-        },
+    return Scrollbar(
+      child: PagedSliverList<int, EventResponse>.separated(
+        pagingController: _pagingController,
+        separatorBuilder: (context, index) => const Divider(height: 24),
+        builderDelegate: PagedChildBuilderDelegate<EventResponse>(
+          firstPageProgressIndicatorBuilder: (context) => Container(),
+          newPageProgressIndicatorBuilder: (context) => const LoadingWidget(),
+          animateTransitions: true,
+          itemBuilder: (context, item, index) {
+            return AllEventItem(
+              data: item,
+            );
+          },
+        ),
       ),
     );
   }

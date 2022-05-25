@@ -205,36 +205,38 @@ class _AtlasScreenState extends State<AtlasScreen> with AutomaticKeepAliveClient
           updatedSubscriptionData = tupleData.item1;
           subscriptionInProcess = tupleData.item2;
         }
-        return PagedListView<int, AtlasUser>(
-          padding: const EdgeInsets.symmetric(vertical: 24),
-          scrollController: _scrollController,
-          pagingController: _pagingController,
-          builderDelegate: PagedChildBuilderDelegate<AtlasUser>(
-            newPageProgressIndicatorBuilder: (_) => const LoadingWidget(),
-            itemBuilder: (context, user, index) {
-              final latestSubscriptionCount =
-                  updatedSubscriptionData?.firstWhereOrNull((e) => e.userId == user.userId)?.subscriptionCount;
-              final latestSubscriptionValue =
-                  updatedSubscriptionData?.firstWhereOrNull((e) => e.userId == user.userId)?.isSubscribed;
-              return AtlasUserWidget(
-                user,
-                updatedSubscriptionCount: latestSubscriptionCount,
-                updatedSubscriptionStatus: latestSubscriptionValue,
-                userSubscriptionInProcess: subscriptionInProcess?[user.userId] ?? false,
-                subscriptionOnChanged: () {
-                  _bloc.subscribeUser(user);
-                },
-                onTap: () async {
-                  if (user.userId?.isNotEmpty == true) {
-                    await Navigator.pushNamed(
-                      context,
-                      AppRoute.routeProfile,
-                      arguments: ProfileScreen.createArguments(id: user.userId ?? ''),
-                    );
-                  }
-                },
-              );
-            },
+        return Scrollbar(
+          child: PagedListView<int, AtlasUser>(
+            padding: const EdgeInsets.symmetric(vertical: 24),
+            scrollController: _scrollController,
+            pagingController: _pagingController,
+            builderDelegate: PagedChildBuilderDelegate<AtlasUser>(
+              newPageProgressIndicatorBuilder: (_) => const LoadingWidget(),
+              itemBuilder: (context, user, index) {
+                final latestSubscriptionCount =
+                    updatedSubscriptionData?.firstWhereOrNull((e) => e.userId == user.userId)?.subscriptionCount;
+                final latestSubscriptionValue =
+                    updatedSubscriptionData?.firstWhereOrNull((e) => e.userId == user.userId)?.isSubscribed;
+                return AtlasUserWidget(
+                  user,
+                  updatedSubscriptionCount: latestSubscriptionCount,
+                  updatedSubscriptionStatus: latestSubscriptionValue,
+                  userSubscriptionInProcess: subscriptionInProcess?[user.userId] ?? false,
+                  subscriptionOnChanged: () {
+                    _bloc.subscribeUser(user);
+                  },
+                  onTap: () async {
+                    if (user.userId?.isNotEmpty == true) {
+                      await Navigator.pushNamed(
+                        context,
+                        AppRoute.routeProfile,
+                        arguments: ProfileScreen.createArguments(id: user.userId ?? ''),
+                      );
+                    }
+                  },
+                );
+              },
+            ),
           ),
         );
       },

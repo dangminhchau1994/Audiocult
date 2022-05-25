@@ -308,64 +308,66 @@ class _CommentListScreenState extends State<CommentListScreen> {
                     } else {
                       _pagingController.appendPage(data, _pagingController.firstPageKey + 1);
                     }
-                    return Padding(
-                      padding: const EdgeInsets.only(bottom: 120),
-                      child: PagedListView<int, CommentResponse>.separated(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 16,
-                        ),
-                        pagingController: _pagingController,
-                        separatorBuilder: (context, index) => const Divider(height: 6),
-                        builderDelegate: PagedChildBuilderDelegate<CommentResponse>(
-                          firstPageProgressIndicatorBuilder: (context) => Container(),
-                          newPageProgressIndicatorBuilder: (context) => const LoadingWidget(),
-                          animateTransitions: true,
-                          itemBuilder: (context, item, index) {
-                            return ExpandablePanel(
-                              controller: ExpandableController(initialExpanded: true),
-                              header: WButtonInkwell(
-                                onPressed: () {
-                                  if (_hiveServiceProvider.getProfile()?.userId == item.userId) {
-                                    _showBottomSheet(item);
-                                  }
-                                },
-                                child: ValueListenableBuilder<CommentResponse>(
-                                  valueListenable: _commentResponse,
-                                  builder: (context, value, child) {
-                                    return CommentItem(
-                                      data: item,
-                                      onReply: (data) {
-                                        Navigator.pushNamed(
-                                          context,
-                                          AppRoute.routeReplyListScreen,
-                                          arguments: CommentArgs(
-                                            data: data,
-                                            commentType: widget.commentArgs.commentType,
-                                            itemId: widget.commentArgs.itemId,
-                                          ),
-                                        );
-                                      },
-                                    );
+                    return Scrollbar(
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 120),
+                        child: PagedListView<int, CommentResponse>.separated(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 16,
+                          ),
+                          pagingController: _pagingController,
+                          separatorBuilder: (context, index) => const Divider(height: 6),
+                          builderDelegate: PagedChildBuilderDelegate<CommentResponse>(
+                            firstPageProgressIndicatorBuilder: (context) => Container(),
+                            newPageProgressIndicatorBuilder: (context) => const LoadingWidget(),
+                            animateTransitions: true,
+                            itemBuilder: (context, item, index) {
+                              return ExpandablePanel(
+                                controller: ExpandableController(initialExpanded: true),
+                                header: WButtonInkwell(
+                                  onPressed: () {
+                                    if (_hiveServiceProvider.getProfile()?.userId == item.userId) {
+                                      _showBottomSheet(item);
+                                    }
                                   },
+                                  child: ValueListenableBuilder<CommentResponse>(
+                                    valueListenable: _commentResponse,
+                                    builder: (context, value, child) {
+                                      return CommentItem(
+                                        data: item,
+                                        onReply: (data) {
+                                          Navigator.pushNamed(
+                                            context,
+                                            AppRoute.routeReplyListScreen,
+                                            arguments: CommentArgs(
+                                              data: data,
+                                              commentType: widget.commentArgs.commentType,
+                                              itemId: widget.commentArgs.itemId,
+                                            ),
+                                          );
+                                        },
+                                      );
+                                    },
+                                  ),
                                 ),
-                              ),
-                              theme: const ExpandableThemeData(
-                                hasIcon: false,
-                                tapHeaderToExpand: false,
-                                tapBodyToCollapse: false,
-                                tapBodyToExpand: false,
-                                useInkWell: false,
-                              ),
-                              collapsed: Container(),
-                              expanded: ReplyItem(
-                                parentId: int.parse(item.commentId ?? ''),
-                                id: widget.commentArgs.itemId,
-                                commentParent: item,
-                                commentType: widget.commentArgs.commentType,
-                              ),
-                            );
-                          },
+                                theme: const ExpandableThemeData(
+                                  hasIcon: false,
+                                  tapHeaderToExpand: false,
+                                  tapBodyToCollapse: false,
+                                  tapBodyToExpand: false,
+                                  useInkWell: false,
+                                ),
+                                collapsed: Container(),
+                                expanded: ReplyItem(
+                                  parentId: int.parse(item.commentId ?? ''),
+                                  id: widget.commentArgs.itemId,
+                                  commentParent: item,
+                                  commentType: widget.commentArgs.commentType,
+                                ),
+                              );
+                            },
+                          ),
                         ),
                       ),
                     );
