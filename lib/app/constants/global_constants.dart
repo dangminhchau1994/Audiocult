@@ -17,6 +17,50 @@ class GlobalConstants {
     return url + path;
   }
 
+  static List<SelectMenuModel> listPrivacy = [
+    SelectMenuModel(
+      id: 1,
+      title: 'Everyone',
+      isSelected: true,
+      icon: Image.asset(
+        AppAssets.icPublic,
+        width: 24,
+      ),
+    ),
+    SelectMenuModel(
+      id: 2,
+      title: 'Subscriptions',
+      icon: Image.asset(
+        AppAssets.icSubscription,
+        width: 24,
+      ),
+    ),
+    SelectMenuModel(
+      id: 3,
+      title: 'Friends of Friends',
+      icon: Image.asset(
+        AppAssets.icFriends,
+        width: 24,
+      ),
+    ),
+    SelectMenuModel(
+      id: 4,
+      title: 'Only me',
+      icon: Image.asset(
+        AppAssets.icLock,
+        width: 24,
+      ),
+    ),
+    SelectMenuModel(
+      id: 5,
+      title: 'Customize',
+      icon: Image.asset(
+        AppAssets.icSetting,
+        width: 24,
+      ),
+    ),
+  ];
+
   static List<Pair<Pair<int, Widget>, String>>? menuMyAlbum(BuildContext context) {
     return [
       Pair(

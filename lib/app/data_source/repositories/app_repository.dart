@@ -4,6 +4,7 @@ import 'package:audio_cult/app/data_source/models/cache_filter.dart';
 import 'package:audio_cult/app/data_source/models/notification_option.dart';
 import 'package:audio_cult/app/data_source/models/requests/create_event_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/create_playlist_request.dart';
+import 'package:audio_cult/app/data_source/models/requests/create_post_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/filter_users_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/my_diary_event_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/notification_request.dart';
@@ -16,6 +17,7 @@ import 'package:audio_cult/app/data_source/models/responses/atlas_category.dart'
 import 'package:audio_cult/app/data_source/models/responses/comment/comment_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/country_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/create_playlist/create_playlist_response.dart';
+import 'package:audio_cult/app/data_source/models/responses/create_post/create_post_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/events/event_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/feed/feed_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/genre.dart';
@@ -43,6 +45,7 @@ import '../models/base_response.dart';
 import '../models/requests/event_request.dart';
 import '../models/requests/login_request.dart';
 import '../models/responses/atlas_user.dart';
+import '../models/responses/background/background_response.dart';
 import '../models/responses/create_album_response.dart';
 import '../models/responses/events/event_category_response.dart';
 import '../models/responses/login_response.dart';
@@ -201,9 +204,21 @@ class AppRepository extends BaseRepository {
     );
   }
 
+  Future<Either<List<BackgroundResponse>, Exception>> getBackgrounds() {
+    return safeCall(
+      appServiceProvider.getBackgrounds,
+    );
+  }
+
   Future<Either<Song, Exception>> getSongDetail(int id) {
     return safeCall(
       () => appServiceProvider.getSongDetail(id),
+    );
+  }
+
+  Future<Either<CreatePostResponse, Exception>> createPost(CreatePostRequest request) {
+    return safeCall(
+      () => appServiceProvider.createPost(request),
     );
   }
 

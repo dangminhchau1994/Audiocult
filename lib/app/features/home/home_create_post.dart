@@ -33,95 +33,100 @@ class _HomeCreatePostState extends State<HomeCreatePost> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.mainColor,
-      appBar: CommonAppBar(
-        backgroundColor: AppColors.secondaryButtonColor,
-        leadingWidth: 120,
-        leading: Center(
-          child: Text(
-            context.l10n.t_create_post,
-            style: context.bodyTextPrimaryStyle()!.copyWith(color: Colors.white, fontSize: 18),
-          ),
-        ),
-        actions: [
-          WButtonInkwell(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            child: const Padding(
-              padding: EdgeInsets.all(14),
-              child: Icon(
-                Icons.close,
-                color: Colors.white,
-              ),
+    return GestureDetector(
+      onTap: () {
+        FocusManager.instance.primaryFocus?.unfocus();
+      },
+      child: Scaffold(
+        backgroundColor: AppColors.mainColor,
+        appBar: CommonAppBar(
+          backgroundColor: AppColors.secondaryButtonColor,
+          leadingWidth: 120,
+          leading: Center(
+            child: Text(
+              context.l10n.t_create_post,
+              style: context.bodyTextPrimaryStyle()!.copyWith(color: Colors.white, fontSize: 18),
             ),
-          )
-        ],
-      ),
-      body: CommonTabbar(
-        pageCount: _pageCount,
-        pageController: _pageController,
-        tabBarController: _tabController,
-        currentIndex: _currentIndex,
-        tabbarItemBuilder: (context, index) {
-          switch (index) {
-            case 0:
-              return CommonTabbarItem(
-                index: index,
-                width: MediaQuery.of(context).size.width / _pageCount,
-                currentIndex: _currentIndex,
-                title: context.l10n.t_status,
-                unActiveIcon: SvgPicture.asset(AppAssets.edit, width: 20, height: 20),
-                activeIcon: SvgPicture.asset(AppAssets.activeEdit, width: 20, height: 20),
-                hasIcon: true,
-              );
-            case 1:
-              return CommonTabbarItem(
-                index: index,
-                width: MediaQuery.of(context).size.width / _pageCount,
-                currentIndex: _currentIndex,
-                unActiveIcon: SvgPicture.asset(AppAssets.photo, width: 20, height: 20),
-                activeIcon: SvgPicture.asset(AppAssets.activePhoto, width: 20, height: 20),
-                title: context.l10n.t_photos,
-                hasIcon: true,
-              );
-            case 2:
-              return CommonTabbarItem(
-                index: index,
-                width: MediaQuery.of(context).size.width / _pageCount,
-                currentIndex: _currentIndex,
-                unActiveIcon: SvgPicture.asset(AppAssets.video, width: 20, height: 20),
-                activeIcon: SvgPicture.asset(AppAssets.activeVideo, width: 20, height: 20),
-                title: context.l10n.t_videos,
-                hasIcon: true,
-              );
-            default:
-              return const SizedBox();
-          }
-        },
-        pageViewBuilder: (context, index) {
-          switch (index) {
-            case 0:
-              return const HomeStatus();
-            case 1:
-              return const SizedBox();
-            case 2:
-              return const SizedBox();
-            default:
-              return const SizedBox();
-          }
-        },
-        onTapItem: (index) {
-          setState(() {
-            _currentIndex = index;
-          });
-        },
-        onPageChanged: (index) {
-          setState(() {
-            _currentIndex = index;
-          });
-        },
+          ),
+          actions: [
+            WButtonInkwell(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Padding(
+                padding: EdgeInsets.all(14),
+                child: Icon(
+                  Icons.close,
+                  color: Colors.white,
+                ),
+              ),
+            )
+          ],
+        ),
+        body: CommonTabbar(
+          pageCount: _pageCount,
+          pageController: _pageController,
+          tabBarController: _tabController,
+          currentIndex: _currentIndex,
+          tabbarItemBuilder: (context, index) {
+            switch (index) {
+              case 0:
+                return CommonTabbarItem(
+                  index: index,
+                  width: MediaQuery.of(context).size.width / _pageCount,
+                  currentIndex: _currentIndex,
+                  title: context.l10n.t_status,
+                  unActiveIcon: SvgPicture.asset(AppAssets.edit, width: 20, height: 20),
+                  activeIcon: SvgPicture.asset(AppAssets.activeEdit, width: 20, height: 20),
+                  hasIcon: true,
+                );
+              case 1:
+                return CommonTabbarItem(
+                  index: index,
+                  width: MediaQuery.of(context).size.width / _pageCount,
+                  currentIndex: _currentIndex,
+                  unActiveIcon: SvgPicture.asset(AppAssets.photo, width: 20, height: 20),
+                  activeIcon: SvgPicture.asset(AppAssets.activePhoto, width: 20, height: 20),
+                  title: context.l10n.t_photos,
+                  hasIcon: true,
+                );
+              case 2:
+                return CommonTabbarItem(
+                  index: index,
+                  width: MediaQuery.of(context).size.width / _pageCount,
+                  currentIndex: _currentIndex,
+                  unActiveIcon: SvgPicture.asset(AppAssets.video, width: 20, height: 20),
+                  activeIcon: SvgPicture.asset(AppAssets.activeVideo, width: 20, height: 20),
+                  title: context.l10n.t_videos,
+                  hasIcon: true,
+                );
+              default:
+                return const SizedBox();
+            }
+          },
+          pageViewBuilder: (context, index) {
+            switch (index) {
+              case 0:
+                return const HomeStatus();
+              case 1:
+                return const SizedBox();
+              case 2:
+                return const SizedBox();
+              default:
+                return const SizedBox();
+            }
+          },
+          onTapItem: (index) {
+            setState(() {
+              _currentIndex = index;
+            });
+          },
+          onPageChanged: (index) {
+            setState(() {
+              _currentIndex = index;
+            });
+          },
+        ),
       ),
     );
   }

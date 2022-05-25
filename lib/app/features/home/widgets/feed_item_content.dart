@@ -168,12 +168,16 @@ class _FeedItemContentState extends State<FeedItemContent> {
                   ),
                 ),
               ),
-              Text(
-                widget.data?.feedStatus ?? '',
-                style: context.buttonTextStyle()!.copyWith(
-                      fontSize: 18,
-                      color: Colors.white,
-                    ),
+              Padding(
+                padding: const EdgeInsets.all(12),
+                child: Text(
+                  widget.data?.feedStatus ?? '',
+                  textAlign: TextAlign.center,
+                  style: context.buttonTextStyle()!.copyWith(
+                        fontSize: 18,
+                        color: Colors.white,
+                      ),
+                ),
               ),
             ],
           );

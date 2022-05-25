@@ -7,15 +7,23 @@ import 'package:audio_cult/l10n/l10n.dart';
 import 'package:audio_cult/w_components/buttons/w_button_inkwell.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import '../../../../di/bloc_locator.dart';
 import '../../../../w_components/error_empty/error_section.dart';
 import '../../../../w_components/loading/loading_widget.dart';
+import '../../../constants/global_constants.dart';
+import '../../../data_source/models/requests/feed_request.dart';
 import '../../../utils/constants/app_assets.dart';
 import '../../../utils/constants/app_colors.dart';
 import '../home_bloc.dart';
 
 class AnnouncementPost extends StatefulWidget {
-  const AnnouncementPost({Key? key}) : super(key: key);
+  const AnnouncementPost({
+    Key? key,
+    this.callData,
+  }) : super(key: key);
+
+  final Function()? callData;
 
   @override
   State<AnnouncementPost> createState() => _AnnouncementPostState();
@@ -111,8 +119,12 @@ class _AnnouncementPostState extends State<AnnouncementPost> {
                 ),
                 const SizedBox(height: 20),
                 WButtonInkwell(
-                  onPressed: () {
-                    Navigator.pushNamed(context, AppRoute.routeCreatePost);
+                  onPressed: () async {
+                    final result = await Navigator.pushNamed(context, AppRoute.routeCreatePost);
+
+                    if (result != null) {
+                      widget.callData!();
+                    }
                   },
                   child: Container(
                     height: 50,

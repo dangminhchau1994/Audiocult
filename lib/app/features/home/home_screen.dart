@@ -97,9 +97,19 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
             },
             child: LoadingBuilder<HomeBloc, List<FeedResponse>>(
               noDataBuilder: (state) {
-                return const CustomScrollView(
+                return CustomScrollView(
                   slivers: [
-                    AnnouncementPost(),
+                    AnnouncementPost(
+                      callData: () {
+                        _pagingFeedController.refresh();
+                        _homeBloc.requestData(
+                          params: FeedRequest(
+                            page: 1,
+                            limit: GlobalConstants.loadMoreItem,
+                          ),
+                        );
+                      },
+                    ),
                   ],
                 );
               },
@@ -114,7 +124,17 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
 
                 return CustomScrollView(
                   slivers: [
-                    const AnnouncementPost(),
+                    AnnouncementPost(
+                      callData: () {
+                        _pagingFeedController.refresh();
+                        _homeBloc.requestData(
+                          params: FeedRequest(
+                            page: 1,
+                            limit: GlobalConstants.loadMoreItem,
+                          ),
+                        );
+                      },
+                    ),
                     const SliverToBoxAdapter(child: SizedBox(height: 40)),
                     PagedSliverList<int, FeedResponse>.separated(
                       pagingController: _pagingFeedController,

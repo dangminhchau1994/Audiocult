@@ -1,10 +1,13 @@
 import 'package:audio_cult/app/base/base_bloc.dart';
 import 'package:audio_cult/app/base/bloc_state.dart';
+import 'package:audio_cult/app/data_source/models/requests/create_post_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/feed_request.dart';
 import 'package:audio_cult/app/data_source/models/responses/announcement/announcement_response.dart';
+import 'package:audio_cult/app/data_source/models/responses/create_post/create_post_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/feed/feed_response.dart';
 import 'package:dartz/dartz.dart';
 import 'package:rxdart/subjects.dart';
+import '../../data_source/models/responses/background/background_response.dart';
 import '../../data_source/models/responses/comment/comment_response.dart';
 import '../../data_source/models/responses/reaction_icon/reaction_icon_response.dart';
 import '../../data_source/repositories/app_repository.dart';
@@ -18,11 +21,27 @@ class HomeBloc extends BaseBloc<FeedRequest, List<FeedResponse>> {
   final _getCommentsSubject = PublishSubject<BlocState<List<CommentResponse>>>();
   final _getReactionIconSubject = PublishSubject<BlocState<List<ReactionIconResponse>>>();
   final _postReactionIconSubject = PublishSubject<BlocState<CommentResponse>>();
+  final _getBackgroundSubject = PublishSubject<BlocState<List<BackgroundResponse>>>();
+  final _createPostSubject = PublishSubject<BlocState<CreatePostResponse>>();
 
   Stream<BlocState<List<AnnouncementResponse>>> get getAnnoucementStream => _getAnnouncementSubject.stream;
   Stream<BlocState<List<CommentResponse>>> get getCommentsStream => _getCommentsSubject.stream;
   Stream<BlocState<List<ReactionIconResponse>>> get getReactionIconStream => _getReactionIconSubject.stream;
   Stream<BlocState<CommentResponse>> get postReactionIconStream => _postReactionIconSubject.stream;
+  Stream<BlocState<List<BackgroundResponse>>> get getBackgroundStream => _getBackgroundSubject.stream;
+  Stream<BlocState<CreatePostResponse>> get createPostStream => _createPostSubject.stream;
+
+  void createPost(CreatePostRequest request) async {
+    _createPostSubject.sink.add(const BlocState.loading());
+
+    final result = await _appRepository.createPost(request);
+
+    result.fold((success) {
+      _createPostSubject.sink.add(BlocState.success(success));
+    }, (error) {
+      _createPostSubject.sink.add(BlocState.error(error.toString()));
+    });
+  }
 
   void getReactionIcons() async {
     final result = await _appRepository.getReactionIcons();
@@ -31,6 +50,18 @@ class HomeBloc extends BaseBloc<FeedRequest, List<FeedResponse>> {
       _getReactionIconSubject.sink.add(BlocState.success(success));
     }, (error) {
       _getReactionIconSubject.sink.add(BlocState.error(error.toString()));
+    });
+  }
+
+  void getBackgrounds() async {
+    _getBackgroundSubject.sink.add(const BlocState.loading());
+
+    final result = await _appRepository.getBackgrounds();
+
+    result.fold((success) {
+      _getBackgroundSubject.sink.add(BlocState.success(success));
+    }, (error) {
+      _getBackgroundSubject.sink.add(BlocState.error(error.toString()));
     });
   }
 

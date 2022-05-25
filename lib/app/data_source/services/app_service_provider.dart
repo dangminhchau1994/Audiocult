@@ -3,6 +3,7 @@ import 'package:audio_cult/app/data_source/models/account_settings.dart';
 import 'package:audio_cult/app/data_source/models/notification_option.dart';
 import 'package:audio_cult/app/data_source/models/requests/create_event_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/create_playlist_request.dart';
+import 'package:audio_cult/app/data_source/models/requests/create_post_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/event_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/filter_users_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/my_diary_event_request.dart';
@@ -16,6 +17,7 @@ import 'package:audio_cult/app/data_source/models/responses/atlas_category.dart'
 import 'package:audio_cult/app/data_source/models/responses/comment/comment_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/country_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/create_playlist/create_playlist_response.dart';
+import 'package:audio_cult/app/data_source/models/responses/create_post/create_post_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/events/event_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/feed/feed_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/language_response.dart';
@@ -40,6 +42,7 @@ import '../../utils/extensions/app_extensions.dart';
 import '../models/base_response.dart';
 import '../models/requests/login_request.dart';
 import '../models/responses/atlas_user.dart';
+import '../models/responses/background/background_response.dart';
 import '../models/responses/create_album_response.dart';
 import '../models/responses/events/event_category_response.dart';
 import '../models/responses/profile_data.dart';
@@ -146,6 +149,31 @@ class AppServiceProvider {
     );
     return response.mapData(
       (json) => asType<List<dynamic>>(json)?.map((e) => EventResponse.fromJson(e as Map<String, dynamic>)).toList(),
+    );
+  }
+
+  Future<List<BackgroundResponse>> getBackgrounds() async {
+    final response = await _dioHelper.get(
+      route: '/restful_api/user/status/background',
+      options: Options(headers: {'Content-Type': 'application/x-www-form-urlencoded'}),
+      responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
+    );
+    return response.mapData(
+      (json) =>
+          asType<List<dynamic>>(json)?.map((e) => BackgroundResponse.fromJson(e as Map<String, dynamic>)).toList(),
+    );
+  }
+
+  Future<CreatePostResponse> createPost(CreatePostRequest request) async {
+    final params = await request.toJson();
+    final response = await _dioHelper.post(
+      route: '/restful_api/user/status',
+      options: Options(headers: {'Content-Type': 'application/x-www-form-urlencoded'}),
+      requestBody: FormData.fromMap(params),
+      responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
+    );
+    return response.mapData(
+      (json) => CreatePostResponse.fromJson(json as Map<String, dynamic>),
     );
   }
 

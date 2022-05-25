@@ -9,6 +9,7 @@ class CommonDropdown extends StatefulWidget {
   final String? hint;
   SelectMenuModel? selection;
   final List<SelectMenuModel>? data;
+  final bool? noBorder;
   final Function()? onTap;
   final Function(SelectMenuModel? value)? onChanged;
   final Color? backgroundColor;
@@ -23,6 +24,7 @@ class CommonDropdown extends StatefulWidget {
     this.data,
     this.onTap,
     this.onChanged,
+    this.noBorder = false,
     this.selection,
     this.padding,
     this.dropDownWith,
@@ -50,13 +52,15 @@ class _CommonDropdownState extends State<CommonDropdown> {
           decoration: BoxDecoration(
             color: widget.backgroundColor ?? AppColors.inputFillColor.withOpacity(0.4),
             borderRadius: BorderRadius.circular(4),
-            border: Border.all(
-              color: widget.selection == null && widget.isValidate
-                  ? Colors.red.withOpacity(0.6)
-                  : widget.isBorderVisible
-                      ? AppColors.outlineBorderColor
-                      : Colors.transparent,
-            ),
+            border: widget.noBorder!
+                ? Border.all(color: Colors.transparent)
+                : Border.all(
+                    color: widget.selection == null && widget.isValidate
+                        ? Colors.red.withOpacity(0.6)
+                        : widget.isBorderVisible
+                            ? AppColors.outlineBorderColor
+                            : Colors.transparent,
+                  ),
           ),
           child: CustomDropdownButton2(
             onTap: widget.onTap,
@@ -85,11 +89,14 @@ class _CommonDropdownState extends State<CommonDropdown> {
                           )
                         else
                           const SizedBox.shrink(),
-                        Container(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            e.title ?? '',
-                            style: context.bodyTextStyle(),
+                        Flexible(
+                          child: Container(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              e.title ?? '',
+                              overflow: TextOverflow.ellipsis,
+                              style: context.bodyTextStyle(),
+                            ),
                           ),
                         ),
                       ],
