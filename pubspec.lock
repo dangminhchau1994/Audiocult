@@ -212,7 +212,7 @@ packages:
     source: hosted
     version: "2.0.1"
   chewie:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: chewie
       url: "https://pub.dartlang.org"
@@ -961,6 +961,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.1"
+  multi_value_listenable_builder:
+    dependency: "direct main"
+    description:
+      name: multi_value_listenable_builder
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.2"
   nested:
     dependency: transitive
     description:

@@ -45,12 +45,16 @@ class CalendarEventItem extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                data?.title ?? '',
-                style: context.bodyTextStyle()?.copyWith(
-                      color: Colors.white,
-                      fontSize: 14,
-                    ),
+              SizedBox(
+                width: 300,
+                child: Text(
+                  data?.title ?? '',
+                  overflow: TextOverflow.ellipsis,
+                  style: context.bodyTextStyle()?.copyWith(
+                        color: Colors.white,
+                        fontSize: 14,
+                      ),
+                ),
               ),
               const SizedBox(height: 10),
               Text(

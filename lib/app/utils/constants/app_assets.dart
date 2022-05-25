@@ -9,6 +9,8 @@ class AppAssets {
 
   static const messageIcon = 'assets/icons/messages.svg';
 
+  static const tagFriends = 'assets/icons/tag_friends.svg';
+
   static const markerIcon = 'assets/icons/marker.png';
 
   static const timePicker = 'assets/icons/time_picker.svg';
@@ -44,6 +46,8 @@ class AppAssets {
   static const calendarIcon = 'assets/icons/calendar.svg';
 
   static const locationIcon = 'assets/icons/location.svg';
+
+  static const colorPickerIcon = 'assets/icons/color_picker.svg';
 
   static const commentIcon = 'assets/icons/comment.svg';
 

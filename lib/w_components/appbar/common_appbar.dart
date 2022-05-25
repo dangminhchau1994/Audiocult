@@ -9,6 +9,7 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.actions,
     this.title,
     this.backgroundColor,
+    this.leadingWidth,
     this.centerTitle,
   }) : super(key: key);
 
@@ -17,12 +18,14 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String? title;
   final Color? backgroundColor;
   final bool? centerTitle;
+  final double? leadingWidth;
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
       backgroundColor: backgroundColor ?? AppColors.secondaryButtonColor,
       elevation: 0,
+      leadingWidth: leadingWidth,
       centerTitle: centerTitle ?? true,
       bottomOpacity: 0,
       leading: leading ??

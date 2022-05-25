@@ -1,6 +1,5 @@
 import 'package:audio_cult/app/data_source/models/responses/album/album_response.dart';
 import 'package:audio_cult/app/features/music/detail_album/detail_album_bloc.dart';
-import 'package:audio_cult/app/features/music/detail_album/widgets/custom_sliver_album.dart';
 import 'package:audio_cult/app/features/music/detail_album/widgets/detail_album_comment.dart';
 import 'package:audio_cult/app/features/music/detail_album/widgets/detail_album_description.dart';
 import 'package:audio_cult/app/features/music/detail_album/widgets/detail_album_navbar.dart';

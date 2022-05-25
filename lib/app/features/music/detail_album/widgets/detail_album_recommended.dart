@@ -3,10 +3,12 @@ import 'package:audio_cult/app/data_source/models/responses/album/album_response
 import 'package:audio_cult/app/features/music/detail_album/detail_album_bloc.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/l10n/l10n.dart';
+import 'package:audio_cult/w_components/buttons/w_button_inkwell.dart';
 import 'package:flutter/material.dart';
 import '../../../../../w_components/error_empty/error_section.dart';
 import '../../../../../w_components/loading/loading_widget.dart';
 import '../../../../injections.dart';
+import '../../../../utils/route/app_route.dart';
 import '../../search/search_item.dart';
 
 class DetailAlbumRecommended extends StatefulWidget {
@@ -38,11 +40,11 @@ class _DetailAlbumRecommendedState extends State<DetailAlbumRecommended> {
         stream: albumBloc.getAlumRecommendedStream,
         builder: (context, snapshot) {
           final state = snapshot.data!;
-    
+
           return state.when(
             success: (success) {
               final data = success as List<Album>;
-    
+
               return Padding(
                 padding: const EdgeInsets.only(
                   top: 20,
@@ -69,8 +71,19 @@ class _DetailAlbumRecommendedState extends State<DetailAlbumRecommended> {
                         itemCount: data.length,
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
-                        itemBuilder: (context, index) => SearchItem(
-                          album: data[index],
+                        itemBuilder: (context, index) => WButtonInkwell(
+                          onPressed: () {
+                            Navigator.pushNamed(
+                              context,
+                              AppRoute.routeDetailAlbum,
+                              arguments: {
+                                'album_id': data[index].albumId,
+                              },
+                            );
+                          },
+                          child: SearchItem(
+                            album: data[index],
+                          ),
                         ),
                         separatorBuilder: (context, index) => const Divider(height: 40),
                       ),

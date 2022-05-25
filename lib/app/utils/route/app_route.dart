@@ -16,6 +16,7 @@ import 'package:audio_cult/app/features/events/create_event/create_event_screen.
 import 'package:audio_cult/app/features/events/detail/event_detail_screen.dart';
 import 'package:audio_cult/app/features/events/filter/filter_event_screen.dart';
 import 'package:audio_cult/app/features/events/result/result_screen.dart';
+import 'package:audio_cult/app/features/home/home_create_post.dart';
 import 'package:audio_cult/app/features/main/main_screen.dart';
 import 'package:audio_cult/app/features/music/detail-song/detail_song_screen.dart';
 import 'package:audio_cult/app/features/music/detail_album/detail_album_screen.dart';
@@ -72,6 +73,7 @@ class AppRoute {
   static const String routeSearch = 'search';
   static const String routeMusicFilter = '/search';
   static const String routeDetailSong = '/detail_song';
+  static const String routeCreatePost = '/create_post';
   static const String routeDetailAlbum = '/detail_album';
   static const String routeDetailPlayList = '/detail_playlist';
   static const String routeCommentEdit = '/comment_edit';
@@ -200,6 +202,11 @@ class AppRoute {
           DetailPlayListScreen(
             playListId: arguments['playlist_id'] as String,
           ),
+        );
+      case routeCreatePost:
+        return _pageRoute(
+          settings,
+          const HomeCreatePost(),
         );
       case routeCreateEvent:
         return _pageRoute(

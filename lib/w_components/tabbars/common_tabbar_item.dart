@@ -10,14 +10,16 @@ class CommonTabbarItem extends StatelessWidget {
     this.currentIndex,
     this.hasIcon,
     this.title,
+    this.activeIcon,
     this.width,
-    this.icon,
+    this.unActiveIcon,
   }) : super(key: key);
 
   final int? index; // THIS IS ORIGINAL INDEX OF ITEM DATA
   final int? currentIndex; // THIS IS CURRENT INDEX DEFINE THE ACTIVE STATUS OF THIS ITEM
   final bool? hasIcon;
-  final Widget? icon;
+  final Widget? unActiveIcon;
+  final Widget? activeIcon;
   final double? width;
   final String? title;
 
@@ -34,7 +36,7 @@ class CommonTabbarItem extends StatelessWidget {
           children: [
             Visibility(
               visible: hasIcon ?? false,
-              child: icon ?? Container(),
+              child: index == currentIndex ? activeIcon ?? Container() : unActiveIcon ?? Container(),
             ),
             const SizedBox(
               width: 10,
