@@ -1,6 +1,5 @@
 import 'package:audio_cult/app/data_source/models/responses/playlist/playlist_response.dart';
 import 'package:audio_cult/app/features/music/detail_playlist/detail_playlist_bloc.dart';
-import 'package:audio_cult/app/features/music/detail_playlist/widgets/custom_sliver_playlist.dart';
 import 'package:audio_cult/app/features/music/detail_playlist/widgets/detail_playlist_comment.dart';
 import 'package:audio_cult/app/features/music/detail_playlist/widgets/detail_playlist_navbar.dart';
 import 'package:audio_cult/app/features/music/detail_playlist/widgets/detail_playlist_photo.dart';
@@ -9,8 +8,8 @@ import 'package:audio_cult/app/features/music/detail_playlist/widgets/detail_pla
 import 'package:audio_cult/app/features/music/detail_playlist/widgets/detail_playlist_songs.dart';
 import 'package:audio_cult/app/features/music/detail_playlist/widgets/detail_playlist_title.dart';
 import 'package:audio_cult/app/injections.dart';
-import 'package:audio_cult/di/bloc_locator.dart';
 import 'package:flutter/material.dart';
+
 import '../../../../w_components/error_empty/error_section.dart';
 import '../../../../w_components/loading/loading_widget.dart';
 import '../../../base/bloc_state.dart';

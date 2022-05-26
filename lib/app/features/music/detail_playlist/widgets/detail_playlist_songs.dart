@@ -9,7 +9,6 @@ import '../../../../../w_components/error_empty/error_section.dart';
 import '../../../../../w_components/loading/loading_widget.dart';
 import '../../../../base/bloc_state.dart';
 import '../../../../data_source/models/responses/song/song_response.dart';
-import '../../../../injections.dart';
 import '../../../../utils/constants/app_assets.dart';
 import '../../../../utils/constants/app_colors.dart';
 import '../../discover/widgets/song_item.dart';

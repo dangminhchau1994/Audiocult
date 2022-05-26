@@ -9,10 +9,10 @@ import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/app/utils/mixins/disposable_state_mixin.dart';
 import 'package:audio_cult/app/utils/route/app_route.dart';
 import 'package:audio_cult/l10n/l10n.dart';
-import 'package:audio_cult/w_components/images/common_image_network.dart';
 import 'package:blur/blur.dart';
 import 'package:disposing/disposing.dart';
 import 'package:flutter/material.dart';
+
 import '../../../../di/bloc_locator.dart';
 import '../../../../w_components/buttons/w_button_inkwell.dart';
 import '../../../../w_components/dialogs/app_dialog.dart';
