@@ -13,7 +13,6 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import '../../../../../w_components/loading/loading_builder.dart';
 import '../../../../../w_components/loading/loading_widget.dart';
 import '../../../../constants/global_constants.dart';
-import '../../../music/library/widgets/empty_playlist.dart';
 
 class PopularEvents extends StatefulWidget {
   const PopularEvents({Key? key, this.pagingController}) : super(key: key);
