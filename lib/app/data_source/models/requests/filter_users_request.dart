@@ -5,15 +5,10 @@ class FilterUsersRequest {
   final String? countryISO;
   final List<String>? genreIds;
   final int? page;
+  final String? userId;
 
-  FilterUsersRequest({
-    this.keyword,
-    this.groupId,
-    this.categoryId,
-    this.countryISO,
-    this.genreIds,
-    this.page,
-  });
+  FilterUsersRequest(
+      {this.keyword, this.groupId, this.categoryId, this.countryISO, this.genreIds, this.page, this.userId});
 
   Map<String, dynamic> toJson() {
     final data = <String, dynamic>{};
@@ -23,6 +18,7 @@ class FilterUsersRequest {
     data['country_iso'] = countryISO;
     data['genres_ids'] = genreIds?.join(',');
     data['page'] = page;
+    data['user_id'] = userId;
     return data;
   }
 
