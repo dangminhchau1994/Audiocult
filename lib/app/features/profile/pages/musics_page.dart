@@ -64,29 +64,31 @@ class _MusicsPageState extends State<MusicsPage> {
       context: context,
       child: Padding(
         padding: const EdgeInsets.all(kVerticalSpacing),
-        child: PagedListView<int, Song>(
-          scrollController: _scrollController,
-          pagingController: _pagingController,
-          builderDelegate: PagedChildBuilderDelegate<Song>(
-            noItemsFoundIndicatorBuilder: (_) => const EmptyDataStateWidget(null),
-            firstPageProgressIndicatorBuilder: (_) => const LoadingWidget(),
-            firstPageErrorIndicatorBuilder: (_) {
-              return ErrorSectionWidget(
-                errorMessage: _pagingController.error as String,
-                onRetryTap: () {
-                  _pagingController.refresh();
-                  _discoverBloc.getMixTapSongs('', 'sort', 1, GlobalConstants.loadMoreItem, '', '',
-                      userId: widget.profile.userId);
-                },
-              );
-            },
-            itemBuilder: (context, item, index) {
-              return SongItem(
-                song: item,
-                songs: _pagingController.itemList,
-                index: index,
-              );
-            },
+        child: Scrollbar(
+          child: PagedListView<int, Song>(
+            scrollController: _scrollController,
+            pagingController: _pagingController,
+            builderDelegate: PagedChildBuilderDelegate<Song>(
+              noItemsFoundIndicatorBuilder: (_) => const EmptyDataStateWidget(null),
+              firstPageProgressIndicatorBuilder: (_) => const LoadingWidget(),
+              firstPageErrorIndicatorBuilder: (_) {
+                return ErrorSectionWidget(
+                  errorMessage: _pagingController.error as String,
+                  onRetryTap: () {
+                    _pagingController.refresh();
+                    _discoverBloc.getMixTapSongs('', 'sort', 1, GlobalConstants.loadMoreItem, '', '',
+                        userId: widget.profile.userId);
+                  },
+                );
+              },
+              itemBuilder: (context, item, index) {
+                return SongItem(
+                  song: item,
+                  songs: _pagingController.itemList,
+                  index: index,
+                );
+              },
+            ),
           ),
         ),
       ),

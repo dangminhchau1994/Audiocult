@@ -21,7 +21,7 @@ class Song {
   String? licenseType;
   String? songPath;
   String? explicit;
-  int? duration;
+  String? duration;
   String? totalPlay;
   String? totalView;
   String? totalComment;

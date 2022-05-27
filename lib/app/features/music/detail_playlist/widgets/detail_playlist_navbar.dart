@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 
 import '../../../../../w_components/buttons/w_button_inkwell.dart';
-import '../../../../utils/constants/app_assets.dart';
-import '../../../../utils/constants/app_colors.dart';
 
 class DetailPlayListNavBar extends StatelessWidget {
   const DetailPlayListNavBar({Key? key}) : super(key: key);

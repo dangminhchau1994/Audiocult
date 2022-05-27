@@ -1,5 +1,4 @@
 import 'package:audio_cult/app/data_source/local/pref_provider.dart';
-import 'package:audio_cult/app/features/atlas/atlas_bloc.dart';
 import 'package:audio_cult/app/injections.dart';
 import 'package:audio_cult/app/utils/constants/app_assets.dart';
 import 'package:audio_cult/app/utils/constants/app_dimens.dart';

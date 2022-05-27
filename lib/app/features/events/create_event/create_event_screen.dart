@@ -12,7 +12,7 @@ import 'package:audio_cult/l10n/l10n.dart';
 import 'package:audio_cult/w_components/appbar/common_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../../../di/bloc_locator.dart';
+
 import '../../../../w_components/error_empty/error_section.dart';
 import '../../../../w_components/loading/loading_blur.dart';
 import '../../../base/bloc_state.dart';

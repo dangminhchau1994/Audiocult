@@ -97,8 +97,6 @@ class AtlasFilterProvider extends ChangeNotifier {
     if (index == null) return;
     subCategoryOptions?[index].isSelected = true;
     subCategoryOptions = subCategoryOptions?.toList();
-    print(subCategoryOptions?[index]);
-
     notifyListeners();
   }
 

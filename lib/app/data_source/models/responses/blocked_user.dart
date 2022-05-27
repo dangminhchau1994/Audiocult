@@ -12,6 +12,7 @@ class BlockedUser {
   String? userImageUrl;
   String? isInvisible;
   String? userGroupId;
+  String? userGroupTitle;
   String? languageId;
   String? lastActivity;
   String? birthday;
@@ -33,5 +34,6 @@ class BlockedUser {
     lastActivity = iw['last_activity'].get();
     birthday = iw['birthday'].get();
     countryISO = iw['country_iso'].get();
+    userGroupTitle = iw['user_group_title'].get();
   }
 }

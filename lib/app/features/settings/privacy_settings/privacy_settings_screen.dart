@@ -413,7 +413,7 @@ class _PrivacySettingsScreenState extends State<PrivacySettingsScreen> {
                   children: [
                     Text(user.fullName ?? '', style: context.headerStyle1()?.copyWith(fontWeight: FontWeight.w400)),
                     Text(
-                      user.userGroupId ?? '',
+                      user.userGroupTitle ?? '',
                       style: context.bodyTextStyle()?.copyWith(color: AppColors.subTitleColor),
                     ),
                   ],

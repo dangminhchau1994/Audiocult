@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:audio_cult/app/utils/constants/app_assets.dart';
+import 'package:blur/blur.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -8,8 +9,7 @@ import '../../app/utils/constants/app_colors.dart';
 import '../../libs/circular/circular_menu.dart';
 import '../../libs/circular/circular_menu_item.dart';
 
-
-class CommonCircularMenu extends StatelessWidget {
+class CommonCircularMenu extends StatefulWidget {
   const CommonCircularMenu({
     Key? key,
     this.onPostTap,
@@ -22,19 +22,52 @@ class CommonCircularMenu extends StatelessWidget {
   final Function()? onEventTap;
 
   @override
+  State<CommonCircularMenu> createState() => _CommonCircularMenuState();
+}
+
+class _CommonCircularMenuState extends State<CommonCircularMenu> {
+  bool isShow = false;
+  final key = GlobalKey<CircularMenuState>();
+  @override
   Widget build(BuildContext context) {
     return CircularMenu(
+      key: key,
       startingAngleInRadian: 1.25 * pi,
       endingAngleInRadian: 1.75 * pi,
       toggleButtonSize: 30,
       toggleButtonPadding: 20,
-      toggleButtonOnPressed: () {},
+      toggleButtonOnPressed: () {
+        setState(() {
+          isShow = !isShow;
+        });
+      },
       toggleButtonColor: AppColors.primaryButtonColor,
       toggleButtonIconColor: Colors.white,
+      backgroundWidget: isShow
+          ? GestureDetector(
+              onTap: () {
+                setState(() {
+                  isShow = false;
+                  key.currentState?.reverseAnimation();
+                });
+              },
+              child: Blur(
+                blur: 10,
+                blurColor: AppColors.secondaryButtonColor,
+                child: Container(),
+              ),
+            )
+          : null,
       items: [
         CircularMenuItem(
           isToogleButton: false,
-          onTap: onPostTap ?? () {},
+          onTap: () {
+            setState(() {
+              isShow = false;
+              key.currentState?.reverseAnimation();
+            });
+            widget.onPostTap?.call();
+          },
           label: 'Posts',
           icon: SvgPicture.asset(
             AppAssets.postIcon,
@@ -47,7 +80,13 @@ class CommonCircularMenu extends StatelessWidget {
             AppAssets.musicIcon,
             color: Colors.white,
           ),
-          onTap: onMusicTap ?? () {},
+          onTap: () {
+            setState(() {
+              isShow = false;
+              key.currentState?.reverseAnimation();
+            });
+            widget.onMusicTap?.call();
+          },
           label: 'Music',
         ),
         CircularMenuItem(
@@ -56,7 +95,13 @@ class CommonCircularMenu extends StatelessWidget {
             AppAssets.eventIcon,
             color: Colors.white,
           ),
-          onTap: onEventTap ?? () {},
+          onTap: () {
+            setState(() {
+              isShow = false;
+              key.currentState?.reverseAnimation();
+            });
+            widget.onEventTap?.call();
+          },
           label: 'Event',
         ),
       ],

@@ -90,34 +90,36 @@ class _AtlasFilterResultScreenState extends State<AtlasFilterResultScreen> {
           updatedSubscriptionData = tupleData.item1;
           subscriptionsInProcess = tupleData.item2;
         }
-        return Padding(
-          padding: const EdgeInsets.all(16),
-          child: PagedListView<int, AtlasUser>(
-            padding: const EdgeInsets.only(bottom: 100),
-            pagingController: _pagingController,
-            builderDelegate: PagedChildBuilderDelegate<AtlasUser>(
-              itemBuilder: (context, user, index) {
-                final latestSubscriptionCount =
-                    updatedSubscriptionData?.firstWhereOrNull((e) => e.userId == user.userId)?.subscriptionCount;
-                final latestSubscriptionValue =
-                    updatedSubscriptionData?.firstWhereOrNull((e) => e.userId == user.userId)?.isSubscribed;
-                return AtlasUserWidget(
-                  user,
-                  updatedSubscriptionCount: latestSubscriptionCount,
-                  updatedSubscriptionStatus: latestSubscriptionValue,
-                  userSubscriptionInProcess: subscriptionsInProcess?[user.userId] ?? false,
-                  subscriptionOnChanged: () => _bloc.subscribeUser(user),
-                  onTap: () async {
-                    if (user.userId?.isNotEmpty == true) {
-                      await Navigator.pushNamed(
-                        context,
-                        AppRoute.routeProfile,
-                        arguments: ProfileScreen.createArguments(id: user.userId ?? ''),
-                      );
-                    }
-                  },
-                );
-              },
+        return Scrollbar(
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: PagedListView<int, AtlasUser>(
+              padding: const EdgeInsets.only(bottom: 100),
+              pagingController: _pagingController,
+              builderDelegate: PagedChildBuilderDelegate<AtlasUser>(
+                itemBuilder: (context, user, index) {
+                  final latestSubscriptionCount =
+                      updatedSubscriptionData?.firstWhereOrNull((e) => e.userId == user.userId)?.subscriptionCount;
+                  final latestSubscriptionValue =
+                      updatedSubscriptionData?.firstWhereOrNull((e) => e.userId == user.userId)?.isSubscribed;
+                  return AtlasUserWidget(
+                    user,
+                    updatedSubscriptionCount: latestSubscriptionCount,
+                    updatedSubscriptionStatus: latestSubscriptionValue,
+                    userSubscriptionInProcess: subscriptionsInProcess?[user.userId] ?? false,
+                    subscriptionOnChanged: () => _bloc.subscribeUser(user),
+                    onTap: () async {
+                      if (user.userId?.isNotEmpty == true) {
+                        await Navigator.pushNamed(
+                          context,
+                          AppRoute.routeProfile,
+                          arguments: ProfileScreen.createArguments(id: user.userId ?? ''),
+                        );
+                      }
+                    },
+                  );
+                },
+              ),
             ),
           ),
         );

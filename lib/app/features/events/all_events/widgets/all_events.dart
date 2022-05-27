@@ -1,12 +1,9 @@
 import 'package:audio_cult/app/features/events/all_events/widgets/all_event_item.dart';
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import '../../../../../di/bloc_locator.dart';
+
 import '../../../../../w_components/loading/loading_widget.dart';
-import '../../../../constants/global_constants.dart';
-import '../../../../data_source/models/requests/event_request.dart';
 import '../../../../data_source/models/responses/events/event_response.dart';
-import '../../all_event_bloc.dart';
 
 class AllEvents extends StatefulWidget {
   const AllEvents({

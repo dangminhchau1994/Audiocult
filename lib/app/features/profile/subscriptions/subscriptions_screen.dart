@@ -21,6 +21,8 @@ class _SubscriptionsScreenState extends State<SubscriptionsScreen> {
           backgroundColor: AppColors.mainColor,
           title: context.l10n.t_subscriptions,
         ),
-        body: const AtlasScreen());
+        body: AtlasScreen(
+          userId: widget.userId,
+        ));
   }
 }

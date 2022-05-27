@@ -6,14 +6,13 @@ import 'package:audio_cult/app/features/events/all_events/widgets/show_events.da
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
 import 'package:audio_cult/app/view/no_data_widget.dart';
 import 'package:audio_cult/di/bloc_locator.dart';
-import 'package:audio_cult/l10n/l10n.dart';
 import 'package:audio_cult/w_components/loading/loading_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+
 import '../../../constants/global_constants.dart';
 import '../../../data_source/models/requests/event_request.dart';
 import '../../../data_source/models/responses/events/event_response.dart';
-import '../../music/library/widgets/empty_playlist.dart';
 import '../popular_event_bloc.dart';
 
 class AllEventsScreen extends StatefulWidget {

@@ -115,22 +115,24 @@ class _ResultScreenState extends State<ResultScreen> {
             } else {
               _pagingController.appendPage(data, _pagingController.firstPageKey + 1);
             }
-            return PagedListView<int, EventResponse>.separated(
-              shrinkWrap: true,
-              padding: const EdgeInsets.symmetric(
-                vertical: 16,
-              ),
-              pagingController: _pagingController,
-              separatorBuilder: (context, index) => const Divider(height: 24),
-              builderDelegate: PagedChildBuilderDelegate<EventResponse>(
-                firstPageProgressIndicatorBuilder: (context) => Container(),
-                newPageProgressIndicatorBuilder: (context) => const LoadingWidget(),
-                animateTransitions: true,
-                itemBuilder: (context, item, index) {
-                  return AllEventItem(
-                    data: item,
-                  );
-                },
+            return Scrollbar(
+              child: PagedListView<int, EventResponse>.separated(
+                shrinkWrap: true,
+                padding: const EdgeInsets.symmetric(
+                  vertical: 16,
+                ),
+                pagingController: _pagingController,
+                separatorBuilder: (context, index) => const Divider(height: 24),
+                builderDelegate: PagedChildBuilderDelegate<EventResponse>(
+                  firstPageProgressIndicatorBuilder: (context) => Container(),
+                  newPageProgressIndicatorBuilder: (context) => const LoadingWidget(),
+                  animateTransitions: true,
+                  itemBuilder: (context, item, index) {
+                    return AllEventItem(
+                      data: item,
+                    );
+                  },
+                ),
               ),
             );
           },

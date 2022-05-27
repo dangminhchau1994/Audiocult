@@ -99,9 +99,9 @@ class SongItem extends StatelessWidget {
                             width: 10,
                           ),
                           Text(
-                            fromDetail!
-                                ? DateTimeUtils.formatyMMMMd(int.parse(song?.timeStamp ?? ''))
-                                : DateTimeUtils.formatCommonDate('hh:mm', int.parse(song?.timeStamp ?? '')),
+                            song?.duration != null && song?.duration?.isNotEmpty == true
+                                ? formatTime(Duration(seconds: int.tryParse(song!.duration!)!))
+                                : 'N/A',
                             overflow: TextOverflow.ellipsis,
                             style: context.bodyTextPrimaryStyle()!.copyWith(
                                   color: AppColors.subTitleColor,

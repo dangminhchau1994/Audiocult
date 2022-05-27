@@ -71,30 +71,32 @@ class _EventsPageState extends State<EventsPage> {
       context: context,
       child: Padding(
         padding: const EdgeInsets.all(kVerticalSpacing),
-        child: PagedListView<int, EventResponse>.separated(
-          separatorBuilder: (context, index) => const Divider(height: 24),
-          padding: const EdgeInsets.symmetric(
-            vertical: 16,
-          ),
-          scrollController: _scrollController,
-          pagingController: _pagingController,
-          builderDelegate: PagedChildBuilderDelegate<EventResponse>(
-            firstPageProgressIndicatorBuilder: (_) => const LoadingWidget(),
-            noItemsFoundIndicatorBuilder: (_) => const EmptyDataStateWidget(null),
-            firstPageErrorIndicatorBuilder: (_) {
-              return ErrorSectionWidget(
-                errorMessage: _pagingController.error as String,
-                onRetryTap: () {
-                  _pagingController.refresh();
-                  _fetchPage(1);
-                },
-              );
-            },
-            itemBuilder: (context, item, index) {
-              return AllEventItem(
-                data: item,
-              );
-            },
+        child: Scrollbar(
+          child: PagedListView<int, EventResponse>.separated(
+            separatorBuilder: (context, index) => const Divider(height: 24),
+            padding: const EdgeInsets.symmetric(
+              vertical: 16,
+            ),
+            scrollController: _scrollController,
+            pagingController: _pagingController,
+            builderDelegate: PagedChildBuilderDelegate<EventResponse>(
+              firstPageProgressIndicatorBuilder: (_) => const LoadingWidget(),
+              noItemsFoundIndicatorBuilder: (_) => const EmptyDataStateWidget(null),
+              firstPageErrorIndicatorBuilder: (_) {
+                return ErrorSectionWidget(
+                  errorMessage: _pagingController.error as String,
+                  onRetryTap: () {
+                    _pagingController.refresh();
+                    _fetchPage(1);
+                  },
+                );
+              },
+              itemBuilder: (context, item, index) {
+                return AllEventItem(
+                  data: item,
+                );
+              },
+            ),
           ),
         ),
       ),

@@ -165,25 +165,27 @@ class _FeaturedAlbumScreenState extends State<FeaturedAlbumScreen> {
               } else {
                 _pagingController.appendPage(data, _pagingController.firstPageKey + 1);
               }
-              return PagedListView<int, Album>.separated(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 16,
-                ),
-                pagingController: _pagingController,
-                separatorBuilder: (context, index) => Divider(
-                  height: 0.1,
-                  color: Colors.grey.withOpacity(0.5),
-                ),
-                builderDelegate: PagedChildBuilderDelegate<Album>(
-                  firstPageProgressIndicatorBuilder: (context) => Container(),
-                  newPageProgressIndicatorBuilder: (context) => const LoadingWidget(),
-                  animateTransitions: true,
-                  itemBuilder: (context, item, index) {
-                    return FeaturedAlbumItem(
-                      album: item,
-                    );
-                  },
+              return Scrollbar(
+                child: PagedListView<int, Album>.separated(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 16,
+                  ),
+                  pagingController: _pagingController,
+                  separatorBuilder: (context, index) => Divider(
+                    height: 0.1,
+                    color: Colors.grey.withOpacity(0.5),
+                  ),
+                  builderDelegate: PagedChildBuilderDelegate<Album>(
+                    firstPageProgressIndicatorBuilder: (context) => Container(),
+                    newPageProgressIndicatorBuilder: (context) => const LoadingWidget(),
+                    animateTransitions: true,
+                    itemBuilder: (context, item, index) {
+                      return FeaturedAlbumItem(
+                        album: item,
+                      );
+                    },
+                  ),
                 ),
               );
             },

@@ -110,3 +110,13 @@ String printDuration(Duration duration) {
   final twoDigitSeconds = twoDigits(duration.inSeconds.remainder(60));
   return '$twoDigitMinutes:$twoDigitSeconds';
 }
+
+String formatTime(Duration d) {
+  final data = d.toString().split('.').first.padLeft(8, '0');
+
+  if (d.inHours > 0) {
+    return data;
+  } else {
+    return printDuration(d);
+  }
+}

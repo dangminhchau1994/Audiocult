@@ -314,36 +314,38 @@ class _ReplyListScreenState extends State<ReplyListScreen> {
                           return Container(
                             height: 650,
                             padding: const EdgeInsets.only(bottom: 50, left: 40),
-                            child: PagedListView<int, CommentResponse>.separated(
-                              padding: const EdgeInsets.symmetric(
-                                vertical: 20,
-                              ),
-                              pagingController: _pagingController,
-                              separatorBuilder: (context, index) => const Divider(height: 24),
-                              builderDelegate: PagedChildBuilderDelegate<CommentResponse>(
-                                firstPageProgressIndicatorBuilder: (context) => Container(),
-                                newPageProgressIndicatorBuilder: (context) => const LoadingWidget(),
-                                animateTransitions: true,
-                                itemBuilder: (context, item, index) {
-                                  return WButtonInkwell(
-                                    onPressed: () {
-                                      if (_hiveServiceProvider.getProfile()?.userId == item.userId) {
-                                        _showBottomSheet(item);
-                                      }
-                                    },
-                                    child: ValueListenableBuilder(
-                                      valueListenable: _commentResponse,
-                                      builder: (context, value, child) {
-                                        return CommentItem(
-                                          data: item,
-                                          onReply: (data) {
-                                            _focusNode.requestFocus();
-                                          },
-                                        );
+                            child: Scrollbar(
+                              child: PagedListView<int, CommentResponse>.separated(
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 20,
+                                ),
+                                pagingController: _pagingController,
+                                separatorBuilder: (context, index) => const Divider(height: 24),
+                                builderDelegate: PagedChildBuilderDelegate<CommentResponse>(
+                                  firstPageProgressIndicatorBuilder: (context) => Container(),
+                                  newPageProgressIndicatorBuilder: (context) => const LoadingWidget(),
+                                  animateTransitions: true,
+                                  itemBuilder: (context, item, index) {
+                                    return WButtonInkwell(
+                                      onPressed: () {
+                                        if (_hiveServiceProvider.getProfile()?.userId == item.userId) {
+                                          _showBottomSheet(item);
+                                        }
                                       },
-                                    ),
-                                  );
-                                },
+                                      child: ValueListenableBuilder(
+                                        valueListenable: _commentResponse,
+                                        builder: (context, value, child) {
+                                          return CommentItem(
+                                            data: item,
+                                            onReply: (data) {
+                                              _focusNode.requestFocus();
+                                            },
+                                          );
+                                        },
+                                      ),
+                                    );
+                                  },
+                                ),
                               ),
                             ),
                           );
