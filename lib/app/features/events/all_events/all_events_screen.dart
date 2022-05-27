@@ -91,47 +91,49 @@ class _AllEventsScreenState extends State<AllEventsScreen> with AutomaticKeepAli
             ),
           );
         },
-        child: LoadingBuilder<AllEventBloc, List<EventResponse>>(
-          noDataBuilder: (state) {
-            return const NoDataWidget();
-          },
-          builder: (data, _) {
-            // only first page
-            final isLastPage = data.length == GlobalConstants.loadMoreItem - 1;
-            if (isLastPage) {
-              _pagingAllEventController.appendLastPage(data);
-            } else {
-              _pagingAllEventController.appendPage(data, _pagingAllEventController.firstPageKey + 1);
-            }
-            return CustomScrollView(
-              slivers: [
-                const ShowEvents(),
-                PopularEvents(
-                  pagingController: _pagePopularEventController,
-                ),
-                const EventFilter(),
-                AllEvents(
-                  pagingController: _pagingAllEventController,
-                ),
-                SliverToBoxAdapter(
-                  child: Padding(
-                    padding: const EdgeInsets.only(bottom: 150),
-                    child: Container(),
+        child: Scrollbar(
+          child: LoadingBuilder<AllEventBloc, List<EventResponse>>(
+            noDataBuilder: (state) {
+              return const NoDataWidget();
+            },
+            builder: (data, _) {
+              // only first page
+              final isLastPage = data.length == GlobalConstants.loadMoreItem - 1;
+              if (isLastPage) {
+                _pagingAllEventController.appendLastPage(data);
+              } else {
+                _pagingAllEventController.appendPage(data, _pagingAllEventController.firstPageKey + 1);
+              }
+              return CustomScrollView(
+                slivers: [
+                  const ShowEvents(),
+                  PopularEvents(
+                    pagingController: _pagePopularEventController,
                   ),
-                )
-              ],
-            );
-          },
-          reloadAction: (_) {
-            _pagingAllEventController.refresh();
-            _allEventBloc.requestData(
-              params: EventRequest(
-                query: '',
-                page: 1,
-                limit: GlobalConstants.loadMoreItem,
-              ),
-            );
-          },
+                  const EventFilter(),
+                  AllEvents(
+                    pagingController: _pagingAllEventController,
+                  ),
+                  SliverToBoxAdapter(
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 150),
+                      child: Container(),
+                    ),
+                  )
+                ],
+              );
+            },
+            reloadAction: (_) {
+              _pagingAllEventController.refresh();
+              _allEventBloc.requestData(
+                params: EventRequest(
+                  query: '',
+                  page: 1,
+                  limit: GlobalConstants.loadMoreItem,
+                ),
+              );
+            },
+          ),
         ),
       ),
     );
