@@ -104,23 +104,25 @@ class _AllEventsScreenState extends State<AllEventsScreen> with AutomaticKeepAli
               } else {
                 _pagingAllEventController.appendPage(data, _pagingAllEventController.firstPageKey + 1);
               }
-              return CustomScrollView(
-                slivers: [
-                  const ShowEvents(),
-                  PopularEvents(
-                    pagingController: _pagePopularEventController,
-                  ),
-                  const EventFilter(),
-                  AllEvents(
-                    pagingController: _pagingAllEventController,
-                  ),
-                  SliverToBoxAdapter(
-                    child: Padding(
-                      padding: const EdgeInsets.only(bottom: 150),
-                      child: Container(),
+              return Scrollbar(
+                child: CustomScrollView(
+                  slivers: [
+                    const ShowEvents(),
+                    PopularEvents(
+                      pagingController: _pagePopularEventController,
                     ),
-                  )
-                ],
+                    const EventFilter(),
+                    AllEvents(
+                      pagingController: _pagingAllEventController,
+                    ),
+                    SliverToBoxAdapter(
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 150),
+                        child: Container(),
+                      ),
+                    )
+                  ],
+                ),
               );
             },
             reloadAction: (_) {
