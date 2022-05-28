@@ -22,6 +22,7 @@ import 'package:audio_cult/app/features/settings/account_settings/account_settin
 import 'package:audio_cult/app/features/settings/notifications_settings/notification_settings_bloc.dart';
 import 'package:audio_cult/app/features/settings/page_template/page_template_bloc.dart';
 import 'package:audio_cult/app/features/settings/privacy_settings/privacy_settings_bloc.dart';
+import 'package:audio_cult/app/features/universal_search/universal_search_bloc.dart';
 import 'package:audio_cult/app/injections.dart';
 import 'package:audio_cult/w_components/comment/comment_item_bloc.dart';
 import 'package:audio_cult/w_components/comment/reply_list_bloc.dart';
@@ -135,4 +136,6 @@ void setupLocator() {
   getIt.registerFactory<PrivacySettingsBloc>(() => PrivacySettingsBloc(locator.get<AppRepository>()));
 
   getIt.registerLazySingleton<SubscribeUserBloc>(SubscribeUserBloc.new);
+
+  getIt.registerFactory<UniversalSearchBloc>(() => UniversalSearchBloc(locator.get<AppRepository>()));
 }

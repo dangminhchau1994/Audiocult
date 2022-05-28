@@ -34,6 +34,7 @@ import 'package:audio_cult/app/features/profile/profile_bloc.dart';
 import 'package:audio_cult/app/features/profile/profile_screen.dart';
 import 'package:audio_cult/app/features/profile/subscriptions/subscriptions_screen.dart';
 import 'package:audio_cult/app/features/settings/settings_screen.dart';
+import 'package:audio_cult/app/features/universal_search/universal_search_screen.dart';
 import 'package:audio_cult/app/features/videos/video_player_screen.dart';
 import 'package:audio_cult/app/injections.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
@@ -99,6 +100,7 @@ class AppRoute {
   static const String routeVideoPlayer = '/route_video_player';
   static const String routeNotification = '/route_notification';
   static const String routeResetPassword = '/route_reset_password';
+  static const String routeUniversalSearch = '/route_universal_search';
 
   ///#end region
 
@@ -337,6 +339,10 @@ class AppRoute {
             CreateNewPasswordScreen(
               hashId: arguments as String?,
             ));
+
+      case routeUniversalSearch:
+        return _pageRoute(settings, UniversalSearchScreen());
+
       default:
         return null;
     }

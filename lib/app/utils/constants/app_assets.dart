@@ -125,6 +125,8 @@ class AppAssets {
 
   static const icGlobe = 'assets/icons/ic_globe.svg';
 
+  static const icClear = 'assets/icons/ic_clear.svg';
+
   static const logoIcon = 'assets/icons/ic_logo.png';
 
   static const authVectorIcon = 'assets/icons/ic_auth_vector.png';

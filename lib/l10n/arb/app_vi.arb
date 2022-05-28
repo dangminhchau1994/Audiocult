@@ -118,5 +118,8 @@
     "t_blocked": "Blocked",
     "t_blocked_desc": "Blocked users cannot view your profile, leave comments or send you private messages.",
     "t_everyone": "Everyone",
-    "t_unblock": "Unblock"
+    "t_unblock": "Unblock",
+    "t_all": "All",
+    "t_people": "People",
+    "t_recent_search": "Recent search"
 }
