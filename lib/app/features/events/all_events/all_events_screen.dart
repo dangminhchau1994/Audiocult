@@ -90,47 +90,51 @@ class _AllEventsScreenState extends State<AllEventsScreen> with AutomaticKeepAli
             ),
           );
         },
-        child: LoadingBuilder<AllEventBloc, List<EventResponse>>(
-          noDataBuilder: (state) {
-            return const NoDataWidget();
-          },
-          builder: (data, _) {
-            // only first page
-            final isLastPage = data.length == GlobalConstants.loadMoreItem - 1;
-            if (isLastPage) {
-              _pagingAllEventController.appendLastPage(data);
-            } else {
-              _pagingAllEventController.appendPage(data, _pagingAllEventController.firstPageKey + 1);
-            }
-            return CustomScrollView(
-              slivers: [
-                const ShowEvents(),
-                PopularEvents(
-                  pagingController: _pagePopularEventController,
+        child: Scrollbar(
+          child: LoadingBuilder<AllEventBloc, List<EventResponse>>(
+            noDataBuilder: (state) {
+              return const NoDataWidget();
+            },
+            builder: (data, _) {
+              // only first page
+              final isLastPage = data.length == GlobalConstants.loadMoreItem - 1;
+              if (isLastPage) {
+                _pagingAllEventController.appendLastPage(data);
+              } else {
+                _pagingAllEventController.appendPage(data, _pagingAllEventController.firstPageKey + 1);
+              }
+              return Scrollbar(
+                child: CustomScrollView(
+                  slivers: [
+                    const ShowEvents(),
+                    PopularEvents(
+                      pagingController: _pagePopularEventController,
+                    ),
+                    const EventFilter(),
+                    AllEvents(
+                      pagingController: _pagingAllEventController,
+                    ),
+                    SliverToBoxAdapter(
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 150),
+                        child: Container(),
+                      ),
+                    )
+                  ],
                 ),
-                const EventFilter(),
-                AllEvents(
-                  pagingController: _pagingAllEventController,
+              );
+            },
+            reloadAction: (_) {
+              _pagingAllEventController.refresh();
+              _allEventBloc.requestData(
+                params: EventRequest(
+                  query: '',
+                  page: 1,
+                  limit: GlobalConstants.loadMoreItem,
                 ),
-                SliverToBoxAdapter(
-                  child: Padding(
-                    padding: const EdgeInsets.only(bottom: 150),
-                    child: Container(),
-                  ),
-                )
-              ],
-            );
-          },
-          reloadAction: (_) {
-            _pagingAllEventController.refresh();
-            _allEventBloc.requestData(
-              params: EventRequest(
-                query: '',
-                page: 1,
-                limit: GlobalConstants.loadMoreItem,
-              ),
-            );
-          },
+              );
+            },
+          ),
         ),
       ),
     );
