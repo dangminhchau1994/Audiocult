@@ -1,4 +1,5 @@
-import 'package:audio_cult/app/features/home/home_status.dart';
+import 'package:audio_cult/app/features/home/post_photos/post_photos.dart';
+import 'package:audio_cult/app/features/home/post_status/post_status.dart';
 import 'package:audio_cult/app/utils/constants/app_assets.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
@@ -107,9 +108,9 @@ class _HomeCreatePostState extends State<HomeCreatePost> {
           pageViewBuilder: (context, index) {
             switch (index) {
               case 0:
-                return const HomeStatus();
+                return const PostStatus();
               case 1:
-                return const SizedBox();
+                return const PostPhotos();
               case 2:
                 return const SizedBox();
               default:

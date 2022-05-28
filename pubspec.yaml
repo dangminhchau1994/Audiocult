@@ -46,6 +46,7 @@ dependencies:
   very_good_analysis: ^2.4.0
   dartz: ^0.10.1
   modal_bottom_sheet: ^2.0.1
+  flutter_image_compress: ^1.1.0
   loader_overlay: ^2.0.5
   loading_indicator: ^3.0.2
   disposing: ^1.0.3+1
@@ -70,7 +71,7 @@ dependencies:
   dotted_border: ^2.0.0
   file_picker: ^4.5.1
   flutter_form_builder: ^7.1.1
-  image_picker: ^0.8.5
+  image_picker: ^0.8.3+3
   flutter_chips_input:
     git: https://github.com/jozes/flutter_chips_input.git
   http_parser: ^4.0.0

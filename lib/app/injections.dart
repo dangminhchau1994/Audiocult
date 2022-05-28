@@ -1,5 +1,9 @@
 // ignore_for_file: avoid_redundant_argument_values
 
+import 'package:audio_cult/app/services/media_handler_service.dart';
+import 'package:audio_cult/app/services/media_service.dart';
+import 'package:audio_cult/app/services/permission_handler_service.dart';
+import 'package:audio_cult/app/services/permisssion_service.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
@@ -57,10 +61,15 @@ Future<void> initDependency() async {
     final dio = _createDio(FlavorConfig.instance!.values!.mainUrl!);
     return AppServiceProvider(dio);
   });
+
   locator.registerLazySingleton<PlaceServiceProvider>(() {
     final dio = _createDio(FlavorConfig.instance!.values!.placeUrl!);
     return PlaceServiceProvider(dio);
   });
+
+  locator.registerSingleton<PermissionService>(PermissionHandlerPermissionService());
+
+  locator.registerSingleton<MediaServiceInterface>(MediaServiceHandler());
 
   locator.registerLazySingleton(
     () => AppRepository(
