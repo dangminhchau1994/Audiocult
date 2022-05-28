@@ -2,9 +2,12 @@ import 'package:audio_cult/app/base/base_bloc.dart';
 import 'package:audio_cult/app/base/bloc_state.dart';
 import 'package:audio_cult/app/data_source/models/requests/create_post_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/feed_request.dart';
+import 'package:audio_cult/app/data_source/models/requests/upload_photo_request.dart';
 import 'package:audio_cult/app/data_source/models/responses/announcement/announcement_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/create_post/create_post_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/feed/feed_response.dart';
+import 'package:audio_cult/app/data_source/models/responses/upload_photo/upload_photo_response.dart';
+import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:rxdart/subjects.dart';
 import '../../data_source/models/responses/background/background_response.dart';
@@ -23,6 +26,7 @@ class HomeBloc extends BaseBloc<FeedRequest, List<FeedResponse>> {
   final _postReactionIconSubject = PublishSubject<BlocState<CommentResponse>>();
   final _getBackgroundSubject = PublishSubject<BlocState<List<BackgroundResponse>>>();
   final _createPostSubject = PublishSubject<BlocState<CreatePostResponse>>();
+  final _uploadPhotoSubject = PublishSubject<BlocState<List<UploadPhotoResponse>>>();
 
   Stream<BlocState<List<AnnouncementResponse>>> get getAnnoucementStream => _getAnnouncementSubject.stream;
   Stream<BlocState<List<CommentResponse>>> get getCommentsStream => _getCommentsSubject.stream;
@@ -30,16 +34,29 @@ class HomeBloc extends BaseBloc<FeedRequest, List<FeedResponse>> {
   Stream<BlocState<CommentResponse>> get postReactionIconStream => _postReactionIconSubject.stream;
   Stream<BlocState<List<BackgroundResponse>>> get getBackgroundStream => _getBackgroundSubject.stream;
   Stream<BlocState<CreatePostResponse>> get createPostStream => _createPostSubject.stream;
+  Stream<BlocState<List<UploadPhotoResponse>>> get uploadPhotoStream => _uploadPhotoSubject.stream;
 
-  void createPost(CreatePostRequest request) async {
-    _createPostSubject.sink.add(const BlocState.loading());
-
+  void postStatus(CreatePostRequest request) async {
+    showOverLayLoading();
     final result = await _appRepository.createPost(request);
+    hideOverlayLoading();
 
     result.fold((success) {
       _createPostSubject.sink.add(BlocState.success(success));
     }, (error) {
       _createPostSubject.sink.add(BlocState.error(error.toString()));
+    });
+  }
+
+  void uploadPhoto(UploadPhotoRequest request) async {
+    showOverLayLoading();
+    final result = await _appRepository.uploadPhoto(request);
+    hideOverlayLoading();
+
+    result.fold((success) {
+      _uploadPhotoSubject.sink.add(BlocState.success(success));
+    }, (error) {
+      _uploadPhotoSubject.sink.add(BlocState.error(error.toString()));
     });
   }
 

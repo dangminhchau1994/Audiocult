@@ -1,3 +1,4 @@
+
 import 'package:audio_cult/app/data_source/local/pref_provider.dart';
 import 'package:audio_cult/app/data_source/models/account_settings.dart';
 import 'package:audio_cult/app/data_source/models/notification_option.dart';
@@ -9,6 +10,7 @@ import 'package:audio_cult/app/data_source/models/requests/filter_users_request.
 import 'package:audio_cult/app/data_source/models/requests/my_diary_event_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/notification_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/register_request.dart';
+import 'package:audio_cult/app/data_source/models/requests/upload_photo_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/upload_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/video_request.dart';
 import 'package:audio_cult/app/data_source/models/responses/album/album_response.dart';
@@ -29,6 +31,7 @@ import 'package:audio_cult/app/data_source/models/responses/playlist/playlist_re
 import 'package:audio_cult/app/data_source/models/responses/privacy_settings/privacy_settings_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/reaction_icon/reaction_icon_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/timezone/timezone_response.dart';
+import 'package:audio_cult/app/data_source/models/responses/upload_photo/upload_photo_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/user_subscription_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/video_data.dart';
 import 'package:audio_cult/app/data_source/models/update_account_settings_response.dart';
@@ -174,6 +177,31 @@ class AppServiceProvider {
     );
     return response.mapData(
       (json) => CreatePostResponse.fromJson(json as Map<String, dynamic>),
+    );
+  }
+
+  Future<List<UploadPhotoResponse>> uploadPhoto(UploadPhotoRequest request) async {
+    final listImages = <MultipartFile>[];
+
+    for (final image in request.images!) {
+      listImages.add(await MultipartFile.fromFile(image.path));
+    }
+
+    final response = await _dioHelper.post(
+      route: '/restful_api/photo',
+      options: Options(headers: {'Content-Type': 'application/x-www-form-urlencoded'}),
+      requestBody: FormData.fromMap({
+        'image[]': listImages,
+        'val[description]': request.description,
+        'val[user_id]': request.userId,
+        'val[album_id]': request.albumId,
+        'val[privacy]': request.privacy
+      }),
+      responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
+    );
+    return response.mapData(
+      (json) =>
+          asType<List<dynamic>>(json)?.map((e) => UploadPhotoResponse.fromJson(e as Map<String, dynamic>)).toList(),
     );
   }
 

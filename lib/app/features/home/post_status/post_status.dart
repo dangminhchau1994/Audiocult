@@ -203,7 +203,7 @@ class _PostStatusState extends State<PostStatus> with DisposableStateMixin {
                     color: AppColors.primaryButtonColor,
                     text: 'Post',
                     onTap: () {
-                      getIt.get<HomeBloc>().createPost(_createPostRequest);
+                      getIt.get<HomeBloc>().postStatus(_createPostRequest);
                     },
                   ),
                 ],
