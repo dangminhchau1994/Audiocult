@@ -1,3 +1,4 @@
+import 'package:audio_cult/app/features/universal_search/universal_search_widget/search_result_post_list_widget.dart';
 import 'package:flutter/material.dart';
 
 class UniversalSearchPostScreen extends StatefulWidget {
@@ -10,8 +11,6 @@ class UniversalSearchPostScreen extends StatefulWidget {
 class UniversalSearchPostScreenState extends State<UniversalSearchPostScreen> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.blueGrey,
-    );
+    return SearchResultPostListWidget();
   }
 }

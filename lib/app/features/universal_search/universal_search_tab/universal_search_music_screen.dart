@@ -24,7 +24,7 @@ class UniversalSearchMusicScreenState extends State<UniversalSearchMusicScreen> 
 
   Widget _musicResultsListWidget() {
     return NoSubtitleSearchResultListWidget(
-      headerTitle: context.l10n.t_people,
+      headerTitle: context.l10n.t_music,
       results: [
         NoSubtitleUniversalSearchItem(
           imageUrl:
