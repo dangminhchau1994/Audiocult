@@ -1,4 +1,6 @@
+import 'package:audio_cult/app/data_source/models/universal_search/bottom_subtitle_universal_search_item.dart';
 import 'package:audio_cult/app/data_source/models/universal_search/no_subtitle_universal_search_item.dart';
+import 'package:audio_cult/app/features/universal_search/universal_search_widget/bottom_subtitle_search_result_list_widget.dart';
 import 'package:audio_cult/app/features/universal_search/universal_search_widget/no_subtitle_search_result_list_widget.dart';
 import 'package:audio_cult/app/features/universal_search/universal_search_widget/recent_search_list_widget.dart';
 import 'package:audio_cult/app/features/universal_search/universal_search_widget/universal_search_wrapper.dart';
@@ -23,24 +25,24 @@ class UniversalSearchMusicScreenState extends State<UniversalSearchMusicScreen> 
   }
 
   Widget _musicResultsListWidget() {
-    return NoSubtitleSearchResultListWidget(
+    return BottomSubtitleSearchResultListWidget(
       headerTitle: context.l10n.t_music,
       results: [
-        NoSubtitleUniversalSearchItem(
-          imageUrl:
-              'https://staging-media.audiocult.net/file/pic/user/2022/05/1c3481046850d5013cc747291f134c4e_200_square.jpg',
-          title: 'People title',
-        ),
-        NoSubtitleUniversalSearchItem(
-          imageUrl:
-              'https://staging-media.audiocult.net/file/pic/user/2022/05/1c3481046850d5013cc747291f134c4e_200_square.jpg',
-          title: 'People title',
-        ),
-        NoSubtitleUniversalSearchItem(
-          imageUrl:
-              'https://staging-media.audiocult.net/file/pic/user/2022/05/1c3481046850d5013cc747291f134c4e_200_square.jpg',
-          title: 'People title',
-        )
+        BottomSubtitleUniversalSearchItem(
+            imageUrl:
+                'https://staging-media.audiocult.net/file/pic/user/2022/05/1c3481046850d5013cc747291f134c4e_200_square.jpg',
+            title: 'Song Name',
+            subtitle: 'JAN 28-30, 2021'),
+        BottomSubtitleUniversalSearchItem(
+            imageUrl:
+                'https://staging-media.audiocult.net/file/pic/user/2022/05/1c3481046850d5013cc747291f134c4e_200_square.jpg',
+            title: 'Song Name',
+            subtitle: 'JAN 28-30, 2021'),
+        BottomSubtitleUniversalSearchItem(
+            imageUrl:
+                'https://staging-media.audiocult.net/file/pic/user/2022/05/1c3481046850d5013cc747291f134c4e_200_square.jpg',
+            title: 'Song Name',
+            subtitle: 'JAN 28-30, 2021'),
       ],
     );
   }

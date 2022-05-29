@@ -10,6 +10,7 @@ import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/l10n/l10n.dart';
 import 'package:audio_cult/w_components/tabbars/common_tabbar.dart';
 import 'package:audio_cult/w_components/tabbars/common_tabbar_item.dart';
+import 'package:audio_cult/w_components/w_keyboard_dismiss.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_tab_bar/indicator/custom_indicator.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -23,8 +24,8 @@ class UniversalSearchScreen extends StatefulWidget {
 
 class _UniversalSearchScreenState extends State<UniversalSearchScreen> {
   final _tabbarItems = <CommonTabbarItem>[];
-
   final _tabController = CustomTabBarController();
+  final _searchTextFieldFocusNode = FocusNode();
 
   final _pageController = PageController();
   final _searchTextFieldController = TextEditingController();
@@ -46,9 +47,17 @@ class _UniversalSearchScreenState extends State<UniversalSearchScreen> {
   }
 
   @override
+  void dispose() {
+    _searchTextFieldFocusNode.dispose();
+    _searchTextFieldController.dispose();
+    super.dispose();
+  }
+
+  @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     _initTabbarItems();
+    _searchTextFieldFocusNode.requestFocus();
   }
 
   @override
@@ -56,13 +65,15 @@ class _UniversalSearchScreenState extends State<UniversalSearchScreen> {
     return Scaffold(
       backgroundColor: AppColors.mainColor,
       body: SafeArea(
-        child: Column(
-          children: [
-            Container(height: 12, color: AppColors.secondaryButtonColor),
-            _searchBar(),
-            Container(height: 12, color: AppColors.secondaryButtonColor),
-            Expanded(child: _body()),
-          ],
+        child: WKeyboardDismiss(
+          child: Column(
+            children: [
+              Container(height: 12, color: AppColors.secondaryButtonColor),
+              _searchBar(),
+              Container(height: 12, color: AppColors.secondaryButtonColor),
+              Expanded(child: _body()),
+            ],
+          ),
         ),
       ),
     );
@@ -112,6 +123,7 @@ class _UniversalSearchScreenState extends State<UniversalSearchScreen> {
               const SizedBox(width: 12),
               Flexible(
                 child: TextField(
+                  focusNode: _searchTextFieldFocusNode,
                   controller: _searchTextFieldController,
                   decoration: InputDecoration(
                     border: InputBorder.none,
