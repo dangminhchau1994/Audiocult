@@ -339,10 +339,8 @@ class AppRoute {
             CreateNewPasswordScreen(
               hashId: arguments as String?,
             ));
-
       case routeUniversalSearch:
-        return _pageRoute(settings, UniversalSearchScreen());
-
+        return _pageRoute(settings, const UniversalSearchScreen());
       default:
         return null;
     }
