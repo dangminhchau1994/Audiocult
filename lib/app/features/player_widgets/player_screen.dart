@@ -60,6 +60,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
           title: element.title.toString(),
           album: element.artistUser?.userName ?? 'N/A',
           artist: element.artistUser?.userName ?? 'N/A',
+          duration: Duration(seconds: int.tryParse(element.duration ?? '0')!),
           artUri: Uri.parse(element.image400.toString()),
           extras: {
             'url': element.songPath.toString(),

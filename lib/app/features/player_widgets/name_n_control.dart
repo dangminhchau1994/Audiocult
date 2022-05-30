@@ -45,16 +45,24 @@ class _NameNControlsState extends State<NameNControls> {
         _durationStream,
         (position, bufferedPosition, duration) => PositionData(position, bufferedPosition, duration ?? Duration.zero),
       );
-
+  final waveProgressKey = GlobalKey<WaveProgressBarState>();
   List<double> values = [];
-
   @override
-  Widget build(BuildContext context) {
-    final queryData = MediaQuery.of(context);
+  void initState() {
+    super.initState();
     final rng = Random();
     for (var i = 0; i < 150; i++) {
       values.add(rng.nextInt(70) * 1.0);
     }
+    AudioService.position.listen((event) {
+      waveProgressKey.currentState?.updateUIProgress((event.inSeconds / widget.mediaItem.duration!.inSeconds) * 100);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final queryData = MediaQuery.of(context);
+
     final titleBoxHeight = widget.height * 0.25;
     // final seekBoxHeight = height > 500 ? height * 0.15 : height * 0.2;
     final controlBoxHeight = widget.height < 350
@@ -187,15 +195,23 @@ class _NameNControlsState extends State<NameNControls> {
               ),
               if (values.isNotEmpty)
                 WaveProgressBar(
-                  progressPercentage: 20,
+                  key: waveProgressKey,
+                  onChange: (percent) {
+                    try {
+                      final temp = percent / 100;
+                      widget.audioHandler
+                          .seek(Duration(seconds: (widget.mediaItem.duration!.inSeconds * temp).toInt()));
+                    } catch (e) {
+                      debugPrint(e.toString());
+                    }
+                  },
+                  progressPercentage: 5,
                   listOfHeights: values,
                   width: queryData.size.width,
                   initialColor: Colors.grey,
                   progressColor: AppColors.activeLabelItem,
                   backgroundColor: AppColors.mainColor,
-                  timeInMilliSeconds: 2000,
-                  isHorizontallyAnimated: true,
-                  isVerticallyAnimated: true,
+                  timeInMilliSeconds: 500,
                 )
               else
                 Container(),

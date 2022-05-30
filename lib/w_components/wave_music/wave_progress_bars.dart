@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 
 import 'background_painter.dart';
 
+// ignore: must_be_immutable
 class WaveProgressBar extends StatefulWidget {
   double progressPercentage;
   final List<double> listOfHeights;
@@ -17,19 +18,21 @@ class WaveProgressBar extends StatefulWidget {
   final int timeInMilliSeconds;
   final bool isVerticallyAnimated;
   final bool isHorizontallyAnimated;
+  final Function(double percent)? onChange;
 
-  WaveProgressBar({
-    Key? key,
-    this.isVerticallyAnimated = true,
-    this.isHorizontallyAnimated = true,
-    required this.listOfHeights,
-    this.initialColor = Colors.red,
-    this.progressColor = Colors.green,
-    this.backgroundColor = Colors.white,
-    required this.width,
-    required this.progressPercentage,
-    this.timeInMilliSeconds = 20000,
-  }) : super(key: key);
+  WaveProgressBar(
+      {Key? key,
+      this.isVerticallyAnimated = true,
+      this.isHorizontallyAnimated = true,
+      required this.listOfHeights,
+      this.initialColor = Colors.red,
+      this.progressColor = Colors.green,
+      this.backgroundColor = Colors.white,
+      required this.width,
+      required this.progressPercentage,
+      this.timeInMilliSeconds = 20000,
+      this.onChange})
+      : super(key: key);
 
   @override
   WaveProgressBarState createState() {
@@ -59,6 +62,12 @@ class WaveProgressBarState extends State<WaveProgressBar> with SingleTickerProvi
         setState(() {});
       });
     controller?.forward();
+  }
+
+ void updateUIProgress(double percent) {
+    setState(() {
+      widget.progressPercentage = percent;
+    });
   }
 
   @override
@@ -113,6 +122,7 @@ class WaveProgressBarState extends State<WaveProgressBar> with SingleTickerProvi
           onHorizontalDragUpdate: (d) {
             setState(() {
               widget.progressPercentage = (d.localPosition.dx / _width!) * 100;
+              widget.onChange?.call(widget.progressPercentage);
             });
           },
           child: Container(
