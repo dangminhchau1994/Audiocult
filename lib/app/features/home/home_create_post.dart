@@ -1,5 +1,6 @@
 import 'package:audio_cult/app/features/home/post_photos/post_photos.dart';
 import 'package:audio_cult/app/features/home/post_status/post_status.dart';
+import 'package:audio_cult/app/features/home/post_video/post_video.dart';
 import 'package:audio_cult/app/utils/constants/app_assets.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
@@ -112,7 +113,7 @@ class _HomeCreatePostState extends State<HomeCreatePost> {
               case 1:
                 return const PostPhotos();
               case 2:
-                return const SizedBox();
+                return const PostVideo();
               default:
                 return const SizedBox();
             }

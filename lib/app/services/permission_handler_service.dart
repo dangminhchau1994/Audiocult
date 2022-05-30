@@ -53,7 +53,7 @@ class PermissionHandlerPermissionService implements PermissionService {
           actions: [
             const ElevatedButton(
               onPressed: openAppSettings,
-              child: Text('Photos Permission'),
+              child: Text('Gallery Permission'),
             ),
             ElevatedButton(
               onPressed: () => Navigator.of(context).pop(),
@@ -62,7 +62,7 @@ class PermissionHandlerPermissionService implements PermissionService {
           ],
           title: const Text('Camera Permission'),
           content: const Text(
-            'Photos permission should Be granted to use this feature, would you like to go to app settings to give photos permission?',
+            'Gallery permission should Be granted to use this feature, would you like to go to app settings to give gallery permission?',
           ),
         ),
       );

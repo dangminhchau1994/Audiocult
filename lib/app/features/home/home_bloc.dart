@@ -3,10 +3,12 @@ import 'package:audio_cult/app/base/bloc_state.dart';
 import 'package:audio_cult/app/data_source/models/requests/create_post_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/feed_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/upload_photo_request.dart';
+import 'package:audio_cult/app/data_source/models/requests/upload_video_request.dart';
 import 'package:audio_cult/app/data_source/models/responses/announcement/announcement_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/create_post/create_post_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/feed/feed_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/upload_photo/upload_photo_response.dart';
+import 'package:audio_cult/app/data_source/models/responses/upload_video/upload_video_response.dart';
 import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:rxdart/subjects.dart';
@@ -27,6 +29,7 @@ class HomeBloc extends BaseBloc<FeedRequest, List<FeedResponse>> {
   final _getBackgroundSubject = PublishSubject<BlocState<List<BackgroundResponse>>>();
   final _createPostSubject = PublishSubject<BlocState<CreatePostResponse>>();
   final _uploadPhotoSubject = PublishSubject<BlocState<List<UploadPhotoResponse>>>();
+  final _uploadVideoSubject = PublishSubject<BlocState<UploadVideoResponse>>();
 
   Stream<BlocState<List<AnnouncementResponse>>> get getAnnoucementStream => _getAnnouncementSubject.stream;
   Stream<BlocState<List<CommentResponse>>> get getCommentsStream => _getCommentsSubject.stream;
@@ -35,6 +38,7 @@ class HomeBloc extends BaseBloc<FeedRequest, List<FeedResponse>> {
   Stream<BlocState<List<BackgroundResponse>>> get getBackgroundStream => _getBackgroundSubject.stream;
   Stream<BlocState<CreatePostResponse>> get createPostStream => _createPostSubject.stream;
   Stream<BlocState<List<UploadPhotoResponse>>> get uploadPhotoStream => _uploadPhotoSubject.stream;
+  Stream<BlocState<UploadVideoResponse>> get uploadVideoStream => _uploadVideoSubject.stream;
 
   void postStatus(CreatePostRequest request) async {
     showOverLayLoading();
@@ -45,6 +49,18 @@ class HomeBloc extends BaseBloc<FeedRequest, List<FeedResponse>> {
       _createPostSubject.sink.add(BlocState.success(success));
     }, (error) {
       _createPostSubject.sink.add(BlocState.error(error.toString()));
+    });
+  }
+
+  void uploadVideo(UploadVideoRequest request) async {
+    showOverLayLoading();
+    final result = await _appRepository.uploadVideo(request);
+    hideOverlayLoading();
+
+    result.fold((success) {
+      _uploadVideoSubject.sink.add(BlocState.success(success));
+    }, (error) {
+      _uploadVideoSubject.sink.add(BlocState.error(error.toString()));
     });
   }
 

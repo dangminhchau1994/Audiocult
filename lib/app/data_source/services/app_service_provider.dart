@@ -1,4 +1,3 @@
-
 import 'package:audio_cult/app/data_source/local/pref_provider.dart';
 import 'package:audio_cult/app/data_source/models/account_settings.dart';
 import 'package:audio_cult/app/data_source/models/notification_option.dart';
@@ -12,6 +11,7 @@ import 'package:audio_cult/app/data_source/models/requests/notification_request.
 import 'package:audio_cult/app/data_source/models/requests/register_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/upload_photo_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/upload_request.dart';
+import 'package:audio_cult/app/data_source/models/requests/upload_video_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/video_request.dart';
 import 'package:audio_cult/app/data_source/models/responses/album/album_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/announcement/announcement_response.dart';
@@ -32,6 +32,7 @@ import 'package:audio_cult/app/data_source/models/responses/privacy_settings/pri
 import 'package:audio_cult/app/data_source/models/responses/reaction_icon/reaction_icon_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/timezone/timezone_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/upload_photo/upload_photo_response.dart';
+import 'package:audio_cult/app/data_source/models/responses/upload_video/upload_video_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/user_subscription_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/video_data.dart';
 import 'package:audio_cult/app/data_source/models/update_account_settings_response.dart';
@@ -177,6 +178,29 @@ class AppServiceProvider {
     );
     return response.mapData(
       (json) => CreatePostResponse.fromJson(json as Map<String, dynamic>),
+    );
+  }
+
+  Future<UploadVideoResponse> uploadVideo(UploadVideoRequest request) async {
+    var video;
+
+    if (request.video != null) {
+      video = await MultipartFile.fromFile(request.video?.path ?? '');
+    }
+
+    final response = await _dioHelper.post(
+      route: '/restful_api/video',
+      options: Options(headers: {'Content-Type': 'application/x-www-form-urlencoded'}),
+      requestBody: FormData.fromMap({
+        'ajax_upload': video,
+        'val[title]': request.title,
+        'val[url]': request.url,
+        'val[status_info]': request.statusInfo,
+      }),
+      responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
+    );
+    return response.mapData(
+      (json) => UploadVideoResponse.fromJson(json as Map<String, dynamic>),
     );
   }
 

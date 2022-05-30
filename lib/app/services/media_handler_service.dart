@@ -43,6 +43,7 @@ class MediaServiceHandler implements MediaServiceInterface {
       ImageSource? _imageSource = ImageSource.values.byName(appImageSource.name);
 
       final imagePicker = ImagePicker();
+
       final rawPickedImageFile = await imagePicker.pickMultiImage();
 
       if (rawPickedImageFile != null) {
@@ -54,6 +55,35 @@ class MediaServiceHandler implements MediaServiceInterface {
       }
       return processedPickedImageFile;
     }
+    return null;
+  }
+
+  @override
+  Future<File?> uploadVideo(
+    BuildContext context,
+    AppImageSource appImageSource, {
+    bool shouldCompress = true,
+  }) async {
+    // Handle permissions according to image source,
+    final canProceed = await _handleImageUploadPermissions(context, appImageSource);
+
+    if (canProceed) {
+      var processedPickedImageFile = File('');
+
+      // Convert our own AppImageSource into a format readable by the used package
+      // In this case it's an ImageSource enum
+      ImageSource? _imageSource = ImageSource.values.byName(appImageSource.name);
+
+      final imagePicker = ImagePicker();
+
+      final rawPickedImageFile = await imagePicker.pickVideo(source: _imageSource);
+
+      // ignore: join_return_with_assignment
+      processedPickedImageFile = File(rawPickedImageFile?.path ?? '');
+
+      return processedPickedImageFile;
+    }
+
     return null;
   }
 
