@@ -26,7 +26,7 @@ dependencies:
   focused_menu: ^1.0.5
   badges: ^2.0.2
   flutter_custom_tab_bar: ^1.1.9
-  flutter_reaction_button: ^2.0.0+1
+  flutter_reaction_button: ^2.0.0+3
   table_calendar: ^3.0.5
   emoji_picker_flutter: ^1.2.1
   freezed_annotation:
