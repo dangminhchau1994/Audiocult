@@ -6,8 +6,10 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'bottom_alert_dialog.dart';
 
 class AppDialog {
-  static void showYesNoDialog(BuildContext context, {String? message, Function()? onYesPressed}) {
+  static void showYesNoDialog(BuildContext context,
+      {String? message, Function()? onYesPressed, Function()? onNoPressed}) {
     showDialog(
+      barrierDismissible: false,
       context: context,
       builder: (context) {
         return CupertinoAlertDialog(
@@ -17,6 +19,7 @@ class AppDialog {
             CupertinoDialogAction(
               onPressed: () {
                 Navigator.pop(context);
+                onNoPressed?.call();
               },
               child: const Text('No'),
             ),

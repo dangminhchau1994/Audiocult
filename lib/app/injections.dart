@@ -18,6 +18,7 @@ import 'data_source/repositories/app_repository.dart';
 import 'data_source/services/app_service_provider.dart';
 import 'data_source/services/assets_local_provider.dart';
 import 'data_source/services/hive_service_provider.dart';
+import 'data_source/services/navigation_service.dart';
 import 'data_source/services/place_service_provider.dart';
 import 'utils/flavor/flavor.dart';
 
@@ -29,6 +30,7 @@ Future<void> initDependency() async {
   locator.registerLazySingleton(() {
     return PrefProvider(_sharePreference);
   });
+  locator.registerSingleton<NavigationService>(NavigationService());
 
   Dio _createDio(String baseUrl) {
     const _connectTimeout = 30000;
@@ -45,6 +47,7 @@ Future<void> initDependency() async {
     dio.interceptors.add(
       AuthInterceptor(
         dio,
+        locator.get(),
         locator.get(),
       ),
     );
