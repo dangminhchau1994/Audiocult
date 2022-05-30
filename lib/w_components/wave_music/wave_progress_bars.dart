@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'background_painter.dart';
 
 class WaveProgressBar extends StatefulWidget {
-  final double progressPercentage;
+  double progressPercentage;
   final List<double> listOfHeights;
   final double width;
   final Color initialColor;
@@ -18,7 +18,7 @@ class WaveProgressBar extends StatefulWidget {
   final bool isVerticallyAnimated;
   final bool isHorizontallyAnimated;
 
-  const WaveProgressBar({
+  WaveProgressBar({
     Key? key,
     this.isVerticallyAnimated = true,
     this.isHorizontallyAnimated = true,
@@ -44,6 +44,7 @@ class WaveProgressBarState extends State<WaveProgressBar> with SingleTickerProvi
   AnimationController? controller;
   double? begin;
   double? end;
+  double? _width;
 
   @override
   void initState() {
@@ -104,13 +105,29 @@ class WaveProgressBarState extends State<WaveProgressBar> with SingleTickerProvi
       );
     }
 
-    return Center(
-      child: SizedBox(
-          height: widget.listOfHeights.reduce(max),
-          width: widget.width,
-          child: Row(
-            children: arrayOfBars,
-          )),
-    );
+    return LayoutBuilder(builder: (context, size) {
+      _width = size.maxWidth;
+      return Center(
+        child: GestureDetector(
+          onHorizontalDragStart: (d) {},
+          onHorizontalDragUpdate: (d) {
+            setState(() {
+              widget.progressPercentage = (d.localPosition.dx / _width!) * 100;
+            });
+          },
+          child: Container(
+            color: Colors.transparent,
+            height: 100,
+            width: double.infinity,
+            child: SizedBox(
+                height: widget.listOfHeights.reduce(max),
+                width: widget.width,
+                child: Row(
+                  children: arrayOfBars,
+                )),
+          ),
+        ),
+      );
+    });
   }
 }
