@@ -82,7 +82,7 @@ class _SecondStepScreenState extends State<SecondStepScreen> {
               CommonChipInput(
                 hintText: context.l10n.t_artist_line_up_hint,
                 maxChip: 10,
-                fromEvent: true,
+                chooseMany: true,
                 onChooseMultipleTag: (value) {
                   widget.createEventRequest?.artist = jsonEncode(value);
                 },
@@ -101,7 +101,7 @@ class _SecondStepScreenState extends State<SecondStepScreen> {
               CommonChipInput(
                 hintText: context.l10n.t_artist_line_up_hint,
                 maxChip: 10,
-                fromEvent: true,
+                chooseMany: true,
                 onChooseMultipleTag: (value) {},
                 onDeleteTag: (value) {},
                 onPressedChip: (ProfileData value) {

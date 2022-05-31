@@ -18,7 +18,9 @@ class CommonChipInput extends StatefulWidget {
       this.groupUserId,
       this.onChooseMultipleTag,
       this.maxChip,
-      this.fromEvent = false,
+      this.chooseMany = false,
+      this.enableBorder = true,
+      this.isFillColor = true,
       required this.onPressedChip})
       : super(key: key);
 
@@ -30,7 +32,9 @@ class CommonChipInput extends StatefulWidget {
   final String? hintText;
   final String? groupUserId;
   final int? maxChip;
-  final bool? fromEvent;
+  final bool? chooseMany;
+  final bool? enableBorder;
+  final bool? isFillColor;
   final Function(ProfileData data) onPressedChip;
 
   @override
@@ -55,21 +59,25 @@ class _CommonChipInputState extends State<CommonChipInput> {
         contentPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
         focusColor: AppColors.outlineBorderColor,
         hintStyle: TextStyle(color: AppColors.unActiveLabelItem),
-        fillColor: AppColors.inputFillColor.withOpacity(0.4),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(4),
-          borderSide: BorderSide(
-            color: AppColors.outlineBorderColor,
-            width: 2,
-          ),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(4),
-          borderSide: BorderSide(
-            color: AppColors.outlineBorderColor,
-            width: 2,
-          ),
-        ),
+        fillColor: widget.isFillColor! ? AppColors.inputFillColor.withOpacity(0.4) : Colors.transparent,
+        focusedBorder: widget.enableBorder!
+            ? OutlineInputBorder(
+                borderRadius: BorderRadius.circular(4),
+                borderSide: BorderSide(
+                  color: AppColors.outlineBorderColor,
+                  width: 2,
+                ),
+              )
+            : InputBorder.none,
+        enabledBorder: widget.enableBorder!
+            ? OutlineInputBorder(
+                borderRadius: BorderRadius.circular(4),
+                borderSide: BorderSide(
+                  color: AppColors.outlineBorderColor,
+                  width: 2,
+                ),
+              )
+            : InputBorder.none,
       ),
       maxChips: widget.maxChip ?? 1,
       chipBuilder: (BuildContext context, ChipsInputState<ProfileData> state, data) {
@@ -97,7 +105,7 @@ class _CommonChipInputState extends State<CommonChipInput> {
         }
       },
       onChanged: (List<ProfileData> value) {
-        if (widget.fromEvent!) {
+        if (widget.chooseMany!) {
           widget.onChooseMultipleTag!(value);
         } else {
           widget.onChooseTag?.call(value[0]);

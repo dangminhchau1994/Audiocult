@@ -29,7 +29,7 @@ class PostPhotos extends StatefulWidget {
   State<PostPhotos> createState() => _PostPhotosState();
 }
 
-class _PostPhotosState extends State<PostPhotos> with DisposableStateMixin {
+class _PostPhotosState extends State<PostPhotos> with DisposableStateMixin, AutomaticKeepAliveClientMixin {
   SelectMenuModel? _privacy;
   final List<File> _listImages = [];
   final MediaServiceInterface _mediaService = locator<MediaServiceInterface>();
@@ -111,8 +111,16 @@ class _PostPhotosState extends State<PostPhotos> with DisposableStateMixin {
           ),
           Positioned(
             bottom: 10,
-            child: SizedBox(
+            child: Container(
+              padding: const EdgeInsets.all(10),
               width: MediaQuery.of(context).size.width,
+              decoration: BoxDecoration(
+                color: AppColors.secondaryButtonColor,
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(12),
+                  topRight: Radius.circular(12),
+                ),
+              ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -191,4 +199,7 @@ class _PostPhotosState extends State<PostPhotos> with DisposableStateMixin {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

@@ -209,6 +209,7 @@
     "t_notification":"Notification",
     "t_basic_information":"Basic information",
     "t_page_template":"Page template",
+    "t_who_with_you":"Who is with you?",
     "t_podtal_code":"Zip/Postal code",
     "t_about_me":"About me",
     "t_page_temlate_desc":"Text description call to action to fills in the information.",
