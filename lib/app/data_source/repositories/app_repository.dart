@@ -31,6 +31,8 @@ import 'package:audio_cult/app/data_source/models/responses/privacy_settings/pri
 import 'package:audio_cult/app/data_source/models/responses/profile_data.dart';
 import 'package:audio_cult/app/data_source/models/responses/reaction_icon/reaction_icon_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/timezone/timezone_response.dart';
+import 'package:audio_cult/app/data_source/models/responses/universal_search/universal_search_response.dart';
+import 'package:audio_cult/app/data_source/models/responses/universal_search/universal_search_result_item.dart';
 import 'package:audio_cult/app/data_source/models/responses/upload_photo/upload_photo_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/user_subscription_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/video_data.dart';
@@ -579,5 +581,19 @@ class AppRepository extends BaseRepository {
 
   Future<Either<BaseRes?, Exception>> resetPassword(String newPassword, String hashId, String token) {
     return safeCall(() => appServiceProvider.resetPassword(newPassword, hashId, token));
+  }
+
+  Future<Either<UniversalSearchReponse?, Exception>> universalSearch({
+    required String keyword,
+    required int page,
+    UniversalSearchView? searchView,
+  }) {
+    return safeCall(
+      () => appServiceProvider.getUniversalSearch(
+        keyword: keyword,
+        page: page,
+        searchView: searchView,
+      ),
+    );
   }
 }

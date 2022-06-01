@@ -1,4 +1,3 @@
-
 import 'package:audio_cult/app/data_source/local/pref_provider.dart';
 import 'package:audio_cult/app/data_source/models/account_settings.dart';
 import 'package:audio_cult/app/data_source/models/notification_option.dart';
@@ -31,6 +30,8 @@ import 'package:audio_cult/app/data_source/models/responses/playlist/playlist_re
 import 'package:audio_cult/app/data_source/models/responses/privacy_settings/privacy_settings_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/reaction_icon/reaction_icon_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/timezone/timezone_response.dart';
+import 'package:audio_cult/app/data_source/models/responses/universal_search/universal_search_response.dart';
+import 'package:audio_cult/app/data_source/models/responses/universal_search/universal_search_result_item.dart';
 import 'package:audio_cult/app/data_source/models/responses/upload_photo/upload_photo_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/user_subscription_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/video_data.dart';
@@ -1103,6 +1104,27 @@ class AppServiceProvider {
       requestBody: FormData.fromMap({'val[newpassword]': newPassword, 'val[hash_id]': hashId}),
       options: Options(headers: {'Authorization': 'Bearer $token'}),
       responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
+    );
+    return response;
+  }
+
+  Future<UniversalSearchReponse> getUniversalSearch({
+    required String keyword,
+    required int page,
+    required UniversalSearchView? searchView,
+  }) async {
+    final params = <String, dynamic>{};
+    params['keyword'] = keyword;
+    params['page'] = page;
+    if (searchView != null) {
+      params['view'] = searchView.value;
+    }
+    final response = await _dioHelper.get(
+      route: '/restful_api/search',
+      requestParams: params,
+      responseBodyMapper: (jsonMapper) {
+        return UniversalSearchReponse.fromJson(jsonMapper as Map<String, dynamic>);
+      },
     );
     return response;
   }
