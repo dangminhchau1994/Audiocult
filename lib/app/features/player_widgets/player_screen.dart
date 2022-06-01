@@ -36,10 +36,10 @@ class _PlayerScreenState extends State<PlayerScreen> {
     super.initState();
     globalIndex = widget.params['index'] as int;
     response = widget.params['listSong'] as List<Song>;
-      if (!Platform.isAndroid) {
-        // Don't know why but it fixes the playback issue with iOS Side
-        audioHandler.stop();
-      }
+    if (!Platform.isAndroid) {
+      // Don't know why but it fixes the playback issue with iOS Side
+      audioHandler.stop();
+    }
     playMusic();
   }
 
@@ -60,6 +60,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
           title: element.title.toString(),
           album: element.artistUser?.userName ?? 'N/A',
           artist: element.artistUser?.userName ?? 'N/A',
+          duration: Duration(seconds: int.tryParse(element.duration ?? '0')!),
           artUri: Uri.parse(element.image400.toString()),
           extras: {
             'url': element.songPath.toString(),

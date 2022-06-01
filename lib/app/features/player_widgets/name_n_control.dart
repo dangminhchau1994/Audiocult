@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'dart:ui' as ui;
 
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
@@ -8,10 +9,11 @@ import 'package:rxdart/rxdart.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import '../../../w_components/customizes/animated_text.dart';
+import '../../../w_components/wave_music/wave_progress_bars.dart';
 import '../audio_player/audio_player.dart';
 import '../audio_player/miniplayer.dart';
 
-class NameNControls extends StatelessWidget {
+class NameNControls extends StatefulWidget {
   final MediaItem mediaItem;
   final double width;
   final double height;
@@ -27,29 +29,51 @@ class NameNControls extends StatelessWidget {
     required this.panelController,
   });
 
+  @override
+  State<NameNControls> createState() => _NameNControlsState();
+}
+
+class _NameNControlsState extends State<NameNControls> {
   Stream<Duration> get _bufferedPositionStream =>
-      audioHandler.playbackState.map((state) => state.bufferedPosition).distinct();
-  Stream<Duration?> get _durationStream => audioHandler.mediaItem.map((item) => item?.duration).distinct();
+      widget.audioHandler.playbackState.map((state) => state.bufferedPosition).distinct();
+
+  Stream<Duration?> get _durationStream => widget.audioHandler.mediaItem.map((item) => item?.duration).distinct();
+
   Stream<PositionData> get _positionDataStream => Rx.combineLatest3<Duration, Duration, Duration?, PositionData>(
         AudioService.position,
         _bufferedPositionStream,
         _durationStream,
         (position, bufferedPosition, duration) => PositionData(position, bufferedPosition, duration ?? Duration.zero),
       );
+  final waveProgressKey = GlobalKey<WaveProgressBarState>();
+  List<double> values = [];
+  @override
+  void initState() {
+    super.initState();
+    final rng = Random();
+    for (var i = 0; i < 150; i++) {
+      values.add(rng.nextInt(70) * 1.0);
+    }
+    AudioService.position.listen((event) {
+      waveProgressKey.currentState?.updateUIProgress((event.inSeconds / widget.mediaItem.duration!.inSeconds) * 100);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    final titleBoxHeight = height * 0.25;
+    final queryData = MediaQuery.of(context);
+
+    final titleBoxHeight = widget.height * 0.25;
     // final seekBoxHeight = height > 500 ? height * 0.15 : height * 0.2;
-    final controlBoxHeight = height < 350
-        ? height * 0.4
-        : height > 500
-            ? height * 0.2
-            : height * 0.3;
-    final nowPlayingBoxHeight = height > 500 ? height * 0.4 : height * 0.15;
+    final controlBoxHeight = widget.height < 350
+        ? widget.height * 0.4
+        : widget.height > 500
+            ? widget.height * 0.2
+            : widget.height * 0.3;
+    final nowPlayingBoxHeight = widget.height > 500 ? widget.height * 0.4 : widget.height * 0.15;
     return SizedBox(
-      width: width,
-      height: height,
+      width: widget.width,
+      height: widget.height,
       child: Stack(
         children: [
           Column(
@@ -95,7 +119,7 @@ class NameNControls extends StatelessWidget {
                     }
                   },
                   itemBuilder: (BuildContext context) => <PopupMenuEntry<int>>[
-                    if (mediaItem.extras?['album_id'] != null)
+                    if (widget.mediaItem.extras?['album_id'] != null)
                       PopupMenuItem<int>(
                         value: 0,
                         child: Row(
@@ -110,7 +134,7 @@ class NameNControls extends StatelessWidget {
                           ],
                         ),
                       ),
-                    if (mediaItem.artist != null)
+                    if (widget.mediaItem.artist != null)
                       PopupMenuItem<int>(
                         value: 5,
                         child: Row(
@@ -138,7 +162,7 @@ class NameNControls extends StatelessWidget {
 
                           /// Title container
                           AnimatedText(
-                            text: mediaItem.title.split(' (')[0].split('|')[0].trim(),
+                            text: widget.mediaItem.title.split(' (')[0].split('|')[0].trim(),
                             pauseAfterRound: const Duration(seconds: 3),
                             showFadingOnlyWhenScrolling: false,
                             fadingEdgeEndFraction: 0.1,
@@ -153,7 +177,7 @@ class NameNControls extends StatelessWidget {
 
                           /// Subtitle container
                           AnimatedText(
-                            text: '${mediaItem.artist ?? "Unknown"} • ${mediaItem.album ?? "Unknown"}',
+                            text: '${widget.mediaItem.artist ?? "Unknown"} • ${widget.mediaItem.album ?? "Unknown"}',
                             pauseAfterRound: const Duration(seconds: 3),
                             showFadingOnlyWhenScrolling: false,
                             fadingEdgeEndFraction: 0.1,
@@ -169,11 +193,33 @@ class NameNControls extends StatelessWidget {
                   ),
                 ),
               ),
+              if (values.isNotEmpty)
+                WaveProgressBar(
+                  key: waveProgressKey,
+                  onChange: (percent) {
+                    try {
+                      final temp = percent / 100;
+                      widget.audioHandler
+                          .seek(Duration(seconds: (widget.mediaItem.duration!.inSeconds * temp).toInt()));
+                    } catch (e) {
+                      debugPrint(e.toString());
+                    }
+                  },
+                  progressPercentage: 5,
+                  listOfHeights: values,
+                  width: queryData.size.width,
+                  initialColor: Colors.grey,
+                  progressColor: AppColors.activeLabelItem,
+                  backgroundColor: AppColors.mainColor,
+                  timeInMilliSeconds: 500,
+                )
+              else
+                Container(),
 
               /// Seekbar starts from here
               SizedBox(
                 height: 0,
-                width: width * 0.95,
+                width: widget.width * 0.95,
                 child: StreamBuilder<PositionData>(
                   stream: _positionDataStream,
                   builder: (context, snapshot) {
@@ -181,7 +227,7 @@ class NameNControls extends StatelessWidget {
                     PositionData(
                       Duration.zero,
                       Duration.zero,
-                      mediaItem.duration ?? Duration.zero,
+                      widget.mediaItem.duration ?? Duration.zero,
                     );
                     return Container();
                     // return SeekBar(
@@ -216,7 +262,7 @@ class NameNControls extends StatelessWidget {
                             children: [
                               const SizedBox(height: 6),
                               StreamBuilder<bool>(
-                                stream: audioHandler.playbackState
+                                stream: widget.audioHandler.playbackState
                                     .map(
                                       (state) => state.shuffleMode == AudioServiceShuffleMode.all,
                                     )
@@ -234,7 +280,7 @@ class NameNControls extends StatelessWidget {
                                           ),
                                     onPressed: () async {
                                       final enable = !shuffleModeEnabled;
-                                      await audioHandler.setShuffleMode(
+                                      await widget.audioHandler.setShuffleMode(
                                         enable ? AudioServiceShuffleMode.all : AudioServiceShuffleMode.none,
                                       );
                                     },
@@ -244,14 +290,14 @@ class NameNControls extends StatelessWidget {
                             ],
                           ),
                           ControlButtons(
-                            audioHandler,
+                            widget.audioHandler,
                           ),
                           Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               const SizedBox(height: 6),
                               StreamBuilder<AudioServiceRepeatMode>(
-                                stream: audioHandler.playbackState.map((state) => state.repeatMode).distinct(),
+                                stream: widget.audioHandler.playbackState.map((state) => state.repeatMode).distinct(),
                                 builder: (context, snapshot) {
                                   final repeatMode = snapshot.data ?? AudioServiceRepeatMode.none;
                                   const texts = ['None', 'All', 'One'];
@@ -281,7 +327,7 @@ class NameNControls extends StatelessWidget {
                                       //   'repeatMode',
                                       //   texts[(index + 1) % texts.length],
                                       // );
-                                      audioHandler.setRepeatMode(
+                                      widget.audioHandler.setRepeatMode(
                                         cycleModes[(cycleModes.indexOf(repeatMode) + 1) % cycleModes.length],
                                       );
                                     },
@@ -329,7 +375,7 @@ class NameNControls extends StatelessWidget {
             // : Theme.of(context).brightness == Brightness.dark
             //     ? Colors.black
             //     : Colors.white,
-            controller: panelController,
+            controller: widget.panelController,
             panelBuilder: (ScrollController scrollController) {
               return ClipRRect(
                 borderRadius: const BorderRadius.only(
@@ -366,7 +412,7 @@ class NameNControls extends StatelessWidget {
                     child: NowPlayingStream(
                       head: true,
                       headHeight: nowPlayingBoxHeight,
-                      audioHandler: audioHandler,
+                      audioHandler: widget.audioHandler,
                       scrollController: scrollController,
                     ),
                   ),
@@ -375,24 +421,24 @@ class NameNControls extends StatelessWidget {
             },
             header: GestureDetector(
               onTap: () {
-                if (panelController.isPanelOpen) {
-                  panelController.close();
+                if (widget.panelController.isPanelOpen) {
+                  widget.panelController.close();
                 } else {
-                  if (panelController.panelPosition > 0.9) {
-                    panelController.close();
+                  if (widget.panelController.panelPosition > 0.9) {
+                    widget.panelController.close();
                   } else {
-                    panelController.open();
+                    widget.panelController.open();
                   }
                 }
               },
               onVerticalDragUpdate: (DragUpdateDetails details) {
                 if (details.delta.dy > 0.0) {
-                  panelController.animatePanelToPosition(0);
+                  widget.panelController.animatePanelToPosition(0);
                 }
               },
               child: Container(
                 height: nowPlayingBoxHeight,
-                width: width,
+                width: widget.width,
                 color: Colors.transparent,
                 child: Column(
                   children: [

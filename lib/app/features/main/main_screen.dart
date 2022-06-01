@@ -140,10 +140,7 @@ class _MainScreenState extends State<MainScreen> {
             ),
             CommonFabMenu(
               onSearchTap: () {
-                ToastUtility.showPending(
-                  context: context,
-                  message: context.l10n.t_feature_development,
-                );
+                Navigator.of(context).pushNamed(AppRoute.routeUniversalSearch);
               },
               onNotificationTap: () {
                 Navigator.pushNamed(context, AppRoute.routeNotification);
