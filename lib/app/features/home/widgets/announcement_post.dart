@@ -39,18 +39,22 @@ class _AnnouncementPostState extends State<AnnouncementPost> {
   @override
   Widget build(BuildContext context) {
     return SliverToBoxAdapter(
-      child: StreamBuilder<BlocState<List<AnnouncementResponse>>>(
-        initialData: const BlocState.loading(),
-        stream: getIt<HomeBloc>().getAnnoucementStream,
-        builder: (context, snapshot) {
-          final state = snapshot.data!;
+      child: Column(
+        children: [
+          StreamBuilder<BlocState<List<AnnouncementResponse>>>(
+            initialData: const BlocState.loading(),
+            stream: getIt<HomeBloc>().getAnnoucementStream,
+            builder: (context, snapshot) {
+              final state = snapshot.data!;
 
-          return state.when(success: (data) {
-            final result = data as List<AnnouncementResponse>;
+              return state.when(success: (data) {
+                final result = data as List<AnnouncementResponse>;
 
-            return Column(
-              children: [
-                Container(
+                if (result.isEmpty) {
+                  return Container();
+                }
+
+                return Container(
                   padding: const EdgeInsets.all(16),
                   width: double.infinity,
                   decoration: BoxDecoration(
@@ -116,60 +120,60 @@ class _AnnouncementPostState extends State<AnnouncementPost> {
                       ),
                     ],
                   ),
-                ),
-                const SizedBox(height: 20),
-                WButtonInkwell(
-                  onPressed: () async {
-                    final result = await Navigator.pushNamed(context, AppRoute.routeCreatePost);
-
-                    if (result != null) {
-                      widget.callData!();
-                    }
+                );
+              }, loading: () {
+                return const Center(
+                  child: LoadingWidget(),
+                );
+              }, error: (error) {
+                return ErrorSectionWidget(
+                  errorMessage: error,
+                  onRetryTap: () {
+                    getIt<HomeBloc>().getAnnouncements(1, 10);
                   },
-                  child: Container(
-                    height: 50,
-                    padding: const EdgeInsets.all(10),
-                    width: MediaQuery.of(context).size.width,
-                    decoration: BoxDecoration(
-                      color: AppColors.secondaryButtonColor,
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SvgPicture.asset(
-                          AppAssets.activeEdit,
-                          width: 20,
-                          height: 20,
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        Text(
-                          context.l10n.t_create_post,
-                          style: TextStyle(
-                            color: AppColors.activeLabelItem,
-                          ),
-                        )
-                      ],
-                    ),
+                );
+              });
+            },
+          ),
+          const SizedBox(height: 20),
+          WButtonInkwell(
+            onPressed: () async {
+              final result = await Navigator.pushNamed(context, AppRoute.routeCreatePost);
+
+              if (result != null) {
+                widget.callData!();
+              }
+            },
+            child: Container(
+              height: 50,
+              padding: const EdgeInsets.all(10),
+              width: MediaQuery.of(context).size.width,
+              decoration: BoxDecoration(
+                color: AppColors.secondaryButtonColor,
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SvgPicture.asset(
+                    AppAssets.activeEdit,
+                    width: 20,
+                    height: 20,
                   ),
-                ),
-              ],
-            );
-          }, loading: () {
-            return const Center(
-              child: LoadingWidget(),
-            );
-          }, error: (error) {
-            return ErrorSectionWidget(
-              errorMessage: error,
-              onRetryTap: () {
-                getIt<HomeBloc>().getAnnouncements(1, 10);
-              },
-            );
-          });
-        },
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    context.l10n.t_create_post,
+                    style: TextStyle(
+                      color: AppColors.activeLabelItem,
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
