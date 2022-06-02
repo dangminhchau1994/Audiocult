@@ -1,7 +1,11 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:audio_cult/app/data_source/local/pref_provider.dart';
+import 'package:audio_cult/app/fcm/fcm_bloc.dart';
+import 'package:audio_cult/app/injections.dart';
 import 'package:audio_cult/app/utils/constants/app_assets.dart';
+import 'package:audio_cult/di/bloc_locator.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
@@ -18,18 +22,38 @@ class FCMService {
 
   void initialize() async {
     _initAwesomeNotification();
+    _setUpForeGroundIOS();
     _getFCMToken();
     _getNotificationData();
+  }
+
+  void _setUpForeGroundIOS() async {
+    await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+      alert: true,
+      badge: true,
+      sound: true,
+    );
   }
 
   void _getNotificationData() {
     FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
       final notification = message.notification;
       final android = message.notification?.android;
+      final _prefProvider = locator<PrefProvider>();
+
+      await _prefProvider.setShowBadge(1);
+      getIt<FCMBloc>().showBadge(_prefProvider.showBadge ?? 0);
+      if (_prefProvider.countBadge == null) {
+        await _prefProvider.setCountBadge(_prefProvider.countBadge ?? 0 + 1);
+      } else {
+        await _prefProvider.setCountBadge(_prefProvider.countBadge! + 1);
+      }
+      getIt<FCMBloc>().countBadge(locator<PrefProvider>().countBadge ?? 0);
+
       if (notification != null && android != null) {
         await AwesomeNotifications().createNotification(
           content: NotificationContent(
-            id: 1,
+            id: Random().nextInt(1000),
             channelKey: 'basic_channel',
             title: notification.title,
             body: notification.body,
@@ -43,6 +67,7 @@ class FCMService {
   void _getFCMToken() async {
     final fcmToken = await FirebaseMessaging.instance.getToken();
     await prefProvider.setFCMToken(fcmToken ?? '');
+    debugPrint('fcmToken $fcmToken');
   }
 
   void _initAwesomeNotification() {

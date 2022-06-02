@@ -20,7 +20,9 @@ import '../../../w_components/dialogs/app_dialog.dart';
 import '../../../w_components/images/no_image_available.dart';
 import '../../../w_components/menus/common_fab_menu.dart';
 import '../../base/pair.dart';
+import '../../data_source/local/pref_provider.dart';
 import '../../data_source/models/responses/profile_data.dart';
+import '../../fcm/fcm_bloc.dart';
 import '../../utils/constants/app_assets.dart';
 import '../../utils/constants/app_colors.dart';
 import '../events/event_screen.dart';
@@ -142,8 +144,8 @@ class _MainScreenState extends State<MainScreen> {
               onSearchTap: () {
                 Navigator.of(context).pushNamed(AppRoute.routeUniversalSearch);
               },
-              onNotificationTap: () {
-                Navigator.pushNamed(context, AppRoute.routeNotification);
+              onNotificationTap: () async {
+                await Navigator.pushNamed(context, AppRoute.routeNotification);
               },
               onCartTap: () {
                 ToastUtility.showPending(
@@ -224,7 +226,9 @@ class _MainScreenState extends State<MainScreen> {
           onEventTap: () {
             Navigator.pushNamed(context, AppRoute.routeCreateEvent);
           },
-          onPostTap: () {},
+          onPostTap: () {
+            Navigator.pushNamed(context, AppRoute.routeCreateEvent);
+          },
         ),
       ),
     );
