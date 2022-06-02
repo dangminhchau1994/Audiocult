@@ -102,8 +102,6 @@ class CommonFabMenu extends StatelessWidget {
             builder: (context, snapshot) {
               final countBadge = snapshot.data ?? 0;
 
-              debugPrint('leuleu');
-
               return Badge(
                 elevation: 0,
                 badgeContent: Text(

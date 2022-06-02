@@ -39,7 +39,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> with AutomaticKeepAlive
     getIt.get<DiscoverBloc>().getTopSongs('', 'most-viewed', 1, 3);
     getIt.get<DiscoverBloc>().getAlbums('', 'featured', 1, 3);
     getIt.get<DiscoverBloc>().getMixTapSongs('', 'most-viewed', 1, 3, 'featured', 'mixtape-song');
-    getIt.get<DiscoverBloc>().getPlaylist('', 1, 2, 'most-liked', 0);
+    getIt.get<DiscoverBloc>().getPlaylist('', 1, 2, 'most-liked', 1);
     getIt.get<DiscoverBloc>().getSongOfDay();
   }
 
