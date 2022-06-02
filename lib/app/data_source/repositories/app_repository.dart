@@ -592,7 +592,7 @@ class AppRepository extends BaseRepository {
   Future<Either<UniversalSearchReponse?, Exception>> universalSearch({
     required String keyword,
     required int page,
-    UniversalSearchView? searchView,
+    required UniversalSearchView searchView,
   }) {
     return safeCall(
       () => appServiceProvider.getUniversalSearch(

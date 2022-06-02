@@ -1136,12 +1136,12 @@ class AppServiceProvider {
   Future<UniversalSearchReponse> getUniversalSearch({
     required String keyword,
     required int page,
-    required UniversalSearchView? searchView,
+    required UniversalSearchView searchView,
   }) async {
     final params = <String, dynamic>{};
     params['keyword'] = keyword;
     params['page'] = page;
-    if (searchView != null) {
+    if (searchView != UniversalSearchView.all) {
       params['view'] = searchView.value;
     }
     final response = await _dioHelper.get(
