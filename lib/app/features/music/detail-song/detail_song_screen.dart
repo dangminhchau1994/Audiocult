@@ -87,6 +87,8 @@ class _DetailSongScreenState extends State<DetailSongScreen> {
                       //Description
                       DetailSongDescription(
                         data: detail,
+                        id: int.parse(widget.songId ?? ''),
+                        title: detail.title,
                       ),
                       //Comment
                       DetailSongComment(

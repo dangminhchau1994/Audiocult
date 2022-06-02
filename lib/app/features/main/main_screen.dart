@@ -227,7 +227,7 @@ class _MainScreenState extends State<MainScreen> {
             Navigator.pushNamed(context, AppRoute.routeCreateEvent);
           },
           onPostTap: () {
-            Navigator.pushNamed(context, AppRoute.routeCreateEvent);
+            Navigator.pushNamed(context, AppRoute.routeCreatePost);
           },
         ),
       ),

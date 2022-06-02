@@ -28,7 +28,7 @@ class DetailPlayListScreen extends StatefulWidget {
 }
 
 class _DetailPlayListScreenState extends State<DetailPlayListScreen> {
-   DetailPlayListBloc playListBloc = DetailPlayListBloc(locator.get());
+  DetailPlayListBloc playListBloc = DetailPlayListBloc(locator.get());
 
   @override
   void initState() {
@@ -91,6 +91,8 @@ class _DetailPlayListScreenState extends State<DetailPlayListScreen> {
                         totalLike: detail.totalLikes,
                         totalViews: detail.totalView,
                         detailPlayListBloc: playListBloc,
+                        id: int.parse(widget.playListId ?? ''),
+                        title: detail.title,
                       ),
                       //Comment
                       DetailPlayListComment(
