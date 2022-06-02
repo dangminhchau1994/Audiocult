@@ -245,5 +245,8 @@
     "t_unblock": "Unblock",
     "t_all": "All",
     "t_people": "People",
-    "t_recent_search": "Recent search"
+    "t_recent_search": "Recent search",
+    "t_rssfeed": "RssFeeds",
+    "t_pages": "Pages",
+    "t_songs": "Songs"
 }
