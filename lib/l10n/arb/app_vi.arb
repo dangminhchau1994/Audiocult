@@ -97,6 +97,7 @@
     "t_custom":"Custom",
     "t_birthday":"Birthday",
     "t_city":"City",
+    "t_photos":"Photos",
     "t_account_settings":"Account Settings",
     "t_change_password":"Change Password",
     "t_payment_methods":"Payment Methods",
@@ -121,5 +122,8 @@
     "t_unblock": "Unblock",
     "t_all": "All",
     "t_people": "People",
-    "t_recent_search": "Recent search"
+    "t_recent_search": "Recent search",
+    "t_rssfeed": "RssFeeds",
+    "t_pages": "Pages",
+    "t_songs": "Songs"
 }
