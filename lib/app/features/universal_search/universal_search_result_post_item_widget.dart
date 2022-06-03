@@ -120,7 +120,7 @@ class UniversalSearchResultPostItemWidget extends StatelessWidget {
       imageBuilder: (_, imageProvider) {
         return Container(
           alignment: Alignment.centerLeft,
-          constraints: const BoxConstraints(maxHeight: 350, minHeight: 200),
+          constraints: const BoxConstraints(maxHeight: 300, minHeight: 200),
           width: double.infinity,
           decoration: BoxDecoration(
             image: DecorationImage(

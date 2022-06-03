@@ -1,8 +1,8 @@
 import 'package:audio_cult/app/data_source/models/responses/universal_search/universal_search_result_item.dart';
 import 'package:audio_cult/app/features/universal_search/universal_seach_bloc.dart';
+import 'package:audio_cult/app/features/universal_search/universal_search_result_item_widget.dart';
 import 'package:audio_cult/app/features/universal_search/universal_search_result_post_item_widget.dart';
 import 'package:audio_cult/app/features/universal_search/universal_search_results_page.dart';
-import 'package:audio_cult/app/features/universal_search/universal_search_result_item_widget.dart';
 import 'package:audio_cult/app/utils/constants/app_assets.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
 import 'package:audio_cult/app/utils/debouncer.dart';
@@ -27,11 +27,11 @@ class _UniversalSearchScreenState extends State<UniversalSearchScreen> {
   final _bloc = getIt.get<UniversalSearchBloc>();
   final _tabController = CustomTabBarController();
   final _searchTextFieldFocusNode = FocusNode();
+  final _searchTextFieldController = TextEditingController();
   final _pageController = PageController();
   final _searchKeywordOnChangeDebouncer = Debouncer(milliseconds: 500);
   var _currentIndex = UniversalSearchView.all.index;
-
-  final _searchTextFieldController = TextEditingController();
+  var _listPages = <UniversalSearchResultsPage>[];
 
   final _universalSearchAllKey = GlobalKey<UniversalSearchResultsPageState>();
   final _universalSearchVideosKey = GlobalKey<UniversalSearchResultsPageState>();
@@ -44,13 +44,12 @@ class _UniversalSearchScreenState extends State<UniversalSearchScreen> {
   @override
   void initState() {
     super.initState();
-
+    _initListPages();
     _searchTextFieldController.addListener(() {
       _searchKeywordOnChangeDebouncer.run(() {
         _bloc.keywordOnChange(_searchTextFieldController.text);
       });
     });
-
     _bloc.searchStream.listen((search) {
       final keyword = search.item1;
       final searchView = search.item2;
@@ -203,18 +202,12 @@ class _UniversalSearchScreenState extends State<UniversalSearchScreen> {
         return _tabbarItemBuilder(searchView);
       },
       pageViewBuilder: (context, index) {
-        final searchView = UniversalSearchViewExtension.init(index);
-        return _tabbarPageViewBuilder(searchView);
+        return _listPages[index];
       },
       onTapItem: (index) {
         setState(() {
-          _bloc.searchViewOnChange(UniversalSearchViewExtension.init(index));
           _currentIndex = index;
         });
-      },
-      onPageChanged: (index) {
-        _bloc.searchViewOnChange(UniversalSearchViewExtension.init(index));
-        setState(() => _currentIndex = index);
       },
     );
   }
@@ -273,110 +266,116 @@ class _UniversalSearchScreenState extends State<UniversalSearchScreen> {
     }
   }
 
-  Widget _tabbarPageViewBuilder(UniversalSearchView searchView) {
-    switch (searchView) {
-      case UniversalSearchView.all:
-        return UniversalSearchResultsPage(
-          searchView,
-          (_, item, ___) {
-            return UniversalSearchResultItemWidget(
-              imageUrl: item.userImage ?? '',
-              title: item.itemTitle ?? '',
-              subtitle: item.itemName ?? '',
-              onTap: () {
-                // TODO: handle tap
-              },
-            );
-          },
-          key: _universalSearchAllKey,
-        );
-      case UniversalSearchView.video:
-        return UniversalSearchResultsPage(
-          searchView,
-          (_, item, ___) {
-            return UniversalSearchResultItemWidget(
-              imageUrl: item.userImage ?? '',
-              title: item.itemTitle ?? '',
-              subtitle: item.itemName ?? '',
-              onTap: () {
-                // TODO: handle tap
-              },
-            );
-          },
-          key: _universalSearchVideosKey,
-        );
-      case UniversalSearchView.event:
-        return UniversalSearchResultsPage(
-          searchView,
-          (_, item, ___) {
-            return UniversalSearchResultItemWidget(
-              imageUrl: item.userImage ?? '',
-              title: item.itemTitle ?? '',
-              subtitle: item.itemName ?? '',
-              onTap: () {
-                // TODO: handle tap
-              },
-            );
-          },
-          key: _universalSearchEventsKey,
-        );
-      case UniversalSearchView.song:
-        return UniversalSearchResultsPage(
-          searchView,
-          (_, item, ___) {
-            return UniversalSearchResultItemWidget(
-              imageUrl: item.userImage ?? '',
-              title: item.itemTitle ?? '',
-              subtitle: item.itemName ?? '',
-              onTap: () {
-                // TODO: handle tap
-              },
-            );
-          },
-          key: _universalSearchSongsKey,
-        );
-      case UniversalSearchView.photo:
-        return UniversalSearchResultsPage(
-          searchView,
-          (_, item, ___) {
-            return UniversalSearchResultItemWidget(
-              imageUrl: item.userImage ?? '',
-              title: item.itemTitle ?? '',
-              subtitle: item.itemName ?? '',
-              onTap: () {
-                // TODO: handle tap
-              },
-            );
-          },
-          key: _universalSearchPhotosKey,
-        );
-      case UniversalSearchView.rssfeed:
-        return UniversalSearchResultsPage(
-          searchView,
-          (_, item, ___) {
-            return UniversalSearchResultPostItemWidget(
-              avatarUrl: item.userImage ?? '',
-              imageUrl: item.itemPhoto ?? '',
-              content: item.itemTitle ?? '',
-            );
-          },
-          key: _universalSearchRssfeedsKey,
-        );
-      case UniversalSearchView.page:
-        return UniversalSearchResultsPage(
-          searchView,
-          (_, item, ___) {
-            return UniversalSearchResultItemWidget(
-              imageUrl: item.userImage ?? '',
-              title: item.itemTitle ?? '',
-              subtitle: item.itemName ?? '',
-              onTap: () {
-                // TODO: handle tap
-              },
-            );
-          },
-          key: _universalSearchPagesKey,
-        );
-    }
+  void _initListPages() {
+    _listPages = [
+      UniversalSearchResultsPage(
+        UniversalSearchView.all,
+        (_, item, ___) {
+          return UniversalSearchResultItemWidget(
+            imageUrl: item.userImage ?? '',
+            title: item.itemTitle ?? '',
+            subtitle: item.itemName ?? '',
+            keyword: _searchTextFieldController.text,
+            onTap: () {
+              // TODO: handle tap
+            },
+          );
+        },
+        key: _universalSearchAllKey,
+        screenOnLaunch: () => _bloc.searchViewOnChange(UniversalSearchView.all),
+      ),
+      UniversalSearchResultsPage(
+        UniversalSearchView.video,
+        (_, item, ___) {
+          return UniversalSearchResultItemWidget(
+            imageUrl: item.userImage ?? '',
+            title: item.itemTitle ?? '',
+            subtitle: item.itemName ?? '',
+            keyword: _searchTextFieldController.text,
+            onTap: () {
+              // TODO: handle tap
+            },
+          );
+        },
+        key: _universalSearchVideosKey,
+        screenOnLaunch: () => _bloc.searchViewOnChange(UniversalSearchView.video),
+      ),
+      UniversalSearchResultsPage(
+        UniversalSearchView.event,
+        (_, item, ___) {
+          return UniversalSearchResultItemWidget(
+            imageUrl: item.userImage ?? '',
+            title: item.itemTitle ?? '',
+            subtitle: item.itemName ?? '',
+            keyword: _searchTextFieldController.text,
+            onTap: () {
+              // TODO: handle tap
+            },
+          );
+        },
+        key: _universalSearchEventsKey,
+        screenOnLaunch: () => _bloc.searchViewOnChange(UniversalSearchView.event),
+      ),
+      UniversalSearchResultsPage(
+        UniversalSearchView.song,
+        (_, item, ___) {
+          return UniversalSearchResultItemWidget(
+            imageUrl: item.userImage ?? '',
+            title: item.itemTitle ?? '',
+            subtitle: item.itemName ?? '',
+            keyword: _searchTextFieldController.text,
+            onTap: () {
+              // TODO: handle tap
+            },
+          );
+        },
+        key: _universalSearchSongsKey,
+        screenOnLaunch: () => _bloc.searchViewOnChange(UniversalSearchView.song),
+      ),
+      UniversalSearchResultsPage(
+        UniversalSearchView.photo,
+        (_, item, ___) {
+          return UniversalSearchResultItemWidget(
+            imageUrl: item.userImage ?? '',
+            title: item.itemTitle ?? '',
+            subtitle: item.itemName ?? '',
+            keyword: _searchTextFieldController.text,
+            onTap: () {
+              // TODO: handle tap
+            },
+          );
+        },
+        key: _universalSearchPhotosKey,
+        screenOnLaunch: () => _bloc.searchViewOnChange(UniversalSearchView.photo),
+      ),
+      UniversalSearchResultsPage(
+        UniversalSearchView.rssfeed,
+        (_, item, ___) {
+          return UniversalSearchResultPostItemWidget(
+            avatarUrl: item.userImage ?? '',
+            imageUrl: item.itemPhoto ?? '',
+            content: item.itemTitle ?? '',
+          );
+        },
+        key: _universalSearchRssfeedsKey,
+        screenOnLaunch: () => _bloc.searchViewOnChange(UniversalSearchView.rssfeed),
+      ),
+      UniversalSearchResultsPage(
+        UniversalSearchView.page,
+        (_, item, ___) {
+          return UniversalSearchResultItemWidget(
+            imageUrl: item.userImage ?? '',
+            title: item.itemTitle ?? '',
+            subtitle: item.itemName ?? '',
+            keyword: _searchTextFieldController.text,
+            onTap: () {
+              // TODO: handle tap
+            },
+          );
+        },
+        key: _universalSearchPagesKey,
+        screenOnLaunch: () => _bloc.searchViewOnChange(UniversalSearchView.page),
+      )
+    ];
   }
 }

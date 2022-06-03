@@ -593,12 +593,15 @@ class AppRepository extends BaseRepository {
     required String keyword,
     required int page,
     required UniversalSearchView searchView,
+    int limit = 20,
+    CancelToken? cancel,
   }) {
     return safeCall(
       () => appServiceProvider.getUniversalSearch(
         keyword: keyword,
         page: page,
         searchView: searchView,
+        cancel: cancel,
       ),
     );
   }

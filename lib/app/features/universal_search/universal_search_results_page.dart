@@ -1,8 +1,10 @@
 import 'package:audio_cult/app/base/bloc_handle.dart';
 import 'package:audio_cult/app/data_source/models/responses/universal_search/universal_search_result_item.dart';
 import 'package:audio_cult/app/features/universal_search/universal_search_results_bloc.dart';
+import 'package:audio_cult/app/utils/constants/app_assets.dart';
 
 import 'package:audio_cult/di/bloc_locator.dart';
+import 'package:audio_cult/l10n/l10n.dart';
 import 'package:audio_cult/w_components/error_empty/widget_state.dart';
 import 'package:audio_cult/w_components/loading/loading_widget.dart';
 
@@ -11,9 +13,15 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 class UniversalSearchResultsPage extends StatefulWidget {
   final UniversalSearchView searchView;
+  final VoidCallback screenOnLaunch;
   final Widget Function(BuildContext, UniversalSearchItem, int) itemBuilder;
 
-  const UniversalSearchResultsPage(this.searchView, this.itemBuilder, {Key? key}) : super(key: key);
+  const UniversalSearchResultsPage(
+    this.searchView,
+    this.itemBuilder, {
+    required this.screenOnLaunch,
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<UniversalSearchResultsPage> createState() => UniversalSearchResultsPageState();
@@ -22,6 +30,7 @@ class UniversalSearchResultsPage extends StatefulWidget {
 class UniversalSearchResultsPageState extends State<UniversalSearchResultsPage> with AutomaticKeepAliveClientMixin {
   final _bloc = getIt.get<UniversalSearchResultsBloc>();
   final _pagingController = PagingController<int, UniversalSearchItem>(firstPageKey: 1);
+  String? _keyword;
 
   @override
   bool get wantKeepAlive => true;
@@ -34,23 +43,31 @@ class UniversalSearchResultsPageState extends State<UniversalSearchResultsPage> 
     });
     _bloc.searchResultsLoadedStream.listen((event) {
       event.when(
-        success: (results) => searchResultOnChange(results as List<UniversalSearchItem>),
+        success: (results) => searchResultsLoaded(results as List<UniversalSearchItem>),
         loading: Container.new,
         error: (error) => Container(),
       );
     });
   }
 
-  void searchKeywordOnChange(String keyword) {
-    _bloc.keywordOnChange(keyword, widget.searchView);
-    _pagingController.refresh();
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    widget.screenOnLaunch();
   }
 
-  void searchResultOnChange(List<UniversalSearchItem> results) {
-    if (results.length < _bloc.litmit) {
+  void searchKeywordOnChange(String keyword) {
+    _keyword = keyword;
+    _pagingController.refresh();
+    _bloc.keywordOnChange(keyword, widget.searchView);
+  }
+
+  void searchResultsLoaded(List<UniversalSearchItem> results) {
+    if (results.isNotEmpty && results.length < _bloc.litmit) {
       _pagingController.appendLastPage(results);
     } else {
-      _pagingController.appendPage(results, (_pagingController.nextPageKey ?? 0) + 1);
+      final increatePageNumber = results.isNotEmpty == true ? 1 : 0;
+      _pagingController.appendPage(results, (_pagingController.nextPageKey ?? 0) + increatePageNumber);
     }
   }
 
@@ -61,18 +78,41 @@ class UniversalSearchResultsPageState extends State<UniversalSearchResultsPage> 
   }
 
   Widget _resultListWidget() {
-    return Scrollbar(
-      child: PagedListView<int, UniversalSearchItem>(
-        padding: const EdgeInsets.all(16),
-        pagingController: _pagingController,
-        builderDelegate: PagedChildBuilderDelegate(
-          newPageProgressIndicatorBuilder: (context) => const LoadingWidget(),
-          noItemsFoundIndicatorBuilder: (context) => const EmptyDataStateWidget(null),
-          firstPageProgressIndicatorBuilder: (context) => Container(),
-          newPageErrorIndicatorBuilder: (context) => const LoadingWidget(),
-          itemBuilder: widget.itemBuilder,
-        ),
+    return PagedListView<int, UniversalSearchItem>(
+      padding: const EdgeInsets.all(16),
+      pagingController: _pagingController,
+      builderDelegate: PagedChildBuilderDelegate(
+        newPageProgressIndicatorBuilder: (context) => const LoadingWidget(),
+        noItemsFoundIndicatorBuilder: (context) {
+          if (_keyword?.isNotEmpty == true) {
+            return EmptyDataStateWidget(null, imagePath: _iconPathForEmptyPage());
+          }
+          return EmptyDataStateWidget(
+            context.l10n.t_input_your_keyword,
+            imagePath: _iconPathForEmptyPage(),
+          );
+        },
+        firstPageProgressIndicatorBuilder: (context) => Container(),
+        newPageErrorIndicatorBuilder: (context) => const LoadingWidget(),
+        itemBuilder: widget.itemBuilder,
       ),
     );
+  }
+
+  String _iconPathForEmptyPage() {
+    switch (widget.searchView) {
+      case UniversalSearchView.all:
+        return AppAssets.icCompass;
+      case UniversalSearchView.video:
+      case UniversalSearchView.event:
+      case UniversalSearchView.photo:
+        return AppAssets.eventIcon;
+      case UniversalSearchView.song:
+        return AppAssets.icMusic;
+      case UniversalSearchView.rssfeed:
+        return AppAssets.icEnvelope;
+      case UniversalSearchView.page:
+        return AppAssets.icHouse;
+    }
   }
 }

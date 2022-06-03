@@ -125,5 +125,6 @@
     "t_recent_search": "Recent search",
     "t_rssfeed": "RssFeeds",
     "t_pages": "Pages",
-    "t_songs": "Songs"
+    "t_songs": "Songs",
+    "t_input_your_keyword": "Please provide search input"
 }
