@@ -10,6 +10,7 @@ import 'package:audio_cult/app/utils/route/app_route.dart';
 import 'package:audio_cult/l10n/l10n.dart';
 import 'package:audio_cult/w_components/buttons/common_button.dart';
 import 'package:disposing/disposing.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../w_components/textfields/common_input.dart';
@@ -94,14 +95,18 @@ class _LoginPageState extends State<LoginPage> with DisposableStateMixin, Automa
             CommonButton(
               color: AppColors.activeLabelItem,
               text: context.l10n.t_sign_in,
-              onTap: () {
+              onTap: () async {
                 final loginRequest = LoginRequest()
                   ..clientId = AppConstants.clientId
                   ..clientSecret = AppConstants.clientSecret
                   ..grantType = AppConstants.grantType
                   ..username = _email
-                  ..password = _password
-                  ..fcmToken = locator.get<PrefProvider>().fcmToken;
+                  ..password = _password;
+                if (locator.get<PrefProvider>().fcmToken == null) {
+                  final fcmToken = await FirebaseMessaging.instance.getToken();
+                  await locator.get<PrefProvider>().setFCMToken(fcmToken ?? '');
+                }
+                loginRequest.fcmToken = locator.get<PrefProvider>().fcmToken;
                 _loginBloc.submitLogin(loginRequest);
               },
             )

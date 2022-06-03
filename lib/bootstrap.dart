@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:audio_cult/app/data_source/local/hive_box_name.dart';
 import 'package:audio_service/audio_service.dart';
 import 'package:bloc/bloc.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
@@ -30,6 +31,7 @@ class AppBlocObserver extends BlocObserver {
 
 Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   await initDependency();
   setupLocator();
   Hive.init((await getApplicationDocumentsDirectory()).path);
