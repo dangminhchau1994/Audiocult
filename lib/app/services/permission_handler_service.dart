@@ -1,6 +1,10 @@
 import 'package:audio_cult/app/services/permisssion_service.dart';
+import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
+
+import '../../w_components/buttons/common_button.dart';
+import '../utils/constants/app_colors.dart';
 
 class PermissionHandlerPermissionService implements PermissionService {
   @override
@@ -21,19 +25,46 @@ class PermissionHandlerPermissionService implements PermissionService {
       await showDialog(
         context: context,
         builder: (_context) => AlertDialog(
+          backgroundColor: AppColors.secondaryButtonColor,
           actions: [
-            const ElevatedButton(
+            ElevatedButton(
               onPressed: openAppSettings,
-              child: Text('Confirm'),
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(AppColors.primaryButtonColor),
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                ),
+              ),
+              child: Text(
+                'Confirm',
+                style: context.body2TextStyle()?.copyWith(color: Colors.white),
+              ),
             ),
             ElevatedButton(
               onPressed: () => Navigator.of(context).pop(),
-              child: const Text('Cancel'),
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(AppColors.primaryButtonColor),
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                ),
+              ),
+              child: Text(
+                'Cancel',
+                style: context.body2TextStyle()?.copyWith(color: Colors.white),
+              ),
             ),
           ],
-          title: const Text('Camera Permission'),
-          content: const Text(
+          title: const Text(
+            'Camera Permission',
+            style: TextStyle(color: Colors.white),
+          ),
+          content: Text(
             'Camera permission should Be granted to use this feature, would you like to go to app settings to give camera permission?',
+            style: context.body2TextStyle()?.copyWith(color: AppColors.activeLabelItem),
           ),
         ),
       );
@@ -50,19 +81,46 @@ class PermissionHandlerPermissionService implements PermissionService {
       await showDialog(
         context: context,
         builder: (_context) => AlertDialog(
+          backgroundColor: AppColors.secondaryButtonColor,
           actions: [
-            const ElevatedButton(
+            ElevatedButton(
               onPressed: openAppSettings,
-              child: Text('Gallery Permission'),
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(AppColors.primaryButtonColor),
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                ),
+              ),
+              child: Text(
+                'Gallery Permission',
+                style: context.body2TextStyle()?.copyWith(color: Colors.white),
+              ),
             ),
             ElevatedButton(
               onPressed: () => Navigator.of(context).pop(),
-              child: const Text('Cancel'),
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(AppColors.primaryButtonColor),
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                ),
+              ),
+              child: Text(
+                'Cancel',
+                style: context.body2TextStyle()?.copyWith(color: Colors.white),
+              ),
             ),
           ],
-          title: const Text('Camera Permission'),
-          content: const Text(
+          title: const Text(
+            'Camera Permission',
+            style: TextStyle(color: Colors.white),
+          ),
+          content: Text(
             'Gallery permission should Be granted to use this feature, would you like to go to app settings to give gallery permission?',
+            style: context.body2TextStyle()?.copyWith(color: AppColors.activeLabelItem),
           ),
         ),
       );

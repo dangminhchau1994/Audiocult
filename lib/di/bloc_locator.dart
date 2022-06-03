@@ -1,5 +1,6 @@
 import 'package:audio_cult/app/data_source/local/pref_provider.dart';
 import 'package:audio_cult/app/data_source/repositories/app_repository.dart';
+import 'package:audio_cult/app/fcm/fcm_bloc.dart';
 import 'package:audio_cult/app/features/atlas/atlas_bloc.dart';
 import 'package:audio_cult/app/features/atlas/subscribe_user_bloc.dart';
 import 'package:audio_cult/app/features/atlas_filter_result/atlas_filter_result_bloc.dart';
@@ -66,6 +67,8 @@ void setupLocator() {
   getIt.registerLazySingleton<ReplyListBloc>(
     () => ReplyListBloc(locator.get<AppRepository>()),
   );
+
+  getIt.registerLazySingleton<FCMBloc>(FCMBloc.new);
 
   getIt.registerLazySingleton<CommentItemBloc>(
     () => CommentItemBloc(locator.get<AppRepository>()),

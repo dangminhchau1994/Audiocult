@@ -62,7 +62,9 @@ class _PostVideoState extends State<PostVideo> with DisposableStateMixin, Automa
     setState(() {
       _video = _pickedVideoFile;
       _fileName = _video!.path.split('/').last;
-      _showAddVideo = false;
+      if (_fileName.isNotEmpty) {
+        _showAddVideo = false;
+      }
     });
   }
 

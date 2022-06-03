@@ -1,12 +1,16 @@
 import 'package:audio_cult/app/data_source/models/responses/album/album_response.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/l10n/l10n.dart';
+import 'package:audio_cult/w_components/buttons/w_button_inkwell.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
+import '../../../../../w_components/comment/comment_args.dart';
+import '../../../../../w_components/comment/comment_list_screen.dart';
 import '../../../../utils/constants/app_assets.dart';
 import '../../../../utils/constants/app_colors.dart';
 import '../../../../utils/constants/app_dimens.dart';
+import '../../../../utils/route/app_route.dart';
 import '../../detail-song/widgets/detail_description_label.dart';
 
 class DetailAlbumDescription extends StatelessWidget {
@@ -15,7 +19,12 @@ class DetailAlbumDescription extends StatelessWidget {
   const DetailAlbumDescription({
     Key? key,
     this.data,
+    this.id,
+    this.title,
   }) : super(key: key);
+
+  final int? id;
+  final String? title;
 
   @override
   Widget build(BuildContext context) {
@@ -78,10 +87,24 @@ class DetailAlbumDescription extends StatelessWidget {
                     const SizedBox(
                       width: 10,
                     ),
-                    _buildIcon(
-                      SvgPicture.asset(AppAssets.commentIcon),
-                      data?.totalComment ?? '',
-                      context,
+                    WButtonInkwell(
+                      onPressed: () {
+                        Navigator.pushNamed(
+                          context,
+                          AppRoute.routeCommentListScreen,
+                          arguments: CommentArgs(
+                            itemId: id ?? 0,
+                            title: title ?? '',
+                            commentType: CommentType.album,
+                            data: null,
+                          ),
+                        );
+                      },
+                      child: _buildIcon(
+                        SvgPicture.asset(AppAssets.commentIcon),
+                        data?.totalComment ?? '',
+                        context,
+                      ),
                     ),
                     const SizedBox(
                       width: 10,

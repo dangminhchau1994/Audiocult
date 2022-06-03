@@ -93,6 +93,8 @@ class _DetailAlbumScreenState extends State<DetailAlbumScreen> {
                       //Description
                       DetailAlbumDescription(
                         data: detail,
+                        id: int.parse(widget.albumId ?? ''),
+                        title: detail.name,
                       ),
                       //Comment
                       DetailAlbumComment(

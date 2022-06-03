@@ -2,15 +2,19 @@ import 'package:audio_cult/app/constants/global_constants.dart';
 import 'package:audio_cult/app/features/music/detail_playlist/detail_playlist_bloc.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/l10n/l10n.dart';
+import 'package:audio_cult/w_components/buttons/w_button_inkwell.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
+import '../../../../../w_components/comment/comment_args.dart';
+import '../../../../../w_components/comment/comment_list_screen.dart';
 import '../../../../../w_components/error_empty/error_section.dart';
 import '../../../../../w_components/loading/loading_widget.dart';
 import '../../../../base/bloc_state.dart';
 import '../../../../data_source/models/responses/song/song_response.dart';
 import '../../../../utils/constants/app_assets.dart';
 import '../../../../utils/constants/app_colors.dart';
+import '../../../../utils/route/app_route.dart';
 import '../../discover/widgets/song_item.dart';
 
 class DetailPlayListSongs extends StatefulWidget {
@@ -22,6 +26,8 @@ class DetailPlayListSongs extends StatefulWidget {
     this.detailPlayListBloc,
     this.totalLike,
     this.totalViews,
+    this.id,
+    this.title,
   }) : super(key: key);
 
   final List<Song>? songs;
@@ -30,13 +36,14 @@ class DetailPlayListSongs extends StatefulWidget {
   final String? totalLike;
   final String? totalComments;
   final String? totalViews;
+  final int? id;
+  final String? title;
 
   @override
   State<DetailPlayListSongs> createState() => _DetailPlayListSongsState();
 }
 
 class _DetailPlayListSongsState extends State<DetailPlayListSongs> {
-
   @override
   void initState() {
     super.initState();
@@ -59,7 +66,7 @@ class _DetailPlayListSongsState extends State<DetailPlayListSongs> {
               stream: widget.detailPlayListBloc?.getSongByIdStream,
               builder: (context, snapshot) {
                 final state = snapshot.data!;
-    
+
                 return state.when(
                   success: (data) {
                     final songs = data as List<Song>;
@@ -94,7 +101,10 @@ class _DetailPlayListSongsState extends State<DetailPlayListSongs> {
                       errorMessage: error,
                       onRetryTap: () {
                         widget.detailPlayListBloc?.getSongByPlayListId(
-                            int.parse(widget.playListId ?? ''), 1, GlobalConstants.loadMoreItem,);
+                          int.parse(widget.playListId ?? ''),
+                          1,
+                          GlobalConstants.loadMoreItem,
+                        );
                       },
                     );
                   },
@@ -118,10 +128,24 @@ class _DetailPlayListSongsState extends State<DetailPlayListSongs> {
                     const SizedBox(
                       width: 10,
                     ),
-                    _buildIcon(
-                      SvgPicture.asset(AppAssets.commentIcon),
-                      widget.totalComments ?? '0',
-                      context,
+                    WButtonInkwell(
+                      onPressed: () {
+                        Navigator.pushNamed(
+                          context,
+                          AppRoute.routeCommentListScreen,
+                          arguments: CommentArgs(
+                            itemId: widget.id ?? 0,
+                            title: widget.title ?? '',
+                            commentType: CommentType.playlist,
+                            data: null,
+                          ),
+                        );
+                      },
+                      child: _buildIcon(
+                        SvgPicture.asset(AppAssets.commentIcon),
+                        widget.totalComments ?? '0',
+                        context,
+                      ),
                     ),
                     const SizedBox(
                       width: 10,

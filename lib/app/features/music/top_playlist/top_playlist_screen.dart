@@ -53,7 +53,7 @@ class _TopPlaylistScreenState extends State<TopPlaylistScreen> {
         page: 1,
         limit: GlobalConstants.loadMoreItem,
         sort: 'most-liked',
-        getAll: 0,
+        getAll: 1,
       ),
     );
   }
@@ -66,7 +66,7 @@ class _TopPlaylistScreenState extends State<TopPlaylistScreen> {
           page: pageKey,
           limit: GlobalConstants.loadMoreItem,
           sort: 'most-liked',
-          getAll: 0,
+          getAll: 1,
         ),
       );
       newItems.fold(
@@ -153,7 +153,7 @@ class _TopPlaylistScreenState extends State<TopPlaylistScreen> {
                 page: 1,
                 limit: GlobalConstants.loadMoreItem,
                 sort: 'most-liked',
-                getAll: 0,
+                getAll: 1,
               ),
             );
           },
@@ -198,7 +198,7 @@ class _TopPlaylistScreenState extends State<TopPlaylistScreen> {
                   page: 1,
                   limit: GlobalConstants.loadMoreItem,
                   sort: 'most-liked',
-                  getAll: 0,
+                  getAll: 1,
                 ),
               );
             },

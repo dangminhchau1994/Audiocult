@@ -1,9 +1,13 @@
+import 'package:audio_cult/app/fcm/fcm_bloc.dart';
+import 'package:audio_cult/app/injections.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
+import 'package:audio_cult/di/bloc_locator.dart';
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:flutter_svg/svg.dart';
 
+import '../../app/data_source/local/pref_provider.dart';
 import '../../app/utils/constants/app_assets.dart';
 import '../../app/utils/constants/app_colors.dart';
 
@@ -13,13 +17,17 @@ class CommonFabMenu extends StatelessWidget {
     this.onSearchTap,
     this.onCartTap,
     this.onNotificationTap,
-    this.countBadge = 0,
   }) : super(key: key);
 
   final Function()? onSearchTap;
   final Function()? onNotificationTap;
   final Function()? onCartTap;
-  final int? countBadge;
+
+  void setBadge() async {
+    await locator<PrefProvider>().setShowBadge(0);
+    getIt<FCMBloc>().showBadge(locator<PrefProvider>().showBadge ?? 0);
+    getIt<FCMBloc>().countBadge(locator<PrefProvider>().countBadge ?? 0);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,34 +37,47 @@ class CommonFabMenu extends StatelessWidget {
       elevation: 0,
       dialRoot: (context, open, toggleChildren) {
         if (open) {
+          setBadge();
           return _buildActionIcon(
             const Icon(Icons.close),
             false,
           );
         } else {
           return _buildActionIcon(
-            Stack(
-              fit: StackFit.expand,
-              children: [
-                GestureDetector(
-                  onTap: toggleChildren,
-                  child: SvgPicture.asset(
-                    AppAssets.actionMenu,
-                  ),
-                ),
-                // Positioned(
-                //   top: 10,
-                //   right: 0,
-                //   child: Container(
-                //     width: 10,
-                //     height: 10,
-                //     decoration: const BoxDecoration(
-                //       shape: BoxShape.circle,
-                //       color: Colors.red,
-                //     ),
-                //   ),
-                // )
-              ],
+            StreamBuilder<int>(
+              initialData: locator<PrefProvider>().showBadge,
+              stream: getIt<FCMBloc>().showBadgeStream,
+              builder: (context, snapshot) {
+                final showBadge = snapshot.data ?? 0;
+
+                return Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    GestureDetector(
+                      onTap: toggleChildren,
+                      child: SvgPicture.asset(
+                        AppAssets.actionMenu,
+                      ),
+                    ),
+                    Visibility(
+                      // ignore: avoid_bool_literals_in_conditional_expressions
+                      visible: showBadge == 1 ? true : false,
+                      child: Positioned(
+                        top: 10,
+                        right: 0,
+                        child: Container(
+                          width: 10,
+                          height: 10,
+                          decoration: const BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.red,
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
+                );
+              },
             ),
             false,
           );
@@ -75,19 +96,29 @@ class CommonFabMenu extends StatelessWidget {
           onTap: onSearchTap,
         ),
         SpeedDialChild(
-          child: Badge(
-            elevation: 0,
-            badgeContent: Text('$countBadge', style: context.buttonTextStyle()),
-            // ignore: avoid_bool_literals_in_conditional_expressions
-            showBadge: countBadge! > 0 ? true : false,
-            position: BadgePosition.topEnd(),
-            padding: const EdgeInsets.all(6),
-            badgeColor: AppColors.badgeColor,
-            child: SvgPicture.asset(
-              AppAssets.notificationIcon,
-              width: 30,
-              height: 30,
-            ),
+          child: StreamBuilder<int>(
+            initialData: locator<PrefProvider>().countBadge,
+            stream: getIt<FCMBloc>().countBadgeStream,
+            builder: (context, snapshot) {
+              final countBadge = snapshot.data ?? 0;
+
+              return Badge(
+                elevation: 0,
+                badgeContent: Text(
+                  countBadge > 99 ? '+99' : '$countBadge',
+                  style: context.buttonTextStyle()?.copyWith(fontSize: 12),
+                ),
+                showBadge: countBadge > 0,
+                position: BadgePosition.topEnd(),
+                padding: const EdgeInsets.all(6),
+                badgeColor: AppColors.badgeColor,
+                child: SvgPicture.asset(
+                  AppAssets.notificationIcon,
+                  width: 30,
+                  height: 30,
+                ),
+              );
+            },
           ),
           backgroundColor: AppColors.inputFillColor,
           foregroundColor: Colors.white,

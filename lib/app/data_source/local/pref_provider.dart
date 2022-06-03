@@ -1,9 +1,12 @@
+import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PrefNames {
   static const String accessToken = 'access_token';
   static const String userId = 'user_id';
   static const String fcmToken = 'fcm_token';
+  static const String badgeCount = 'badge_count';
+  static const String showBadge = 'show_badge';
 }
 
 class PrefProvider {
@@ -16,9 +19,21 @@ class PrefProvider {
   String? get accessToken => _prefs.getString(PrefNames.accessToken);
   String? get fcmToken => _prefs.getString(PrefNames.fcmToken);
   String? get currentUserId => _prefs.getString(PrefNames.userId);
+  int? get countBadge => _prefs.getInt(PrefNames.badgeCount);
+  int? get showBadge => _prefs.getInt(PrefNames.showBadge);
 
   Future<bool> setFCMToken(String fcmToken) async {
     await _prefs.setString(PrefNames.fcmToken, fcmToken);
+    return true;
+  }
+
+  Future<bool> setShowBadge(int showBadge) async {
+    await _prefs.setInt(PrefNames.showBadge, showBadge);
+    return true;
+  }
+
+  Future<bool> setCountBadge(int count) async {
+    await _prefs.setInt(PrefNames.badgeCount, count);
     return true;
   }
 
