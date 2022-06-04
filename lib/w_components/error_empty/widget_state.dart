@@ -21,8 +21,10 @@ class ErrorStateWidget extends StatelessWidget {
 
 class EmptyDataStateWidget extends StatelessWidget {
   final String? message;
+  final String? imagePath;
+
   // ignore: use_key_in_widget_constructors
-  const EmptyDataStateWidget(this.message);
+  const EmptyDataStateWidget(this.message, {this.imagePath});
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +35,7 @@ class EmptyDataStateWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SvgPicture.asset(
-              AppAssets.eventIcon,
+              imagePath ?? AppAssets.eventIcon,
               width: MediaQuery.of(context).size.width * 0.12,
             ),
             const SizedBox(height: kVerticalSpacing),

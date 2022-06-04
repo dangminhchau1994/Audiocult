@@ -1,12 +1,8 @@
 import 'package:audio_cult/app/data_source/models/responses/universal_search/universal_search_result_item.dart';
 import 'package:audio_cult/app/features/universal_search/universal_seach_bloc.dart';
-import 'package:audio_cult/app/features/universal_search/universal_search_tab/universal_search_all/universal_search_all_screen.dart';
-import 'package:audio_cult/app/features/universal_search/universal_search_tab/universal_search_events_screen.dart';
-import 'package:audio_cult/app/features/universal_search/universal_search_tab/universal_search_pages_screen.dart';
-import 'package:audio_cult/app/features/universal_search/universal_search_tab/universal_search_photos_screen.dart';
-import 'package:audio_cult/app/features/universal_search/universal_search_tab/universal_search_rssfeeds_screen.dart';
-import 'package:audio_cult/app/features/universal_search/universal_search_tab/universal_search_songs_screen.dart';
-import 'package:audio_cult/app/features/universal_search/universal_search_tab/universal_search_videos_screen.dart';
+import 'package:audio_cult/app/features/universal_search/universal_search_result_item_widget.dart';
+import 'package:audio_cult/app/features/universal_search/universal_search_result_post_item_widget.dart';
+import 'package:audio_cult/app/features/universal_search/universal_search_results_page.dart';
 import 'package:audio_cult/app/utils/constants/app_assets.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
 import 'package:audio_cult/app/utils/debouncer.dart';
@@ -29,33 +25,31 @@ class UniversalSearchScreen extends StatefulWidget {
 
 class _UniversalSearchScreenState extends State<UniversalSearchScreen> {
   final _bloc = getIt.get<UniversalSearchBloc>();
-  final _tabbarItems = <CommonTabbarItem>[];
   final _tabController = CustomTabBarController();
   final _searchTextFieldFocusNode = FocusNode();
+  final _searchTextFieldController = TextEditingController();
   final _pageController = PageController();
   final _searchKeywordOnChangeDebouncer = Debouncer(milliseconds: 500);
   var _currentIndex = UniversalSearchView.all.index;
+  var _listPages = <UniversalSearchResultsPage>[];
 
-  final _searchTextFieldController = TextEditingController();
-
-  final _universalSearchAllKey = GlobalKey<UniversalSearchAllScreenState>();
-  final _universalSearchVideosKey = GlobalKey<UniversalSearchVideosScreenState>();
-  final _universalSearchPhotosKey = GlobalKey<UniversalSearchPhotosScreenState>();
-  final _universalSearchSongsKey = GlobalKey<UniversalSearchSongsScreenState>();
-  final _universalSearchEventsKey = GlobalKey<UniversalSearchEventsScreenState>();
-  final _universalSearchPagesKey = GlobalKey<UniversalSearchPagesScreenState>();
-  final _universalSearchRssfeedsKey = GlobalKey<UniversalSearchRssFeedsScreenState>();
+  final _universalSearchAllKey = GlobalKey<UniversalSearchResultsPageState>();
+  final _universalSearchVideosKey = GlobalKey<UniversalSearchResultsPageState>();
+  final _universalSearchPhotosKey = GlobalKey<UniversalSearchResultsPageState>();
+  final _universalSearchSongsKey = GlobalKey<UniversalSearchResultsPageState>();
+  final _universalSearchEventsKey = GlobalKey<UniversalSearchResultsPageState>();
+  final _universalSearchPagesKey = GlobalKey<UniversalSearchResultsPageState>();
+  final _universalSearchRssfeedsKey = GlobalKey<UniversalSearchResultsPageState>();
 
   @override
   void initState() {
     super.initState();
-
+    _initListPages();
     _searchTextFieldController.addListener(() {
       _searchKeywordOnChangeDebouncer.run(() {
         _bloc.keywordOnChange(_searchTextFieldController.text);
       });
     });
-
     _bloc.searchStream.listen((search) {
       final keyword = search.item1;
       final searchView = search.item2;
@@ -69,16 +63,22 @@ class _UniversalSearchScreenState extends State<UniversalSearchScreen> {
         _universalSearchAllKey.currentState?.searchKeywordOnChange(keyword);
         break;
       case UniversalSearchView.video:
+        _universalSearchVideosKey.currentState?.searchKeywordOnChange(keyword);
         break;
       case UniversalSearchView.event:
+        _universalSearchEventsKey.currentState?.searchKeywordOnChange(keyword);
         break;
       case UniversalSearchView.song:
+        _universalSearchSongsKey.currentState?.searchKeywordOnChange(keyword);
         break;
       case UniversalSearchView.photo:
+        _universalSearchPhotosKey.currentState?.searchKeywordOnChange(keyword);
         break;
       case UniversalSearchView.rssfeed:
+        _universalSearchRssfeedsKey.currentState?.searchKeywordOnChange(keyword);
         break;
       case UniversalSearchView.page:
+        _universalSearchPagesKey.currentState?.searchKeywordOnChange(keyword);
         break;
     }
   }
@@ -193,7 +193,7 @@ class _UniversalSearchScreenState extends State<UniversalSearchScreen> {
 
   Widget _body() {
     return CommonTabbar(
-      pageCount: _tabbarItems.length,
+      pageCount: UniversalSearchViewExtension.total,
       pageController: _pageController,
       tabBarController: _tabController,
       currentIndex: _currentIndex,
@@ -202,17 +202,14 @@ class _UniversalSearchScreenState extends State<UniversalSearchScreen> {
         return _tabbarItemBuilder(searchView);
       },
       pageViewBuilder: (context, index) {
-        final searchView = UniversalSearchViewExtension.init(index);
-        return _tabbarPageViewBuilder(searchView);
+        return _listPages[index];
       },
       onTapItem: (index) {
         setState(() {
-          _bloc.searchViewOnChange(UniversalSearchViewExtension.init(index));
           _currentIndex = index;
+          final searchView = UniversalSearchViewExtension.init(index);
+          _bloc.searchViewOnChange(searchView);
         });
-      },
-      onPageChanged: (index) {
-        setState(() => _currentIndex = index);
       },
     );
   }
@@ -271,22 +268,117 @@ class _UniversalSearchScreenState extends State<UniversalSearchScreen> {
     }
   }
 
-  Widget _tabbarPageViewBuilder(UniversalSearchView searchView) {
-    switch (searchView) {
-      case UniversalSearchView.all:
-        return UniversalSearchAllScreen(key: _universalSearchAllKey);
-      case UniversalSearchView.video:
-        return UniversalSearchVideosScreen(key: _universalSearchVideosKey);
-      case UniversalSearchView.event:
-        return UniversalSearchEventsScreen(key: _universalSearchEventsKey);
-      case UniversalSearchView.song:
-        return UniversalSearchSongsScreen(key: _universalSearchSongsKey);
-      case UniversalSearchView.photo:
-        return UniversalSearchPhotosScreen(key: _universalSearchPhotosKey);
-      case UniversalSearchView.rssfeed:
-        return UniversalSearchRssFeedsScreen(key: _universalSearchRssfeedsKey);
-      case UniversalSearchView.page:
-        return UniversalSearchPagesScreen(key: _universalSearchPagesKey);
-    }
+  void _initListPages() {
+    _listPages = [
+      UniversalSearchResultsPage(
+        UniversalSearchView.all,
+        (_, item, ___) {
+          return UniversalSearchResultItemWidget(
+            imageUrl: item.userImage ?? '',
+            title: item.itemTitle ?? '',
+            subtitle: item.itemName ?? '',
+            queryString: _searchTextFieldController.text,
+            onTap: () {
+              // TODO: handle tap
+            },
+          );
+        },
+        key: _universalSearchAllKey,
+        screenOnLaunch: () => _bloc.searchViewOnChange(UniversalSearchView.all),
+      ),
+      UniversalSearchResultsPage(
+        UniversalSearchView.video,
+        (_, item, ___) {
+          return UniversalSearchResultItemWidget(
+            imageUrl: item.userImage ?? '',
+            title: item.itemTitle ?? '',
+            subtitle: item.itemName ?? '',
+            queryString: _searchTextFieldController.text,
+            onTap: () {
+              // TODO: handle tap
+            },
+          );
+        },
+        key: _universalSearchVideosKey,
+        screenOnLaunch: () => _bloc.searchViewOnChange(UniversalSearchView.video),
+      ),
+      UniversalSearchResultsPage(
+        UniversalSearchView.event,
+        (_, item, ___) {
+          return UniversalSearchResultItemWidget(
+            imageUrl: item.userImage ?? '',
+            title: item.itemTitle ?? '',
+            subtitle: item.itemName ?? '',
+            queryString: _searchTextFieldController.text,
+            onTap: () {
+              // TODO: handle tap
+            },
+          );
+        },
+        key: _universalSearchEventsKey,
+        screenOnLaunch: () => _bloc.searchViewOnChange(UniversalSearchView.event),
+      ),
+      UniversalSearchResultsPage(
+        UniversalSearchView.song,
+        (_, item, ___) {
+          return UniversalSearchResultItemWidget(
+            imageUrl: item.userImage ?? '',
+            title: item.itemTitle ?? '',
+            subtitle: item.itemName ?? '',
+            queryString: _searchTextFieldController.text,
+            onTap: () {
+              // TODO: handle tap
+            },
+          );
+        },
+        key: _universalSearchSongsKey,
+        screenOnLaunch: () => _bloc.searchViewOnChange(UniversalSearchView.song),
+      ),
+      UniversalSearchResultsPage(
+        UniversalSearchView.photo,
+        (_, item, ___) {
+          return UniversalSearchResultItemWidget(
+            imageUrl: item.userImage ?? '',
+            title: item.itemTitle ?? '',
+            subtitle: item.itemName ?? '',
+            queryString: _searchTextFieldController.text,
+            onTap: () {
+              // TODO: handle tap
+            },
+          );
+        },
+        key: _universalSearchPhotosKey,
+        screenOnLaunch: () => _bloc.searchViewOnChange(UniversalSearchView.photo),
+      ),
+      UniversalSearchResultsPage(
+        UniversalSearchView.rssfeed,
+        (_, item, ___) {
+          return UniversalSearchResultPostItemWidget(
+            avatarUrl: item.userImage ?? '',
+            imageUrl: item.itemPhoto ?? '',
+            content: item.itemTitle ?? '',
+            queryString: _searchTextFieldController.text,
+          );
+        },
+        key: _universalSearchRssfeedsKey,
+        screenOnLaunch: () => _bloc.searchViewOnChange(UniversalSearchView.rssfeed),
+      ),
+      UniversalSearchResultsPage(
+        UniversalSearchView.page,
+        (_, item, ___) {
+          return UniversalSearchResultItemWidget(
+            imageUrl: item.userImage ?? '',
+            title: item.itemTitle ?? '',
+            subtitle: item.itemName ?? '',
+            queryString: _searchTextFieldController.text,
+            onTap: () {
+              // TODO: handle tap
+            },
+          );
+        },
+        key: _universalSearchPagesKey,
+        screenOnLaunch: () => _bloc.searchViewOnChange(UniversalSearchView.page),
+      )
+    ];
   }
 }

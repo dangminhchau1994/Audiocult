@@ -111,4 +111,6 @@ extension UniversalSearchViewExtension on UniversalSearchView {
         return UniversalSearchView.all;
     }
   }
+
+  static int total = 7;
 }
