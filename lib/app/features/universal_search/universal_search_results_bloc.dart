@@ -19,6 +19,7 @@ class UniversalSearchResultsBloc extends BaseBloc {
 
   void keywordOnChange(String keyword, UniversalSearchView searchView) async {
     _keyword = keyword;
+
     loadMoreResults(1, searchView);
   }
 

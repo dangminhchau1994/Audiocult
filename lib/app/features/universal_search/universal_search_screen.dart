@@ -207,6 +207,8 @@ class _UniversalSearchScreenState extends State<UniversalSearchScreen> {
       onTapItem: (index) {
         setState(() {
           _currentIndex = index;
+          final searchView = UniversalSearchViewExtension.init(index);
+          _bloc.searchViewOnChange(searchView);
         });
       },
     );
@@ -275,7 +277,7 @@ class _UniversalSearchScreenState extends State<UniversalSearchScreen> {
             imageUrl: item.userImage ?? '',
             title: item.itemTitle ?? '',
             subtitle: item.itemName ?? '',
-            keyword: _searchTextFieldController.text,
+            queryString: _searchTextFieldController.text,
             onTap: () {
               // TODO: handle tap
             },
@@ -291,7 +293,7 @@ class _UniversalSearchScreenState extends State<UniversalSearchScreen> {
             imageUrl: item.userImage ?? '',
             title: item.itemTitle ?? '',
             subtitle: item.itemName ?? '',
-            keyword: _searchTextFieldController.text,
+            queryString: _searchTextFieldController.text,
             onTap: () {
               // TODO: handle tap
             },
@@ -307,7 +309,7 @@ class _UniversalSearchScreenState extends State<UniversalSearchScreen> {
             imageUrl: item.userImage ?? '',
             title: item.itemTitle ?? '',
             subtitle: item.itemName ?? '',
-            keyword: _searchTextFieldController.text,
+            queryString: _searchTextFieldController.text,
             onTap: () {
               // TODO: handle tap
             },
@@ -323,7 +325,7 @@ class _UniversalSearchScreenState extends State<UniversalSearchScreen> {
             imageUrl: item.userImage ?? '',
             title: item.itemTitle ?? '',
             subtitle: item.itemName ?? '',
-            keyword: _searchTextFieldController.text,
+            queryString: _searchTextFieldController.text,
             onTap: () {
               // TODO: handle tap
             },
@@ -339,7 +341,7 @@ class _UniversalSearchScreenState extends State<UniversalSearchScreen> {
             imageUrl: item.userImage ?? '',
             title: item.itemTitle ?? '',
             subtitle: item.itemName ?? '',
-            keyword: _searchTextFieldController.text,
+            queryString: _searchTextFieldController.text,
             onTap: () {
               // TODO: handle tap
             },
@@ -355,6 +357,7 @@ class _UniversalSearchScreenState extends State<UniversalSearchScreen> {
             avatarUrl: item.userImage ?? '',
             imageUrl: item.itemPhoto ?? '',
             content: item.itemTitle ?? '',
+            queryString: _searchTextFieldController.text,
           );
         },
         key: _universalSearchRssfeedsKey,
@@ -367,7 +370,7 @@ class _UniversalSearchScreenState extends State<UniversalSearchScreen> {
             imageUrl: item.userImage ?? '',
             title: item.itemTitle ?? '',
             subtitle: item.itemName ?? '',
-            keyword: _searchTextFieldController.text,
+            queryString: _searchTextFieldController.text,
             onTap: () {
               // TODO: handle tap
             },

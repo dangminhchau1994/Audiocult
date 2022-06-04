@@ -1,20 +1,20 @@
-import 'package:audio_cult/app/utils/constants/app_assets.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
-import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
+import 'package:audio_cult/app/utils/extensions/string_extension.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class UniversalSearchResultPostItemWidget extends StatelessWidget {
   final String avatarUrl;
   final String content;
   final String imageUrl;
+  final String? queryString;
 
   const UniversalSearchResultPostItemWidget({
     required this.avatarUrl,
     required this.content,
     required this.imageUrl,
     Key? key,
+    this.queryString,
   }) : super(key: key);
 
   @override
@@ -29,8 +29,6 @@ class UniversalSearchResultPostItemWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _topHeader(context),
-          const SizedBox(height: 16),
           _contentWidget(context),
           const SizedBox(height: 16),
           _imageWidget(),
@@ -39,77 +37,10 @@ class UniversalSearchResultPostItemWidget extends StatelessWidget {
     );
   }
 
-  Widget _topHeader(BuildContext context) {
-    return Row(
-      children: [
-        _avatarWidget(),
-        const SizedBox(width: 12),
-        _titleWidget(context),
-        TextButton(
-          onPressed: () {},
-          child: SvgPicture.asset(AppAssets.verticalIcon),
-        )
-      ],
-    );
-  }
-
-  Widget _avatarWidget() {
-    return CachedNetworkImage(
-      imageUrl: avatarUrl,
-      imageBuilder: (_, image) {
-        return Container(
-          height: 48,
-          width: 48,
-          decoration: BoxDecoration(
-            image: DecorationImage(image: image),
-            shape: BoxShape.circle,
-          ),
-        );
-      },
-    );
-  }
-
-  Widget _titleWidget(BuildContext context) {
-    return Expanded(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
-            'Name',
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
-          Text(
-            'two hours ago',
-            style: context.body1TextStyle()?.copyWith(color: AppColors.subTitleColor),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
-        ],
-      ),
-    );
-  }
-
   Widget _contentWidget(BuildContext context) {
-    const keyword = '123';
-    final textList = content.split(' ').toList();
-    return Text.rich(
-      TextSpan(
-          children: textList.map((e) {
-        return TextSpan(
-          text: keyword == e
-              ? keyword
-              : (e == textList.first
-                  ? '$e '
-                  : e == textList.last
-                      ? ' $e'
-                      : ' $e '),
-          style: TextStyle(
-            background: Paint()..color = Colors.transparent,
-          ),
-        );
-      }).toList()),
-    );
+    return Text.rich(TextSpan(
+      children: content.highlightOccurrences(queryString ?? ''),
+    ));
   }
 
   Widget _imageWidget() {

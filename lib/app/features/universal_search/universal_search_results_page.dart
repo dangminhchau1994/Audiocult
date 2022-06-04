@@ -39,6 +39,7 @@ class UniversalSearchResultsPageState extends State<UniversalSearchResultsPage> 
   void initState() {
     super.initState();
     _pagingController.addPageRequestListener((pageKey) {
+      if (pageKey == 1) return;
       _bloc.loadMoreResults(pageKey, widget.searchView);
     });
     _bloc.searchResultsLoadedStream.listen((event) {
@@ -58,8 +59,8 @@ class UniversalSearchResultsPageState extends State<UniversalSearchResultsPage> 
 
   void searchKeywordOnChange(String keyword) {
     _keyword = keyword;
-    _pagingController.refresh();
     _bloc.keywordOnChange(keyword, widget.searchView);
+    _pagingController.refresh();
   }
 
   void searchResultsLoaded(List<UniversalSearchItem> results) {

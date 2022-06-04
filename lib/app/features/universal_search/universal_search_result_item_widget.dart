@@ -1,6 +1,7 @@
 import 'package:audio_cult/app/utils/constants/app_assets.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
+import 'package:audio_cult/app/utils/extensions/string_extension.dart';
 import 'package:audio_cult/w_components/loading/loading_widget.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -10,14 +11,14 @@ class UniversalSearchResultItemWidget extends StatelessWidget {
   final String imageUrl;
   final String title;
   final String subtitle;
-  final String? keyword;
+  final String? queryString;
 
   const UniversalSearchResultItemWidget({
     required this.imageUrl,
     required this.title,
     required this.subtitle,
     this.onTap,
-    this.keyword,
+    this.queryString,
     Key? key,
   }) : super(key: key);
 
@@ -36,13 +37,6 @@ class UniversalSearchResultItemWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  // Text(
-                  //   title,
-                  //   softWrap: false,
-                  //   maxLines: 1,
-                  //   overflow: TextOverflow.ellipsis,
-                  //   style: context.body1TextStyle(),
-                  // ),
                   _titleWidget(),
                   const SizedBox(height: 4),
                   Text(
@@ -60,42 +54,8 @@ class UniversalSearchResultItemWidget extends StatelessWidget {
 
   Widget _titleWidget() {
     return Text.rich(
-      TextSpan(children: highlightOccurrences(title, keyword ?? '')),
+      TextSpan(children: title.highlightOccurrences(queryString ?? '')),
     );
-  }
-
-  List<TextSpan> highlightOccurrences(String source, String query) {
-    if (query.isEmpty || !source.toLowerCase().contains(query.toLowerCase())) {
-      return [TextSpan(text: source)];
-    }
-    final matches = query.toLowerCase().allMatches(source.toLowerCase());
-
-    var lastMatchEnd = 0;
-
-    final children = <TextSpan>[];
-    for (var i = 0; i < matches.length; i++) {
-      final match = matches.elementAt(i);
-
-      if (match.start != lastMatchEnd) {
-        children.add(TextSpan(
-          text: source.substring(lastMatchEnd, match.start),
-        ));
-      }
-
-      children.add(TextSpan(
-        text: source.substring(match.start, match.end),
-        style: TextStyle(background: Paint()..color = AppColors.inputFillColor),
-      ));
-
-      if (i == matches.length - 1 && match.end != source.length) {
-        children.add(TextSpan(
-          text: source.substring(match.end, source.length),
-        ));
-      }
-
-      lastMatchEnd = match.end;
-    }
-    return children;
   }
 
   Widget _imageWidget(String imageUrl) {

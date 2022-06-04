@@ -143,7 +143,7 @@ class AppAssets {
 
   static const icLogout = 'assets/icons/ic_logout.png';
 
-  static const icEnvelope = 'assets/icons/ic_envelope.png';
+  static const icEnvelope = 'assets/icons/ic_envelope.svg';
 
   static const icHouse = 'assets/icons/ic_house.svg';
 
