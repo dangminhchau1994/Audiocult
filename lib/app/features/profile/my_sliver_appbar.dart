@@ -18,6 +18,7 @@ import '../../base/pair.dart';
 import '../../data_source/models/responses/atlas_user.dart';
 import '../../data_source/models/responses/profile_data.dart';
 import '../../utils/constants/app_colors.dart';
+import '../../utils/route/app_route.dart';
 import 'profile_bloc.dart';
 
 class MySliverAppBar extends StatefulWidget {
@@ -267,7 +268,9 @@ class _MySliverAppBarState extends State<MySliverAppBar> {
                     text: context.l10n.t_edit_page,
                     width: 169,
                     color: AppColors.inputFillColor,
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.pushNamed(context, AppRoute.routeSettings);
+                    },
                   )
                 else
                   CommonIconButton(
