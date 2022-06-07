@@ -173,7 +173,7 @@ class _CommentItemState extends State<CommentItem> {
                                     .toList();
 
                                 return ReactionButtonToggle<ReactionIconResponse>(
-                                  boxPosition: Position.BOTTOM,
+                                  boxPosition: VerticalPosition.BOTTOM,
                                   boxPadding: const EdgeInsets.all(4),
                                   boxColor: AppColors.secondaryButtonColor,
                                   onReactionChanged: (ReactionIconResponse? value, bool isChecked) {

@@ -50,7 +50,7 @@ dependencies:
   loader_overlay: ^2.0.5
   loading_indicator: ^3.0.2
   disposing: ^1.0.3+1
-  fluttertoast: ^8.0.8
+  fluttertoast: ^8.0.9
   blur: ^3.0.0
   uuid: ^3.0.6
   debounce_throttle: ^2.0.0
