@@ -24,10 +24,26 @@ Map<String, dynamic> _$$_AlbumResponseToJson(_$_AlbumResponse instance) =>
       'error': instance.error,
     };
 
+_$_LastIcon _$$_LastIconFromJson(Map<String, dynamic> json) => _$_LastIcon(
+      likeTypeId: json['like_type_id'] as String?,
+      imagePath: json['image_path'] as String?,
+      countIcon: json['count_icon'] as String?,
+    );
+
+Map<String, dynamic> _$$_LastIconToJson(_$_LastIcon instance) =>
+    <String, dynamic>{
+      'like_type_id': instance.likeTypeId,
+      'image_path': instance.imagePath,
+      'count_icon': instance.countIcon,
+    };
+
 _$_Album _$$_AlbumFromJson(Map<String, dynamic> json) => _$_Album(
       isLiked: json['isLiked'] as bool?,
       userId: json['userId'] as String?,
       userName: json['user_name'] as String?,
+      lastIcon: json['last_icon'] == null
+          ? null
+          : LastIcon.fromJson(json['last_icon'] as Map<String, dynamic>),
       fullName: json['full_name'] as String?,
       userImage: json['userImage'] as String?,
       isInvisible: json['isInvisible'] as String?,
@@ -88,6 +104,7 @@ Map<String, dynamic> _$$_AlbumToJson(_$_Album instance) => <String, dynamic>{
       'isLiked': instance.isLiked,
       'userId': instance.userId,
       'user_name': instance.userName,
+      'last_icon': instance.lastIcon,
       'full_name': instance.fullName,
       'userImage': instance.userImage,
       'isInvisible': instance.isInvisible,

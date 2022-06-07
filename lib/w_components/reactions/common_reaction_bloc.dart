@@ -1,15 +1,15 @@
 import 'package:audio_cult/app/base/base_bloc.dart';
-import 'package:audio_cult/app/data_source/models/responses/comment/comment_response.dart';
-import 'package:audio_cult/app/data_source/models/responses/reaction_icon/reaction_icon_response.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../../app/base/bloc_state.dart';
+import '../../app/data_source/models/responses/comment/comment_response.dart';
+import '../../app/data_source/models/responses/reaction_icon/reaction_icon_response.dart';
 import '../../app/data_source/repositories/app_repository.dart';
 
-class CommentItemBloc extends BaseBloc {
+class CommonReactionBloc extends BaseBloc {
   final AppRepository _appRepository;
 
-  CommentItemBloc(this._appRepository);
+  CommonReactionBloc(this._appRepository);
 
   final _getReactionIconSubject = PublishSubject<BlocState<List<ReactionIconResponse>>>();
   final _postReactionIconSubject = PublishSubject<BlocState<List<CommentResponse>>>();

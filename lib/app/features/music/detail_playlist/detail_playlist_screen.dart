@@ -88,6 +88,7 @@ class _DetailPlayListScreenState extends State<DetailPlayListScreen> {
                       DetailPlayListSongs(
                         playListId: widget.playListId ?? '',
                         totalComments: detail.totalComments,
+                        iconPath: detail.lastIcon?.imagePath ?? '',
                         totalLike: detail.totalLikes,
                         totalViews: detail.totalView,
                         detailPlayListBloc: playListBloc,

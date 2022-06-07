@@ -3,15 +3,20 @@ import 'dart:typed_data';
 import 'package:audio_cult/app/data_source/models/responses/events/event_response.dart';
 import 'package:audio_cult/app/utils/constants/app_dimens.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
+import 'package:audio_cult/w_components/buttons/w_button_inkwell.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
+import '../../../../../w_components/comment/comment_args.dart';
+import '../../../../../w_components/comment/comment_list_screen.dart';
+import '../../../../../w_components/reactions/common_reaction.dart';
 import '../../../../utils/constants/app_assets.dart';
 import '../../../../utils/constants/app_colors.dart';
 import '../../../../utils/file/file_utils.dart';
+import '../../../../utils/route/app_route.dart';
 
 class EventDetailMap extends StatefulWidget {
   final Uint8List? iconMarker;
@@ -32,26 +37,29 @@ class _EventDetailMapState extends State<EventDetailMap> {
 
   Widget _buildIcon(Widget icon, String value, BuildContext context) {
     return Container(
+      height: 54,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         color: AppColors.secondaryButtonColor,
       ),
       padding: const EdgeInsets.all(12),
-      child: Row(
-        children: [
-          icon,
-          const SizedBox(
-            width: 14,
-          ),
-          Text(
-            value,
-            style: context.bodyTextPrimaryStyle()!.copyWith(
-                  color: Colors.white,
-                  fontSize: 12,
-                  fontWeight: FontWeight.bold,
-                ),
-          )
-        ],
+      child: Padding(
+        padding: const EdgeInsets.only(top: 6),
+        child: Row(
+          children: [
+            icon,
+            const SizedBox(
+              width: 14,
+            ),
+            Text(
+              value,
+              style: context.bodyTextPrimaryStyle()!.copyWith(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+            )
+          ],
+        ),
       ),
     );
   }
@@ -105,18 +113,33 @@ class _EventDetailMapState extends State<EventDetailMap> {
             const SizedBox(height: 20),
             Row(
               children: [
-                _buildIcon(
-                  SvgPicture.asset(AppAssets.heartIcon),
-                  widget.data?.totalLike ?? '',
-                  context,
+                CommonReactions(
+                  reactionType: ReactionType.event,
+                  itemId: widget.data?.eventId ?? '',
+                  totalLike: widget.data?.totalLike ?? '',
+                  iconPath: widget.data?.lastIcon?.imagePath,
                 ),
                 const SizedBox(
                   width: 10,
                 ),
-                _buildIcon(
-                  SvgPicture.asset(AppAssets.commentIcon),
-                  widget.data?.totalComment ?? '',
-                  context,
+                WButtonInkwell(
+                  onPressed: () {
+                    Navigator.pushNamed(
+                      context,
+                      AppRoute.routeCommentListScreen,
+                      arguments: CommentArgs(
+                        itemId: int.parse(widget.data?.eventId ?? ''),
+                        title: widget.data?.title ?? '',
+                        commentType: CommentType.event,
+                        data: null,
+                      ),
+                    );
+                  },
+                  child: _buildIcon(
+                    SvgPicture.asset(AppAssets.commentIcon),
+                    widget.data?.totalComment ?? '',
+                    context,
+                  ),
                 ),
                 const SizedBox(
                   width: 10,

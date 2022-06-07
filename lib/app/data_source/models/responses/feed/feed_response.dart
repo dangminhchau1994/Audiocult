@@ -82,6 +82,7 @@ class FeedResponse {
   String? customRel;
   String? customJs;
   bool? noTargetBlank;
+  LastIcon? lastIcon;
 
   FeedResponse({
     this.feedId,
@@ -93,6 +94,7 @@ class FeedResponse {
     this.parentUserId,
     this.itemId,
     this.timeStamp,
+    this.lastIcon,
     this.feedReference,
     this.parentFeedId,
     this.parentModuleId,
@@ -175,6 +177,17 @@ class FeedResponse {
   }
 
   factory FeedResponse.fromJson(Map<String, dynamic> json) => _$FeedResponseFromJson(json);
+}
+
+@JsonSerializable(fieldRename: FieldRename.snake)
+class LastIcon {
+  String? likeTypeId;
+  String? imagePath;
+  String? countIcon;
+
+  LastIcon({this.likeTypeId, this.imagePath, this.countIcon});
+
+  factory LastIcon.fromJson(Map<String, dynamic> json) => _$LastIconFromJson(json);
 }
 
 @JsonSerializable(fieldRename: FieldRename.snake)

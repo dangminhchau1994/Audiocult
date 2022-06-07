@@ -130,7 +130,7 @@ class _CommentItemState extends State<CommentItem> {
                           DateTimeUtils.convertToAgo(int.parse(widget.data?.timeStamp ?? '')),
                           style: context.bodyTextPrimaryStyle()!.copyWith(
                                 color: AppColors.subTitleColor,
-                              ),
+                             ),
                         ),
                         const SizedBox(
                           width: 18,
@@ -164,7 +164,7 @@ class _CommentItemState extends State<CommentItem> {
                                     .map(
                                       (e) => Reaction<ReactionIconResponse>(
                                         value: e,
-                                        title: _buildTitle(e.name ?? ''),
+                                        //title: _buildTitle(e.name ?? ''),
                                         icon: _buildReactionsIcon(
                                           e.imagePath ?? '',
                                         ),
@@ -174,7 +174,7 @@ class _CommentItemState extends State<CommentItem> {
 
                                 return ReactionButtonToggle<ReactionIconResponse>(
                                   boxPosition: Position.BOTTOM,
-                                  boxPadding: const EdgeInsets.all(4),
+                                  boxPadding: const EdgeInsets.all(12),
                                   boxColor: AppColors.secondaryButtonColor,
                                   onReactionChanged: (ReactionIconResponse? value, bool isChecked) {
                                     getIt.get<CommentItemBloc>().postReactionIcon(
@@ -188,8 +188,8 @@ class _CommentItemState extends State<CommentItem> {
                                     value: ReactionIconResponse(),
                                     icon: SvgPicture.network(
                                       widget.data?.lastIcon?.imagePath ?? data[0].imagePath!,
-                                      height: 35,
-                                      width: 35,
+                                      height: 30,
+                                      width: 30,
                                       placeholderBuilder: (BuildContext context) => const Center(
                                         child: CircularProgressIndicator(),
                                       ),
@@ -215,12 +215,15 @@ class _CommentItemState extends State<CommentItem> {
                         const SizedBox(
                           width: 6,
                         ),
-                        Text(
-                          widget.data?.totalLike ?? '',
-                          style: context.bodyTextPrimaryStyle()!.copyWith(color: AppColors.subTitleColor, fontSize: 18),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 8),
+                          child: Text(
+                            widget.data?.totalLike ?? '',
+                            style: context.bodyTextPrimaryStyle()!.copyWith(color: AppColors.subTitleColor, fontSize: 16),
+                          ),
                         ),
                       ],
-                    ),
+                    ), 
                   ],
                 )
               ],
@@ -234,7 +237,6 @@ class _CommentItemState extends State<CommentItem> {
 
 Widget _buildTitle(String title) {
   return SizedBox(
-    width: 45,
     child: Text(
       title,
       style: const TextStyle(
@@ -246,15 +248,12 @@ Widget _buildTitle(String title) {
 }
 
 Widget _buildReactionsIcon(String path) {
-  return Padding(
-    padding: const EdgeInsets.only(bottom: 30, top: 10),
-    child: SvgPicture.network(
-      path,
-      height: 35,
-      width: 35,
-      placeholderBuilder: (BuildContext context) => const Center(
-        child: CircularProgressIndicator(),
-      ),
+  return SvgPicture.network(
+    path,
+    height: 30,
+    width: 30,
+    placeholderBuilder: (BuildContext context) => const Center(
+      child: CircularProgressIndicator(),
     ),
   );
 }

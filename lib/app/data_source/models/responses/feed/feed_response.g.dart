@@ -16,6 +16,9 @@ FeedResponse _$FeedResponseFromJson(Map<String, dynamic> json) => FeedResponse(
       parentUserId: json['parent_user_id'] as String?,
       itemId: json['item_id'] as String?,
       timeStamp: json['time_stamp'] as String?,
+      lastIcon: json['last_icon'] == null
+          ? null
+          : LastIcon.fromJson(json['last_icon'] as Map<String, dynamic>),
       feedReference: json['feed_reference'] as String?,
       parentFeedId: json['parent_feed_id'] as String?,
       parentModuleId: json['parent_module_id'] as String?,
@@ -148,6 +151,19 @@ Map<String, dynamic> _$FeedResponseToJson(FeedResponse instance) =>
       'custom_rel': instance.customRel,
       'custom_js': instance.customJs,
       'no_target_blank': instance.noTargetBlank,
+      'last_icon': instance.lastIcon,
+    };
+
+LastIcon _$LastIconFromJson(Map<String, dynamic> json) => LastIcon(
+      likeTypeId: json['like_type_id'] as String?,
+      imagePath: json['image_path'] as String?,
+      countIcon: json['count_icon'] as String?,
+    );
+
+Map<String, dynamic> _$LastIconToJson(LastIcon instance) => <String, dynamic>{
+      'like_type_id': instance.likeTypeId,
+      'image_path': instance.imagePath,
+      'count_icon': instance.countIcon,
     };
 
 CustomDataCache _$CustomDataCacheFromJson(Map<String, dynamic> json) =>

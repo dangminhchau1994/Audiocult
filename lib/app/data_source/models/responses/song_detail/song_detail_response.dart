@@ -183,7 +183,7 @@ class ArtistUser {
   String? lastActivity;
   String? birthday;
   String? countryIso;
-  
+
   ArtistUser({
     this.userId,
     this.profilePageId,

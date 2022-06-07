@@ -6,6 +6,7 @@ import 'package:audio_cult/app/utils/constants/app_dimens.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/l10n/l10n.dart';
 import 'package:audio_cult/w_components/buttons/w_button_inkwell.dart';
+import 'package:audio_cult/w_components/reactions/common_reaction.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:readmore/readmore.dart';
@@ -82,19 +83,22 @@ class DetailSongDescription extends StatelessWidget {
               height: 20,
             ),
             //genre tags
-            Wrap(
-              spacing: 8,
-              runSpacing: 4,
-              children: data!.tags!
-                  .split('')
-                  .map(
-                    (e) => Text(
-                      e,
-                      style: TextStyle(color: AppColors.lightBlue),
-                    ),
-                  )
-                  .toList(),
-            ),
+            if (data?.tags != null)
+              Wrap(
+                spacing: 8,
+                runSpacing: 4,
+                children: data!.tags!
+                    .split('')
+                    .map(
+                      (e) => Text(
+                        e,
+                        style: TextStyle(color: AppColors.lightBlue),
+                      ),
+                    )
+                    .toList(),
+              )
+            else
+              Container(),
             const SizedBox(
               height: 20,
             ),
@@ -122,10 +126,11 @@ class DetailSongDescription extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    _buildIcon(
-                      SvgPicture.asset(AppAssets.heartIcon),
-                      data?.totalLike ?? '',
-                      context,
+                    CommonReactions(
+                      reactionType: ReactionType.music,
+                      itemId: data?.songId ?? '',
+                      totalLike: data?.totalLike ?? '',
+                      iconPath: data?.lastIcon?.imagePath,
                     ),
                     const SizedBox(
                       width: 10,
@@ -170,25 +175,29 @@ class DetailSongDescription extends StatelessWidget {
 
   Widget _buildIcon(Widget icon, String value, BuildContext context) {
     return Container(
+      height: 54,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         color: AppColors.secondaryButtonColor,
       ),
       padding: const EdgeInsets.all(12),
-      child: Row(
-        children: [
-          icon,
-          const SizedBox(
-            width: 14,
-          ),
-          Text(
-            value,
-            style: context.bodyTextPrimaryStyle()!.copyWith(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
-          )
-        ],
+      child: Padding(
+        padding: const EdgeInsets.only(top: 6),
+        child: Row(
+          children: [
+            icon,
+            const SizedBox(
+              width: 14,
+            ),
+            Text(
+              value,
+              style: context.bodyTextPrimaryStyle()!.copyWith(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+            )
+          ],
+        ),
       ),
     );
   }

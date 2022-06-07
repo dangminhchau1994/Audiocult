@@ -10,6 +10,7 @@ import '../../../../../w_components/comment/comment_args.dart';
 import '../../../../../w_components/comment/comment_list_screen.dart';
 import '../../../../../w_components/error_empty/error_section.dart';
 import '../../../../../w_components/loading/loading_widget.dart';
+import '../../../../../w_components/reactions/common_reaction.dart';
 import '../../../../base/bloc_state.dart';
 import '../../../../data_source/models/responses/song/song_response.dart';
 import '../../../../utils/constants/app_assets.dart';
@@ -26,6 +27,7 @@ class DetailPlayListSongs extends StatefulWidget {
     this.detailPlayListBloc,
     this.totalLike,
     this.totalViews,
+    this.iconPath,
     this.id,
     this.title,
   }) : super(key: key);
@@ -35,6 +37,7 @@ class DetailPlayListSongs extends StatefulWidget {
   final String? playListId;
   final String? totalLike;
   final String? totalComments;
+  final String? iconPath;
   final String? totalViews;
   final int? id;
   final String? title;
@@ -120,10 +123,11 @@ class _DetailPlayListSongsState extends State<DetailPlayListSongs> {
               children: [
                 Row(
                   children: [
-                    _buildIcon(
-                      SvgPicture.asset(AppAssets.heartIcon),
-                      widget.totalLike ?? '0',
-                      context,
+                    CommonReactions(
+                      reactionType: ReactionType.playlist,
+                      itemId: widget.playListId,
+                      totalLike: widget.totalLike,
+                      iconPath: widget.iconPath,
                     ),
                     const SizedBox(
                       width: 10,
@@ -181,26 +185,29 @@ class _DetailPlayListSongsState extends State<DetailPlayListSongs> {
 
   Widget _buildIcon(Widget icon, String value, BuildContext context) {
     return Container(
+      height: 54,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         color: AppColors.secondaryButtonColor,
       ),
       padding: const EdgeInsets.all(12),
-      child: Row(
-        children: [
-          icon,
-          const SizedBox(
-            width: 14,
-          ),
-          Text(
-            value,
-            style: context.bodyTextPrimaryStyle()!.copyWith(
-                  color: Colors.white,
-                  fontSize: 12,
-                  fontWeight: FontWeight.bold,
-                ),
-          )
-        ],
+      child: Padding(
+       padding: const EdgeInsets.only(top: 6),
+        child: Row(
+          children: [
+            icon,
+            const SizedBox(
+              width: 14,
+            ),
+            Text(
+              value,
+              style: context.bodyTextPrimaryStyle()!.copyWith(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+            )
+          ],
+        ),
       ),
     );
   }

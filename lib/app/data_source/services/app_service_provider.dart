@@ -484,7 +484,7 @@ class AppServiceProvider {
     );
   }
 
-  Future<CommentResponse> postReactionIcon(String typeId, int itemId, int likeType) async {
+  Future<List<CommentResponse>> postReactionIcon(String typeId, int itemId, int likeType) async {
     final response = await _dioHelper.post(
       route: '/restful_api/like/item',
       options: Options(headers: {'Content-Type': 'application/x-www-form-urlencoded'}),
@@ -495,9 +495,8 @@ class AppServiceProvider {
         'like_type': likeType,
       }),
     );
-    return response.mapData(
-      (json) => CommentResponse.fromJson(json as Map<String, dynamic>),
-    );
+    return response.mapData((json) =>
+        asType<List<dynamic>>(json)?.map((e) => CommentResponse.fromJson(e as Map<String, dynamic>)).toList());
   }
 
   Future<CreatePlayListResponse> createPlayList(CreatePlayListRequest request) async {

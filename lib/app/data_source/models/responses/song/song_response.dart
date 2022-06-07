@@ -42,6 +42,7 @@ class Song {
   String? peaksJsonUrl;
   int? noPhoto;
   String? genreName;
+  LastIcon? lastIcon;
   String? image400;
 
   Song({
@@ -55,6 +56,7 @@ class Song {
     this.isFree,
     this.isFeatured,
     this.isSponsor,
+    this.lastIcon,
     this.albumId,
     this.genreId,
     this.isDj,
@@ -118,6 +120,7 @@ class Song {
     totalDownload = iw['total_download'].get();
     tags = iw['tags'].get();
     imagePath = iw['image_path'].get();
+    lastIcon = iw['last_icon'].get(rawBuilder: (values) => LastIcon.fromJson(values as Map<String, dynamic>));
     artistUser = iw['artist_user'].get(rawBuilder: (values) => ProfileData.fromJson(values as Map<String, dynamic>));
     collabUser = iw['collab_user'].get(rawBuilder: (values) => ProfileData.fromJson(values as Map<String, dynamic>));
     labelUser = iw['label_user'].get(rawBuilder: (values) => ProfileData.fromJson(values as Map<String, dynamic>));
@@ -125,5 +128,20 @@ class Song {
     noPhoto = iw['no_photo'].get();
     genreName = iw['genre_name'].get();
     image400 = iw['image_path_400'].get();
+  }
+}
+
+class LastIcon {
+  String? likeTypeId;
+  String? imagePath;
+  String? countIcon;
+
+  LastIcon({this.likeTypeId, this.imagePath, this.countIcon});
+
+  LastIcon.fromJson(Map<String, dynamic> json) {
+    final iw = IW(json);
+    likeTypeId = iw['like_type_id'].get();
+    imagePath = iw['image_path'].get();
+    countIcon = iw['count_icon'].get();
   }
 }

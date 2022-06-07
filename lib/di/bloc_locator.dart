@@ -28,6 +28,7 @@ import 'package:audio_cult/app/features/universal_search/universal_seach_bloc.da
 import 'package:audio_cult/app/injections.dart';
 import 'package:audio_cult/w_components/comment/comment_item_bloc.dart';
 import 'package:audio_cult/w_components/comment/reply_list_bloc.dart';
+import 'package:audio_cult/w_components/reactions/common_reaction_bloc.dart';
 import 'package:get_it/get_it.dart';
 
 import '../app/features/events/map/map_bloc.dart';
@@ -130,6 +131,10 @@ void setupLocator() {
 
   getIt.registerLazySingleton<NotificationBloc>(
     () => NotificationBloc(locator.get<AppRepository>()),
+  );
+
+  getIt.registerLazySingleton<CommonReactionBloc>(
+    () => CommonReactionBloc(locator.get<AppRepository>())
   );
 
   getIt.registerFactory<AccountSettingsBloc>(

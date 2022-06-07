@@ -1,5 +1,6 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
 part of 'bloc_state.dart';
@@ -11,31 +12,7 @@ part of 'bloc_state.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
-
-/// @nodoc
-class _$BlocStateTearOff {
-  const _$BlocStateTearOff();
-
-  Success<T> success<T>(T data) {
-    return Success<T>(
-      data,
-    );
-  }
-
-  Loading<T> loading<T>() {
-    return Loading<T>();
-  }
-
-  Error<T> error<T>(String message) {
-    return Error<T>(
-      message,
-    );
-  }
-}
-
-/// @nodoc
-const $BlocState = _$BlocStateTearOff();
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 /// @nodoc
 mixin _$BlocState<T> {
@@ -102,26 +79,28 @@ class _$BlocStateCopyWithImpl<T, $Res> implements $BlocStateCopyWith<T, $Res> {
 }
 
 /// @nodoc
-abstract class $SuccessCopyWith<T, $Res> {
-  factory $SuccessCopyWith(Success<T> value, $Res Function(Success<T>) then) =
-      _$SuccessCopyWithImpl<T, $Res>;
+abstract class _$$SuccessCopyWith<T, $Res> {
+  factory _$$SuccessCopyWith(
+          _$Success<T> value, $Res Function(_$Success<T>) then) =
+      __$$SuccessCopyWithImpl<T, $Res>;
   $Res call({T data});
 }
 
 /// @nodoc
-class _$SuccessCopyWithImpl<T, $Res> extends _$BlocStateCopyWithImpl<T, $Res>
-    implements $SuccessCopyWith<T, $Res> {
-  _$SuccessCopyWithImpl(Success<T> _value, $Res Function(Success<T>) _then)
-      : super(_value, (v) => _then(v as Success<T>));
+class __$$SuccessCopyWithImpl<T, $Res> extends _$BlocStateCopyWithImpl<T, $Res>
+    implements _$$SuccessCopyWith<T, $Res> {
+  __$$SuccessCopyWithImpl(
+      _$Success<T> _value, $Res Function(_$Success<T>) _then)
+      : super(_value, (v) => _then(v as _$Success<T>));
 
   @override
-  Success<T> get _value => super._value as Success<T>;
+  _$Success<T> get _value => super._value as _$Success<T>;
 
   @override
   $Res call({
     Object? data = freezed,
   }) {
-    return _then(Success<T>(
+    return _then(_$Success<T>(
       data == freezed
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
@@ -147,7 +126,7 @@ class _$Success<T> implements Success<T> {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is Success<T> &&
+            other is _$Success<T> &&
             const DeepCollectionEquality().equals(other.data, data));
   }
 
@@ -157,8 +136,8 @@ class _$Success<T> implements Success<T> {
 
   @JsonKey(ignore: true)
   @override
-  $SuccessCopyWith<T, Success<T>> get copyWith =>
-      _$SuccessCopyWithImpl<T, Success<T>>(this, _$identity);
+  _$$SuccessCopyWith<T, _$Success<T>> get copyWith =>
+      __$$SuccessCopyWithImpl<T, _$Success<T>>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -230,28 +209,30 @@ class _$Success<T> implements Success<T> {
 }
 
 abstract class Success<T> implements BlocState<T> {
-  const factory Success(T data) = _$Success<T>;
+  const factory Success(final T data) = _$Success<T>;
 
-  T get data;
+  T get data => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $SuccessCopyWith<T, Success<T>> get copyWith =>
+  _$$SuccessCopyWith<T, _$Success<T>> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $LoadingCopyWith<T, $Res> {
-  factory $LoadingCopyWith(Loading<T> value, $Res Function(Loading<T>) then) =
-      _$LoadingCopyWithImpl<T, $Res>;
+abstract class _$$LoadingCopyWith<T, $Res> {
+  factory _$$LoadingCopyWith(
+          _$Loading<T> value, $Res Function(_$Loading<T>) then) =
+      __$$LoadingCopyWithImpl<T, $Res>;
 }
 
 /// @nodoc
-class _$LoadingCopyWithImpl<T, $Res> extends _$BlocStateCopyWithImpl<T, $Res>
-    implements $LoadingCopyWith<T, $Res> {
-  _$LoadingCopyWithImpl(Loading<T> _value, $Res Function(Loading<T>) _then)
-      : super(_value, (v) => _then(v as Loading<T>));
+class __$$LoadingCopyWithImpl<T, $Res> extends _$BlocStateCopyWithImpl<T, $Res>
+    implements _$$LoadingCopyWith<T, $Res> {
+  __$$LoadingCopyWithImpl(
+      _$Loading<T> _value, $Res Function(_$Loading<T>) _then)
+      : super(_value, (v) => _then(v as _$Loading<T>));
 
   @override
-  Loading<T> get _value => super._value as Loading<T>;
+  _$Loading<T> get _value => super._value as _$Loading<T>;
 }
 
 /// @nodoc
@@ -267,7 +248,7 @@ class _$Loading<T> implements Loading<T> {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is Loading<T>);
+        (other.runtimeType == runtimeType && other is _$Loading<T>);
   }
 
   @override
@@ -347,26 +328,26 @@ abstract class Loading<T> implements BlocState<T> {
 }
 
 /// @nodoc
-abstract class $ErrorCopyWith<T, $Res> {
-  factory $ErrorCopyWith(Error<T> value, $Res Function(Error<T>) then) =
-      _$ErrorCopyWithImpl<T, $Res>;
+abstract class _$$ErrorCopyWith<T, $Res> {
+  factory _$$ErrorCopyWith(_$Error<T> value, $Res Function(_$Error<T>) then) =
+      __$$ErrorCopyWithImpl<T, $Res>;
   $Res call({String message});
 }
 
 /// @nodoc
-class _$ErrorCopyWithImpl<T, $Res> extends _$BlocStateCopyWithImpl<T, $Res>
-    implements $ErrorCopyWith<T, $Res> {
-  _$ErrorCopyWithImpl(Error<T> _value, $Res Function(Error<T>) _then)
-      : super(_value, (v) => _then(v as Error<T>));
+class __$$ErrorCopyWithImpl<T, $Res> extends _$BlocStateCopyWithImpl<T, $Res>
+    implements _$$ErrorCopyWith<T, $Res> {
+  __$$ErrorCopyWithImpl(_$Error<T> _value, $Res Function(_$Error<T>) _then)
+      : super(_value, (v) => _then(v as _$Error<T>));
 
   @override
-  Error<T> get _value => super._value as Error<T>;
+  _$Error<T> get _value => super._value as _$Error<T>;
 
   @override
   $Res call({
     Object? message = freezed,
   }) {
-    return _then(Error<T>(
+    return _then(_$Error<T>(
       message == freezed
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
@@ -392,7 +373,7 @@ class _$Error<T> implements Error<T> {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is Error<T> &&
+            other is _$Error<T> &&
             const DeepCollectionEquality().equals(other.message, message));
   }
 
@@ -402,8 +383,8 @@ class _$Error<T> implements Error<T> {
 
   @JsonKey(ignore: true)
   @override
-  $ErrorCopyWith<T, Error<T>> get copyWith =>
-      _$ErrorCopyWithImpl<T, Error<T>>(this, _$identity);
+  _$$ErrorCopyWith<T, _$Error<T>> get copyWith =>
+      __$$ErrorCopyWithImpl<T, _$Error<T>>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -475,10 +456,10 @@ class _$Error<T> implements Error<T> {
 }
 
 abstract class Error<T> implements BlocState<T> {
-  const factory Error(String message) = _$Error<T>;
+  const factory Error(final String message) = _$Error<T>;
 
-  String get message;
+  String get message => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $ErrorCopyWith<T, Error<T>> get copyWith =>
+  _$$ErrorCopyWith<T, _$Error<T>> get copyWith =>
       throw _privateConstructorUsedError;
 }

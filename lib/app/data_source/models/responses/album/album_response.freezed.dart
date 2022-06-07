@@ -1,5 +1,6 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
 part of 'album_response.dart';
@@ -11,33 +12,11 @@ part of 'album_response.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 AlbumResponse _$AlbumResponseFromJson(Map<String, dynamic> json) {
   return _AlbumResponse.fromJson(json);
 }
-
-/// @nodoc
-class _$AlbumResponseTearOff {
-  const _$AlbumResponseTearOff();
-
-  _AlbumResponse call(
-      {String? status, List<Album>? data, String? message, dynamic error}) {
-    return _AlbumResponse(
-      status: status,
-      data: data,
-      message: message,
-      error: error,
-    );
-  }
-
-  AlbumResponse fromJson(Map<String, Object?> json) {
-    return AlbumResponse.fromJson(json);
-  }
-}
-
-/// @nodoc
-const $AlbumResponse = _$AlbumResponseTearOff();
 
 /// @nodoc
 mixin _$AlbumResponse {
@@ -99,26 +78,26 @@ class _$AlbumResponseCopyWithImpl<$Res>
 }
 
 /// @nodoc
-abstract class _$AlbumResponseCopyWith<$Res>
+abstract class _$$_AlbumResponseCopyWith<$Res>
     implements $AlbumResponseCopyWith<$Res> {
-  factory _$AlbumResponseCopyWith(
-          _AlbumResponse value, $Res Function(_AlbumResponse) then) =
-      __$AlbumResponseCopyWithImpl<$Res>;
+  factory _$$_AlbumResponseCopyWith(
+          _$_AlbumResponse value, $Res Function(_$_AlbumResponse) then) =
+      __$$_AlbumResponseCopyWithImpl<$Res>;
   @override
   $Res call(
       {String? status, List<Album>? data, String? message, dynamic error});
 }
 
 /// @nodoc
-class __$AlbumResponseCopyWithImpl<$Res>
+class __$$_AlbumResponseCopyWithImpl<$Res>
     extends _$AlbumResponseCopyWithImpl<$Res>
-    implements _$AlbumResponseCopyWith<$Res> {
-  __$AlbumResponseCopyWithImpl(
-      _AlbumResponse _value, $Res Function(_AlbumResponse) _then)
-      : super(_value, (v) => _then(v as _AlbumResponse));
+    implements _$$_AlbumResponseCopyWith<$Res> {
+  __$$_AlbumResponseCopyWithImpl(
+      _$_AlbumResponse _value, $Res Function(_$_AlbumResponse) _then)
+      : super(_value, (v) => _then(v as _$_AlbumResponse));
 
   @override
-  _AlbumResponse get _value => super._value as _AlbumResponse;
+  _$_AlbumResponse get _value => super._value as _$_AlbumResponse;
 
   @override
   $Res call({
@@ -127,13 +106,13 @@ class __$AlbumResponseCopyWithImpl<$Res>
     Object? message = freezed,
     Object? error = freezed,
   }) {
-    return _then(_AlbumResponse(
+    return _then(_$_AlbumResponse(
       status: status == freezed
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
               as String?,
       data: data == freezed
-          ? _value.data
+          ? _value._data
           : data // ignore: cast_nullable_to_non_nullable
               as List<Album>?,
       message: message == freezed
@@ -151,15 +130,24 @@ class __$AlbumResponseCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_AlbumResponse implements _AlbumResponse {
-  _$_AlbumResponse({this.status, this.data, this.message, this.error});
+  _$_AlbumResponse(
+      {this.status, final List<Album>? data, this.message, this.error})
+      : _data = data;
 
   factory _$_AlbumResponse.fromJson(Map<String, dynamic> json) =>
       _$$_AlbumResponseFromJson(json);
 
   @override
   final String? status;
+  final List<Album>? _data;
   @override
-  final List<Album>? data;
+  List<Album>? get data {
+    final value = _data;
+    if (value == null) return null;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
   @override
   final String? message;
   @override
@@ -174,25 +162,26 @@ class _$_AlbumResponse implements _AlbumResponse {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _AlbumResponse &&
+            other is _$_AlbumResponse &&
             const DeepCollectionEquality().equals(other.status, status) &&
-            const DeepCollectionEquality().equals(other.data, data) &&
+            const DeepCollectionEquality().equals(other._data, _data) &&
             const DeepCollectionEquality().equals(other.message, message) &&
             const DeepCollectionEquality().equals(other.error, error));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(status),
-      const DeepCollectionEquality().hash(data),
+      const DeepCollectionEquality().hash(_data),
       const DeepCollectionEquality().hash(message),
       const DeepCollectionEquality().hash(error));
 
   @JsonKey(ignore: true)
   @override
-  _$AlbumResponseCopyWith<_AlbumResponse> get copyWith =>
-      __$AlbumResponseCopyWithImpl<_AlbumResponse>(this, _$identity);
+  _$$_AlbumResponseCopyWith<_$_AlbumResponse> get copyWith =>
+      __$$_AlbumResponseCopyWithImpl<_$_AlbumResponse>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
@@ -202,25 +191,215 @@ class _$_AlbumResponse implements _AlbumResponse {
 
 abstract class _AlbumResponse implements AlbumResponse {
   factory _AlbumResponse(
-      {String? status,
-      List<Album>? data,
-      String? message,
-      dynamic error}) = _$_AlbumResponse;
+      {final String? status,
+      final List<Album>? data,
+      final String? message,
+      final dynamic error}) = _$_AlbumResponse;
 
   factory _AlbumResponse.fromJson(Map<String, dynamic> json) =
       _$_AlbumResponse.fromJson;
 
   @override
-  String? get status;
+  String? get status => throw _privateConstructorUsedError;
   @override
-  List<Album>? get data;
+  List<Album>? get data => throw _privateConstructorUsedError;
   @override
-  String? get message;
+  String? get message => throw _privateConstructorUsedError;
   @override
-  dynamic get error;
+  dynamic get error => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$AlbumResponseCopyWith<_AlbumResponse> get copyWith =>
+  _$$_AlbumResponseCopyWith<_$_AlbumResponse> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+LastIcon _$LastIconFromJson(Map<String, dynamic> json) {
+  return _LastIcon.fromJson(json);
+}
+
+/// @nodoc
+mixin _$LastIcon {
+// ignore: invalid_annotation_target
+  @JsonKey(name: 'like_type_id')
+  String? get likeTypeId =>
+      throw _privateConstructorUsedError; // ignore: invalid_annotation_target
+  @JsonKey(name: 'image_path')
+  String? get imagePath =>
+      throw _privateConstructorUsedError; // ignore: invalid_annotation_target
+  @JsonKey(name: 'count_icon')
+  String? get countIcon => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $LastIconCopyWith<LastIcon> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $LastIconCopyWith<$Res> {
+  factory $LastIconCopyWith(LastIcon value, $Res Function(LastIcon) then) =
+      _$LastIconCopyWithImpl<$Res>;
+  $Res call(
+      {@JsonKey(name: 'like_type_id') String? likeTypeId,
+      @JsonKey(name: 'image_path') String? imagePath,
+      @JsonKey(name: 'count_icon') String? countIcon});
+}
+
+/// @nodoc
+class _$LastIconCopyWithImpl<$Res> implements $LastIconCopyWith<$Res> {
+  _$LastIconCopyWithImpl(this._value, this._then);
+
+  final LastIcon _value;
+  // ignore: unused_field
+  final $Res Function(LastIcon) _then;
+
+  @override
+  $Res call({
+    Object? likeTypeId = freezed,
+    Object? imagePath = freezed,
+    Object? countIcon = freezed,
+  }) {
+    return _then(_value.copyWith(
+      likeTypeId: likeTypeId == freezed
+          ? _value.likeTypeId
+          : likeTypeId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      imagePath: imagePath == freezed
+          ? _value.imagePath
+          : imagePath // ignore: cast_nullable_to_non_nullable
+              as String?,
+      countIcon: countIcon == freezed
+          ? _value.countIcon
+          : countIcon // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+}
+
+/// @nodoc
+abstract class _$$_LastIconCopyWith<$Res> implements $LastIconCopyWith<$Res> {
+  factory _$$_LastIconCopyWith(
+          _$_LastIcon value, $Res Function(_$_LastIcon) then) =
+      __$$_LastIconCopyWithImpl<$Res>;
+  @override
+  $Res call(
+      {@JsonKey(name: 'like_type_id') String? likeTypeId,
+      @JsonKey(name: 'image_path') String? imagePath,
+      @JsonKey(name: 'count_icon') String? countIcon});
+}
+
+/// @nodoc
+class __$$_LastIconCopyWithImpl<$Res> extends _$LastIconCopyWithImpl<$Res>
+    implements _$$_LastIconCopyWith<$Res> {
+  __$$_LastIconCopyWithImpl(
+      _$_LastIcon _value, $Res Function(_$_LastIcon) _then)
+      : super(_value, (v) => _then(v as _$_LastIcon));
+
+  @override
+  _$_LastIcon get _value => super._value as _$_LastIcon;
+
+  @override
+  $Res call({
+    Object? likeTypeId = freezed,
+    Object? imagePath = freezed,
+    Object? countIcon = freezed,
+  }) {
+    return _then(_$_LastIcon(
+      likeTypeId: likeTypeId == freezed
+          ? _value.likeTypeId
+          : likeTypeId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      imagePath: imagePath == freezed
+          ? _value.imagePath
+          : imagePath // ignore: cast_nullable_to_non_nullable
+              as String?,
+      countIcon: countIcon == freezed
+          ? _value.countIcon
+          : countIcon // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$_LastIcon implements _LastIcon {
+  _$_LastIcon(
+      {@JsonKey(name: 'like_type_id') this.likeTypeId,
+      @JsonKey(name: 'image_path') this.imagePath,
+      @JsonKey(name: 'count_icon') this.countIcon});
+
+  factory _$_LastIcon.fromJson(Map<String, dynamic> json) =>
+      _$$_LastIconFromJson(json);
+
+// ignore: invalid_annotation_target
+  @override
+  @JsonKey(name: 'like_type_id')
+  final String? likeTypeId;
+// ignore: invalid_annotation_target
+  @override
+  @JsonKey(name: 'image_path')
+  final String? imagePath;
+// ignore: invalid_annotation_target
+  @override
+  @JsonKey(name: 'count_icon')
+  final String? countIcon;
+
+  @override
+  String toString() {
+    return 'LastIcon(likeTypeId: $likeTypeId, imagePath: $imagePath, countIcon: $countIcon)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_LastIcon &&
+            const DeepCollectionEquality()
+                .equals(other.likeTypeId, likeTypeId) &&
+            const DeepCollectionEquality().equals(other.imagePath, imagePath) &&
+            const DeepCollectionEquality().equals(other.countIcon, countIcon));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(likeTypeId),
+      const DeepCollectionEquality().hash(imagePath),
+      const DeepCollectionEquality().hash(countIcon));
+
+  @JsonKey(ignore: true)
+  @override
+  _$$_LastIconCopyWith<_$_LastIcon> get copyWith =>
+      __$$_LastIconCopyWithImpl<_$_LastIcon>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_LastIconToJson(this);
+  }
+}
+
+abstract class _LastIcon implements LastIcon {
+  factory _LastIcon(
+      {@JsonKey(name: 'like_type_id') final String? likeTypeId,
+      @JsonKey(name: 'image_path') final String? imagePath,
+      @JsonKey(name: 'count_icon') final String? countIcon}) = _$_LastIcon;
+
+  factory _LastIcon.fromJson(Map<String, dynamic> json) = _$_LastIcon.fromJson;
+
+  @override // ignore: invalid_annotation_target
+  @JsonKey(name: 'like_type_id')
+  String? get likeTypeId => throw _privateConstructorUsedError;
+  @override // ignore: invalid_annotation_target
+  @JsonKey(name: 'image_path')
+  String? get imagePath => throw _privateConstructorUsedError;
+  @override // ignore: invalid_annotation_target
+  @JsonKey(name: 'count_icon')
+  String? get countIcon => throw _privateConstructorUsedError;
+  @override
+  @JsonKey(ignore: true)
+  _$$_LastIconCopyWith<_$_LastIcon> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -229,131 +408,15 @@ Album _$AlbumFromJson(Map<String, dynamic> json) {
 }
 
 /// @nodoc
-class _$AlbumTearOff {
-  const _$AlbumTearOff();
-
-  _Album call(
-      {bool? isLiked,
-      String? userId,
-      @JsonKey(name: 'user_name') String? userName,
-      @JsonKey(name: 'full_name') String? fullName,
-      String? userImage,
-      String? isInvisible,
-      @JsonKey(name: 'album_id') String? albumId,
-      String? viewId,
-      String? privacy,
-      String? privacyComment,
-      String? isFeatured,
-      String? isSponsor,
-      @JsonKey(name: 'name') String? name,
-      String? year,
-      @JsonKey(name: 'genre_id') String? genreId,
-      String? isDj,
-      @JsonKey(name: 'license_type') String? licenseType,
-      @JsonKey(name: 'image_path') String? imagePath,
-      String? serverId,
-      String? totalTrack,
-      @JsonKey(name: 'total_play') String? totalPlay,
-      @JsonKey(name: 'total_comment') String? totalComment,
-      String? totalView,
-      @JsonKey(name: 'total_like') String? totalLike,
-      String? totalDislike,
-      String? totalScore,
-      String? totalRating,
-      @JsonKey(name: 'total_attachment') String? totalAttachment,
-      @JsonKey(name: 'time_stamp') String? timeStamp,
-      dynamic moduleId,
-      String? itemId,
-      dynamic isDay,
-      String? artistId,
-      String? itunes,
-      String? amazon,
-      String? googleplay,
-      dynamic youtube,
-      String? soundcloud,
-      @JsonKey(name: 'label_user') ProfileData? labelUser,
-      String? labelUserId,
-      @JsonKey(name: 'artist_user') ProfileData? artistUser,
-      String? artistUserId,
-      @JsonKey(name: 'collab_user') ProfileData? collabUser,
-      String? collabUserId,
-      bool? canEdit,
-      bool? canAddSong,
-      bool? canDelete,
-      bool? canPurchaseSponsor,
-      bool? canSponsor,
-      bool? canFeature,
-      bool? hasPermission}) {
-    return _Album(
-      isLiked: isLiked,
-      userId: userId,
-      userName: userName,
-      fullName: fullName,
-      userImage: userImage,
-      isInvisible: isInvisible,
-      albumId: albumId,
-      viewId: viewId,
-      privacy: privacy,
-      privacyComment: privacyComment,
-      isFeatured: isFeatured,
-      isSponsor: isSponsor,
-      name: name,
-      year: year,
-      genreId: genreId,
-      isDj: isDj,
-      licenseType: licenseType,
-      imagePath: imagePath,
-      serverId: serverId,
-      totalTrack: totalTrack,
-      totalPlay: totalPlay,
-      totalComment: totalComment,
-      totalView: totalView,
-      totalLike: totalLike,
-      totalDislike: totalDislike,
-      totalScore: totalScore,
-      totalRating: totalRating,
-      totalAttachment: totalAttachment,
-      timeStamp: timeStamp,
-      moduleId: moduleId,
-      itemId: itemId,
-      isDay: isDay,
-      artistId: artistId,
-      itunes: itunes,
-      amazon: amazon,
-      googleplay: googleplay,
-      youtube: youtube,
-      soundcloud: soundcloud,
-      labelUser: labelUser,
-      labelUserId: labelUserId,
-      artistUser: artistUser,
-      artistUserId: artistUserId,
-      collabUser: collabUser,
-      collabUserId: collabUserId,
-      canEdit: canEdit,
-      canAddSong: canAddSong,
-      canDelete: canDelete,
-      canPurchaseSponsor: canPurchaseSponsor,
-      canSponsor: canSponsor,
-      canFeature: canFeature,
-      hasPermission: hasPermission,
-    );
-  }
-
-  Album fromJson(Map<String, Object?> json) {
-    return Album.fromJson(json);
-  }
-}
-
-/// @nodoc
-const $Album = _$AlbumTearOff();
-
-/// @nodoc
 mixin _$Album {
   bool? get isLiked => throw _privateConstructorUsedError;
   String? get userId =>
       throw _privateConstructorUsedError; // ignore: invalid_annotation_target
   @JsonKey(name: 'user_name')
   String? get userName =>
+      throw _privateConstructorUsedError; // ignore: invalid_annotation_target
+  @JsonKey(name: 'last_icon')
+  LastIcon? get lastIcon =>
       throw _privateConstructorUsedError; // ignore: invalid_annotation_target
   @JsonKey(name: 'full_name')
   String? get fullName => throw _privateConstructorUsedError;
@@ -441,6 +504,7 @@ abstract class $AlbumCopyWith<$Res> {
       {bool? isLiked,
       String? userId,
       @JsonKey(name: 'user_name') String? userName,
+      @JsonKey(name: 'last_icon') LastIcon? lastIcon,
       @JsonKey(name: 'full_name') String? fullName,
       String? userImage,
       String? isInvisible,
@@ -489,6 +553,8 @@ abstract class $AlbumCopyWith<$Res> {
       bool? canSponsor,
       bool? canFeature,
       bool? hasPermission});
+
+  $LastIconCopyWith<$Res>? get lastIcon;
 }
 
 /// @nodoc
@@ -504,6 +570,7 @@ class _$AlbumCopyWithImpl<$Res> implements $AlbumCopyWith<$Res> {
     Object? isLiked = freezed,
     Object? userId = freezed,
     Object? userName = freezed,
+    Object? lastIcon = freezed,
     Object? fullName = freezed,
     Object? userImage = freezed,
     Object? isInvisible = freezed,
@@ -566,6 +633,10 @@ class _$AlbumCopyWithImpl<$Res> implements $AlbumCopyWith<$Res> {
           ? _value.userName
           : userName // ignore: cast_nullable_to_non_nullable
               as String?,
+      lastIcon: lastIcon == freezed
+          ? _value.lastIcon
+          : lastIcon // ignore: cast_nullable_to_non_nullable
+              as LastIcon?,
       fullName: fullName == freezed
           ? _value.fullName
           : fullName // ignore: cast_nullable_to_non_nullable
@@ -760,17 +831,29 @@ class _$AlbumCopyWithImpl<$Res> implements $AlbumCopyWith<$Res> {
               as bool?,
     ));
   }
+
+  @override
+  $LastIconCopyWith<$Res>? get lastIcon {
+    if (_value.lastIcon == null) {
+      return null;
+    }
+
+    return $LastIconCopyWith<$Res>(_value.lastIcon!, (value) {
+      return _then(_value.copyWith(lastIcon: value));
+    });
+  }
 }
 
 /// @nodoc
-abstract class _$AlbumCopyWith<$Res> implements $AlbumCopyWith<$Res> {
-  factory _$AlbumCopyWith(_Album value, $Res Function(_Album) then) =
-      __$AlbumCopyWithImpl<$Res>;
+abstract class _$$_AlbumCopyWith<$Res> implements $AlbumCopyWith<$Res> {
+  factory _$$_AlbumCopyWith(_$_Album value, $Res Function(_$_Album) then) =
+      __$$_AlbumCopyWithImpl<$Res>;
   @override
   $Res call(
       {bool? isLiked,
       String? userId,
       @JsonKey(name: 'user_name') String? userName,
+      @JsonKey(name: 'last_icon') LastIcon? lastIcon,
       @JsonKey(name: 'full_name') String? fullName,
       String? userImage,
       String? isInvisible,
@@ -819,22 +902,26 @@ abstract class _$AlbumCopyWith<$Res> implements $AlbumCopyWith<$Res> {
       bool? canSponsor,
       bool? canFeature,
       bool? hasPermission});
+
+  @override
+  $LastIconCopyWith<$Res>? get lastIcon;
 }
 
 /// @nodoc
-class __$AlbumCopyWithImpl<$Res> extends _$AlbumCopyWithImpl<$Res>
-    implements _$AlbumCopyWith<$Res> {
-  __$AlbumCopyWithImpl(_Album _value, $Res Function(_Album) _then)
-      : super(_value, (v) => _then(v as _Album));
+class __$$_AlbumCopyWithImpl<$Res> extends _$AlbumCopyWithImpl<$Res>
+    implements _$$_AlbumCopyWith<$Res> {
+  __$$_AlbumCopyWithImpl(_$_Album _value, $Res Function(_$_Album) _then)
+      : super(_value, (v) => _then(v as _$_Album));
 
   @override
-  _Album get _value => super._value as _Album;
+  _$_Album get _value => super._value as _$_Album;
 
   @override
   $Res call({
     Object? isLiked = freezed,
     Object? userId = freezed,
     Object? userName = freezed,
+    Object? lastIcon = freezed,
     Object? fullName = freezed,
     Object? userImage = freezed,
     Object? isInvisible = freezed,
@@ -884,7 +971,7 @@ class __$AlbumCopyWithImpl<$Res> extends _$AlbumCopyWithImpl<$Res>
     Object? canFeature = freezed,
     Object? hasPermission = freezed,
   }) {
-    return _then(_Album(
+    return _then(_$_Album(
       isLiked: isLiked == freezed
           ? _value.isLiked
           : isLiked // ignore: cast_nullable_to_non_nullable
@@ -897,6 +984,10 @@ class __$AlbumCopyWithImpl<$Res> extends _$AlbumCopyWithImpl<$Res>
           ? _value.userName
           : userName // ignore: cast_nullable_to_non_nullable
               as String?,
+      lastIcon: lastIcon == freezed
+          ? _value.lastIcon
+          : lastIcon // ignore: cast_nullable_to_non_nullable
+              as LastIcon?,
       fullName: fullName == freezed
           ? _value.fullName
           : fullName // ignore: cast_nullable_to_non_nullable
@@ -1100,6 +1191,7 @@ class _$_Album implements _Album {
       {this.isLiked,
       this.userId,
       @JsonKey(name: 'user_name') this.userName,
+      @JsonKey(name: 'last_icon') this.lastIcon,
       @JsonKey(name: 'full_name') this.fullName,
       this.userImage,
       this.isInvisible,
@@ -1156,17 +1248,24 @@ class _$_Album implements _Album {
   final bool? isLiked;
   @override
   final String? userId;
-  @override // ignore: invalid_annotation_target
+// ignore: invalid_annotation_target
+  @override
   @JsonKey(name: 'user_name')
   final String? userName;
-  @override // ignore: invalid_annotation_target
+// ignore: invalid_annotation_target
+  @override
+  @JsonKey(name: 'last_icon')
+  final LastIcon? lastIcon;
+// ignore: invalid_annotation_target
+  @override
   @JsonKey(name: 'full_name')
   final String? fullName;
   @override
   final String? userImage;
   @override
   final String? isInvisible;
-  @override // ignore: invalid_annotation_target
+// ignore: invalid_annotation_target
+  @override
   @JsonKey(name: 'album_id')
   final String? albumId;
   @override
@@ -1179,7 +1278,8 @@ class _$_Album implements _Album {
   final String? isFeatured;
   @override
   final String? isSponsor;
-  @override // ignore: invalid_annotation_target
+// ignore: invalid_annotation_target
+  @override
   @JsonKey(name: 'name')
   final String? name;
   @override
@@ -1192,22 +1292,26 @@ class _$_Album implements _Album {
   @override
   @JsonKey(name: 'license_type')
   final String? licenseType;
-  @override // ignore: invalid_annotation_target
+// ignore: invalid_annotation_target
+  @override
   @JsonKey(name: 'image_path')
   final String? imagePath;
   @override
   final String? serverId;
   @override
   final String? totalTrack;
-  @override // ignore: invalid_annotation_target
+// ignore: invalid_annotation_target
+  @override
   @JsonKey(name: 'total_play')
   final String? totalPlay;
-  @override // ignore: invalid_annotation_target
+// ignore: invalid_annotation_target
+  @override
   @JsonKey(name: 'total_comment')
   final String? totalComment;
   @override
   final String? totalView;
-  @override // ignore: invalid_annotation_target
+// ignore: invalid_annotation_target
+  @override
   @JsonKey(name: 'total_like')
   final String? totalLike;
   @override
@@ -1216,10 +1320,12 @@ class _$_Album implements _Album {
   final String? totalScore;
   @override
   final String? totalRating;
-  @override // ignore: invalid_annotation_target
+// ignore: invalid_annotation_target
+  @override
   @JsonKey(name: 'total_attachment')
   final String? totalAttachment;
-  @override // ignore: invalid_annotation_target
+// ignore: invalid_annotation_target
+  @override
   @JsonKey(name: 'time_stamp')
   final String? timeStamp;
   @override
@@ -1240,12 +1346,14 @@ class _$_Album implements _Album {
   final dynamic youtube;
   @override
   final String? soundcloud;
-  @override // ignore: invalid_annotation_target
+// ignore: invalid_annotation_target
+  @override
   @JsonKey(name: 'label_user')
   final ProfileData? labelUser;
   @override
   final String? labelUserId;
-  @override // ignore: invalid_annotation_target
+// ignore: invalid_annotation_target
+  @override
   @JsonKey(name: 'artist_user')
   final ProfileData? artistUser;
   @override
@@ -1272,17 +1380,18 @@ class _$_Album implements _Album {
 
   @override
   String toString() {
-    return 'Album(isLiked: $isLiked, userId: $userId, userName: $userName, fullName: $fullName, userImage: $userImage, isInvisible: $isInvisible, albumId: $albumId, viewId: $viewId, privacy: $privacy, privacyComment: $privacyComment, isFeatured: $isFeatured, isSponsor: $isSponsor, name: $name, year: $year, genreId: $genreId, isDj: $isDj, licenseType: $licenseType, imagePath: $imagePath, serverId: $serverId, totalTrack: $totalTrack, totalPlay: $totalPlay, totalComment: $totalComment, totalView: $totalView, totalLike: $totalLike, totalDislike: $totalDislike, totalScore: $totalScore, totalRating: $totalRating, totalAttachment: $totalAttachment, timeStamp: $timeStamp, moduleId: $moduleId, itemId: $itemId, isDay: $isDay, artistId: $artistId, itunes: $itunes, amazon: $amazon, googleplay: $googleplay, youtube: $youtube, soundcloud: $soundcloud, labelUser: $labelUser, labelUserId: $labelUserId, artistUser: $artistUser, artistUserId: $artistUserId, collabUser: $collabUser, collabUserId: $collabUserId, canEdit: $canEdit, canAddSong: $canAddSong, canDelete: $canDelete, canPurchaseSponsor: $canPurchaseSponsor, canSponsor: $canSponsor, canFeature: $canFeature, hasPermission: $hasPermission)';
+    return 'Album(isLiked: $isLiked, userId: $userId, userName: $userName, lastIcon: $lastIcon, fullName: $fullName, userImage: $userImage, isInvisible: $isInvisible, albumId: $albumId, viewId: $viewId, privacy: $privacy, privacyComment: $privacyComment, isFeatured: $isFeatured, isSponsor: $isSponsor, name: $name, year: $year, genreId: $genreId, isDj: $isDj, licenseType: $licenseType, imagePath: $imagePath, serverId: $serverId, totalTrack: $totalTrack, totalPlay: $totalPlay, totalComment: $totalComment, totalView: $totalView, totalLike: $totalLike, totalDislike: $totalDislike, totalScore: $totalScore, totalRating: $totalRating, totalAttachment: $totalAttachment, timeStamp: $timeStamp, moduleId: $moduleId, itemId: $itemId, isDay: $isDay, artistId: $artistId, itunes: $itunes, amazon: $amazon, googleplay: $googleplay, youtube: $youtube, soundcloud: $soundcloud, labelUser: $labelUser, labelUserId: $labelUserId, artistUser: $artistUser, artistUserId: $artistUserId, collabUser: $collabUser, collabUserId: $collabUserId, canEdit: $canEdit, canAddSong: $canAddSong, canDelete: $canDelete, canPurchaseSponsor: $canPurchaseSponsor, canSponsor: $canSponsor, canFeature: $canFeature, hasPermission: $hasPermission)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _Album &&
+            other is _$_Album &&
             const DeepCollectionEquality().equals(other.isLiked, isLiked) &&
             const DeepCollectionEquality().equals(other.userId, userId) &&
             const DeepCollectionEquality().equals(other.userName, userName) &&
+            const DeepCollectionEquality().equals(other.lastIcon, lastIcon) &&
             const DeepCollectionEquality().equals(other.fullName, fullName) &&
             const DeepCollectionEquality().equals(other.userImage, userImage) &&
             const DeepCollectionEquality()
@@ -1355,12 +1464,14 @@ class _$_Album implements _Album {
                 .equals(other.hasPermission, hasPermission));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hashAll([
         runtimeType,
         const DeepCollectionEquality().hash(isLiked),
         const DeepCollectionEquality().hash(userId),
         const DeepCollectionEquality().hash(userName),
+        const DeepCollectionEquality().hash(lastIcon),
         const DeepCollectionEquality().hash(fullName),
         const DeepCollectionEquality().hash(userImage),
         const DeepCollectionEquality().hash(isInvisible),
@@ -1413,8 +1524,8 @@ class _$_Album implements _Album {
 
   @JsonKey(ignore: true)
   @override
-  _$AlbumCopyWith<_Album> get copyWith =>
-      __$AlbumCopyWithImpl<_Album>(this, _$identity);
+  _$$_AlbumCopyWith<_$_Album> get copyWith =>
+      __$$_AlbumCopyWithImpl<_$_Album>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
@@ -1424,178 +1535,183 @@ class _$_Album implements _Album {
 
 abstract class _Album implements Album {
   factory _Album(
-      {bool? isLiked,
-      String? userId,
-      @JsonKey(name: 'user_name') String? userName,
-      @JsonKey(name: 'full_name') String? fullName,
-      String? userImage,
-      String? isInvisible,
-      @JsonKey(name: 'album_id') String? albumId,
-      String? viewId,
-      String? privacy,
-      String? privacyComment,
-      String? isFeatured,
-      String? isSponsor,
-      @JsonKey(name: 'name') String? name,
-      String? year,
-      @JsonKey(name: 'genre_id') String? genreId,
-      String? isDj,
-      @JsonKey(name: 'license_type') String? licenseType,
-      @JsonKey(name: 'image_path') String? imagePath,
-      String? serverId,
-      String? totalTrack,
-      @JsonKey(name: 'total_play') String? totalPlay,
-      @JsonKey(name: 'total_comment') String? totalComment,
-      String? totalView,
-      @JsonKey(name: 'total_like') String? totalLike,
-      String? totalDislike,
-      String? totalScore,
-      String? totalRating,
-      @JsonKey(name: 'total_attachment') String? totalAttachment,
-      @JsonKey(name: 'time_stamp') String? timeStamp,
-      dynamic moduleId,
-      String? itemId,
-      dynamic isDay,
-      String? artistId,
-      String? itunes,
-      String? amazon,
-      String? googleplay,
-      dynamic youtube,
-      String? soundcloud,
-      @JsonKey(name: 'label_user') ProfileData? labelUser,
-      String? labelUserId,
-      @JsonKey(name: 'artist_user') ProfileData? artistUser,
-      String? artistUserId,
-      @JsonKey(name: 'collab_user') ProfileData? collabUser,
-      String? collabUserId,
-      bool? canEdit,
-      bool? canAddSong,
-      bool? canDelete,
-      bool? canPurchaseSponsor,
-      bool? canSponsor,
-      bool? canFeature,
-      bool? hasPermission}) = _$_Album;
+      {final bool? isLiked,
+      final String? userId,
+      @JsonKey(name: 'user_name') final String? userName,
+      @JsonKey(name: 'last_icon') final LastIcon? lastIcon,
+      @JsonKey(name: 'full_name') final String? fullName,
+      final String? userImage,
+      final String? isInvisible,
+      @JsonKey(name: 'album_id') final String? albumId,
+      final String? viewId,
+      final String? privacy,
+      final String? privacyComment,
+      final String? isFeatured,
+      final String? isSponsor,
+      @JsonKey(name: 'name') final String? name,
+      final String? year,
+      @JsonKey(name: 'genre_id') final String? genreId,
+      final String? isDj,
+      @JsonKey(name: 'license_type') final String? licenseType,
+      @JsonKey(name: 'image_path') final String? imagePath,
+      final String? serverId,
+      final String? totalTrack,
+      @JsonKey(name: 'total_play') final String? totalPlay,
+      @JsonKey(name: 'total_comment') final String? totalComment,
+      final String? totalView,
+      @JsonKey(name: 'total_like') final String? totalLike,
+      final String? totalDislike,
+      final String? totalScore,
+      final String? totalRating,
+      @JsonKey(name: 'total_attachment') final String? totalAttachment,
+      @JsonKey(name: 'time_stamp') final String? timeStamp,
+      final dynamic moduleId,
+      final String? itemId,
+      final dynamic isDay,
+      final String? artistId,
+      final String? itunes,
+      final String? amazon,
+      final String? googleplay,
+      final dynamic youtube,
+      final String? soundcloud,
+      @JsonKey(name: 'label_user') final ProfileData? labelUser,
+      final String? labelUserId,
+      @JsonKey(name: 'artist_user') final ProfileData? artistUser,
+      final String? artistUserId,
+      @JsonKey(name: 'collab_user') final ProfileData? collabUser,
+      final String? collabUserId,
+      final bool? canEdit,
+      final bool? canAddSong,
+      final bool? canDelete,
+      final bool? canPurchaseSponsor,
+      final bool? canSponsor,
+      final bool? canFeature,
+      final bool? hasPermission}) = _$_Album;
 
   factory _Album.fromJson(Map<String, dynamic> json) = _$_Album.fromJson;
 
   @override
-  bool? get isLiked;
+  bool? get isLiked => throw _privateConstructorUsedError;
   @override
-  String? get userId;
+  String? get userId => throw _privateConstructorUsedError;
   @override // ignore: invalid_annotation_target
   @JsonKey(name: 'user_name')
-  String? get userName;
+  String? get userName => throw _privateConstructorUsedError;
+  @override // ignore: invalid_annotation_target
+  @JsonKey(name: 'last_icon')
+  LastIcon? get lastIcon => throw _privateConstructorUsedError;
   @override // ignore: invalid_annotation_target
   @JsonKey(name: 'full_name')
-  String? get fullName;
+  String? get fullName => throw _privateConstructorUsedError;
   @override
-  String? get userImage;
+  String? get userImage => throw _privateConstructorUsedError;
   @override
-  String? get isInvisible;
+  String? get isInvisible => throw _privateConstructorUsedError;
   @override // ignore: invalid_annotation_target
   @JsonKey(name: 'album_id')
-  String? get albumId;
+  String? get albumId => throw _privateConstructorUsedError;
   @override
-  String? get viewId;
+  String? get viewId => throw _privateConstructorUsedError;
   @override
-  String? get privacy;
+  String? get privacy => throw _privateConstructorUsedError;
   @override
-  String? get privacyComment;
+  String? get privacyComment => throw _privateConstructorUsedError;
   @override
-  String? get isFeatured;
+  String? get isFeatured => throw _privateConstructorUsedError;
   @override
-  String? get isSponsor;
+  String? get isSponsor => throw _privateConstructorUsedError;
   @override // ignore: invalid_annotation_target
   @JsonKey(name: 'name')
-  String? get name;
+  String? get name => throw _privateConstructorUsedError;
   @override
-  String? get year;
+  String? get year => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: 'genre_id')
-  String? get genreId;
+  String? get genreId => throw _privateConstructorUsedError;
   @override
-  String? get isDj;
+  String? get isDj => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: 'license_type')
-  String? get licenseType;
+  String? get licenseType => throw _privateConstructorUsedError;
   @override // ignore: invalid_annotation_target
   @JsonKey(name: 'image_path')
-  String? get imagePath;
+  String? get imagePath => throw _privateConstructorUsedError;
   @override
-  String? get serverId;
+  String? get serverId => throw _privateConstructorUsedError;
   @override
-  String? get totalTrack;
+  String? get totalTrack => throw _privateConstructorUsedError;
   @override // ignore: invalid_annotation_target
   @JsonKey(name: 'total_play')
-  String? get totalPlay;
+  String? get totalPlay => throw _privateConstructorUsedError;
   @override // ignore: invalid_annotation_target
   @JsonKey(name: 'total_comment')
-  String? get totalComment;
+  String? get totalComment => throw _privateConstructorUsedError;
   @override
-  String? get totalView;
+  String? get totalView => throw _privateConstructorUsedError;
   @override // ignore: invalid_annotation_target
   @JsonKey(name: 'total_like')
-  String? get totalLike;
+  String? get totalLike => throw _privateConstructorUsedError;
   @override
-  String? get totalDislike;
+  String? get totalDislike => throw _privateConstructorUsedError;
   @override
-  String? get totalScore;
+  String? get totalScore => throw _privateConstructorUsedError;
   @override
-  String? get totalRating;
+  String? get totalRating => throw _privateConstructorUsedError;
   @override // ignore: invalid_annotation_target
   @JsonKey(name: 'total_attachment')
-  String? get totalAttachment;
+  String? get totalAttachment => throw _privateConstructorUsedError;
   @override // ignore: invalid_annotation_target
   @JsonKey(name: 'time_stamp')
-  String? get timeStamp;
+  String? get timeStamp => throw _privateConstructorUsedError;
   @override
-  dynamic get moduleId;
+  dynamic get moduleId => throw _privateConstructorUsedError;
   @override
-  String? get itemId;
+  String? get itemId => throw _privateConstructorUsedError;
   @override
-  dynamic get isDay;
+  dynamic get isDay => throw _privateConstructorUsedError;
   @override
-  String? get artistId;
+  String? get artistId => throw _privateConstructorUsedError;
   @override
-  String? get itunes;
+  String? get itunes => throw _privateConstructorUsedError;
   @override
-  String? get amazon;
+  String? get amazon => throw _privateConstructorUsedError;
   @override
-  String? get googleplay;
+  String? get googleplay => throw _privateConstructorUsedError;
   @override
-  dynamic get youtube;
+  dynamic get youtube => throw _privateConstructorUsedError;
   @override
-  String? get soundcloud;
+  String? get soundcloud => throw _privateConstructorUsedError;
   @override // ignore: invalid_annotation_target
   @JsonKey(name: 'label_user')
-  ProfileData? get labelUser;
+  ProfileData? get labelUser => throw _privateConstructorUsedError;
   @override
-  String? get labelUserId;
+  String? get labelUserId => throw _privateConstructorUsedError;
   @override // ignore: invalid_annotation_target
   @JsonKey(name: 'artist_user')
-  ProfileData? get artistUser;
+  ProfileData? get artistUser => throw _privateConstructorUsedError;
   @override
-  String? get artistUserId;
+  String? get artistUserId => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: 'collab_user')
-  ProfileData? get collabUser;
+  ProfileData? get collabUser => throw _privateConstructorUsedError;
   @override
-  String? get collabUserId;
+  String? get collabUserId => throw _privateConstructorUsedError;
   @override
-  bool? get canEdit;
+  bool? get canEdit => throw _privateConstructorUsedError;
   @override
-  bool? get canAddSong;
+  bool? get canAddSong => throw _privateConstructorUsedError;
   @override
-  bool? get canDelete;
+  bool? get canDelete => throw _privateConstructorUsedError;
   @override
-  bool? get canPurchaseSponsor;
+  bool? get canPurchaseSponsor => throw _privateConstructorUsedError;
   @override
-  bool? get canSponsor;
+  bool? get canSponsor => throw _privateConstructorUsedError;
   @override
-  bool? get canFeature;
+  bool? get canFeature => throw _privateConstructorUsedError;
   @override
-  bool? get hasPermission;
+  bool? get hasPermission => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$AlbumCopyWith<_Album> get copyWith => throw _privateConstructorUsedError;
+  _$$_AlbumCopyWith<_$_Album> get copyWith =>
+      throw _privateConstructorUsedError;
 }

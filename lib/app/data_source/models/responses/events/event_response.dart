@@ -37,6 +37,7 @@ class EventResponse {
   String? eventDate;
   List<List<String>>? categories;
   Lineup? lineup;
+  LastIcon? lastIcon;
 
   EventResponse({
     this.rsvpId,
@@ -54,6 +55,7 @@ class EventResponse {
     this.countryIso,
     this.countryChildId,
     this.postalCode,
+    this.lastIcon,
     this.city,
     this.timeStamp,
     this.startTime,
@@ -80,6 +82,17 @@ class EventResponse {
     final dateTimeFromStr = DateFormat('MMM dd, yyyy hh:mm a').format(dateTime);
     return dateTimeFromStr;
   }
+}
+
+@JsonSerializable(fieldRename: FieldRename.snake)
+class LastIcon {
+  String? likeTypeId;
+  String? imagePath;
+  String? countIcon;
+
+  LastIcon({this.likeTypeId, this.imagePath, this.countIcon});
+
+  factory LastIcon.fromJson(Map<String, dynamic> json) => _$LastIconFromJson(json);
 }
 
 @JsonSerializable(fieldRename: FieldRename.snake)

@@ -18,12 +18,28 @@ class AlbumResponse with _$AlbumResponse {
 }
 
 @freezed
+class LastIcon with _$LastIcon {
+  factory LastIcon({
+    // ignore: invalid_annotation_target
+    @JsonKey(name: 'like_type_id') String? likeTypeId,
+    // ignore: invalid_annotation_target
+    @JsonKey(name: 'image_path') String? imagePath,
+    // ignore: invalid_annotation_target
+    @JsonKey(name: 'count_icon') String? countIcon,
+  }) = _LastIcon;
+
+  factory LastIcon.fromJson(Map<String, dynamic> json) => _$LastIconFromJson(json);
+}
+
+@freezed
 class Album with _$Album {
   factory Album({
     bool? isLiked,
     String? userId,
     // ignore: invalid_annotation_target
     @JsonKey(name: 'user_name') String? userName,
+    // ignore: invalid_annotation_target
+    @JsonKey(name: 'last_icon') LastIcon? lastIcon,
     // ignore: invalid_annotation_target
     @JsonKey(name: 'full_name') String? fullName,
     String? userImage,

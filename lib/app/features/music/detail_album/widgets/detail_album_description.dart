@@ -7,6 +7,7 @@ import 'package:flutter_svg/svg.dart';
 
 import '../../../../../w_components/comment/comment_args.dart';
 import '../../../../../w_components/comment/comment_list_screen.dart';
+import '../../../../../w_components/reactions/common_reaction.dart';
 import '../../../../utils/constants/app_assets.dart';
 import '../../../../utils/constants/app_colors.dart';
 import '../../../../utils/constants/app_dimens.dart';
@@ -79,10 +80,11 @@ class DetailAlbumDescription extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    _buildIcon(
-                      SvgPicture.asset(AppAssets.heartIcon),
-                      data?.totalLike ?? '',
-                      context,
+                    CommonReactions(
+                      reactionType: ReactionType.album,
+                      itemId: data?.albumId ?? '',
+                      totalLike: data?.totalLike ?? '',
+                      iconPath: data?.lastIcon?.imagePath,
                     ),
                     const SizedBox(
                       width: 10,
@@ -140,25 +142,29 @@ class DetailAlbumDescription extends StatelessWidget {
 
   Widget _buildIcon(Widget icon, String value, BuildContext context) {
     return Container(
+      height: 54,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         color: AppColors.secondaryButtonColor,
       ),
       padding: const EdgeInsets.all(12),
-      child: Row(
-        children: [
-          icon,
-          const SizedBox(
-            width: 14,
-          ),
-          Text(
-            value,
-            style: context.bodyTextPrimaryStyle()!.copyWith(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
-          )
-        ],
+      child: Padding(
+        padding: const EdgeInsets.only(top: 6),
+        child: Row(
+          children: [
+            icon,
+            const SizedBox(
+              width: 14,
+            ),
+            Text(
+              value,
+              style: context.bodyTextPrimaryStyle()!.copyWith(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+            )
+          ],
+        ),
       ),
     );
   }

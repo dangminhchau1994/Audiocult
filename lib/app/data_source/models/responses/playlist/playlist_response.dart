@@ -38,6 +38,8 @@ class PlaylistResponse with _$PlaylistResponse {
     bool? isDay,
     // ignore: invalid_annotation_target
     @JsonKey(name: 'total_view') String? totalView,
+    // ignore: invalid_annotation_target
+    @JsonKey(name: 'last_icon') LastIcon? lastIcon,
     String? artistId,
     List<Songs>? songs,
     // ignore: invalid_annotation_target
@@ -45,6 +47,20 @@ class PlaylistResponse with _$PlaylistResponse {
   }) = _PlaylistResponse;
 
   factory PlaylistResponse.fromJson(Map<String, dynamic> json) => _$PlaylistResponseFromJson(json);
+}
+
+@freezed
+class LastIcon with _$LastIcon {
+  factory LastIcon({
+    // ignore: invalid_annotation_target
+    @JsonKey(name: 'like_type_id') String? likeTypeId,
+    // ignore: invalid_annotation_target
+    @JsonKey(name: 'image_path') String? imagePath,
+    // ignore: invalid_annotation_target
+    @JsonKey(name: 'count_icon') String? countIcon,
+  }) = _LastIcon;
+
+  factory LastIcon.fromJson(Map<String, dynamic> json) => _$LastIconFromJson(json);
 }
 
 @freezed

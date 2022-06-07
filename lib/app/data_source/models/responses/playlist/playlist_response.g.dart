@@ -32,6 +32,9 @@ _$_PlaylistResponse _$$_PlaylistResponseFromJson(Map<String, dynamic> json) =>
       imagePath: json['image_path'] as String?,
       isDay: json['isDay'] as bool?,
       totalView: json['total_view'] as String?,
+      lastIcon: json['last_icon'] == null
+          ? null
+          : LastIcon.fromJson(json['last_icon'] as Map<String, dynamic>),
       artistId: json['artistId'] as String?,
       songs: (json['songs'] as List<dynamic>?)
           ?.map((e) => Songs.fromJson(e as Map<String, dynamic>))
@@ -65,9 +68,23 @@ Map<String, dynamic> _$$_PlaylistResponseToJson(_$_PlaylistResponse instance) =>
       'image_path': instance.imagePath,
       'isDay': instance.isDay,
       'total_view': instance.totalView,
+      'last_icon': instance.lastIcon,
       'artistId': instance.artistId,
       'songs': instance.songs,
       'count_songs': instance.countSongs,
+    };
+
+_$_LastIcon _$$_LastIconFromJson(Map<String, dynamic> json) => _$_LastIcon(
+      likeTypeId: json['like_type_id'] as String?,
+      imagePath: json['image_path'] as String?,
+      countIcon: json['count_icon'] as String?,
+    );
+
+Map<String, dynamic> _$$_LastIconToJson(_$_LastIcon instance) =>
+    <String, dynamic>{
+      'like_type_id': instance.likeTypeId,
+      'image_path': instance.imagePath,
+      'count_icon': instance.countIcon,
     };
 
 _$_Songs _$$_SongsFromJson(Map<String, dynamic> json) => _$_Songs(

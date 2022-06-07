@@ -25,7 +25,7 @@ class HomeBloc extends BaseBloc<FeedRequest, List<FeedResponse>> {
   final _getAnnouncementSubject = PublishSubject<BlocState<List<AnnouncementResponse>>>();
   final _getCommentsSubject = PublishSubject<BlocState<List<CommentResponse>>>();
   final _getReactionIconSubject = PublishSubject<BlocState<List<ReactionIconResponse>>>();
-  final _postReactionIconSubject = PublishSubject<BlocState<CommentResponse>>();
+  final _postReactionIconSubject = PublishSubject<BlocState<List<CommentResponse>>>();
   final _getBackgroundSubject = PublishSubject<BlocState<List<BackgroundResponse>>>();
   final _createPostSubject = PublishSubject<BlocState<CreatePostResponse>>();
   final _uploadPhotoSubject = PublishSubject<BlocState<List<UploadPhotoResponse>>>();
@@ -34,7 +34,7 @@ class HomeBloc extends BaseBloc<FeedRequest, List<FeedResponse>> {
   Stream<BlocState<List<AnnouncementResponse>>> get getAnnoucementStream => _getAnnouncementSubject.stream;
   Stream<BlocState<List<CommentResponse>>> get getCommentsStream => _getCommentsSubject.stream;
   Stream<BlocState<List<ReactionIconResponse>>> get getReactionIconStream => _getReactionIconSubject.stream;
-  Stream<BlocState<CommentResponse>> get postReactionIconStream => _postReactionIconSubject.stream;
+  Stream<BlocState<List<CommentResponse>>> get postReactionIconStream => _postReactionIconSubject.stream;
   Stream<BlocState<List<BackgroundResponse>>> get getBackgroundStream => _getBackgroundSubject.stream;
   Stream<BlocState<CreatePostResponse>> get createPostStream => _createPostSubject.stream;
   Stream<BlocState<List<UploadPhotoResponse>>> get uploadPhotoStream => _uploadPhotoSubject.stream;

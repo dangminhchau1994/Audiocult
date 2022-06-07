@@ -23,6 +23,9 @@ EventResponse _$EventResponseFromJson(Map<String, dynamic> json) =>
       countryIso: json['country_iso'] as String?,
       countryChildId: json['country_child_id'] as String?,
       postalCode: json['postal_code'] as String?,
+      lastIcon: json['last_icon'] == null
+          ? null
+          : LastIcon.fromJson(json['last_icon'] as Map<String, dynamic>),
       city: json['city'] as String?,
       timeStamp: json['time_stamp'] as String?,
       startTime: json['start_time'] as String?,
@@ -78,6 +81,19 @@ Map<String, dynamic> _$EventResponseToJson(EventResponse instance) =>
       'event_date': instance.eventDate,
       'categories': instance.categories,
       'lineup': instance.lineup,
+      'last_icon': instance.lastIcon,
+    };
+
+LastIcon _$LastIconFromJson(Map<String, dynamic> json) => LastIcon(
+      likeTypeId: json['like_type_id'] as String?,
+      imagePath: json['image_path'] as String?,
+      countIcon: json['count_icon'] as String?,
+    );
+
+Map<String, dynamic> _$LastIconToJson(LastIcon instance) => <String, dynamic>{
+      'like_type_id': instance.likeTypeId,
+      'image_path': instance.imagePath,
+      'count_icon': instance.countIcon,
     };
 
 Lineup _$LineupFromJson(Map<String, dynamic> json) => Lineup(
