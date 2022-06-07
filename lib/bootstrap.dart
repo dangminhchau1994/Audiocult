@@ -6,7 +6,9 @@ import 'package:audio_cult/app/data_source/local/hive_box_name.dart';
 import 'package:audio_service/audio_service.dart';
 import 'package:bloc/bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -34,6 +36,9 @@ Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
   await Firebase.initializeApp();
   await initDependency();
   setupLocator();
+  if (defaultTargetPlatform == TargetPlatform.android) {
+    AndroidGoogleMapsFlutter.useAndroidViewSurface = true;
+  }
   Hive.init((await getApplicationDocumentsDirectory()).path);
   await openHiveBox(HiveBoxName.userProfileBox);
   await openHiveBox(HiveBoxName.cache);
