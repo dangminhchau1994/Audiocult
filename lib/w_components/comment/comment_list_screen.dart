@@ -317,7 +317,7 @@ class _CommentListScreenState extends State<CommentListScreen> {
                             vertical: 16,
                           ),
                           pagingController: _pagingController,
-                          separatorBuilder: (context, index) => const Divider(height: 6),
+                          separatorBuilder: (context, index) => const Divider(height: 24),
                           builderDelegate: PagedChildBuilderDelegate<CommentResponse>(
                             firstPageProgressIndicatorBuilder: (context) => Container(),
                             newPageProgressIndicatorBuilder: (context) => const LoadingWidget(),

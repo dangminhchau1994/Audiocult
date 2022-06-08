@@ -59,23 +59,24 @@ class _ReplyItemState extends State<ReplyItem> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(
-        horizontal: kHorizontalSpacing,
-        vertical: kVerticalSpacing,
-      ),
-      child: StreamBuilder<BlocState<List<CommentResponse>>>(
-        initialData: const BlocState.loading(),
-        stream: _commentListBloc.getRepliesStream,
-        builder: (context, snapshot) {
-          final state = snapshot.data!;
+    return StreamBuilder<BlocState<List<CommentResponse>>>(
+      initialData: const BlocState.loading(),
+      stream: _commentListBloc.getRepliesStream,
+      builder: (context, snapshot) {
+        final state = snapshot.data!;
 
-          return state.when(
-            success: (success) {
-              final data = success as List<CommentResponse>;
+        return state.when(
+          success: (success) {
+            final data = success as List<CommentResponse>;
 
-              return Padding(
-                padding: const EdgeInsets.only(left: 40),
+            return Visibility(
+              visible: data.isNotEmpty,
+              child: Padding(
+                padding: const EdgeInsets.only(
+                  left: 50,
+                  top: 20,
+                  bottom: 20,
+                ),
                 child: ListView.separated(
                   separatorBuilder: (context, index) => const Divider(height: 15),
                   shrinkWrap: true,
@@ -145,20 +146,20 @@ class _ReplyItemState extends State<ReplyItem> {
                     );
                   },
                 ),
-              );
-            },
-            loading: () {
-              return const LoadingWidget();
-            },
-            error: (error) {
-              return ErrorSectionWidget(
-                errorMessage: error,
-                onRetryTap: () {},
-              );
-            },
-          );
-        },
-      ),
+              ),
+            );
+          },
+          loading: () {
+            return const LoadingWidget();
+          },
+          error: (error) {
+            return ErrorSectionWidget(
+              errorMessage: error,
+              onRetryTap: () {},
+            );
+          },
+        );
+      },
     );
   }
 }

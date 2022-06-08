@@ -66,6 +66,7 @@ class _FeedItemState extends State<FeedItem> {
                 homeBloc: _homeBloc,
                 feedId: widget.data?.feedId,
               ),
+              const SizedBox(height: 20),
               CommonInput(
                 hintText: context.l10n.t_leave_comment,
                 onTap: () {

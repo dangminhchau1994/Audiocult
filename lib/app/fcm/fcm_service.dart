@@ -15,7 +15,7 @@ import 'package:flutter/material.dart';
 
 Future<void> _backgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
-  print("Message from background : ");
+  debugPrint('Message from background : ');
 }
 
 class FCMService {
