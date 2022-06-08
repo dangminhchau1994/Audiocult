@@ -9,6 +9,7 @@ class ProfileVideoBloc extends BaseBloc<VideoRequest, List<Video>> {
   final AppRepository _appRepository;
 
   ProfileVideoBloc(this._appRepository);
+  
   @override
   Future<Either<List<Video>, Exception>> loadData(VideoRequest? params) async {
     final result = await _appRepository.getVideos(params);

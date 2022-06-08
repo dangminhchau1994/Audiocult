@@ -21,10 +21,26 @@ class FCMService {
   );
 
   void initialize() async {
+    _getInitialMessage();
     _initAwesomeNotification();
     _setUpForeGroundIOS();
     _getFCMToken();
     _getNotificationData();
+    _tapNotification();
+  }
+
+  void _getInitialMessage() {
+    FirebaseMessaging.instance.getInitialMessage().then((RemoteMessage? message) {
+      if (message != null) {
+        debugPrint('chauBE: ${message.data}');
+      }
+    });
+  }
+
+  void _tapNotification() {
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      debugPrint('chauFE: ${message.data}');
+    });
   }
 
   void _setUpForeGroundIOS() async {

@@ -40,11 +40,24 @@ class EventDetail extends StatefulWidget {
 class _EventDetailState extends State<EventDetail> {
   late Uint8List _iconMarker;
   final EventDetailBloc _eventDetailBloc = EventDetailBloc(locator.get());
+  final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
     _eventDetailBloc.getEventDetail(widget.id ?? 0);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (_scrollController.hasClients) {
+        _scrollController.animateTo(
+          1637.25,
+          duration: const Duration(milliseconds: 1),
+          curve: Curves.easeInOut,
+        );
+      }
+    });
+    _scrollController.addListener(() {
+       debugPrint('${_scrollController.offset}'); 
+    });
     FileUtils.getBytesFromAsset(AppAssets.markerIcon, 80).then((value) {
       setState(() {
         _iconMarker = value;
@@ -73,6 +86,7 @@ class _EventDetailState extends State<EventDetail> {
                 final data = success as EventResponse;
 
                 return CustomScrollView(
+                  controller: _scrollController,
                   slivers: [
                     SliverToBoxAdapter(
                       child: Stack(

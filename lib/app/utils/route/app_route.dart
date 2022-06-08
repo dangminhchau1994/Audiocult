@@ -45,7 +45,6 @@ import 'package:audio_cult/w_components/comment/reply_list_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
-
 import '../../data_source/models/responses/video_data.dart';
 import '../../features/auth/create_new_password/create_new_password_screen.dart';
 import '../../features/events/map/map_screen.dart';

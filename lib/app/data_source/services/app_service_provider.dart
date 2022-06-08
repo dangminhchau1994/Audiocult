@@ -660,6 +660,18 @@ class AppServiceProvider {
     );
   }
 
+  Future<List<NotificationResponse>> markAllRead() async {
+    final response = await _dioHelper.post(
+      route: '/restful_api/user/notifications/mark-all-read',
+      options: Options(headers: {'Content-Type': 'application/x-www-form-urlencoded'}),
+      responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
+    );
+    return response.mapData(
+      (json) =>
+          asType<List<dynamic>>(json)?.map((e) => NotificationResponse.fromJson(e as Map<String, dynamic>)).toList(),
+    );
+  }
+
   Future<PlaylistResponse> getPlayListDetail(int id) async {
     final response = await _dioHelper.get(
       route: '/restful_api/playlist/$id',

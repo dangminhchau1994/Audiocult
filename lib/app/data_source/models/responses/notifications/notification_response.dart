@@ -2,6 +2,17 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'notification_response.g.dart';
 
+enum NotificationType {
+  visitorNew,
+  commentStatus,
+  commentPhoto,
+  commentEvent,
+  video,
+  commentSong,
+  feedLike,
+  none,
+}
+
 @JsonSerializable(fieldRename: FieldRename.snake)
 class NotificationResponse {
   String? date;
@@ -51,6 +62,19 @@ class Notification {
     this.message,
     this.customIcon,
   });
+
+  NotificationType getNotificationType() {
+    switch (typeId) {
+      case 'visitor_new':
+        return NotificationType.visitorNew;
+      case 'comment_music_song':
+        return NotificationType.commentSong;
+      case 'comment_event':
+        return NotificationType.commentEvent;
+      default:
+        return NotificationType.none;
+    }
+  }
 
   factory Notification.fromJson(Map<String, dynamic> json) => _$NotificationFromJson(json);
 }

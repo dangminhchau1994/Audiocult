@@ -297,6 +297,10 @@ class AppRepository extends BaseRepository {
     );
   }
 
+  Future<Either<List<NotificationResponse>, Exception>> markAllRead() {
+    return safeCall(appServiceProvider.markAllRead);
+  }
+
   Future<Either<List<CommentResponse>, Exception>> getReplies(
     int parentId,
     int id,

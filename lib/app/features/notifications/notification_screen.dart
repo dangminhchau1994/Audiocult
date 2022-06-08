@@ -3,9 +3,11 @@ import 'package:audio_cult/app/data_source/models/requests/notification_request.
 import 'package:audio_cult/app/data_source/models/responses/notifications/notification_response.dart';
 import 'package:audio_cult/app/features/notifications/notification_bloc.dart';
 import 'package:audio_cult/app/features/notifications/widgets/notification_item.dart';
+import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/app/view/no_data_widget.dart';
 import 'package:audio_cult/l10n/l10n.dart';
 import 'package:audio_cult/w_components/appbar/common_appbar.dart';
+import 'package:audio_cult/w_components/buttons/w_button_inkwell.dart';
 import 'package:audio_cult/w_components/loading/loading_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -75,6 +77,34 @@ class _NotificationScreenState extends State<NotificationScreen> {
       backgroundColor: AppColors.mainColor,
       appBar: CommonAppBar(
         title: context.l10n.t_notifications,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(
+              top: 16,
+              right: 12,
+              bottom: 12,
+            ),
+            child: WButtonInkwell(
+              onPressed: () {
+                _notificationBloc.markAllRead();
+                _pagingController.refresh();
+                _notificationBloc.requestData(
+                  params: NotificationRequest(
+                    page: 1,
+                    limit: GlobalConstants.loadMoreItem,
+                    groupByDate: 1,
+                  ),
+                );
+              },
+              child: Text(
+                context.l10n.t_mark_all_read,
+                style: context.body2TextStyle()?.copyWith(
+                      color: AppColors.lightBlue,
+                    ),
+              ),
+            ),
+          ),
+        ],
       ),
       body: Container(
         margin: const EdgeInsets.symmetric(
