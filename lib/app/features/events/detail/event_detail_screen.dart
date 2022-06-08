@@ -29,9 +29,11 @@ class EventDetail extends StatefulWidget {
   const EventDetail({
     Key? key,
     this.id,
+    this.fromNotificatiton = false,
   }) : super(key: key);
 
   final int? id;
+  final bool? fromNotificatiton;
 
   @override
   State<EventDetail> createState() => _EventDetailState();
@@ -39,25 +41,14 @@ class EventDetail extends StatefulWidget {
 
 class _EventDetailState extends State<EventDetail> {
   late Uint8List _iconMarker;
+  late final ScrollController _scrollController =
+      ScrollController(initialScrollOffset: widget.fromNotificatiton ?? false ? 2200.100 : 0);
   final EventDetailBloc _eventDetailBloc = EventDetailBloc(locator.get());
-  final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
     _eventDetailBloc.getEventDetail(widget.id ?? 0);
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (_scrollController.hasClients) {
-        _scrollController.animateTo(
-          1637.25,
-          duration: const Duration(milliseconds: 1),
-          curve: Curves.easeInOut,
-        );
-      }
-    });
-    _scrollController.addListener(() {
-       debugPrint('${_scrollController.offset}'); 
-    });
     FileUtils.getBytesFromAsset(AppAssets.markerIcon, 80).then((value) {
       setState(() {
         _iconMarker = value;

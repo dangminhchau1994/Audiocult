@@ -41,7 +41,10 @@ class NotificationItem extends StatelessWidget {
         Navigator.pushNamed(
           context,
           AppRoute.routeEventDetail,
-          arguments: {'event_id': int.parse(notification?.itemId ?? '')},
+          arguments: {
+            'event_id': int.parse(notification?.itemId ?? ''),
+            'from_notification': true,
+          },
         );
         break;
       case NotificationType.video:
@@ -50,7 +53,10 @@ class NotificationItem extends StatelessWidget {
         Navigator.pushNamed(
           context,
           AppRoute.routeDetailSong,
-          arguments: {'song_id': notification?.itemId ?? ''},
+          arguments: {
+            'song_id': notification?.itemId ?? '',
+            'from_notification': true,
+          },
         );
         break;
       case NotificationType.feedLike:

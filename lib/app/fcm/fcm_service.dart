@@ -7,13 +7,21 @@ import 'package:audio_cult/app/injections.dart';
 import 'package:audio_cult/app/utils/constants/app_assets.dart';
 import 'package:audio_cult/di/bloc_locator.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+
+Future<void> _backgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp();
+  print("Message from background : ");
+}
+
 class FCMService {
   final BuildContext? context;
   final PrefProvider prefProvider;
+  Map<String, dynamic> data = {};
 
   FCMService(
     this.context,
@@ -21,25 +29,28 @@ class FCMService {
   );
 
   void initialize() async {
-    _getInitialMessage();
+    _setNotificationBackGround();
     _initAwesomeNotification();
     _setUpForeGroundIOS();
     _getFCMToken();
     _getNotificationData();
-    _tapNotification();
+    _tapNotificationForeGround();
+    _tapNotificationBackGround();
   }
 
-  void _getInitialMessage() {
-    FirebaseMessaging.instance.getInitialMessage().then((RemoteMessage? message) {
-      if (message != null) {
-        debugPrint('chauBE: ${message.data}');
-      }
+  void _setNotificationBackGround() {
+    FirebaseMessaging.onBackgroundMessage(_backgroundHandler);
+  }
+
+  void _tapNotificationForeGround() {
+    AwesomeNotifications().actionStream.listen((ReceivedNotification receivedNotification) {
+      debugPrint('dataNoti: $data');
     });
   }
 
-  void _tapNotification() {
+  void _tapNotificationBackGround() {
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-      debugPrint('chauFE: ${message.data}');
+      debugPrint('dataNoti: $data');
     });
   }
 
@@ -51,21 +62,26 @@ class FCMService {
     );
   }
 
+  void _setBadge() async {
+    final _prefProvider = locator<PrefProvider>();
+
+    await _prefProvider.setShowBadge(1);
+    getIt<FCMBloc>().showBadge(_prefProvider.showBadge ?? 0);
+    if (_prefProvider.countBadge == null) {
+      await _prefProvider.setCountBadge(_prefProvider.countBadge ?? 0 + 1);
+    } else {
+      await _prefProvider.setCountBadge(_prefProvider.countBadge! + 1);
+    }
+    getIt<FCMBloc>().countBadge(locator<PrefProvider>().countBadge ?? 0);
+  }
+
   void _getNotificationData() {
     FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
       final notification = message.notification;
       final android = message.notification?.android;
-      final _prefProvider = locator<PrefProvider>();
+      data = message.data;
 
-      await _prefProvider.setShowBadge(1);
-      getIt<FCMBloc>().showBadge(_prefProvider.showBadge ?? 0);
-      if (_prefProvider.countBadge == null) {
-        await _prefProvider.setCountBadge(_prefProvider.countBadge ?? 0 + 1);
-      } else {
-        await _prefProvider.setCountBadge(_prefProvider.countBadge! + 1);
-      }
-      getIt<FCMBloc>().countBadge(locator<PrefProvider>().countBadge ?? 0);
-
+      _setBadge();
       if (notification != null && android != null) {
         await AwesomeNotifications().createNotification(
           content: NotificationContent(

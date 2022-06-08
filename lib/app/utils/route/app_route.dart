@@ -157,6 +157,8 @@ class AppRoute {
           settings,
           EventDetail(
             id: arguments['event_id'] as int,
+            // ignore: avoid_bool_literals_in_conditional_expressions
+            fromNotificatiton: arguments['from_notification'] == null ? false : true,
           ),
         );
       case routeMusicFilter:
@@ -167,6 +169,8 @@ class AppRoute {
           settings,
           DetailSongScreen(
             songId: arguments['song_id'] as String,
+            // ignore: avoid_bool_literals_in_conditional_expressions
+            fromNotificatiton: arguments['from_notification'] == null ? false : true,
           ),
         );
       case routeResultEvent:

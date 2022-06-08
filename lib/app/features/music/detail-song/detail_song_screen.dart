@@ -21,15 +21,20 @@ class DetailSongScreen extends StatefulWidget {
   const DetailSongScreen({
     Key? key,
     this.songId,
+    this.fromNotificatiton,
   }) : super(key: key);
 
   final String? songId;
+  final bool? fromNotificatiton;
 
   @override
   State<DetailSongScreen> createState() => _DetailSongScreenState();
 }
 
 class _DetailSongScreenState extends State<DetailSongScreen> {
+  late final ScrollController _scrollController =
+      ScrollController(initialScrollOffset: widget.fromNotificatiton ?? false ? 1800 : 0);
+
   @override
   void initState() {
     super.initState();
@@ -61,6 +66,7 @@ class _DetailSongScreenState extends State<DetailSongScreen> {
                   final detail = data as Song;
 
                   return CustomScrollView(
+                    controller: _scrollController,
                     slivers: [
                       SliverToBoxAdapter(
                         child: Stack(
