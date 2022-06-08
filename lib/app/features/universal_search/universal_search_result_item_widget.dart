@@ -1,22 +1,25 @@
+import 'dart:async';
+
+import 'package:audio_cult/app/data_source/models/responses/universal_search/universal_search_result_item.dart';
 import 'package:audio_cult/app/utils/constants/app_assets.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
+import 'package:audio_cult/app/utils/datetime/date_time_utils.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/app/utils/extensions/string_extension.dart';
 import 'package:audio_cult/w_components/loading/loading_widget.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:tuple/tuple.dart';
+import 'dart:ui' as ui;
 
 class UniversalSearchResultItemWidget extends StatelessWidget {
   final VoidCallback? onTap;
-  final String imageUrl;
-  final String title;
-  final String subtitle;
+  final UniversalSearchItem searchItem;
+
   final String? queryString;
 
-  const UniversalSearchResultItemWidget({
-    required this.imageUrl,
-    required this.title,
-    required this.subtitle,
+  const UniversalSearchResultItemWidget(
+    this.searchItem, {
     this.onTap,
     this.queryString,
     Key? key,
@@ -25,27 +28,31 @@ class UniversalSearchResultItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
+      padding: const EdgeInsets.symmetric(vertical: 16),
       child: InkWell(
         onTap: onTap,
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _imageWidget(imageUrl),
+            _avatarWidget(),
             const SizedBox(width: 12),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   _titleWidget(),
                   const SizedBox(height: 4),
-                  Text(
-                    subtitle.toUpperCase(),
-                    style: context.body1TextStyle()?.copyWith(color: AppColors.subTitleColor),
+                  Row(
+                    children: [
+                      _subtitleWidget(context),
+                      const SizedBox(width: 8),
+                      _timeWidget(context),
+                    ],
                   ),
                 ],
               ),
             ),
+            _imageWidget(),
           ],
         ),
       ),
@@ -54,15 +61,38 @@ class UniversalSearchResultItemWidget extends StatelessWidget {
 
   Widget _titleWidget() {
     return Text.rich(
-      TextSpan(children: title.highlightOccurrences(queryString ?? '')),
+      TextSpan(
+        children: searchItem.itemTitle?.highlightOccurrences(queryString ?? ''),
+      ),
     );
   }
 
-  Widget _imageWidget(String imageUrl) {
+  Widget _subtitleWidget(BuildContext context) {
+    return Text(
+      searchItem.itemName ?? '',
+      style: context.body1TextStyle()?.copyWith(color: AppColors.subTitleColor),
+      maxLines: 1,
+      overflow: TextOverflow.ellipsis,
+    );
+  }
+
+  Widget _timeWidget(BuildContext context) {
+    if (searchItem.itemTimedStamp?.isNotEmpty == true) {
+      return Text(
+        DateTimeUtils.formatyMMMMd(
+          int.parse(searchItem.itemTimedStamp!),
+        ),
+        style: context.body1TextStyle()?.copyWith(color: AppColors.subTitleColor),
+      );
+    }
+    return Container();
+  }
+
+  Widget _avatarWidget() {
     return CachedNetworkImage(
-      width: 70,
-      height: 70,
-      imageUrl: imageUrl,
+      width: 50,
+      height: 50,
+      imageUrl: searchItem.userImage ?? '',
       imageBuilder: (_, imageProvider) => Container(
         decoration: BoxDecoration(
           image: DecorationImage(image: imageProvider, fit: BoxFit.cover),
@@ -76,5 +106,26 @@ class UniversalSearchResultItemWidget extends StatelessWidget {
       ),
       placeholder: (_, __) => const LoadingWidget(),
     );
+  }
+
+  Widget _imageWidget() {
+    if (searchItem.itemPhoto?.isNotEmpty == true) {
+      return CachedNetworkImage(
+        height: 100,
+        width: 100,
+        imageUrl: searchItem.itemPhoto ?? '',
+        imageBuilder: (_, imageProvider) => Container(
+          constraints: const BoxConstraints(maxHeight: 600, minHeight: 200),
+          decoration: BoxDecoration(
+            image: DecorationImage(image: imageProvider, fit: BoxFit.cover),
+            borderRadius: BorderRadius.circular(4),
+          ),
+        ),
+        fit: BoxFit.cover,
+        errorWidget: (_, __, ___) => Container(),
+        placeholder: (_, __) => const LoadingWidget(),
+      );
+    }
+    return Container();
   }
 }

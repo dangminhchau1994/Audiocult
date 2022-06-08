@@ -1,11 +1,16 @@
+import 'package:audio_cult/app/base/bloc_handle.dart';
+import 'package:audio_cult/app/data_source/models/responses/song/song_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/universal_search/universal_search_result_item.dart';
+import 'package:audio_cult/app/data_source/models/responses/video_data.dart';
+import 'package:audio_cult/app/features/player_widgets/player_screen.dart';
 import 'package:audio_cult/app/features/universal_search/universal_seach_bloc.dart';
 import 'package:audio_cult/app/features/universal_search/universal_search_result_item_widget.dart';
-import 'package:audio_cult/app/features/universal_search/universal_search_result_post_item_widget.dart';
 import 'package:audio_cult/app/features/universal_search/universal_search_results_page.dart';
 import 'package:audio_cult/app/utils/constants/app_assets.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
+import 'package:audio_cult/app/utils/route/app_route.dart';
+import 'package:audio_cult/app/utils/toast/toast_utils.dart';
 import 'package:audio_cult/di/bloc_locator.dart';
 import 'package:audio_cult/l10n/l10n.dart';
 import 'package:audio_cult/w_components/tabbars/common_tabbar.dart';
@@ -52,6 +57,26 @@ class _UniversalSearchScreenState extends State<UniversalSearchScreen> {
       final keyword = search.item1;
       final searchView = search.item2;
       observeSearchOnChange(keyword: keyword, searchView: searchView ?? UniversalSearchView.all);
+    });
+
+    _bloc.loadSongDetails.listen((event) {
+      event.when(
+        success: (details) async {
+          final song = details as Song;
+          await Navigator.pushNamed(
+            context,
+            AppRoute.routePlayerScreen,
+            arguments: PlayerScreen.createArguments(
+              listSong: [song],
+              index: 0,
+            ),
+          );
+        },
+        loading: Container.new,
+        error: (e) {
+          ToastUtility.showError(context: context, message: e);
+        },
+      );
     });
   }
 
@@ -100,13 +125,16 @@ class _UniversalSearchScreenState extends State<UniversalSearchScreen> {
       backgroundColor: AppColors.mainColor,
       body: SafeArea(
         child: WKeyboardDismiss(
-          child: Column(
-            children: [
-              Container(height: 12, color: AppColors.secondaryButtonColor),
-              _searchBar(),
-              Container(height: 12, color: AppColors.secondaryButtonColor),
-              Expanded(child: _bodyWidget()),
-            ],
+          child: BlocHandle(
+            bloc: _bloc,
+            child: Column(
+              children: [
+                Container(height: 12, color: AppColors.secondaryButtonColor),
+                _searchBar(),
+                Container(height: 12, color: AppColors.secondaryButtonColor),
+                Expanded(child: _bodyWidget()),
+              ],
+            ),
           ),
         ),
       ),
@@ -309,9 +337,7 @@ class _UniversalSearchScreenState extends State<UniversalSearchScreen> {
         UniversalSearchView.all,
         (_, item, ___) {
           return UniversalSearchResultItemWidget(
-            imageUrl: item.userImage ?? '',
-            title: item.itemTitle ?? '',
-            subtitle: item.itemName ?? '',
+            item,
             queryString: _searchTextFieldController.text,
             onTap: () => _navigateToDetailsScreen(item),
           );
@@ -323,9 +349,7 @@ class _UniversalSearchScreenState extends State<UniversalSearchScreen> {
         UniversalSearchView.video,
         (_, item, ___) {
           return UniversalSearchResultItemWidget(
-            imageUrl: item.userImage ?? '',
-            title: item.itemTitle ?? '',
-            subtitle: item.itemName ?? '',
+            item,
             queryString: _searchTextFieldController.text,
             onTap: () => _navigateToDetailsScreen(item),
           );
@@ -337,9 +361,7 @@ class _UniversalSearchScreenState extends State<UniversalSearchScreen> {
         UniversalSearchView.event,
         (_, item, ___) {
           return UniversalSearchResultItemWidget(
-            imageUrl: item.userImage ?? '',
-            title: item.itemTitle ?? '',
-            subtitle: item.itemName ?? '',
+            item,
             queryString: _searchTextFieldController.text,
             onTap: () => _navigateToDetailsScreen(item),
           );
@@ -351,9 +373,7 @@ class _UniversalSearchScreenState extends State<UniversalSearchScreen> {
         UniversalSearchView.song,
         (_, item, ___) {
           return UniversalSearchResultItemWidget(
-            imageUrl: item.userImage ?? '',
-            title: item.itemTitle ?? '',
-            subtitle: item.itemName ?? '',
+            item,
             queryString: _searchTextFieldController.text,
             onTap: () => _navigateToDetailsScreen(item),
           );
@@ -365,9 +385,7 @@ class _UniversalSearchScreenState extends State<UniversalSearchScreen> {
         UniversalSearchView.photo,
         (_, item, ___) {
           return UniversalSearchResultItemWidget(
-            imageUrl: item.userImage ?? '',
-            title: item.itemTitle ?? '',
-            subtitle: item.itemName ?? '',
+            item,
             queryString: _searchTextFieldController.text,
             onTap: () => _navigateToDetailsScreen(item),
           );
@@ -378,11 +396,10 @@ class _UniversalSearchScreenState extends State<UniversalSearchScreen> {
       UniversalSearchResultsPage(
         UniversalSearchView.rssfeed,
         (_, item, ___) {
-          return UniversalSearchResultPostItemWidget(
-            avatarUrl: item.userImage ?? '',
-            imageUrl: item.itemPhoto ?? '',
-            content: item.itemTitle ?? '',
+          return UniversalSearchResultItemWidget(
+            item,
             queryString: _searchTextFieldController.text,
+            onTap: () => _navigateToDetailsScreen(item),
           );
         },
         key: _universalSearchRssfeedsKey,
@@ -392,9 +409,7 @@ class _UniversalSearchScreenState extends State<UniversalSearchScreen> {
         UniversalSearchView.page,
         (_, item, ___) {
           return UniversalSearchResultItemWidget(
-            imageUrl: item.userImage ?? '',
-            title: item.itemTitle ?? '',
-            subtitle: item.itemName ?? '',
+            item,
             queryString: _searchTextFieldController.text,
             onTap: () => _navigateToDetailsScreen(item),
           );
@@ -406,6 +421,31 @@ class _UniversalSearchScreenState extends State<UniversalSearchScreen> {
   }
 
   void _navigateToDetailsScreen(UniversalSearchItem searchItem) {
-    // TODO: move to next screen
+    final itemType = UniversalSearchViewExtension.initWithType(searchItem.itemTypeId ?? '');
+    switch (itemType) {
+      case UniversalSearchView.video:
+        Navigator.pushNamed(context, AppRoute.routeVideoPlayer, arguments: {
+          'data': Video()
+            ..destination =
+                'https://staging-media.audiocult.net/file/video/2022/06/0376aeff25a26114406fd0c60dac7eeb.mp4'
+        });
+        break;
+      case UniversalSearchView.event:
+        final arguments = {'event_id': int.parse(searchItem.itemId ?? '0')};
+        Navigator.pushNamed(context, AppRoute.routeEventDetail, arguments: arguments);
+        break;
+      case UniversalSearchView.song:
+        _bloc.getSongDetails(searchItem.itemId ?? '');
+        break;
+      case UniversalSearchView.photo:
+        break;
+      case UniversalSearchView.rssfeed:
+        break;
+      case UniversalSearchView.page:
+        break;
+      case UniversalSearchView.all:
+        // TODO: Handle this case.
+        break;
+    }
   }
 }

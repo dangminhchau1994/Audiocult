@@ -143,5 +143,5 @@ void setupLocator() {
 
   getIt.registerFactory<UniversalSearchResultsBloc>(() => UniversalSearchResultsBloc(locator.get<AppRepository>()));
 
-  getIt.registerFactory<UniversalSearchBloc>(UniversalSearchBloc.new);
+  getIt.registerFactory<UniversalSearchBloc>(() => UniversalSearchBloc(locator.get<AppRepository>()));
 }
