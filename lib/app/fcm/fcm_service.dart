@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:audio_cult/app/constants/global_constants.dart';
 import 'package:audio_cult/app/data_source/local/pref_provider.dart';
 import 'package:audio_cult/app/fcm/fcm_bloc.dart';
+import 'package:audio_cult/app/features/profile/profile_screen.dart';
 import 'package:audio_cult/app/injections.dart';
 import 'package:audio_cult/app/utils/constants/app_assets.dart';
 import 'package:audio_cult/di/bloc_locator.dart';
@@ -41,11 +42,19 @@ class FCMService {
     _tapNotificationBackGround();
   }
 
-  void _navigateScreen() {
+  void _navigateScreen(Map<String, dynamic> data) {
     final type = data['type_id'] as String;
-    final itemId = data['item_id'] as String;
+    final itemId = data['item_id'] as dynamic;
+    final userId = data['user_id'] as dynamic;
 
     switch (type) {
+      case GlobalConstants.visitorNew:
+        Navigator.pushNamed(
+          context!,
+          AppRoute.routeProfile,
+          arguments: ProfileScreen.createArguments(id: userId as String),
+        );
+        break;
       case GlobalConstants.commentMusic:
         Navigator.pushNamed(
           context!,
@@ -61,7 +70,7 @@ class FCMService {
           context!,
           AppRoute.routeEventDetail,
           arguments: {
-            'event_id': int.parse(itemId),
+            'event_id': int.parse(itemId as String),
             'from_notification': true,
           },
         );
@@ -76,21 +85,21 @@ class FCMService {
 
   void _tapNotificationTerminated() {
     FirebaseMessaging.instance.getInitialMessage().then((RemoteMessage? message) {
-      _navigateScreen();
+      _navigateScreen(message?.data ?? {});
     });
   }
 
   void _tapNotificationForeGround() {
     AwesomeNotifications().actionStream.listen((ReceivedNotification receivedNotification) {
-      debugPrint('dataNoti: $data');
-      _navigateScreen();
+      debugPrint('dataForeground: $data');
+      _navigateScreen(data);
     });
   }
 
   void _tapNotificationBackGround() {
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-      debugPrint('dataChau: ${message.data}');
-      _navigateScreen();
+      debugPrint('dataBackground: ${message.data}');
+      _navigateScreen(message.data);
     });
   }
 
