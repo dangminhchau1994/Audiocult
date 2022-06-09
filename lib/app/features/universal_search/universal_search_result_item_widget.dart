@@ -9,6 +9,7 @@ import 'package:audio_cult/app/utils/extensions/string_extension.dart';
 import 'package:audio_cult/w_components/loading/loading_widget.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:tuple/tuple.dart';
 import 'dart:ui' as ui;
 
@@ -109,21 +110,10 @@ class UniversalSearchResultItemWidget extends StatelessWidget {
   }
 
   Widget _imageWidget() {
-    if (searchItem.itemPhoto?.isNotEmpty == true) {
-      return CachedNetworkImage(
-        height: 100,
-        width: 100,
-        imageUrl: searchItem.itemPhoto ?? '',
-        imageBuilder: (_, imageProvider) => Container(
-          constraints: const BoxConstraints(maxHeight: 600, minHeight: 200),
-          decoration: BoxDecoration(
-            image: DecorationImage(image: imageProvider, fit: BoxFit.cover),
-            borderRadius: BorderRadius.circular(4),
-          ),
-        ),
-        fit: BoxFit.cover,
-        errorWidget: (_, __, ___) => Container(),
-        placeholder: (_, __) => const LoadingWidget(),
+    if (searchItem.itemDisplayPhoto?.isNotEmpty == true) {
+      return Container(
+        constraints: const BoxConstraints(maxHeight: 120, maxWidth: 100),
+        child: Html(data: searchItem.itemDisplayPhoto),
       );
     }
     return Container();

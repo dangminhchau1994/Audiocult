@@ -13,13 +13,13 @@ import 'package:audio_cult/app/utils/route/app_route.dart';
 import 'package:audio_cult/app/utils/toast/toast_utils.dart';
 import 'package:audio_cult/di/bloc_locator.dart';
 import 'package:audio_cult/l10n/l10n.dart';
+import 'package:audio_cult/w_components/appbar/common_appbar.dart';
 import 'package:audio_cult/w_components/tabbars/common_tabbar.dart';
 import 'package:audio_cult/w_components/tabbars/common_tabbar_item.dart';
 import 'package:audio_cult/w_components/w_keyboard_dismiss.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_tab_bar/indicator/custom_indicator.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter_typeahead/flutter_typeahead.dart';
 
 class UniversalSearchScreen extends StatefulWidget {
   const UniversalSearchScreen({Key? key}) : super(key: key);
@@ -31,13 +31,10 @@ class UniversalSearchScreen extends StatefulWidget {
 class _UniversalSearchScreenState extends State<UniversalSearchScreen> {
   final _bloc = getIt.get<UniversalSearchBloc>();
   final _tabController = CustomTabBarController();
-  final _searchTextFieldFocusNode = FocusNode();
-  final _searchTextFieldController = TextEditingController();
   final _pageController = PageController();
   var _currentIndex = UniversalSearchView.all.index;
   var _listPages = <UniversalSearchResultsPage>[];
-  final _suggestionsBoxController = SuggestionsBoxController();
-
+  var _searchText = 'Search ...';
   final _universalSearchAllKey = GlobalKey<UniversalSearchResultsPageState>();
   final _universalSearchVideosKey = GlobalKey<UniversalSearchResultsPageState>();
   final _universalSearchPhotosKey = GlobalKey<UniversalSearchResultsPageState>();
@@ -50,9 +47,6 @@ class _UniversalSearchScreenState extends State<UniversalSearchScreen> {
   void initState() {
     super.initState();
     _initListPages();
-    _searchTextFieldController.addListener(() {
-      _bloc.searchTextOnChange(_searchTextFieldController.text);
-    });
     _bloc.searchStream.listen((search) {
       final keyword = search.item1;
       final searchView = search.item2;
@@ -107,21 +101,9 @@ class _UniversalSearchScreenState extends State<UniversalSearchScreen> {
   }
 
   @override
-  void dispose() {
-    _searchTextFieldFocusNode.dispose();
-    _searchTextFieldController.dispose();
-    super.dispose();
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    _searchTextFieldFocusNode.requestFocus();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: CommonAppBar(title: context.l10n.t_search),
       backgroundColor: AppColors.mainColor,
       body: SafeArea(
         child: WKeyboardDismiss(
@@ -129,7 +111,6 @@ class _UniversalSearchScreenState extends State<UniversalSearchScreen> {
             bloc: _bloc,
             child: Column(
               children: [
-                Container(height: 12, color: AppColors.secondaryButtonColor),
                 _searchBar(),
                 Container(height: 12, color: AppColors.secondaryButtonColor),
                 Expanded(child: _bodyWidget()),
@@ -144,18 +125,15 @@ class _UniversalSearchScreenState extends State<UniversalSearchScreen> {
   Widget _searchBar() {
     return Container(
       height: 50,
-      padding: const EdgeInsets.only(left: 12, right: 8),
+      padding: const EdgeInsets.only(left: 12, right: 12),
       color: AppColors.secondaryButtonColor,
       child: Stack(
         children: [
-          Padding(
-            padding: const EdgeInsets.only(right: 82),
-            child: Container(
-              height: 50,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(25),
-                color: AppColors.mainColor,
-              ),
+          Container(
+            height: 50,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(25),
+              color: AppColors.mainColor,
             ),
           ),
           Padding(
@@ -167,12 +145,7 @@ class _UniversalSearchScreenState extends State<UniversalSearchScreen> {
                   child: SvgPicture.asset(AppAssets.whiteSearchIcon),
                 ),
                 const SizedBox(width: 12),
-                Flexible(child: _searchTextFieldWidget()),
-                Padding(
-                  padding: const EdgeInsets.only(right: 2),
-                  child: _clearSearchTextButton(),
-                ),
-                _cancelSearchButton(),
+                _searchTextFieldWidget(),
               ],
             ),
           )
@@ -182,77 +155,38 @@ class _UniversalSearchScreenState extends State<UniversalSearchScreen> {
   }
 
   Widget _searchTextFieldWidget() {
-    return TypeAheadField<String>(
-      suggestionsBoxController: _suggestionsBoxController,
-      getImmediateSuggestions: true,
-      hideOnEmpty: true,
-      hideOnLoading: true,
-      hideOnError: true,
-      debounceDuration: const Duration(milliseconds: 600),
-      animationDuration: Duration.zero,
-      textFieldConfiguration: TextFieldConfiguration(
-        onSubmitted: _bloc.startSearch,
-        textInputAction: TextInputAction.search,
-        controller: _searchTextFieldController,
-        autofocus: true,
-        style: context.body1TextStyle(),
-        decoration: InputDecoration(border: InputBorder.none, hintText: context.l10n.t_search),
-      ),
-      suggestionsCallback: (pattern) async => _bloc.getSearchHistory(),
-      noItemsFoundBuilder: (context) => Container(),
-      itemBuilder: (context, String suggestion) => _suggestionWidget(suggestion),
-      onSuggestionSelected: (suggestion) {
-        _searchTextFieldController.text = suggestion;
-        _bloc.searchTextOnChange(_searchTextFieldController.text);
-        _bloc.startSearch(suggestion);
+    return TextButton(
+      onPressed: () async {
+        final result = await Navigator.of(context).pushNamed(AppRoute.routeSearchSuggestion);
+        if (result != null) {
+          setState(() {
+            _searchText = result as String;
+            _bloc.searchTextOnChange(_searchText);
+            _bloc.startSearch(_searchText);
+          });
+        }
       },
-    );
-  }
-
-  Widget _suggestionWidget(String suggestion) {
-    return Container(
-      decoration: BoxDecoration(
-        color: AppColors.mainColor,
-        border: const Border(
-          left: BorderSide(color: Colors.white24),
-          bottom: BorderSide(color: Colors.white24),
-        ),
+      child: Text(
+        _searchText,
+        textAlign: TextAlign.left,
+        style: context.body1TextStyle(),
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
       ),
-      child: ListTile(leading: Text(suggestion)),
     );
   }
 
   Widget _cancelSearchButton() {
-    return SizedBox(
-      width: 80,
+    return Container(
+      color: AppColors.secondaryButtonColor,
       child: TextButton(
         onPressed: Navigator.of(context).pop,
-        child: Text(
-          context.l10n.t_cancel,
-          style: context.buttonTextStyle(),
+        child: SvgPicture.asset(
+          AppAssets.icClear,
+          width: 20,
+          height: 20,
         ),
       ),
-    );
-  }
-
-  Widget _clearSearchTextButton() {
-    return StreamBuilder<String>(
-      initialData: '',
-      stream: _bloc.searchTextStream,
-      builder: (_, string) {
-        if (string.hasData) {
-          return string.data!.isNotEmpty
-              ? IconButton(
-                  onPressed: () {
-                    _searchTextFieldController.clear();
-                    _bloc.searchTextOnChange('');
-                  },
-                  icon: SvgPicture.asset(AppAssets.icClear, fit: BoxFit.fill),
-                )
-              : Container();
-        }
-        return Container();
-      },
     );
   }
 
@@ -338,7 +272,7 @@ class _UniversalSearchScreenState extends State<UniversalSearchScreen> {
         (_, item, ___) {
           return UniversalSearchResultItemWidget(
             item,
-            queryString: _searchTextFieldController.text,
+            queryString: _searchText,
             onTap: () => _navigateToDetailsScreen(item),
           );
         },
@@ -350,7 +284,7 @@ class _UniversalSearchScreenState extends State<UniversalSearchScreen> {
         (_, item, ___) {
           return UniversalSearchResultItemWidget(
             item,
-            queryString: _searchTextFieldController.text,
+            queryString: _searchText,
             onTap: () => _navigateToDetailsScreen(item),
           );
         },
@@ -362,7 +296,7 @@ class _UniversalSearchScreenState extends State<UniversalSearchScreen> {
         (_, item, ___) {
           return UniversalSearchResultItemWidget(
             item,
-            queryString: _searchTextFieldController.text,
+            queryString: _searchText,
             onTap: () => _navigateToDetailsScreen(item),
           );
         },
@@ -374,7 +308,7 @@ class _UniversalSearchScreenState extends State<UniversalSearchScreen> {
         (_, item, ___) {
           return UniversalSearchResultItemWidget(
             item,
-            queryString: _searchTextFieldController.text,
+            queryString: _searchText,
             onTap: () => _navigateToDetailsScreen(item),
           );
         },
@@ -386,7 +320,7 @@ class _UniversalSearchScreenState extends State<UniversalSearchScreen> {
         (_, item, ___) {
           return UniversalSearchResultItemWidget(
             item,
-            queryString: _searchTextFieldController.text,
+            queryString: _searchText,
             onTap: () => _navigateToDetailsScreen(item),
           );
         },
@@ -398,7 +332,7 @@ class _UniversalSearchScreenState extends State<UniversalSearchScreen> {
         (_, item, ___) {
           return UniversalSearchResultItemWidget(
             item,
-            queryString: _searchTextFieldController.text,
+            queryString: _searchText,
             onTap: () => _navigateToDetailsScreen(item),
           );
         },
@@ -410,7 +344,7 @@ class _UniversalSearchScreenState extends State<UniversalSearchScreen> {
         (_, item, ___) {
           return UniversalSearchResultItemWidget(
             item,
-            queryString: _searchTextFieldController.text,
+            queryString: _searchText,
             onTap: () => _navigateToDetailsScreen(item),
           );
         },
