@@ -36,7 +36,6 @@ class _AppState extends State<App> with AfterLayoutMixin<App> {
   void initState() {
     super.initState();
     _splashBloc.checkScreen();
-    FCMService(context, locator.get()).initialize();
   }
 
   @override
@@ -120,6 +119,7 @@ class _AppState extends State<App> with AfterLayoutMixin<App> {
           stream: _splashBloc.checkLoginSubject.stream,
           initialData: StatePage.init,
           builder: (context, snapshot) {
+            FCMService(context, locator.get()).initialize();
             return handlePage(snapshot.data!);
           },
         ),

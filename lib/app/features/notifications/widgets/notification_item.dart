@@ -69,13 +69,6 @@ class NotificationItem extends StatelessWidget {
     }
   }
 
-  void _countBadge() async {
-    if (locator<PrefProvider>().countBadge != null || locator<PrefProvider>().countBadge! > 0) {
-      await locator<PrefProvider>().setCountBadge(locator<PrefProvider>().countBadge! - 1);
-      getIt<FCMBloc>().countBadge(locator<PrefProvider>().countBadge ?? 0);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return ExpandablePanel(
@@ -105,7 +98,6 @@ class NotificationItem extends StatelessWidget {
             return WButtonInkwell(
               onPressed: () async {
                 _navigateScreen(index, context);
-                _countBadge();
               },
               child: Container(
                 decoration: BoxDecoration(

@@ -146,6 +146,10 @@ class _MainScreenState extends State<MainScreen> {
               },
               onNotificationTap: () async {
                 await Navigator.pushNamed(context, AppRoute.routeNotification);
+                // if (locator<PrefProvider>().countBadge! > 0) {
+                //   await locator<PrefProvider>().setCountBadge(locator<PrefProvider>().countBadge! - 1);
+                //   getIt<FCMBloc>().countBadge(locator<PrefProvider>().countBadge ?? 0);
+                // }
               },
               onCartTap: () {
                 ToastUtility.showPending(

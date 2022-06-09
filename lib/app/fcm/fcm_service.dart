@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:math';
 
+import 'package:audio_cult/app/constants/global_constants.dart';
 import 'package:audio_cult/app/data_source/local/pref_provider.dart';
 import 'package:audio_cult/app/fcm/fcm_bloc.dart';
 import 'package:audio_cult/app/injections.dart';
@@ -12,6 +13,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../utils/route/app_route.dart';
 
 Future<void> _backgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
@@ -29,6 +31,7 @@ class FCMService {
   );
 
   void initialize() async {
+    _tapNotificationTerminated();
     _setNotificationBackGround();
     _initAwesomeNotification();
     _setUpForeGroundIOS();
@@ -38,19 +41,56 @@ class FCMService {
     _tapNotificationBackGround();
   }
 
+  void _navigateScreen() {
+    final type = data['type_id'] as String;
+    final itemId = data['item_id'] as String;
+
+    switch (type) {
+      case GlobalConstants.commentMusic:
+        Navigator.pushNamed(
+          context!,
+          AppRoute.routeDetailSong,
+          arguments: {
+            'song_id': itemId,
+            'from_notification': true,
+          },
+        );
+        break;
+      case GlobalConstants.commentEvent:
+        Navigator.pushNamed(
+          context!,
+          AppRoute.routeEventDetail,
+          arguments: {
+            'event_id': int.parse(itemId),
+            'from_notification': true,
+          },
+        );
+        break;
+      default:
+    }
+  }
+
   void _setNotificationBackGround() {
     FirebaseMessaging.onBackgroundMessage(_backgroundHandler);
+  }
+
+  void _tapNotificationTerminated() {
+    FirebaseMessaging.instance.getInitialMessage().then((RemoteMessage? message) {
+      _navigateScreen();
+    });
   }
 
   void _tapNotificationForeGround() {
     AwesomeNotifications().actionStream.listen((ReceivedNotification receivedNotification) {
       debugPrint('dataNoti: $data');
+      _navigateScreen();
     });
   }
 
   void _tapNotificationBackGround() {
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-      debugPrint('dataNoti: $data');
+      debugPrint('dataChau: ${message.data}');
+      _navigateScreen();
     });
   }
 

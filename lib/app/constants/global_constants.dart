@@ -10,6 +10,9 @@ import '../utils/constants/app_assets.dart';
 
 class GlobalConstants {
   static const String url = 'https://staging-media.audiocult.net/file/pic/music/';
+  static const String visitorNew = 'visitor_new';
+  static const String commentMusic = 'comment_music_song';
+  static const String commentEvent = 'comment_event';
 
   static const int loadMoreItem = 10;
 
