@@ -50,19 +50,27 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
         title: widget.data?.title ?? '',
       ),
       body: widget.data?.destination != null
-          ? FlickVideoPlayer(
-            flickManager: flickManager,
-            flickVideoWithControls: const FlickVideoWithControls(
-              closedCaptionTextStyle: TextStyle(fontSize: 8),
-              controls: FlickPortraitControls(),
-            ),
-            flickVideoWithControlsFullscreen: const FlickVideoWithControls(
-              controls: FlickLandscapeControls(),
-            ),
-          )
-          : YoutubePlayer(
-              controller: _controller,
-              liveUIColor: Colors.amber,
+          ? AspectRatio(
+              aspectRatio: 16 / 9,
+              child: FlickVideoPlayer(
+                flickManager: flickManager,
+                flickVideoWithControls: const FlickVideoWithControls(
+                  videoFit: BoxFit.contain,
+                  closedCaptionTextStyle: TextStyle(fontSize: 8),
+                  controls: FlickPortraitControls(),
+                ),
+                flickVideoWithControlsFullscreen: const FlickVideoWithControls(
+                  controls: FlickLandscapeControls(),
+                ),
+              ),
+            )
+          : Theme(
+              data: Theme.of(context).copyWith(cardColor: AppColors.mainColor),
+              child: YoutubePlayer(
+                showVideoProgressIndicator: true,
+                controller: _controller,
+                liveUIColor: Colors.amber,
+              ),
             ),
     );
   }
