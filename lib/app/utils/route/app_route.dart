@@ -33,6 +33,7 @@ import 'package:audio_cult/app/features/player_widgets/player_screen.dart';
 import 'package:audio_cult/app/features/profile/profile_bloc.dart';
 import 'package:audio_cult/app/features/profile/profile_screen.dart';
 import 'package:audio_cult/app/features/profile/subscriptions/subscriptions_screen.dart';
+import 'package:audio_cult/app/features/search_suggestion/search_suggestion_screen.dart';
 import 'package:audio_cult/app/features/settings/settings_screen.dart';
 import 'package:audio_cult/app/features/universal_search/universal_search_screen.dart';
 import 'package:audio_cult/app/features/videos/video_player_screen.dart';
@@ -100,6 +101,7 @@ class AppRoute {
   static const String routeNotification = '/route_notification';
   static const String routeResetPassword = '/route_reset_password';
   static const String routeUniversalSearch = '/route_universal_search';
+  static const String routeSearchSuggestion = '/route_search_suggestion';
 
   ///#end region
 
@@ -344,6 +346,8 @@ class AppRoute {
             ));
       case routeUniversalSearch:
         return _pageRoute(settings, const UniversalSearchScreen());
+      case routeSearchSuggestion:
+        return _pageRoute(settings, const SearchSuggestionScreen());
       default:
         return null;
     }

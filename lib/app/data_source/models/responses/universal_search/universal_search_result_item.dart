@@ -112,5 +112,25 @@ extension UniversalSearchViewExtension on UniversalSearchView {
     }
   }
 
+  static UniversalSearchView initWithType(String typeId) {
+    switch (typeId) {
+      case 'v':
+        return UniversalSearchView.video;
+      case 'event':
+        return UniversalSearchView.event;
+      case 'music_album':
+      case 'music':
+        return UniversalSearchView.song;
+      case 'photo':
+        return UniversalSearchView.photo;
+      case 'rssfeed':
+        return UniversalSearchView.rssfeed;
+      case 'user':
+        return UniversalSearchView.page;
+      default:
+        return UniversalSearchView.all;
+    }
+  }
+
   static int total = 7;
 }

@@ -1,7 +1,7 @@
 import 'package:audio_cult/app/features/settings/page_template_widgets/page_template_widget.dart';
 import 'package:audio_cult/w_components/dropdown/common_dropdown.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 
 class SingleSelectionWidget extends PageTemplateWidget {
   final List<SelectMenuModel> options;
@@ -23,7 +23,7 @@ class SingleSelectionWidget extends PageTemplateWidget {
     return CommonDropdown(
       backgroundColor: Colors.transparent,
       isBorderVisible: false,
-      selection: options.firstWhere((element) => element.isSelected),
+      selection: options.firstWhereOrNull((element) => element.isSelected),
       onChanged: (value) => onSelected?.call(value!),
       onTap: () {},
       data: options,
