@@ -113,7 +113,6 @@ class FCMService {
 
   void _setBadge() async {
     final _prefProvider = locator<PrefProvider>();
-
     await _prefProvider.setShowBadge(1);
     getIt<FCMBloc>().showBadge(_prefProvider.showBadge ?? 0);
     if (_prefProvider.countBadge == null) {

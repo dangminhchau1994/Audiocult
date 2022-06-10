@@ -662,7 +662,7 @@ class AppServiceProvider {
 
   Future<List<NotificationResponse>> markAllRead() async {
     final response = await _dioHelper.post(
-      route: '/restful_api/user/notifications/mark-all-read',
+      route: '/restful_api/notification/mark-all-read',
       options: Options(headers: {'Content-Type': 'application/x-www-form-urlencoded'}),
       responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
     );
@@ -1027,7 +1027,7 @@ class AppServiceProvider {
 
   Future<List<NotificationOption>> getAllNotificationOptions() async {
     final result = await _dioHelper.get(
-        route: '/restful_api/user/notifications',
+        route: '/restful_api/user/notification-settings',
         responseBodyMapper: (json) {
           final dataJson = json['data'] as Map<String, dynamic>;
           final keys = dataJson.keys;
@@ -1045,7 +1045,7 @@ class AppServiceProvider {
       params['val[${noti.key}]'] = noti.isChecked == true ? 1 : 0;
     }
     final result = await _dioHelper.post(
-      route: '/restful_api/user/notifications',
+      route: '/restful_api/user/notification-settings',
       requestBody: FormData.fromMap(params),
       responseBodyMapper: (json) {},
     );
