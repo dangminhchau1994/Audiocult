@@ -5,6 +5,7 @@ import 'package:audio_cult/app/utils/constants/app_assets.dart';
 
 import 'package:audio_cult/di/bloc_locator.dart';
 import 'package:audio_cult/l10n/l10n.dart';
+import 'package:audio_cult/w_components/error_empty/error_section.dart';
 import 'package:audio_cult/w_components/error_empty/widget_state.dart';
 import 'package:audio_cult/w_components/loading/loading_widget.dart';
 
@@ -31,6 +32,7 @@ class UniversalSearchResultsPageState extends State<UniversalSearchResultsPage> 
   final _bloc = getIt.get<UniversalSearchResultsBloc>();
   final _pagingController = PagingController<int, UniversalSearchItem>(firstPageKey: 1);
   String? _keyword;
+  String? _erroMsg;
 
   @override
   bool get wantKeepAlive => true;
@@ -46,7 +48,10 @@ class UniversalSearchResultsPageState extends State<UniversalSearchResultsPage> 
       event.when(
         success: (results) => searchResultsLoaded(results as List<UniversalSearchItem>),
         loading: Container.new,
-        error: (error) => Container(),
+        error: (error) {
+          _erroMsg = error;
+          _pagingController.error = context.l10n.t_error;
+        },
       );
     });
   }
@@ -83,6 +88,13 @@ class UniversalSearchResultsPageState extends State<UniversalSearchResultsPage> 
       padding: const EdgeInsets.all(16),
       pagingController: _pagingController,
       builderDelegate: PagedChildBuilderDelegate(
+        firstPageErrorIndicatorBuilder: (_) => ErrorSectionWidget(
+          errorMessage: _erroMsg ?? context.l10n.t_went_wrong,
+          onRetryTap: () {
+            _pagingController.refresh();
+            _bloc.keywordOnChange(_keyword ?? '', widget.searchView);
+          },
+        ),
         newPageProgressIndicatorBuilder: (context) => const LoadingWidget(),
         noItemsFoundIndicatorBuilder: (context) {
           if (_keyword?.isNotEmpty == true) {

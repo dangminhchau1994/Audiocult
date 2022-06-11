@@ -6,7 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class SearchSuggestionBloc extends BaseBloc {
   String? _keyword;
   final _prefs = SharedPreferences.getInstance();
-  final _searchHistoryStorageKey = 'SearchHistoryStorageKey';
+  final _searchHistoryStorageKey = 'SearchHistoryKey';
   final _searchHistoryMaximum = 6;
   var _searchHistory = <String>[];
 
@@ -18,7 +18,7 @@ class SearchSuggestionBloc extends BaseBloc {
 
   SearchSuggestionBloc() {
     _prefs.then((value) {
-      _searchHistory = value.getStringList(_searchHistoryStorageKey) ?? ['a', 'b', 'c', 'd'];
+      _searchHistory = value.getStringList(_searchHistoryStorageKey) ?? [];
       _searchHistoryStreamController.sink.add(_searchHistory);
     });
   }
@@ -42,6 +42,7 @@ class SearchSuggestionBloc extends BaseBloc {
       return;
     }
     _searchHistory.insert(0, newSearch);
+    _prefs.then((value) => value.setStringList(_searchHistoryStorageKey, _searchHistory));
   }
 
   @override
