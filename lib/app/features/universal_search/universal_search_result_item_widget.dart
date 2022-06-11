@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:audio_cult/app/data_source/models/responses/universal_search/universal_search_result_item.dart';
 import 'package:audio_cult/app/utils/constants/app_assets.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
@@ -10,8 +8,6 @@ import 'package:audio_cult/w_components/loading/loading_widget.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
-import 'package:tuple/tuple.dart';
-import 'dart:ui' as ui;
 
 class UniversalSearchResultItemWidget extends StatelessWidget {
   final VoidCallback? onTap;
@@ -78,15 +74,16 @@ class UniversalSearchResultItemWidget extends StatelessWidget {
   }
 
   Widget _timeWidget(BuildContext context) {
-    if (searchItem.itemTimedStamp?.isNotEmpty == true) {
-      return Text(
-        DateTimeUtils.formatyMMMMd(
-          int.parse(searchItem.itemTimedStamp!),
-        ),
-        style: context.body1TextStyle()?.copyWith(color: AppColors.subTitleColor),
-      );
-    }
-    return Container();
+    final timeStampIntValue = int.tryParse(searchItem.itemTimedStamp ?? '');
+    if (timeStampIntValue == null) return Container();
+    final itemType = UniversalSearchViewExtension.initWithType(searchItem.itemTypeId ?? '');
+    var stringDateTime = itemType == UniversalSearchView.rssfeed
+        ? DateTimeUtils.convertToAgo(timeStampIntValue)
+        : DateTimeUtils.formatyMMMMd(timeStampIntValue);
+    return Text(
+      stringDateTime,
+      style: context.body1TextStyle()?.copyWith(color: AppColors.subTitleColor),
+    );
   }
 
   Widget _avatarWidget() {

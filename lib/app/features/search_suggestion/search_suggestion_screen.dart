@@ -8,7 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class SearchSuggestionScreen extends StatefulWidget {
-  const SearchSuggestionScreen({Key? key}) : super(key: key);
+  final String? initialSearchText;
+  const SearchSuggestionScreen({this.initialSearchText, Key? key}) : super(key: key);
 
   @override
   State<SearchSuggestionScreen> createState() => _SearchSuggestionScreenState();
@@ -103,7 +104,7 @@ class _SearchSuggestionScreenState extends State<SearchSuggestionScreen> {
         Navigator.of(context).pop(string);
       },
       textInputAction: TextInputAction.search,
-      controller: _searchTextFieldController,
+      controller: _searchTextFieldController..text = widget.initialSearchText ?? '',
       focusNode: _searchTextFieldFocusNode,
       decoration: const InputDecoration(border: InputBorder.none),
     );
@@ -150,18 +151,40 @@ class _SearchSuggestionScreenState extends State<SearchSuggestionScreen> {
         builder: (_, snapshot) {
           if (snapshot.hasData) {
             final searchHistory = snapshot.data ?? [];
+            if (searchHistory.isEmpty) {
+              return Padding(
+                padding: const EdgeInsets.only(top: 28),
+                child: Text('No recent search', style: context.body1TextStyle()),
+              );
+            }
             return ListView.separated(
               separatorBuilder: (_, __) => Divider(height: 1, color: AppColors.borderOutline),
               itemCount: searchHistory.length,
               itemBuilder: (_, index) {
                 return ListTile(
+                  leading: SvgPicture.asset(
+                    AppAssets.icClock,
+                    fit: BoxFit.fill,
+                    color: Colors.grey,
+                  ),
                   onTap: () {
-                    _bloc.search(searchHistory[index]);
-                    _searchTextFieldController.text = searchHistory[index];
-                    _searchTextFieldController.selection =
-                        TextSelection.fromPosition(TextPosition(offset: _searchTextFieldController.text.length));
+                    final searchText = searchHistory[index];
+                    _bloc.search(searchText);
+                    Navigator.of(context).pop(searchText);
                   },
                   title: Text(searchHistory[index]),
+                  trailing: TextButton(
+                    onPressed: () {
+                      _searchTextFieldController.text = searchHistory[index];
+                      _searchTextFieldController.selection =
+                          TextSelection.fromPosition(TextPosition(offset: _searchTextFieldController.text.length));
+                    },
+                    child: SvgPicture.asset(
+                      AppAssets.icArrowTopLeft,
+                      width: 16,
+                      height: 16,
+                    ),
+                  ),
                 );
               },
             );

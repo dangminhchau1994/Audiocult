@@ -347,7 +347,8 @@ class AppRoute {
       case routeUniversalSearch:
         return _pageRoute(settings, const UniversalSearchScreen());
       case routeSearchSuggestion:
-        return _pageRoute(settings, const SearchSuggestionScreen());
+        final arguments = asType(settings.arguments);
+        return _pageRoute(settings, SearchSuggestionScreen(initialSearchText: arguments as String?));
       default:
         return null;
     }

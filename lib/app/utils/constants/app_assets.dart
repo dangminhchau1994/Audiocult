@@ -127,6 +127,8 @@ class AppAssets {
 
   static const icClear = 'assets/icons/ic_clear.svg';
 
+  static const icClock = 'assets/icons/ic_clock.svg';
+
   static const logoIcon = 'assets/icons/ic_logo.png';
 
   static const authVectorIcon = 'assets/icons/ic_auth_vector.png';
@@ -150,6 +152,8 @@ class AppAssets {
   static const icCompass = 'assets/icons/ic_compass.svg';
 
   static const icMusic = 'assets/icons/ic_music.svg';
+
+  static const icArrowTopLeft = 'assets/icons/ic_arrow_top_left.svg';
 
   static const icUpload = 'assets/icons/ic_upload.png';
   static const icUploadFrame = 'assets/icons/ic_upload_frame.png';

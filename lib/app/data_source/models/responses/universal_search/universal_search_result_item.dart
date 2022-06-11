@@ -14,6 +14,7 @@ class UniversalSearchItem {
   String? itemLink;
   String? itemName;
   String? itemDisplayPhoto;
+  String? itemUrl;
 
   UniversalSearchItem.fromJson(Map<String, dynamic> json) {
     final iw = IW(json);
@@ -28,6 +29,7 @@ class UniversalSearchItem {
     itemLink = iw['item_link'].get();
     itemName = iw['item_name'].get();
     itemDisplayPhoto = iw['item_display_photo'].get();
+    itemUrl = iw['item_url'].get();
   }
 }
 
