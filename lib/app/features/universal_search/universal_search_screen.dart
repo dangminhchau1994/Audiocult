@@ -126,32 +126,6 @@ class _UniversalSearchScreenState extends State<UniversalSearchScreen> {
   }
 
   Widget _searchBar() {
-    return Container(
-      height: 50,
-      padding: const EdgeInsets.only(left: 12, right: 12),
-      color: AppColors.secondaryButtonColor,
-      child: Container(
-        height: 50,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(25),
-          color: AppColors.mainColor,
-        ),
-        padding: const EdgeInsets.only(top: 1),
-        child: Row(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 16),
-              child: SvgPicture.asset(AppAssets.whiteSearchIcon),
-            ),
-            const SizedBox(width: 12),
-            Expanded(child: _searchTextFieldWidget()),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _searchTextFieldWidget() {
     return GestureDetector(
       onTap: () async {
         final result = await Navigator.of(context).pushNamed(
@@ -166,13 +140,39 @@ class _UniversalSearchScreenState extends State<UniversalSearchScreen> {
           });
         }
       },
-      child: Text(
-        _searchText,
-        textAlign: TextAlign.left,
-        style: context.body1TextStyle(),
-        maxLines: 1,
-        overflow: TextOverflow.ellipsis,
+      child: Container(
+        height: 50,
+        padding: const EdgeInsets.only(left: 12, right: 12),
+        color: AppColors.secondaryButtonColor,
+        child: Container(
+          height: 50,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(25),
+            color: AppColors.mainColor,
+          ),
+          padding: const EdgeInsets.only(top: 1),
+          child: Row(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 16),
+                child: SvgPicture.asset(AppAssets.whiteSearchIcon),
+              ),
+              const SizedBox(width: 12),
+              Expanded(child: _searchTextFieldWidget()),
+            ],
+          ),
+        ),
       ),
+    );
+  }
+
+  Widget _searchTextFieldWidget() {
+    return Text(
+      _searchText,
+      textAlign: TextAlign.left,
+      style: context.body1TextStyle(),
+      maxLines: 1,
+      overflow: TextOverflow.ellipsis,
     );
   }
 

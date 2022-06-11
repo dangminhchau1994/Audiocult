@@ -43,7 +43,7 @@ class UniversalSearchResultItemWidget extends StatelessWidget {
                     children: [
                       _subtitleWidget(context),
                       const SizedBox(width: 8),
-                      _timeWidget(context),
+                      Expanded(child: _timeWidget(context)),
                     ],
                   ),
                 ],
@@ -77,12 +77,14 @@ class UniversalSearchResultItemWidget extends StatelessWidget {
     final timeStampIntValue = int.tryParse(searchItem.itemTimedStamp ?? '');
     if (timeStampIntValue == null) return Container();
     final itemType = UniversalSearchViewExtension.initWithType(searchItem.itemTypeId ?? '');
-    var stringDateTime = itemType == UniversalSearchView.rssfeed
+    final stringDateTime = itemType == UniversalSearchView.rssfeed
         ? DateTimeUtils.convertToAgo(timeStampIntValue)
         : DateTimeUtils.formatyMMMMd(timeStampIntValue);
     return Text(
       stringDateTime,
       style: context.body1TextStyle()?.copyWith(color: AppColors.subTitleColor),
+      maxLines: 1,
+      overflow: TextOverflow.ellipsis,
     );
   }
 
