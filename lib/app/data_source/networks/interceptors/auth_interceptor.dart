@@ -42,17 +42,21 @@ class AuthInterceptor extends QueuedInterceptorsWrapper {
   // ignore: avoid_void_async
   void onError(DioError err, ErrorInterceptorHandler handler) async {
     if (err.response != null && err.response?.statusCode == 401) {
-      AppDialog.showYesNoDialog(navigatorKey.currentContext!, message: 'Token expired', onNoPressed: () async {
-        await _prefProvider.clearAuthentication();
-        await _prefProvider.clearUserId();
-        locator.get<AppRepository>().clearProfile();
-        exit(0);
-      }, onYesPressed: () async {
-        await _prefProvider.clearAuthentication();
-        await _prefProvider.clearUserId();
-        locator.get<AppRepository>().clearProfile();
-        await Navigator.pushNamedAndRemoveUntil(navigatorKey.currentContext!, AppRoute.routeLogin, (route) => false);
-      });
+      if (err.requestOptions.path.contains('/restful_api/token')) {
+        handler.next(err);
+      } else {
+        AppDialog.showYesNoDialog(navigatorKey.currentContext!, message: 'Token expired', onNoPressed: () async {
+          await _prefProvider.clearAuthentication();
+          await _prefProvider.clearUserId();
+          locator.get<AppRepository>().clearProfile();
+          exit(0);
+        }, onYesPressed: () async {
+          await _prefProvider.clearAuthentication();
+          await _prefProvider.clearUserId();
+          locator.get<AppRepository>().clearProfile();
+          await Navigator.pushNamedAndRemoveUntil(navigatorKey.currentContext!, AppRoute.routeLogin, (route) => false);
+        });
+      }
     } else {
       handler.next(err);
     }
