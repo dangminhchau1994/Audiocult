@@ -55,6 +55,7 @@ class MainBloc extends BaseBloc {
         await _prefProvider.clearAuthentication();
         await _prefProvider.clearUserId();
         _appRepository.clearProfile();
+        profileData = null;
         _logoutSubject.add(true);
       },
       showError,
