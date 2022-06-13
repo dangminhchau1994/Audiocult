@@ -3,6 +3,7 @@ import 'package:audio_cult/app/data_source/models/responses/song/song_response.d
 import 'package:audio_cult/app/data_source/models/responses/universal_search/universal_search_result_item.dart';
 import 'package:audio_cult/app/data_source/models/responses/video_data.dart';
 import 'package:audio_cult/app/features/player_widgets/player_screen.dart';
+import 'package:audio_cult/app/features/profile/profile_screen.dart';
 import 'package:audio_cult/app/features/universal_search/universal_seach_bloc.dart';
 import 'package:audio_cult/app/features/universal_search/universal_search_result_item_widget.dart';
 import 'package:audio_cult/app/features/universal_search/universal_search_results_page.dart';
@@ -14,9 +15,11 @@ import 'package:audio_cult/app/utils/toast/toast_utils.dart';
 import 'package:audio_cult/di/bloc_locator.dart';
 import 'package:audio_cult/l10n/l10n.dart';
 import 'package:audio_cult/w_components/appbar/common_appbar.dart';
+import 'package:audio_cult/w_components/loading/loading_widget.dart';
 import 'package:audio_cult/w_components/tabbars/common_tabbar.dart';
 import 'package:audio_cult/w_components/tabbars/common_tabbar_item.dart';
 import 'package:audio_cult/w_components/w_keyboard_dismiss.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_tab_bar/indicator/custom_indicator.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -34,7 +37,7 @@ class _UniversalSearchScreenState extends State<UniversalSearchScreen> {
   final _pageController = PageController();
   var _currentIndex = UniversalSearchView.all.index;
   var _listPages = <UniversalSearchResultsPage>[];
-  var _searchText = 'Search ...';
+  var _searchText = '';
   final _universalSearchAllKey = GlobalKey<UniversalSearchResultsPageState>();
   final _universalSearchVideosKey = GlobalKey<UniversalSearchResultsPageState>();
   final _universalSearchPhotosKey = GlobalKey<UniversalSearchResultsPageState>();
@@ -123,41 +126,12 @@ class _UniversalSearchScreenState extends State<UniversalSearchScreen> {
   }
 
   Widget _searchBar() {
-    return Container(
-      height: 50,
-      padding: const EdgeInsets.only(left: 12, right: 12),
-      color: AppColors.secondaryButtonColor,
-      child: Stack(
-        children: [
-          Container(
-            height: 50,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(25),
-              color: AppColors.mainColor,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 1),
-            child: Row(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 16),
-                  child: SvgPicture.asset(AppAssets.whiteSearchIcon),
-                ),
-                const SizedBox(width: 12),
-                _searchTextFieldWidget(),
-              ],
-            ),
-          )
-        ],
-      ),
-    );
-  }
-
-  Widget _searchTextFieldWidget() {
-    return TextButton(
-      onPressed: () async {
-        final result = await Navigator.of(context).pushNamed(AppRoute.routeSearchSuggestion);
+    return GestureDetector(
+      onTap: () async {
+        final result = await Navigator.of(context).pushNamed(
+          AppRoute.routeSearchSuggestion,
+          arguments: _searchText,
+        );
         if (result != null) {
           setState(() {
             _searchText = result as String;
@@ -166,27 +140,39 @@ class _UniversalSearchScreenState extends State<UniversalSearchScreen> {
           });
         }
       },
-      child: Text(
-        _searchText,
-        textAlign: TextAlign.left,
-        style: context.body1TextStyle(),
-        maxLines: 1,
-        overflow: TextOverflow.ellipsis,
+      child: Container(
+        height: 50,
+        padding: const EdgeInsets.only(left: 12, right: 12),
+        color: AppColors.secondaryButtonColor,
+        child: Container(
+          height: 50,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(25),
+            color: AppColors.mainColor,
+          ),
+          padding: const EdgeInsets.only(top: 1),
+          child: Row(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 16),
+                child: SvgPicture.asset(AppAssets.whiteSearchIcon),
+              ),
+              const SizedBox(width: 12),
+              Expanded(child: _searchTextFieldWidget()),
+            ],
+          ),
+        ),
       ),
     );
   }
 
-  Widget _cancelSearchButton() {
-    return Container(
-      color: AppColors.secondaryButtonColor,
-      child: TextButton(
-        onPressed: Navigator.of(context).pop,
-        child: SvgPicture.asset(
-          AppAssets.icClear,
-          width: 20,
-          height: 20,
-        ),
-      ),
+  Widget _searchTextFieldWidget() {
+    return Text(
+      _searchText,
+      textAlign: TextAlign.left,
+      style: context.body1TextStyle(),
+      maxLines: 1,
+      overflow: TextOverflow.ellipsis,
     );
   }
 
@@ -358,11 +344,9 @@ class _UniversalSearchScreenState extends State<UniversalSearchScreen> {
     final itemType = UniversalSearchViewExtension.initWithType(searchItem.itemTypeId ?? '');
     switch (itemType) {
       case UniversalSearchView.video:
-        Navigator.pushNamed(context, AppRoute.routeVideoPlayer, arguments: {
-          'data': Video()
-            ..destination =
-                'https://staging-media.audiocult.net/file/video/2022/06/0376aeff25a26114406fd0c60dac7eeb.mp4'
-        });
+        if (searchItem.itemUrl?.isNotEmpty != true) return;
+
+        _showVideoPlayer(searchItem.itemUrl!);
         break;
       case UniversalSearchView.event:
         final arguments = {'event_id': int.parse(searchItem.itemId ?? '0')};
@@ -372,14 +356,73 @@ class _UniversalSearchScreenState extends State<UniversalSearchScreen> {
         _bloc.getSongDetails(searchItem.itemId ?? '');
         break;
       case UniversalSearchView.photo:
+        // ignore: invariant_booleans
+        if (searchItem.itemUrl?.isNotEmpty != true) return;
+        _showImageScreen(searchItem.itemUrl!);
         break;
       case UniversalSearchView.rssfeed:
         break;
       case UniversalSearchView.page:
+        Navigator.pushNamed(
+          context,
+          AppRoute.routeProfile,
+          arguments: ProfileScreen.createArguments(id: searchItem.itemId ?? ''),
+        );
         break;
       case UniversalSearchView.all:
-        // TODO: Handle this case.
         break;
     }
+  }
+
+  void _showImageScreen(String imageUrl) {
+    showModalBottomSheet<void>(
+      isDismissible: true,
+      isScrollControlled: true,
+      context: context,
+      builder: (BuildContext context) {
+        return CachedNetworkImage(
+          errorWidget: (_, error, __) => const Icon(Icons.error),
+          imageUrl: imageUrl,
+          placeholder: (context, url) => LoadingWidget(
+            backgroundColor: AppColors.mainColor,
+          ),
+          imageBuilder: (_, imageProvider) {
+            return Container(
+              padding: const EdgeInsets.only(top: 50, right: 12),
+              decoration: BoxDecoration(
+                image: DecorationImage(image: imageProvider),
+                color: AppColors.mainColor,
+              ),
+              child: Align(
+                alignment: Alignment.topRight,
+                child: TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: SvgPicture.asset(
+                    AppAssets.icClear,
+                    width: 20,
+                    height: 20,
+                  ),
+                ),
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
+  void _showVideoPlayer(String url) {
+    final isVideoFromYoutube = url.toLowerCase().contains('youtube');
+    final video = Video();
+    if (isVideoFromYoutube) {
+      video.videoUrl = url;
+    } else {
+      video.destination = url;
+    }
+    Navigator.pushNamed(
+      context,
+      AppRoute.routeVideoPlayer,
+      arguments: {'data': video},
+    );
   }
 }

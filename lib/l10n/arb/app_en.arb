@@ -68,7 +68,7 @@
     "t_information":"Info Notification",
     "t_featured_album": "Featured Albums",
     "t_logout":"Log Out",
-    "t_search": "Search...",
+    "t_search": "Search",
     "t_no_data": "No data found",
     "t_create_post":"Create Post",
     "t_question_logout":"Are you sure you want to log out? Confirm and logout",
@@ -250,5 +250,7 @@
     "t_rssfeed": "RssFeeds",
     "t_pages": "Pages",
     "t_songs": "Songs",
-    "t_input_your_keyword": "Please provide search input"
+    "t_input_your_keyword": "Please provide search input",
+    "t_close": "Close",
+    "t_went_wrong": "Something went wrong"
 }

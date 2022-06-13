@@ -67,7 +67,7 @@
     "t_sub_create":"Some tips for creating a password, contains\na capital letter, a number, etc.",
     "t_new_password":"New password",
     "t_featured_album": "Featured Albums",
-    "t_search": "Search...",
+    "t_search": "Search",
     "t_leave_comment": "Leave your comment",
     "t_read_more":"Read more",
     "t_read_less":"Read less",
@@ -126,5 +126,7 @@
     "t_rssfeed": "RssFeeds",
     "t_pages": "Pages",
     "t_songs": "Songs",
-    "t_input_your_keyword": "Please provide search input"
+    "t_input_your_keyword": "Please provide search input",
+    "t_close": "Close",
+    "t_went_wrong": "Something went wrong"
 }
