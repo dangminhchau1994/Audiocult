@@ -2,6 +2,7 @@ import 'package:audio_cult/app/base/bloc_state.dart';
 import 'package:audio_cult/app/data_source/models/responses/album/album_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/song/song_response.dart';
 import 'package:audio_cult/app/features/music/featured_albums/featured_album_bloc.dart';
+import 'package:audio_cult/app/features/profile/profile_screen.dart';
 import 'package:audio_cult/app/injections.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/l10n/l10n.dart';
@@ -14,6 +15,7 @@ import '../../../../../w_components/loading/loading_widget.dart';
 import '../../../../data_source/repositories/app_repository.dart';
 import '../../../../utils/constants/app_colors.dart';
 import '../../../../utils/datetime/date_time_utils.dart';
+import '../../../../utils/route/app_route.dart';
 import '../../discover/widgets/song_item.dart';
 
 class FeaturedAlbumItem extends StatefulWidget {
@@ -60,14 +62,26 @@ class _FeaturedAlbumItemState extends State<FeaturedAlbumItem> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width / 2,
-                    child: Text(
-                      widget.album?.name ?? '',
-                      overflow: TextOverflow.ellipsis,
-                      style: context.bodyTextPrimaryStyle()!.copyWith(
-                            fontSize: 16,
-                          ),
+                  WButtonInkwell(
+                    onPressed: () {
+                      Navigator.pushNamed(
+                        context,
+                        AppRoute.routeDetailAlbum,
+                        arguments: {
+                          'album_id': widget.album?.albumId,
+                        },
+                      );
+                    },
+                    child: Container(
+                      width: 250,
+                      padding: const EdgeInsets.all(8),
+                      child: Text(
+                        widget.album?.name ?? '',
+                        overflow: TextOverflow.ellipsis,
+                        style: context.bodyTextPrimaryStyle()!.copyWith(
+                              fontSize: 16,
+                            ),
+                      ),
                     ),
                   ),
                   const SizedBox(
@@ -75,12 +89,24 @@ class _FeaturedAlbumItemState extends State<FeaturedAlbumItem> {
                   ),
                   Row(
                     children: [
-                      Text(
-                        widget.album?.fullName ?? '',
-                        style: context.bodyTextPrimaryStyle()!.copyWith(
-                              color: AppColors.subTitleColor,
-                              fontSize: 16,
-                            ),
+                      WButtonInkwell(
+                        onPressed: () {
+                          Navigator.pushNamed(
+                            context,
+                            AppRoute.routeProfile,
+                            arguments: ProfileScreen.createArguments(id: widget.album?.userId ?? ''),
+                          );
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(8),
+                          child: Text(
+                            widget.album?.userName ?? '',
+                            style: context.bodyTextPrimaryStyle()!.copyWith(
+                                  color: AppColors.subTitleColor,
+                                  fontSize: 16,
+                                ),
+                          ),
+                        ),
                       ),
                       const SizedBox(
                         width: 10,
@@ -106,12 +132,15 @@ class _FeaturedAlbumItemState extends State<FeaturedAlbumItem> {
               ),
               WButtonInkwell(
                 onPressed: widget.onShowAll,
-                child: Text(
-                  'See all songs',
-                  style: context.bodyTextPrimaryStyle()!.copyWith(
-                        fontSize: 16,
-                        color: AppColors.lightBlue,
-                      ),
+                child: Padding(
+                  padding: const EdgeInsets.all(8),
+                  child: Text(
+                    'See all songs',
+                    style: context.bodyTextPrimaryStyle()!.copyWith(
+                          fontSize: 16,
+                          color: AppColors.lightBlue,
+                        ),
+                  ),
                 ),
               ),
             ],

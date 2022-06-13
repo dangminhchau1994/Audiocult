@@ -39,7 +39,7 @@ Map<String, dynamic> _$$_LastIconToJson(_$_LastIcon instance) =>
 
 _$_Album _$$_AlbumFromJson(Map<String, dynamic> json) => _$_Album(
       isLiked: json['isLiked'] as bool?,
-      userId: json['userId'] as String?,
+      userId: json['user_id'] as String?,
       userName: json['user_name'] as String?,
       lastIcon: json['last_icon'] == null
           ? null
@@ -102,7 +102,7 @@ _$_Album _$$_AlbumFromJson(Map<String, dynamic> json) => _$_Album(
 
 Map<String, dynamic> _$$_AlbumToJson(_$_Album instance) => <String, dynamic>{
       'isLiked': instance.isLiked,
-      'userId': instance.userId,
+      'user_id': instance.userId,
       'user_name': instance.userName,
       'last_icon': instance.lastIcon,
       'full_name': instance.fullName,

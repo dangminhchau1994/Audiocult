@@ -409,7 +409,9 @@ Album _$AlbumFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Album {
-  bool? get isLiked => throw _privateConstructorUsedError;
+  bool? get isLiked =>
+      throw _privateConstructorUsedError; // ignore: invalid_annotation_target
+  @JsonKey(name: 'user_id')
   String? get userId =>
       throw _privateConstructorUsedError; // ignore: invalid_annotation_target
   @JsonKey(name: 'user_name')
@@ -502,7 +504,7 @@ abstract class $AlbumCopyWith<$Res> {
       _$AlbumCopyWithImpl<$Res>;
   $Res call(
       {bool? isLiked,
-      String? userId,
+      @JsonKey(name: 'user_id') String? userId,
       @JsonKey(name: 'user_name') String? userName,
       @JsonKey(name: 'last_icon') LastIcon? lastIcon,
       @JsonKey(name: 'full_name') String? fullName,
@@ -851,7 +853,7 @@ abstract class _$$_AlbumCopyWith<$Res> implements $AlbumCopyWith<$Res> {
   @override
   $Res call(
       {bool? isLiked,
-      String? userId,
+      @JsonKey(name: 'user_id') String? userId,
       @JsonKey(name: 'user_name') String? userName,
       @JsonKey(name: 'last_icon') LastIcon? lastIcon,
       @JsonKey(name: 'full_name') String? fullName,
@@ -1189,7 +1191,7 @@ class __$$_AlbumCopyWithImpl<$Res> extends _$AlbumCopyWithImpl<$Res>
 class _$_Album implements _Album {
   _$_Album(
       {this.isLiked,
-      this.userId,
+      @JsonKey(name: 'user_id') this.userId,
       @JsonKey(name: 'user_name') this.userName,
       @JsonKey(name: 'last_icon') this.lastIcon,
       @JsonKey(name: 'full_name') this.fullName,
@@ -1246,7 +1248,9 @@ class _$_Album implements _Album {
 
   @override
   final bool? isLiked;
+// ignore: invalid_annotation_target
   @override
+  @JsonKey(name: 'user_id')
   final String? userId;
 // ignore: invalid_annotation_target
   @override
@@ -1536,7 +1540,7 @@ class _$_Album implements _Album {
 abstract class _Album implements Album {
   factory _Album(
       {final bool? isLiked,
-      final String? userId,
+      @JsonKey(name: 'user_id') final String? userId,
       @JsonKey(name: 'user_name') final String? userName,
       @JsonKey(name: 'last_icon') final LastIcon? lastIcon,
       @JsonKey(name: 'full_name') final String? fullName,
@@ -1592,7 +1596,8 @@ abstract class _Album implements Album {
 
   @override
   bool? get isLiked => throw _privateConstructorUsedError;
-  @override
+  @override // ignore: invalid_annotation_target
+  @JsonKey(name: 'user_id')
   String? get userId => throw _privateConstructorUsedError;
   @override // ignore: invalid_annotation_target
   @JsonKey(name: 'user_name')

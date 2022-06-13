@@ -183,6 +183,15 @@ class _FeaturedAlbumScreenState extends State<FeaturedAlbumScreen> {
                     itemBuilder: (context, item, index) {
                       return FeaturedAlbumItem(
                         album: item,
+                        onShowAll: () {
+                          Navigator.pushNamed(
+                            context,
+                            AppRoute.routeDetailAlbum,
+                            arguments: {
+                              'album_id': item.albumId,
+                            },
+                          );
+                        },
                       );
                     },
                   ),

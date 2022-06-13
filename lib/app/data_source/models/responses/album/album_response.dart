@@ -35,7 +35,8 @@ class LastIcon with _$LastIcon {
 class Album with _$Album {
   factory Album({
     bool? isLiked,
-    String? userId,
+    // ignore: invalid_annotation_target
+    @JsonKey(name: 'user_id') String? userId,
     // ignore: invalid_annotation_target
     @JsonKey(name: 'user_name') String? userName,
     // ignore: invalid_annotation_target
