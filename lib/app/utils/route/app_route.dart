@@ -194,6 +194,8 @@ class AppRoute {
           settings,
           DetailAlbumScreen(
             albumId: arguments['album_id'] as String,
+            // ignore: avoid_bool_literals_in_conditional_expressions
+            fromNotificatiton: arguments['from_notification'] == null ? false : true,
           ),
         );
       case routeEventMap:

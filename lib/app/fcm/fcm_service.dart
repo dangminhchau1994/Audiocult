@@ -65,6 +65,16 @@ class FCMService {
           },
         );
         break;
+      case GlobalConstants.commentAlbum:
+        Navigator.pushNamed(
+          context!,
+          AppRoute.routeDetailAlbum,
+          arguments: {
+            'album_id': itemId,
+            'from_notification': true,
+          },
+        );
+        break;
       case GlobalConstants.commentEvent:
         Navigator.pushNamed(
           context!,

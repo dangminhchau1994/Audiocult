@@ -13,6 +13,7 @@ class GlobalConstants {
   static const String visitorNew = 'visitor_new';
   static const String commentMusic = 'comment_music_song';
   static const String commentEvent = 'comment_event';
+  static const String commentAlbum = 'comment_music_album';
 
   static const int loadMoreItem = 10;
 

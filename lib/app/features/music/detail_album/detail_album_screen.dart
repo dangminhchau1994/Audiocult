@@ -17,12 +17,10 @@ import '../../../injections.dart';
 import '../../../utils/constants/app_colors.dart';
 
 class DetailAlbumScreen extends StatefulWidget {
-  const DetailAlbumScreen({
-    Key? key,
-    this.albumId,
-  }) : super(key: key);
+  const DetailAlbumScreen({Key? key, this.albumId, this.fromNotificatiton}) : super(key: key);
 
   final String? albumId;
+  final bool? fromNotificatiton;
 
   @override
   State<DetailAlbumScreen> createState() => _DetailAlbumScreenState();
@@ -30,6 +28,8 @@ class DetailAlbumScreen extends StatefulWidget {
 
 class _DetailAlbumScreenState extends State<DetailAlbumScreen> {
   DetailAlbumBloc albumBloc = DetailAlbumBloc(locator.get());
+  late final ScrollController _scrollController =
+      ScrollController(initialScrollOffset: widget.fromNotificatiton ?? false ? 2200 : 0);
 
   @override
   void initState() {
@@ -62,6 +62,7 @@ class _DetailAlbumScreenState extends State<DetailAlbumScreen> {
                   final detail = data as Album;
 
                   return CustomScrollView(
+                    controller: _scrollController,
                     slivers: [
                       SliverToBoxAdapter(
                         child: Stack(

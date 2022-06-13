@@ -24,6 +24,7 @@ import '../../../../w_components/error_empty/error_section.dart';
 import '../../../../w_components/loading/loading_widget.dart';
 import '../../../utils/constants/app_assets.dart';
 import '../../../utils/file/file_utils.dart';
+import '../../../utils/toast/toast_utils.dart';
 
 class EventDetail extends StatefulWidget {
   const EventDetail({
@@ -105,7 +106,12 @@ class _EventDetailState extends State<EventDetail> {
                         child: CommonButton(
                           color: AppColors.primaryButtonColor,
                           text: context.l10n.t_buy,
-                          onTap: () {},
+                          onTap: () {
+                            ToastUtility.showPending(
+                              context: context,
+                              message: context.l10n.t_feature_development,
+                            );
+                          },
                         ),
                       ),
                     ),

@@ -1,5 +1,3 @@
-import 'package:audio_cult/app/data_source/local/pref_provider.dart';
-import 'package:audio_cult/app/injections.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/app/utils/route/app_route.dart';
 import 'package:audio_cult/w_components/buttons/w_button_inkwell.dart';
@@ -8,9 +6,7 @@ import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 
-import '../../../../di/bloc_locator.dart';
 import '../../../data_source/models/responses/notifications/notification_response.dart';
-import '../../../fcm/fcm_bloc.dart';
 import '../../../utils/constants/app_colors.dart';
 import '../../profile/profile_screen.dart';
 
@@ -55,6 +51,16 @@ class NotificationItem extends StatelessWidget {
           AppRoute.routeDetailSong,
           arguments: {
             'song_id': notification?.itemId ?? '',
+            'from_notification': true,
+          },
+        );
+        break;
+      case NotificationType.commentAlbum:
+        Navigator.pushNamed(
+          context,
+          AppRoute.routeDetailAlbum,
+          arguments: {
+            'album_id': notification?.itemId ?? '',
             'from_notification': true,
           },
         );

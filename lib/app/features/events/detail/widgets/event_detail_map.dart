@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:audio_cult/app/data_source/models/responses/events/event_response.dart';
 import 'package:audio_cult/app/utils/constants/app_dimens.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
+import 'package:audio_cult/l10n/l10n.dart';
 import 'package:audio_cult/w_components/buttons/w_button_inkwell.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
@@ -17,6 +18,7 @@ import '../../../../utils/constants/app_assets.dart';
 import '../../../../utils/constants/app_colors.dart';
 import '../../../../utils/file/file_utils.dart';
 import '../../../../utils/route/app_route.dart';
+import '../../../../utils/toast/toast_utils.dart';
 
 class EventDetailMap extends StatefulWidget {
   final Uint8List? iconMarker;
@@ -144,14 +146,22 @@ class _EventDetailMapState extends State<EventDetailMap> {
                 const SizedBox(
                   width: 10,
                 ),
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color: AppColors.secondaryButtonColor,
-                  ),
-                  padding: const EdgeInsets.all(12),
-                  child: Center(
-                    child: SvgPicture.asset(AppAssets.shareIcon),
+                WButtonInkwell(
+                  onPressed: () {
+                    ToastUtility.showPending(
+                      context: context,
+                      message: context.l10n.t_feature_development,
+                    );
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: AppColors.secondaryButtonColor,
+                    ),
+                    padding: const EdgeInsets.all(12),
+                    child: Center(
+                      child: SvgPicture.asset(AppAssets.shareIcon),
+                    ),
                   ),
                 )
               ],

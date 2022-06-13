@@ -20,7 +20,9 @@ PlaylistResponse _$PlaylistResponseFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$PlaylistResponse {
-  String? get isLiked => throw _privateConstructorUsedError;
+  String? get isLiked =>
+      throw _privateConstructorUsedError; // ignore: invalid_annotation_target
+  @JsonKey(name: 'user_id')
   String? get userId => throw _privateConstructorUsedError;
   String? get profilePageId => throw _privateConstructorUsedError;
   String? get userServerId =>
@@ -84,7 +86,7 @@ abstract class $PlaylistResponseCopyWith<$Res> {
       _$PlaylistResponseCopyWithImpl<$Res>;
   $Res call(
       {String? isLiked,
-      String? userId,
+      @JsonKey(name: 'user_id') String? userId,
       String? profilePageId,
       String? userServerId,
       @JsonKey(name: 'user_name') String? userName,
@@ -292,7 +294,7 @@ abstract class _$$_PlaylistResponseCopyWith<$Res>
   @override
   $Res call(
       {String? isLiked,
-      String? userId,
+      @JsonKey(name: 'user_id') String? userId,
       String? profilePageId,
       String? userServerId,
       @JsonKey(name: 'user_name') String? userName,
@@ -488,7 +490,7 @@ class __$$_PlaylistResponseCopyWithImpl<$Res>
 class _$_PlaylistResponse implements _PlaylistResponse {
   _$_PlaylistResponse(
       {this.isLiked,
-      this.userId,
+      @JsonKey(name: 'user_id') this.userId,
       this.profilePageId,
       this.userServerId,
       @JsonKey(name: 'user_name') this.userName,
@@ -522,7 +524,9 @@ class _$_PlaylistResponse implements _PlaylistResponse {
 
   @override
   final String? isLiked;
+// ignore: invalid_annotation_target
   @override
+  @JsonKey(name: 'user_id')
   final String? userId;
   @override
   final String? profilePageId;
@@ -707,7 +711,7 @@ class _$_PlaylistResponse implements _PlaylistResponse {
 abstract class _PlaylistResponse implements PlaylistResponse {
   factory _PlaylistResponse(
           {final String? isLiked,
-          final String? userId,
+          @JsonKey(name: 'user_id') final String? userId,
           final String? profilePageId,
           final String? userServerId,
           @JsonKey(name: 'user_name') final String? userName,
@@ -741,7 +745,8 @@ abstract class _PlaylistResponse implements PlaylistResponse {
 
   @override
   String? get isLiked => throw _privateConstructorUsedError;
-  @override
+  @override // ignore: invalid_annotation_target
+  @JsonKey(name: 'user_id')
   String? get userId => throw _privateConstructorUsedError;
   @override
   String? get profilePageId => throw _privateConstructorUsedError;

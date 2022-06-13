@@ -6,6 +6,7 @@ enum NotificationType {
   visitorNew,
   commentStatus,
   commentPhoto,
+  commentAlbum,
   commentEvent,
   video,
   commentSong,
@@ -71,6 +72,8 @@ class Notification {
         return NotificationType.commentSong;
       case 'comment_event':
         return NotificationType.commentEvent;
+      case 'comment_music_album':
+        return NotificationType.commentAlbum;
       default:
         return NotificationType.none;
     }

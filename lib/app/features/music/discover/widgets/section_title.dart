@@ -30,12 +30,15 @@ class SectionTitle extends StatelessWidget {
         else
           WButtonInkwell(
             onPressed: onShowAll,
-            child: Text(
-              'Show All',
-              style: context.bodyTextPrimaryStyle()!.copyWith(
-                    fontSize: 16,
-                    color: AppColors.lightBlue,
-                  ),
+            child: Padding(
+              padding: const EdgeInsets.all(8),
+              child: Text(
+                'Show All',
+                style: context.bodyTextPrimaryStyle()!.copyWith(
+                      fontSize: 16,
+                      color: AppColors.lightBlue,
+                    ),
+              ),
             ),
           ),
       ],

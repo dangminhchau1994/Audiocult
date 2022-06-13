@@ -1,6 +1,7 @@
 import 'package:audio_cult/app/data_source/models/responses/playlist/playlist_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/song/song_response.dart';
 import 'package:audio_cult/app/features/music/top_playlist/top_playlist_bloc.dart';
+import 'package:audio_cult/app/features/profile/profile_screen.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/l10n/l10n.dart';
 import 'package:audio_cult/w_components/images/common_image_network.dart';
@@ -13,6 +14,7 @@ import '../../../../base/bloc_state.dart';
 import '../../../../data_source/repositories/app_repository.dart';
 import '../../../../injections.dart';
 import '../../../../utils/constants/app_colors.dart';
+import '../../../../utils/route/app_route.dart';
 import '../../discover/widgets/song_item.dart';
 
 class TopPlaylistItem extends StatefulWidget {
@@ -59,27 +61,48 @@ class _TopPlaylistItemState extends State<TopPlaylistItem> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width / 2,
-                    child: Text(
-                      widget.playlist?.title ?? '',
-                      overflow: TextOverflow.ellipsis,
-                      style: context.bodyTextPrimaryStyle()!.copyWith(
-                            fontSize: 16,
-                          ),
+                  WButtonInkwell(
+                    onPressed: () {
+                      Navigator.pushNamed(
+                        context,
+                        AppRoute.routeDetailPlayList,
+                        arguments: {
+                          'playlist_id': widget.playlist?.playlistId,
+                        },
+                      );
+                    },
+                    child: Container(
+                      width: 250,
+                      padding: const EdgeInsets.all(8),
+                      child: Text(
+                        widget.playlist?.title ?? '',
+                        overflow: TextOverflow.ellipsis,
+                        style: context.bodyTextPrimaryStyle()!.copyWith(
+                              fontSize: 16,
+                            ),
+                      ),
                     ),
-                  ),
-                  const SizedBox(
-                    height: 8,
                   ),
                   Row(
                     children: [
-                      Text(
-                        widget.playlist?.userName ?? '',
-                        style: context.bodyTextPrimaryStyle()!.copyWith(
-                              color: AppColors.subTitleColor,
-                              fontSize: 16,
-                            ),
+                      WButtonInkwell(
+                        onPressed: () {
+                          Navigator.pushNamed(
+                            context,
+                            AppRoute.routeProfile,
+                            arguments: ProfileScreen.createArguments(id: widget.playlist?.userId ?? ''),
+                          );
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(8),
+                          child: Text(
+                            widget.playlist?.userName ?? '',
+                            style: context.bodyTextPrimaryStyle()!.copyWith(
+                                  color: AppColors.subTitleColor,
+                                  fontSize: 16,
+                                ),
+                          ),
+                        ),
                       ),
                       const SizedBox(
                         width: 10,
@@ -90,14 +113,17 @@ class _TopPlaylistItemState extends State<TopPlaylistItem> {
                         size: 5,
                       ),
                       const SizedBox(
-                        width: 10,
+                        width: 4,
                       ),
-                      Text(
-                        widget.playlist!.countSongs.toString(),
-                        style: context.bodyTextPrimaryStyle()!.copyWith(
-                              color: AppColors.subTitleColor,
-                              fontSize: 16,
-                            ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 10, top: 2),
+                        child: Text(
+                          widget.playlist!.countSongs.toString(),
+                          style: context.bodyTextPrimaryStyle()!.copyWith(
+                                color: AppColors.subTitleColor,
+                                fontSize: 16,
+                              ),
+                        ),
                       ),
                     ],
                   )
@@ -105,12 +131,15 @@ class _TopPlaylistItemState extends State<TopPlaylistItem> {
               ),
               WButtonInkwell(
                 onPressed: widget.onShowAll,
-                child: Text(
-                  'See all songs',
-                  style: context.bodyTextPrimaryStyle()!.copyWith(
-                        fontSize: 16,
-                        color: AppColors.lightBlue,
-                      ),
+                child: Padding(
+                  padding: const EdgeInsets.all(8),
+                  child: Text(
+                    'See all songs',
+                    style: context.bodyTextPrimaryStyle()!.copyWith(
+                          fontSize: 16,
+                          color: AppColors.lightBlue,
+                        ),
+                  ),
                 ),
               ),
             ],

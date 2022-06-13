@@ -53,7 +53,7 @@ class _PreViewImageState extends State<PreViewImage> {
           content: Text(context.l10n.t_need_photos),
           actions: <Widget>[
             CupertinoDialogAction(
-              child: Text(context.l10n.t_settings),
+              child: Text(context.l10n.t_cancel),
               onPressed: () => Navigator.of(context).pop(),
             ),
             CupertinoDialogAction(

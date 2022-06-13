@@ -6,7 +6,8 @@ part 'playlist_response.g.dart';
 class PlaylistResponse with _$PlaylistResponse {
   factory PlaylistResponse({
     String? isLiked,
-    String? userId,
+    // ignore: invalid_annotation_target
+    @JsonKey(name: 'user_id') String? userId,
     String? profilePageId,
     String? userServerId,
     // ignore: invalid_annotation_target

@@ -184,6 +184,15 @@ class _TopPlaylistScreenState extends State<TopPlaylistScreen> {
                     itemBuilder: (context, item, index) {
                       return TopPlaylistItem(
                         playlist: item,
+                        onShowAll: () {
+                          Navigator.pushNamed(
+                            context,
+                            AppRoute.routeDetailPlayList,
+                            arguments: {
+                              'playlist_id': item.playlistId,
+                            },
+                          );
+                        },
                       );
                     },
                   ),

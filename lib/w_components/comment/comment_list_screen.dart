@@ -98,6 +98,8 @@ class _CommentListScreenState extends State<CommentListScreen> {
       feedId: getType() == 'feed' ? widget.commentArgs.itemId : 0,
     );
 
+    
+
     //clear text and reload data
     _text.value = '';
     _emojiShowing.value = false;

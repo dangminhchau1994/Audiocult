@@ -9,7 +9,7 @@ part of 'playlist_response.dart';
 _$_PlaylistResponse _$$_PlaylistResponseFromJson(Map<String, dynamic> json) =>
     _$_PlaylistResponse(
       isLiked: json['isLiked'] as String?,
-      userId: json['userId'] as String?,
+      userId: json['user_id'] as String?,
       profilePageId: json['profilePageId'] as String?,
       userServerId: json['userServerId'] as String?,
       userName: json['user_name'] as String?,
@@ -45,7 +45,7 @@ _$_PlaylistResponse _$$_PlaylistResponseFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$$_PlaylistResponseToJson(_$_PlaylistResponse instance) =>
     <String, dynamic>{
       'isLiked': instance.isLiked,
-      'userId': instance.userId,
+      'user_id': instance.userId,
       'profilePageId': instance.profilePageId,
       'userServerId': instance.userServerId,
       'user_name': instance.userName,
