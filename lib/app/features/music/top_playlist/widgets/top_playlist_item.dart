@@ -184,6 +184,7 @@ class _TopPlaylistItemState extends State<TopPlaylistItem> {
                           itemBuilder: (context, index) {
                             return SongItem(
                               song: songs[index],
+                              songs: songs,
                               index: index,
                             );
                           },
