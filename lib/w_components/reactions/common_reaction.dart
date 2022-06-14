@@ -138,7 +138,7 @@ class _CommonReactionsState extends State<CommonReactions> {
           Padding(
             padding: const EdgeInsets.only(top: 8),
             child: Text(
-              widget.totalLike ?? '',
+              widget.totalLike ?? '0',
               style: context.bodyTextPrimaryStyle()!.copyWith(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,

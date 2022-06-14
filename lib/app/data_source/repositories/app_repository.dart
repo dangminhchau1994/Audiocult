@@ -27,6 +27,7 @@ import 'package:audio_cult/app/data_source/models/responses/language_response.da
 import 'package:audio_cult/app/data_source/models/responses/notifications/notification_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/page_template_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/place.dart';
+import 'package:audio_cult/app/data_source/models/responses/playlist/delete_playlist_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/playlist/playlist_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/privacy_settings/privacy_settings_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/profile_data.dart';
@@ -213,6 +214,12 @@ class AppRepository extends BaseRepository {
   Future<Either<List<BackgroundResponse>, Exception>> getBackgrounds() {
     return safeCall(
       appServiceProvider.getBackgrounds,
+    );
+  }
+
+  Future<Either<DeletePlayListResponse, Exception>> deletePlayList(int id) {
+    return safeCall(
+      () => appServiceProvider.deletePlayList(id),
     );
   }
 

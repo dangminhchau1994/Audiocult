@@ -51,6 +51,7 @@ import '../models/responses/atlas_user.dart';
 import '../models/responses/background/background_response.dart';
 import '../models/responses/create_album_response.dart';
 import '../models/responses/events/event_category_response.dart';
+import '../models/responses/playlist/delete_playlist_response.dart';
 import '../models/responses/profile_data.dart';
 import '../models/responses/register_response.dart';
 import '../models/responses/song/song_response.dart';
@@ -572,6 +573,19 @@ class AppServiceProvider {
     );
     return response.mapData(
       (json) => asType<List<dynamic>>(json)?.map((e) => CommentResponse.fromJson(e as Map<String, dynamic>)).toList(),
+    );
+  }
+
+  Future<DeletePlayListResponse> deletePlayList(
+    int id,
+  ) async {
+    final response = await _dioHelper.delete(
+      route: '/restful_api/playlist/$id',
+      options: Options(headers: {'Content-Type': 'application/x-www-form-urlencoded'}),
+      responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
+    );
+    return response.mapData(
+      (json) => DeletePlayListResponse.fromJson(json as Map<String, dynamic>),
     );
   }
 

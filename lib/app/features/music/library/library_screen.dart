@@ -143,14 +143,24 @@ class _LibraryScreenState extends State<LibraryScreen> with AutomaticKeepAliveCl
                           animateTransitions: true,
                           itemBuilder: (context, item, index) {
                             return WButtonInkwell(
-                              onPressed: () {
-                                Navigator.pushNamed(
+                              onPressed: () async {
+                                final result = await Navigator.pushNamed(
                                   context,
                                   AppRoute.routeDetailPlayList,
-                                  arguments: {
-                                    'playlist_id': item.playlistId,
-                                  },
+                                  arguments: {'playlist_id': item.playlistId},
                                 );
+                                if (result != null) {
+                                  _pagingController.refresh();
+                                  _libraryBloc.requestData(
+                                    params: AlbumPlaylistRequest(
+                                      query: '',
+                                      page: 1,
+                                      limit: GlobalConstants.loadMoreItem,
+                                      sort: 'latest',
+                                      getAll: 0,
+                                    ),
+                                  );
+                                }
                               },
                               child: SearchItem(
                                 playlist: item,

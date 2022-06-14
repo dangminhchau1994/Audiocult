@@ -210,7 +210,7 @@ class GlobalConstants {
               Icons.delete,
             ),
             const SizedBox(
-             width: 10,
+              width: 10,
             ),
             Text(
               context.l10n.t_delete,
@@ -232,6 +232,23 @@ class GlobalConstants {
               context.l10n.t_save,
             )
           ],
+        ),
+      ),
+    ];
+  }
+
+  static List<PopupMenuEntry<int>> menuModify(BuildContext context) {
+    return [
+      PopupMenuItem<int>(
+        value: 0,
+        child: Text(
+          context.l10n.t_delete,
+        ),
+      ),
+      PopupMenuItem<int>(
+        value: 0,
+        child: Text(
+          context.l10n.t_edit,
         ),
       ),
     ];
