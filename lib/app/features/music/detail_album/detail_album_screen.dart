@@ -8,6 +8,7 @@ import 'package:audio_cult/app/features/music/detail_album/widgets/detail_album_
 import 'package:audio_cult/app/features/music/detail_album/widgets/detail_album_recommended.dart';
 import 'package:audio_cult/app/features/music/detail_album/widgets/detail_album_songs.dart';
 import 'package:audio_cult/app/features/music/detail_album/widgets/detail_album_title.dart';
+import 'package:audio_cult/di/bloc_locator.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../w_components/error_empty/error_section.dart';
@@ -27,14 +28,13 @@ class DetailAlbumScreen extends StatefulWidget {
 }
 
 class _DetailAlbumScreenState extends State<DetailAlbumScreen> {
-  DetailAlbumBloc albumBloc = DetailAlbumBloc(locator.get());
   late final ScrollController _scrollController =
       ScrollController(initialScrollOffset: widget.fromNotificatiton ?? false ? 2200 : 0);
 
   @override
   void initState() {
     super.initState();
-    albumBloc.getAlbumDetail(int.parse(widget.albumId ?? ''));
+    getIt<DetailAlbumBloc>().getAlbumDetail(int.parse(widget.albumId ?? ''));
   }
 
   @override
@@ -49,11 +49,11 @@ class _DetailAlbumScreenState extends State<DetailAlbumScreen> {
           color: AppColors.primaryButtonColor,
           backgroundColor: AppColors.secondaryButtonColor,
           onRefresh: () async {
-            albumBloc.getAlbumDetail(int.parse(widget.albumId ?? ''));
+            getIt<DetailAlbumBloc>().getAlbumDetail(int.parse(widget.albumId ?? ''));
           },
           child: StreamBuilder<BlocState<Album>>(
             initialData: const BlocState.loading(),
-            stream: albumBloc.getAlbumDetailStream,
+            stream: getIt<DetailAlbumBloc>().getAlbumDetailStream,
             builder: (context, snapshot) {
               final state = snapshot.data!;
 
@@ -81,14 +81,14 @@ class _DetailAlbumScreenState extends State<DetailAlbumScreen> {
                             ),
                             // Play Button
                             DetailAlbumPlayButton(
-                              albumBloc: albumBloc,
+                              albumBloc: getIt<DetailAlbumBloc>(),
                             ),
                           ],
                         ),
                       ),
                       //Detail songs by album id
                       DetailAlbumSongs(
-                        albumBloc: albumBloc,
+                        albumBloc: getIt<DetailAlbumBloc>(),
                         albumId: widget.albumId ?? '',
                       ),
                       //Description

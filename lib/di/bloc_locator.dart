@@ -6,6 +6,7 @@ import 'package:audio_cult/app/features/atlas/subscribe_user_bloc.dart';
 import 'package:audio_cult/app/features/atlas_filter_result/atlas_filter_result_bloc.dart';
 import 'package:audio_cult/app/features/events/all_event_bloc.dart';
 import 'package:audio_cult/app/features/events/calendar/calendar_bloc.dart';
+import 'package:audio_cult/app/features/events/detail/event_detail_bloc.dart';
 import 'package:audio_cult/app/features/events/my_diary/my_diary_bloc.dart';
 import 'package:audio_cult/app/features/events/result/result_bloc.dart';
 import 'package:audio_cult/app/features/home/home_bloc.dart';
@@ -61,6 +62,8 @@ void setupLocator() {
   getIt.registerLazySingleton<DetailAlbumBloc>(() => DetailAlbumBloc(locator.get<AppRepository>()));
 
   getIt.registerLazySingleton<DetailPlayListBloc>(() => DetailPlayListBloc(locator.get<AppRepository>()));
+
+  getIt.registerLazySingleton<EventDetailBloc>(() => EventDetailBloc(locator.get<AppRepository>()));
 
   getIt.registerLazySingleton<CommentListBloc>(
     () => CommentListBloc(locator.get<AppRepository>()),
@@ -134,9 +137,8 @@ void setupLocator() {
     () => NotificationBloc(locator.get<AppRepository>()),
   );
 
-  getIt.registerLazySingleton<CommonReactionBloc>(
-    () => CommonReactionBloc(locator.get<AppRepository>())
-  );
+  getIt.registerLazySingleton<CommonReactionBloc>(() => CommonReactionBloc(locator.get<AppRepository>()));
+
 
   getIt.registerFactory<AccountSettingsBloc>(
       () => AccountSettingsBloc(locator.get<AppRepository>(), locator.get<PrefProvider>()));

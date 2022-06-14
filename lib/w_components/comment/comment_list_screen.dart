@@ -18,6 +18,10 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../../app/constants/global_constants.dart';
 import '../../app/data_source/models/requests/comment_request.dart';
 import '../../app/data_source/models/responses/comment/comment_response.dart';
+import '../../app/features/events/detail/event_detail_bloc.dart';
+import '../../app/features/music/detail-song/detail_song_bloc.dart';
+import '../../app/features/music/detail_album/detail_album_bloc.dart';
+import '../../app/features/music/detail_playlist/detail_playlist_bloc.dart';
 import '../../app/utils/constants/app_assets.dart';
 import '../../app/utils/constants/app_colors.dart';
 import '../../app/utils/constants/app_dimens.dart';
@@ -90,6 +94,31 @@ class _CommentListScreenState extends State<CommentListScreen> {
     _text.value = _textEditingController.text;
   }
 
+  void _clearText() {
+    _text.value = '';
+    _emojiShowing.value = false;
+    _textEditingController.text = '';
+    FocusManager.instance.primaryFocus?.unfocus();
+  }
+
+  void _reloadListComment() {
+    switch (getType()) {
+      case 'event':
+        getIt<EventDetailBloc>().getEventDetail(widget.commentArgs.itemId ?? 0);
+        break;
+      case 'music_song':
+        getIt<DetailSongBloc>().getSongDetail(widget.commentArgs.itemId ?? 0);
+        break;
+      case 'music_album':
+        getIt<DetailAlbumBloc>().getAlbumDetail(widget.commentArgs.itemId ?? 0);
+        break;
+      case 'advancedmusic_playlist':
+        getIt<DetailPlayListBloc>().getPlayListDetail(widget.commentArgs.itemId ?? 0);
+        break;
+      default:
+    }
+  }
+
   void _submitComment() {
     _commentListBloc.createComment(
       widget.commentArgs.itemId ?? 0,
@@ -98,13 +127,13 @@ class _CommentListScreenState extends State<CommentListScreen> {
       feedId: getType() == 'feed' ? widget.commentArgs.itemId : 0,
     );
 
-    
+    //clear text
+    _clearText();
 
-    //clear text and reload data
-    _text.value = '';
-    _emojiShowing.value = false;
-    _textEditingController.text = '';
-    FocusManager.instance.primaryFocus?.unfocus();
+    //reload list comment of previous screen
+    _reloadListComment();
+
+    //reload data
     _pagingController.refresh();
     _commentListBloc.requestData(
       params: CommentRequest(

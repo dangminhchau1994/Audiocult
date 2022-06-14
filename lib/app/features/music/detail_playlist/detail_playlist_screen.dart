@@ -8,6 +8,7 @@ import 'package:audio_cult/app/features/music/detail_playlist/widgets/detail_pla
 import 'package:audio_cult/app/features/music/detail_playlist/widgets/detail_playlist_songs.dart';
 import 'package:audio_cult/app/features/music/detail_playlist/widgets/detail_playlist_title.dart';
 import 'package:audio_cult/app/injections.dart';
+import 'package:audio_cult/di/bloc_locator.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../w_components/error_empty/error_section.dart';
@@ -28,12 +29,11 @@ class DetailPlayListScreen extends StatefulWidget {
 }
 
 class _DetailPlayListScreenState extends State<DetailPlayListScreen> {
-  DetailPlayListBloc playListBloc = DetailPlayListBloc(locator.get());
 
   @override
   void initState() {
     super.initState();
-    playListBloc.getPlayListDetail(int.parse(widget.playListId ?? ''));
+    getIt<DetailPlayListBloc>().getPlayListDetail(int.parse(widget.playListId ?? ''));
   }
 
   @override
@@ -48,11 +48,11 @@ class _DetailPlayListScreenState extends State<DetailPlayListScreen> {
           color: AppColors.primaryButtonColor,
           backgroundColor: AppColors.secondaryButtonColor,
           onRefresh: () async {
-            playListBloc.getPlayListDetail(int.parse(widget.playListId ?? ''));
+            getIt<DetailPlayListBloc>().getPlayListDetail(int.parse(widget.playListId ?? ''));
           },
           child: StreamBuilder<BlocState<PlaylistResponse>>(
             initialData: const BlocState.loading(),
-            stream: playListBloc.getPlayListDetailStream,
+            stream: getIt<DetailPlayListBloc>().getPlayListDetailStream,
             builder: (context, snapshot) {
               final state = snapshot.data!;
 
@@ -79,7 +79,7 @@ class _DetailPlayListScreenState extends State<DetailPlayListScreen> {
                             ),
                             // Play Button
                             DetailPlayListPlayButton(
-                              detailPlayListBloc: playListBloc,
+                              detailPlayListBloc: getIt<DetailPlayListBloc>(),
                             ),
                           ],
                         ),
@@ -91,7 +91,7 @@ class _DetailPlayListScreenState extends State<DetailPlayListScreen> {
                         iconPath: detail.lastIcon?.imagePath ?? '',
                         totalLike: detail.totalLikes,
                         totalViews: detail.totalView,
-                        detailPlayListBloc: playListBloc,
+                        detailPlayListBloc: getIt<DetailPlayListBloc>(),
                         id: int.parse(widget.playListId ?? ''),
                         title: detail.title,
                       ),

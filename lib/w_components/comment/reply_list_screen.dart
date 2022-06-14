@@ -17,6 +17,10 @@ import '../../app/constants/global_constants.dart';
 import '../../app/data_source/models/requests/comment_request.dart';
 import '../../app/data_source/models/responses/comment/comment_response.dart';
 import '../../app/data_source/services/hive_service_provider.dart';
+import '../../app/features/events/detail/event_detail_bloc.dart';
+import '../../app/features/music/detail-song/detail_song_bloc.dart';
+import '../../app/features/music/detail_album/detail_album_bloc.dart';
+import '../../app/features/music/detail_playlist/detail_playlist_bloc.dart';
 import '../../app/utils/constants/app_assets.dart';
 import '../../app/utils/constants/app_colors.dart';
 import '../../app/utils/constants/app_dimens.dart';
@@ -134,6 +138,31 @@ class _ReplyListScreenState extends State<ReplyListScreen> {
     }
   }
 
+  void _clearText() {
+    _text.value = '';
+    _emojiShowing.value = false;
+    _textEditingController.text = '';
+    FocusManager.instance.primaryFocus?.unfocus();
+  }
+
+  void _reloadListComment() {
+    switch (getType()) {
+      case 'event':
+        getIt<EventDetailBloc>().getEventDetail(widget.commentArgs.itemId ?? 0);
+        break;
+      case 'music_song':
+        getIt<DetailSongBloc>().getSongDetail(widget.commentArgs.itemId ?? 0);
+        break;
+      case 'music_album':
+        getIt<DetailAlbumBloc>().getAlbumDetail(widget.commentArgs.itemId ?? 0);
+        break;
+      case 'advancedmusic_playlist':
+        getIt<DetailPlayListBloc>().getPlayListDetail(widget.commentArgs.itemId ?? 0);
+        break;
+      default:
+    }
+  }
+
   void _submitReply() {
     _replyListBloc.createReply(
       int.parse(widget.commentArgs.data?.commentId ?? ''),
@@ -143,11 +172,13 @@ class _ReplyListScreenState extends State<ReplyListScreen> {
       feedId: getType() == 'feed' ? widget.commentArgs.itemId : 0,
     );
 
-    //clear text and reload data
-    _text.value = '';
-    _emojiShowing.value = false;
-    _textEditingController.text = '';
-    FocusManager.instance.primaryFocus?.unfocus();
+    //clear text
+    _clearText();
+
+    //reload list comment of previous screen
+    _reloadListComment();
+
+    //reload data
     _pagingController.refresh();
     _replyListBloc.requestData(
       params: CommentRequest(
