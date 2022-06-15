@@ -246,7 +246,7 @@ class GlobalConstants {
         ),
       ),
       PopupMenuItem<int>(
-        value: 0,
+        value: 1,
         child: Text(
           context.l10n.t_edit,
         ),

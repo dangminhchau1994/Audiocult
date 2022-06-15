@@ -1,11 +1,13 @@
 import 'dart:io';
 import 'package:audio_cult/app/data_source/models/requests/create_playlist_request.dart';
 import 'package:audio_cult/l10n/l10n.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:photo_manager/photo_manager.dart';
 import '../../../../../w_components/list_photos/common_list_photos.dart';
+import '../../../../../w_components/loading/loading_widget.dart';
 import '../../../../utils/constants/app_colors.dart';
 import '../../../../utils/image/image_utils.dart';
 
@@ -23,6 +25,7 @@ class PreViewImage extends StatefulWidget {
 
 class _PreViewImageState extends State<PreViewImage> {
   File? file;
+  String? imagePath;
   AssetPathEntity? _path;
   List<AssetEntity>? _entities;
   int _totalEntitiesCount = 0;
@@ -31,6 +34,12 @@ class _PreViewImageState extends State<PreViewImage> {
   int _sizePerPage = 50;
   bool _isLoadingMore = false;
   bool _hasMoreToLoad = true;
+
+  @override
+  void initState() {
+    super.initState();
+    imagePath = widget.request?.imagePath;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -119,10 +128,11 @@ class _PreViewImageState extends State<PreViewImage> {
       );
       if (result != null) {
         result.file.then((value) async {
+          imagePath = '';
           file = value as File;
-
           final cropFiles = await ImageUtils.cropImage(file?.path ?? '');
           file = File(cropFiles!.path);
+          widget.request?.file = file;
           setState(() {});
         });
       }
@@ -146,7 +156,6 @@ class _PreViewImageState extends State<PreViewImage> {
   }
 
   Widget _buildPreViewImage() {
-    widget.request?.file = file;
     return GestureDetector(
       onTap: _requestAssets,
       child: Container(
@@ -157,16 +166,10 @@ class _PreViewImageState extends State<PreViewImage> {
           border: Border.all(color: AppColors.outlineBorderColor, width: 2),
           borderRadius: BorderRadius.circular(4),
         ),
-        child: file != null
+        child: file != null || imagePath!.isNotEmpty
             ? Stack(
                 children: [
-                  GestureDetector(
-                    onTap: _requestAssets,
-                    child: Image.file(
-                      File(file?.path ?? ''),
-                      filterQuality: FilterQuality.high,
-                    ),
-                  ),
+                  _buildImage(),
                   Positioned(
                     top: 20,
                     right: 20,
@@ -174,6 +177,7 @@ class _PreViewImageState extends State<PreViewImage> {
                       onTap: () {
                         setState(() {
                           file = null;
+                          imagePath = '';
                           widget.request?.file = file;
                         });
                       },
@@ -203,6 +207,48 @@ class _PreViewImageState extends State<PreViewImage> {
                 ),
               ),
       ),
+    );
+  }
+
+  Widget _buildImage() {
+    return GestureDetector(
+      onTap: _requestAssets,
+      child: imagePath?.isNotEmpty ?? false
+          ? CachedNetworkImage(
+              width: double.infinity,
+              height: 500,
+              imageUrl: imagePath ?? '',
+              imageBuilder: (context, imageProvider) => Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(4),
+                  image: DecorationImage(
+                    image: imageProvider,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+              placeholder: (context, url) => Center(
+                  child: Container(
+                alignment: Alignment.center,
+                constraints: const BoxConstraints(minHeight: 50),
+                child: const LoadingWidget(),
+              )),
+              errorWidget: (
+                BuildContext context,
+                _,
+                __,
+              ) =>
+                  const Image(
+                fit: BoxFit.cover,
+                image: AssetImage(
+                  'assets/cover.jpg',
+                ),
+              ),
+            )
+          : Image.file(
+              File(file?.path ?? ''),
+              filterQuality: FilterQuality.high,
+            ),
     );
   }
 }

@@ -29,6 +29,7 @@ import 'package:audio_cult/app/data_source/models/responses/page_template_respon
 import 'package:audio_cult/app/data_source/models/responses/place.dart';
 import 'package:audio_cult/app/data_source/models/responses/playlist/delete_playlist_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/playlist/playlist_response.dart';
+import 'package:audio_cult/app/data_source/models/responses/playlist/update_playlist_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/privacy_settings/privacy_settings_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/profile_data.dart';
 import 'package:audio_cult/app/data_source/models/responses/reaction_icon/reaction_icon_response.dart';
@@ -354,6 +355,14 @@ class AppRepository extends BaseRepository {
   ) {
     return safeCall(
       () => appServiceProvider.createPlayList(request),
+    );
+  }
+
+  Future<Either<UpdatePlaylistResponse, Exception>> updatePlaylist(
+    CreatePlayListRequest request,
+  ) {
+    return safeCall(
+      () => appServiceProvider.updatePlaylist(request),
     );
   }
 

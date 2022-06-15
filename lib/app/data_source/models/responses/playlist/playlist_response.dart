@@ -26,7 +26,8 @@ class PlaylistResponse with _$PlaylistResponse {
     @JsonKey(name: 'playlist_id') String? playlistId,
     // ignore: invalid_annotation_target
     @JsonKey(name: 'title') String? title,
-    String? description,
+    // ignore: invalid_annotation_target
+    @JsonKey(name: 'description') String? description,
     // ignore: invalid_annotation_target
     @JsonKey(name: 'time_stamp') String? timeStamp,
     // ignore: invalid_annotation_target

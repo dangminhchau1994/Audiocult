@@ -25,6 +25,7 @@ import 'package:audio_cult/app/features/music/featured_albums/featured_album_scr
 import 'package:audio_cult/app/features/music/featured_mixtape/featured_mixtapes_screen.dart';
 import 'package:audio_cult/app/features/music/filter/music_filter_screen.dart';
 import 'package:audio_cult/app/features/music/library/create_playlist_screen.dart';
+import 'package:audio_cult/app/features/music/library/update_playlist_params.dart';
 import 'package:audio_cult/app/features/music/my_album/upload_song/upload_song_screen.dart';
 import 'package:audio_cult/app/features/music/top_playlist/top_playlist_screen.dart';
 import 'package:audio_cult/app/features/my_diary_in_month/my_diary_in_month_screen.dart';
@@ -184,9 +185,12 @@ class AppRoute {
           ),
         );
       case routeCreatePlayList:
+        final arguments = asType(settings.arguments);
         return _pageRoute(
           settings,
-          const CreatePlayListScreen(),
+          CreatePlayListScreen(
+            updatePlaylistParams: arguments['update_playlist_params'] as UpdatePlaylistParams,
+          ),
         );
       case routeDetailAlbum:
         final arguments = asType(settings.arguments);

@@ -2,12 +2,15 @@ import 'package:audio_cult/app/base/bloc_handle.dart';
 import 'package:audio_cult/app/data_source/models/responses/playlist/playlist_response.dart';
 import 'package:audio_cult/app/features/music/detail_playlist/detail_playlist_bloc.dart';
 import 'package:audio_cult/app/features/music/detail_playlist/widgets/detail_playlist_comment.dart';
+import 'package:audio_cult/app/features/music/detail_playlist/widgets/detail_playlist_description.dart';
 import 'package:audio_cult/app/features/music/detail_playlist/widgets/detail_playlist_navbar.dart';
 import 'package:audio_cult/app/features/music/detail_playlist/widgets/detail_playlist_photo.dart';
 import 'package:audio_cult/app/features/music/detail_playlist/widgets/detail_playlist_play_button.dart';
 import 'package:audio_cult/app/features/music/detail_playlist/widgets/detail_playlist_recommended.dart';
 import 'package:audio_cult/app/features/music/detail_playlist/widgets/detail_playlist_songs.dart';
 import 'package:audio_cult/app/features/music/detail_playlist/widgets/detail_playlist_title.dart';
+import 'package:audio_cult/app/features/music/library/update_playlist_params.dart';
+import 'package:audio_cult/app/utils/route/app_route.dart';
 import 'package:audio_cult/di/bloc_locator.dart';
 import 'package:disposing/disposing.dart';
 import 'package:flutter/material.dart';
@@ -81,6 +84,21 @@ class _DetailPlayListScreenState extends State<DetailPlayListScreen> with Dispos
                                 onDelete: () {
                                   getIt.get<DetailPlayListBloc>().deletePlayList(int.parse(widget.playListId ?? ''));
                                 },
+                                onEdit: () async {
+                                  final result =
+                                      await Navigator.pushNamed(context, AppRoute.routeCreatePlayList, arguments: {
+                                    'update_playlist_params': UpdatePlaylistParams(
+                                      title: detail.title,
+                                      description: detail.description,
+                                      imagePath: detail.imagePath,
+                                      id: int.parse(widget.playListId ?? ''),
+                                    )
+                                  });
+
+                                  if (result != null) {
+                                    getIt<DetailPlayListBloc>().getPlayListDetail(int.parse(widget.playListId ?? ''));
+                                  }
+                                },
                               ),
                               //Title
                               DetailPlayListTitle(
@@ -94,6 +112,10 @@ class _DetailPlayListScreenState extends State<DetailPlayListScreen> with Dispos
                               ),
                             ],
                           ),
+                        ),
+                        //Detail playlist description
+                        DetailPlaylistDescription(
+                          description: detail.description,
                         ),
                         //Detail songs by album id
                         DetailPlayListSongs(

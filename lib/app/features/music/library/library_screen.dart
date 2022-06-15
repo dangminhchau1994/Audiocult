@@ -1,4 +1,5 @@
 import 'package:audio_cult/app/features/music/library/library_bloc.dart';
+import 'package:audio_cult/app/features/music/library/update_playlist_params.dart';
 import 'package:audio_cult/app/features/music/library/widgets/empty_playlist.dart';
 import 'package:audio_cult/app/features/music/search/search_item.dart';
 import 'package:audio_cult/app/utils/constants/app_assets.dart';
@@ -193,7 +194,15 @@ class _LibraryScreenState extends State<LibraryScreen> with AutomaticKeepAliveCl
                   padding: const EdgeInsets.only(bottom: 150),
                   child: WButtonInkwell(
                     onPressed: () async {
-                      final result = await Navigator.pushNamed(context, AppRoute.routeCreatePlayList);
+                      final result = await Navigator.pushNamed(
+                        context,
+                        AppRoute.routeCreatePlayList,
+                        arguments: {
+                          'update_playlist_params': UpdatePlaylistParams(
+                            title: ''
+                          )
+                        }
+                      );
                       if (result != null) {
                         _pagingController.refresh();
                         _libraryBloc.requestData(

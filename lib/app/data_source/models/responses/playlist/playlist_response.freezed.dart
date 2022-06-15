@@ -45,7 +45,9 @@ mixin _$PlaylistResponse {
   String? get playlistId =>
       throw _privateConstructorUsedError; // ignore: invalid_annotation_target
   @JsonKey(name: 'title')
-  String? get title => throw _privateConstructorUsedError;
+  String? get title =>
+      throw _privateConstructorUsedError; // ignore: invalid_annotation_target
+  @JsonKey(name: 'description')
   String? get description =>
       throw _privateConstructorUsedError; // ignore: invalid_annotation_target
   @JsonKey(name: 'time_stamp')
@@ -101,7 +103,7 @@ abstract class $PlaylistResponseCopyWith<$Res> {
       String? countryIso,
       @JsonKey(name: 'playlist_id') String? playlistId,
       @JsonKey(name: 'title') String? title,
-      String? description,
+      @JsonKey(name: 'description') String? description,
       @JsonKey(name: 'time_stamp') String? timeStamp,
       @JsonKey(name: 'total_likes') String? totalLikes,
       @JsonKey(name: 'total_comments') String? totalComments,
@@ -309,7 +311,7 @@ abstract class _$$_PlaylistResponseCopyWith<$Res>
       String? countryIso,
       @JsonKey(name: 'playlist_id') String? playlistId,
       @JsonKey(name: 'title') String? title,
-      String? description,
+      @JsonKey(name: 'description') String? description,
       @JsonKey(name: 'time_stamp') String? timeStamp,
       @JsonKey(name: 'total_likes') String? totalLikes,
       @JsonKey(name: 'total_comments') String? totalComments,
@@ -505,7 +507,7 @@ class _$_PlaylistResponse implements _PlaylistResponse {
       this.countryIso,
       @JsonKey(name: 'playlist_id') this.playlistId,
       @JsonKey(name: 'title') this.title,
-      this.description,
+      @JsonKey(name: 'description') this.description,
       @JsonKey(name: 'time_stamp') this.timeStamp,
       @JsonKey(name: 'total_likes') this.totalLikes,
       @JsonKey(name: 'total_comments') this.totalComments,
@@ -564,7 +566,9 @@ class _$_PlaylistResponse implements _PlaylistResponse {
   @override
   @JsonKey(name: 'title')
   final String? title;
+// ignore: invalid_annotation_target
   @override
+  @JsonKey(name: 'description')
   final String? description;
 // ignore: invalid_annotation_target
   @override
@@ -726,7 +730,7 @@ abstract class _PlaylistResponse implements PlaylistResponse {
           final String? countryIso,
           @JsonKey(name: 'playlist_id') final String? playlistId,
           @JsonKey(name: 'title') final String? title,
-          final String? description,
+          @JsonKey(name: 'description') final String? description,
           @JsonKey(name: 'time_stamp') final String? timeStamp,
           @JsonKey(name: 'total_likes') final String? totalLikes,
           @JsonKey(name: 'total_comments') final String? totalComments,
@@ -780,7 +784,8 @@ abstract class _PlaylistResponse implements PlaylistResponse {
   @override // ignore: invalid_annotation_target
   @JsonKey(name: 'title')
   String? get title => throw _privateConstructorUsedError;
-  @override
+  @override // ignore: invalid_annotation_target
+  @JsonKey(name: 'description')
   String? get description => throw _privateConstructorUsedError;
   @override // ignore: invalid_annotation_target
   @JsonKey(name: 'time_stamp')

@@ -33,7 +33,7 @@ class DetailPlayListBloc extends BaseBloc {
       _deletePlayListSubject.sink.add(BlocState.success(success));
     }, (error) {
       _deletePlayListSubject.sink.add(BlocState.error(error.toString()));
-    }); 
+    });
   }
 
   void getPlayListDetail(int id) async {

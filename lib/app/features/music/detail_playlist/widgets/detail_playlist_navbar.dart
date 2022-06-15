@@ -10,10 +10,12 @@ class DetailPlayListNavBar extends StatelessWidget {
   const DetailPlayListNavBar({
     Key? key,
     this.onDelete,
+    this.onEdit,
     this.userId,
   }) : super(key: key);
 
   final Function()? onDelete;
+  final Function()? onEdit;
   final String? userId;
 
   @override
@@ -57,6 +59,7 @@ class DetailPlayListNavBar extends StatelessWidget {
                     onDelete!();
                     break;
                   case 1:
+                    onEdit!();
                     break;
                 }
               },

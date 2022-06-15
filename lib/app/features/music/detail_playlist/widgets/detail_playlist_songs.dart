@@ -58,7 +58,6 @@ class _DetailPlayListSongsState extends State<DetailPlayListSongs> {
     return SliverToBoxAdapter(
       child: Padding(
         padding: const EdgeInsets.only(
-          top: 10,
           left: 16,
           right: 16,
         ),
@@ -88,11 +87,7 @@ class _DetailPlayListSongsState extends State<DetailPlayListSongs> {
                               );
                             },
                           )
-                        : Center(
-                            child: Text(
-                              context.l10n.t_no_data,
-                            ),
-                          );
+                        : const SizedBox();
                   },
                   loading: () {
                     return const Center(

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:audio_cult/app/data_source/local/pref_provider.dart';
 import 'package:audio_cult/app/data_source/models/account_settings.dart';
 import 'package:audio_cult/app/data_source/models/notification_option.dart';
@@ -28,6 +30,7 @@ import 'package:audio_cult/app/data_source/models/responses/notifications/notifi
 import 'package:audio_cult/app/data_source/models/responses/page_template_custom_field_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/page_template_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/playlist/playlist_response.dart';
+import 'package:audio_cult/app/data_source/models/responses/playlist/update_playlist_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/privacy_settings/privacy_settings_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/reaction_icon/reaction_icon_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/timezone/timezone_response.dart';
@@ -169,6 +172,27 @@ class AppServiceProvider {
       (json) =>
           asType<List<dynamic>>(json)?.map((e) => BackgroundResponse.fromJson(e as Map<String, dynamic>)).toList(),
     );
+  }
+
+  Future<UpdatePlaylistResponse> updatePlaylist(CreatePlayListRequest request) async {
+    final params = await request.toJson();
+    final response = await _dioHelper.put(
+      route: '/restful_api/playlist/${request.id}',
+      responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
+      requestBody: params,
+    );
+    if (response.status == StatusString.success) {
+      return UpdatePlaylistResponse(
+        // ignore: cast_nullable_to_non_nullable
+        status: response.status as String,
+        message: response.message as String?,
+      );
+    } else {
+      return UpdatePlaylistResponse(
+        status: response.status as String,
+        message: response.error['message'] as String,
+      );
+    }
   }
 
   Future<CreatePostResponse> createPost(CreatePostRequest request) async {
