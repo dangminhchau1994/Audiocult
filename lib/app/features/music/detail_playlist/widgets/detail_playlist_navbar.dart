@@ -42,7 +42,7 @@ class DetailPlayListNavBar extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.only(
               top: 50,
-              right: 10,
+              right: 8,
             ),
             child: CommonPopupMenu(
               icon: const Icon(
