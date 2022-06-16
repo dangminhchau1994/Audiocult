@@ -1,14 +1,17 @@
 import 'package:audio_cult/app/features/events/calendar/calendar_bloc.dart';
 import 'package:audio_cult/app/features/events/calendar/widgets/calendar_event_item.dart';
+import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-
 import '../../../../../w_components/loading/loading_builder.dart';
 import '../../../../../w_components/loading/loading_widget.dart';
 import '../../../../constants/global_constants.dart';
 import '../../../../data_source/models/responses/events/event_response.dart';
+import '../../../../utils/constants/app_assets.dart';
 import '../../../../utils/constants/app_colors.dart';
-import '../../../../view/no_data_widget.dart';
+import '../../../../utils/constants/app_dimens.dart';
+import '../../../../utils/constants/app_font_sizes.dart';
 
 class CalendarEventList extends StatefulWidget {
   const CalendarEventList({
@@ -32,6 +35,35 @@ class CalendarEventList extends StatefulWidget {
   State<CalendarEventList> createState() => _CalendarEventListState();
 }
 
+Widget _emptyData(BuildContext context) {
+  return Column(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      SvgPicture.asset(
+        AppAssets.eventIcon,
+        width: MediaQuery.of(context).size.width * 0.12,
+      ),
+      const SizedBox(height: kVerticalSpacing),
+      Text(
+        'Sorry, no result was found',
+        style: context.body3TextStyle()?.copyWith(
+              color: Colors.white,
+              fontWeight: FontWeight.w700,
+              fontSize: AppFontSize.size19,
+            ),
+      ),
+      const SizedBox(height: 16),
+      Text(
+        "We couldn't find what you're looking for",
+        style: context.body3TextStyle()?.copyWith(
+              color: Colors.grey,
+              fontSize: AppFontSize.size17,
+            ),
+      ),
+    ],
+  );
+}
+
 class _CalendarEventListState extends State<CalendarEventList> {
   @override
   Widget build(BuildContext context) {
@@ -50,7 +82,7 @@ class _CalendarEventListState extends State<CalendarEventList> {
         },
         child: LoadingBuilder<CalendarBloc, List<EventResponse>>(
           noDataBuilder: (state) {
-            return const NoDataWidget();
+            return _emptyData(context);
           },
           builder: (data, _) {
             //only first page

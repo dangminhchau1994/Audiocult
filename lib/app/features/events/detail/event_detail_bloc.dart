@@ -4,6 +4,7 @@ import 'package:rxdart/rxdart.dart';
 
 import '../../../base/bloc_state.dart';
 import '../../../data_source/models/responses/comment/comment_response.dart';
+import '../../../data_source/models/responses/events/event_category_response.dart';
 import '../../../data_source/repositories/app_repository.dart';
 
 class EventDetailBloc extends BaseBloc {
@@ -13,11 +14,23 @@ class EventDetailBloc extends BaseBloc {
 
   final _getEventDetailSubject = PublishSubject<BlocState<EventResponse>>();
   final _updateEventSubject = PublishSubject<BlocState<List<EventResponse>>>();
+  final _getEventCategoriesSubject = PublishSubject<BlocState<List<EventCategoryResponse>>>();
   final _getCommentsSubject = PublishSubject<BlocState<List<CommentResponse>>>();
 
+  Stream<BlocState<List<EventCategoryResponse>>> get getEventCategoriesStream => _getEventCategoriesSubject.stream;
   Stream<BlocState<EventResponse>> get getEventDetailStream => _getEventDetailSubject.stream;
   Stream<BlocState<List<CommentResponse>>> get getCommentsStream => _getCommentsSubject.stream;
   Stream<BlocState<List<EventResponse>>> get udpateEventStream => _updateEventSubject.stream;
+
+  void getEventCategories() async {
+    final result = await _appRepository.getEventCategories();
+
+    result.fold((success) {
+      _getEventCategoriesSubject.sink.add(BlocState.success(success));
+    }, (error) {
+      _getEventCategoriesSubject.sink.add(BlocState.error(error.toString()));
+    });
+  }
 
   void updateEventStatus(int id, int rsvp) async {
     final result = await _appRepository.updateEventStatus(id, rsvp);

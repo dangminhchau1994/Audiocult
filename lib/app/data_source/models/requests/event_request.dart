@@ -1,4 +1,5 @@
 class EventRequest {
+  final int? categoryId;
   final String? query;
   final String? postalCode;
   final String? location;
@@ -14,6 +15,7 @@ class EventRequest {
   final int? limit;
 
   EventRequest({
+    this.categoryId,
     this.query,
     this.postalCode,
     this.location,
@@ -26,6 +28,6 @@ class EventRequest {
     this.sort,
     this.page,
     this.limit,
-    this.userId
+    this.userId,
   });
 }

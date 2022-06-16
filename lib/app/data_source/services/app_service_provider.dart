@@ -262,6 +262,7 @@ class AppServiceProvider {
       options: Options(headers: {'Content-Type': 'application/x-www-form-urlencoded'}),
       responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
       requestParams: {
+        'category_id': request.categoryId,
         'search[search]': request.query,
         'postal_code': request.postalCode,
         'location': request.location,

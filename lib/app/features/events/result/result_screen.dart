@@ -34,6 +34,7 @@ class _ResultScreenState extends State<ResultScreen> {
     try {
       final newItems = await _resultBloc.loadData(
         EventRequest(
+          categoryId: widget.params?.categoryId,
           query: widget.params?.query,
           distance: widget.params?.distance,
           when: widget.params?.when,
@@ -67,8 +68,10 @@ class _ResultScreenState extends State<ResultScreen> {
       }
     });
     _resultBloc = getIt.get<ResultBloc>();
+    debugPrint('cateChau: ${widget.params?.categoryId}');
     _resultBloc.requestData(
       params: EventRequest(
+        categoryId: widget.params?.categoryId,
         query: widget.params?.query,
         distance: widget.params?.distance,
         when: widget.params?.when,
@@ -92,6 +95,7 @@ class _ResultScreenState extends State<ResultScreen> {
           _pagingController.refresh();
           getIt<ResultBloc>().requestData(
             params: EventRequest(
+              categoryId: widget.params?.categoryId,
               query: widget.params?.query,
               distance: widget.params?.distance,
               when: widget.params?.when,
@@ -140,6 +144,7 @@ class _ResultScreenState extends State<ResultScreen> {
             _pagingController.refresh();
             _resultBloc.requestData(
               params: EventRequest(
+                categoryId: widget.params?.categoryId,
                 query: widget.params?.query,
                 distance: widget.params?.distance,
                 when: widget.params?.when,

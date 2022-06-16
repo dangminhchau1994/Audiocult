@@ -42,7 +42,6 @@ class _CalendarTableState extends State<CalendarTable> {
           rangeStartDay: rangeStartDate,
           rangeEndDay: rangeEndDate,
           calendarFormat: formatCalendar!,
-          headerVisible: true,
           daysOfWeekStyle: const DaysOfWeekStyle(
             weekdayStyle: TextStyle(color: Colors.white),
             weekendStyle: TextStyle(color: Colors.white),
