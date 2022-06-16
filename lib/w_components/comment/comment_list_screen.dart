@@ -1,20 +1,14 @@
-import 'dart:io';
-
 import 'package:audio_cult/app/data_source/services/hive_service_provider.dart';
-import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
-import 'package:audio_cult/l10n/l10n.dart';
-import 'package:audio_cult/w_components/buttons/w_button_inkwell.dart';
 import 'package:audio_cult/w_components/comment/comment_args.dart';
-import 'package:audio_cult/w_components/comment/comment_item.dart';
+import 'package:audio_cult/w_components/comment/comment_delete.dart';
+import 'package:audio_cult/w_components/comment/comment_edit.dart';
+import 'package:audio_cult/w_components/comment/comment_input.dart';
+import 'package:audio_cult/w_components/comment/comment_list.dart';
 import 'package:audio_cult/w_components/comment/comment_list_bloc.dart';
-import 'package:audio_cult/w_components/comment/reply_item.dart';
 import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
-import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-
 import '../../app/constants/global_constants.dart';
 import '../../app/data_source/models/requests/comment_request.dart';
 import '../../app/data_source/models/responses/comment/comment_response.dart';
@@ -22,14 +16,9 @@ import '../../app/features/events/detail/event_detail_bloc.dart';
 import '../../app/features/music/detail-song/detail_song_bloc.dart';
 import '../../app/features/music/detail_album/detail_album_bloc.dart';
 import '../../app/features/music/detail_playlist/detail_playlist_bloc.dart';
-import '../../app/utils/constants/app_assets.dart';
 import '../../app/utils/constants/app_colors.dart';
-import '../../app/utils/constants/app_dimens.dart';
-import '../../app/utils/route/app_route.dart';
 import '../../di/bloc_locator.dart';
 import '../appbar/common_appbar.dart';
-import '../loading/loading_builder.dart';
-import '../loading/loading_widget.dart';
 
 enum CommentType {
   home,
@@ -221,73 +210,20 @@ class _CommentListScreenState extends State<CommentListScreen> {
         ),
         child: Column(
           children: [
-            WButtonInkwell(
-              onPressed: () async {
-                Navigator.pop(context);
-                final result = await Navigator.pushNamed(
-                  context,
-                  AppRoute.routeCommentEdit,
-                  arguments: {
-                    'comment_response': item,
-                  },
-                );
-                if (result != null) {
-                  _commentResponse.value = result as CommentResponse;
-                  item = _commentResponse.value;
-                }
-              },
-              child: Row(
-                children: [
-                  const Icon(
-                    Icons.edit_outlined,
-                    color: Colors.white,
-                    size: 24,
-                  ),
-                  const SizedBox(
-                    width: 20,
-                  ),
-                  Text(
-                    context.l10n.t_edit,
-                    style: context.buttonTextStyle()!.copyWith(fontSize: 14),
-                  )
-                ],
-              ),
+            CommentEdit(
+              item: item,
+              commentResponse: _commentResponse,
             ),
             const SizedBox(
               height: 30,
             ),
-            WButtonInkwell(
-              onPressed: () {
-                Navigator.pop(context);
-                _pagingController.refresh();
-                _commentListBloc.deleteComment(int.parse(item.commentId ?? ''));
-                _commentListBloc.requestData(
-                  params: CommentRequest(
-                    id: widget.commentArgs.itemId ?? 0,
-                    typeId: getType(),
-                    page: 1,
-                    limit: GlobalConstants.loadMoreItem,
-                    sort: 'latest',
-                  ),
-                );
-              },
-              child: Row(
-                children: [
-                  const Icon(
-                    Icons.delete_outline,
-                    color: Colors.white,
-                    size: 24,
-                  ),
-                  const SizedBox(
-                    width: 20,
-                  ),
-                  Text(
-                    context.l10n.t_delete,
-                    style: context.buttonTextStyle()!.copyWith(fontSize: 14),
-                  )
-                ],
-              ),
-            ),
+            CommentDelete(
+              commentArgs: widget.commentArgs,
+              commentListBloc: _commentListBloc,
+              getType: getType(),
+              pagingController: _pagingController,
+              item: item,
+            )
           ],
         ),
       ),
@@ -310,232 +246,23 @@ class _CommentListScreenState extends State<CommentListScreen> {
         body: Stack(
           fit: StackFit.expand,
           children: [
-            Container(
-              margin: const EdgeInsets.symmetric(
-                vertical: kVerticalSpacing - 10,
-                horizontal: kHorizontalSpacing - 10,
-              ),
-              child: RefreshIndicator(
-                color: AppColors.primaryButtonColor,
-                backgroundColor: AppColors.secondaryButtonColor,
-                onRefresh: () async {
-                  _pagingController.refresh();
-                  _commentListBloc.requestData(
-                    params: CommentRequest(
-                      id: widget.commentArgs.itemId,
-                      typeId: getType(),
-                      page: 1,
-                      limit: GlobalConstants.loadMoreItem,
-                      sort: 'latest',
-                    ),
-                  );
-                },
-                child: LoadingBuilder<CommentListBloc, List<CommentResponse>>(
-                  builder: (data, _) {
-                    //only first page
-                    final isLastPage = data.length == GlobalConstants.loadMoreItem - 1;
-                    if (isLastPage) {
-                      _pagingController.appendLastPage(data);
-                    } else {
-                      _pagingController.appendPage(data, _pagingController.firstPageKey + 1);
-                    }
-                    return Scrollbar(
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: 120),
-                        child: PagedListView<int, CommentResponse>.separated(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 16,
-                            vertical: 16,
-                          ),
-                          pagingController: _pagingController,
-                          separatorBuilder: (context, index) => const Divider(height: 24),
-                          builderDelegate: PagedChildBuilderDelegate<CommentResponse>(
-                            firstPageProgressIndicatorBuilder: (context) => Container(),
-                            newPageProgressIndicatorBuilder: (context) => const LoadingWidget(),
-                            animateTransitions: true,
-                            itemBuilder: (context, item, index) {
-                              return ExpandablePanel(
-                                controller: ExpandableController(initialExpanded: true),
-                                header: WButtonInkwell(
-                                  onPressed: () {
-                                    if (_hiveServiceProvider.getProfile()?.userId == item.userId) {
-                                      _showBottomSheet(item);
-                                    }
-                                  },
-                                  child: ValueListenableBuilder<CommentResponse>(
-                                    valueListenable: _commentResponse,
-                                    builder: (context, value, child) {
-                                      return CommentItem(
-                                        data: item,
-                                        onReply: (data) {
-                                          Navigator.pushNamed(
-                                            context,
-                                            AppRoute.routeReplyListScreen,
-                                            arguments: CommentArgs(
-                                              data: data,
-                                              commentType: widget.commentArgs.commentType,
-                                              itemId: widget.commentArgs.itemId,
-                                            ),
-                                          );
-                                        },
-                                      );
-                                    },
-                                  ),
-                                ),
-                                theme: const ExpandableThemeData(
-                                  hasIcon: false,
-                                  tapHeaderToExpand: false,
-                                  tapBodyToCollapse: false,
-                                  tapBodyToExpand: false,
-                                  useInkWell: false,
-                                ),
-                                collapsed: Container(),
-                                expanded: ReplyItem(
-                                  parentId: int.parse(item.commentId ?? ''),
-                                  id: widget.commentArgs.itemId,
-                                  commentParent: item,
-                                  commentType: widget.commentArgs.commentType,
-                                ),
-                              );
-                            },
-                          ),
-                        ),
-                      ),
-                    );
-                  },
-                  reloadAction: (_) {
-                    _pagingController.refresh();
-                    _commentListBloc.requestData(
-                      params: CommentRequest(
-                        id: widget.commentArgs.itemId,
-                        typeId: getType(),
-                        page: 1,
-                        limit: GlobalConstants.loadMoreItem,
-                        sort: 'latest',
-                      ),
-                    );
-                  },
-                ),
-              ),
+            CommentList(
+              pagingController: _pagingController,
+              commentArgs: widget.commentArgs,
+              commentListBloc: _commentListBloc,
+              hiveServiceProvider: _hiveServiceProvider,
+              getType: getType(),
+              commentResponse: _commentResponse,
+              showBottomSheet: _showBottomSheet,
             ),
-            Positioned(
-              bottom: 0,
-              left: 0,
-              right: 0,
-              child: Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  color: AppColors.secondaryButtonColor,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: SafeArea(
-                  child: Column(
-                    children: [
-                      ValueListenableBuilder<String>(
-                        valueListenable: _text,
-                        builder: (context, value, child) => TextField(
-                          cursorColor: Colors.white,
-                          autofocus: true,
-                          controller: _textEditingController,
-                          onChanged: (value) {
-                            _text.value = value;
-                          },
-                          onSubmitted: (value) {
-                            if (_text.value.isNotEmpty) {
-                              _submitComment();
-                            }
-                          },
-                          onTap: () {
-                            _emojiShowing.value = false;
-                          },
-                          decoration: InputDecoration(
-                            filled: true,
-                            focusColor: AppColors.outlineBorderColor,
-                            fillColor: AppColors.secondaryButtonColor,
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(4),
-                              borderSide: BorderSide(
-                                color: AppColors.outlineBorderColor,
-                                width: 2,
-                              ),
-                            ),
-                            suffixIcon: value.isEmpty
-                                ? GestureDetector(
-                                    onTap: () {
-                                      _emojiShowing.value = !_emojiShowing.value;
-                                      FocusManager.instance.primaryFocus?.unfocus();
-                                    },
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(12),
-                                      child: SvgPicture.asset(
-                                        AppAssets.faceIcon,
-                                        width: 12,
-                                        height: 12,
-                                      ),
-                                    ),
-                                  )
-                                : GestureDetector(
-                                    onTap: () {
-                                      if (_text.value.isNotEmpty) {
-                                        _submitComment();
-                                      }
-                                    },
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(6),
-                                      child: Container(
-                                        padding: const EdgeInsets.all(8),
-                                        decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          color: AppColors.primaryButtonColor,
-                                        ),
-                                        child: const Icon(
-                                          Icons.arrow_forward_ios,
-                                          size: 16,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(4),
-                              borderSide: BorderSide(
-                                color: AppColors.outlineBorderColor,
-                                width: 2,
-                              ),
-                            ),
-                            hintText: context.l10n.t_leave_comment,
-                            hintStyle: context.bodyTextPrimaryStyle()!.copyWith(
-                                  color: AppColors.subTitleColor,
-                                ),
-                          ),
-                        ),
-                      ),
-                      ValueListenableBuilder<bool>(
-                        builder: (context, value, child) => Offstage(
-                          offstage: !value,
-                          child: SizedBox(
-                            height: 250,
-                            child: EmojiPicker(
-                              onEmojiSelected: (Category category, Emoji emoji) {
-                                _onEmojiSelected(emoji);
-                              },
-                              onBackspacePressed: _onBackspacePressed,
-                              config: Config(
-                                // Issue: https://github.com/flutter/flutter/issues/28894
-                                emojiSizeMax: 18 * (Platform.isIOS ? 1.30 : 1.0),
-                                bgColor: AppColors.secondaryButtonColor,
-                              ),
-                            ),
-                          ),
-                        ),
-                        valueListenable: _emojiShowing,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
+            CommentInput(
+              textEditingController: _textEditingController,
+              text: _text,
+              emojiShowing: _emojiShowing,
+              onEmojiSelected: _onEmojiSelected,
+              onBackspacePressed: _onBackspacePressed,
+              submitComment: _submitComment,
+            )
           ],
         ),
       ),
