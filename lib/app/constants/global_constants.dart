@@ -245,12 +245,12 @@ class GlobalConstants {
           context.l10n.t_delete,
         ),
       ),
-      PopupMenuItem<int>(
-        value: 1,
-        child: Text(
-          context.l10n.t_edit,
-        ),
-      ),
+      // PopupMenuItem<int>(
+      //   value: 1,
+      //   child: Text(
+      //     context.l10n.t_edit,
+      //   ),
+      // ),
     ];
   }
 
