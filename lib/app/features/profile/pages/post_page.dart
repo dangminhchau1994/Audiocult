@@ -7,12 +7,14 @@ import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/l10n/l10n.dart';
 import 'package:audio_cult/w_components/images/common_image_network.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../w_components/buttons/w_button_inkwell.dart';
 import '../../../../w_components/error_empty/error_section.dart';
 import '../../../../w_components/loading/loading_widget.dart';
 import '../../../base/bloc_state.dart';
+import '../../../utils/constants/app_assets.dart';
 import '../../../utils/constants/app_colors.dart';
 import '../../../utils/route/app_route.dart';
 import '../profile_screen.dart';
@@ -143,8 +145,47 @@ class _PostPageState extends State<PostPage> {
                         },
                       );
                     }),
-              )
+              ),
             ],
+          ),
+        ),
+        WButtonInkwell(
+          onPressed: () async {
+            final result = await Navigator.pushNamed(context, AppRoute.routeCreatePost);
+
+            if (result != null) {
+              // widget.callData!();
+              //reload
+            }
+          },
+          child: Container(
+            height: 50,
+            margin: const EdgeInsets.symmetric(horizontal: 16),
+            padding: const EdgeInsets.all(10),
+            width: MediaQuery.of(context).size.width,
+            decoration: BoxDecoration(
+              color: AppColors.secondaryButtonColor,
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SvgPicture.asset(
+                  AppAssets.activeEdit,
+                  width: 20,
+                  height: 20,
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                Text(
+                  context.l10n.t_create_post,
+                  style: TextStyle(
+                    color: AppColors.activeLabelItem,
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ],
