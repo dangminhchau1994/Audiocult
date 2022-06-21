@@ -19,6 +19,7 @@ import '../../app/features/music/detail-song/detail_song_bloc.dart';
 import '../../app/features/music/detail_album/detail_album_bloc.dart';
 import '../../app/features/music/detail_playlist/detail_playlist_bloc.dart';
 import '../../app/utils/constants/app_colors.dart';
+import '../../app/utils/route/app_route.dart';
 import '../../di/bloc_locator.dart';
 import '../appbar/common_appbar.dart';
 
@@ -39,8 +40,6 @@ class _ReplyListScreenState extends State<ReplyListScreen> {
   final TextEditingController _textEditingController = TextEditingController();
   final ValueNotifier<bool> _emojiShowing = ValueNotifier<bool>(false);
   final ValueNotifier<String> _text = ValueNotifier<String>('');
-  final ValueNotifier<CommentResponse> _commentResponse = ValueNotifier<CommentResponse>(CommentResponse(text: ''));
-  final HiveServiceProvider _hiveServiceProvider = HiveServiceProvider();
   late ReplyListBloc _replyListBloc;
   late FocusNode _focusNode;
 
@@ -193,7 +192,41 @@ class _ReplyListScreenState extends State<ReplyListScreen> {
     _emojiShowing.dispose();
   }
 
-  void _showBottomSheet(CommentResponse item) {
+  void _editComment(CommentResponse item) async {
+    Navigator.pop(context);
+    final result = await Navigator.pushNamed(
+      context,
+      AppRoute.routeCommentEdit,
+      arguments: {
+        'comment_response': item,
+      },
+    );
+    if (result != null) {
+      final comment = result as CommentResponse;
+      setState(() {
+        _pagingController.itemList![
+            _pagingController.itemList!.indexWhere((element) => element.commentId == comment.commentId)] = comment;
+      });
+    }
+  }
+
+  void _deleteComment(CommentResponse item, int index) {
+    Navigator.pop(context);
+    _replyListBloc.deleteComment(int.parse(item.commentId ?? ''));
+    _pagingController.refresh();
+    _replyListBloc.requestData(
+      params: CommentRequest(
+        parentId: int.parse(widget.commentArgs.data?.commentId ?? ''),
+        id: widget.commentArgs.itemId,
+        typeId: getType(),
+        page: 1,
+        limit: GlobalConstants.loadMoreItem,
+        sort: 'latest',
+      ),
+    );
+  }
+
+  void _showBottomSheet(CommentResponse item, int index) {
     FocusManager.instance.primaryFocus?.unfocus();
     showMaterialModalBottomSheet(
       context: context,
@@ -211,18 +244,17 @@ class _ReplyListScreenState extends State<ReplyListScreen> {
         child: Column(
           children: [
             CommentEdit(
-              item: item,
-              commentResponse: _commentResponse,
+              onEdit: () {
+                _editComment(item);
+              },
             ),
             const SizedBox(
               height: 30,
             ),
             CommentDelete(
-              commentArgs: widget.commentArgs,
-              replyListBloc: _replyListBloc,
-              getType: getType(),
-              pagingController: _pagingController,
-              item: item,
+              onDelete: () {
+                _deleteComment(item, index);
+              },
             )
           ],
         ),
@@ -250,9 +282,7 @@ class _ReplyListScreenState extends State<ReplyListScreen> {
               pagingController: _pagingController,
               commentArgs: widget.commentArgs,
               replyListBloc: _replyListBloc,
-              hiveServiceProvider: _hiveServiceProvider,
               getType: getType(),
-              commentResponse: _commentResponse,
               showBottomSheet: _showBottomSheet,
               onFocus: () {
                 _focusNode.requestFocus();

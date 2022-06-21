@@ -1,3 +1,5 @@
+import 'package:audio_cult/app/data_source/local/pref_provider.dart';
+import 'package:audio_cult/app/injections.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
 import 'package:audio_cult/app/utils/constants/app_dimens.dart';
 import 'package:audio_cult/w_components/comment/comment_args.dart';
@@ -7,11 +9,9 @@ import 'package:audio_cult/w_components/comment/reply_item.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-
 import '../../app/constants/global_constants.dart';
 import '../../app/data_source/models/requests/comment_request.dart';
 import '../../app/data_source/models/responses/comment/comment_response.dart';
-import '../../app/data_source/services/hive_service_provider.dart';
 import '../../app/utils/route/app_route.dart';
 import '../buttons/w_button_inkwell.dart';
 import '../loading/loading_builder.dart';
@@ -23,19 +23,15 @@ class CommentList extends StatelessWidget {
     this.pagingController,
     this.commentArgs,
     this.commentListBloc,
-    this.hiveServiceProvider,
     this.getType,
-    this.commentResponse,
     this.showBottomSheet,
   }) : super(key: key);
 
   final PagingController<int, CommentResponse>? pagingController;
   final CommentArgs? commentArgs;
   final CommentListBloc? commentListBloc;
-  final HiveServiceProvider? hiveServiceProvider;
   final String? getType;
-  final ValueNotifier<CommentResponse>? commentResponse;
-  final Function(CommentResponse item)? showBottomSheet;
+  final Function(CommentResponse item, int index)? showBottomSheet;
 
   @override
   Widget build(BuildContext context) {
@@ -87,26 +83,21 @@ class CommentList extends StatelessWidget {
                         controller: ExpandableController(initialExpanded: true),
                         header: WButtonInkwell(
                           onPressed: () {
-                            if (hiveServiceProvider!.getProfile()?.userId == item.userId) {
-                              showBottomSheet!(item);
+                            if (locator<PrefProvider>().currentUserId == item.userId) {
+                              showBottomSheet!(item, index);
                             }
                           },
-                          child: ValueListenableBuilder<CommentResponse>(
-                            valueListenable: commentResponse!,
-                            builder: (context, value, child) {
-                              return CommentItem(
-                                data: item,
-                                onReply: (data) {
-                                  Navigator.pushNamed(
-                                    context,
-                                    AppRoute.routeReplyListScreen,
-                                    arguments: CommentArgs(
-                                      data: data,
-                                      commentType: commentArgs?.commentType,
-                                      itemId: commentArgs?.itemId,
-                                    ),
-                                  );
-                                },
+                          child: CommentItem(
+                            data: item,
+                            onReply: (data) {
+                              Navigator.pushNamed(
+                                context,
+                                AppRoute.routeReplyListScreen,
+                                arguments: CommentArgs(
+                                  data: data,
+                                  commentType: commentArgs?.commentType,
+                                  itemId: commentArgs?.itemId,
+                                ),
                               );
                             },
                           ),
