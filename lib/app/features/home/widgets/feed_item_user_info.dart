@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 
 import '../../../utils/constants/app_colors.dart';
 import '../../../utils/datetime/date_time_utils.dart';
+import '../../../utils/route/app_route.dart';
+import '../../profile/profile_screen.dart';
 
 class FeedItemUserInfo extends StatelessWidget {
   const FeedItemUserInfo({
@@ -18,25 +20,31 @@ class FeedItemUserInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        CachedNetworkImage(
-          width: 50,
-          height: 50,
-          imageUrl: data?.userImage ?? '',
-          imageBuilder: (context, imageProvider) => Container(
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: imageProvider,
-                fit: BoxFit.cover,
+        GestureDetector(
+          onTap: () {
+            Navigator.pushNamed(context, AppRoute.routeProfile,
+                arguments: ProfileScreen.createArguments(id: data!.userId!));
+          },
+          child: CachedNetworkImage(
+            width: 50,
+            height: 50,
+            imageUrl: data?.userImage ?? '',
+            imageBuilder: (context, imageProvider) => Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: imageProvider,
+                  fit: BoxFit.cover,
+                ),
+                shape: BoxShape.circle,
               ),
-              shape: BoxShape.circle,
             ),
-          ),
-          placeholder: (context, url) => Center(
-            child: CircularProgressIndicator(
-              color: AppColors.primaryButtonColor,
+            placeholder: (context, url) => Center(
+              child: CircularProgressIndicator(
+                color: AppColors.primaryButtonColor,
+              ),
             ),
+            errorWidget: (context, url, error) => const Icon(Icons.error),
           ),
-          errorWidget: (context, url, error) => const Icon(Icons.error),
         ),
         const SizedBox(width: 10),
         Column(
