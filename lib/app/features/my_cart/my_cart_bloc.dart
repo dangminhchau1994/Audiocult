@@ -7,67 +7,108 @@ import 'package:audio_cult/app/data_source/repositories/app_repository.dart';
 
 class MyCartBloc extends BaseBloc {
   final AppRepository _appRepo;
-  List<Song>? _cartitems;
-  double get totalPrice {
-    final costs = _cartitems?.map((e) => double.parse(e.cost ?? '0')).toList() ?? [];
-    final sum = costs.reduce((value, element) => value + element);
-    return sum;
-  }
+  List<Song> _cartItems = [];
+  List<Song> _removeItems = [];
+  double? _taxes;
+  String? _currency;
+  double? _subTotal;
+  double? _grandTotal;
 
-  double get totalTaxes => 0;
-  double get checkoutPrice => totalPrice + totalTaxes;
+  double get grandTotal => _grandTotal ?? 0;
+  List<Song> get cartItems => _cartItems;
+  List<Song> get removableItems => _removeItems;
+  double get taxes => (_taxes ?? 0) / 100;
+  String? get currency => _currency;
+  double get subTotal => _subTotal ?? 0;
 
-  final _totalCartItemsStreamController = StreamController<BlocState<List<Song>>>.broadcast();
-  Stream<BlocState<List<Song>>> get totalCartItemStream => _totalCartItemsStreamController.stream;
+  final _allCartItemsStreamController = StreamController<BlocState<List<Song>>>.broadcast();
+  Stream<BlocState<List<Song>>> get allCartItemsStream => _allCartItemsStreamController.stream;
 
-  MyCartBloc(this._appRepo) {
-    loadAllCartItems();
-  }
+  final _removableItemsStreamController = StreamController<List<Song>>.broadcast();
+  Stream<List<Song>> get removableItemStream => _removableItemsStreamController.stream;
+
+  MyCartBloc(this._appRepo);
 
   void loadAllCartItems() async {
+    _removeItems = [];
+    _removableItemsStreamController.sink.add([]);
+    showOverLayLoading();
     return _appRepo.getCartItems().then((result) {
       result.fold((l) {
-        _cartitems = l.songs;
-        _totalCartItemsStreamController.sink.add(BlocState.success(_cartitems ?? []));
+        hideOverlayLoading();
+        _cartItems = l.songs ?? [];
+        _taxes = l.tax;
+        _currency = l.currency;
+        _subTotal = l.sub_total;
+        _grandTotal = l.grandTotal;
+        _allCartItemsStreamController.sink.add(BlocState.success(_cartItems));
       }, (r) {
-        _totalCartItemsStreamController.sink.add(BlocState.error(r.toString()));
+        hideOverlayLoading();
+        _allCartItemsStreamController.sink.add(BlocState.error(r.toString()));
       });
     });
   }
 
-  void deleteItem(String id) {
-    if (id.isEmpty) return;
-    showOverLayLoading();
-    _deleteCartItem(
-        itemIds: [id],
-        completionHandler: (result) {
-          hideOverlayLoading();
-          if (!result) return;
-          _cartitems?.removeWhere((element) => element.songId == id);
-          _totalCartItemsStreamController.sink.add(BlocState.success(_cartitems ?? []));
-        });
+  void addCartItem(Song song) async {
+    if (song.songId?.isNotEmpty != true) return;
+    if (isSongAlreadyAdded(song)) return;
+    _cartItems.add(song);
+    _allCartItemsStreamController.sink.add(BlocState.success(_cartItems));
   }
 
-  void deleteAllItems() {
-    if (_cartitems?.isNotEmpty != true) return;
-    showOverLayLoading();
-    final allIds = _cartitems!.map<String>((e) => e.songId ?? '').toList();
-    _deleteCartItem(
-        itemIds: allIds,
-        completionHandler: (result) {
-          hideOverlayLoading();
-          if (!result) return;
-          _cartitems = [];
-          _totalCartItemsStreamController.sink.add(const BlocState.success([]));
-        });
+  bool isSongAlreadyAdded(Song song) {
+    final ids = _cartItems.map((e) => e.songId).toList();
+    return ids.contains(song.songId ?? '');
   }
 
-  void _deleteCartItem({required List<String> itemIds, required Function(bool) completionHandler}) async {
+  bool isSongRemovable(Song song) {
+    final ids = _removeItems.map((e) => e.songId).toList();
+    return ids.contains(song.songId ?? '');
+  }
+
+  void removeCheckedItems() {
+    showOverLayLoading();
+    final ids = _removeItems.map<String>((e) => e.songId ?? '').toList();
+    _deleteCartItem(itemIds: ids);
+  }
+
+  void clearCart() {
+    if (_cartItems.isNotEmpty != true) return;
+    showOverLayLoading();
+    _removeItems = _cartItems;
+    final ids = _removeItems.map<String>((e) => e.songId ?? '').toList();
+    _deleteCartItem(itemIds: ids);
+  }
+
+  void _deleteCartItem({required List<String> itemIds}) async {
     final result = await _appRepo.deleteCartItems(itemIds);
-    result.fold((l) => completionHandler(l), (r) => completionHandler(false));
+    result.fold((l) {
+      if (_removeItems.length == _cartItems.length) {
+        _cartItems = [];
+        _allCartItemsStreamController.sink.add(BlocState.success(_cartItems));
+      }
+      _removeItems = [];
+      _removableItemsStreamController.sink.add([]);
+      loadAllCartItems();
+      hideOverlayLoading();
+    }, (r) {});
+  }
+
+  void addItemToRemovableList(Song song) {
+    if (song.songId?.isNotEmpty != true) return;
+    final ids = _removeItems.map((e) => e.songId).toList();
+    if (ids.contains(song.songId)) {
+      _removeItems.removeWhere((element) => element.songId == song.songId);
+    } else {
+      _removeItems.add(song);
+    }
+    _removableItemsStreamController.sink.add(_removeItems);
+    _allCartItemsStreamController.sink.add(BlocState.success(_cartItems));
   }
 
   void checkoutCart() {
+    _cartItems = [];
+    _removeItems = [];
     // TODO: checkout cart
   }
 }

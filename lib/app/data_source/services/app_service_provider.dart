@@ -1229,4 +1229,17 @@ class AppServiceProvider {
         });
     return result;
   }
+
+  Future<bool> addCartItem(String id) async {
+    final params = <String, dynamic>{};
+    params['val[item_id]'] = id;
+    final result = await _dioHelper.post(
+      route: '/restful_api/cart',
+      requestParams: params,
+      responseBodyMapper: (jsonMapper) {
+        return jsonMapper['status'].toString().toLowerCase() == RequestStatus.success.value;
+      },
+    );
+    return result;
+  }
 }

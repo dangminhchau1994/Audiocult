@@ -1,6 +1,7 @@
 import 'package:audio_cult/app/base/bloc_state.dart';
 import 'package:audio_cult/app/data_source/models/responses/comment/comment_response.dart';
 import 'package:audio_cult/app/features/music/detail-song/detail_song_bloc.dart';
+import 'package:audio_cult/app/features/my_cart/my_cart_bloc.dart';
 import 'package:audio_cult/app/injections.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/l10n/l10n.dart';
@@ -32,7 +33,7 @@ class DetailSongComment extends StatefulWidget {
 }
 
 class _DetailSongCommentState extends State<DetailSongComment> {
-  DetailSongBloc songBloc = DetailSongBloc(locator.get());
+  DetailSongBloc songBloc = DetailSongBloc(locator.get(), locator.get<MyCartBloc>());
 
   @override
   void initState() {

@@ -135,5 +135,10 @@
     "t_taxes": "Taxes",
     "t_total": "Total",
     "t_checkout": "Checkout",
-    "t_cart_empty": "Cart is empty"
+    "t_cart_empty": "Cart is empty",
+    "t_add_to_cart": "Add to cart",
+    "t_delete_cart_item_are_you_sure": "You are trying to delete some cart items. Continue?",
+    "t_clear_cart_are_you_sure": "You are trying to delete all cart items. Continue?",
+    "t_yes": "Yes",
+    "t_no": "No"
 }

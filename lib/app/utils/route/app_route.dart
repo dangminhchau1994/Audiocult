@@ -104,7 +104,7 @@ class AppRoute {
   static const String routeResetPassword = '/route_reset_password';
   static const String routeUniversalSearch = '/route_universal_search';
   static const String routeSearchSuggestion = '/route_search_suggestion';
-  static const String routeMyCart = '/my_cart';
+  static const String routeMyCart = '/route_my_cart';
 
   ///#end region
 

@@ -58,7 +58,8 @@ void setupLocator() {
 
   getIt.registerLazySingleton<TopPlaylistBloc>(() => TopPlaylistBloc(locator.get<AppRepository>()));
 
-  getIt.registerLazySingleton<DetailSongBloc>(() => DetailSongBloc(locator.get<AppRepository>()));
+  getIt.registerLazySingleton<DetailSongBloc>(
+      () => DetailSongBloc(locator.get<AppRepository>(), locator.get<MyCartBloc>()));
 
   getIt.registerLazySingleton<DetailAlbumBloc>(() => DetailAlbumBloc(locator.get<AppRepository>()));
 
@@ -155,5 +156,5 @@ void setupLocator() {
 
   getIt.registerFactory<SearchSuggestionBloc>(SearchSuggestionBloc.new);
 
-  getIt.registerFactory(() => MyCartBloc(locator.get<AppRepository>()));
+  getIt.registerLazySingleton(() => MyCartBloc(locator.get<AppRepository>()));
 }

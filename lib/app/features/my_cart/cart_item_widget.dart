@@ -2,16 +2,37 @@ part of 'my_cart_screen.dart';
 
 class CartItemWidget extends StatefulWidget {
   final Song song;
-  final VoidCallback? deleteButtonOnTap;
+  final VoidCallback? removableCheckboxOnChange;
   final VoidCallback? onTap;
+  final bool isChecked;
 
-  const CartItemWidget(this.song, {this.deleteButtonOnTap, this.onTap, Key? key}) : super(key: key);
+  const CartItemWidget(this.song,
+      {this.removableCheckboxOnChange,
+      this.onTap,
+      this.isChecked = false,
+      Key? key})
+      : super(key: key);
 
   @override
   State<CartItemWidget> createState() => _CartItemWidgetState();
 }
 
 class _CartItemWidgetState extends State<CartItemWidget> {
+  bool _isCheckedToRemove = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _isCheckedToRemove = widget.isChecked;
+  }
+
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    _isCheckedToRemove = false;
+  }
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -39,7 +60,7 @@ class _CartItemWidgetState extends State<CartItemWidget> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       _priceLabelWidget(),
-                      _deleteButton(),
+                      _removableItemCheckbox(),
                     ],
                   ),
                 ],
@@ -90,15 +111,24 @@ class _CartItemWidgetState extends State<CartItemWidget> {
 
   Widget _timeWidget() {
     return Text(
-      DateTimeUtils.formatyMMMMd(int.tryParse(widget.song.timeStamp ?? '') ?? 0),
-      style: context.subtitleTextStyle()?.copyWith(color: AppColors.subTitleColor),
+      DateTimeUtils.formatyMMMMd(
+          int.tryParse(widget.song.timeStamp ?? '') ?? 0),
+      style:
+          context.subtitleTextStyle()?.copyWith(color: AppColors.subTitleColor),
     );
   }
 
-  Widget _deleteButton() {
+  Widget _removableItemCheckbox() {
     return TextButton(
-      onPressed: widget.deleteButtonOnTap,
-      child: Text(context.l10n.t_delete),
+      onPressed: () {
+        setState(() {
+          // _isCheckedToRemove = !_isCheckedToRemove;
+          widget.removableCheckboxOnChange?.call();
+        });
+      },
+      child: widget.isChecked
+          ? SvgPicture.asset(AppAssets.squareCheckedIcon)
+          : SvgPicture.asset(AppAssets.squareUncheckedIcon),
     );
   }
 }

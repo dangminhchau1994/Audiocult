@@ -634,4 +634,8 @@ class AppRepository extends BaseRepository {
   Future<Either<bool, Exception>> deleteCartItems(List<String> itemIds) {
     return safeCall(() => appServiceProvider.deleteCartItems(itemIds));
   }
+
+  Future<Either<bool, Exception>> addCartitem(String id) {
+    return safeCall(() => appServiceProvider.addCartItem(id));
+  }
 }
