@@ -18,6 +18,7 @@ import 'package:audio_cult/app/data_source/models/requests/video_request.dart';
 import 'package:audio_cult/app/data_source/models/responses/album/album_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/announcement/announcement_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/atlas_category.dart';
+import 'package:audio_cult/app/data_source/models/responses/cart_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/comment/comment_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/country_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/create_playlist/create_playlist_response.dart';
@@ -1206,5 +1207,39 @@ class AppServiceProvider {
       },
     );
     return response;
+  }
+
+  Future<CartResponse> getAllCartItems() async {
+    final response = await _dioHelper.get(
+        route: '/restful_api/cart',
+        responseBodyMapper: (jsonMapper) {
+          return CartResponse.fromJson(jsonMapper['data'] as Map<String, dynamic>);
+        });
+    return response;
+  }
+
+  Future<bool> deleteCartItems(List<String> itemIds) async {
+    final params = <String, dynamic>{};
+    params['val[song_ids]'] = itemIds.join(',');
+    final result = await _dioHelper.delete(
+        route: '/restful_api/cart',
+        requestBody: params,
+        responseBodyMapper: (jsonMapper) {
+          return jsonMapper['status'].toString().toLowerCase() == RequestStatus.success.value;
+        });
+    return result;
+  }
+
+  Future<bool> addCartItem(String id) async {
+    final params = <String, dynamic>{};
+    params['val[item_id]'] = id;
+    final result = await _dioHelper.post(
+      route: '/restful_api/cart',
+      requestParams: params,
+      responseBodyMapper: (jsonMapper) {
+        return jsonMapper['status'].toString().toLowerCase() == RequestStatus.success.value;
+      },
+    );
+    return result;
   }
 }

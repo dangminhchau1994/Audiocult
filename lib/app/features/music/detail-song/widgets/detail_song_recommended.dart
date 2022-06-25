@@ -1,6 +1,7 @@
 import 'package:audio_cult/app/data_source/models/responses/song/song_response.dart';
 import 'package:audio_cult/app/features/music/detail-song/detail_song_bloc.dart';
 import 'package:audio_cult/app/features/music/discover/widgets/song_item.dart';
+import 'package:audio_cult/app/features/my_cart/my_cart_bloc.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/l10n/l10n.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +24,7 @@ class DetailSongRecommended extends StatefulWidget {
 }
 
 class _DetailSongRecommendedState extends State<DetailSongRecommended> {
-  DetailSongBloc songBloc = DetailSongBloc(locator.get());
+  DetailSongBloc songBloc = DetailSongBloc(locator.get(), locator.get<MyCartBloc>());
 
   @override
   void initState() {
