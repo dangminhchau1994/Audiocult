@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 part 'feed_response.g.dart';
 
@@ -11,6 +12,16 @@ enum FeedType {
   userCover,
   userPhoto,
   none,
+}
+
+@JsonSerializable(fieldRename: FieldRename.snake)
+class LocationLatlng {
+  double? latitude;
+  double? longitude;
+
+  LocationLatlng({this.latitude, this.longitude});
+
+  factory LocationLatlng.fromJson(Map<String, dynamic> json) => _$LocationLatlngFromJson(json);
 }
 
 @JsonSerializable(fieldRename: FieldRename.snake)
@@ -33,6 +44,7 @@ class FeedResponse {
   String? profilePageId;
   String? userServerId;
   String? userName;
+  String? locationName;
   String? fullName;
   String? gender;
   String? userImage;
@@ -83,6 +95,7 @@ class FeedResponse {
   String? customJs;
   bool? noTargetBlank;
   LastIcon? lastIcon;
+  LocationLatlng? locationLatlng;
 
   FeedResponse({
     this.feedId,
@@ -96,6 +109,7 @@ class FeedResponse {
     this.timeStamp,
     this.lastIcon,
     this.feedReference,
+    this.locationLatlng,
     this.parentFeedId,
     this.parentModuleId,
     this.timeUpdate,
@@ -108,6 +122,7 @@ class FeedResponse {
     this.gender,
     this.userImage,
     this.isInvisible,
+    this.locationName,
     this.feedContent,
     this.userGroupId,
     this.languageId,

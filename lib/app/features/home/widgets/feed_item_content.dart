@@ -1,10 +1,16 @@
+import 'dart:typed_data';
+
+import 'package:audio_cult/app/utils/datetime/date_time_utils.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
+import 'package:audio_cult/w_components/images/common_image_network.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flick_video_player/flick_video_player.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:video_player/video_player.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
@@ -13,6 +19,7 @@ import '../../../../w_components/loading/loading_widget.dart';
 import '../../../data_source/models/responses/feed/feed_response.dart';
 import '../../../utils/constants/app_assets.dart';
 import '../../../utils/constants/app_colors.dart';
+import '../../../utils/file/file_utils.dart';
 import '../../../utils/route/app_route.dart';
 
 class FeedItemContent extends StatefulWidget {
@@ -27,6 +34,17 @@ class FeedItemContent extends StatefulWidget {
 class _FeedItemContentState extends State<FeedItemContent> {
   late YoutubePlayerController _youtubePlayerController;
   late FlickManager _flickVideoManager;
+  final Set<Marker> markers = {};
+  late GoogleMapController _controller;
+  Uint8List? _iconMarker;
+
+  void _getCustomMarker() {
+    FileUtils.getBytesFromAsset(AppAssets.markerIcon, 80).then((value) {
+      setState(() {
+        _iconMarker = value;
+      });
+    });
+  }
 
   @override
   void initState() {
@@ -46,6 +64,7 @@ class _FeedItemContentState extends State<FeedItemContent> {
         widget.data?.customDataCache?.destination.toString() ?? '',
       ),
     );
+    _getCustomMarker();
   }
 
   @override
@@ -53,6 +72,7 @@ class _FeedItemContentState extends State<FeedItemContent> {
     super.dispose();
     _youtubePlayerController.dispose();
     _flickVideoManager.dispose();
+    _controller.dispose();
   }
 
   @override
@@ -63,8 +83,42 @@ class _FeedItemContentState extends State<FeedItemContent> {
   Widget _buildBody() {
     switch (widget.data!.getFeedType()) {
       case FeedType.advancedEvent:
-        return Html(
-          data: widget.data?.feedCustomHtml ?? '',
+        final event = widget.data?.customDataCache;
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            CommonImageNetWork(
+              width: double.infinity,
+              height: 200,
+              imagePath: event?.imagePath,
+            ),
+            const SizedBox(height: 10),
+            Text(
+              '${DateTimeUtils.formatyMMMMd(int.parse(event?.startTime ?? ''))} - ${DateTimeUtils.formatyMMMMd(
+                int.parse(event?.endTime ?? ''),
+              )}',
+              style: context.buttonTextStyle()!.copyWith(
+                    fontSize: 14,
+                    color: Colors.white,
+                  ),
+            ),
+            const SizedBox(height: 6),
+            Text(
+              event?.title ?? '',
+              style: context.buttonTextStyle()!.copyWith(
+                    fontSize: 18,
+                    color: AppColors.primaryButtonColor,
+                  ),
+            ),
+            const SizedBox(height: 6),
+            Text(
+              event?.location ?? '',
+              style: context.buttonTextStyle()!.copyWith(
+                    fontSize: 14,
+                    color: Colors.white,
+                  ),
+            )
+          ],
         );
       case FeedType.advancedSong:
         return Container(
@@ -135,13 +189,65 @@ class _FeedItemContentState extends State<FeedItemContent> {
           ),
         );
       case FeedType.userStatus:
-        if (widget.data!.statusBackground!.isEmpty) {
+        if (widget.data!.statusBackground!.isEmpty && widget.data?.locationName == null) {
           return Text(
             widget.data?.feedStatus ?? '',
             style: context.buttonTextStyle()!.copyWith(
                   fontSize: 16,
                   color: Colors.white,
                 ),
+          );
+        } else if (widget.data?.locationName != null) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                widget.data?.feedStatus ?? '',
+                style: context.buttonTextStyle()!.copyWith(
+                      fontSize: 16,
+                      color: Colors.white,
+                    ),
+              ),
+              const SizedBox(height: 10),
+              SizedBox(
+                width: double.infinity,
+                height: 300,
+                child: GoogleMap(
+                  gestureRecognizers: const <Factory<OneSequenceGestureRecognizer>>{
+                    Factory<OneSequenceGestureRecognizer>(
+                      EagerGestureRecognizer.new,
+                    ),
+                  },
+                  onTap: (lng) {
+                    FocusManager.instance.primaryFocus?.unfocus();
+                  },
+                  initialCameraPosition: CameraPosition(
+                    target: LatLng(
+                      widget.data?.locationLatlng?.latitude ?? 0.0,
+                      widget.data?.locationLatlng?.longitude ?? 0.0,
+                    ),
+                    zoom: 10,
+                  ),
+                  markers: {
+                    if (_iconMarker != null)
+                      Marker(
+                        markerId: const MarkerId(''),
+                        position: LatLng(
+                          widget.data?.locationLatlng?.latitude ?? 0.0,
+                          widget.data?.locationLatlng?.longitude ?? 0.0,
+                        ),
+                        icon: BitmapDescriptor.fromBytes(_iconMarker!),
+                      )
+                  },
+                  onMapCreated: (controller) {
+                    _controller = controller;
+                    FileUtils.getJsonFile(AppAssets.nightMapJson).then((value) {
+                      _controller.setMapStyle(value);
+                    });
+                  },
+                ),
+              ),
+            ],
           );
         } else {
           return Stack(

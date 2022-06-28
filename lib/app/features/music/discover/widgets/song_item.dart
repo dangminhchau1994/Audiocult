@@ -108,6 +108,25 @@ class SongItem extends StatelessWidget {
                                   fontSize: 16,
                                 ),
                           ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          const Icon(
+                            Icons.circle,
+                            color: Colors.grey,
+                            size: 5,
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          Text(
+                            '\$${song?.cost ?? ''}',
+                            overflow: TextOverflow.ellipsis,
+                            style: context.bodyTextPrimaryStyle()!.copyWith(
+                                  color: AppColors.subTitleColor,
+                                  fontSize: 16,
+                                ),
+                          ),
                         ],
                       )
                     ],

@@ -221,6 +221,8 @@ class AppServiceProvider {
       requestBody: FormData.fromMap({
         'ajax_upload': video,
         'val[title]': request.title,
+        'val[location][latlng]': request.latLng,
+        'val[location][name]': request.locationName,
         'val[url]': request.url,
         'val[status_info]': request.statusInfo,
       }),
@@ -244,6 +246,8 @@ class AppServiceProvider {
       requestBody: FormData.fromMap({
         'image[]': listImages,
         'val[description]': request.description,
+        'val[location][latlng]': request.latLng,
+        'val[location][name]': request.locationName,
         'val[user_id]': request.userId,
         'val[album_id]': request.albumId,
         'val[privacy]': request.privacy

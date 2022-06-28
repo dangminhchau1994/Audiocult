@@ -67,10 +67,8 @@ class CommentListBloc extends BaseBloc<CommentRequest, List<CommentResponse>> {
 
     result.fold((success) {
       _deleteCommentSubject.sink.add(BlocState.success(success));
-      debugPrint('success');
     }, (error) {
       _deleteCommentSubject.sink.add(BlocState.error(error.toString()));
-      debugPrint('error: $error');
     });
   }
 }

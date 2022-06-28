@@ -6,6 +6,18 @@ part of 'feed_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+LocationLatlng _$LocationLatlngFromJson(Map<String, dynamic> json) =>
+    LocationLatlng(
+      latitude: (json['latitude'] as num?)?.toDouble(),
+      longitude: (json['longitude'] as num?)?.toDouble(),
+    );
+
+Map<String, dynamic> _$LocationLatlngToJson(LocationLatlng instance) =>
+    <String, dynamic>{
+      'latitude': instance.latitude,
+      'longitude': instance.longitude,
+    };
+
 FeedResponse _$FeedResponseFromJson(Map<String, dynamic> json) => FeedResponse(
       feedId: json['feed_id'] as String?,
       appId: json['app_id'] as String?,
@@ -20,6 +32,10 @@ FeedResponse _$FeedResponseFromJson(Map<String, dynamic> json) => FeedResponse(
           ? null
           : LastIcon.fromJson(json['last_icon'] as Map<String, dynamic>),
       feedReference: json['feed_reference'] as String?,
+      locationLatlng: json['location_latlng'] == null
+          ? null
+          : LocationLatlng.fromJson(
+              json['location_latlng'] as Map<String, dynamic>),
       parentFeedId: json['parent_feed_id'] as String?,
       parentModuleId: json['parent_module_id'] as String?,
       timeUpdate: json['time_update'] as String?,
@@ -32,6 +48,7 @@ FeedResponse _$FeedResponseFromJson(Map<String, dynamic> json) => FeedResponse(
       gender: json['gender'] as String?,
       userImage: json['user_image'] as String?,
       isInvisible: json['is_invisible'] as String?,
+      locationName: json['location_name'] as String?,
       feedContent: json['feed_content'] as String?,
       userGroupId: json['user_group_id'] as String?,
       languageId: json['language_id'] as String?,
@@ -104,6 +121,7 @@ Map<String, dynamic> _$FeedResponseToJson(FeedResponse instance) =>
       'profile_page_id': instance.profilePageId,
       'user_server_id': instance.userServerId,
       'user_name': instance.userName,
+      'location_name': instance.locationName,
       'full_name': instance.fullName,
       'gender': instance.gender,
       'user_image': instance.userImage,
@@ -152,6 +170,7 @@ Map<String, dynamic> _$FeedResponseToJson(FeedResponse instance) =>
       'custom_js': instance.customJs,
       'no_target_blank': instance.noTargetBlank,
       'last_icon': instance.lastIcon,
+      'location_latlng': instance.locationLatlng,
     };
 
 LastIcon _$LastIconFromJson(Map<String, dynamic> json) => LastIcon(

@@ -50,12 +50,44 @@ class FeedItemUserInfo extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              '${data?.userName ?? ''} ${data?.feedInfo ?? ''}',
-              style: context.buttonTextStyle()!.copyWith(
-                    fontSize: 16,
-                    color: Colors.white,
+            Row(
+              children: [
+                Text(
+                  '${data?.userName ?? ''} ${data?.locationName != null ? '' : data?.feedInfo ?? ''}',
+                  style: context.buttonTextStyle()!.copyWith(
+                        fontSize: 16,
+                        color: Colors.white,
+                      ),
+                ),
+                Visibility(
+                  visible: data?.locationName != null,
+                  child: SizedBox(
+                    width: 200,
+                    child: RichText(
+                      maxLines: 1,
+                      text: TextSpan(
+                        style: DefaultTextStyle.of(context).style,
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: 'at ',
+                            style: context.buttonTextStyle()!.copyWith(
+                                  fontSize: 14,
+                                  color: Colors.white,
+                                ),
+                          ),
+                          TextSpan(
+                            text: data?.locationName,
+                            style: context.buttonTextStyle()!.copyWith(
+                                  fontSize: 14,
+                                  color: AppColors.primaryButtonColor,
+                                ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
+                )
+              ],
             ),
             const SizedBox(height: 10),
             Text(

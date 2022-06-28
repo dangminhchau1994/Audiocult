@@ -68,7 +68,6 @@ class _ResultScreenState extends State<ResultScreen> {
       }
     });
     _resultBloc = getIt.get<ResultBloc>();
-    debugPrint('cateChau: ${widget.params?.categoryId}');
     _resultBloc.requestData(
       params: EventRequest(
         categoryId: widget.params?.categoryId,

@@ -68,6 +68,12 @@ class _PostStatusState extends State<PostStatus> with DisposableStateMixin, Auto
     }).disposeOn(disposeBag);
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+    _controller.dispose();
+  }
+
   void _getCustomMarker() {
     FileUtils.getBytesFromAsset(AppAssets.markerIcon, 80).then((value) {
       setState(() {
@@ -257,6 +263,8 @@ class _PostStatusState extends State<PostStatus> with DisposableStateMixin, Auto
                                           setState(() {
                                             _lat = location?.latitude ?? 0.0;
                                             _lng = location?.longitude ?? 0.0;
+                                            _createPostRequest.latLng = '$_lat,$_lng';
+                                            _createPostRequest.locationName = placeDetails.fullAddress;
                                             _showMap = true;
                                             _enableBackground = false;
                                             markers.add(
@@ -325,7 +333,9 @@ class _PostStatusState extends State<PostStatus> with DisposableStateMixin, Auto
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         TextField(
-          onChanged: (value) {},
+          onChanged: (value) {
+            _createPostRequest.userStatus = value;
+          },
           decoration: InputDecoration(
             contentPadding: const EdgeInsets.all(18),
             hintText: context.l10n.t_what_new,

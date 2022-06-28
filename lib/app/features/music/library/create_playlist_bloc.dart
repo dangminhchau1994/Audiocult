@@ -28,7 +28,6 @@ class CreatePlayListBloc extends BaseBloc<CreatePlayListRequest, CreatePlayListR
     result.fold(
       (l) async {
         if (l.status == StatusString.success) {
-          debugPrint('asdasd');
           _updatePlayListSubject.add(l.message ?? 'Edit success!');
         } else {
           showError(AppException(l.message));

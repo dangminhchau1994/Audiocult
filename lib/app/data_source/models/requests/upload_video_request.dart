@@ -5,10 +5,14 @@ class UploadVideoRequest {
   String? title;
   String? url;
   String? statusInfo;
+  String? latLng;
+  String? locationName;
 
   UploadVideoRequest({
     this.video,
     this.title,
+    this.latLng,
+    this.locationName,
     this.url,
     this.statusInfo,
   });

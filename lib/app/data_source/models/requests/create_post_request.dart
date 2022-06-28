@@ -20,7 +20,7 @@ class CreatePostRequest {
     data['val[status_background_id]'] = statusBackgroundId;
     data['val[tagged_friends]'] = taggedFriends;
     data['val[location][latlng]'] = latLng;
-    data['val[location][name]'] = latLng;
+    data['val[location][name]'] = locationName;
 
     return data;
   }
