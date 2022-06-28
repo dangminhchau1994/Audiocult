@@ -28,6 +28,7 @@ import 'package:audio_cult/app/features/music/library/create_playlist_screen.dar
 import 'package:audio_cult/app/features/music/library/update_playlist_params.dart';
 import 'package:audio_cult/app/features/music/my_album/upload_song/upload_song_screen.dart';
 import 'package:audio_cult/app/features/music/top_playlist/top_playlist_screen.dart';
+import 'package:audio_cult/app/features/my_cart/my_cart_screen.dart';
 import 'package:audio_cult/app/features/my_diary_in_month/my_diary_in_month_screen.dart';
 import 'package:audio_cult/app/features/notifications/notification_screen.dart';
 import 'package:audio_cult/app/features/player_widgets/player_screen.dart';
@@ -103,6 +104,7 @@ class AppRoute {
   static const String routeResetPassword = '/route_reset_password';
   static const String routeUniversalSearch = '/route_universal_search';
   static const String routeSearchSuggestion = '/route_search_suggestion';
+  static const String routeMyCart = '/route_my_cart';
 
   ///#end region
 
@@ -355,6 +357,8 @@ class AppRoute {
       case routeSearchSuggestion:
         final arguments = asType(settings.arguments);
         return _pageRoute(settings, SearchSuggestionScreen(initialSearchText: arguments as String?));
+      case routeMyCart:
+        return _pageRoute(settings, const MyCartScreen());
       default:
         return null;
     }

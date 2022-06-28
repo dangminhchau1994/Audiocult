@@ -16,6 +16,7 @@ import 'package:audio_cult/app/data_source/models/requests/video_request.dart';
 import 'package:audio_cult/app/data_source/models/responses/album/album_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/announcement/announcement_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/atlas_category.dart';
+import 'package:audio_cult/app/data_source/models/responses/cart_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/comment/comment_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/country_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/create_playlist/create_playlist_response.dart';
@@ -624,5 +625,17 @@ class AppRepository extends BaseRepository {
         cancel: cancel,
       ),
     );
+  }
+
+  Future<Either<CartResponse, Exception>> getCartItems() {
+    return safeCall(appServiceProvider.getAllCartItems);
+  }
+
+  Future<Either<bool, Exception>> deleteCartItems(List<String> itemIds) {
+    return safeCall(() => appServiceProvider.deleteCartItems(itemIds));
+  }
+
+  Future<Either<bool, Exception>> addCartitem(String id) {
+    return safeCall(() => appServiceProvider.addCartItem(id));
   }
 }

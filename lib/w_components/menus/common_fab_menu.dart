@@ -1,4 +1,7 @@
+import 'package:audio_cult/app/base/bloc_state.dart';
+import 'package:audio_cult/app/data_source/models/responses/song/song_response.dart';
 import 'package:audio_cult/app/fcm/fcm_bloc.dart';
+import 'package:audio_cult/app/features/my_cart/my_cart_bloc.dart';
 import 'package:audio_cult/app/injections.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/di/bloc_locator.dart';
@@ -125,16 +128,36 @@ class CommonFabMenu extends StatelessWidget {
           onTap: onNotificationTap,
         ),
         SpeedDialChild(
-          child: SvgPicture.asset(
-            AppAssets.cartIcon,
-            width: 25,
-            height: 25,
-          ),
+          child: _myCartBadge(context),
           backgroundColor: AppColors.inputFillColor,
           foregroundColor: Colors.white,
           onTap: onCartTap,
         ),
       ],
+    );
+  }
+
+  Widget _myCartBadge(BuildContext context) {
+    return StreamBuilder<BlocState<List<Song>>>(
+      stream: getIt.get<MyCartBloc>().allCartItemsStream,
+      builder: (_, snapshot) {
+        return Badge(
+          showBadge: getIt.get<MyCartBloc>().cartItems.isNotEmpty,
+          elevation: 0,
+          badgeColor: AppColors.badgeColor,
+          position: BadgePosition.topEnd(),
+          padding: const EdgeInsets.all(6),
+          badgeContent: Text(
+            getIt.get<MyCartBloc>().cartItems.length.toString(),
+            style: context.buttonTextStyle()?.copyWith(fontSize: 12),
+          ),
+          child: SvgPicture.asset(
+            AppAssets.cartIcon,
+            width: 30,
+            height: 30,
+          ),
+        );
+      },
     );
   }
 
