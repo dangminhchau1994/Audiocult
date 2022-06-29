@@ -1,42 +1,25 @@
 part of 'my_cart_screen.dart';
 
-class CartItemWidget extends StatefulWidget {
+class CartItemWidget extends StatelessWidget {
   final Song song;
   final VoidCallback? removableCheckboxOnChange;
   final VoidCallback? onTap;
   final bool isChecked;
+  final String currency;
 
-  const CartItemWidget(this.song,
-      {this.removableCheckboxOnChange,
-      this.onTap,
-      this.isChecked = false,
-      Key? key})
-      : super(key: key);
-
-  @override
-  State<CartItemWidget> createState() => _CartItemWidgetState();
-}
-
-class _CartItemWidgetState extends State<CartItemWidget> {
-  bool _isCheckedToRemove = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _isCheckedToRemove = widget.isChecked;
-  }
-
-  @override
-  void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
-    super.didChangeDependencies();
-    _isCheckedToRemove = false;
-  }
+  const CartItemWidget(
+    this.song, {
+    this.removableCheckboxOnChange,
+    this.onTap,
+    this.isChecked = false,
+    required this.currency,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: widget.onTap,
+      onTap: onTap,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Row(
@@ -50,16 +33,16 @@ class _CartItemWidgetState extends State<CartItemWidget> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      _nameLabelWidget(),
+                      _nameLabelWidget(context),
                       const SizedBox(height: 8),
-                      _timeWidget(),
+                      _timeWidget(context),
                     ],
                   ),
                   const SizedBox(height: 12),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      _priceLabelWidget(),
+                      _priceLabelWidget(context),
                       _removableItemCheckbox(),
                     ],
                   ),
@@ -78,7 +61,7 @@ class _CartItemWidgetState extends State<CartItemWidget> {
       height: 100,
       errorWidget: (_, error, __) => const Icon(Icons.error),
       placeholder: (_, __) => const LoadingWidget(),
-      imageUrl: widget.song.imagePath ?? '',
+      imageUrl: song.imagePath ?? '',
       imageBuilder: (_, imageProvider) {
         return Container(
           decoration: BoxDecoration(
@@ -93,42 +76,36 @@ class _CartItemWidgetState extends State<CartItemWidget> {
     );
   }
 
-  Widget _nameLabelWidget() {
+  Widget _nameLabelWidget(BuildContext context) {
     return Text(
-      widget.song.title ?? '',
+      song.title ?? '',
       maxLines: 1,
       overflow: TextOverflow.ellipsis,
       style: context.headerStyle(),
     );
   }
 
-  Widget _priceLabelWidget() {
+  Widget _priceLabelWidget(BuildContext context) {
     return Text(
-      widget.song.cost.toString(),
+      '${NumberFormat.compact().format(double.tryParse(song.cost ?? '0'))} $currency',
       style: context.subtitleTextStyle(),
     );
   }
 
-  Widget _timeWidget() {
+  Widget _timeWidget(BuildContext context) {
     return Text(
-      DateTimeUtils.formatyMMMMd(
-          int.tryParse(widget.song.timeStamp ?? '') ?? 0),
-      style:
-          context.subtitleTextStyle()?.copyWith(color: AppColors.subTitleColor),
+      DateTimeUtils.formatyMMMMd(int.tryParse(song.timeStamp ?? '') ?? 0),
+      style: context.subtitleTextStyle()?.copyWith(color: AppColors.subTitleColor),
     );
   }
 
   Widget _removableItemCheckbox() {
     return TextButton(
       onPressed: () {
-        setState(() {
-          // _isCheckedToRemove = !_isCheckedToRemove;
-          widget.removableCheckboxOnChange?.call();
-        });
+        removableCheckboxOnChange?.call();
       },
-      child: widget.isChecked
-          ? SvgPicture.asset(AppAssets.squareCheckedIcon)
-          : SvgPicture.asset(AppAssets.squareUncheckedIcon),
+      child:
+          isChecked ? SvgPicture.asset(AppAssets.squareCheckedIcon) : SvgPicture.asset(AppAssets.squareUncheckedIcon),
     );
   }
 }
