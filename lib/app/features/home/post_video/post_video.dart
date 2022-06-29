@@ -48,10 +48,9 @@ class _PostVideoState extends State<PostVideo> with DisposableStateMixin, Automa
   final RegisterBloc _registerBloc = RegisterBloc(locator.get(), locator.get());
   late GoogleMapController _controller;
   late Uint8List iconMarker;
-  bool? _showMap = false;
-  bool? _showTagFriends;
-  double _lat = 0.0;
-  double _lng = 0.0;
+  late bool? _showMap = false;
+  double _lat = 0;
+  double _lng = 0;
   File? _video;
   SelectMenuModel? _privacy;
   bool _showAddVideo = true;

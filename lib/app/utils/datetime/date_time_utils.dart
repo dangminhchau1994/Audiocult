@@ -87,6 +87,11 @@ class DateTimeUtils {
     return DateFormat.yMMMMd().format(dateToTimeStamp);
   }
 
+  static String formatWeekDay(int timeStamp) {
+    final dateToTimeStamp = DateTime.fromMillisecondsSinceEpoch(timeStamp * 1000);
+    return DateFormat('EEEE, d MMM, yyyy hh:mm').format(dateToTimeStamp);
+  }
+
   static String convertToAgo(int timeStamp) {
     final diff = DateTime.now().difference(DateTime.fromMillisecondsSinceEpoch(timeStamp * 1000));
 

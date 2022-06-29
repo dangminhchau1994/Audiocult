@@ -42,6 +42,7 @@
     "t_reply":"Reply",
     "t_done":"Done",
     "t_view_more_comment":"View more comments",
+    "t_view_reply":"View Replies",
     "t_add_playlist": "Add to playlist",
     "t_create_playlist": "Create Playlist",
     "t_share": "Share",

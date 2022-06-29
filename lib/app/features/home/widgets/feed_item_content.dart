@@ -94,16 +94,6 @@ class _FeedItemContentState extends State<FeedItemContent> {
             ),
             const SizedBox(height: 10),
             Text(
-              '${DateTimeUtils.formatyMMMMd(int.parse(event?.startTime ?? ''))} - ${DateTimeUtils.formatyMMMMd(
-                int.parse(event?.endTime ?? ''),
-              )}',
-              style: context.buttonTextStyle()!.copyWith(
-                    fontSize: 14,
-                    color: Colors.white,
-                  ),
-            ),
-            const SizedBox(height: 6),
-            Text(
               event?.title ?? '',
               style: context.buttonTextStyle()!.copyWith(
                     fontSize: 18,
@@ -117,7 +107,15 @@ class _FeedItemContentState extends State<FeedItemContent> {
                     fontSize: 14,
                     color: Colors.white,
                   ),
-            )
+            ),
+            const SizedBox(height: 6),
+            Text(
+              DateTimeUtils.formatWeekDay(int.parse(event?.timeStamp ?? '')),
+              style: context.buttonTextStyle()!.copyWith(
+                    fontSize: 14,
+                    color: Colors.white,
+                  ),
+            ),
           ],
         );
       case FeedType.advancedSong:
@@ -428,14 +426,18 @@ class _FeedItemContentState extends State<FeedItemContent> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    FlickVideoPlayer(
-                      flickManager: _flickVideoManager,
-                      flickVideoWithControls: const FlickVideoWithControls(
-                        closedCaptionTextStyle: TextStyle(fontSize: 8),
-                        controls: FlickPortraitControls(),
-                      ),
-                      flickVideoWithControlsFullscreen: const FlickVideoWithControls(
-                        controls: FlickLandscapeControls(),
+                    AspectRatio(
+                      aspectRatio: 16 / 9,
+                      child: FlickVideoPlayer(
+                        flickManager: _flickVideoManager,
+                        flickVideoWithControls: const FlickVideoWithControls(
+                          videoFit: BoxFit.contain,
+                          closedCaptionTextStyle: TextStyle(fontSize: 8),
+                          controls: FlickPortraitControls(),
+                        ),
+                        flickVideoWithControlsFullscreen: const FlickVideoWithControls(
+                          controls: FlickLandscapeControls(),
+                        ),
                       ),
                     ),
                     const SizedBox(height: 20),

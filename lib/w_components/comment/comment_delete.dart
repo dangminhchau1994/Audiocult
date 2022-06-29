@@ -15,21 +15,24 @@ class CommentDelete extends StatelessWidget {
   Widget build(BuildContext context) {
     return WButtonInkwell(
       onPressed: onDelete,
-      child: Row(
-        children: [
-          const Icon(
-            Icons.delete_outline,
-            color: Colors.white,
-            size: 24,
-          ),
-          const SizedBox(
-            width: 20,
-          ),
-          Text(
-            context.l10n.t_delete,
-            style: context.buttonTextStyle()!.copyWith(fontSize: 14),
-          )
-        ],
+      child: Padding(
+        padding: const EdgeInsets.all(8),
+        child: Row(
+          children: [
+            const Icon(
+              Icons.delete_outline,
+              color: Colors.white,
+              size: 24,
+            ),
+            const SizedBox(
+              width: 20,
+            ),
+            Text(
+              context.l10n.t_delete,
+              style: context.buttonTextStyle()!.copyWith(fontSize: 14),
+            )
+          ],
+        ),
       ),
     );
   }

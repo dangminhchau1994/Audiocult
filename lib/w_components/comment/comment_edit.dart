@@ -4,10 +4,7 @@ import 'package:flutter/material.dart';
 import '../buttons/w_button_inkwell.dart';
 
 class CommentEdit extends StatelessWidget {
-  const CommentEdit({
-    Key? key,
-    this.onEdit
-  }) : super(key: key);
+  const CommentEdit({Key? key, this.onEdit}) : super(key: key);
 
   final Function()? onEdit;
 
@@ -15,21 +12,24 @@ class CommentEdit extends StatelessWidget {
   Widget build(BuildContext context) {
     return WButtonInkwell(
       onPressed: onEdit,
-      child: Row(
-        children: [
-          const Icon(
-            Icons.edit_outlined,
-            color: Colors.white,
-            size: 24,
-          ),
-          const SizedBox(
-            width: 20,
-          ),
-          Text(
-            context.l10n.t_edit,
-            style: context.buttonTextStyle()!.copyWith(fontSize: 14),
-          )
-        ],
+      child: Padding(
+        padding: const EdgeInsets.all(8),
+        child: Row(
+          children: [
+            const Icon(
+              Icons.edit_outlined,
+              color: Colors.white,
+              size: 24,
+            ),
+            const SizedBox(
+              width: 20,
+            ),
+            Text(
+              context.l10n.t_edit,
+              style: context.buttonTextStyle()!.copyWith(fontSize: 14),
+            )
+          ],
+        ),
       ),
     );
   }

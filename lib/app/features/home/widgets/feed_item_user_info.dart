@@ -19,6 +19,7 @@ class FeedItemUserInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         GestureDetector(
           onTap: () {
@@ -47,38 +48,36 @@ class FeedItemUserInfo extends StatelessWidget {
           ),
         ),
         const SizedBox(width: 10),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Text(
-                  '${data?.userName ?? ''} ${data?.locationName != null ? '' : data?.feedInfo ?? ''}',
-                  style: context.buttonTextStyle()!.copyWith(
-                        fontSize: 16,
-                        color: Colors.white,
-                      ),
-                ),
-                Visibility(
-                  visible: data?.locationName != null,
-                  child: SizedBox(
-                    width: 200,
+        Flexible(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Wrap(
+                children: [
+                  Text(
+                    '${data?.userName ?? ''} ${data?.locationName != null ? '' : data?.feedInfo ?? ''}',
+                    style: context.buttonTextStyle()!.copyWith(
+                          fontSize: 16,
+                          color: Colors.white,
+                        ),
+                  ),
+                  Visibility(
+                    visible: data?.locationName != null,
                     child: RichText(
-                      maxLines: 1,
                       text: TextSpan(
                         style: DefaultTextStyle.of(context).style,
                         children: <TextSpan>[
                           TextSpan(
                             text: 'at ',
                             style: context.buttonTextStyle()!.copyWith(
-                                  fontSize: 14,
+                                  fontSize: 16,
                                   color: Colors.white,
                                 ),
                           ),
                           TextSpan(
                             text: data?.locationName,
                             style: context.buttonTextStyle()!.copyWith(
-                                  fontSize: 14,
+                                  fontSize: 16,
                                   color: AppColors.primaryButtonColor,
                                 ),
                           ),
@@ -86,19 +85,19 @@ class FeedItemUserInfo extends StatelessWidget {
                       ),
                     ),
                   ),
-                )
-              ],
-            ),
-            const SizedBox(height: 10),
-            Text(
-              DateTimeUtils.convertToAgo(int.parse(data?.timeStamp ?? '')),
-              style: context.buttonTextStyle()!.copyWith(
-                    fontSize: 14,
-                    color: Colors.grey,
-                  ),
-            ),
-          ],
-        )
+                ],
+              ),
+              const SizedBox(height: 10),
+              Text(
+                DateTimeUtils.convertToAgo(int.parse(data?.timeStamp ?? '')),
+                style: context.buttonTextStyle()!.copyWith(
+                      fontSize: 14,
+                      color: Colors.grey,
+                    ),
+              ),
+            ],
+          ),
+        ),
       ],
     );
   }

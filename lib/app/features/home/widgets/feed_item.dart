@@ -35,18 +35,17 @@ class _FeedItemState extends State<FeedItem> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: AppColors.secondaryButtonColor,
-        borderRadius: BorderRadius.circular(8),
-      ),
-      width: double.infinity,
-      child: Stack(
-        children: [
-          Column(
+    return Stack(
+      children: [
+        Container(
+          padding: const EdgeInsets.all(20),
+          decoration: BoxDecoration(
+            color: AppColors.secondaryButtonColor,
+            borderRadius: BorderRadius.circular(8),
+          ),
+          width: double.infinity,
+          child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
             children: [
               FeedItemUserInfo(
                 data: widget.data,
@@ -79,13 +78,13 @@ class _FeedItemState extends State<FeedItem> {
               ),
             ],
           ),
-          const Positioned(
-            top: 0,
-            right: 0,
-            child: FeedItemModify(),
-          )
-        ],
-      ),
+        ),
+        const Positioned(
+          top: 0,
+          right: 0,
+          child: FeedItemModify(),
+        )
+      ],
     );
   }
 }

@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../../../../utils/constants/app_colors.dart';
+import '../../../../utils/toast/toast_utils.dart';
 
 class EventDetailAttending extends StatefulWidget {
   const EventDetailAttending({
@@ -102,16 +103,24 @@ class _EventDetailAttendingState extends State<EventDetailAttending> {
             const SizedBox(width: 20),
             Expanded(
               flex: 2,
-              child: _buildComponent(
-                SvgPicture.asset(
-                  AppAssets.mailIcon,
-                ),
-                Text(
-                  context.l10n.t_invite_friend,
-                  style: context.bodyTextPrimaryStyle()!.copyWith(
-                        color: Colors.white,
-                        fontSize: 16,
-                      ),
+              child: GestureDetector(
+                onTap: () {
+                  ToastUtility.showPending(
+                    context: context,
+                    message: context.l10n.t_feature_development,
+                  );
+                },
+                child: _buildComponent(
+                  SvgPicture.asset(
+                    AppAssets.mailIcon,
+                  ),
+                  Text(
+                    context.l10n.t_invite_friend,
+                    style: context.bodyTextPrimaryStyle()!.copyWith(
+                          color: Colors.white,
+                          fontSize: 16,
+                        ),
+                  ),
                 ),
               ),
             )

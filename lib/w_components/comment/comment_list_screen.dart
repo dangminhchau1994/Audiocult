@@ -223,7 +223,6 @@ class _CommentListScreenState extends State<CommentListScreen> {
       context: context,
       backgroundColor: Colors.transparent,
       builder: (context) => Container(
-        height: 120,
         padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
           color: AppColors.secondaryButtonColor,
@@ -233,6 +232,7 @@ class _CommentListScreenState extends State<CommentListScreen> {
           ),
         ),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
             CommentEdit(
               onEdit: () {
