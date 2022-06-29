@@ -151,6 +151,7 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                       arguments: {'song_id': songs[index].songId},
                                     );
                                   },
+                                  currency: _bloc.currency ?? '',
                                 ),
                               ),
                           separatorBuilder: (_, index) => Divider(color: Colors.blueGrey.withAlpha(60)),
