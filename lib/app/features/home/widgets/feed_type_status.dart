@@ -54,7 +54,8 @@ class _FeedTypeStatusState extends State<FeedTypeStatus> {
   }
 
   Widget _buildContent(FeedResponse data, BuildContext context) {
-    if (data.statusBackground!.isEmpty && data.locationName == null) {
+    final isBackGround = data.statusBackground?.isEmpty ?? false;
+    if (isBackGround && data.locationName == null) {
       return Text(
         data.feedStatus ?? '',
         style: context.buttonTextStyle()!.copyWith(

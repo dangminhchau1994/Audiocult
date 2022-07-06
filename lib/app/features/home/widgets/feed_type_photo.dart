@@ -26,7 +26,7 @@ class FeedTypePhoto extends StatelessWidget {
               ),
         ),
         const SizedBox(height: 20),
-        if (data?.apiFeedImage != null)
+        if (data?.feedImageUrl != null)
           GridView(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),

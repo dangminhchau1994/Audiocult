@@ -10,6 +10,7 @@ import 'package:audio_cult/app/utils/route/app_route.dart';
 import 'package:audio_cult/app/utils/toast/toast_utils.dart';
 import 'package:audio_cult/l10n/l10n.dart';
 import 'package:audio_cult/w_components/bottom_navigation_bar/common_bottom_bar.dart';
+import 'package:audio_cult/w_components/buttons/w_button_inkwell.dart';
 import 'package:audio_cult/w_components/menus/common_circular_menu.dart';
 import 'package:badges/badges.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -93,14 +94,24 @@ class _MainScreenState extends State<MainScreen> {
 
   Widget _buildIcon(int currentIndex) {
     if (currentIndex == 0 || currentIndex == 1) {
-      return SvgPicture.asset(
-        AppAssets.messageIcon,
-        fit: BoxFit.cover,
+      return WButtonInkwell(
+        onPressed: () {
+          ToastUtility.showPending(context: context, message: context.l10n.t_feature_development);
+        },
+        child: SvgPicture.asset(
+          AppAssets.messageIcon,
+          fit: BoxFit.cover,
+        ),
       );
     } else {
-      return SvgPicture.asset(
-        AppAssets.searchIcon,
-        fit: BoxFit.cover,
+      return WButtonInkwell(
+        onPressed: () {
+          ToastUtility.showPending(context: context, message: context.l10n.t_feature_development);
+        },
+        child: SvgPicture.asset(
+          AppAssets.searchIcon,
+          fit: BoxFit.cover,
+        ),
       );
     }
   }

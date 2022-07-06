@@ -191,7 +191,7 @@
             android:value="2" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyDBltT-oOtFlFuIFZIVgYc19A7_jJTKBSs" />
+            android:value="AIzaSyBl3m840LRd4rx6f469PXC8MVH-Tfacd5s" />
 
         <service android:name="com.ryanheise.audioservice.AudioService">
             <intent-filter>
