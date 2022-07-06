@@ -9,11 +9,15 @@ import 'package:audio_cult/app/injections.dart';
 import 'package:audio_cult/app/services/media_service.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/l10n/l10n.dart';
+import 'package:audio_cult/w_components/list_photos/common_list_multi_photo.dart';
+import 'package:dartz/dartz_unsafe.dart';
 import 'package:disposing/disposing.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:photo_manager/photo_manager.dart' hide LatLng;
 import '../../../../di/bloc_locator.dart';
 import '../../../../w_components/buttons/common_button.dart';
 import '../../../../w_components/buttons/w_button_inkwell.dart';
@@ -47,6 +51,16 @@ class _PostPhotosState extends State<PostPhotos> with DisposableStateMixin, Auto
   bool? _showTagFriends;
   double _lat = 0.0;
   double _lng = 0.0;
+  File? file;
+  String errorTitle = '';
+  AssetPathEntity? _path;
+  List<AssetEntity>? _entities;
+  int _totalEntitiesCount = 0;
+  int _page = 0;
+  bool _isLoading = false;
+  int _sizePerPage = 50;
+  bool _isLoadingMore = false;
+  bool _hasMoreToLoad = true;
 
   void _getCustomMarker() {
     FileUtils.getBytesFromAsset(AppAssets.markerIcon, 80).then((value) {
@@ -66,27 +80,112 @@ class _PostPhotosState extends State<PostPhotos> with DisposableStateMixin, Auto
     }).disposeOn(disposeBag);
   }
 
-  Future _getImage(AppImageSource _appImageSource) async {
-    final _pickedImageFile = await _mediaService.uploadImage(context, AppImageSource.gallery);
+  Future<void> _requestAssets() async {
+    // Request permissions.
+    final _ps = await PhotoManager.requestPermissionExtend();
+    if (!mounted) {
+      return;
+    }
 
-    if (_pickedImageFile != null) {
-      for (final image in _pickedImageFile) {
-        setState(() {
-          _listImages.add(image);
+    // Further requests can be only procceed with authorized or limited.
+    if (_ps != PermissionState.authorized && _ps != PermissionState.limited) {
+      await showDialog(
+        context: context,
+        builder: (BuildContext context) => CupertinoAlertDialog(
+          title: Text(context.l10n.t_camera_permission),
+          content: Text(context.l10n.t_need_photos),
+          actions: <Widget>[
+            CupertinoDialogAction(
+              child: Text(context.l10n.t_cancel),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+            CupertinoDialogAction(
+              child: Text(context.l10n.t_settings),
+              onPressed: () {
+                openAppSettings();
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        ),
+      );
+
+      return;
+    }
+
+    // Obtain assets using the path entity.
+    final paths = await PhotoManager.getAssetPathList(
+      onlyAll: true,
+    );
+    if (!mounted) {
+      return;
+    }
+
+    // Return if not paths found.
+    if (paths.isEmpty) {
+      setState(() {
+        _isLoading = false;
+      });
+      debugPrint('No paths found.');
+      return;
+    }
+    setState(() {
+      _path = paths.first;
+    });
+    _totalEntitiesCount = _path!.assetCount;
+    final entities = await _path!.getAssetListPaged(
+      page: 0,
+      size: _sizePerPage,
+    );
+    if (!mounted) {
+      return;
+    }
+    setState(() {
+      _entities = entities;
+      _isLoading = false;
+      _hasMoreToLoad = _entities!.length < _totalEntitiesCount;
+    });
+
+    if (_ps == PermissionState.limited || _ps == PermissionState.authorized) {
+      final result = await Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => CommonListMultiPhotos(
+            entities: _entities,
+            path: _path,
+            isLoadingMore: _isLoadingMore,
+            hasMoreToLoad: _hasMoreToLoad,
+            loadMoreAsset: _loadMoreAsset,
+            permissionState: _ps,
+          ),
+        ),
+      );
+      if (result != null) {
+        result.forEach((element) {
+          element.file.then((value) async {
+            file = value as File;
+            _listImages.add(file ?? File(''));
+            setState(() {});
+          });
         });
       }
     }
   }
 
-  Future<AppImageSource?> _pickImageSource() async {
-    final _appImageSource = await showCupertinoModalPopup(
-      context: context,
-      builder: (BuildContext context) => const ImagePickerActionSheet(),
+  Future<void> _loadMoreAsset() async {
+    final entities = await _path!.getAssetListPaged(
+      page: _page + 1,
+      size: _sizePerPage,
     );
-    if (_appImageSource != null) {
-      await _getImage(_appImageSource as AppImageSource);
+    if (!mounted) {
+      return;
     }
-    return null;
+    setState(() {
+      _entities!.addAll(entities);
+      _page++;
+      _hasMoreToLoad = _entities!.length < _totalEntitiesCount;
+      _isLoadingMore = false;
+    });
   }
 
   @override
@@ -101,13 +200,13 @@ class _PostPhotosState extends State<PostPhotos> with DisposableStateMixin, Auto
                 if (_listImages.isEmpty)
                   AddPhoto(
                     onAddPhoto: () {
-                      _pickImageSource();
+                      _requestAssets();
                     },
                   )
                 else
                   PostListImage(
                     listImages: _listImages,
-                    onAddImage: _pickImageSource,
+                    onAddImage: _requestAssets,
                     onRemoveImage: (index) {
                       setState(() {
                         _listImages.removeAt(index);
