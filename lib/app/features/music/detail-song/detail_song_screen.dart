@@ -155,7 +155,7 @@ class _DetailSongScreenState extends State<DetailSongScreen> {
       child: Align(
         alignment: Alignment.centerLeft,
         child: Padding(
-          padding: const EdgeInsets.only(left: 8, bottom: 16),
+          padding: const EdgeInsets.only(left: 16, bottom: 16),
           child: InkWell(
             highlightColor: Colors.transparent,
             onTap: () => alreadyAdded ? null : getIt.get<DetailSongBloc>().addSongToCart(song),

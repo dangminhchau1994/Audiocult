@@ -27,6 +27,9 @@ class MyCartBloc extends BaseBloc {
   final _removableItemsStreamController = StreamController<List<Song>>.broadcast();
   Stream<List<Song>> get removableItemStream => _removableItemsStreamController.stream;
 
+  final _exceptionStreamController = StreamController<Exception>.broadcast();
+  Stream<Exception> get exceptionStream => _exceptionStreamController.stream;
+
   MyCartBloc(this._appRepo);
 
   void loadAllCartItems() async {
@@ -91,7 +94,10 @@ class MyCartBloc extends BaseBloc {
       _removableItemsStreamController.sink.add([]);
       loadAllCartItems();
       hideOverlayLoading();
-    }, (r) {});
+    }, (r) {
+      hideOverlayLoading();
+      _exceptionStreamController.sink.add(r);
+    });
   }
 
   void addItemToRemovableList(Song song) {
