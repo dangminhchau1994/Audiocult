@@ -158,7 +158,7 @@ class _PrivacySettingsScreenState extends State<PrivacySettingsScreen> {
         final isEnable = snapshot.data!;
         return CommonButton(
           text: context.l10n.t_update,
-          onTap: isEnable ? _bloc.saveDataAppSharingSection : null,
+          onTap: isEnable ? _bloc.saveDataProfileSection : null,
           color: AppColors.primaryButtonColor,
         );
       },
@@ -243,9 +243,7 @@ class _PrivacySettingsScreenState extends State<PrivacySettingsScreen> {
     return options
         .map(
           (e) => PopupMenuItem(
-            onTap: () {
-              callback(e);
-            },
+            onTap: () => callback(e),
             child: Text(
               e.phrase ?? '',
               style: context
