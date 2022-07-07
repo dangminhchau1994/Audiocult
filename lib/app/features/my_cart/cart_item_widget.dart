@@ -27,26 +27,28 @@ class CartItemWidget extends StatelessWidget {
             _ownerImageWidget(),
             const SizedBox(width: 12),
             Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      _nameLabelWidget(context),
-                      const SizedBox(height: 8),
-                      _timeWidget(context),
-                    ],
-                  ),
-                  const SizedBox(height: 12),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      _priceLabelWidget(context),
-                      _removableItemCheckbox(),
-                    ],
-                  ),
-                ],
+              child: Padding(
+                padding: const EdgeInsets.only(top: 16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _nameLabelWidget(context),
+                        const SizedBox(height: 4),
+                        _timeWidget(context),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        _priceLabelWidget(context),
+                        _removableItemCheckbox(),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           ],
@@ -56,23 +58,25 @@ class CartItemWidget extends StatelessWidget {
   }
 
   Widget _ownerImageWidget() {
-    return CachedNetworkImage(
-      width: 100,
-      height: 100,
-      errorWidget: (_, error, __) => const Icon(Icons.error),
-      placeholder: (_, __) => const LoadingWidget(),
-      imageUrl: song.imagePath ?? '',
-      imageBuilder: (_, imageProvider) {
-        return Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(4),
-            image: DecorationImage(
-              image: imageProvider,
-              fit: BoxFit.cover,
+    return Center(
+      child: CachedNetworkImage(
+        width: 100,
+        height: 100,
+        errorWidget: (_, error, __) => const Icon(Icons.error),
+        placeholder: (_, __) => const LoadingWidget(),
+        imageUrl: song.imagePath ?? '',
+        imageBuilder: (_, imageProvider) {
+          return Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(4),
+              image: DecorationImage(
+                image: imageProvider,
+                fit: BoxFit.scaleDown,
+              ),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 
