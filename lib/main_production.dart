@@ -9,7 +9,7 @@ void main() {
     () => MyGlobal(
       flavorConfig: FlavorConfig(
         flavor: Flavor.production,
-        values: FlavorValues(mainUrl: 'http://production.com', placeUrl: 'https://maps.googleapis.com'),
+        values: FlavorValues(mainUrl: 'https://audiocult.net', placeUrl: 'https://maps.googleapis.com'),
       ),
       child: const App(),
     ),

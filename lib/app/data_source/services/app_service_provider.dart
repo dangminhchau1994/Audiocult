@@ -83,8 +83,12 @@ class AppServiceProvider {
   Future<LoginResponse> authentication() async {
     final response = await _dioHelper.post(
       isAuthRequired: false,
-      options: Options(headers: {'Authorization': AppConstants.basicToken}),
-      requestBody: FormData.fromMap({'grant_type': 'client_credentials'}),
+      // options: Options(headers: {'Authorization': AppConstants.basicToken}),
+      requestBody: FormData.fromMap({
+        'grant_type': 'client_credentials',
+        'client_id': AppConstants.clientId,
+        'client_secret': AppConstants.clientSecret
+      }),
       route: '/restful_api/token',
     );
     return LoginResponse.fromJson(response as Map<String, dynamic>);
