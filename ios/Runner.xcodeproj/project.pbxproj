@@ -452,7 +452,7 @@
 				CODE_SIGN_ENTITLEMENTS = "Runner/RunnerDebug-development.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 7XSG9BUWWH;
 				ENABLE_BITCODE = NO;
 				FLAVOR_APP_NAME = Audiocult;
@@ -467,6 +467,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = "Profile-production";
@@ -591,7 +592,7 @@
 				CODE_SIGN_ENTITLEMENTS = "Runner/RunnerDebug-production.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 7XSG9BUWWH;
 				ENABLE_BITCODE = NO;
 				FLAVOR_APP_NAME = Audiocult;
@@ -607,6 +608,7 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = "Debug-production";
@@ -620,7 +622,7 @@
 				CODE_SIGN_ENTITLEMENTS = "Runner/RunnerRelease-production.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 7XSG9BUWWH;
 				ENABLE_BITCODE = NO;
 				FLAVOR_APP_NAME = Audiocult;
@@ -635,6 +637,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = "Release-production";
@@ -705,7 +708,7 @@
 				CODE_SIGN_ENTITLEMENTS = "Runner/RunnerDebug-development.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 7XSG9BUWWH;
 				ENABLE_BITCODE = NO;
 				FLAVOR_APP_NAME = "[DEV] Audiocult";
@@ -721,6 +724,7 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = "Debug-development";
@@ -788,7 +792,7 @@
 				CODE_SIGN_ENTITLEMENTS = "Runner/RunnerRelease-development.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 7XSG9BUWWH;
 				ENABLE_BITCODE = NO;
 				FLAVOR_APP_NAME = "[DEV] Audiocult";
@@ -803,6 +807,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = "Release-development";
@@ -868,7 +873,7 @@
 				CODE_SIGN_ENTITLEMENTS = "Runner/RunnerDebug-development.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 7XSG9BUWWH;
 				ENABLE_BITCODE = NO;
 				FLAVOR_APP_NAME = "[DEV] Audiocult";
@@ -883,6 +888,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = "Profile-development";
@@ -953,7 +959,7 @@
 				CODE_SIGN_ENTITLEMENTS = "Runner/RunnerDebug-production.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 7XSG9BUWWH;
 				ENABLE_BITCODE = NO;
 				FLAVOR_APP_NAME = "[STG] Audiocult";
@@ -969,6 +975,7 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = "Debug-staging";
@@ -1036,7 +1043,7 @@
 				CODE_SIGN_ENTITLEMENTS = "Runner/RunnerRelease-staging.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 7XSG9BUWWH;
 				ENABLE_BITCODE = NO;
 				FLAVOR_APP_NAME = "[STG] Audiocult";
@@ -1051,6 +1058,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = "Audiocult Staging";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = "Release-staging";
@@ -1116,7 +1124,7 @@
 				CODE_SIGN_ENTITLEMENTS = "Runner/RunnerDebug-development.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 7XSG9BUWWH;
 				ENABLE_BITCODE = NO;
 				FLAVOR_APP_NAME = "[STG] Audiocult";
@@ -1131,6 +1139,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = "Audiocult Staging";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = "Profile-staging";
