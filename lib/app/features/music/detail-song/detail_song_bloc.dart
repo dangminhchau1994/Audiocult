@@ -11,6 +11,8 @@ class DetailSongBloc extends BaseBloc {
   final AppRepository _appRepository;
   final MyCartBloc _myCartBloc;
 
+  String? get currency => _appRepository.getCurrency();
+
   DetailSongBloc(this._appRepository, this._myCartBloc);
 
   final _getSongDetailSubject = PublishSubject<BlocState<Song>>();

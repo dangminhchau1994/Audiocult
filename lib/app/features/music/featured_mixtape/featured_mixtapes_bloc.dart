@@ -8,6 +8,8 @@ import '../../../data_source/repositories/app_repository.dart';
 class FeaturedMixtapesBloc extends BaseBloc<TopSongRequest, List<Song>> {
   final AppRepository _appRepository;
 
+  String? get currency => _appRepository.getCurrency();
+
   FeaturedMixtapesBloc(this._appRepository);
 
   @override

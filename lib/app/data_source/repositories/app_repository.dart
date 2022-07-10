@@ -638,4 +638,17 @@ class AppRepository extends BaseRepository {
   Future<Either<bool, Exception>> addCartitem(String id) {
     return safeCall(() => appServiceProvider.addCartItem(id));
   }
+
+  Future<Either<ProfileData, Exception>> getUserProfileData() {
+    return safeCall(appServiceProvider.getUserProfileData);
+  }
+
+  ProfileData? _profileData;
+  void updateProfileData(ProfileData data) {
+    _profileData = data;
+  }
+
+  String? getCurrency() {
+    return _profileData?.currency;
+  }
 }

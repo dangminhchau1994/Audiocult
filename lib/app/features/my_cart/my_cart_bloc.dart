@@ -36,20 +36,24 @@ class MyCartBloc extends BaseBloc {
     _removeItems = [];
     _removableItemsStreamController.sink.add([]);
     showOverLayLoading();
-    return _appRepo.getCartItems().then((result) {
-      result.fold((l) {
-        hideOverlayLoading();
-        _cartItems = l.songs ?? [];
-        _taxes = l.tax;
-        _currency = l.currency;
-        _subTotal = l.sub_total;
-        _grandTotal = l.grandTotal;
-        _allCartItemsStreamController.sink.add(BlocState.success(_cartItems));
-      }, (r) {
-        hideOverlayLoading();
-        _allCartItemsStreamController.sink.add(BlocState.error(r.toString()));
+    final profileData = await _appRepo.getUserProfileData();
+    profileData.fold((data) {
+      _appRepo.getCartItems().then((result) {
+        result.fold((l) {
+          hideOverlayLoading();
+          _cartItems = l.songs ?? [];
+          _taxes = l.tax;
+          _currency = data.currency;
+
+          _subTotal = l.subTotal;
+          _grandTotal = l.grandTotal;
+          _allCartItemsStreamController.sink.add(BlocState.success(_cartItems));
+        }, (r) {
+          hideOverlayLoading();
+          _allCartItemsStreamController.sink.add(BlocState.error(r.toString()));
+        });
       });
-    });
+    }, (r) => null);
   }
 
   void addCartItem(Song song) async {

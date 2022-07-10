@@ -10,6 +10,8 @@ import '../../../data_source/models/responses/song/song_response.dart';
 class FeaturedAlbumBloc extends BaseBloc<AlbumPlaylistRequest, List<Album>> {
   final AppRepository _appRepository;
 
+  String? get currency => _appRepository.getCurrency();
+
   FeaturedAlbumBloc(this._appRepository);
 
   final _getSongSubject = PublishSubject<BlocState<List<Song>>>();
@@ -31,7 +33,7 @@ class FeaturedAlbumBloc extends BaseBloc<AlbumPlaylistRequest, List<Album>> {
 
   void getSongByAlbumId(int id, int page, int limit) async {
     _getSongSubject.sink.add(const BlocState.loading());
-    
+
     final result = await _appRepository.getSongsByAlbumId(id, page, limit);
 
     result.fold((success) {

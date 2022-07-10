@@ -198,6 +198,7 @@ class _FeaturedMixTapesScreenState extends State<FeaturedMixTapesScreen> with Au
                           song: item,
                           songs: data,
                           index: index,
+                          currency: _featuredMixtapesBloc.currency,
                         ),
                       );
                     },

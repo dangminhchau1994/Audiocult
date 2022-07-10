@@ -7,6 +7,8 @@ import '../../../data_source/repositories/app_repository.dart';
 class TopSongBloc extends BaseBloc<TopSongRequest, List<Song>> {
   final AppRepository _appRepository;
 
+  String? get currency => _appRepository.getCurrency();
+
   TopSongBloc(this._appRepository);
 
   @override
