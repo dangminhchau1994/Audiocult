@@ -9,9 +9,11 @@ import 'package:audio_cult/app/data_source/models/responses/profile_data.dart';
 import 'package:audio_cult/app/features/auth/register/register_bloc.dart';
 import 'package:audio_cult/app/features/home/home_bloc.dart';
 import 'package:audio_cult/app/features/home/post_status/widgets/status_background.dart';
+import 'package:audio_cult/app/features/home/post_status/widgets/status_color_picker.dart';
 import 'package:audio_cult/app/features/home/post_status/widgets/status_input.dart';
 import 'package:audio_cult/app/features/home/post_status/widgets/status_list_background.dart';
 import 'package:audio_cult/app/features/home/post_status/widgets/status_map.dart';
+import 'package:audio_cult/app/features/home/post_status/widgets/status_search_location.dart';
 import 'package:audio_cult/app/features/home/post_status/widgets/status_tag_friend_input.dart';
 import 'package:audio_cult/app/features/music/my_album/upload_song/upload_song_bloc.dart';
 import 'package:audio_cult/app/injections.dart';
@@ -63,7 +65,7 @@ class _PostStatusState extends State<PostStatus> with DisposableStateMixin, Auto
     _enableBackground = false;
     _getCustomMarker();
     getIt.get<HomeBloc>().createPostStream.listen((data) {
-      //Navigator.pop(context, true);
+      Navigator.pop(context, true);
     }).disposeOn(disposeBag);
   }
 
@@ -229,8 +231,8 @@ class _PostStatusState extends State<PostStatus> with DisposableStateMixin, Auto
                                       ),
                                     ),
                                   ),
-                                  WButtonInkwell(
-                                    onPressed: () async {
+                                  StatusSearchLocation(
+                                    searchLocation: () async {
                                       FocusScope.of(context).requestFocus(FocusNode());
                                       final result = await showSearch(
                                         context: context,
@@ -262,31 +264,15 @@ class _PostStatusState extends State<PostStatus> with DisposableStateMixin, Auto
                                         }
                                       }
                                     },
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(10),
-                                      child: SvgPicture.asset(
-                                        AppAssets.locationIcon,
-                                        width: 28,
-                                        height: 28,
-                                      ),
-                                    ),
                                   ),
-                                  WButtonInkwell(
-                                    onPressed: () {
+                                  StatusColorPicker(
+                                    showColorPicker: () {
                                       setState(() {
                                         _showListBackground = true;
                                         getIt<HomeBloc>().getBackgrounds();
                                       });
                                     },
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(10),
-                                      child: SvgPicture.asset(
-                                        AppAssets.colorPickerIcon,
-                                        width: 28,
-                                        height: 28,
-                                      ),
-                                    ),
-                                  ),
+                                  )
                                 ],
                               ),
                             CommonButton(
