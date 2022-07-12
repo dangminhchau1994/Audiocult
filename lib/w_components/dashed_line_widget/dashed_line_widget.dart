@@ -39,7 +39,7 @@ class _LineDashedPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
       ..strokeWidth = 1
-      ..color = Colors.blueGrey.withAlpha(50);
+      ..color = Colors.blueGrey.withAlpha(120);
     var max = width ?? 0;
     final _dashWidth = dashWidth ?? 8;
     final _dashSpace = dashSpace ?? 5;
