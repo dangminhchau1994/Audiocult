@@ -7,6 +7,7 @@ import 'package:audio_cult/app/data_source/models/requests/upload_video_request.
 import 'package:audio_cult/app/data_source/models/responses/announcement/announcement_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/create_post/create_post_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/feed/feed_response.dart';
+import 'package:audio_cult/app/data_source/models/responses/playlist/delete_playlist_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/upload_photo/upload_photo_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/upload_video/upload_video_response.dart';
 import 'package:dartz/dartz.dart';
@@ -29,6 +30,7 @@ class HomeBloc extends BaseBloc<FeedRequest, List<FeedResponse>> {
   final _createPostSubject = PublishSubject<BlocState<CreatePostResponse>>();
   final _uploadPhotoSubject = PublishSubject<BlocState<List<UploadPhotoResponse>>>();
   final _uploadVideoSubject = PublishSubject<BlocState<UploadVideoResponse>>();
+  final _deleteFeedSubject = PublishSubject<BlocState<DeletePlayListResponse>>();
 
   Stream<BlocState<List<AnnouncementResponse>>> get getAnnoucementStream => _getAnnouncementSubject.stream;
   Stream<BlocState<List<CommentResponse>>> get getCommentsStream => _getCommentsSubject.stream;
@@ -38,6 +40,17 @@ class HomeBloc extends BaseBloc<FeedRequest, List<FeedResponse>> {
   Stream<BlocState<CreatePostResponse>> get createPostStream => _createPostSubject.stream;
   Stream<BlocState<List<UploadPhotoResponse>>> get uploadPhotoStream => _uploadPhotoSubject.stream;
   Stream<BlocState<UploadVideoResponse>> get uploadVideoStream => _uploadVideoSubject.stream;
+  Stream<BlocState<DeletePlayListResponse>> get deleteFeedStream => _deleteFeedSubject.stream;
+
+  void deleteFeed(int id) async {
+    final result = await _appRepository.deleteFeed(id);
+
+    result.fold((success) {
+      _deleteFeedSubject.sink.add(BlocState.success(success));
+    }, (error) {
+      _deleteFeedSubject.sink.add(BlocState.error(error.toString()));
+    });
+  }
 
   void postStatus(CreatePostRequest request) async {
     showOverLayLoading();

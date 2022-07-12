@@ -220,6 +220,7 @@ class _PostVideoState extends State<PostVideo> with DisposableStateMixin, Automa
                           onChanged: (value) {
                             setState(() {
                               _privacy = value;
+                              
                             });
                           },
                         ),
@@ -284,6 +285,7 @@ class _PostVideoState extends State<PostVideo> with DisposableStateMixin, Automa
                         ..url = _urlVideo
                         ..latLng = '$_lat,$_lng'
                         ..locationName = _locationName
+                        ..privacy = _privacy?.id
                         ..statusInfo = _status;
 
                       getIt<HomeBloc>().uploadVideo(request);

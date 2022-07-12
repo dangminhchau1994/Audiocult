@@ -14,6 +14,14 @@ enum FeedType {
   none,
 }
 
+enum FeedPrivacy {
+  everyone,
+  subscriptions,
+  friend,
+  onlyme,
+  none,
+}
+
 @JsonSerializable(fieldRename: FieldRename.snake)
 class LocationLatlng {
   double? latitude;
@@ -188,6 +196,21 @@ class FeedResponse {
         return FeedType.userPhoto;
       default:
         return FeedType.none;
+    }
+  }
+
+  FeedPrivacy getFeedPrivacy() {
+    switch (privacy) {
+      case '0':
+        return FeedPrivacy.everyone;
+      case '1':
+        return FeedPrivacy.subscriptions;
+      case '2':
+        return FeedPrivacy.friend;
+      case '3':
+        return FeedPrivacy.onlyme;
+      default:
+        return FeedPrivacy.none;
     }
   }
 

@@ -176,6 +176,12 @@ class AppRepository extends BaseRepository {
     );
   }
 
+  Future<Either<DeletePlayListResponse, Exception>> deleteFeed(int id) {
+    return safeCall(
+      () => appServiceProvider.deleteFeed(id),
+    );
+  }
+
   Future<Either<EventResponse, Exception>> getEventDetail(int id) {
     return safeCall(
       () => appServiceProvider.getEventDetail(id),

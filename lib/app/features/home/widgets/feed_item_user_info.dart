@@ -1,4 +1,5 @@
 import 'package:audio_cult/app/data_source/models/responses/feed/feed_response.dart';
+import 'package:audio_cult/app/utils/constants/app_assets.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -88,17 +89,51 @@ class FeedItemUserInfo extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 10),
-              Text(
-                DateTimeUtils.convertToAgo(int.parse(data?.timeStamp ?? '')),
-                style: context.buttonTextStyle()!.copyWith(
-                      fontSize: 14,
-                      color: Colors.grey,
-                    ),
-              ),
+              Row(
+                children: [
+                  Text(
+                    DateTimeUtils.convertToAgo(int.parse(data?.timeStamp ?? '')),
+                    style: context.buttonTextStyle()!.copyWith(
+                          fontSize: 14,
+                          color: Colors.grey,
+                        ),
+                  ),
+                  const SizedBox(width: 8),
+                  _buildPrivacyIcon()
+                ],
+              )
             ],
           ),
         ),
       ],
     );
+  }
+
+  Widget _buildPrivacyIcon() {
+    switch (data?.getFeedPrivacy()) {
+      case FeedPrivacy.everyone:
+        return Image.asset(
+          AppAssets.icPublic,
+          width: 16,
+        );
+      case FeedPrivacy.subscriptions:
+        return Image.asset(
+          AppAssets.icSubscription,
+          width: 16,
+        );
+      case FeedPrivacy.friend:
+        return Image.asset(
+          AppAssets.icFriends,
+          width: 16,
+        );
+      case FeedPrivacy.onlyme:
+        return Image.asset(
+          AppAssets.icLock,
+          width: 16,
+        );
+      // ignore: no_default_cases
+      default:
+        return Container();
+    }
   }
 }

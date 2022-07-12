@@ -23,6 +23,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMixin {
   final PagingController<int, FeedResponse> _pagingFeedController = PagingController(firstPageKey: 1);
   late HomeBloc _homeBloc;
+  String a = 'fsdfsdf';
 
   @override
   void initState() {
@@ -146,6 +147,12 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
                         itemBuilder: (context, item, index) {
                           return FeedItem(
                             data: item,
+                            onDelete: () {
+                              setState(() {
+                                _pagingFeedController.itemList?.removeAt(index);
+                                _homeBloc.deleteFeed(int.parse(item.feedId ?? ''));
+                              });
+                            },
                           );
                         },
                       ),

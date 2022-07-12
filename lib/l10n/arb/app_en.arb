@@ -47,6 +47,7 @@
     "t_create_playlist": "Create Playlist",
     "t_share": "Share",
     "t_playlist_name": "Playlist Name",
+    "t_edit_post":"Edit Post",
     "t_optional_description": "Add an optional description",
     "t_song_detail": "Song Details",
     "t_camera_permission":"Camera Permission",

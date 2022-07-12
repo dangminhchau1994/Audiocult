@@ -1,31 +1,30 @@
+import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:audio_cult/app/base/bloc_handle.dart';
 import 'package:audio_cult/app/base/bloc_state.dart';
 import 'package:audio_cult/app/constants/global_constants.dart';
 import 'package:audio_cult/app/data_source/models/requests/create_post_request.dart';
+import 'package:audio_cult/app/data_source/models/responses/profile_data.dart';
 import 'package:audio_cult/app/features/auth/register/register_bloc.dart';
 import 'package:audio_cult/app/features/home/home_bloc.dart';
-import 'package:audio_cult/app/features/home/widgets/background_item.dart';
+import 'package:audio_cult/app/features/home/post_status/widgets/status_background.dart';
+import 'package:audio_cult/app/features/home/post_status/widgets/status_input.dart';
+import 'package:audio_cult/app/features/home/post_status/widgets/status_list_background.dart';
+import 'package:audio_cult/app/features/home/post_status/widgets/status_map.dart';
+import 'package:audio_cult/app/features/home/post_status/widgets/status_tag_friend_input.dart';
 import 'package:audio_cult/app/features/music/my_album/upload_song/upload_song_bloc.dart';
 import 'package:audio_cult/app/injections.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
-import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/di/bloc_locator.dart';
-import 'package:audio_cult/l10n/l10n.dart';
 import 'package:audio_cult/w_components/buttons/common_button.dart';
 import 'package:audio_cult/w_components/buttons/w_button_inkwell.dart';
-import 'package:audio_cult/w_components/error_empty/error_section.dart';
-import 'package:audio_cult/w_components/images/common_image_network.dart';
-import 'package:audio_cult/w_components/textfields/common_chip_input.dart';
 import 'package:disposing/disposing.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import '../../../../w_components/dropdown/common_dropdown.dart';
-import '../../../data_source/models/responses/background/background_response.dart';
-import '../../../data_source/models/responses/profile_data.dart';
 import '../../../utils/constants/app_assets.dart';
 import '../../../utils/file/file_utils.dart';
 import '../../../utils/mixins/disposable_state_mixin.dart';
@@ -43,8 +42,8 @@ class _PostStatusState extends State<PostStatus> with DisposableStateMixin, Auto
   final TextEditingController _textEditingController = TextEditingController(text: '');
   final RegisterBloc _registerBloc = RegisterBloc(locator.get(), locator.get());
   final Set<Marker> markers = {};
-  late GoogleMapController _controller;
   late Uint8List iconMarker;
+  GoogleMapController? _controller;
   double _lat = 0.0;
   double _lng = 0.0;
   SelectMenuModel? _privacy;
@@ -64,14 +63,14 @@ class _PostStatusState extends State<PostStatus> with DisposableStateMixin, Auto
     _enableBackground = false;
     _getCustomMarker();
     getIt.get<HomeBloc>().createPostStream.listen((data) {
-      Navigator.pop(context, true);
+      //Navigator.pop(context, true);
     }).disposeOn(disposeBag);
   }
 
   @override
   void dispose() {
     super.dispose();
-    _controller.dispose();
+    _controller?.dispose();
   }
 
   void _getCustomMarker() {
@@ -91,28 +90,59 @@ class _PostStatusState extends State<PostStatus> with DisposableStateMixin, Auto
         child: Stack(
           children: [
             if (_enableBackground!)
-              _buildBackground(_imagePath ?? '')
-            else if (_showMap!)
-              const SizedBox()
-            else
-              TextField(
-                maxLines: 10,
-                controller: _textEditingController,
+              StatusBackground(
+                imagePath: _imagePath,
+                textEditingController: _textEditingController,
+                onClose: () {
+                  setState(() {
+                    _enableBackground = false;
+                    _createPostRequest.statusBackgroundId = '0';
+                  });
+                },
                 onChanged: (value) {
                   _createPostRequest.userStatus = value;
                 },
-                decoration: InputDecoration(
-                  contentPadding: const EdgeInsets.all(18),
-                  hintText: context.l10n.t_what_new,
-                  hintStyle: context.bodyTextPrimaryStyle()!.copyWith(color: AppColors.subTitleColor, fontSize: 18),
-                  focusedBorder: InputBorder.none,
-                  disabledBorder: InputBorder.none,
-                  enabledBorder: InputBorder.none,
-                ),
+              )
+            else if (_showMap!)
+              const SizedBox()
+            else
+              StatusInput(
+                textEditingController: _textEditingController,
+                isAlignCenter: false,
+                maxLine: 10,
+                onChanged: (value) {
+                  _createPostRequest.userStatus = value;
+                },
               ),
             Visibility(
               visible: _showMap!,
-              child: _buildMap(),
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    StatusInput(
+                      textEditingController: _textEditingController,
+                      isAlignCenter: false,
+                      maxLine: 3,
+                      onChanged: (value) {
+                        _createPostRequest.userStatus = value;
+                      },
+                    ),
+                    const SizedBox(height: 10),
+                    StatusMap(
+                      lat: _lat,
+                      lng: _lng,
+                      markers: markers,
+                      controller: _controller,
+                      showMap: () {
+                        setState(() {
+                          _showMap = false;
+                        });
+                      },
+                    )
+                  ],
+                ),
+              ),
             ),
             Positioned(
               bottom: 10,
@@ -132,84 +162,34 @@ class _PostStatusState extends State<PostStatus> with DisposableStateMixin, Auto
                       children: [
                         Visibility(
                           visible: _showTagFriends!,
-                          child: _buildTagFriendInput(),
+                          child: StatusTagFriendInput(
+                            onChooseTags: (value) {
+                              final sb = StringBuffer();
+                              for (final item in value) {
+                                sb.write('${item.userId},');
+                              }
+                              _createPostRequest.taggedFriends = sb.toString();
+                            },
+                          ),
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             if (_showListBackground!)
-                              Padding(
-                                padding: const EdgeInsets.all(12),
-                                child: Row(
-                                  children: [
-                                    WButtonInkwell(
-                                      onPressed: () {
-                                        setState(() {
-                                          _showListBackground = false;
-                                        });
-                                      },
-                                      child: Container(
-                                        padding: const EdgeInsets.all(8),
-                                        decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          color: AppColors.secondaryButtonColor,
-                                        ),
-                                        child: Icon(
-                                          Icons.close,
-                                          size: 20,
-                                          color: AppColors.subTitleColor,
-                                        ),
-                                      ),
-                                    ),
-                                    const SizedBox(width: 20),
-                                    StreamBuilder<BlocState<List<BackgroundResponse>>>(
-                                      initialData: const BlocState.loading(),
-                                      stream: getIt<HomeBloc>().getBackgroundStream,
-                                      builder: (context, snapshot) {
-                                        final state = snapshot.data!;
-
-                                        return state.when(
-                                          success: (success) {
-                                            final data = success as List<BackgroundResponse>;
-
-                                            return SizedBox(
-                                              height: 50,
-                                              width: 240,
-                                              child: ListView.separated(
-                                                separatorBuilder: (context, index) => const SizedBox(width: 10),
-                                                itemCount: data[0].backgroundsList?.length ?? 0,
-                                                scrollDirection: Axis.horizontal,
-                                                itemBuilder: (context, index) => BackgroundItem(
-                                                  data: data[0].backgroundsList?[index],
-                                                  onItemClick: (data) {
-                                                    setState(() {
-                                                      _createPostRequest.statusBackgroundId = data.backgroundId;
-                                                      _imagePath = data.imageUrl ?? '';
-                                                      _enableBackground = true;
-                                                      _showMap = false;
-                                                    });
-                                                  },
-                                                ),
-                                              ),
-                                            );
-                                          },
-                                          loading: () {
-                                            return Center(
-                                              child: CircularProgressIndicator(
-                                                color: AppColors.primaryButtonColor,
-                                              ),
-                                            );
-                                          },
-                                          error: (error) {
-                                            return ErrorSectionWidget(
-                                              errorMessage: error,
-                                            );
-                                          },
-                                        );
-                                      },
-                                    ),
-                                  ],
-                                ),
+                              StatusListBackground(
+                                onBackgroundItemClick: (data) {
+                                  setState(() {
+                                    _createPostRequest.statusBackgroundId = data.backgroundId;
+                                    _imagePath = data.imageUrl ?? '';
+                                    _enableBackground = true;
+                                    _showMap = false;
+                                  });
+                                },
+                                onShowBackground: () {
+                                  setState(() {
+                                    _showListBackground = false;
+                                  });
+                                },
                               )
                             else
                               Row(
@@ -225,6 +205,7 @@ class _PostStatusState extends State<PostStatus> with DisposableStateMixin, Auto
                                       onChanged: (value) {
                                         setState(() {
                                           _privacy = value;
+                                          _createPostRequest.privacy = value?.id;
                                         });
                                       },
                                     ),
@@ -325,167 +306,6 @@ class _PostStatusState extends State<PostStatus> with DisposableStateMixin, Auto
           ],
         ),
       ),
-    );
-  }
-
-  Widget _buildMap() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        TextField(
-          onChanged: (value) {
-            _createPostRequest.userStatus = value;
-          },
-          decoration: InputDecoration(
-            contentPadding: const EdgeInsets.all(18),
-            hintText: context.l10n.t_what_new,
-            hintStyle: context.bodyTextPrimaryStyle()!.copyWith(color: AppColors.subTitleColor, fontSize: 18),
-            focusedBorder: InputBorder.none,
-            disabledBorder: InputBorder.none,
-            enabledBorder: InputBorder.none,
-          ),
-        ),
-        const SizedBox(height: 10),
-        Stack(
-          children: [
-            SizedBox(
-              width: double.infinity,
-              height: 300,
-              child: GoogleMap(
-                onTap: (lng) {
-                  FocusManager.instance.primaryFocus?.unfocus();
-                },
-                initialCameraPosition: CameraPosition(
-                  target: LatLng(
-                    _lat,
-                    _lng,
-                  ),
-                  zoom: 10,
-                ),
-                markers: markers,
-                onMapCreated: (controller) {
-                  _controller = controller;
-                  FileUtils.getJsonFile(AppAssets.nightMapJson).then((value) {
-                    _controller.setMapStyle(value);
-                  });
-                },
-              ),
-            ),
-            Positioned(
-              top: 0,
-              right: 0,
-              child: WButtonInkwell(
-                onPressed: () {
-                  setState(() {
-                    _showMap = false;
-                  });
-                },
-                child: Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: AppColors.secondaryButtonColor,
-                    shape: BoxShape.circle,
-                  ),
-                  child: const Center(
-                    child: Icon(
-                      Icons.close,
-                      color: Colors.grey,
-                    ),
-                  ),
-                ),
-              ),
-            )
-          ],
-        )
-      ],
-    );
-  }
-
-  Widget _buildTagFriendInput() {
-    return Container(
-      padding: const EdgeInsets.all(12),
-      width: double.infinity,
-      decoration: BoxDecoration(color: AppColors.secondaryButtonColor),
-      child: Row(
-        children: [
-          Text(
-            'with: ',
-            style: context.bodyTextStyle()?.copyWith(
-                  color: Colors.white,
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-          ),
-          const SizedBox(width: 10),
-          Flexible(
-            child: CommonChipInput(
-              hintText: context.l10n.t_who_with_you,
-              maxChip: 10,
-              enableBorder: false,
-              isFillColor: false,
-              chooseMany: true,
-              onChooseMultipleTag: (value) {},
-              onDeleteTag: (value) {},
-              onPressedChip: (ProfileData value) {},
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildBackground(String imagePath) {
-    return Stack(
-      alignment: Alignment.center,
-      children: [
-        CommonImageNetWork(
-          imagePath: imagePath,
-          width: double.infinity,
-          height: 290,
-        ),
-        Padding(
-          padding: const EdgeInsets.all(12),
-          child: TextField(
-            controller: _textEditingController,
-            maxLines: 3,
-            textAlign: TextAlign.center,
-            onChanged: (value) {
-              _createPostRequest.userStatus = value;
-            },
-            decoration: InputDecoration(
-              hintText: context.l10n.t_what_new,
-              hintStyle: context.bodyTextPrimaryStyle()!.copyWith(
-                    color: AppColors.subTitleColor,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-              focusedBorder: InputBorder.none,
-              disabledBorder: InputBorder.none,
-              enabledBorder: InputBorder.none,
-            ),
-          ),
-        ),
-        Positioned(
-          top: 10,
-          right: 10,
-          child: GestureDetector(
-            onTap: () {
-              setState(() {
-                _enableBackground = false;
-                _createPostRequest.statusBackgroundId = '0';
-              });
-            },
-            child: const Padding(
-              padding: EdgeInsets.all(12),
-              child: Icon(
-                Icons.close,
-                size: 25,
-                color: Colors.white70,
-              ),
-            ),
-          ),
-        ),
-      ],
     );
   }
 

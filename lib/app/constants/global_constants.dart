@@ -23,7 +23,7 @@ class GlobalConstants {
 
   static List<SelectMenuModel> listPrivacy = [
     SelectMenuModel(
-      id: 1,
+      id: 0,
       title: 'Everyone',
       isSelected: true,
       icon: Image.asset(
@@ -32,7 +32,7 @@ class GlobalConstants {
       ),
     ),
     SelectMenuModel(
-      id: 2,
+      id: 1,
       title: 'Subscriptions',
       icon: Image.asset(
         AppAssets.icSubscription,
@@ -40,7 +40,7 @@ class GlobalConstants {
       ),
     ),
     SelectMenuModel(
-      id: 3,
+      id: 2,
       title: 'Friends of Friends',
       icon: Image.asset(
         AppAssets.icFriends,
@@ -48,7 +48,7 @@ class GlobalConstants {
       ),
     ),
     SelectMenuModel(
-      id: 4,
+      id: 3,
       title: 'Only me',
       icon: Image.asset(
         AppAssets.icLock,
@@ -203,7 +203,7 @@ class GlobalConstants {
         ),
       ),
       PopupMenuItem<int>(
-        value: 0,
+        value: 1,
         child: Row(
           children: [
             const Icon(
@@ -218,22 +218,22 @@ class GlobalConstants {
           ],
         ),
       ),
-      PopupMenuItem<int>(
-        value: 0,
-        child: Row(
-          children: [
-            const Icon(
-              Icons.flag_sharp,
-            ),
-            const SizedBox(
-              width: 10,
-            ),
-            Text(
-              context.l10n.t_save,
-            )
-          ],
-        ),
-      ),
+      // PopupMenuItem<int>(
+      //   value: 2,
+      //   child: Row(
+      //     children: [
+      //       const Icon(
+      //         Icons.flag_sharp,
+      //       ),
+      //       const SizedBox(
+      //         width: 10,
+      //       ),
+      //       Text(
+      //         context.l10n.t_save,
+      //       )
+      //     ],
+      //   ),
+      // ),
     ];
   }
 

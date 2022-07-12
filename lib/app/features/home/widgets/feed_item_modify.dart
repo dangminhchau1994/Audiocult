@@ -6,7 +6,12 @@ import '../../../constants/global_constants.dart';
 import '../../../utils/constants/app_assets.dart';
 
 class FeedItemModify extends StatelessWidget {
-  const FeedItemModify({Key? key}) : super(key: key);
+  const FeedItemModify({
+    Key? key,
+    this.onDelete,
+  }) : super(key: key);
+
+  final Function()? onDelete;
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +30,7 @@ class FeedItemModify extends StatelessWidget {
             case 0:
               break;
             case 1:
+              onDelete!();
               break;
             case 2:
               break;

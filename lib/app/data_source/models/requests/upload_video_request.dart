@@ -7,6 +7,7 @@ class UploadVideoRequest {
   String? statusInfo;
   String? latLng;
   String? locationName;
+  int? privacy;
 
   UploadVideoRequest({
     this.video,
@@ -15,5 +16,6 @@ class UploadVideoRequest {
     this.locationName,
     this.url,
     this.statusInfo,
+    this.privacy,
   });
 }

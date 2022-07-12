@@ -1,6 +1,5 @@
 import 'package:audio_cult/app/data_source/models/responses/feed/feed_response.dart';
 import 'package:audio_cult/app/features/home/home_bloc.dart';
-import 'package:audio_cult/app/features/home/widgets/feed_item_comment.dart';
 import 'package:audio_cult/app/features/home/widgets/feed_item_content.dart';
 import 'package:audio_cult/app/features/home/widgets/feed_item_interaction.dart';
 import 'package:audio_cult/app/features/home/widgets/feed_item_modify.dart';
@@ -16,9 +15,14 @@ import '../../../../w_components/comment/comment_list_screen.dart';
 import '../../../utils/route/app_route.dart';
 
 class FeedItem extends StatefulWidget {
-  const FeedItem({Key? key, this.data}) : super(key: key);
+  const FeedItem({
+    Key? key,
+    this.data,
+    this.onDelete,
+  }) : super(key: key);
 
   final FeedResponse? data;
+  final Function()? onDelete;
 
   @override
   State<FeedItem> createState() => _FeedItemState();
@@ -79,10 +83,12 @@ class _FeedItemState extends State<FeedItem> {
             ],
           ),
         ),
-        const Positioned(
+        Positioned(
           top: 0,
           right: 0,
-          child: FeedItemModify(),
+          child: FeedItemModify(
+            onDelete: widget.onDelete,
+          ),
         )
       ],
     );

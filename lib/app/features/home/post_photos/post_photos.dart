@@ -263,6 +263,7 @@ class _PostPhotosState extends State<PostPhotos> with DisposableStateMixin, Auto
                           onChanged: (value) {
                             setState(() {
                               _privacy = value;
+                              _uploadPhotoRequest.privacy = value?.id;
                             });
                           },
                         ),
