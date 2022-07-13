@@ -9,6 +9,7 @@ import 'package:audio_cult/app/features/events/calendar/calendar_bloc.dart';
 import 'package:audio_cult/app/features/events/detail/event_detail_bloc.dart';
 import 'package:audio_cult/app/features/events/my_diary/my_diary_bloc.dart';
 import 'package:audio_cult/app/features/events/result/result_bloc.dart';
+import 'package:audio_cult/app/features/home/edit_feed/edit_feed_bloc.dart';
 import 'package:audio_cult/app/features/home/home_bloc.dart';
 import 'package:audio_cult/app/features/music/detail-song/detail_song_bloc.dart';
 import 'package:audio_cult/app/features/music/detail_album/detail_album_bloc.dart';
@@ -99,6 +100,10 @@ void setupLocator() {
 
   getIt.registerLazySingleton<AllEventBloc>(
     () => AllEventBloc(locator.get<AppRepository>()),
+  );
+
+  getIt.registerLazySingleton<EditFeedBloc>(
+    () => EditFeedBloc(locator.get<AppRepository>()),
   );
 
   getIt.registerLazySingleton<ResultBloc>(

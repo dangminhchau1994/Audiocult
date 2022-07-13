@@ -28,6 +28,9 @@ FeedResponse _$FeedResponseFromJson(Map<String, dynamic> json) => FeedResponse(
       parentUserId: json['parent_user_id'] as String?,
       itemId: json['item_id'] as String?,
       timeStamp: json['time_stamp'] as String?,
+      friendsTagged: (json['friends_tagged'] as List<dynamic>?)
+          ?.map((e) => ProfileData.fromJson(e as Map<String, dynamic>))
+          .toList(),
       lastIcon: json['last_icon'] == null
           ? null
           : LastIcon.fromJson(json['last_icon'] as Map<String, dynamic>),
@@ -165,6 +168,7 @@ Map<String, dynamic> _$FeedResponseToJson(FeedResponse instance) =>
       'total_image': instance.totalImage,
       'api_feed_image': instance.apiFeedImage,
       'feed_image_url': instance.feedImageUrl,
+      'friends_tagged': instance.friendsTagged,
       'custom_css': instance.customCss,
       'custom_rel': instance.customRel,
       'custom_js': instance.customJs,

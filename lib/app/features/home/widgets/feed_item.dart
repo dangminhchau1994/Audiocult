@@ -42,7 +42,12 @@ class _FeedItemState extends State<FeedItem> {
     return Stack(
       children: [
         Container(
-          padding: const EdgeInsets.all(20),
+          padding: const EdgeInsets.only(
+            top: 28,
+            left: 20,
+            right: 20,
+            bottom: 20,
+          ),
           decoration: BoxDecoration(
             color: AppColors.secondaryButtonColor,
             borderRadius: BorderRadius.circular(8),
@@ -83,13 +88,9 @@ class _FeedItemState extends State<FeedItem> {
             ],
           ),
         ),
-        Positioned(
-          top: 0,
-          right: 0,
-          child: FeedItemModify(
-            onDelete: widget.onDelete,
-          ),
-        )
+        FeedItemModify(
+          onDelete: widget.onDelete,
+        ),
       ],
     );
   }

@@ -101,7 +101,6 @@ class FCMService {
 
   void _tapNotificationForeGround() {
     AwesomeNotifications().actionStream.listen((ReceivedNotification receivedNotification) {
-      debugPrint('dataForeground: $data');
       _navigateScreen(data);
     });
   }

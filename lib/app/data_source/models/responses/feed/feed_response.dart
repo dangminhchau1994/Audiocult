@@ -1,3 +1,4 @@
+import 'package:audio_cult/app/data_source/models/responses/profile_data.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -98,6 +99,7 @@ class FeedResponse {
   int? totalImage;
   List<String>? apiFeedImage;
   List<String>? feedImageUrl;
+  List<ProfileData>? friendsTagged;
   String? customCss;
   String? customRel;
   String? customJs;
@@ -115,6 +117,7 @@ class FeedResponse {
     this.parentUserId,
     this.itemId,
     this.timeStamp,
+    this.friendsTagged,
     this.lastIcon,
     this.feedReference,
     this.locationLatlng,

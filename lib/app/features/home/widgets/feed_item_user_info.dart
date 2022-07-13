@@ -17,6 +17,15 @@ class FeedItemUserInfo extends StatelessWidget {
 
   final FeedResponse? data;
 
+  String getFriendTagged(FeedResponse data) {
+    if (data.friendsTagged != null) {
+      return data.friendsTagged!.isNotEmpty
+          ? 'with ${data.friendsTagged?[0].fullName} and ${data.friendsTagged!.length - 1} others'
+          : '';
+    }
+    return '';
+  }
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -56,7 +65,7 @@ class FeedItemUserInfo extends StatelessWidget {
               Wrap(
                 children: [
                   Text(
-                    '${data?.userName ?? ''} ${data?.locationName != null ? '' : data?.feedInfo ?? ''}',
+                    '${data?.userName ?? ''} ${data?.feedInfo ?? ''} ${getFriendTagged(data!)}',
                     style: context.buttonTextStyle()!.copyWith(
                           fontSize: 16,
                           color: Colors.white,
