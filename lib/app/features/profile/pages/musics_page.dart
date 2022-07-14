@@ -86,6 +86,7 @@ class _MusicsPageState extends State<MusicsPage> {
                   song: item,
                   songs: _pagingController.itemList,
                   index: index,
+                  currency: widget.profile.currency,
                 );
               },
             ),

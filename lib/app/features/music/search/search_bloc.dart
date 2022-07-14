@@ -9,6 +9,8 @@ import '../../../data_source/repositories/app_repository.dart';
 class SearchBloc extends BaseBloc {
   final AppRepository _appRepository;
 
+  String? get currency => _appRepository.getCurrency();
+
   SearchBloc(this._appRepository);
 
   final _getPlaylistSubject = PublishSubject<BlocState<List<PlaylistResponse>>>();

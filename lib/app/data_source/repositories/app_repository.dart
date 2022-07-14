@@ -644,4 +644,12 @@ class AppRepository extends BaseRepository {
   Future<Either<bool, Exception>> addCartitem(String id) {
     return safeCall(() => appServiceProvider.addCartItem(id));
   }
+
+  String? getCurrency() {
+    final profile = hiveServiceProvider.getProfile();
+    if (profile != null) {
+      return profile.currency;
+    }
+    return null;
+  }
 }

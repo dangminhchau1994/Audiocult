@@ -32,33 +32,36 @@ class ProfileData {
   int? isSubscribed;
   String? lat;
   String? lng;
+  String? currency;
 
-  ProfileData(
-      {this.coverPhotoExists,
-      this.userId,
-      this.userGroupId,
-      this.userName,
-      this.fullName,
-      this.email,
-      this.gender,
-      this.birthday,
-      this.birthdaySearch,
-      this.countryIso,
-      this.languageId,
-      this.timeZone,
-      this.userImage,
-      this.isOnline,
-      this.title,
-      this.isFriend,
-      this.isFriendOfFriend,
-      this.isFriendRequest,
-      this.relationId,
-      this.relationWithId,
-      this.relationPhrase,
-      this.coverPhoto,
-      this.biography,
-      this.audioArtistCategory,
-      this.favoriteGenresOfMusic});
+  ProfileData({
+    this.coverPhotoExists,
+    this.userId,
+    this.userGroupId,
+    this.userName,
+    this.fullName,
+    this.email,
+    this.gender,
+    this.birthday,
+    this.birthdaySearch,
+    this.countryIso,
+    this.languageId,
+    this.timeZone,
+    this.userImage,
+    this.isOnline,
+    this.title,
+    this.isFriend,
+    this.isFriendOfFriend,
+    this.isFriendRequest,
+    this.relationId,
+    this.relationWithId,
+    this.relationPhrase,
+    this.coverPhoto,
+    this.biography,
+    this.audioArtistCategory,
+    this.favoriteGenresOfMusic,
+    this.currency,
+  });
 
   ProfileData.fromJson(Map<String, dynamic> json) {
     final iw = IW(json);
@@ -96,6 +99,7 @@ class ProfileData {
         iw['favorite_genres_of_music'].getList(defaultValue: [], itemRawBuilder: (values) => values)?.cast<String>();
     audioArtistCategory =
         iw['audio_artist_category'].getList(defaultValue: [], itemRawBuilder: (values) => values)?.cast<String>();
+    currency = iw['currency'].get();
   }
 
   Map<String, dynamic> toJson() {

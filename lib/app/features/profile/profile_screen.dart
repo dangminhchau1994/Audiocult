@@ -49,40 +49,43 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
       child: Scaffold(
           backgroundColor: AppColors.mainColor,
           body: LoadingBuilder<ProfileBloc, ProfileData>(
-            builder: (data, _) => DefaultTabController(
-              length: 5,
-              child: RefreshIndicator(
-                onRefresh: () async {
-                  _profileBloc?.requestData(params: ProfileRequest(userId: widget.params['userId'] as String));
-                },
-                child: CustomScrollView(
-                  shrinkWrap: true,
-                  controller: _scrollController,
-                  physics: const ClampingScrollPhysics(),
-                  slivers: [
-                    MySliverAppBar(
-                        controller: _scrollController,
-                        tabController: _tabController,
-                        profile: data,
-                        onPicKImage: (value) {
-                          _profileBloc?.uploadAvatar(value);
-                        }),
-                    SliverFillRemaining(
-                      child: TabBarView(
-                        controller: _tabController,
-                        children: [
-                          PostPage(profile: data, scrollController: _scrollController),
-                          AboutPage(profile: data, scrollController: _scrollController),
-                          VideosPage(profile: data,scrollController: _scrollController),
-                          MusicsPage(profile: data, scrollController: _scrollController),
-                          EventsPage(profile: data, scrollController: _scrollController),
-                        ],
+            builder: (data, _) {
+              data.currency = _profileBloc?.currency;
+              return DefaultTabController(
+                length: 5,
+                child: RefreshIndicator(
+                  onRefresh: () async {
+                    _profileBloc?.requestData(params: ProfileRequest(userId: widget.params['userId'] as String));
+                  },
+                  child: CustomScrollView(
+                    shrinkWrap: true,
+                    controller: _scrollController,
+                    physics: const ClampingScrollPhysics(),
+                    slivers: [
+                      MySliverAppBar(
+                          controller: _scrollController,
+                          tabController: _tabController,
+                          profile: data,
+                          onPicKImage: (value) {
+                            _profileBloc?.uploadAvatar(value);
+                          }),
+                      SliverFillRemaining(
+                        child: TabBarView(
+                          controller: _tabController,
+                          children: [
+                            PostPage(profile: data, scrollController: _scrollController),
+                            AboutPage(profile: data, scrollController: _scrollController),
+                            VideosPage(profile: data, scrollController: _scrollController),
+                            MusicsPage(profile: data, scrollController: _scrollController),
+                            EventsPage(profile: data, scrollController: _scrollController),
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-            ),
+              );
+            },
           )),
     );
   }

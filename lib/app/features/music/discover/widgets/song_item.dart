@@ -23,6 +23,7 @@ class SongItem extends StatelessWidget {
     this.songs,
     this.index,
     this.customizeMenu,
+    this.currency,
   }) : super(key: key);
 
   final Song? song;
@@ -32,6 +33,7 @@ class SongItem extends StatelessWidget {
   final List<Song>? songs;
   final int? index;
   final Widget? customizeMenu;
+  final String? currency;
 
   @override
   Widget build(BuildContext context) {
@@ -108,25 +110,7 @@ class SongItem extends StatelessWidget {
                                   fontSize: 16,
                                 ),
                           ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          const Icon(
-                            Icons.circle,
-                            color: Colors.grey,
-                            size: 5,
-                          ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          Text(
-                            '\$${song?.cost ?? ''}',
-                            overflow: TextOverflow.ellipsis,
-                            style: context.bodyTextPrimaryStyle()!.copyWith(
-                                  color: AppColors.subTitleColor,
-                                  fontSize: 16,
-                                ),
-                          ),
+                          ..._priceWidgets(context),
                         ],
                       )
                     ],
@@ -172,5 +156,32 @@ class SongItem extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  List<Widget> _priceWidgets(BuildContext context) {
+    if (song?.cost == null || num.tryParse(song?.cost ?? '') == null || num.tryParse(song?.cost ?? '') == 0) {
+      return [Container()];
+    }
+    return [
+      const SizedBox(
+        width: 10,
+      ),
+      const Icon(
+        Icons.circle,
+        color: Colors.grey,
+        size: 5,
+      ),
+      const SizedBox(
+        width: 10,
+      ),
+      Text(
+        "${song?.cost ?? ' '} ${currency ?? ''}",
+        overflow: TextOverflow.ellipsis,
+        style: context.bodyTextPrimaryStyle()!.copyWith(
+              color: AppColors.subTitleColor,
+              fontSize: 16,
+            ),
+      )
+    ];
   }
 }

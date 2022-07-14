@@ -10,6 +10,8 @@ import '../../../data_source/repositories/app_repository.dart';
 class TopPlaylistBloc extends BaseBloc<AlbumPlaylistRequest, List<PlaylistResponse>> {
   final AppRepository _appRepository;
 
+  String? get currency => _appRepository.getCurrency();
+
   TopPlaylistBloc(this._appRepository);
 
   final _getSongSubject = PublishSubject<BlocState<List<Song>>>();

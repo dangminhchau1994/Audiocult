@@ -187,6 +187,7 @@ class _FeaturedAlbumItemState extends State<FeaturedAlbumItem> {
                               song: songs[index],
                               songs: songs,
                               index: index,
+                              currency: _featuredAlbumBloc.currency,
                             );
                           },
                         )

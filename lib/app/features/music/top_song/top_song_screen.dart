@@ -187,6 +187,7 @@ class _TopSongScreenState extends State<TopSongScreen> with AutomaticKeepAliveCl
                           song: item,
                           songs: data,
                           index: index,
+                          currency: _topSongBloc.currency,
                         ),
                       );
                     },
