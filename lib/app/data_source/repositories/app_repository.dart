@@ -643,12 +643,11 @@ class AppRepository extends BaseRepository {
     return safeCall(appServiceProvider.getUserProfileData);
   }
 
-  ProfileData? _profileData;
-  void updateProfileData(ProfileData data) {
-    _profileData = data;
-  }
-
   String? getCurrency() {
-    return _profileData?.currency;
+    final profile = hiveServiceProvider.getProfile();
+    if (profile != null) {
+      return profile.currency;
+    }
+    return null;
   }
 }

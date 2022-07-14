@@ -16,9 +16,7 @@ class MainBloc extends BaseBloc {
 
   ProfileData? profileData;
 
-  MainBloc(this._appRepository, this._prefProvider) {
-    getUserProfileData();
-  }
+  MainBloc(this._appRepository, this._prefProvider);
 
   void getUserProfile() async {
     final currentUserId = _prefProvider.currentUserId;
@@ -35,17 +33,6 @@ class MainBloc extends BaseBloc {
     } else {
       _profileSubject.add(profileData);
     }
-  }
-
-  Future<ProfileData?> getUserProfileData() async {
-    final result = await _appRepository.getUserProfileData();
-    return result.fold((l) {
-      _appRepository.updateProfileData(l);
-      return l;
-    }, (r) {
-      showError(r);
-      return null;
-    });
   }
 
   // ignore: avoid_void_async
