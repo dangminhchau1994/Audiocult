@@ -1250,16 +1250,4 @@ class AppServiceProvider {
     );
     return result;
   }
-
-  Future<ProfileData> getUserProfileData() async {
-    final userProfile = await _dioHelper.get(
-      route: '/restful_api/user/profile',
-      responseBodyMapper: (json) {
-        final dataJson = json['data'] as Map<String, dynamic>;
-        final userProfile = ProfileData.fromJson(dataJson);
-        return userProfile;
-      },
-    );
-    return userProfile;
-  }
 }

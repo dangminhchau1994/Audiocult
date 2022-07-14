@@ -639,10 +639,6 @@ class AppRepository extends BaseRepository {
     return safeCall(() => appServiceProvider.addCartItem(id));
   }
 
-  Future<Either<ProfileData, Exception>> getUserProfileData() {
-    return safeCall(appServiceProvider.getUserProfileData);
-  }
-
   String? getCurrency() {
     final profile = hiveServiceProvider.getProfile();
     if (profile != null) {
