@@ -121,6 +121,45 @@
           ]
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:524686110581:android:45d58bff4e019e58552d3c",
+        "android_client_info": {
+          "package_name": "com.audiocult.net"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "524686110581-3kidhhgu4d1flrq6i64oto7hk10bijt3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBMWZWkSTSz6j31LsRH412zMwq9txhM7FE"
+        },
+        {
+          "current_key": "AIzaSyDSt8W388LqNx5_fS1Bu-KOLfMVklMmPgk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "524686110581-3kidhhgu4d1flrq6i64oto7hk10bijt3.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "524686110581-5djoqj8m29o548bvsoq5cmc7fhv908nl.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.audiocult.audio-cult"
+              }
+            }
+          ]
+        }
+      }
     }
   ],
   "configuration_version": "1"
