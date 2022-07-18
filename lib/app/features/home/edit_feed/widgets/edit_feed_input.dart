@@ -17,7 +17,8 @@ class EditFeedInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextField(
-      maxLines: 10,
+      keyboardType: TextInputType.multiline,
+      maxLines: null,
       controller: textEditingController,
       onChanged: onChanged,
       decoration: InputDecoration(

@@ -56,7 +56,7 @@ class GlobalConstants {
       ),
     ),
     SelectMenuModel(
-      id: 5,
+      id: 4,
       title: 'Customize',
       icon: Image.asset(
         AppAssets.icSetting,

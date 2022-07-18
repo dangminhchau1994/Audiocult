@@ -19,10 +19,12 @@ class FeedItem extends StatefulWidget {
     Key? key,
     this.data,
     this.onDelete,
+    this.onEdit,
   }) : super(key: key);
 
   final FeedResponse? data;
   final Function()? onDelete;
+  final Function()? onEdit;
 
   @override
   State<FeedItem> createState() => _FeedItemState();
@@ -89,7 +91,9 @@ class _FeedItemState extends State<FeedItem> {
           ),
         ),
         FeedItemModify(
+          item: widget.data,
           onDelete: widget.onDelete,
+          onEdit: widget.onEdit,
         ),
       ],
     );

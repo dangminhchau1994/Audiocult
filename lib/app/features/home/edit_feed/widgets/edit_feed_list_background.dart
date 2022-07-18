@@ -9,8 +9,8 @@ import '../../../../data_source/models/responses/background/background_response.
 import '../../../../utils/constants/app_colors.dart';
 import '../../widgets/background_item.dart';
 
-class StatusListBackground extends StatelessWidget {
-  const StatusListBackground({
+class EditFeedListBackground extends StatelessWidget {
+  const EditFeedListBackground({
     Key? key,
     this.onShowBackground,
     this.onBackgroundItemClick,

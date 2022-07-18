@@ -2,6 +2,7 @@ import 'package:audio_cult/app/data_source/models/requests/event_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/filter_users_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/my_diary_event_request.dart';
 import 'package:audio_cult/app/data_source/models/responses/comment/comment_response.dart';
+import 'package:audio_cult/app/data_source/models/responses/feed/feed_response.dart';
 import 'package:audio_cult/app/data_source/repositories/app_repository.dart';
 import 'package:audio_cult/app/features/atlas/subscribe_user_bloc.dart';
 import 'package:audio_cult/app/features/atlas_filter/atlas_filter_provider.dart';
@@ -16,6 +17,7 @@ import 'package:audio_cult/app/features/events/create_event/create_event_screen.
 import 'package:audio_cult/app/features/events/detail/event_detail_screen.dart';
 import 'package:audio_cult/app/features/events/filter/filter_event_screen.dart';
 import 'package:audio_cult/app/features/events/result/result_screen.dart';
+import 'package:audio_cult/app/features/home/edit_feed/edit_feed_screen.dart';
 import 'package:audio_cult/app/features/home/home_create_post.dart';
 import 'package:audio_cult/app/features/main/main_screen.dart';
 import 'package:audio_cult/app/features/music/detail-song/detail_song_screen.dart';
@@ -105,6 +107,7 @@ class AppRoute {
   static const String routeUniversalSearch = '/route_universal_search';
   static const String routeSearchSuggestion = '/route_search_suggestion';
   static const String routeMyCart = '/route_my_cart';
+  static const String routeEditFeed = '/route_edit_feed';
 
   ///#end region
 
@@ -146,6 +149,15 @@ class AppRoute {
           settings,
           FeaturedMixTapesScreen(
             arguments: arguments!,
+          ),
+        );
+
+      case routeEditFeed:
+        final arguments = asType(settings.arguments);
+        return _pageRoute(
+          settings,
+          EditFeedScreen(
+            data: arguments['feed_response'] as FeedResponse,
           ),
         );
 

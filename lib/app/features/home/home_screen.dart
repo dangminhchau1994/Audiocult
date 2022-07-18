@@ -5,6 +5,7 @@ import 'package:audio_cult/app/features/home/widgets/announcement_post.dart';
 import 'package:audio_cult/app/features/home/widgets/feed_item.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
 import 'package:audio_cult/app/utils/constants/app_dimens.dart';
+import 'package:audio_cult/app/utils/route/app_route.dart';
 import 'package:audio_cult/di/bloc_locator.dart';
 import 'package:audio_cult/w_components/loading/loading_builder.dart';
 import 'package:flutter/material.dart';
@@ -69,6 +70,28 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
     } catch (error) {
       _pagingFeedController.error = error;
     }
+  }
+
+  void _editFeed(FeedResponse item) async {
+    final result = await Navigator.pushNamed(context, AppRoute.routeEditFeed, arguments: {
+      'feed_response': item,
+    });
+
+    if (result != null) {
+      final feed = result as FeedResponse;
+      final index = _pagingFeedController.itemList!.indexWhere(
+        (element) => element.userId == feed.userId,
+      );
+      _pagingFeedController.itemList?[index] = feed;
+      setState(() {});
+    }
+  }
+
+  void _deleteFeed(FeedResponse item, int index) {
+    setState(() {
+      _pagingFeedController.itemList?.removeAt(index);
+      _homeBloc.deleteFeed(int.parse(item.feedId ?? ''));
+    });
   }
 
   @override
@@ -147,11 +170,11 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
                         itemBuilder: (context, item, index) {
                           return FeedItem(
                             data: item,
+                            onEdit: () {
+                              _editFeed(item);
+                            },
                             onDelete: () {
-                              setState(() {
-                                _pagingFeedController.itemList?.removeAt(index);
-                                _homeBloc.deleteFeed(int.parse(item.feedId ?? ''));
-                              });
+                              _deleteFeed(item, index);
                             },
                           );
                         },

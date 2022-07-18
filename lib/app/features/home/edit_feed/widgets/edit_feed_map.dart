@@ -34,10 +34,7 @@ class EditFeedMap extends StatelessWidget {
               FocusManager.instance.primaryFocus?.unfocus();
             },
             initialCameraPosition: CameraPosition(
-              target: LatLng(
-                lat ?? 0.0,
-                lng ?? 0.0,
-              ),
+              target: LatLng(lat ?? 0, lng ?? 0),
               zoom: 10,
             ),
             markers: markers ?? {},

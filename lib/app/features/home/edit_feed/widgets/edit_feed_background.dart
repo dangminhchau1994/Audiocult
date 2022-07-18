@@ -22,7 +22,6 @@ class EditFeedBackGround extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Stack(
-      alignment: Alignment.center,
       children: [
         CommonImageNetWork(
           imagePath: imagePath,
@@ -30,7 +29,10 @@ class EditFeedBackGround extends StatelessWidget {
           height: 290,
         ),
         Padding(
-          padding: const EdgeInsets.all(12),
+          padding: EdgeInsets.only(
+            top: MediaQuery.of(context).size.width / 4,
+            bottom: MediaQuery.of(context).size.width / 4,
+          ),
           child: TextField(
             controller: textEditingController,
             maxLines: 3,
