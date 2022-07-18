@@ -8,7 +8,7 @@ part of 'create_post_response.dart';
 
 CreatePostResponse _$CreatePostResponseFromJson(Map<String, dynamic> json) =>
     CreatePostResponse(
-      feedId: json['feed_id'] as int?,
+      feedId: json['feed_id'],
     );
 
 Map<String, dynamic> _$CreatePostResponseToJson(CreatePostResponse instance) =>

@@ -107,7 +107,7 @@ class FeedResponse {
   LastIcon? lastIcon;
   LocationLatlng? locationLatlng;
 
-  FeedResponse({
+   FeedResponse({
     this.feedId,
     this.appId,
     this.privacy,

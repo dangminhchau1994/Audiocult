@@ -80,10 +80,12 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
     if (result != null) {
       final feed = result as FeedResponse;
       final index = _pagingFeedController.itemList!.indexWhere(
-        (element) => element.userId == feed.userId,
+        (element) => element.feedId == feed.feedId,
       );
-      _pagingFeedController.itemList?[index] = feed;
-      setState(() {});
+
+      setState(() {
+        _pagingFeedController.itemList?[index] = feed;
+      });
     }
   }
 

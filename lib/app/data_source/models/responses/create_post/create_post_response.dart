@@ -4,7 +4,7 @@ part 'create_post_response.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake)
 class CreatePostResponse {
-  final int? feedId;
+  final dynamic feedId;
 
   CreatePostResponse({this.feedId});
 

@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:audio_cult/app/data_source/models/responses/feed/feed_response.dart';
+import 'package:audio_cult/app/data_source/models/responses/profile_data.dart';
 import 'package:audio_cult/app/features/auth/register/register_bloc.dart';
 import 'package:audio_cult/app/features/home/edit_feed/edit_feed_bloc.dart';
 import 'package:audio_cult/app/features/home/edit_feed/widgets/edit_feed_background.dart';
@@ -52,6 +53,7 @@ class _EditFeedScreenState extends State<EditFeedScreen> {
   late bool? _enableBackground;
   late double _lat = 0;
   late double _lng = 0;
+  List<ProfileData> _listTaggedFriends = [];
   Uint8List? iconMarker;
   SelectMenuModel? _privacy;
   GoogleMapController? _googleMapController;
@@ -62,6 +64,7 @@ class _EditFeedScreenState extends State<EditFeedScreen> {
     super.initState();
     _getCustomMarker();
     _initData();
+    _initApiData();
     _setFlags();
   }
 
@@ -71,6 +74,21 @@ class _EditFeedScreenState extends State<EditFeedScreen> {
     _lat = widget.data?.locationLatlng?.latitude ?? 0.0;
     _lng = widget.data?.locationLatlng?.longitude ?? 0.0;
     _privacy = _listPrivacy[int.parse(widget.data?.privacy ?? '')];
+  }
+
+  void _initApiData() {
+    _createPostRequest.feedId = int.parse(widget.data?.feedId ?? '');
+    _createPostRequest.userStatus = widget.data?.feedStatus ?? '';
+    _createPostRequest.locationName = widget.data?.locationName;
+    _createPostRequest.latLng = '$_lat,$_lng';
+    _createPostRequest.privacy = _privacy?.id;
+    if (widget.data?.friendsTagged != null) {
+      final sb = StringBuffer();
+      for (final item in widget.data!.friendsTagged!) {
+        sb.write('${item.userId},');
+      }
+      _createPostRequest.taggedFriends = sb.toString();
+    }
   }
 
   void _setFlags() {
@@ -147,7 +165,9 @@ class _EditFeedScreenState extends State<EditFeedScreen> {
                     children: [
                       EditFeedInput(
                         textEditingController: _textEditingController,
-                        onChanged: (value) {},
+                        onChanged: (value) {
+                          _createPostRequest.userStatus = value;
+                        },
                       ),
                       EditFeedMap(
                         lat: _lat,
@@ -189,6 +209,7 @@ class _EditFeedScreenState extends State<EditFeedScreen> {
                                 for (final item in value) {
                                   sb.write('${item.userId},');
                                 }
+                                _listTaggedFriends = value;
                                 _createPostRequest.taggedFriends = sb.toString();
                               },
                               listProfile: widget.data?.friendsTagged,
@@ -287,19 +308,22 @@ class _EditFeedScreenState extends State<EditFeedScreen> {
                                       },
                                     ),
                                     //icon show color picker
-                                    WButtonInkwell(
-                                      onPressed: () {
-                                        setState(() {
-                                          _showListBackground = true;
-                                          getIt<EditFeedBloc>().getBackgrounds();
-                                        });
-                                      },
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(10),
-                                        child: SvgPicture.asset(
-                                          AppAssets.colorPickerIcon,
-                                          width: 28,
-                                          height: 28,
+                                    Visibility(
+                                      visible: widget.data?.locationName == null,
+                                      child: WButtonInkwell(
+                                        onPressed: () {
+                                          setState(() {
+                                            _showListBackground = true;
+                                            getIt<EditFeedBloc>().getBackgrounds();
+                                          });
+                                        },
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(10),
+                                          child: SvgPicture.asset(
+                                            AppAssets.colorPickerIcon,
+                                            width: 28,
+                                            height: 28,
+                                          ),
                                         ),
                                       ),
                                     )
@@ -309,7 +333,9 @@ class _EditFeedScreenState extends State<EditFeedScreen> {
                                 width: 110,
                                 color: AppColors.primaryButtonColor,
                                 text: 'Post',
-                                onTap: () {},
+                                onTap: () {
+                                  _updateData();
+                                },
                               ),
                             ],
                           )
@@ -324,5 +350,29 @@ class _EditFeedScreenState extends State<EditFeedScreen> {
         ),
       ),
     );
+  }
+
+  void _updateData() {
+    final result = widget.data;
+    if (_createPostRequest.statusBackgroundId != null) {
+      result?.statusBackground = _imagePath;
+    }
+    if (_createPostRequest.userStatus != null) {
+      result?.feedStatus = _createPostRequest.userStatus;
+    }
+    if (_createPostRequest.locationName != null) {
+      result?.locationName = _createPostRequest.locationName;
+    }
+    if (_lat != 0 && _lng != 0) {
+      result?.locationLatlng?.latitude = _lat;
+      result?.locationLatlng?.longitude = _lng;
+    }
+    if (_listTaggedFriends.isNotEmpty) {
+      result?.friendsTagged = _listTaggedFriends;
+    }
+    result?.privacy = _privacy?.id.toString();
+
+    getIt<EditFeedBloc>().editPost(_createPostRequest);
+    //Navigator.pop(context, result);
   }
 }

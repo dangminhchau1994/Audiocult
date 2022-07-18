@@ -19,9 +19,8 @@ class FeedItemUserInfo extends StatelessWidget {
 
   String getFriendTagged(FeedResponse data) {
     if (data.friendsTagged != null) {
-      return data.friendsTagged!.isNotEmpty
-          ? 'with ${data.friendsTagged?[0].fullName} and ${data.friendsTagged!.length - 1} others'
-          : '';
+      final friendTagged = data.friendsTagged!.isNotEmpty ? 'and ${data.friendsTagged!.length - 1} others' : '';
+      return data.friendsTagged!.isNotEmpty ? 'with ${data.friendsTagged?[0].fullName} $friendTagged' : '';
     }
     return '';
   }
