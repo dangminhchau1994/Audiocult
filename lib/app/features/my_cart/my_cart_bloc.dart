@@ -36,13 +36,14 @@ class MyCartBloc extends BaseBloc {
     _removeItems = [];
     _removableItemsStreamController.sink.add([]);
     showOverLayLoading();
-    return _appRepo.getCartItems().then((result) {
+    await _appRepo.getCartItems().then((result) {
       result.fold((l) {
         hideOverlayLoading();
         _cartItems = l.songs ?? [];
         _taxes = l.tax;
-        _currency = l.currency;
-        _subTotal = l.sub_total;
+        _currency = _appRepo.getCurrency();
+
+        _subTotal = l.subTotal;
         _grandTotal = l.grandTotal;
         _allCartItemsStreamController.sink.add(BlocState.success(_cartItems));
       }, (r) {

@@ -35,16 +35,6 @@ class MainBloc extends BaseBloc {
     }
   }
 
-  // Future<ProfileData?> getUserProfileById(String id) async {
-  //   final result = await _appRepository.getUserProfile(id);
-  //   return result.fold((l) {
-  //     return l;
-  //   }, (r) {
-  //     showError(r);
-  //     return null;
-  //   });
-  // }
-
   // ignore: avoid_void_async
   void logout() async {
     showOverLayLoading();

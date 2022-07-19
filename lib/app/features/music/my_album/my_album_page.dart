@@ -37,6 +37,7 @@ class MyAlbumPage extends StatefulWidget {
 
 class _MyAlbumPageState extends State<MyAlbumPage> with DisposableStateMixin {
   final MyAlbumBloc _myAlbumBloc = MyAlbumBloc(locator.get());
+
   @override
   void initState() {
     super.initState();
@@ -220,6 +221,7 @@ class _MyAlbumPageState extends State<MyAlbumPage> with DisposableStateMixin {
                                   index: index,
                                   fromDetail: true,
                                   song: songs[index],
+                                  currency: _myAlbumBloc.currency,
                                   customizeMenu: WButtonInkwell(
                                     onPressed: () {
                                       AppDialog.showSelectionBottomSheet(

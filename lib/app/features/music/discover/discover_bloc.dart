@@ -23,6 +23,8 @@ class DiscoverBloc extends BaseBloc {
   Stream<BlocState<List<Album>>> get getAlbumStream => _getAlbumSubject.stream;
   Stream<BlocState<List<PlaylistResponse>>> get getPlaylistStream => _getPlaylistSubject.stream;
 
+  String? get currency => _appRepository.getCurrency();
+
   void getTopSongs(String query, String sort, int page, int limit) async {
     _getTopSongSubject.sink.add(const BlocState.loading());
 
@@ -35,8 +37,16 @@ class DiscoverBloc extends BaseBloc {
     });
   }
 
-  void getMixTapSongs(String query, String sort, int page, int limit, String view, String type,
-      {String? userId, String? albumId,}) async {
+  void getMixTapSongs(
+    String query,
+    String sort,
+    int page,
+    int limit,
+    String view,
+    String type, {
+    String? userId,
+    String? albumId,
+  }) async {
     _getMixTapSongsSubject.sink.add(const BlocState.loading());
 
     final result = await _appRepository.getMixTapSongs(query, sort, page, limit, view, type, userId: userId);

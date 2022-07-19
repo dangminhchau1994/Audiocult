@@ -10,6 +10,8 @@ import '../../../data_source/models/responses/song/song_response.dart';
 class DetailPlayListBloc extends BaseBloc {
   final AppRepository _appRepository;
 
+  String? get currency => _appRepository.getCurrency();
+
   DetailPlayListBloc(this._appRepository);
 
   final _getPlayListDetailSubject = PublishSubject<BlocState<PlaylistResponse>>();

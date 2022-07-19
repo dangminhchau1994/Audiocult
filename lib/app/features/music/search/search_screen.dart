@@ -130,6 +130,7 @@ class _SearchScreenState extends State<SearchScreen> {
                             song: data[index],
                             songs: data,
                             index: index,
+                            currency: getIt.get<SearchBloc>().currency,
                           );
                         },
                         separatorBuilder: (context, index) => const SizedBox(height: 24),

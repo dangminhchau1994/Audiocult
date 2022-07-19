@@ -12,6 +12,7 @@ class MyAlbumBloc extends DiscoverBloc {
 
   Stream<String> get deleteStream => _deleteSubject.stream;
   Stream<String> get deleteAlbumStream => _deleteAlbumSubject.stream;
+
   MyAlbumBloc(this._appRepository) : super(_appRepository);
 
   void deleteSongId(String? songId) async {

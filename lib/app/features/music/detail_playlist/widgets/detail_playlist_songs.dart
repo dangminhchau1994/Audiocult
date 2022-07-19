@@ -84,6 +84,7 @@ class _DetailPlayListSongsState extends State<DetailPlayListSongs> {
                                 songs: songs,
                                 index: index,
                                 fromDetail: true,
+                                currency: widget.detailPlayListBloc?.currency,
                               );
                             },
                           )
@@ -187,7 +188,7 @@ class _DetailPlayListSongsState extends State<DetailPlayListSongs> {
       ),
       padding: const EdgeInsets.all(12),
       child: Padding(
-       padding: const EdgeInsets.only(top: 6),
+        padding: const EdgeInsets.only(top: 6),
         child: Row(
           children: [
             icon,

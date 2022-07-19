@@ -85,7 +85,7 @@ android {
     productFlavors { 
         production {
             dimension "default"
-            applicationIdSuffix ""
+            applicationId "com.audiocult.net"
             manifestPlaceholders = [appName: "Audiocult"]
         }
         staging {

@@ -56,6 +56,7 @@ class _SongPageState extends State<SongPage> {
                         song: songs[index],
                         songs: songs,
                         index: index,
+                        currency: getIt.get<DiscoverBloc>().currency,
                       );
                     },
                   );

@@ -76,6 +76,7 @@ class _DetailSongRecommendedState extends State<DetailSongRecommended> {
                           songs: data,
                           index: index,
                           fromDetail: true,
+                          currency: songBloc.currency,
                         ),
                         separatorBuilder: (context, index) => const Divider(height: 20),
                       ),

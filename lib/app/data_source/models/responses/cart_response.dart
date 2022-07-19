@@ -3,10 +3,9 @@ import 'package:audio_cult/app/data_source/models/responses/song/song_response.d
 
 class CartResponse {
   double? grandTotal;
-  double? sub_total;
+  double? subTotal;
   int? itemCount;
   List<Song>? songs;
-  String? currency;
   double? tax;
 
   CartResponse.fromJson(Map<String, dynamic> json) {
@@ -17,8 +16,7 @@ class CartResponse {
       final smt = jsonItems as List<dynamic>;
       return smt.map((e) => Song.fromJson(e as Map<String, dynamic>)).toList();
     });
-    currency = iw['currency'].get();
     tax = iw['tax'].getDouble;
-    sub_total = iw['sub_total'].getDouble;
+    subTotal = iw['sub_total'].getDouble;
   }
 }

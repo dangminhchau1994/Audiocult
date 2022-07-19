@@ -21,6 +21,8 @@ class ProfileBloc extends BaseBloc<ProfileRequest, ProfileData> {
   Stream<int> get subscribeStream => _subscribeSubject.stream;
   final SubscribeUserBloc _subscribeUserBloc;
 
+  String? get currency => _appRepository.getCurrency();
+
   ProfileBloc(this._appRepository, this._subscribeUserBloc);
 
   @override

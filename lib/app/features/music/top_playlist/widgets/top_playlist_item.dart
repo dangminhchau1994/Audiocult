@@ -186,6 +186,7 @@ class _TopPlaylistItemState extends State<TopPlaylistItem> {
                               song: songs[index],
                               songs: songs,
                               index: index,
+                              currency: _playlistBloc.currency,
                             );
                           },
                         )
