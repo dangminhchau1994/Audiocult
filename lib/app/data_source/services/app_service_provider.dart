@@ -237,6 +237,7 @@ class AppServiceProvider {
       requestBody: FormData.fromMap({
         'ajax_upload': video,
         'val[title]': request.title,
+        'val[tagged_friends]': request.taggedFriends,
         'val[location][latlng]': request.latLng,
         'val[location][name]': request.locationName,
         'val[url]': request.url,
@@ -262,6 +263,7 @@ class AppServiceProvider {
       options: Options(headers: {'Content-Type': 'application/x-www-form-urlencoded'}),
       requestBody: FormData.fromMap({
         'image[]': listImages,
+        'val[tagged_friends]': request.taggedFriends,
         'val[description]': request.description,
         'val[location][latlng]': request.latLng,
         'val[location][name]': request.locationName,

@@ -64,7 +64,7 @@ class _EditFeedScreenState extends State<EditFeedScreen> {
     super.initState();
     _getCustomMarker();
     _initData();
-    _initApiData();
+    _initRequest();
     _setFlags();
   }
 
@@ -76,7 +76,7 @@ class _EditFeedScreenState extends State<EditFeedScreen> {
     _privacy = _listPrivacy[int.parse(widget.data?.privacy ?? '')];
   }
 
-  void _initApiData() {
+  void _initRequest() {
     _createPostRequest.feedId = int.parse(widget.data?.feedId ?? '');
     _createPostRequest.userStatus = widget.data?.feedStatus ?? '';
     _createPostRequest.locationName = widget.data?.locationName;
@@ -107,10 +107,7 @@ class _EditFeedScreenState extends State<EditFeedScreen> {
         _markers.add(
           Marker(
             markerId: const MarkerId(''),
-            position: LatLng(
-              _lat,
-              _lng,
-            ),
+            position: LatLng(_lat, _lng),
             icon: BitmapDescriptor.fromBytes(iconMarker!),
           ),
         );
@@ -334,7 +331,7 @@ class _EditFeedScreenState extends State<EditFeedScreen> {
                                 color: AppColors.primaryButtonColor,
                                 text: 'Post',
                                 onTap: () {
-                                  _updateData();
+                                  _updateFeed();
                                 },
                               ),
                             ],
@@ -352,24 +349,29 @@ class _EditFeedScreenState extends State<EditFeedScreen> {
     );
   }
 
-  void _updateData() {
+  void _updateFeed() {
     final result = widget.data;
     if (_createPostRequest.statusBackgroundId != null) {
       result?.statusBackground = _imagePath;
     }
+
     if (_createPostRequest.userStatus != null) {
       result?.feedStatus = _createPostRequest.userStatus;
     }
+
     if (_createPostRequest.locationName != null) {
       result?.locationName = _createPostRequest.locationName;
     }
+
     if (_lat != 0 && _lng != 0) {
       result?.locationLatlng?.latitude = _lat;
       result?.locationLatlng?.longitude = _lng;
     }
+    
     if (_listTaggedFriends.isNotEmpty) {
       result?.friendsTagged = _listTaggedFriends;
     }
+
     result?.privacy = _privacy?.id.toString();
 
     getIt<EditFeedBloc>().editPost(_createPostRequest);

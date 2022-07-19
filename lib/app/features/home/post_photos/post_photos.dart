@@ -5,12 +5,12 @@ import 'package:audio_cult/app/data_source/models/requests/upload_photo_request.
 import 'package:audio_cult/app/features/auth/register/register_bloc.dart';
 import 'package:audio_cult/app/features/home/post_photos/widgets/add_photo.dart';
 import 'package:audio_cult/app/features/home/post_photos/widgets/post_list_image.dart';
+import 'package:audio_cult/app/features/music/my_album/upload_song/upload_song_bloc.dart';
 import 'package:audio_cult/app/injections.dart';
 import 'package:audio_cult/app/services/media_service.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/l10n/l10n.dart';
 import 'package:audio_cult/w_components/list_photos/common_list_multi_photo.dart';
-import 'package:dartz/dartz_unsafe.dart';
 import 'package:disposing/disposing.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -18,18 +18,19 @@ import 'package:flutter_svg/svg.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:photo_manager/photo_manager.dart' hide LatLng;
+import 'package:provider/provider.dart';
 import '../../../../di/bloc_locator.dart';
 import '../../../../w_components/buttons/common_button.dart';
 import '../../../../w_components/buttons/w_button_inkwell.dart';
 import '../../../../w_components/dropdown/common_dropdown.dart';
 import '../../../constants/global_constants.dart';
-import '../../../utils/bottom_sheet/image_picker_action_sheet.dart';
 import '../../../utils/constants/app_assets.dart';
 import '../../../utils/constants/app_colors.dart';
 import '../../../utils/file/file_utils.dart';
 import '../../../utils/mixins/disposable_state_mixin.dart';
 import '../../auth/widgets/register_page.dart';
 import '../home_bloc.dart';
+import '../post_status/widgets/status_tag_friend_input.dart';
 
 class PostPhotos extends StatefulWidget {
   const PostPhotos({Key? key}) : super(key: key);
@@ -39,7 +40,6 @@ class PostPhotos extends StatefulWidget {
 }
 
 class _PostPhotosState extends State<PostPhotos> with DisposableStateMixin, AutomaticKeepAliveClientMixin {
-  SelectMenuModel? _privacy;
   final List<File> _listImages = [];
   final RegisterBloc _registerBloc = RegisterBloc(locator.get(), locator.get());
   final MediaServiceInterface _mediaService = locator<MediaServiceInterface>();
@@ -47,20 +47,21 @@ class _PostPhotosState extends State<PostPhotos> with DisposableStateMixin, Auto
   final Set<Marker> markers = {};
   late GoogleMapController _controller;
   late Uint8List iconMarker;
-  bool? _showMap = false;
-  bool? _showTagFriends;
-  double _lat = 0.0;
-  double _lng = 0.0;
+  late int _sizePerPage = 50;
+  late bool _isLoading = false;
+  late bool? _showMap = false;
+  late bool? _showTagFriends = false;
+  late bool _isLoadingMore = false;
+  late bool _hasMoreToLoad = true;
+  SelectMenuModel? _privacy;
+  double _lat = 0;
+  double _lng = 0;
   File? file;
   String errorTitle = '';
   AssetPathEntity? _path;
   List<AssetEntity>? _entities;
   int _totalEntitiesCount = 0;
   int _page = 0;
-  bool _isLoading = false;
-  int _sizePerPage = 50;
-  bool _isLoadingMore = false;
-  bool _hasMoreToLoad = true;
 
   void _getCustomMarker() {
     FileUtils.getBytesFromAsset(AppAssets.markerIcon, 80).then((value) {
@@ -191,176 +192,207 @@ class _PostPhotosState extends State<PostPhotos> with DisposableStateMixin, Auto
   @override
   Widget build(BuildContext context) {
     return BlocHandle(
-      bloc: getIt<HomeBloc>(),
-      child: Stack(
-        children: [
-          SingleChildScrollView(
-            child: Column(
-              children: [
-                if (_listImages.isEmpty)
-                  AddPhoto(
-                    onAddPhoto: () {
-                      _requestAssets();
-                    },
-                  )
-                else
-                  PostListImage(
-                    listImages: _listImages,
-                    onAddImage: _requestAssets,
-                    onRemoveImage: (index) {
-                      setState(() {
-                        _listImages.removeAt(index);
-                      });
-                    },
-                  ),
-                TextField(
-                  maxLines: 10,
-                  onChanged: (value) {
-                    _uploadPhotoRequest.description = value;
-                  },
-                  decoration: InputDecoration(
-                    contentPadding: const EdgeInsets.all(18),
-                    hintText: context.l10n.t_say_something_photo,
-                    hintStyle: context.bodyTextPrimaryStyle()!.copyWith(color: AppColors.subTitleColor, fontSize: 18),
-                    focusedBorder: InputBorder.none,
-                    disabledBorder: InputBorder.none,
-                    enabledBorder: InputBorder.none,
-                  ),
-                ),
-                const SizedBox(height: 10),
-                Visibility(
-                  visible: _showMap!,
-                  child: _buildMap(),
-                ),
-              ],
-            ),
-          ),
-          Positioned(
-            bottom: 10,
-            child: Container(
-              padding: const EdgeInsets.all(10),
-              width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(
-                color: AppColors.secondaryButtonColor,
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(12),
-                  topRight: Radius.circular(12),
+        bloc: getIt<HomeBloc>(),
+        child: Provider<UploadSongBloc>(
+          create: (context) => UploadSongBloc(locator.get(), locator.get()),
+          child: Stack(
+            children: [
+              SingleChildScrollView(
+                child: Column(
+                  children: [
+                    if (_listImages.isEmpty)
+                      AddPhoto(
+                        onAddPhoto: () {
+                          _requestAssets();
+                        },
+                      )
+                    else
+                      PostListImage(
+                        listImages: _listImages,
+                        onAddImage: _requestAssets,
+                        onRemoveImage: (index) {
+                          setState(() {
+                            _listImages.removeAt(index);
+                          });
+                        },
+                      ),
+                    TextField(
+                      maxLines: 10,
+                      onChanged: (value) {
+                        _uploadPhotoRequest.description = value;
+                      },
+                      decoration: InputDecoration(
+                        contentPadding: const EdgeInsets.all(18),
+                        hintText: context.l10n.t_say_something_photo,
+                        hintStyle:
+                            context.bodyTextPrimaryStyle()!.copyWith(color: AppColors.subTitleColor, fontSize: 18),
+                        focusedBorder: InputBorder.none,
+                        disabledBorder: InputBorder.none,
+                        enabledBorder: InputBorder.none,
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    Visibility(
+                      visible: _showMap!,
+                      child: _buildMap(),
+                    ),
+                  ],
                 ),
               ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
+              Positioned(
+                bottom: 10,
+                child: Container(
+                  padding: const EdgeInsets.all(10),
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                    color: AppColors.secondaryButtonColor,
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(12),
+                      topRight: Radius.circular(12),
+                    ),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(
-                        width: 100,
-                        child: CommonDropdown(
-                          selection: _privacy,
-                          hint: '',
-                          backgroundColor: Colors.transparent,
-                          noBorder: true,
-                          data: GlobalConstants.listPrivacy,
-                          onChanged: (value) {
-                            setState(() {
-                              _privacy = value;
-                              _uploadPhotoRequest.privacy = value?.id;
-                            });
+                      Visibility(
+                        visible: _showTagFriends!,
+                        child: StatusTagFriendInput(
+                          onChooseTags: (value) {
+                            final sb = StringBuffer();
+                            for (final item in value) {
+                              sb.write('${item.userId},');
+                            }
+                            _uploadPhotoRequest.taggedFriends = sb.toString();
                           },
                         ),
                       ),
-                      const SizedBox(width: 10),
-                      SvgPicture.asset(
-                        AppAssets.tagFriends,
-                        width: 28,
-                        height: 28,
-                      ),
-                      const SizedBox(width: 20),
-                      WButtonInkwell(
-                        onPressed: () async {
-                          FocusScope.of(context).requestFocus(FocusNode());
-                          final result = await showSearch(
-                            context: context,
-                            delegate: AddressSearch(bloc: _registerBloc),
-                          );
-                          if (result != null) {
-                            final placeDetails = await _registerBloc.getPlaceDetailFromId(result.placeId);
-                            final location = await _registerBloc.getLatLng(result.description);
-                            if (placeDetails != null) {
-                              placeDetails.fullAddress = result.description;
-                              setState(() {
-                                _lat = location?.latitude ?? 0.0;
-                                _lng = location?.longitude ?? 0.0;
-                                _uploadPhotoRequest.latLng = '$_lat,$_lng';
-                                _uploadPhotoRequest.locationName = placeDetails.fullAddress;
-                                _showMap = true;
-                                markers.add(
-                                  Marker(
-                                    markerId: const MarkerId(''),
-                                    position: LatLng(
-                                      location?.latitude ?? 0.0,
-                                      location?.longitude ?? 0.0,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              SizedBox(
+                                width: 100,
+                                child: CommonDropdown(
+                                  selection: _privacy,
+                                  hint: '',
+                                  backgroundColor: Colors.transparent,
+                                  noBorder: true,
+                                  data: GlobalConstants.listPrivacy,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _privacy = value;
+                                      _uploadPhotoRequest.privacy = value?.id;
+                                    });
+                                  },
+                                ),
+                              ),
+                              const SizedBox(width: 10),
+                              WButtonInkwell(
+                                onPressed: () {
+                                  setState(() {
+                                    if (_showTagFriends!) {
+                                      _showTagFriends = false;
+                                    } else {
+                                      _showTagFriends = true;
+                                    }
+                                  });
+                                },
+                                child: SvgPicture.asset(
+                                  AppAssets.tagFriends,
+                                  width: 28,
+                                  height: 28,
+                                ),
+                              ),
+                              const SizedBox(width: 20),
+                              WButtonInkwell(
+                                onPressed: () async {
+                                  FocusScope.of(context).requestFocus(FocusNode());
+                                  final result = await showSearch(
+                                    context: context,
+                                    delegate: AddressSearch(bloc: _registerBloc),
+                                  );
+                                  if (result != null) {
+                                    final placeDetails = await _registerBloc.getPlaceDetailFromId(result.placeId);
+                                    final location = await _registerBloc.getLatLng(result.description);
+                                    if (placeDetails != null) {
+                                      placeDetails.fullAddress = result.description;
+                                      setState(() {
+                                        _lat = location?.latitude ?? 0.0;
+                                        _lng = location?.longitude ?? 0.0;
+                                        _uploadPhotoRequest.latLng = '$_lat,$_lng';
+                                        _uploadPhotoRequest.locationName = placeDetails.fullAddress;
+                                        _showMap = true;
+                                        markers.add(
+                                          Marker(
+                                            markerId: const MarkerId(''),
+                                            position: LatLng(
+                                              location?.latitude ?? 0.0,
+                                              location?.longitude ?? 0.0,
+                                            ),
+                                            icon: BitmapDescriptor.fromBytes(iconMarker),
+                                          ),
+                                        );
+                                      });
+                                    }
+                                  }
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.all(10),
+                                  child: SvgPicture.asset(
+                                    AppAssets.locationIcon,
+                                    width: 28,
+                                    height: 28,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          CommonButton(
+                            width: 110,
+                            color: AppColors.primaryButtonColor,
+                            text: 'Post',
+                            onTap: () async {
+                              _uploadPhotoRequest.images = _listImages;
+                              if (_listImages.length > 10) {
+                                await showDialog(
+                                  context: context,
+                                  builder: (_context) => AlertDialog(
+                                    backgroundColor: AppColors.secondaryButtonColor,
+                                    actions: [
+                                      CommonButton(
+                                        width: 100,
+                                        color: AppColors.primaryButtonColor,
+                                        onTap: () {
+                                          Navigator.pop(context);
+                                        },
+                                        text: 'Ok',
+                                      ),
+                                    ],
+                                    title: Text(
+                                      'Warning',
+                                      style: context.body2TextStyle()?.copyWith(color: AppColors.activeLabelItem),
                                     ),
-                                    icon: BitmapDescriptor.fromBytes(iconMarker),
+                                    content: Text(
+                                      'the number of images should not exceed the number of 10',
+                                      style: context.body2TextStyle()?.copyWith(color: Colors.white),
+                                    ),
                                   ),
                                 );
-                              });
-                            }
-                          }
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.all(10),
-                          child: SvgPicture.asset(
-                            AppAssets.locationIcon,
-                            width: 28,
-                            height: 28,
+                              } else {
+                                getIt<HomeBloc>().uploadPhoto(_uploadPhotoRequest);
+                              }
+                            },
                           ),
-                        ),
+                        ],
                       ),
                     ],
                   ),
-                  CommonButton(
-                    width: 110,
-                    color: AppColors.primaryButtonColor,
-                    text: 'Post',
-                    onTap: () async {
-                      _uploadPhotoRequest.images = _listImages;
-                      if (_listImages.length > 10) {
-                        await showDialog(
-                          context: context,
-                          builder: (_context) => AlertDialog(
-                            backgroundColor: AppColors.secondaryButtonColor,
-                            actions: [
-                              CommonButton(
-                                width: 100,
-                                color: AppColors.primaryButtonColor,
-                                onTap: () {
-                                  Navigator.pop(context);
-                                },
-                                text: 'Ok',
-                              ),
-                            ],
-                            title: Text(
-                              'Warning',
-                              style: context.body2TextStyle()?.copyWith(color: AppColors.activeLabelItem),
-                            ),
-                            content: Text(
-                              'the number of images should not exceed the number of 10',
-                              style: context.body2TextStyle()?.copyWith(color: Colors.white),
-                            ),
-                          ),
-                        );
-                      } else {
-                        getIt<HomeBloc>().uploadPhoto(_uploadPhotoRequest);
-                      }
-                    },
-                  ),
-                ],
-              ),
-            ),
-          )
-        ],
-      ),
-    );
+                ),
+              )
+            ],
+          ),
+        ));
   }
 
   Widget _buildMap() {
