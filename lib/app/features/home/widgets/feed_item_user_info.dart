@@ -33,8 +33,11 @@ class FeedItemUserInfo extends StatelessWidget {
       children: [
         GestureDetector(
           onTap: () {
-            Navigator.pushNamed(context, AppRoute.routeProfile,
-                arguments: ProfileScreen.createArguments(id: data!.userId!));
+            Navigator.pushNamed(
+              context,
+              AppRoute.routeProfile,
+              arguments: ProfileScreen.createArguments(id: data!.userId!),
+            );
           },
           child: CachedNetworkImage(
             width: 50,

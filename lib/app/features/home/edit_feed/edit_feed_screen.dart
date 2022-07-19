@@ -46,6 +46,7 @@ class _EditFeedScreenState extends State<EditFeedScreen> {
   final Set<Marker> _markers = {};
   final _listPrivacy = GlobalConstants.listPrivacy;
   final RegisterBloc _registerBloc = RegisterBloc(locator.get(), locator.get());
+  late FeedResponse? _result;
   late TextEditingController _textEditingController;
   late bool? _showListBackground;
   late bool? _showTagFriends;
@@ -53,7 +54,6 @@ class _EditFeedScreenState extends State<EditFeedScreen> {
   late bool? _enableBackground;
   late double _lat = 0;
   late double _lng = 0;
-  List<ProfileData> _listTaggedFriends = [];
   Uint8List? iconMarker;
   SelectMenuModel? _privacy;
   GoogleMapController? _googleMapController;
@@ -69,6 +69,7 @@ class _EditFeedScreenState extends State<EditFeedScreen> {
   }
 
   void _initData() {
+    _result = widget.data;
     _textEditingController = TextEditingController(text: widget.data?.feedStatus ?? '');
     _imagePath = widget.data?.statusBackground ?? '';
     _lat = widget.data?.locationLatlng?.latitude ?? 0.0;
@@ -140,10 +141,12 @@ class _EditFeedScreenState extends State<EditFeedScreen> {
                     setState(() {
                       _enableBackground = false;
                       _createPostRequest.statusBackgroundId = '0';
+                      _result?.statusBackground = '';
                     });
                   },
                   onChanged: (value) {
                     _createPostRequest.userStatus = value;
+                    _result?.feedStatus = value;
                   },
                 )
               else if (_showMap!)
@@ -153,6 +156,7 @@ class _EditFeedScreenState extends State<EditFeedScreen> {
                   textEditingController: _textEditingController,
                   onChanged: (value) {
                     _createPostRequest.userStatus = value;
+                    _result?.feedStatus = value;
                   },
                 ),
               Visibility(
@@ -164,6 +168,7 @@ class _EditFeedScreenState extends State<EditFeedScreen> {
                         textEditingController: _textEditingController,
                         onChanged: (value) {
                           _createPostRequest.userStatus = value;
+                          _result?.feedStatus = value;
                         },
                       ),
                       EditFeedMap(
@@ -206,8 +211,16 @@ class _EditFeedScreenState extends State<EditFeedScreen> {
                                 for (final item in value) {
                                   sb.write('${item.userId},');
                                 }
-                                _listTaggedFriends = value;
                                 _createPostRequest.taggedFriends = sb.toString();
+                                _result?.friendsTagged = value;
+                              },
+                              onDeleteTag: (value) {
+                                final sb = StringBuffer();
+                                for (final item in _result!.friendsTagged!) {
+                                  sb.write('${item.userId},');
+                                }
+                                _createPostRequest.taggedFriends = sb.toString();
+                                _result?.friendsTagged?.remove(value);
                               },
                               listProfile: widget.data?.friendsTagged,
                             ),
@@ -221,6 +234,7 @@ class _EditFeedScreenState extends State<EditFeedScreen> {
                                     setState(() {
                                       _createPostRequest.statusBackgroundId = data.backgroundId;
                                       _imagePath = data.imageUrl ?? '';
+                                      _result?.statusBackground = _imagePath;
                                       _enableBackground = true;
                                       _showMap = false;
                                     });
@@ -246,6 +260,7 @@ class _EditFeedScreenState extends State<EditFeedScreen> {
                                           setState(() {
                                             _privacy = value;
                                             _createPostRequest.privacy = value?.id;
+                                            _result?.privacy = value?.id.toString();
                                           });
                                         },
                                       ),
@@ -287,6 +302,9 @@ class _EditFeedScreenState extends State<EditFeedScreen> {
                                               _lng = location?.longitude ?? 0.0;
                                               _createPostRequest.latLng = '$_lat,$_lng';
                                               _createPostRequest.locationName = placeDetails.fullAddress;
+                                              _result?.locationLatlng?.latitude = _lat;
+                                              _result?.locationLatlng?.longitude = _lng;
+                                              _result?.locationName = placeDetails.fullAddress;
                                               _showMap = true;
                                               _enableBackground = false;
                                               _markers.add(
@@ -331,7 +349,8 @@ class _EditFeedScreenState extends State<EditFeedScreen> {
                                 color: AppColors.primaryButtonColor,
                                 text: 'Post',
                                 onTap: () {
-                                  _updateFeed();
+                                  getIt<EditFeedBloc>().editPost(_createPostRequest);
+                                  Navigator.pop(context, _result);
                                 },
                               ),
                             ],
@@ -347,34 +366,5 @@ class _EditFeedScreenState extends State<EditFeedScreen> {
         ),
       ),
     );
-  }
-
-  void _updateFeed() {
-    final result = widget.data;
-    if (_createPostRequest.statusBackgroundId != null) {
-      result?.statusBackground = _imagePath;
-    }
-
-    if (_createPostRequest.userStatus != null) {
-      result?.feedStatus = _createPostRequest.userStatus;
-    }
-
-    if (_createPostRequest.locationName != null) {
-      result?.locationName = _createPostRequest.locationName;
-    }
-
-    if (_lat != 0 && _lng != 0) {
-      result?.locationLatlng?.latitude = _lat;
-      result?.locationLatlng?.longitude = _lng;
-    }
-    
-    if (_listTaggedFriends.isNotEmpty) {
-      result?.friendsTagged = _listTaggedFriends;
-    }
-
-    result?.privacy = _privacy?.id.toString();
-
-    getIt<EditFeedBloc>().editPost(_createPostRequest);
-    //Navigator.pop(context, result);
   }
 }

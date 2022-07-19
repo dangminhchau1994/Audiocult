@@ -11,9 +11,11 @@ class EditFeedTagFriendInput extends StatelessWidget {
     Key? key,
     this.onChooseTags,
     this.listProfile,
+    this.onDeleteTag,
   }) : super(key: key);
 
   final Function(List<ProfileData> tag)? onChooseTags;
+  final Function(ProfileData data)? onDeleteTag;
   final List<ProfileData>? listProfile;
 
   @override
@@ -44,7 +46,9 @@ class EditFeedTagFriendInput extends StatelessWidget {
               onChooseMultipleTag: (value) {
                 onChooseTags!(value);
               },
-              onDeleteTag: (value) {},
+              onDeleteTag: (value) {
+                onDeleteTag!(value);
+              },
               onPressedChip: (ProfileData value) {},
             ),
           ),
