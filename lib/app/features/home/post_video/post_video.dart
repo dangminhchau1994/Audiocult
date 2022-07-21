@@ -22,6 +22,7 @@ import 'package:provider/provider.dart';
 import '../../../../w_components/buttons/common_button.dart';
 import '../../../../w_components/dropdown/common_dropdown.dart';
 import '../../../constants/global_constants.dart';
+import '../../../data_source/models/responses/profile_data.dart';
 import '../../../injections.dart';
 import '../../../services/media_service.dart';
 import '../../../utils/bottom_sheet/image_picker_action_sheet.dart';
@@ -54,6 +55,7 @@ class _PostVideoState extends State<PostVideo> with DisposableStateMixin, Automa
   late Uint8List iconMarker;
   late bool? _showMap = false;
   late bool? _showTagFriends = false;
+  List<ProfileData> _listProfile = [];
   double _lat = 0;
   double _lng = 0;
   File? _video;
@@ -223,6 +225,14 @@ class _PostVideoState extends State<PostVideo> with DisposableStateMixin, Automa
                             sb.write('${item.userId},');
                           }
                           _request.taggedFriends = sb.toString();
+                        },
+                        onDeleteTag: (value) {
+                          final sb = StringBuffer();
+                          for (final item in _listProfile) {
+                            sb.write('${item.userId},');
+                          }
+                          _request.taggedFriends = sb.toString();
+                          _listProfile.remove(value);
                         },
                       ),
                     ),

@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'package:audio_cult/app/base/bloc_handle.dart';
 import 'package:audio_cult/app/data_source/models/requests/upload_photo_request.dart';
+import 'package:audio_cult/app/data_source/models/responses/profile_data.dart';
 import 'package:audio_cult/app/features/auth/register/register_bloc.dart';
 import 'package:audio_cult/app/features/home/post_photos/widgets/add_photo.dart';
 import 'package:audio_cult/app/features/home/post_photos/widgets/post_list_image.dart';
@@ -53,6 +54,7 @@ class _PostPhotosState extends State<PostPhotos> with DisposableStateMixin, Auto
   late bool? _showTagFriends = false;
   late bool _isLoadingMore = false;
   late bool _hasMoreToLoad = true;
+  List<ProfileData> _listProfile = [];
   SelectMenuModel? _privacy;
   double _lat = 0;
   double _lng = 0;
@@ -263,6 +265,15 @@ class _PostPhotosState extends State<PostPhotos> with DisposableStateMixin, Auto
                               sb.write('${item.userId},');
                             }
                             _uploadPhotoRequest.taggedFriends = sb.toString();
+                            _listProfile = value;
+                          },
+                          onDeleteTag: (value) {
+                            final sb = StringBuffer();
+                            for (final item in _listProfile) {
+                              sb.write('${item.userId},');
+                            }
+                            _uploadPhotoRequest.taggedFriends = sb.toString();
+                            _listProfile.remove(value);
                           },
                         ),
                       ),

@@ -23,6 +23,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import '../../../../w_components/dropdown/common_dropdown.dart';
+import '../../../data_source/models/responses/profile_data.dart';
 import '../../../utils/constants/app_assets.dart';
 import '../../../utils/file/file_utils.dart';
 import '../../../utils/mixins/disposable_state_mixin.dart';
@@ -41,6 +42,7 @@ class _PostStatusState extends State<PostStatus> with DisposableStateMixin, Auto
   final RegisterBloc _registerBloc = RegisterBloc(locator.get(), locator.get());
   final Set<Marker> markers = {};
   late Uint8List iconMarker;
+  List<ProfileData> _listProfile = [];
   GoogleMapController? _controller;
   double _lat = 0.0;
   double _lng = 0.0;
@@ -167,6 +169,14 @@ class _PostStatusState extends State<PostStatus> with DisposableStateMixin, Auto
                                 sb.write('${item.userId},');
                               }
                               _createPostRequest.taggedFriends = sb.toString();
+                            },
+                            onDeleteTag: (value) {
+                              final sb = StringBuffer();
+                              for (final item in _listProfile) {
+                                sb.write('${item.userId},');
+                              }
+                              _createPostRequest.taggedFriends = sb.toString();
+                              _listProfile.remove(value);
                             },
                           ),
                         ),

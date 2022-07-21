@@ -1,7 +1,5 @@
 import 'dart:typed_data';
-
 import 'package:audio_cult/app/data_source/models/responses/feed/feed_response.dart';
-import 'package:audio_cult/app/data_source/models/responses/profile_data.dart';
 import 'package:audio_cult/app/features/auth/register/register_bloc.dart';
 import 'package:audio_cult/app/features/home/edit_feed/edit_feed_bloc.dart';
 import 'package:audio_cult/app/features/home/edit_feed/widgets/edit_feed_background.dart';
@@ -93,7 +91,7 @@ class _EditFeedScreenState extends State<EditFeedScreen> {
   }
 
   void _setFlags() {
-    _enableBackground = _imagePath.isNotEmpty;
+    _enableBackground = _imagePath.isNotEmpty && _lat == 0 && _lng == 0;
     _showTagFriends = false;
     _showListBackground = false;
     if (_lat != 0.0 && _lng != 0.0) {

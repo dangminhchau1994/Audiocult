@@ -9,9 +9,11 @@ class StatusTagFriendInput extends StatelessWidget {
   const StatusTagFriendInput({
     Key? key,
     this.onChooseTags,
+    this.onDeleteTag,
   }) : super(key: key);
 
   final Function(List<ProfileData> tag)? onChooseTags;
+  final Function(ProfileData data)? onDeleteTag;
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +42,9 @@ class StatusTagFriendInput extends StatelessWidget {
               onChooseMultipleTag: (value) {
                 onChooseTags!(value);
               },
-              onDeleteTag: (value) {},
+              onDeleteTag: (value) {
+                onDeleteTag!(value);
+              },
               onPressedChip: (ProfileData value) {},
             ),
           ),
