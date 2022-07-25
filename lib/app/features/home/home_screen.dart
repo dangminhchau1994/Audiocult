@@ -24,7 +24,6 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMixin {
   final PagingController<int, FeedResponse> _pagingFeedController = PagingController(firstPageKey: 1);
   late HomeBloc _homeBloc;
-  String a = 'fsdfsdf';
 
   @override
   void initState() {
