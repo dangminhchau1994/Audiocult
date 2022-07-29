@@ -6,8 +6,8 @@ import '../../../../w_components/appbar/common_appbar.dart';
 import '../widgets/create_new_password.dart';
 
 class CreateNewPasswordScreen extends StatefulWidget {
-  final String? hashId;
-  const CreateNewPasswordScreen({Key? key, this.hashId}) : super(key: key);
+  final String? codeSent;
+  const CreateNewPasswordScreen({Key? key, this.codeSent}) : super(key: key);
 
   @override
   State<CreateNewPasswordScreen> createState() => _CreateNewPasswordScreenState();
@@ -25,7 +25,7 @@ class _CreateNewPasswordScreenState extends State<CreateNewPasswordScreen> {
             isHideHeader: MediaQuery.of(context).viewInsets.bottom > 0,
             isShowIconRight: false,
             child: CreateNewPasswordPage(
-              hashId: widget.hashId,
+              codeSent: widget.codeSent,
             )),
       ),
     );

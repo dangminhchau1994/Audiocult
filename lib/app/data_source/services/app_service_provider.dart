@@ -1199,7 +1199,7 @@ class AppServiceProvider {
   Future<BaseRes?> resetPassword(String newPassword, String hashId, String token) async {
     final response = await _dioHelper.post(
       route: '/restful_api/user/reset-password',
-      requestBody: FormData.fromMap({'val[newpassword]': newPassword, 'val[hash_id]': hashId}),
+      requestBody: FormData.fromMap({'val[newpassword]': newPassword, 'val[code]': hashId}),
       options: Options(headers: {'Authorization': 'Bearer $token'}),
       responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
     );
@@ -1263,5 +1263,15 @@ class AppServiceProvider {
       },
     );
     return result;
+  }
+
+  Future<BaseRes?> sendCode(String code, String token) async {
+    final response = await _dioHelper.post(
+      route: '/restful_api/user/verify-reset-password',
+      requestBody: FormData.fromMap({'val[code]': code}),
+      options: Options(headers: {'Authorization': 'Bearer $token'}),
+      responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
+    );
+    return response;
   }
 }

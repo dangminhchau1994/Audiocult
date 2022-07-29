@@ -612,8 +612,8 @@ class AppRepository extends BaseRepository {
     return safeCall(() => appServiceProvider.resentEmail(email, token));
   }
 
-  Future<Either<BaseRes?, Exception>> resetPassword(String newPassword, String hashId, String token) {
-    return safeCall(() => appServiceProvider.resetPassword(newPassword, hashId, token));
+  Future<Either<BaseRes?, Exception>> resetPassword(String newPassword, String code, String token) {
+    return safeCall(() => appServiceProvider.resetPassword(newPassword, code, token));
   }
 
   Future<Either<UniversalSearchReponse?, Exception>> universalSearch({
@@ -651,5 +651,9 @@ class AppRepository extends BaseRepository {
       return profile.currency;
     }
     return null;
+  }
+
+  Future<Either<BaseRes?, Exception>> sendCode(String code, String token) {
+    return safeCall(() => appServiceProvider.sendCode(code, token));
   }
 }

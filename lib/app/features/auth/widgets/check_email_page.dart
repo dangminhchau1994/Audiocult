@@ -1,9 +1,14 @@
+import 'package:audio_cult/app/injections.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/l10n/l10n.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../w_components/buttons/common_button.dart';
+import '../../../../w_components/textfields/common_input.dart';
 import '../../../utils/constants/app_colors.dart';
 import '../../../utils/constants/app_dimens.dart';
+import '../../../utils/route/app_route.dart';
+import '../check_email/check_email_bloc.dart';
 
 class CheckEmailPage extends StatefulWidget {
   const CheckEmailPage({Key? key}) : super(key: key);
@@ -13,6 +18,18 @@ class CheckEmailPage extends StatefulWidget {
 }
 
 class _CheckEmailPageState extends State<CheckEmailPage> {
+  String _codeSent = '';
+  final CheckEmailBloc _checkEmailBloc = CheckEmailBloc(locator.get());
+  @override
+  void initState() {
+    super.initState();
+    _checkEmailBloc.navigateMainStream.listen((event) {
+      if (event) {
+        Navigator.pushNamed(context, AppRoute.routeResetPassword, arguments: _codeSent);
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -33,13 +50,22 @@ class _CheckEmailPageState extends State<CheckEmailPage> {
             style: context.bodyTextStyle()?.copyWith(color: AppColors.unActiveLabelItem),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: kVerticalSpacing * 2),
-            child: Container(
-              width: MediaQuery.of(context).size.width * 0.5,
-              height: 1,
-              color: AppColors.inputFillColor,
+            padding: const EdgeInsets.symmetric(vertical: kVerticalSpacing),
+            child: CommonInput(
+              hintText: 'Input code...',
+              onChanged: (v) {
+                setState(() {
+                  _codeSent = v;
+                });
+              },
             ),
           ),
+          CommonButton(
+              color: AppColors.activeLabelItem,
+              text: context.l10n.t_submit,
+              onTap: () {
+                _checkEmailBloc.sendCode(_codeSent);
+              }),
           Padding(
             padding: const EdgeInsets.only(top: kVerticalSpacing),
             child: Text(
