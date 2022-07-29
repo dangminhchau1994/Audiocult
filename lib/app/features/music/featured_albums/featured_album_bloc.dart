@@ -25,6 +25,9 @@ class FeaturedAlbumBloc extends BaseBloc<AlbumPlaylistRequest, List<Album>> {
     final result = await _appRepository.getAlbums(
       params?.query ?? '',
       params?.view ?? '',
+      params?.sort ?? '',
+      params?.genresId?? '',
+      params?.when ?? '',
       params?.page ?? 0,
       params?.limit ?? 0,
     );

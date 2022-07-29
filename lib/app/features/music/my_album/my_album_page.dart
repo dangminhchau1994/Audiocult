@@ -41,18 +41,18 @@ class _MyAlbumPageState extends State<MyAlbumPage> with DisposableStateMixin {
   @override
   void initState() {
     super.initState();
-    _myAlbumBloc.getAlbums('', '', 1, GlobalConstants.loadMoreItem,
+    _myAlbumBloc.getAlbums('', '', '', '', '', 1, GlobalConstants.loadMoreItem,
         userId: locator.get<MainBloc>().profileData!.userId);
-    _myAlbumBloc.getMixTapSongs('', '', 1, GlobalConstants.loadMoreItem, '', '',
+    _myAlbumBloc.getMixTapSongs('', '', '', '', 1, GlobalConstants.loadMoreItem, '', '',
         userId: locator.get<MainBloc>().profileData!.userId);
     _myAlbumBloc.deleteStream.listen((event) {
       ToastUtility.showSuccess(context: context, message: event);
-      _myAlbumBloc.getMixTapSongs('', '', 1, GlobalConstants.loadMoreItem, '', '',
+      _myAlbumBloc.getMixTapSongs('', '', '', '', 1, GlobalConstants.loadMoreItem, '', '',
           userId: locator.get<MainBloc>().profileData!.userId);
     }).disposeOn(disposeBag);
     _myAlbumBloc.deleteAlbumStream.listen((event) {
       ToastUtility.showSuccess(context: context, message: event);
-      _myAlbumBloc.getAlbums('', '', 1, GlobalConstants.loadMoreItem,
+      _myAlbumBloc.getAlbums('', '', '', '', '', 1, GlobalConstants.loadMoreItem,
           userId: locator.get<MainBloc>().profileData!.userId);
     }).disposeOn(disposeBag);
   }
@@ -69,9 +69,9 @@ class _MyAlbumPageState extends State<MyAlbumPage> with DisposableStateMixin {
         ),
         child: RefreshIndicator(
           onRefresh: () async {
-            _myAlbumBloc.getAlbums('', '', 1, GlobalConstants.loadMoreItem,
+            _myAlbumBloc.getAlbums('', '', '', '', '', 1, GlobalConstants.loadMoreItem,
                 userId: locator.get<MainBloc>().profileData!.userId);
-            _myAlbumBloc.getMixTapSongs('', '', 1, GlobalConstants.loadMoreItem, '', '',
+            _myAlbumBloc.getMixTapSongs('', '', '', '', 1, GlobalConstants.loadMoreItem, '', '',
                 userId: locator.get<MainBloc>().profileData!.userId);
           },
           child: SingleChildScrollView(
@@ -136,10 +136,11 @@ class _MyAlbumPageState extends State<MyAlbumPage> with DisposableStateMixin {
                                                       album: albums[index]),
                                                 );
                                                 if (result != null) {
-                                                  _myAlbumBloc.getAlbums('', '', 1, GlobalConstants.loadMoreItem,
+                                                  _myAlbumBloc.getAlbums(
+                                                      '', '', '', '', '', 1, GlobalConstants.loadMoreItem,
                                                       userId: locator.get<MainBloc>().profileData!.userId);
                                                   _myAlbumBloc.getMixTapSongs(
-                                                      '', '', 1, GlobalConstants.loadMoreItem, '', '',
+                                                      '', '', '', '', 1, GlobalConstants.loadMoreItem, '', '',
                                                       userId: locator.get<MainBloc>().profileData!.userId);
                                                 }
                                                 break;
@@ -179,7 +180,7 @@ class _MyAlbumPageState extends State<MyAlbumPage> with DisposableStateMixin {
                         return ErrorSectionWidget(
                           errorMessage: error,
                           onRetryTap: () {
-                            _myAlbumBloc.getAlbums('', '', 1, GlobalConstants.loadMoreItem,
+                            _myAlbumBloc.getAlbums('', '', '', '', '', 1, GlobalConstants.loadMoreItem,
                                 userId: locator.get<MainBloc>().profileData!.userId);
                           },
                         );
@@ -242,10 +243,11 @@ class _MyAlbumPageState extends State<MyAlbumPage> with DisposableStateMixin {
                                                     album: null),
                                               );
                                               if (result != null) {
-                                                _myAlbumBloc.getAlbums('', '', 1, GlobalConstants.loadMoreItem,
+                                                _myAlbumBloc.getAlbums(
+                                                    '', '', '', '', '', 1, GlobalConstants.loadMoreItem,
                                                     userId: locator.get<MainBloc>().profileData!.userId);
                                                 _myAlbumBloc.getMixTapSongs(
-                                                    '', '', 1, GlobalConstants.loadMoreItem, '', '',
+                                                    '', '', '', '', 1, GlobalConstants.loadMoreItem, '', '',
                                                     userId: locator.get<MainBloc>().profileData!.userId);
                                               }
                                               break;
@@ -284,7 +286,7 @@ class _MyAlbumPageState extends State<MyAlbumPage> with DisposableStateMixin {
                         return ErrorSectionWidget(
                           errorMessage: error,
                           onRetryTap: () {
-                            _myAlbumBloc.getMixTapSongs('', '', 1, GlobalConstants.loadMoreItem, '', '',
+                            _myAlbumBloc.getMixTapSongs('', '', '', '', 1, GlobalConstants.loadMoreItem, '', '',
                                 userId: locator.get<MainBloc>().profileData!.userId);
                           },
                         );
@@ -329,9 +331,9 @@ class _MyAlbumPageState extends State<MyAlbumPage> with DisposableStateMixin {
                               album: null),
                         );
                         if (result != null) {
-                          _myAlbumBloc.getAlbums('', '', 1, GlobalConstants.loadMoreItem,
+                          _myAlbumBloc.getAlbums('', '', '', '', '', 1, GlobalConstants.loadMoreItem,
                               userId: locator.get<MainBloc>().profileData!.userId);
-                          _myAlbumBloc.getMixTapSongs('', '', 1, GlobalConstants.loadMoreItem, '', '',
+                          _myAlbumBloc.getMixTapSongs('', '', '', '', 1, GlobalConstants.loadMoreItem, '', '',
                               userId: locator.get<MainBloc>().profileData!.userId);
                         }
                       },

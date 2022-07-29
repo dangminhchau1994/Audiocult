@@ -8,10 +8,13 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import '../../../../di/bloc_locator.dart';
 import '../../../../w_components/appbar/common_appbar.dart';
 import '../../../../w_components/buttons/w_button_inkwell.dart';
+import '../../../../w_components/dropdown/common_dropdown.dart';
 import '../../../../w_components/loading/loading_builder.dart';
 import '../../../../w_components/loading/loading_widget.dart';
 import '../../../constants/global_constants.dart';
+import '../../../data_source/models/cache_filter.dart';
 import '../../../data_source/models/requests/top_song_request.dart';
+import '../../../data_source/models/responses/genre.dart';
 import '../../../data_source/models/responses/song/song_response.dart';
 import '../../../utils/constants/app_assets.dart';
 import '../../../utils/constants/app_colors.dart';
@@ -99,8 +102,34 @@ class _FeaturedMixTapesScreenState extends State<FeaturedMixTapesScreen> with Au
         title: context.l10n.t_featured_mixtapes,
         actions: [
           WButtonInkwell(
-            onPressed: () {
-              Navigator.pushNamed(context, AppRoute.routeMusicFilter, arguments: TypeFilterMusic.featuresMixtapes);
+            onPressed: () async {
+              final result = await Navigator.pushNamed(context, AppRoute.routeMusicFilter,
+                  arguments: TypeFilterMusic.featuresMixtapes);
+              if (result != null) {
+                final temp = result as CacheFilter;
+                final sort = temp.mostLiked
+                    ?.firstWhere((element) => element.isSelected, orElse: () => SelectMenuModel(title: 'Latest'))
+                    .title;
+                final genresId = temp.genres
+                    ?.firstWhere((element) => element.isSelected == true, orElse: () => Genre(genreId: ''))
+                    .genreId;
+                final when = temp.allTime
+                    ?.firstWhere((element) => element.isSelected == true, orElse: () => SelectMenuModel(title: ''))
+                    .title;
+                _pagingController.refresh();
+                _pagingController.refresh();
+                _featuredMixtapesBloc.requestData(
+                  params: TopSongRequest(
+                    sort: sort == 'Latest' ? 'Latest' : sort!.toLowerCase().replaceAll(' ', '_'),
+                    page: 1,
+                    genresId: genresId,
+                    when: when!.toLowerCase().replaceAll(' ', '_'),
+                    limit: GlobalConstants.loadMoreItem,
+                    view: 'featured',
+                    type: 'mixtape-song',
+                  ),
+                );
+              }
             },
             child: Container(
               padding: const EdgeInsets.all(8),

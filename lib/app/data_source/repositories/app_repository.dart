@@ -146,13 +146,17 @@ class AppRepository extends BaseRepository {
   Future<Either<List<Album>, Exception>> getAlbums(
     String query,
     String view,
+    String sort,
+    String genresId,
+    String when,
     int page,
     int limit, {
     String? userId,
   }) async {
     final albums = await safeCall(
       () async {
-        final result = await appServiceProvider.getAlbums(query, view, page, limit, userId: userId);
+        final result =
+            await appServiceProvider.getAlbums(query, view, sort, genresId, when, page, limit, userId: userId);
         if (result.isNotEmpty) {
           hiveServiceProvider.saveAlbums(result);
         }
@@ -347,6 +351,8 @@ class AppRepository extends BaseRepository {
   Future<Either<List<Song>, Exception>> getMixTapSongs(
     String query,
     String sort,
+    String genresId,
+    String when,
     int page,
     int limit,
     String view,
@@ -355,7 +361,8 @@ class AppRepository extends BaseRepository {
     String? albumId,
   }) {
     return safeCall(
-      () => appServiceProvider.getMixTapSongs(query, sort, page, limit, view, type, userId: userId, albumId: albumId),
+      () => appServiceProvider.getMixTapSongs(query, sort, genresId, when, page, limit, view, type,
+          userId: userId, albumId: albumId),
     );
   }
 
@@ -395,10 +402,12 @@ class AppRepository extends BaseRepository {
     int page,
     int limit,
     String sort,
+    String genresId,
+    String when,
     int getAll,
   ) {
     return safeCall(
-      () => appServiceProvider.getPlaylists(query, page, limit, sort, getAll),
+      () => appServiceProvider.getPlaylists(query, page, limit, sort, genresId, when, getAll),
     );
   }
 
@@ -477,8 +486,8 @@ class AppRepository extends BaseRepository {
     return result;
   }
 
-  Future saveCacheFilter(String? key,CacheFilter cacheFilter) async {
-    hiveServiceProvider.saveCacheFilter(key,cacheFilter);
+  Future saveCacheFilter(String? key, CacheFilter cacheFilter) async {
+    hiveServiceProvider.saveCacheFilter(key, cacheFilter);
   }
 
   Future clearFilter() async {

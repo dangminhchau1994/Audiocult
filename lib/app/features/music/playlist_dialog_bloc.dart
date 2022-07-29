@@ -26,10 +26,10 @@ class PlayListDialogBloc extends BaseBloc {
     });
   }
 
-  void getPlaylist(String query, int page, int limit, String sort, int getAll) async {
+  void getPlaylist(String query, int page, int limit, String sort, String genresId, String when,int getAll) async {
     _getPlaylistSubject.sink.add(const BlocState.loading());
 
-    final result = await _appRepository.getPlaylists(query, page, limit, sort, getAll);
+    final result = await _appRepository.getPlaylists(query, page, limit, sort,genresId,when, getAll);
 
     result.fold((success) {
       _getPlaylistSubject.sink.add(BlocState.success(success));

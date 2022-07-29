@@ -9,10 +9,13 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import '../../../../di/bloc_locator.dart';
 import '../../../../w_components/appbar/common_appbar.dart';
 import '../../../../w_components/buttons/w_button_inkwell.dart';
+import '../../../../w_components/dropdown/common_dropdown.dart';
 import '../../../../w_components/loading/loading_builder.dart';
 import '../../../../w_components/loading/loading_widget.dart';
 import '../../../constants/global_constants.dart';
+import '../../../data_source/models/cache_filter.dart';
 import '../../../data_source/models/requests/album_playlist_request.dart';
+import '../../../data_source/models/responses/genre.dart';
 import '../../../utils/constants/app_assets.dart';
 import '../../../utils/constants/app_colors.dart';
 import '../../../utils/constants/app_dimens.dart';
@@ -96,7 +99,32 @@ class _TopPlaylistScreenState extends State<TopPlaylistScreen> {
         actions: [
           WButtonInkwell(
             onPressed: () async {
-              var result = await Navigator.pushNamed(context, AppRoute.routeMusicFilter, arguments: TypeFilterMusic.topPlaylist);
+              final result =
+                  await Navigator.pushNamed(context, AppRoute.routeMusicFilter, arguments: TypeFilterMusic.topPlaylist);
+              if (result != null) {
+                final temp = result as CacheFilter;
+                final sort = temp.mostLiked
+                    ?.firstWhere((element) => element.isSelected, orElse: () => SelectMenuModel(title: 'Latest'))
+                    .title;
+                final genresId = temp.genres
+                    ?.firstWhere((element) => element.isSelected == true, orElse: () => Genre(genreId: ''))
+                    .genreId;
+                final when = temp.allTime
+                    ?.firstWhere((element) => element.isSelected == true, orElse: () => SelectMenuModel(title: ''))
+                    .title;
+                _pagingController.refresh();
+                _topPlaylistBloc.requestData(
+                  params: AlbumPlaylistRequest(
+                    query: '',
+                    page: 1,
+                    limit: GlobalConstants.loadMoreItem,
+                    sort: sort == 'Latest' ? 'Latest' : sort!.toLowerCase().replaceAll(' ', '_'),
+                    genresId: genresId,
+                    when: when!.toLowerCase().replaceAll(' ', '_'),
+                    getAll: 1,
+                  ),
+                );
+              }
             },
             child: Container(
               padding: const EdgeInsets.all(8),

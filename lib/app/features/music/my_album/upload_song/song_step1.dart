@@ -57,7 +57,7 @@ class SongStep1State extends State<SongStep1> {
     }
     //album
     if (widget.album != null) {
-      final listSongAlbum = await _uploadSongBloc?.getMixTapSongs('', '', 1, GlobalConstants.loadMoreItem, '', '',
+      final listSongAlbum = await _uploadSongBloc?.getMixTapSongs('', '','','', 1, GlobalConstants.loadMoreItem, '', '',
           userId: locator.get<MainBloc>().profileData!.userId, albumId: widget.album!.albumId);
       listSongAlbum?.forEach((element) {
         listFileAudio.add(Pair(PlatformFile(name: element.title ?? '', size: 1), const Duration()));

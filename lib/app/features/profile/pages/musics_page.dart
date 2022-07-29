@@ -32,10 +32,11 @@ class _MusicsPageState extends State<MusicsPage> {
       widget.scrollController
           .animateTo(_scrollController.offset, duration: const Duration(milliseconds: 50), curve: Curves.easeOut);
     });
-    _discoverBloc.getMixTapSongs('', 'sort', 1, GlobalConstants.loadMoreItem, '', '', userId: widget.profile.userId);
+    _discoverBloc.getMixTapSongs('', 'sort', '', '', 1, GlobalConstants.loadMoreItem, '', '',
+        userId: widget.profile.userId);
     _pagingController.addPageRequestListener((pageKey) {
       if (pageKey > 1) {
-        _discoverBloc.getMixTapSongs('', 'sort', 1, GlobalConstants.loadMoreItem, '', '',
+        _discoverBloc.getMixTapSongs('', 'sort', '', '', 1, GlobalConstants.loadMoreItem, '', '',
             userId: widget.profile.userId);
       }
     });
@@ -76,7 +77,7 @@ class _MusicsPageState extends State<MusicsPage> {
                   errorMessage: _pagingController.error as String,
                   onRetryTap: () {
                     _pagingController.refresh();
-                    _discoverBloc.getMixTapSongs('', 'sort', 1, GlobalConstants.loadMoreItem, '', '',
+                    _discoverBloc.getMixTapSongs('', 'sort', '', '', 1, GlobalConstants.loadMoreItem, '', '',
                         userId: widget.profile.userId);
                   },
                 );

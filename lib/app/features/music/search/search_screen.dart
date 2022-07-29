@@ -59,12 +59,12 @@ class _SearchScreenState extends State<SearchScreen> {
     switch (searchType) {
       case SearchType.album:
         debouncer.run(() {
-          getIt.get<SearchBloc>().getAlbums(value, 'featured', 1, 10);
+          getIt.get<SearchBloc>().getAlbums(value, 'featured','','','', 1, 10);
         });
         break;
       case SearchType.playlist:
         debouncer.run(() {
-          getIt.get<SearchBloc>().getPlaylist(value, 1, 10, 'most-liked', 1);
+          getIt.get<SearchBloc>().getPlaylist(value, 1, 10, 'most-liked','','', 1);
         });
         break;
       case SearchType.topSong:
@@ -73,7 +73,7 @@ class _SearchScreenState extends State<SearchScreen> {
         });
         break;
       case SearchType.mixtapes:
-        getIt.get<SearchBloc>().getMixTapSongs(value, 'most-viewed', 1, 10, 'featured', 'mixtape-song');
+        getIt.get<SearchBloc>().getMixTapSongs(value, 'most-viewed','','', 1, 10, 'featured', 'mixtape-song');
         break;
     }
   }

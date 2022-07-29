@@ -26,6 +26,8 @@ class SearchBloc extends BaseBloc {
   void getMixTapSongs(
     String query,
     String sort,
+    String genresId,
+    String when,
     int page,
     int limit,
     String view,
@@ -33,7 +35,7 @@ class SearchBloc extends BaseBloc {
   ) async {
     _getMixTapSongsSubject.sink.add(const BlocState.loading());
 
-    final result = await _appRepository.getMixTapSongs(query, sort, page, limit, view, type);
+    final result = await _appRepository.getMixTapSongs(query, sort, genresId, when, page, limit, view, type);
 
     result.fold((success) {
       _getMixTapSongsSubject.sink.add(BlocState.success(success));
@@ -54,10 +56,10 @@ class SearchBloc extends BaseBloc {
     });
   }
 
-  void getAlbums(String query, String view, int page, int limit) async {
+  void getAlbums(String query, String view, String sort, String genresId, String when, int page, int limit) async {
     _getAlbumSubject.sink.add(const BlocState.loading());
 
-    final result = await _appRepository.getAlbums(query, view, page, limit);
+    final result = await _appRepository.getAlbums(query, view, sort, genresId, when, page, limit);
 
     result.fold((success) {
       _getAlbumSubject.sink.add(BlocState.success(success));
@@ -66,10 +68,10 @@ class SearchBloc extends BaseBloc {
     });
   }
 
-  void getPlaylist(String query, int page, int limit, String sort, int getAll) async {
+  void getPlaylist(String query, int page, int limit, String sort, String genresId, String when, int getAll) async {
     _getPlaylistSubject.sink.add(const BlocState.loading());
 
-    final result = await _appRepository.getPlaylists(query, page, limit, sort, getAll);
+    final result = await _appRepository.getPlaylists(query, page, limit, sort, genresId, when, getAll);
 
     result.fold((success) {
       _getPlaylistSubject.sink.add(BlocState.success(success));
