@@ -69,7 +69,7 @@ class _SearchScreenState extends State<SearchScreen> {
         break;
       case SearchType.topSong:
         debouncer.run(() {
-          getIt.get<SearchBloc>().getTopSongs(value, 'most-viewed', 1, 10);
+          getIt.get<SearchBloc>().getTopSongs(value, 'most-viewed', '','', 1, 10);
         });
         break;
       case SearchType.mixtapes:

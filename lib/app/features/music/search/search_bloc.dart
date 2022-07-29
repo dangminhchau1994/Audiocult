@@ -42,10 +42,10 @@ class SearchBloc extends BaseBloc {
     });
   }
 
-  void getTopSongs(String query, String sort, int page, int limit) async {
+  void getTopSongs(String query, String sort, String genresId, String when, int page, int limit) async {
     _getTopSongSubject.sink.add(const BlocState.loading());
 
-    final result = await _appRepository.getTopSongs(query, sort, page, limit);
+    final result = await _appRepository.getTopSongs(query, sort, genresId, when, page, limit);
 
     result.fold((success) {
       _getTopSongSubject.sink.add(BlocState.success(success));

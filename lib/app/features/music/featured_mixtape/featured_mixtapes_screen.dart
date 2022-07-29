@@ -17,6 +17,7 @@ import '../../../utils/constants/app_assets.dart';
 import '../../../utils/constants/app_colors.dart';
 import '../../../utils/route/app_route.dart';
 import '../discover/widgets/song_item.dart';
+import '../filter/enum_filter_music.dart';
 import '../search/search_args.dart';
 
 class FeaturedMixTapesScreen extends StatefulWidget {
@@ -99,7 +100,7 @@ class _FeaturedMixTapesScreenState extends State<FeaturedMixTapesScreen> with Au
         actions: [
           WButtonInkwell(
             onPressed: () {
-              Navigator.pushNamed(context, AppRoute.routeMusicFilter);
+              Navigator.pushNamed(context, AppRoute.routeMusicFilter, arguments: TypeFilterMusic.featuresMixtapes);
             },
             child: Container(
               padding: const EdgeInsets.all(8),

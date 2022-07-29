@@ -26,8 +26,8 @@ class FilterBloc extends BaseBloc {
     result.fold(_getGenresSubject.add, (r) => _getGenresSubject.add([]));
   }
 
-  CacheFilter? cache() {
-    final cache = _appRepository.getCacheFilter();
+  CacheFilter? cache(String? key) {
+    final cache = _appRepository.getCacheFilter(key);
     return cache;
   }
 
@@ -35,8 +35,8 @@ class FilterBloc extends BaseBloc {
     await _appRepository.clearFilter();
   }
 
-  void getCacheFilter() async {
-    final cache = _appRepository.getCacheFilter();
+  void getCacheFilter(String? key) async {
+    final cache = _appRepository.getCacheFilter(key);
     if (cache == null) {
       getMasterData();
       getGenres();
@@ -63,7 +63,7 @@ class FilterBloc extends BaseBloc {
     }
   }
 
-  void saveCacheFilter(CacheFilter cacheFilter) async {
-    await _appRepository.saveCacheFilter(cacheFilter);
+  void saveCacheFilter(String? key,CacheFilter cacheFilter) async {
+    await _appRepository.saveCacheFilter(key,cacheFilter);
   }
 }

@@ -16,6 +16,7 @@ import '../../../../w_components/loading/loading_widget.dart';
 import '../../../constants/global_constants.dart';
 import '../../../utils/constants/app_assets.dart';
 import '../../../utils/constants/app_colors.dart';
+import '../filter/enum_filter_music.dart';
 import '../search/search_args.dart';
 
 class FeaturedAlbumScreen extends StatefulWidget {
@@ -95,7 +96,7 @@ class _FeaturedAlbumScreenState extends State<FeaturedAlbumScreen> {
         actions: [
           WButtonInkwell(
             onPressed: () {
-              Navigator.pushNamed(context, AppRoute.routeMusicFilter);
+              Navigator.pushNamed(context, AppRoute.routeMusicFilter, arguments: TypeFilterMusic.featuresAlbum);
             },
             child: Container(
               padding: const EdgeInsets.all(8),

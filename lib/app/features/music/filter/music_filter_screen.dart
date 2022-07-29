@@ -1,3 +1,4 @@
+import 'package:audio_cult/app/data_source/local/hive_box_name.dart';
 import 'package:audio_cult/app/data_source/models/cache_filter.dart';
 import 'package:audio_cult/app/data_source/models/responses/genre.dart';
 import 'package:audio_cult/app/features/music/filter/filter_bloc.dart';
@@ -11,15 +12,16 @@ import 'package:audio_cult/w_components/buttons/common_button.dart';
 import 'package:audio_cult/w_components/buttons/w_button_inkwell.dart';
 import 'package:audio_cult/w_components/dropdown/common_dropdown.dart';
 import 'package:audio_cult/w_components/loading/loading_widget.dart';
-import 'package:audio_cult/w_components/textfields/common_input.dart';
 import 'package:audio_cult/w_components/w_keyboard_dismiss.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../../w_components/textfields/common_input_tags_grid_checkbox.dart';
+import 'enum_filter_music.dart';
 
 class MusicFilterScreen extends StatefulWidget {
-  const MusicFilterScreen({Key? key}) : super(key: key);
+  final TypeFilterMusic? typeFilterMusic;
+  const MusicFilterScreen({Key? key, this.typeFilterMusic}) : super(key: key);
 
   @override
   State<MusicFilterScreen> createState() => _MusicFilterScreenState();
@@ -28,11 +30,30 @@ class MusicFilterScreen extends StatefulWidget {
 class _MusicFilterScreenState extends State<MusicFilterScreen> {
   final FilterBloc _filterBloc = FilterBloc(locator.get());
   CacheFilter? _cacheFilter;
+  String? key;
+
   @override
   void initState() {
     super.initState();
-    _cacheFilter = _filterBloc.cache() ?? CacheFilter(allTime: [], genres: [], mostLiked: []);
-    _filterBloc.getCacheFilter();
+    switch (widget.typeFilterMusic) {
+      case TypeFilterMusic.topSong:
+        key = HiveBoxKey.cacheTopSongFilter;
+        break;
+      case TypeFilterMusic.featuresAlbum:
+        key = HiveBoxKey.cacheFeaturesAlbumFilter;
+        break;
+      case TypeFilterMusic.featuresMixtapes:
+        key = HiveBoxKey.cacheFeaturesMixtapsFilter;
+        break;
+      case TypeFilterMusic.topPlaylist:
+        key = HiveBoxKey.cacheTopOffPlaylistFilter;
+        break;
+      // ignore: no_default_cases
+      default:
+        break;
+    }
+    _cacheFilter = _filterBloc.cache(key) ?? CacheFilter(allTime: [], genres: [], mostLiked: []);
+    _filterBloc.getCacheFilter(key);
   }
 
   @override
@@ -172,25 +193,25 @@ class _MusicFilterScreenState extends State<MusicFilterScreen> {
                     return const LoadingWidget();
                   },
                 ),
-                const Align(alignment: Alignment.centerLeft, child: Text('BPM:')),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: kVerticalSpacing),
-                  child: Row(
-                    children: [
-                      Expanded(child: CommonInput(hintText: context.l10n.t_lower)),
-                      const SizedBox(
-                        width: kHorizontalSpacing,
-                      ),
-                      Expanded(child: CommonInput(hintText: context.l10n.t_higher))
-                    ],
-                  ),
-                ),
+                // const Align(alignment: Alignment.centerLeft, child: Text('BPM:')),
+                // Padding(
+                //   padding: const EdgeInsets.symmetric(vertical: kVerticalSpacing),
+                //   child: Row(
+                //     children: [
+                //       Expanded(child: CommonInput(hintText: context.l10n.t_lower)),
+                //       const SizedBox(
+                //         width: kHorizontalSpacing,
+                //       ),
+                //       Expanded(child: CommonInput(hintText: context.l10n.t_higher))
+                //     ],
+                //   ),
+                // ),
                 CommonButton(
                   color: AppColors.activeLabelItem,
                   text: context.l10n.t_apply,
                   onTap: () {
                     saveCacheFilter();
-                    Navigator.pop(context);
+                    Navigator.pop(context,_cacheFilter);
                   },
                 )
               ],
@@ -202,6 +223,6 @@ class _MusicFilterScreenState extends State<MusicFilterScreen> {
   }
 
   void saveCacheFilter() {
-    _filterBloc.saveCacheFilter(_cacheFilter!);
+    _filterBloc.saveCacheFilter(key, _cacheFilter!);
   }
 }

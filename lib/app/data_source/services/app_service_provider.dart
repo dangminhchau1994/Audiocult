@@ -389,13 +389,15 @@ class AppServiceProvider {
     );
   }
 
-  Future<List<Song>> getTopSongs(String query, String sort, int page, int limit) async {
+  Future<List<Song>> getTopSongs(String query, String sort,String genresId,String when, int page, int limit) async {
     final response = await _dioHelper.get(
       route: '/restful_api/song',
       options: Options(headers: {'Content-Type': 'application/x-www-form-urlencoded'}),
       requestParams: {
         'search[search]': query,
         'sort': sort,
+        'genre_id': genresId,
+        'when': when,
         'page': page,
         'limit': limit,
       },

@@ -88,11 +88,13 @@ class AppRepository extends BaseRepository {
   Future<Either<List<Song>, Exception>> getTopSongs(
     String query,
     String sort,
+    String genresId,
+    String when,
     int page,
     int limit,
   ) {
     return safeCall(
-      () => appServiceProvider.getTopSongs(query, sort, page, limit),
+      () => appServiceProvider.getTopSongs(query, sort, genresId, when, page, limit),
     );
   }
 
@@ -470,13 +472,13 @@ class AppRepository extends BaseRepository {
     );
   }
 
-  CacheFilter? getCacheFilter() {
-    final result = hiveServiceProvider.getCacheFilter();
+  CacheFilter? getCacheFilter(String? key) {
+    final result = hiveServiceProvider.getCacheFilter(key);
     return result;
   }
 
-  Future saveCacheFilter(CacheFilter cacheFilter) async {
-    hiveServiceProvider.saveCacheFilter(cacheFilter);
+  Future saveCacheFilter(String? key,CacheFilter cacheFilter) async {
+    hiveServiceProvider.saveCacheFilter(key,cacheFilter);
   }
 
   Future clearFilter() async {

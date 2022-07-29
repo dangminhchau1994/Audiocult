@@ -17,6 +17,7 @@ import '../../../utils/constants/app_assets.dart';
 import '../../../utils/constants/app_colors.dart';
 import '../../../utils/constants/app_dimens.dart';
 import '../../../utils/route/app_route.dart';
+import '../filter/enum_filter_music.dart';
 import '../search/search_args.dart';
 
 class TopPlaylistScreen extends StatefulWidget {
@@ -94,8 +95,8 @@ class _TopPlaylistScreenState extends State<TopPlaylistScreen> {
         title: context.l10n.t_top_playlist,
         actions: [
           WButtonInkwell(
-            onPressed: () {
-              Navigator.pushNamed(context, AppRoute.routeMusicFilter);
+            onPressed: () async {
+              var result = await Navigator.pushNamed(context, AppRoute.routeMusicFilter, arguments: TypeFilterMusic.topPlaylist);
             },
             child: Container(
               padding: const EdgeInsets.all(8),
