@@ -39,6 +39,8 @@ class RegisterBloc extends BaseBloc {
         result.fold(
           (data) async {
             if (data.status == StatusString.success) {
+              await _prefProvider.setAuthentication(data.data!.accessToken!);
+              await _prefProvider.setUserId(data.data!.userId!);
               _navigateMain.add(true);
             } else {
               showError(AppException('${data.message}'));
