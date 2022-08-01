@@ -202,19 +202,14 @@ class _CommentListScreenState extends State<CommentListScreen> {
     );
     if (result != null) {
       final comment = result as CommentResponse;
-      setState(() {
-        _pagingController.itemList![
-            _pagingController.itemList!.indexWhere((element) => element.commentId == comment.commentId)] = comment;
-      });
+      _commentListBloc.editCommentItem(_pagingController, comment);
     }
   }
 
   void _deleteComment(CommentResponse item, int index) {
     Navigator.pop(context);
     _commentListBloc.deleteComment(int.parse(item.commentId ?? ''));
-    setState(() {
-      _pagingController.itemList?.removeAt(index);
-    });
+    _commentListBloc.deleteCommentItem(_pagingController, index);
   }
 
   void _showBottomSheet(CommentResponse item, int index) {

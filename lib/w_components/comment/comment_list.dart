@@ -66,61 +66,64 @@ class CommentList extends StatelessWidget {
             }
             return Scrollbar(
               child: Padding(
-                padding: const EdgeInsets.only(bottom: 120),
-                child: PagedListView<int, CommentResponse>.separated(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 16,
-                  ),
-                  pagingController: pagingController!,
-                  separatorBuilder: (context, index) => const Divider(height: 24),
-                  builderDelegate: PagedChildBuilderDelegate<CommentResponse>(
-                    firstPageProgressIndicatorBuilder: (context) => Container(),
-                    newPageProgressIndicatorBuilder: (context) => const LoadingWidget(),
-                    animateTransitions: true,
-                    itemBuilder: (context, item, index) {
-                      return ExpandablePanel(
-                        controller: ExpandableController(initialExpanded: true),
-                        header: WButtonInkwell(
-                          onPressed: () {
-                            if (locator<PrefProvider>().currentUserId == item.userId) {
-                              showBottomSheet!(item, index);
-                            }
-                          },
-                          child: CommentItem(
-                            data: item,
-                            onReply: (data) {
-                              Navigator.pushNamed(
-                                context,
-                                AppRoute.routeReplyListScreen,
-                                arguments: CommentArgs(
-                                  data: data,
-                                  commentType: commentArgs?.commentType,
-                                  itemId: commentArgs?.itemId,
-                                ),
-                              );
-                            },
-                          ),
-                        ),
-                        theme: const ExpandableThemeData(
-                          hasIcon: false,
-                          tapHeaderToExpand: false,
-                          tapBodyToCollapse: false,
-                          tapBodyToExpand: false,
-                          useInkWell: false,
-                        ),
-                        collapsed: Container(),
-                        expanded: ReplyItem(
-                          parentId: int.parse(item.commentId ?? ''),
-                          id: commentArgs?.itemId,
-                          commentParent: item,
-                          commentType: commentArgs?.commentType,
-                        ),
-                      );
-                    },
-                  ),
-                ),
-              ),
+                  padding: const EdgeInsets.only(bottom: 120),
+                  child: StreamBuilder<PagingController<int, CommentResponse>>(
+                    initialData: pagingController,
+                    stream: commentListBloc?.pagingControllerStream,
+                    builder: (context, snapshot) => PagedListView<int, CommentResponse>.separated(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 16,
+                      ),
+                      pagingController: snapshot.data!,
+                      separatorBuilder: (context, index) => const Divider(height: 24),
+                      builderDelegate: PagedChildBuilderDelegate<CommentResponse>(
+                        firstPageProgressIndicatorBuilder: (context) => Container(),
+                        newPageProgressIndicatorBuilder: (context) => const LoadingWidget(),
+                        animateTransitions: true,
+                        itemBuilder: (context, item, index) {
+                          return ExpandablePanel(
+                            controller: ExpandableController(initialExpanded: true),
+                            header: WButtonInkwell(
+                              onPressed: () {
+                                if (locator<PrefProvider>().currentUserId == item.userId) {
+                                  showBottomSheet!(item, index);
+                                }
+                              },
+                              child: CommentItem(
+                                data: item,
+                                onReply: (data) {
+                                  Navigator.pushNamed(
+                                    context,
+                                    AppRoute.routeReplyListScreen,
+                                    arguments: CommentArgs(
+                                      data: data,
+                                      commentType: commentArgs?.commentType,
+                                      itemId: commentArgs?.itemId,
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
+                            theme: const ExpandableThemeData(
+                              hasIcon: false,
+                              tapHeaderToExpand: false,
+                              tapBodyToCollapse: false,
+                              tapBodyToExpand: false,
+                              useInkWell: false,
+                            ),
+                            collapsed: Container(),
+                            expanded: ReplyItem(
+                              parentId: int.parse(item.commentId ?? ''),
+                              id: commentArgs?.itemId,
+                              commentParent: item,
+                              commentType: commentArgs?.commentType,
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  )),
             );
           },
           reloadAction: (_) {

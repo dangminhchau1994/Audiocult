@@ -1,5 +1,6 @@
 import 'package:audio_cult/app/base/base_bloc.dart';
 import 'package:dartz/dartz.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../../app/base/bloc_state.dart';
@@ -14,8 +15,10 @@ class ReplyListBloc extends BaseBloc<CommentRequest, List<CommentResponse>> {
 
   final _createReplySubject = PublishSubject<BlocState<CommentResponse>>();
   final _deleteCommentSubject = PublishSubject<BlocState<List<CommentResponse>>>();
+  final _pagingControllerSubject = PublishSubject<PagingController<int, CommentResponse>>();
 
   Stream<BlocState<CommentResponse>> get createReplyStream => _createReplySubject.stream;
+  Stream<PagingController<int, CommentResponse>> get pagingControllerStream => _pagingControllerSubject.stream;
 
   @override
   Future<Either<List<CommentResponse>, Exception>> loadData(CommentRequest? params) async {
@@ -28,6 +31,17 @@ class ReplyListBloc extends BaseBloc<CommentRequest, List<CommentResponse>> {
       params?.sort ?? '',
     );
     return result;
+  }
+
+  void editCommentItem(PagingController<int, CommentResponse> pagingController, CommentResponse comment) {
+    final index = pagingController.itemList!.indexWhere((element) => element.commentId == comment.commentId);
+    pagingController.itemList![index] = comment;
+    _pagingControllerSubject.sink.add(pagingController);
+  }
+
+  void deleteCommentItem(PagingController<int, CommentResponse> pagingController, int index) {
+    pagingController.itemList?.removeAt(index);
+    _pagingControllerSubject.sink.add(pagingController);
   }
 
   void deleteComment(int id) async {

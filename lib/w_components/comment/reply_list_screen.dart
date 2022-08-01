@@ -13,7 +13,6 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../../app/constants/global_constants.dart';
 import '../../app/data_source/models/requests/comment_request.dart';
 import '../../app/data_source/models/responses/comment/comment_response.dart';
-import '../../app/data_source/services/hive_service_provider.dart';
 import '../../app/features/events/detail/event_detail_bloc.dart';
 import '../../app/features/music/detail-song/detail_song_bloc.dart';
 import '../../app/features/music/detail_album/detail_album_bloc.dart';
@@ -203,27 +202,14 @@ class _ReplyListScreenState extends State<ReplyListScreen> {
     );
     if (result != null) {
       final comment = result as CommentResponse;
-      setState(() {
-        _pagingController.itemList![
-            _pagingController.itemList!.indexWhere((element) => element.commentId == comment.commentId)] = comment;
-      });
+      _replyListBloc.editCommentItem(_pagingController, comment);
     }
   }
 
   void _deleteComment(CommentResponse item, int index) {
     Navigator.pop(context);
     _replyListBloc.deleteComment(int.parse(item.commentId ?? ''));
-    _pagingController.refresh();
-    _replyListBloc.requestData(
-      params: CommentRequest(
-        parentId: int.parse(widget.commentArgs.data?.commentId ?? ''),
-        id: widget.commentArgs.itemId,
-        typeId: getType(),
-        page: 1,
-        limit: GlobalConstants.loadMoreItem,
-        sort: 'latest',
-      ),
-    );
+    _replyListBloc.deleteCommentItem(_pagingController, index);
   }
 
   void _showBottomSheet(CommentResponse item, int index) {
@@ -232,7 +218,7 @@ class _ReplyListScreenState extends State<ReplyListScreen> {
       context: context,
       backgroundColor: Colors.transparent,
       builder: (context) => Container(
-        height: 120,
+        height: 150,
         padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
           color: AppColors.secondaryButtonColor,

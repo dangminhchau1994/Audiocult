@@ -11,6 +11,7 @@ import 'package:audio_cult/app/data_source/models/responses/playlist/delete_play
 import 'package:audio_cult/app/data_source/models/responses/upload_photo/upload_photo_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/upload_video/upload_video_response.dart';
 import 'package:dartz/dartz.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:rxdart/subjects.dart';
 import '../../data_source/models/responses/background/background_response.dart';
 import '../../data_source/models/responses/comment/comment_response.dart';
@@ -31,7 +32,9 @@ class HomeBloc extends BaseBloc<FeedRequest, List<FeedResponse>> {
   final _uploadPhotoSubject = PublishSubject<BlocState<List<UploadPhotoResponse>>>();
   final _uploadVideoSubject = PublishSubject<BlocState<UploadVideoResponse>>();
   final _deleteFeedSubject = PublishSubject<BlocState<DeletePlayListResponse>>();
+  final _pagingControllerSubject = PublishSubject<PagingController<int, FeedResponse>>();
 
+  Stream<PagingController<int, FeedResponse>> get pagingControllerStream => _pagingControllerSubject.stream;
   Stream<BlocState<List<AnnouncementResponse>>> get getAnnoucementStream => _getAnnouncementSubject.stream;
   Stream<BlocState<List<CommentResponse>>> get getCommentsStream => _getCommentsSubject.stream;
   Stream<BlocState<List<ReactionIconResponse>>> get getReactionIconStream => _getReactionIconSubject.stream;
@@ -41,6 +44,17 @@ class HomeBloc extends BaseBloc<FeedRequest, List<FeedResponse>> {
   Stream<BlocState<List<UploadPhotoResponse>>> get uploadPhotoStream => _uploadPhotoSubject.stream;
   Stream<BlocState<UploadVideoResponse>> get uploadVideoStream => _uploadVideoSubject.stream;
   Stream<BlocState<DeletePlayListResponse>> get deleteFeedStream => _deleteFeedSubject.stream;
+
+  void deleteFeedItem(PagingController<int, FeedResponse> pagingController, int index) {
+    pagingController.itemList?.removeAt(index);
+    _pagingControllerSubject.sink.add(pagingController);
+  }
+
+  void editFeedItem(PagingController<int, FeedResponse> pagingController, FeedResponse feed) {
+    final index = pagingController.itemList!.indexWhere((element) => element.feedId == feed.feedId);
+    pagingController.itemList?[index] = feed;
+    _pagingControllerSubject.sink.add(pagingController);
+  }
 
   void deleteFeed(int id) async {
     final result = await _appRepository.deleteFeed(id);

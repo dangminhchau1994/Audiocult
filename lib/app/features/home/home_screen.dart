@@ -72,27 +72,16 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
   }
 
   void _editFeed(FeedResponse item) async {
-    final result = await Navigator.pushNamed(context, AppRoute.routeEditFeed, arguments: {
-      'feed_response': item,
-    });
-
+    final result = await Navigator.pushNamed(context, AppRoute.routeEditFeed, arguments: {'feed_response': item});
     if (result != null) {
       final feed = result as FeedResponse;
-      final index = _pagingFeedController.itemList!.indexWhere(
-        (element) => element.feedId == feed.feedId,
-      );
-
-      setState(() {
-        _pagingFeedController.itemList?[index] = feed;
-      });
+      _homeBloc.editFeedItem(_pagingFeedController, feed);
     }
   }
 
   void _deleteFeed(FeedResponse item, int index) {
-    setState(() {
-      _pagingFeedController.itemList?.removeAt(index);
-      _homeBloc.deleteFeed(int.parse(item.feedId ?? ''));
-    });
+    _homeBloc.deleteFeedItem(_pagingFeedController, index);
+    _homeBloc.deleteFeed(int.parse(item.feedId ?? ''));
   }
 
   @override
@@ -161,24 +150,28 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
                       },
                     ),
                     const SliverToBoxAdapter(child: SizedBox(height: 40)),
-                    PagedSliverList<int, FeedResponse>.separated(
-                      pagingController: _pagingFeedController,
-                      separatorBuilder: (context, index) => const Divider(height: 24),
-                      builderDelegate: PagedChildBuilderDelegate<FeedResponse>(
-                        firstPageProgressIndicatorBuilder: (context) => Container(),
-                        newPageProgressIndicatorBuilder: (context) => const LoadingWidget(),
-                        animateTransitions: true,
-                        itemBuilder: (context, item, index) {
-                          return FeedItem(
-                            data: item,
-                            onEdit: () {
-                              _editFeed(item);
-                            },
-                            onDelete: () {
-                              _deleteFeed(item, index);
-                            },
-                          );
-                        },
+                    StreamBuilder<PagingController<int, FeedResponse>>(
+                      initialData: _pagingFeedController,
+                      stream: _homeBloc.pagingControllerStream,
+                      builder: (context, snapshot) => PagedSliverList<int, FeedResponse>.separated(
+                        pagingController: snapshot.data!,
+                        separatorBuilder: (context, index) => const Divider(height: 24),
+                        builderDelegate: PagedChildBuilderDelegate<FeedResponse>(
+                          firstPageProgressIndicatorBuilder: (context) => Container(),
+                          newPageProgressIndicatorBuilder: (context) => const LoadingWidget(),
+                          animateTransitions: true,
+                          itemBuilder: (context, item, index) {
+                            return FeedItem(
+                              data: item,
+                              onEdit: () {
+                                _editFeed(item);
+                              },
+                              onDelete: () {
+                                _deleteFeed(item, index);
+                              },
+                            );
+                          },
+                        ),
                       ),
                     ),
                     SliverToBoxAdapter(

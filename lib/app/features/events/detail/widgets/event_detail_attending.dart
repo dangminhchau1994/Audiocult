@@ -39,8 +39,10 @@ class _EventDetailAttendingState extends State<EventDetailAttending> {
         return _iconPath = AppAssets.attendStarIcon;
       case '2':
         return _iconPath = AppAssets.maybeStarIcon;
-      default:
+      case '3':
         return _iconPath = AppAssets.starIcon;
+      default:
+        return '';
     }
   }
 
@@ -50,8 +52,10 @@ class _EventDetailAttendingState extends State<EventDetailAttending> {
         return _title = context.l10n.t_attending;
       case '2':
         return _title = context.l10n.t_maybe_attending;
+      case '3':
+        return _title = context.l10n.t_not_attending;
       default:
-        return _title = context.l10n.t_attending;
+        return '';
     }
   }
 

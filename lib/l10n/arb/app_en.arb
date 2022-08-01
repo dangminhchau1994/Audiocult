@@ -21,6 +21,7 @@
     "t_term":"Accept Terms & Conditions",
     "t_remove_file":"Remove file",
     "t_video_title":"Video Title",
+    "t_not_attending":"Not Attending",
     "t_resent_password":"Resent password",
     "t_sub_resent_password":"Enter the email associated with your\naccount and we'll send an email with\ninstructions to reset your password.",
     "t_submit":"Submit",

@@ -120,6 +120,7 @@ class GlobalConstants {
     return [
       SelectMenuModel(id: 1, title: context.l10n.t_attending),
       SelectMenuModel(id: 2, title: context.l10n.t_maybe_attending),
+      SelectMenuModel(id: 3, title: context.l10n.t_not_attending),
     ];
   }
 

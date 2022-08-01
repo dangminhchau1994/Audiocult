@@ -72,31 +72,35 @@ class ReplyList extends StatelessWidget {
                     height: 650,
                     padding: const EdgeInsets.only(bottom: 50, left: 40),
                     child: Scrollbar(
-                      child: PagedListView<int, CommentResponse>.separated(
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 20,
-                        ),
-                        pagingController: pagingController!,
-                        separatorBuilder: (context, index) => const Divider(height: 24),
-                        builderDelegate: PagedChildBuilderDelegate<CommentResponse>(
-                          firstPageProgressIndicatorBuilder: (context) => Container(),
-                          newPageProgressIndicatorBuilder: (context) => const LoadingWidget(),
-                          animateTransitions: true,
-                          itemBuilder: (context, item, index) {
-                            return WButtonInkwell(
-                              onPressed: () {
-                                if (locator<PrefProvider>().currentUserId == item.userId) {
-                                  showBottomSheet!(item, index);
-                                }
-                              },
-                              child: CommentItem(
-                                data: item,
-                                onReply: (data) {
-                                  onFocus!();
+                      child: StreamBuilder<PagingController<int, CommentResponse>>(
+                        initialData: pagingController,
+                        stream: replyListBloc?.pagingControllerStream,
+                        builder: (context, snapshot) => PagedListView<int, CommentResponse>.separated(
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 20,
+                          ),
+                          pagingController: snapshot.data!,
+                          separatorBuilder: (context, index) => const Divider(height: 24),
+                          builderDelegate: PagedChildBuilderDelegate<CommentResponse>(
+                            firstPageProgressIndicatorBuilder: (context) => Container(),
+                            newPageProgressIndicatorBuilder: (context) => const LoadingWidget(),
+                            animateTransitions: true,
+                            itemBuilder: (context, item, index) {
+                              return WButtonInkwell(
+                                onPressed: () {
+                                  if (locator<PrefProvider>().currentUserId == item.userId) {
+                                    showBottomSheet!(item, index);
+                                  }
                                 },
-                              ),
-                            );
-                          },
+                                child: CommentItem(
+                                  data: item,
+                                  onReply: (data) {
+                                    onFocus!();
+                                  },
+                                ),
+                              );
+                            },
+                          ),
                         ),
                       ),
                     ),
