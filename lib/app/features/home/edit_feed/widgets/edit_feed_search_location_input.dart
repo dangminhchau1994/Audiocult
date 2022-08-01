@@ -8,20 +8,25 @@ class EditFeedSearchLocationInput extends StatelessWidget {
   const EditFeedSearchLocationInput({
     Key? key,
     this.searchLocation,
+    this.showIcon,
   }) : super(key: key);
 
   final Function()? searchLocation;
+  final bool? showIcon;
 
   @override
   Widget build(BuildContext context) {
-    return WButtonInkwell(
-      onPressed: searchLocation,
-      child: Padding(
-        padding: const EdgeInsets.all(10),
-        child: SvgPicture.asset(
-          AppAssets.locationIcon,
-          width: 28,
-          height: 28,
+    return Visibility(
+      visible: showIcon!,
+      child: WButtonInkwell(
+        onPressed: searchLocation,
+        child: Padding(
+          padding: const EdgeInsets.all(10),
+          child: SvgPicture.asset(
+            AppAssets.locationIcon,
+            width: 28,
+            height: 28,
+          ),
         ),
       ),
     );

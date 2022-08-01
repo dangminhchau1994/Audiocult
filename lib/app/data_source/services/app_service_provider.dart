@@ -155,14 +155,14 @@ class AppServiceProvider {
     );
   }
 
-  Future<DeletePlayListResponse> deleteFeed(int id) async {
+  Future<List<DeletePlayListResponse>> deleteFeed(int id) async {
     final response = await _dioHelper.delete(
       route: '/restful_api/feed/$id',
       options: Options(headers: {'Content-Type': 'application/x-www-form-urlencoded'}),
       responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
     );
     return response.mapData(
-      (json) => DeletePlayListResponse.fromJson(json as Map<String, dynamic>),
+      (json) => asType<List<dynamic>>(json)?.map((e) => DeletePlayListResponse.fromJson(e as Map<String, dynamic>)).toList(),
     );
   }
 

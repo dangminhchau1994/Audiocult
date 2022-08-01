@@ -31,7 +31,7 @@ class HomeBloc extends BaseBloc<FeedRequest, List<FeedResponse>> {
   final _createPostSubject = PublishSubject<BlocState<CreatePostResponse>>();
   final _uploadPhotoSubject = PublishSubject<BlocState<List<UploadPhotoResponse>>>();
   final _uploadVideoSubject = PublishSubject<BlocState<UploadVideoResponse>>();
-  final _deleteFeedSubject = PublishSubject<BlocState<DeletePlayListResponse>>();
+  final _deleteFeedSubject = PublishSubject<BlocState<List<DeletePlayListResponse>>>();
   final _pagingControllerSubject = PublishSubject<PagingController<int, FeedResponse>>();
 
   Stream<PagingController<int, FeedResponse>> get pagingControllerStream => _pagingControllerSubject.stream;
@@ -43,7 +43,7 @@ class HomeBloc extends BaseBloc<FeedRequest, List<FeedResponse>> {
   Stream<BlocState<CreatePostResponse>> get createPostStream => _createPostSubject.stream;
   Stream<BlocState<List<UploadPhotoResponse>>> get uploadPhotoStream => _uploadPhotoSubject.stream;
   Stream<BlocState<UploadVideoResponse>> get uploadVideoStream => _uploadVideoSubject.stream;
-  Stream<BlocState<DeletePlayListResponse>> get deleteFeedStream => _deleteFeedSubject.stream;
+  Stream<BlocState<List<DeletePlayListResponse>>> get deleteFeedStream => _deleteFeedSubject.stream;
 
   void deleteFeedItem(PagingController<int, FeedResponse> pagingController, int index) {
     pagingController.itemList?.removeAt(index);

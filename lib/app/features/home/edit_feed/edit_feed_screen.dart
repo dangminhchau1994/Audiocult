@@ -94,7 +94,7 @@ class _EditFeedScreenState extends State<EditFeedScreen> {
     _enableBackground = _imagePath.isNotEmpty && _lat == 0 && _lng == 0;
     _showTagFriends = false;
     _showListBackground = false;
-    if (_lat != 0.0 && _lng != 0.0) {
+    if (widget.data?.getFeedType() == FeedType.userStatus && _lat != 0.0 && _lng != 0.0) {
       _showMap = true;
     }
   }
@@ -284,6 +284,7 @@ class _EditFeedScreenState extends State<EditFeedScreen> {
                                       ),
                                     ),
                                     EditFeedSearchLocationInput(
+                                      showIcon: widget.data?.getFeedType() == FeedType.userStatus,
                                       searchLocation: () async {
                                         FocusScope.of(context).requestFocus(FocusNode());
                                         final result = await showSearch(
