@@ -63,9 +63,9 @@ class HiveServiceProvider {
     return result.map((e) => AtlasCategory.fromJson(e as Map<String, dynamic>)).toList();
   }
 
-  CacheFilter? getCacheFilter() {
+  CacheFilter? getCacheFilter(String? key) {
     try {
-      final result = Hive.box(HiveBoxName.cache).get(HiveBoxKey.cacheFilter, defaultValue: null);
+      final result = Hive.box(HiveBoxName.cache).get(key ?? HiveBoxKey.cacheFilter, defaultValue: null);
       if (result == null) {
         return null;
       }
@@ -98,8 +98,8 @@ class HiveServiceProvider {
     }
   }
 
-  void saveCacheFilter(CacheFilter cacheFilter) async {
-    await Hive.box(HiveBoxName.cache).put(HiveBoxKey.cacheFilter, cacheFilter.toDynamic());
+  void saveCacheFilter(String? key, CacheFilter cacheFilter) async {
+    await Hive.box(HiveBoxName.cache).put(key ?? HiveBoxKey.cacheFilter, cacheFilter.toDynamic());
   }
 
   Future clearFilter() async {

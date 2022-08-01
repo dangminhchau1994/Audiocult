@@ -63,7 +63,7 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
                           children: [
                             RegisterPage(
                               onSuccess: () {
-                                _controller?.animateTo(1);
+                                // _controller?.animateTo(1);
                               },
                             ),
                             const LoginPage(),

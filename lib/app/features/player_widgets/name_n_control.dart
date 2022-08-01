@@ -119,36 +119,36 @@ class _NameNControlsState extends State<NameNControls> {
                     }
                   },
                   itemBuilder: (BuildContext context) => <PopupMenuEntry<int>>[
-                    if (widget.mediaItem.extras?['album_id'] != null)
-                      PopupMenuItem<int>(
-                        value: 0,
-                        child: Row(
-                          children: const [
-                            Icon(
-                              Icons.album_rounded,
-                            ),
-                            SizedBox(width: 10),
-                            Text(
-                              'View Albums',
-                            ),
-                          ],
-                        ),
-                      ),
-                    if (widget.mediaItem.artist != null)
-                      PopupMenuItem<int>(
-                        value: 5,
-                        child: Row(
-                          children: const [
-                            Icon(
-                              Icons.person_rounded,
-                            ),
-                            SizedBox(width: 10),
-                            Text(
-                              'View Artist',
-                            ),
-                          ],
-                        ),
-                      ),
+                    // if (widget.mediaItem.extras?['album_id'] != null)
+                    //   PopupMenuItem<int>(
+                    //     value: 0,
+                    //     child: Row(
+                    //       children: const [
+                    //         Icon(
+                    //           Icons.album_rounded,
+                    //         ),
+                    //         SizedBox(width: 10),
+                    //         Text(
+                    //           'View Albums',
+                    //         ),
+                    //       ],
+                    //     ),
+                    //   ),
+                    // if (widget.mediaItem.artist != null)
+                      // PopupMenuItem<int>(
+                      //   value: 5,
+                      //   child: Row(
+                      //     children: const [
+                      //       Icon(
+                      //         Icons.person_rounded,
+                      //       ),
+                      //       SizedBox(width: 10),
+                      //       Text(
+                      //         'View Artist',
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
                   ],
                   child: Center(
                     child: Padding(

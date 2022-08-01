@@ -25,6 +25,7 @@ import 'package:audio_cult/app/features/music/detail_album/detail_album_screen.d
 import 'package:audio_cult/app/features/music/detail_playlist/detail_playlist_screen.dart';
 import 'package:audio_cult/app/features/music/featured_albums/featured_album_screen.dart';
 import 'package:audio_cult/app/features/music/featured_mixtape/featured_mixtapes_screen.dart';
+import 'package:audio_cult/app/features/music/filter/enum_filter_music.dart';
 import 'package:audio_cult/app/features/music/filter/music_filter_screen.dart';
 import 'package:audio_cult/app/features/music/library/create_playlist_screen.dart';
 import 'package:audio_cult/app/features/music/library/update_playlist_params.dart';
@@ -179,7 +180,12 @@ class AppRoute {
           ),
         );
       case routeMusicFilter:
-        return _pageRoute(settings, const MusicFilterScreen());
+        final arguments = asType(settings.arguments);
+        return _pageRoute(
+            settings,
+            MusicFilterScreen(
+              typeFilterMusic: arguments as TypeFilterMusic?,
+            ));
       case routeDetailSong:
         final arguments = asType(settings.arguments);
         return _pageRoute(
@@ -362,7 +368,7 @@ class AppRoute {
         return _pageRoute(
             settings,
             CreateNewPasswordScreen(
-              hashId: arguments as String?,
+              codeSent: arguments as String?,
             ));
       case routeUniversalSearch:
         return _pageRoute(settings, const UniversalSearchScreen());

@@ -19,6 +19,7 @@ import '../../../data_source/models/responses/place.dart';
 import '../../../injections.dart';
 import '../../../utils/debouncer.dart';
 import '../../../utils/mixins/disposable_state_mixin.dart';
+import '../../../utils/route/app_route.dart';
 import '../../../utils/toast/toast_utils.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -47,7 +48,8 @@ class _RegisterPageState extends State<RegisterPage> with DisposableStateMixin, 
     super.initState();
     _registerBloc.navigateMainStream.listen((data) {
       ToastUtility.showSuccess(context: context, message: 'Register successful!');
-      widget.onSuccess?.call();
+      // widget.onSuccess?.call();
+      Navigator.pushNamedAndRemoveUntil(context, AppRoute.routeMain, (route) => false);
     }).disposeOn(disposeBag);
     _registerBloc.getRole();
   }

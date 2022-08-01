@@ -27,6 +27,8 @@ class TopPlaylistBloc extends BaseBloc<AlbumPlaylistRequest, List<PlaylistRespon
       params?.page ?? 0,
       params?.limit ?? 0,
       params?.sort ?? '',
+      params?.genresId ?? '',
+      params?.when ?? '',
       params?.getAll ?? 0,
     );
     return result;

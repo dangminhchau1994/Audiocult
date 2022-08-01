@@ -51,7 +51,7 @@ class _PlayListDialogState extends State<PlayListDialog> with DisposableStateMix
 
   void callData(String value) {
     debouncer.run(() {
-      getIt.get<PlayListDialogBloc>().getPlaylist(value, 1, 10, 'latest', 0);
+      getIt.get<PlayListDialogBloc>().getPlaylist(value, 1, 10, 'latest','','', 0);
     });
   }
 

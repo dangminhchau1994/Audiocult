@@ -40,8 +40,8 @@ class _AppState extends State<App> with AfterLayoutMixin<App> {
 
   @override
   void afterFirstLayout(BuildContext context) {
-    _handleInitialUri();
-    _handleIncomingLinks(context);
+    // _handleInitialUri();
+    // _handleIncomingLinks(context);
   }
 
   Future<void> _handleInitialUri() async {

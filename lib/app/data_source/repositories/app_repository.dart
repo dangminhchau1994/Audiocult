@@ -88,11 +88,13 @@ class AppRepository extends BaseRepository {
   Future<Either<List<Song>, Exception>> getTopSongs(
     String query,
     String sort,
+    String genresId,
+    String when,
     int page,
     int limit,
   ) {
     return safeCall(
-      () => appServiceProvider.getTopSongs(query, sort, page, limit),
+      () => appServiceProvider.getTopSongs(query, sort, genresId, when, page, limit),
     );
   }
 
@@ -144,13 +146,17 @@ class AppRepository extends BaseRepository {
   Future<Either<List<Album>, Exception>> getAlbums(
     String query,
     String view,
+    String sort,
+    String genresId,
+    String when,
     int page,
     int limit, {
     String? userId,
   }) async {
     final albums = await safeCall(
       () async {
-        final result = await appServiceProvider.getAlbums(query, view, page, limit, userId: userId);
+        final result =
+            await appServiceProvider.getAlbums(query, view, sort, genresId, when, page, limit, userId: userId);
         if (result.isNotEmpty) {
           hiveServiceProvider.saveAlbums(result);
         }
@@ -345,6 +351,8 @@ class AppRepository extends BaseRepository {
   Future<Either<List<Song>, Exception>> getMixTapSongs(
     String query,
     String sort,
+    String genresId,
+    String when,
     int page,
     int limit,
     String view,
@@ -353,7 +361,8 @@ class AppRepository extends BaseRepository {
     String? albumId,
   }) {
     return safeCall(
-      () => appServiceProvider.getMixTapSongs(query, sort, page, limit, view, type, userId: userId, albumId: albumId),
+      () => appServiceProvider.getMixTapSongs(query, sort, genresId, when, page, limit, view, type,
+          userId: userId, albumId: albumId),
     );
   }
 
@@ -393,10 +402,12 @@ class AppRepository extends BaseRepository {
     int page,
     int limit,
     String sort,
+    String genresId,
+    String when,
     int getAll,
   ) {
     return safeCall(
-      () => appServiceProvider.getPlaylists(query, page, limit, sort, getAll),
+      () => appServiceProvider.getPlaylists(query, page, limit, sort, genresId, when, getAll),
     );
   }
 
@@ -470,13 +481,13 @@ class AppRepository extends BaseRepository {
     );
   }
 
-  CacheFilter? getCacheFilter() {
-    final result = hiveServiceProvider.getCacheFilter();
+  CacheFilter? getCacheFilter(String? key) {
+    final result = hiveServiceProvider.getCacheFilter(key);
     return result;
   }
 
-  Future saveCacheFilter(CacheFilter cacheFilter) async {
-    hiveServiceProvider.saveCacheFilter(cacheFilter);
+  Future saveCacheFilter(String? key, CacheFilter cacheFilter) async {
+    hiveServiceProvider.saveCacheFilter(key, cacheFilter);
   }
 
   Future clearFilter() async {
@@ -612,8 +623,8 @@ class AppRepository extends BaseRepository {
     return safeCall(() => appServiceProvider.resentEmail(email, token));
   }
 
-  Future<Either<BaseRes?, Exception>> resetPassword(String newPassword, String hashId, String token) {
-    return safeCall(() => appServiceProvider.resetPassword(newPassword, hashId, token));
+  Future<Either<BaseRes?, Exception>> resetPassword(String newPassword, String code, String token) {
+    return safeCall(() => appServiceProvider.resetPassword(newPassword, code, token));
   }
 
   Future<Either<UniversalSearchReponse?, Exception>> universalSearch({
@@ -651,5 +662,9 @@ class AppRepository extends BaseRepository {
       return profile.currency;
     }
     return null;
+  }
+
+  Future<Either<BaseRes?, Exception>> sendCode(String code, String token) {
+    return safeCall(() => appServiceProvider.sendCode(code, token));
   }
 }

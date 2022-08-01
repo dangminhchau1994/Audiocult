@@ -17,6 +17,8 @@ class FeaturedMixtapesBloc extends BaseBloc<TopSongRequest, List<Song>> {
     final result = await _appRepository.getMixTapSongs(
       '',
       params?.sort ?? '',
+      params?.genresId ?? '',
+      params?.when ?? '',
       params?.page ?? 0,
       params?.limit ?? 0,
       params?.view ?? '',

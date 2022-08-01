@@ -18,7 +18,12 @@ class _CheckMailScreenState extends State<CheckMailScreen> {
     return Scaffold(
       backgroundColor: AppColors.mainColor,
       appBar: const CommonAppBar(),
-      body: const SafeArea(top: false, child: WAuthPage(isShowIconRight: false, child: CheckEmailPage())),
+      body: SafeArea(
+          top: false,
+          child: WAuthPage(
+              isHideHeader: MediaQuery.of(context).viewInsets.bottom > 0,
+              isShowIconRight: false,
+              child: const CheckEmailPage())),
     );
   }
 }

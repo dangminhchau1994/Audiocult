@@ -1,13 +1,17 @@
 import 'package:audio_cult/app/constants/global_constants.dart';
+import 'package:audio_cult/app/data_source/models/cache_filter.dart';
 import 'package:audio_cult/app/data_source/models/requests/top_song_request.dart';
+import 'package:audio_cult/app/data_source/models/responses/genre.dart';
 import 'package:audio_cult/app/data_source/models/responses/song/song_response.dart';
 import 'package:audio_cult/app/features/music/discover/widgets/song_item.dart';
+import 'package:audio_cult/app/features/music/filter/enum_filter_music.dart';
 import 'package:audio_cult/app/features/music/top_song/top_song_bloc.dart';
 import 'package:audio_cult/app/utils/constants/app_dimens.dart';
 import 'package:audio_cult/app/utils/route/app_route.dart';
 import 'package:audio_cult/l10n/l10n.dart';
 import 'package:audio_cult/w_components/appbar/common_appbar.dart';
 import 'package:audio_cult/w_components/buttons/w_button_inkwell.dart';
+import 'package:audio_cult/w_components/dropdown/common_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -94,8 +98,31 @@ class _TopSongScreenState extends State<TopSongScreen> with AutomaticKeepAliveCl
         title: context.l10n.t_top_song,
         actions: [
           WButtonInkwell(
-            onPressed: () {
-              Navigator.pushNamed(context, AppRoute.routeMusicFilter);
+            onPressed: () async {
+              final result =
+                  await Navigator.pushNamed(context, AppRoute.routeMusicFilter, arguments: TypeFilterMusic.topSong);
+              if (result != null) {
+                final temp = result as CacheFilter;
+                final sort = temp.mostLiked
+                    ?.firstWhere((element) => element.isSelected, orElse: () => SelectMenuModel(title: 'Latest'))
+                    .title;
+                final genresId = temp.genres
+                    ?.firstWhere((element) => element.isSelected == true, orElse: () => Genre(genreId: ''))
+                    .genreId;
+                final when = temp.allTime
+                    ?.firstWhere((element) => element.isSelected == true, orElse: () => SelectMenuModel(title: ''))
+                    .title;
+                _pagingController.refresh();
+                _topSongBloc.requestData(
+                  params: TopSongRequest(
+                    sort: sort == 'Latest' ? 'Latest' : sort!.toLowerCase().replaceAll(' ', '_'),
+                    page: 1,
+                    genresId: genresId,
+                    when: when!.toLowerCase().replaceAll(' ', '_'),
+                    limit: GlobalConstants.loadMoreItem,
+                  ),
+                );
+              }
             },
             child: Container(
               padding: const EdgeInsets.all(8),

@@ -21,11 +21,12 @@ class UploadSongBloc extends MainBloc {
   Stream<List<Genre>> get getGenresStream => _getGenresSubject.stream;
   Stream<String> get uploadStream => _uploadSubject.stream;
 
-  Future<List<Song>> getMixTapSongs(String query, String sort, int page, int limit, String view, String type,
+  Future<List<Song>> getMixTapSongs(
+      String query, String sort, String genresId, String when, int page, int limit, String view, String type,
       {String? userId, String? albumId}) async {
     showOverLayLoading();
-    final result =
-        await _appRepository.getMixTapSongs(query, sort, page, limit, view, type, userId: userId, albumId: albumId);
+    final result = await _appRepository.getMixTapSongs(query, sort, genresId, when, page, limit, view, type,
+        userId: userId, albumId: albumId);
     hideOverlayLoading();
     return result.fold((l) {
       return l;
@@ -105,6 +106,7 @@ class UploadSongBloc extends MainBloc {
       showError,
     );
   }
+
   void editSong(UploadRequest resultStep2) async {
     showOverLayLoading();
     final result = await _appRepository.editSong(resultStep2);

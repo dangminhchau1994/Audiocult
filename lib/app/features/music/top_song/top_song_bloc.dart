@@ -16,6 +16,8 @@ class TopSongBloc extends BaseBloc<TopSongRequest, List<Song>> {
     final result = await _appRepository.getTopSongs(
       '',
       params?.sort ?? '',
+      params?.genresId ?? '',
+      params?.when ?? '',
       params?.page ?? 0,
       params?.limit ?? 0,
     );

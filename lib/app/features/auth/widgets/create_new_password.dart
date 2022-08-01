@@ -13,8 +13,8 @@ import '../../../utils/constants/app_colors.dart';
 import '../../../utils/constants/app_dimens.dart';
 
 class CreateNewPasswordPage extends StatefulWidget {
-  final String? hashId;
-  const CreateNewPasswordPage({Key? key, this.hashId}) : super(key: key);
+  final String? codeSent;
+  const CreateNewPasswordPage({Key? key, this.codeSent}) : super(key: key);
 
   @override
   State<CreateNewPasswordPage> createState() => _CheckEmailPageState();
@@ -92,7 +92,7 @@ class _CheckEmailPageState extends State<CreateNewPasswordPage> {
                   return;
                 }
 
-                _resetPasswordBloc.resetPassword(_password, widget.hashId!);
+                _resetPasswordBloc.resetPassword(_password, widget.codeSent!);
               },
             )
           ],

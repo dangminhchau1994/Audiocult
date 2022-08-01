@@ -36,10 +36,10 @@ class _DiscoverScreenState extends State<DiscoverScreen> with AutomaticKeepAlive
   }
 
   void _getAllData() {
-    getIt.get<DiscoverBloc>().getTopSongs('', 'most-viewed', 1, 3);
-    getIt.get<DiscoverBloc>().getAlbums('', 'featured', 1, 3);
-    getIt.get<DiscoverBloc>().getMixTapSongs('', 'most-viewed', 1, 3, 'featured', 'mixtape-song');
-    getIt.get<DiscoverBloc>().getPlaylist('', 1, 2, 'most-liked', 1);
+    getIt.get<DiscoverBloc>().getTopSongs('', 'most-viewed', '', '', 1, 3);
+    getIt.get<DiscoverBloc>().getAlbums('', 'featured', '', '', '', 1, 3);
+    getIt.get<DiscoverBloc>().getMixTapSongs('', 'most-viewed', '', '', 1, 3, 'featured', 'mixtape-song');
+    getIt.get<DiscoverBloc>().getPlaylist('', 1, 2, 'most-liked', '', '', 1);
     getIt.get<DiscoverBloc>().getSongOfDay();
   }
 
@@ -78,18 +78,18 @@ class _DiscoverScreenState extends State<DiscoverScreen> with AutomaticKeepAlive
                     },
                     isTopSong: true,
                     onPageChange: (index) {
-                      getIt.get<DiscoverBloc>().getTopSongs('', 'most-viewed', index + 1, 3);
+                      getIt.get<DiscoverBloc>().getTopSongs('', 'most-viewed', '', '', index + 1, 3);
                       setState(() {
                         _currentIndex = index;
                       });
                     },
                     onRetry: () {
-                      getIt.get<DiscoverBloc>().getTopSongs('', 'most-viewed', _currentIndex + 1, 3);
+                      getIt.get<DiscoverBloc>().getTopSongs('', 'most-viewed', '', '', _currentIndex + 1, 3);
                     },
                   ),
                   FeaturedAlbums(
                     onRetry: () {
-                      getIt.get<DiscoverBloc>().getAlbums('', 'featured', 1, 3);
+                      getIt.get<DiscoverBloc>().getAlbums('', 'featured', '', '', '', 1, 3);
                     },
                     onShowAll: () {
                       Navigator.pushNamed(
@@ -107,7 +107,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> with AutomaticKeepAlive
                     onPageChange: (index) {
                       getIt
                           .get<DiscoverBloc>()
-                          .getMixTapSongs('', 'most-viewed', index + 1, 3, 'featured', 'mixtape-song');
+                          .getMixTapSongs('', 'most-viewed', '', '', index + 1, 3, 'featured', 'mixtape-song');
                       setState(() {
                         _currentIndex = index;
                       });
@@ -115,7 +115,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> with AutomaticKeepAlive
                     onRetry: () {
                       getIt
                           .get<DiscoverBloc>()
-                          .getMixTapSongs('', 'most-viewed', _currentIndex + 1, 3, 'featured', 'mixtape-song');
+                          .getMixTapSongs('', 'most-viewed', '', '', _currentIndex + 1, 3, 'featured', 'mixtape-song');
                     },
                     onShowAll: () {
                       Navigator.pushNamed(

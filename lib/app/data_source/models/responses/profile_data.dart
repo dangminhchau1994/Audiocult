@@ -33,6 +33,7 @@ class ProfileData {
   String? lat;
   String? lng;
   String? currency;
+  String? accessToken;
 
   ProfileData({
     this.coverPhotoExists,
@@ -61,6 +62,7 @@ class ProfileData {
     this.audioArtistCategory,
     this.favoriteGenresOfMusic,
     this.currency,
+    this.accessToken
   });
 
   ProfileData.fromJson(Map<String, dynamic> json) {
@@ -68,6 +70,7 @@ class ProfileData {
 
     coverPhotoExists = iw['cover_photo_exists'].get();
     userId = iw['user_id'].get();
+    accessToken = iw['access_token'].get();
     userGroupId = iw['user_group_id'].get();
     userName = iw['user_name'].get();
     fullName = iw['full_name'].get();
