@@ -71,7 +71,7 @@ class FeedResponse {
   String? feedLink;
   String? feedIcon;
   dynamic feedTotalLike;
-  //bool? feedIsLiked;
+  dynamic feedIsLiked;
   bool? enableLike;
   String? likeTypeId;
   String? totalComment;
@@ -115,6 +115,7 @@ class FeedResponse {
     this.typeId,
     this.userId,
     this.parentUserId,
+    this.feedIsLiked,
     this.itemId,
     this.timeStamp,
     this.friendsTagged,

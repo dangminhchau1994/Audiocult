@@ -12,6 +12,7 @@ import '../../../../utils/constants/app_assets.dart';
 import '../../../../utils/constants/app_colors.dart';
 import '../../../../utils/constants/app_dimens.dart';
 import '../../../../utils/route/app_route.dart';
+import '../../../../utils/toast/toast_utils.dart';
 import '../../detail-song/widgets/detail_description_label.dart';
 
 class DetailAlbumDescription extends StatelessWidget {
@@ -111,14 +112,19 @@ class DetailAlbumDescription extends StatelessWidget {
                     const SizedBox(
                       width: 10,
                     ),
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        color: AppColors.secondaryButtonColor,
-                      ),
-                      padding: const EdgeInsets.all(12),
-                      child: Center(
-                        child: SvgPicture.asset(AppAssets.shareIcon),
+                    WButtonInkwell(
+                      onPressed: () {
+                        ToastUtility.showPending(context: context, message: context.l10n.t_feature_development);
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          color: AppColors.secondaryButtonColor,
+                        ),
+                        padding: const EdgeInsets.all(12),
+                        child: Center(
+                          child: SvgPicture.asset(AppAssets.shareIcon),
+                        ),
                       ),
                     )
                   ],

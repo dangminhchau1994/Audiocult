@@ -26,6 +26,7 @@ FeedResponse _$FeedResponseFromJson(Map<String, dynamic> json) => FeedResponse(
       typeId: json['type_id'] as String?,
       userId: json['user_id'] as String?,
       parentUserId: json['parent_user_id'] as String?,
+      feedIsLiked: json['feed_is_liked'],
       itemId: json['item_id'] as String?,
       timeStamp: json['time_stamp'] as String?,
       friendsTagged: (json['friends_tagged'] as List<dynamic>?)
@@ -142,6 +143,7 @@ Map<String, dynamic> _$FeedResponseToJson(FeedResponse instance) =>
       'feed_link': instance.feedLink,
       'feed_icon': instance.feedIcon,
       'feed_total_like': instance.feedTotalLike,
+      'feed_is_liked': instance.feedIsLiked,
       'enable_like': instance.enableLike,
       'like_type_id': instance.likeTypeId,
       'total_comment': instance.totalComment,
