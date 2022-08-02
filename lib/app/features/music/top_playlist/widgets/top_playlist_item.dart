@@ -33,7 +33,14 @@ class TopPlaylistItem extends StatefulWidget {
 
 class _TopPlaylistItemState extends State<TopPlaylistItem> {
   final TopPlaylistBloc _playlistBloc = TopPlaylistBloc(locator.get<AppRepository>());
+  final _pageController = PageController();
   var _currentIndex = 0;
+
+  @override
+  void dispose() {
+    super.dispose();
+    _pageController.dispose();
+  }
 
   @override
   void initState() {
@@ -144,9 +151,6 @@ class _TopPlaylistItemState extends State<TopPlaylistItem> {
               ),
             ],
           ),
-          const SizedBox(
-            height: 24,
-          ),
           _buildPages(),
         ],
       ),
@@ -163,8 +167,8 @@ class _TopPlaylistItemState extends State<TopPlaylistItem> {
             _currentIndex = index;
           });
         },
-        controller: PageController(viewportFraction: 0.96),
-        itemCount: 3,
+        controller: _pageController,
+        itemCount: 2,
         itemBuilder: (context, index) {
           return StreamBuilder<BlocState<List<Song>>>(
             initialData: const BlocState.loading(),
@@ -176,25 +180,61 @@ class _TopPlaylistItemState extends State<TopPlaylistItem> {
                 success: (data) {
                   final songs = data as List<Song>;
 
-                  return songs.isNotEmpty
-                      ? ListView.separated(
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemCount: songs.length,
-                          separatorBuilder: (context, index) => const SizedBox(height: 20),
-                          itemBuilder: (context, index) {
-                            return SongItem(
-                              song: songs[index],
-                              songs: songs,
-                              index: index,
-                              currency: _playlistBloc.currency,
+                  return Row(
+                    children: [
+                      if (songs.isNotEmpty)
+                        Expanded(
+                          child: Center(
+                            child: ListView.separated(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: songs.length,
+                              separatorBuilder: (context, index) => const SizedBox(height: 20),
+                              itemBuilder: (context, index) {
+                                return SongItem(
+                                  song: songs[index],
+                                  songs: songs,
+                                  index: index,
+                                  currency: _playlistBloc.currency,
+                                );
+                              },
+                            ),
+                          ),
+                        )
+                      else
+                        Expanded(
+                          child: Center(
+                            child: Text(
+                              context.l10n.t_no_data,
+                            ),
+                          ),
+                        ),
+                      Center(
+                        child: WButtonInkwell(
+                          onPressed: () {
+                            _pageController.animateToPage(
+                              ++index > 1 ? 0 : index,
+                              duration: const Duration(milliseconds: 500),
+                              curve: Curves.ease,
+                            );
+                            _playlistBloc.getSongByPlaylistId(
+                              int.parse(widget.playlist!.playlistId!),
+                              ++index > 1 ? 0 : index,
+                              3,
                             );
                           },
-                        )
-                      : Center(
-                          child: Text(
-                            context.l10n.t_no_data,
+                          child: const Padding(
+                            padding: EdgeInsets.all(6),
+                            child: Icon(
+                              Icons.arrow_forward_ios,
+                              color: Colors.white,
+                              size: 18,
+                            ),
                           ),
-                        );
+                        ),
+                      ),
+                    ],
+                  );
                 },
                 loading: () {
                   return const Center(

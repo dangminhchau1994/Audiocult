@@ -4,6 +4,7 @@ import 'package:audio_cult/l10n/l10n.dart';
 import 'package:audio_cult/w_components/buttons/w_button_inkwell.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:readmore/readmore.dart';
 
 import '../../../../../w_components/comment/comment_args.dart';
 import '../../../../../w_components/comment/comment_list_screen.dart';
@@ -48,29 +49,26 @@ class DetailAlbumDescription extends StatelessWidget {
                   ),
             ),
             const SizedBox(
-              height: 20,
+              height: 10,
             ),
             //first row
-            Row(
-              children: [
-                DetailDescriptionLabel(
-                  title: 'ARTIST',
-                  value: data?.artistUser?.fullName ?? 'N/A',
-                ),
-                const SizedBox(
-                  width: 32,
-                ),
-                DetailDescriptionLabel(
-                  title: 'LABEL',
-                  value: data?.labelUser?.fullName ?? 'N/A',
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            const SizedBox(
-              height: 20,
+            ReadMoreText(
+              data?.text ?? '',
+              trimLines: 3,
+              colorClickableText: Colors.pink,
+              trimMode: TrimMode.Line,
+              trimCollapsedText: context.l10n.t_read_more,
+              trimExpandedText: context.l10n.t_read_less,
+              style: context.bodyTextPrimaryStyle()!.copyWith(
+                    color: AppColors.subTitleColor,
+                    fontSize: 14,
+                  ),
+              moreStyle: TextStyle(
+                color: AppColors.lightBlueColor,
+              ),
+              lessStyle: TextStyle(
+                color: AppColors.lightBlueColor,
+              ),
             ),
             const SizedBox(
               height: 20,

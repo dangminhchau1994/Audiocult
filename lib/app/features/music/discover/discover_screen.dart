@@ -20,7 +20,8 @@ class DiscoverScreen extends StatefulWidget {
 }
 
 class _DiscoverScreenState extends State<DiscoverScreen> with AutomaticKeepAliveClientMixin {
-  final _pageController = PageController(viewportFraction: 0.96);
+  final _topSongPageController = PageController();
+  final _featuredMixTapPageController = PageController();
   var _currentIndex = 0;
 
   @override
@@ -32,7 +33,8 @@ class _DiscoverScreenState extends State<DiscoverScreen> with AutomaticKeepAlive
   @override
   void dispose() {
     super.dispose();
-    _pageController.dispose();
+    _topSongPageController.dispose();
+    _featuredMixTapPageController.dispose();
   }
 
   void _getAllData() {
@@ -54,7 +56,8 @@ class _DiscoverScreenState extends State<DiscoverScreen> with AutomaticKeepAlive
           backgroundColor: AppColors.secondaryButtonColor,
           onRefresh: () async {
             _getAllData();
-            _pageController.jumpTo(0);
+            _topSongPageController.jumpTo(0);
+            _featuredMixTapPageController.jumpTo(0);
           },
           child: SingleChildScrollView(
             child: Container(
@@ -66,7 +69,8 @@ class _DiscoverScreenState extends State<DiscoverScreen> with AutomaticKeepAlive
                 children: [
                   const SongOfDay(),
                   TopSongs(
-                    pageController: _pageController,
+                    itemCount: 3,
+                    pageController: _topSongPageController,
                     onShowAll: () {
                       Navigator.pushNamed(
                         context,
@@ -77,6 +81,14 @@ class _DiscoverScreenState extends State<DiscoverScreen> with AutomaticKeepAlive
                       );
                     },
                     isTopSong: true,
+                    onNextPage: (index) {
+                      _topSongPageController.animateToPage(
+                        ++index > 2 ? 0 : index,
+                        duration: const Duration(milliseconds: 500),
+                        curve: Curves.ease,
+                      );
+                      getIt.get<DiscoverBloc>().getTopSongs('', 'most-viewed', '', '', index++ > 2 ? 1 : index++, 3);
+                    },
                     onPageChange: (index) {
                       getIt.get<DiscoverBloc>().getTopSongs('', 'most-viewed', '', '', index + 1, 3);
                       setState(() {
@@ -102,8 +114,17 @@ class _DiscoverScreenState extends State<DiscoverScreen> with AutomaticKeepAlive
                     },
                   ),
                   FeatureMixtapes(
-                    pageController: _pageController,
+                    itemCount: 2,
+                    pageController: _featuredMixTapPageController,
                     isTopSong: false,
+                    onNextPage: (index) {
+                      _featuredMixTapPageController.animateToPage(
+                        ++index > 1 ? 0 : index,
+                        duration: const Duration(milliseconds: 500),
+                        curve: Curves.ease,
+                      );
+                      getIt.get<DiscoverBloc>().getTopSongs('', 'most-viewed', '', '', index++ > 1 ? 1 : index++, 3);
+                    },
                     onPageChange: (index) {
                       getIt
                           .get<DiscoverBloc>()

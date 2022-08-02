@@ -8,6 +8,7 @@ import 'package:audio_cult/app/data_source/models/responses/announcement/announc
 import 'package:audio_cult/app/data_source/models/responses/create_post/create_post_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/feed/feed_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/playlist/delete_playlist_response.dart';
+import 'package:audio_cult/app/data_source/models/responses/post_reaction/post_reaction.dart';
 import 'package:audio_cult/app/data_source/models/responses/upload_photo/upload_photo_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/upload_video/upload_video_response.dart';
 import 'package:dartz/dartz.dart';
@@ -26,7 +27,7 @@ class HomeBloc extends BaseBloc<FeedRequest, List<FeedResponse>> {
   final _getAnnouncementSubject = PublishSubject<BlocState<List<AnnouncementResponse>>>();
   final _getCommentsSubject = PublishSubject<BlocState<List<CommentResponse>>>();
   final _getReactionIconSubject = PublishSubject<BlocState<List<ReactionIconResponse>>>();
-  final _postReactionIconSubject = PublishSubject<BlocState<List<CommentResponse>>>();
+  final _postReactionIconSubject = PublishSubject<BlocState<PostReactionResponse>>();
   final _getBackgroundSubject = PublishSubject<BlocState<List<BackgroundResponse>>>();
   final _createPostSubject = PublishSubject<BlocState<CreatePostResponse>>();
   final _uploadPhotoSubject = PublishSubject<BlocState<List<UploadPhotoResponse>>>();
@@ -38,7 +39,7 @@ class HomeBloc extends BaseBloc<FeedRequest, List<FeedResponse>> {
   Stream<BlocState<List<AnnouncementResponse>>> get getAnnoucementStream => _getAnnouncementSubject.stream;
   Stream<BlocState<List<CommentResponse>>> get getCommentsStream => _getCommentsSubject.stream;
   Stream<BlocState<List<ReactionIconResponse>>> get getReactionIconStream => _getReactionIconSubject.stream;
-  Stream<BlocState<List<CommentResponse>>> get postReactionIconStream => _postReactionIconSubject.stream;
+  Stream<BlocState<PostReactionResponse>> get postReactionIconStream => _postReactionIconSubject.stream;
   Stream<BlocState<List<BackgroundResponse>>> get getBackgroundStream => _getBackgroundSubject.stream;
   Stream<BlocState<CreatePostResponse>> get createPostStream => _createPostSubject.stream;
   Stream<BlocState<List<UploadPhotoResponse>>> get uploadPhotoStream => _uploadPhotoSubject.stream;

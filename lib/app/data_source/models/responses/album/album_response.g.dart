@@ -45,6 +45,7 @@ _$_Album _$$_AlbumFromJson(Map<String, dynamic> json) => _$_Album(
           ? null
           : LastIcon.fromJson(json['last_icon'] as Map<String, dynamic>),
       fullName: json['full_name'] as String?,
+      text: json['text'] as String?,
       userImage: json['userImage'] as String?,
       isInvisible: json['isInvisible'] as String?,
       albumId: json['album_id'] as String?,
@@ -106,6 +107,7 @@ Map<String, dynamic> _$$_AlbumToJson(_$_Album instance) => <String, dynamic>{
       'user_name': instance.userName,
       'last_icon': instance.lastIcon,
       'full_name': instance.fullName,
+      'text': instance.text,
       'userImage': instance.userImage,
       'isInvisible': instance.isInvisible,
       'album_id': instance.albumId,

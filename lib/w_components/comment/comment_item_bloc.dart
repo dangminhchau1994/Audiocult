@@ -1,5 +1,6 @@
 import 'package:audio_cult/app/base/base_bloc.dart';
 import 'package:audio_cult/app/data_source/models/responses/comment/comment_response.dart';
+import 'package:audio_cult/app/data_source/models/responses/post_reaction/post_reaction.dart';
 import 'package:audio_cult/app/data_source/models/responses/reaction_icon/reaction_icon_response.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -12,10 +13,10 @@ class CommentItemBloc extends BaseBloc {
   CommentItemBloc(this._appRepository);
 
   final _getReactionIconSubject = PublishSubject<BlocState<List<ReactionIconResponse>>>();
-  final _postReactionIconSubject = PublishSubject<BlocState<List<CommentResponse>>>();
+  final _postReactionIconSubject = PublishSubject<BlocState<PostReactionResponse>>();
 
   Stream<BlocState<List<ReactionIconResponse>>> get getReactionIconStream => _getReactionIconSubject.stream;
-  Stream<BlocState<List<CommentResponse>>> get postReactionIconStream => _postReactionIconSubject.stream;
+  Stream<BlocState<PostReactionResponse>> get postReactionIconStream => _postReactionIconSubject.stream;
 
   void getReactionIcons() async {
     final result = await _appRepository.getReactionIcons();

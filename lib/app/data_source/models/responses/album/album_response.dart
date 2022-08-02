@@ -43,6 +43,7 @@ class Album with _$Album {
     @JsonKey(name: 'last_icon') LastIcon? lastIcon,
     // ignore: invalid_annotation_target
     @JsonKey(name: 'full_name') String? fullName,
+    String? text,
     String? userImage,
     String? isInvisible,
     // ignore: invalid_annotation_target

@@ -34,12 +34,19 @@ class FeaturedAlbumItem extends StatefulWidget {
 
 class _FeaturedAlbumItemState extends State<FeaturedAlbumItem> {
   final FeaturedAlbumBloc _featuredAlbumBloc = FeaturedAlbumBloc(locator.get<AppRepository>());
+  final _pageController = PageController();
   var _currentIndex = 0;
 
   @override
   void initState() {
     super.initState();
     _featuredAlbumBloc.getSongByAlbumId(int.parse(widget.album!.albumId!), 1, 3);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _pageController.dispose();
   }
 
   @override
@@ -164,7 +171,7 @@ class _FeaturedAlbumItemState extends State<FeaturedAlbumItem> {
             _currentIndex = index;
           });
         },
-        controller: PageController(viewportFraction: 0.96),
+        controller: _pageController,
         itemCount: 3,
         itemBuilder: (context, index) {
           return StreamBuilder<BlocState<List<Song>>>(
@@ -176,26 +183,61 @@ class _FeaturedAlbumItemState extends State<FeaturedAlbumItem> {
               return state.when(
                 success: (data) {
                   final songs = data as List<Song>;
-                  return songs.isNotEmpty
-                      ? ListView.separated(
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemCount: songs.length,
-                          shrinkWrap: true,
-                          separatorBuilder: (context, index) => const SizedBox(height: 20),
-                          itemBuilder: (context, index) {
-                            return SongItem(
-                              song: songs[index],
-                              songs: songs,
-                              index: index,
-                              currency: _featuredAlbumBloc.currency,
+                  return Row(
+                    children: [
+                      if (songs.isNotEmpty)
+                        Expanded(
+                          child: Center(
+                            child: ListView.separated(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: songs.length,
+                              separatorBuilder: (context, index) => const SizedBox(height: 20),
+                              itemBuilder: (context, index) {
+                                return SongItem(
+                                  song: songs[index],
+                                  songs: songs,
+                                  index: index,
+                                  currency: _featuredAlbumBloc.currency,
+                                );
+                              },
+                            ),
+                          ),
+                        )
+                      else
+                        Expanded(
+                          child: Center(
+                            child: Text(
+                              context.l10n.t_no_data,
+                            ),
+                          ),
+                        ),
+                      Center(
+                        child: WButtonInkwell(
+                          onPressed: () {
+                            _pageController.animateToPage(
+                              ++index > 1 ? 0 : index,
+                              duration: const Duration(milliseconds: 500),
+                              curve: Curves.ease,
+                            );
+                            _featuredAlbumBloc.getSongByAlbumId(
+                              int.parse(widget.album!.albumId!),
+                              ++index > 1 ? 0 : index,
+                              3,
                             );
                           },
-                        )
-                      : Center(
-                          child: Text(
-                            context.l10n.t_no_data,
+                          child: const Padding(
+                            padding: EdgeInsets.all(6),
+                            child: Icon(
+                              Icons.arrow_forward_ios,
+                              color: Colors.white,
+                              size: 18,
+                            ),
                           ),
-                        );
+                        ),
+                      ),
+                    ],
+                  );
                 },
                 loading: () {
                   return const Center(

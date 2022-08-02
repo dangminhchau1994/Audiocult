@@ -31,6 +31,7 @@ import 'package:audio_cult/app/data_source/models/responses/place.dart';
 import 'package:audio_cult/app/data_source/models/responses/playlist/delete_playlist_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/playlist/playlist_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/playlist/update_playlist_response.dart';
+import 'package:audio_cult/app/data_source/models/responses/post_reaction/post_reaction.dart';
 import 'package:audio_cult/app/data_source/models/responses/privacy_settings/privacy_settings_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/profile_data.dart';
 import 'package:audio_cult/app/data_source/models/responses/reaction_icon/reaction_icon_response.dart';
@@ -312,7 +313,7 @@ class AppRepository extends BaseRepository {
     );
   }
 
-  Future<Either<List<CommentResponse>, Exception>> postReactionIcon(String typeId, int itemId, int likeType) {
+  Future<Either<PostReactionResponse, Exception>> postReactionIcon(String typeId, int itemId, int likeType) {
     return safeCall(
       () => appServiceProvider.postReactionIcon(typeId, itemId, likeType),
     );

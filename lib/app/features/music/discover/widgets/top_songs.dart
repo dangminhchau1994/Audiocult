@@ -10,12 +10,16 @@ class TopSongs extends StatelessWidget {
     this.isTopSong,
     this.onRetry,
     this.onShowAll,
+    this.onNextPage,
+    this.itemCount,
   }) : super(key: key);
 
   final Function(int index)? onPageChange;
   final Function()? onRetry;
   final PageController? pageController;
   final bool? isTopSong;
+  final int? itemCount;
+  final Function(int index)? onNextPage;
   final Function()? onShowAll;
 
   @override
@@ -33,10 +37,12 @@ class TopSongs extends StatelessWidget {
             height: 16,
           ),
           SongPage(
+            onNextPage: onNextPage,
+            itemCount: itemCount,
             onPageChange: onPageChange,
             pageController: pageController,
-            isTopSong: isTopSong,
             onRetry: onRetry,
+            isTopSong: isTopSong,
           ),
         ],
       ),

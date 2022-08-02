@@ -70,7 +70,7 @@ class FeedResponse {
   String? feedInfo;
   String? feedLink;
   String? feedIcon;
-  dynamic feedTotalLike;
+  String? feedTotalLike;
   dynamic feedIsLiked;
   bool? enableLike;
   String? likeTypeId;

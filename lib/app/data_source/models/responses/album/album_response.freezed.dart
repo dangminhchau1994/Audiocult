@@ -422,6 +422,7 @@ mixin _$Album {
       throw _privateConstructorUsedError; // ignore: invalid_annotation_target
   @JsonKey(name: 'full_name')
   String? get fullName => throw _privateConstructorUsedError;
+  String? get text => throw _privateConstructorUsedError;
   String? get userImage => throw _privateConstructorUsedError;
   String? get isInvisible =>
       throw _privateConstructorUsedError; // ignore: invalid_annotation_target
@@ -508,6 +509,7 @@ abstract class $AlbumCopyWith<$Res> {
       @JsonKey(name: 'user_name') String? userName,
       @JsonKey(name: 'last_icon') LastIcon? lastIcon,
       @JsonKey(name: 'full_name') String? fullName,
+      String? text,
       String? userImage,
       String? isInvisible,
       @JsonKey(name: 'album_id') String? albumId,
@@ -574,6 +576,7 @@ class _$AlbumCopyWithImpl<$Res> implements $AlbumCopyWith<$Res> {
     Object? userName = freezed,
     Object? lastIcon = freezed,
     Object? fullName = freezed,
+    Object? text = freezed,
     Object? userImage = freezed,
     Object? isInvisible = freezed,
     Object? albumId = freezed,
@@ -642,6 +645,10 @@ class _$AlbumCopyWithImpl<$Res> implements $AlbumCopyWith<$Res> {
       fullName: fullName == freezed
           ? _value.fullName
           : fullName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      text: text == freezed
+          ? _value.text
+          : text // ignore: cast_nullable_to_non_nullable
               as String?,
       userImage: userImage == freezed
           ? _value.userImage
@@ -857,6 +864,7 @@ abstract class _$$_AlbumCopyWith<$Res> implements $AlbumCopyWith<$Res> {
       @JsonKey(name: 'user_name') String? userName,
       @JsonKey(name: 'last_icon') LastIcon? lastIcon,
       @JsonKey(name: 'full_name') String? fullName,
+      String? text,
       String? userImage,
       String? isInvisible,
       @JsonKey(name: 'album_id') String? albumId,
@@ -925,6 +933,7 @@ class __$$_AlbumCopyWithImpl<$Res> extends _$AlbumCopyWithImpl<$Res>
     Object? userName = freezed,
     Object? lastIcon = freezed,
     Object? fullName = freezed,
+    Object? text = freezed,
     Object? userImage = freezed,
     Object? isInvisible = freezed,
     Object? albumId = freezed,
@@ -993,6 +1002,10 @@ class __$$_AlbumCopyWithImpl<$Res> extends _$AlbumCopyWithImpl<$Res>
       fullName: fullName == freezed
           ? _value.fullName
           : fullName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      text: text == freezed
+          ? _value.text
+          : text // ignore: cast_nullable_to_non_nullable
               as String?,
       userImage: userImage == freezed
           ? _value.userImage
@@ -1195,6 +1208,7 @@ class _$_Album implements _Album {
       @JsonKey(name: 'user_name') this.userName,
       @JsonKey(name: 'last_icon') this.lastIcon,
       @JsonKey(name: 'full_name') this.fullName,
+      this.text,
       this.userImage,
       this.isInvisible,
       @JsonKey(name: 'album_id') this.albumId,
@@ -1264,6 +1278,8 @@ class _$_Album implements _Album {
   @override
   @JsonKey(name: 'full_name')
   final String? fullName;
+  @override
+  final String? text;
   @override
   final String? userImage;
   @override
@@ -1384,7 +1400,7 @@ class _$_Album implements _Album {
 
   @override
   String toString() {
-    return 'Album(isLiked: $isLiked, userId: $userId, userName: $userName, lastIcon: $lastIcon, fullName: $fullName, userImage: $userImage, isInvisible: $isInvisible, albumId: $albumId, viewId: $viewId, privacy: $privacy, privacyComment: $privacyComment, isFeatured: $isFeatured, isSponsor: $isSponsor, name: $name, year: $year, genreId: $genreId, isDj: $isDj, licenseType: $licenseType, imagePath: $imagePath, serverId: $serverId, totalTrack: $totalTrack, totalPlay: $totalPlay, totalComment: $totalComment, totalView: $totalView, totalLike: $totalLike, totalDislike: $totalDislike, totalScore: $totalScore, totalRating: $totalRating, totalAttachment: $totalAttachment, timeStamp: $timeStamp, moduleId: $moduleId, itemId: $itemId, isDay: $isDay, artistId: $artistId, itunes: $itunes, amazon: $amazon, googleplay: $googleplay, youtube: $youtube, soundcloud: $soundcloud, labelUser: $labelUser, labelUserId: $labelUserId, artistUser: $artistUser, artistUserId: $artistUserId, collabUser: $collabUser, collabUserId: $collabUserId, canEdit: $canEdit, canAddSong: $canAddSong, canDelete: $canDelete, canPurchaseSponsor: $canPurchaseSponsor, canSponsor: $canSponsor, canFeature: $canFeature, hasPermission: $hasPermission)';
+    return 'Album(isLiked: $isLiked, userId: $userId, userName: $userName, lastIcon: $lastIcon, fullName: $fullName, text: $text, userImage: $userImage, isInvisible: $isInvisible, albumId: $albumId, viewId: $viewId, privacy: $privacy, privacyComment: $privacyComment, isFeatured: $isFeatured, isSponsor: $isSponsor, name: $name, year: $year, genreId: $genreId, isDj: $isDj, licenseType: $licenseType, imagePath: $imagePath, serverId: $serverId, totalTrack: $totalTrack, totalPlay: $totalPlay, totalComment: $totalComment, totalView: $totalView, totalLike: $totalLike, totalDislike: $totalDislike, totalScore: $totalScore, totalRating: $totalRating, totalAttachment: $totalAttachment, timeStamp: $timeStamp, moduleId: $moduleId, itemId: $itemId, isDay: $isDay, artistId: $artistId, itunes: $itunes, amazon: $amazon, googleplay: $googleplay, youtube: $youtube, soundcloud: $soundcloud, labelUser: $labelUser, labelUserId: $labelUserId, artistUser: $artistUser, artistUserId: $artistUserId, collabUser: $collabUser, collabUserId: $collabUserId, canEdit: $canEdit, canAddSong: $canAddSong, canDelete: $canDelete, canPurchaseSponsor: $canPurchaseSponsor, canSponsor: $canSponsor, canFeature: $canFeature, hasPermission: $hasPermission)';
   }
 
   @override
@@ -1397,6 +1413,7 @@ class _$_Album implements _Album {
             const DeepCollectionEquality().equals(other.userName, userName) &&
             const DeepCollectionEquality().equals(other.lastIcon, lastIcon) &&
             const DeepCollectionEquality().equals(other.fullName, fullName) &&
+            const DeepCollectionEquality().equals(other.text, text) &&
             const DeepCollectionEquality().equals(other.userImage, userImage) &&
             const DeepCollectionEquality()
                 .equals(other.isInvisible, isInvisible) &&
@@ -1477,6 +1494,7 @@ class _$_Album implements _Album {
         const DeepCollectionEquality().hash(userName),
         const DeepCollectionEquality().hash(lastIcon),
         const DeepCollectionEquality().hash(fullName),
+        const DeepCollectionEquality().hash(text),
         const DeepCollectionEquality().hash(userImage),
         const DeepCollectionEquality().hash(isInvisible),
         const DeepCollectionEquality().hash(albumId),
@@ -1544,6 +1562,7 @@ abstract class _Album implements Album {
       @JsonKey(name: 'user_name') final String? userName,
       @JsonKey(name: 'last_icon') final LastIcon? lastIcon,
       @JsonKey(name: 'full_name') final String? fullName,
+      final String? text,
       final String? userImage,
       final String? isInvisible,
       @JsonKey(name: 'album_id') final String? albumId,
@@ -1608,6 +1627,8 @@ abstract class _Album implements Album {
   @override // ignore: invalid_annotation_target
   @JsonKey(name: 'full_name')
   String? get fullName => throw _privateConstructorUsedError;
+  @override
+  String? get text => throw _privateConstructorUsedError;
   @override
   String? get userImage => throw _privateConstructorUsedError;
   @override

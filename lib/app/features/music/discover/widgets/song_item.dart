@@ -2,6 +2,8 @@ import 'package:audio_cult/app/constants/global_constants.dart';
 import 'package:audio_cult/app/features/music/playlist_dialog.dart';
 import 'package:audio_cult/app/utils/datetime/date_time_utils.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
+import 'package:audio_cult/app/utils/toast/toast_utils.dart';
+import 'package:audio_cult/l10n/l10n.dart';
 import 'package:audio_cult/w_components/buttons/w_button_inkwell.dart';
 import 'package:audio_cult/w_components/images/common_image_network.dart';
 import 'package:audio_cult/w_components/menus/common_popup_menu.dart';
@@ -51,9 +53,9 @@ class SongItem extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 8),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Expanded(
+              flex: 20,
               child: Row(
                 children: [
                   CommonImageNetWork(
@@ -119,39 +121,43 @@ class SongItem extends StatelessWidget {
               ),
             ),
             if (hasMenu!)
-              CommonPopupMenu(
-                items: fromDetail!
-                    ? GlobalConstants.menuItemsWithOutDetail(context)
-                    : GlobalConstants.menuItemsWithDetail(context),
-                onSelected: (selected) {
-                  switch (selected) {
-                    case 0:
-                      showMaterialModalBottomSheet(
-                        context: context,
-                        backgroundColor: Colors.transparent,
-                        builder: (context) {
-                          return PlayListDialog(
-                            songId: song?.songId,
-                          );
-                        },
-                      );
-                      break;
-                    case 1:
-                      break;
-                    case 2:
-                      Navigator.pushNamed(
-                        context,
-                        AppRoute.routeDetailSong,
-                        arguments: {'song_id': song!.songId},
-                      );
-                      break;
-                    default:
-                  }
-                },
+              Expanded(
+                flex: 2,
+                child: CommonPopupMenu(
+                  items: fromDetail!
+                      ? GlobalConstants.menuItemsWithOutDetail(context)
+                      : GlobalConstants.menuItemsWithDetail(context),
+                  onSelected: (selected) {
+                    switch (selected) {
+                      case 0:
+                        showMaterialModalBottomSheet(
+                          context: context,
+                          backgroundColor: Colors.transparent,
+                          builder: (context) {
+                            return PlayListDialog(
+                              songId: song?.songId,
+                            );
+                          },
+                        );
+                        break;
+                      case 1:
+                        ToastUtility.showPending(context: context, message: context.l10n.t_feature_development);
+                        break;
+                      case 2:
+                        Navigator.pushNamed(
+                          context,
+                          AppRoute.routeDetailSong,
+                          arguments: {'song_id': song!.songId},
+                        );
+                        break;
+                      default:
+                    }
+                  },
+                ),
               )
             else
               const SizedBox(),
-            if (customizeMenu != null) customizeMenu! else const SizedBox.shrink()
+            if (customizeMenu != null) customizeMenu! else const SizedBox.shrink(),
           ],
         ),
       ),

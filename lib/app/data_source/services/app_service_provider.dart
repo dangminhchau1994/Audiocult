@@ -56,6 +56,7 @@ import '../models/responses/background/background_response.dart';
 import '../models/responses/create_album_response.dart';
 import '../models/responses/events/event_category_response.dart';
 import '../models/responses/playlist/delete_playlist_response.dart';
+import '../models/responses/post_reaction/post_reaction.dart';
 import '../models/responses/profile_data.dart';
 import '../models/responses/register_response.dart';
 import '../models/responses/song/song_response.dart';
@@ -162,7 +163,8 @@ class AppServiceProvider {
       responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
     );
     return response.mapData(
-      (json) => asType<List<dynamic>>(json)?.map((e) => DeletePlayListResponse.fromJson(e as Map<String, dynamic>)).toList(),
+      (json) =>
+          asType<List<dynamic>>(json)?.map((e) => DeletePlayListResponse.fromJson(e as Map<String, dynamic>)).toList(),
     );
   }
 
@@ -553,7 +555,7 @@ class AppServiceProvider {
     );
   }
 
-  Future<List<CommentResponse>> postReactionIcon(String typeId, int itemId, int likeType) async {
+  Future<PostReactionResponse> postReactionIcon(String typeId, int itemId, int likeType) async {
     final response = await _dioHelper.post(
       route: '/restful_api/like/item',
       options: Options(headers: {'Content-Type': 'application/x-www-form-urlencoded'}),
@@ -564,8 +566,9 @@ class AppServiceProvider {
         'like_type': likeType,
       }),
     );
-    return response.mapData((json) =>
-        asType<List<dynamic>>(json)?.map((e) => CommentResponse.fromJson(e as Map<String, dynamic>)).toList());
+    return response.mapData(
+      (json) => PostReactionResponse.fromJson(json as Map<String, dynamic>),
+    );
   }
 
   Future<CreatePlayListResponse> createPlayList(CreatePlayListRequest request) async {
