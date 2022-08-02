@@ -24,6 +24,9 @@ class _CheckEmailPageState extends State<CreateNewPasswordPage> {
   final ResetPasswordBloc _resetPasswordBloc = ResetPasswordBloc(locator.get());
   String _password = '';
   String _newPassword = '';
+  bool isHiddenPassword = true;
+  bool isHiddenNewPassword = true;
+
   @override
   void initState() {
     super.initState();
@@ -59,6 +62,13 @@ class _CheckEmailPageState extends State<CreateNewPasswordPage> {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: kVerticalSpacing),
               child: CommonInput(
+                togglePassword: () {
+                  setState(() {
+                    isHiddenPassword = !isHiddenPassword;
+                  });
+                },
+                isHidden: isHiddenPassword,
+                isPasswordField: true,
                 hintText: context.l10n.t_new_password,
                 onChanged: (v) {
                   setState(() {
@@ -70,6 +80,13 @@ class _CheckEmailPageState extends State<CreateNewPasswordPage> {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: kVerticalSpacing),
               child: CommonInput(
+                togglePassword: () {
+                  setState(() {
+                    isHiddenNewPassword = !isHiddenNewPassword;
+                  });
+                },
+                isHidden: isHiddenNewPassword,
+                isPasswordField: true,
                 hintText: context.l10n.t_confirm_password,
                 onChanged: (v) {
                   setState(() {

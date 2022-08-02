@@ -1209,14 +1209,14 @@ class AppServiceProvider {
     return result;
   }
 
-  Future<bool?> resentEmail(String email, String token) async {
+  Future<BaseRes?> resentEmail(String email, String token) async {
     final response = await _dioHelper.post(
       route: '/restful_api/user/forgot-password',
       requestBody: FormData.fromMap({'val[email]': email}),
       options: Options(headers: {'Authorization': 'Bearer $token'}),
       responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
     );
-    return response.isSuccess;
+    return response;
   }
 
   Future<BaseRes?> resetPassword(String newPassword, String hashId, String token) async {

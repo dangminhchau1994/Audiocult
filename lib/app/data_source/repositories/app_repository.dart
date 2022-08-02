@@ -620,7 +620,7 @@ class AppRepository extends BaseRepository {
     return appServiceProvider.unblockUser(userId);
   }
 
-  Future<Either<bool?, Exception>> resentEmail(String email, String token) {
+  Future<Either<BaseRes?, Exception>> resentEmail(String email, String token) {
     return safeCall(() => appServiceProvider.resentEmail(email, token));
   }
 
