@@ -237,9 +237,10 @@ class AppRoute {
           ),
         );
       case routeCreatePost:
+        final arguments = asType(settings.arguments);
         return _pageRoute(
           settings,
-          const HomeCreatePost(),
+          HomeCreatePost(userId: arguments != null ? arguments['user_id'] as String? : null),
         );
       case routeCreateEvent:
         return _pageRoute(

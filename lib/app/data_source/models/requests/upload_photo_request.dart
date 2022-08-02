@@ -5,7 +5,7 @@ class UploadPhotoRequest {
   String? description;
   String? latLng;
   String? locationName;
-  int? userId;
+  String? userId;
   int? albumId;
   int? privacy;
   String? taggedFriends;

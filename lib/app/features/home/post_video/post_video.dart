@@ -34,10 +34,8 @@ import '../../auth/widgets/register_page.dart';
 import '../post_status/widgets/status_tag_friend_input.dart';
 
 class PostVideo extends StatefulWidget {
-  const PostVideo({
-    Key? key,
-    this.onAddVideo,
-  }) : super(key: key);
+  final String? userId;
+  const PostVideo({Key? key, this.onAddVideo, this.userId}) : super(key: key);
 
   final Function()? onAddVideo;
 
@@ -79,6 +77,7 @@ class _PostVideoState extends State<PostVideo> with DisposableStateMixin, Automa
   void initState() {
     super.initState();
     _getCustomMarker();
+    _request.userId = widget.userId;
     _privacy = GlobalConstants.listPrivacy[0];
     getIt.get<HomeBloc>().uploadVideoStream.listen((data) {
       Navigator.pop(context, true);

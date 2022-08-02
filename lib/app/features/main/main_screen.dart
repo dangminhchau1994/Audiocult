@@ -12,7 +12,6 @@ import 'package:audio_cult/l10n/l10n.dart';
 import 'package:audio_cult/w_components/bottom_navigation_bar/common_bottom_bar.dart';
 import 'package:audio_cult/w_components/buttons/w_button_inkwell.dart';
 import 'package:audio_cult/w_components/menus/common_circular_menu.dart';
-import 'package:badges/badges.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -23,9 +22,7 @@ import '../../../w_components/dialogs/app_dialog.dart';
 import '../../../w_components/images/no_image_available.dart';
 import '../../../w_components/menus/common_fab_menu.dart';
 import '../../base/pair.dart';
-import '../../data_source/local/pref_provider.dart';
 import '../../data_source/models/responses/profile_data.dart';
-import '../../fcm/fcm_bloc.dart';
 import '../../utils/constants/app_assets.dart';
 import '../../utils/constants/app_colors.dart';
 import '../events/event_screen.dart';
@@ -63,7 +60,7 @@ class _MainScreenState extends State<MainScreen> {
 
   List<Widget> _buildPages() {
     final pages = <Widget>[];
-    pages.add(const HomeScreen());
+    pages.add(HomeScreen());
     pages.add(const AtlasScreen());
     pages.add(const SizedBox());
     pages.add(const MusicScreen());

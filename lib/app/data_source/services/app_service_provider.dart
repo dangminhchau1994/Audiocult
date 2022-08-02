@@ -129,7 +129,7 @@ class AppServiceProvider {
     );
   }
 
-  Future<List<FeedResponse>> getFeeds(int page, int limit, int lastFeedId) async {
+  Future<List<FeedResponse>> getFeeds(int page, int limit, int lastFeedId, String? userId) async {
     final response = await _dioHelper.get(
       route: '/restful_api/feed',
       options: Options(headers: {'Content-Type': 'application/x-www-form-urlencoded'}),
@@ -137,6 +137,7 @@ class AppServiceProvider {
         'page': page,
         'limit': limit,
         'last_feed_id': lastFeedId,
+        'user_id': userId,
       },
       responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
     );
@@ -245,6 +246,7 @@ class AppServiceProvider {
         'val[url]': request.url,
         'val[status_info]': request.statusInfo,
         'val[privacy]': request.privacy,
+        'val[parent_user_id]': request.userId,
       }),
       responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
     );
@@ -271,7 +273,8 @@ class AppServiceProvider {
         'val[location][name]': request.locationName,
         'val[user_id]': request.userId,
         'val[album_id]': request.albumId,
-        'val[privacy]': request.privacy
+        'val[privacy]': request.privacy,
+        'val[parent_user_id]': request.userId,
       }),
       responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
     );

@@ -6,6 +6,7 @@ class CreatePostRequest {
   int? feedId;
   String? locationName;
   int? privacy;
+  String? userId;
 
   CreatePostRequest({
     this.userStatus,
@@ -15,6 +16,7 @@ class CreatePostRequest {
     this.latLng,
     this.locationName,
     this.privacy,
+    this.userId
   });
 
   Future<Map<String, dynamic>> toJson() async {
@@ -29,6 +31,7 @@ class CreatePostRequest {
     data['val[location][latlng]'] = latLng;
     data['val[location][name]'] = locationName;
     data['val[privacy]'] = privacy;
+    data['val[parent_user_id]'] = userId;
 
     return data;
   }
