@@ -9,6 +9,7 @@ class UploadVideoRequest {
   String? locationName;
   String? taggedFriends;
   int? privacy;
+  String? userId;
 
   UploadVideoRequest({
     this.video,

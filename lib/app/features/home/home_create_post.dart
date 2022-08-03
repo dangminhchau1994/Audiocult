@@ -15,7 +15,8 @@ import '../../../w_components/tabbars/common_tabbar.dart';
 import '../../../w_components/tabbars/common_tabbar_item.dart';
 
 class HomeCreatePost extends StatefulWidget {
-  const HomeCreatePost({Key? key}) : super(key: key);
+  final String? userId;
+  const HomeCreatePost({Key? key, this.userId}) : super(key: key);
 
   @override
   State<HomeCreatePost> createState() => _HomeCreatePostState();
@@ -109,11 +110,17 @@ class _HomeCreatePostState extends State<HomeCreatePost> {
           pageViewBuilder: (context, index) {
             switch (index) {
               case 0:
-                return const PostStatus();
+                return PostStatus(
+                  userId: widget.userId,
+                );
               case 1:
-                return const PostPhotos();
+                return PostPhotos(
+                  userId: widget.userId,
+                );
               case 2:
-                return const PostVideo();
+                return PostVideo(
+                  userId: widget.userId,
+                );
               default:
                 return const SizedBox();
             }

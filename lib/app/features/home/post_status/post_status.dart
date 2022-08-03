@@ -30,7 +30,8 @@ import '../../../utils/mixins/disposable_state_mixin.dart';
 import '../../auth/widgets/register_page.dart';
 
 class PostStatus extends StatefulWidget {
-  const PostStatus({Key? key}) : super(key: key);
+  final String? userId;
+  const PostStatus({Key? key, this.userId}) : super(key: key);
 
   @override
   State<PostStatus> createState() => _PostStatusState();
@@ -56,6 +57,7 @@ class _PostStatusState extends State<PostStatus> with DisposableStateMixin, Auto
   @override
   void initState() {
     super.initState();
+    _createPostRequest.userId = widget.userId;
     _privacy = GlobalConstants.listPrivacy[0];
     _imagePath = '';
     _showListBackground = false;

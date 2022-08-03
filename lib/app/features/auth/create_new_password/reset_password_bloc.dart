@@ -23,7 +23,7 @@ class ResetPasswordBloc extends BaseBloc {
         } else {
           showError(AppException('${l1.error['message']}'));
         }
-      }, (r) => showError);
-    }, (r) => showError);
+      }, showError);
+    }, showError);
   }
 }

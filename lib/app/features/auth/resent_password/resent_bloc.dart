@@ -18,12 +18,12 @@ class ResentPasswordBloc extends BaseBloc {
       final result = await _appRepository.resentEmail(email, l.accessToken!);
       hideOverlayLoading();
       result.fold((l1) {
-        if (l1!) {
-          _navigateMain.add(l1);
+        if (l1!.isSuccess!) {
+          _navigateMain.add(l1.isSuccess!);
         } else {
-          showError(AppException('Error!'));
+          showError(AppException(l1.error['message']));
         }
-      }, (r) => showError);
-    }, (r) => showError);
+      }, showError);
+    }, showError);
   }
 }

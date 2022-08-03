@@ -34,7 +34,8 @@ import '../home_bloc.dart';
 import '../post_status/widgets/status_tag_friend_input.dart';
 
 class PostPhotos extends StatefulWidget {
-  const PostPhotos({Key? key}) : super(key: key);
+  final String? userId;
+  const PostPhotos({Key? key, this.userId}) : super(key: key);
 
   @override
   State<PostPhotos> createState() => _PostPhotosState();
@@ -77,6 +78,7 @@ class _PostPhotosState extends State<PostPhotos> with DisposableStateMixin, Auto
   void initState() {
     super.initState();
     _getCustomMarker();
+    _uploadPhotoRequest.userId = widget.userId;
     _privacy = GlobalConstants.listPrivacy[0];
     getIt.get<HomeBloc>().uploadPhotoStream.listen((data) {
       Navigator.pop(context, true);

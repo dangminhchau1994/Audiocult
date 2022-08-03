@@ -128,13 +128,9 @@ class AppRepository extends BaseRepository {
     );
   }
 
-  Future<Either<List<FeedResponse>, Exception>> getFeeds(
-    int page,
-    int limit,
-    int lastFeedId,
-  ) {
+  Future<Either<List<FeedResponse>, Exception>> getFeeds(int page, int limit, int lastFeedId, String? userId) {
     return safeCall(
-      () => appServiceProvider.getFeeds(page, limit, lastFeedId),
+      () => appServiceProvider.getFeeds(page, limit, lastFeedId, userId),
     );
   }
 
@@ -620,7 +616,7 @@ class AppRepository extends BaseRepository {
     return appServiceProvider.unblockUser(userId);
   }
 
-  Future<Either<bool?, Exception>> resentEmail(String email, String token) {
+  Future<Either<BaseRes?, Exception>> resentEmail(String email, String token) {
     return safeCall(() => appServiceProvider.resentEmail(email, token));
   }
 
