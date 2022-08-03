@@ -1,6 +1,4 @@
 import 'package:audio_cult/app/base/base_bloc.dart';
-import 'package:audio_cult/app/data_source/models/responses/comment/comment_response.dart';
-import 'package:audio_cult/app/data_source/models/responses/post_reaction/post_reaction.dart';
 import 'package:audio_cult/app/data_source/models/responses/reaction_icon/reaction_icon_response.dart';
 import 'package:rxdart/rxdart.dart';
 
