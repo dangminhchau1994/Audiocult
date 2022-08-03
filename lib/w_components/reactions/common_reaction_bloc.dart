@@ -12,10 +12,10 @@ class CommonReactionBloc extends BaseBloc {
   CommonReactionBloc(this._appRepository);
 
   final _getReactionIconSubject = PublishSubject<BlocState<List<ReactionIconResponse>>>();
-  final _postReactionIconSubject = PublishSubject<BlocState<PostReactionResponse>>();
+  final _postReactionIconSubject = PublishSubject<String>();
 
   Stream<BlocState<List<ReactionIconResponse>>> get getReactionIconStream => _getReactionIconSubject.stream;
-  Stream<BlocState<PostReactionResponse>> get postReactionIconStream => _postReactionIconSubject.stream;
+  Stream<String> get postReactionIconStream => _postReactionIconSubject.stream;
 
   void getReactionIcons() async {
     final result = await _appRepository.getReactionIcons();
@@ -31,9 +31,9 @@ class CommonReactionBloc extends BaseBloc {
     final result = await _appRepository.postReactionIcon(typeId, itemId, likeType);
 
     result.fold((success) {
-      _postReactionIconSubject.sink.add(BlocState.success(success));
+      _postReactionIconSubject.sink.add(success.totalLike.toString());
     }, (error) {
-      _postReactionIconSubject.sink.add(BlocState.error(error.toString()));
+      _postReactionIconSubject.sink.add(error.toString());
     });
   }
 }

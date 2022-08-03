@@ -1,6 +1,7 @@
 import 'package:audio_cult/app/base/bloc_state.dart';
 import 'package:audio_cult/app/data_source/models/responses/comment/comment_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/reaction_icon/reaction_icon_response.dart';
+import 'package:audio_cult/app/injections.dart';
 import 'package:audio_cult/app/utils/datetime/date_time_utils.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/di/bloc_locator.dart';
@@ -30,9 +31,11 @@ class CommentItem extends StatefulWidget {
 }
 
 class _CommentItemState extends State<CommentItem> {
+  final _bloc = CommentItemBloc(locator.get());
+
   @override
   void initState() {
-    getIt.get<CommentItemBloc>().getReactionIcons();
+    _bloc.getReactionIcons();
     super.initState();
   }
 
@@ -130,7 +133,7 @@ class _CommentItemState extends State<CommentItem> {
                           DateTimeUtils.convertToAgo(int.parse(widget.data?.timeStamp ?? '')),
                           style: context.bodyTextPrimaryStyle()!.copyWith(
                                 color: AppColors.subTitleColor,
-                             ),
+                              ),
                         ),
                         const SizedBox(
                           width: 18,
@@ -152,7 +155,7 @@ class _CommentItemState extends State<CommentItem> {
                       children: [
                         StreamBuilder<BlocState<List<ReactionIconResponse>>>(
                           initialData: const BlocState.loading(),
-                          stream: getIt<CommentItemBloc>().getReactionIconStream,
+                          stream: _bloc.getReactionIconStream,
                           builder: (context, snapshot) {
                             final state = snapshot.data!;
 
@@ -177,11 +180,11 @@ class _CommentItemState extends State<CommentItem> {
                                   boxPadding: const EdgeInsets.all(12),
                                   boxColor: AppColors.secondaryButtonColor,
                                   onReactionChanged: (ReactionIconResponse? value, bool isChecked) {
-                                    getIt.get<CommentItemBloc>().postReactionIcon(
-                                          'feed_mini',
-                                          int.parse(widget.data?.commentId ?? ''),
-                                          int.parse(value?.iconId ?? ''),
-                                        );
+                                    _bloc.postReactionIcon(
+                                      'feed_mini',
+                                      int.parse(widget.data?.commentId ?? ''),
+                                      int.parse(value?.iconId ?? ''),
+                                    );
                                   },
                                   reactions: reactions,
                                   initialReaction: Reaction<ReactionIconResponse>(
@@ -215,15 +218,21 @@ class _CommentItemState extends State<CommentItem> {
                         const SizedBox(
                           width: 6,
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 8),
-                          child: Text(
-                            widget.data?.totalLike ?? '',
-                            style: context.bodyTextPrimaryStyle()!.copyWith(color: AppColors.subTitleColor, fontSize: 16),
+                        StreamBuilder<String>(
+                          initialData: widget.data?.totalLike ?? '',
+                          stream: _bloc.postReactionIconStream,
+                          builder: (context, snapshot) => Padding(
+                            padding: const EdgeInsets.only(top: 8),
+                            child: Text(
+                              snapshot.data!,
+                              style: context
+                                  .bodyTextPrimaryStyle()!
+                                  .copyWith(color: AppColors.subTitleColor, fontSize: 16),
+                            ),
                           ),
-                        ),
+                        )
                       ],
-                    ), 
+                    ),
                   ],
                 )
               ],

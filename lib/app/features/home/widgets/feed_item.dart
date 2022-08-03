@@ -9,7 +9,6 @@ import 'package:audio_cult/app/utils/constants/app_colors.dart';
 import 'package:audio_cult/l10n/l10n.dart';
 import 'package:audio_cult/w_components/textfields/common_input.dart';
 import 'package:flutter/material.dart';
-
 import '../../../../w_components/comment/comment_args.dart';
 import '../../../../w_components/comment/comment_list_screen.dart';
 import '../../../utils/route/app_route.dart';
@@ -35,8 +34,8 @@ class _FeedItemState extends State<FeedItem> {
 
   @override
   void initState() {
-    _homeBloc.getComments(int.parse(widget.data?.feedId ?? ''), 'feed', 1, 3, 'latest');
     super.initState();
+    _homeBloc.getComments(int.parse(widget.data?.feedId ?? ''), 'feed', 1, 3, 'latest');
   }
 
   @override

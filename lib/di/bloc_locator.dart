@@ -78,10 +78,6 @@ void setupLocator() {
 
   getIt.registerLazySingleton<FCMBloc>(FCMBloc.new);
 
-  getIt.registerLazySingleton<CommentItemBloc>(
-    () => CommentItemBloc(locator.get<AppRepository>()),
-  );
-
   getIt.registerLazySingleton<FeaturedMixtapesBloc>(
     () => FeaturedMixtapesBloc(locator.get<AppRepository>()),
   );
@@ -143,8 +139,6 @@ void setupLocator() {
   getIt.registerLazySingleton<NotificationBloc>(
     () => NotificationBloc(locator.get<AppRepository>()),
   );
-
-  getIt.registerLazySingleton<CommonReactionBloc>(() => CommonReactionBloc(locator.get<AppRepository>()));
 
   getIt.registerFactory<AccountSettingsBloc>(
       () => AccountSettingsBloc(locator.get<AppRepository>(), locator.get<PrefProvider>()));

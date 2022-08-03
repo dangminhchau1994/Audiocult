@@ -1,3 +1,4 @@
+import 'package:audio_cult/app/injections.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_reaction_button/flutter_reaction_button.dart';
@@ -38,10 +39,12 @@ class CommonReactions extends StatefulWidget {
 }
 
 class _CommonReactionsState extends State<CommonReactions> {
+  final _bloc = CommonReactionBloc(locator.get());
+
   @override
   void initState() {
     super.initState();
-    getIt.get<CommonReactionBloc>().getReactionIcons();
+    _bloc.getReactionIcons();
   }
 
   String getType(ReactionType reactionType) {
@@ -71,7 +74,7 @@ class _CommonReactionsState extends State<CommonReactions> {
         children: [
           StreamBuilder<BlocState<List<ReactionIconResponse>>>(
             initialData: const BlocState.loading(),
-            stream: getIt<CommonReactionBloc>().getReactionIconStream,
+            stream: _bloc.getReactionIconStream,
             builder: (context, snapshot) {
               final state = snapshot.data!;
 
@@ -97,11 +100,11 @@ class _CommonReactionsState extends State<CommonReactions> {
                     boxPadding: const EdgeInsets.all(16),
                     boxColor: AppColors.secondaryButtonColor,
                     onReactionChanged: (ReactionIconResponse? value, bool isChecked) {
-                      getIt.get<CommonReactionBloc>().postReactionIcon(
-                            getType(widget.reactionType!),
-                            int.parse(widget.itemId ?? ''),
-                            int.parse(value?.iconId ?? ''),
-                          );
+                      _bloc.postReactionIcon(
+                        getType(widget.reactionType!),
+                        int.parse(widget.itemId ?? ''),
+                        int.parse(value?.iconId ?? ''),
+                      );
                     },
                     reactions: reactions,
                     initialReaction: Reaction<ReactionIconResponse>(
@@ -135,16 +138,20 @@ class _CommonReactionsState extends State<CommonReactions> {
           const SizedBox(
             width: 6,
           ),
-          Padding(
-            padding: const EdgeInsets.only(top: 8),
-            child: Text(
-              widget.totalLike ?? '0',
-              style: context.bodyTextPrimaryStyle()!.copyWith(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
+          StreamBuilder<String>(
+            initialData: widget.totalLike ?? '0',
+            stream: _bloc.postReactionIconStream,
+            builder: (context, snapshot) => Padding(
+              padding: const EdgeInsets.only(top: 8),
+              child: Text(
+                snapshot.data!,
+                style: context.bodyTextPrimaryStyle()!.copyWith(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+              ),
             ),
-          ),
+          )
         ],
       ),
     );
