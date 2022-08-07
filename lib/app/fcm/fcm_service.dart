@@ -188,7 +188,6 @@ class FCMService {
                 TextButton(
                   onPressed: () {
                     Navigator.pop(context);
-                    exit(0);
                   },
                   child: const Text(
                     "Don't Allow",
