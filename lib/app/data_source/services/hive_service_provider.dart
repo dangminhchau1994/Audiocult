@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
 import '../models/cache_filter.dart';
+import '../models/responses/reaction_icon/reaction_icon_response.dart';
 
 class HiveServiceProvider {
   HiveServiceProvider();
@@ -47,6 +48,15 @@ class HiveServiceProvider {
 
   void saveCountries(List<Country> countries) async {
     await Hive.box(HiveBoxName.cache).put(HiveBoxKey.countries, countries);
+  }
+
+  void saveReactions(List<dynamic> reactions) async {
+    await Hive.box(HiveBoxName.cache).put(HiveBoxKey.reactions, reactions);
+  }
+
+  List<ReactionIconResponse> getReactions() {
+    final result = Hive.box(HiveBoxName.cache).get(HiveBoxKey.reactions, defaultValue: []) as List;
+    return result.map((e) => ReactionIconResponse.fromJson(Map<String, dynamic>.from(e as Map))).toList();
   }
 
   List<Country> getCachedCountries() {

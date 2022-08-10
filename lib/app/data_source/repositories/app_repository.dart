@@ -49,6 +49,7 @@ import 'package:audio_cult/app/features/auth/widgets/register_page.dart';
 import 'package:audio_cult/w_components/dropdown/common_dropdown.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../models/base_response.dart';
@@ -303,10 +304,21 @@ class AppRepository extends BaseRepository {
     );
   }
 
-  Future<Either<List<ReactionIconResponse>, Exception>> getReactionIcons() {
-    return safeCall(
-      appServiceProvider.getReactionIcons,
-    );
+  Future<Either<List<ReactionIconResponse>, Exception>> getReactionIcons() async {
+    final result = await safeCall(appServiceProvider.getReactionIcons);
+
+    return result.fold((l) {
+      hiveServiceProvider.saveReactions(l);
+      return left(l.map((e) => ReactionIconResponse.fromJson(e as Map<String, dynamic>)).toList());
+    }, (r) {
+      final localReaction = hiveServiceProvider.getReactions();
+
+      if (localReaction.isEmpty) {
+        return right(NoCacheDataException(''));
+      } else {
+        return left(localReaction);
+      }
+    });
   }
 
   Future<Either<PostReactionResponse, Exception>> postReactionIcon(String typeId, int itemId, int likeType) {

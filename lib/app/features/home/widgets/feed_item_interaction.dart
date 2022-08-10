@@ -50,7 +50,7 @@ class FeedItemInteraction extends StatelessWidget {
               },
               child: _buildIcon(
                 SvgPicture.asset(AppAssets.commentIcon),
-                data?.totalComment ?? '',
+                data?.totalComment ?? '0',
                 context,
               ),
             )

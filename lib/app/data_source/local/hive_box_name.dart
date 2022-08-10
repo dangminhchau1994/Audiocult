@@ -4,6 +4,7 @@ class HiveBoxName {
 }
 
 class HiveBoxKey {
+  static const reactions = 'reactions';
   static const albumBox = 'albumBox';
   static const genresBox = 'genresBox';
   static const cacheFilter = 'cacheFilter';

@@ -35,7 +35,6 @@ class _CommentItemState extends State<CommentItem> {
 
   @override
   void initState() {
-    _bloc.getReactionIcons();
     super.initState();
   }
 

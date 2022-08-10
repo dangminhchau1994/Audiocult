@@ -67,12 +67,21 @@ class FeedItemUserInfo extends StatelessWidget {
             children: [
               Wrap(
                 children: [
-                  Text(
-                    '${data?.userName ?? ''} ${data?.feedInfo ?? ''} ${getFriendTagged(data!)}',
-                    style: context.buttonTextStyle()!.copyWith(
-                          fontSize: 16,
-                          color: Colors.white,
-                        ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(
+                        context,
+                        AppRoute.routeProfile,
+                        arguments: ProfileScreen.createArguments(id: data!.userId!),
+                      );
+                    },
+                    child: Text(
+                      '${data?.userName ?? ''} ${data?.feedInfo ?? ''} ${getFriendTagged(data!)}',
+                      style: context.buttonTextStyle()!.copyWith(
+                            fontSize: 16,
+                            color: Colors.white,
+                          ),
+                    ),
                   ),
                   Visibility(
                     visible: data?.locationName != null,

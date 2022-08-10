@@ -1,10 +1,8 @@
 import 'package:audio_cult/app/data_source/models/responses/feed/feed_response.dart';
-import 'package:audio_cult/app/features/home/home_bloc.dart';
 import 'package:audio_cult/app/features/home/widgets/feed_item_content.dart';
 import 'package:audio_cult/app/features/home/widgets/feed_item_interaction.dart';
 import 'package:audio_cult/app/features/home/widgets/feed_item_modify.dart';
 import 'package:audio_cult/app/features/home/widgets/feed_item_user_info.dart';
-import 'package:audio_cult/app/injections.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
 import 'package:audio_cult/l10n/l10n.dart';
 import 'package:audio_cult/w_components/textfields/common_input.dart';
@@ -30,12 +28,10 @@ class FeedItem extends StatefulWidget {
 }
 
 class _FeedItemState extends State<FeedItem> {
-  final HomeBloc _homeBloc = HomeBloc(locator.get());
 
   @override
   void initState() {
     super.initState();
-    _homeBloc.getComments(int.parse(widget.data?.feedId ?? ''), 'feed', 1, 3, 'latest');
   }
 
   @override

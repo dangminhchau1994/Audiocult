@@ -545,15 +545,14 @@ class AppServiceProvider {
     );
   }
 
-  Future<List<ReactionIconResponse>> getReactionIcons() async {
+  Future<List<dynamic>> getReactionIcons() async {
     final response = await _dioHelper.get(
       route: '/restful_api/like/icon',
       options: Options(headers: {'Content-Type': 'application/x-www-form-urlencoded'}),
       responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
     );
     return response.mapData(
-      (json) =>
-          asType<List<dynamic>>(json)?.map((e) => ReactionIconResponse.fromJson(e as Map<String, dynamic>)).toList(),
+      (json) => asType<List<dynamic>>(json),
     );
   }
 

@@ -164,24 +164,24 @@ class GlobalConstants {
         ),
       ),
       const PopupMenuDivider(),
-      PopupMenuItem<int>(
-        value: 1,
-        child: Row(
-          children: [
-            SvgPicture.asset(
-              AppAssets.shareIcon,
-              width: 16,
-              height: 16,
-            ),
-            const SizedBox(
-              width: 10,
-            ),
-            Text(
-              context.l10n.t_share,
-            )
-          ],
-        ),
-      ),
+      // PopupMenuItem<int>(
+      //   value: 1,
+      //   child: Row(
+      //     children: [
+      //       SvgPicture.asset(
+      //         AppAssets.shareIcon,
+      //         width: 16,
+      //         height: 16,
+      //       ),
+      //       const SizedBox(
+      //         width: 10,
+      //       ),
+      //       Text(
+      //         context.l10n.t_share,
+      //       )
+      //     ],
+      //   ),
+      // ),
     ];
   }
 
@@ -275,24 +275,24 @@ class GlobalConstants {
           ],
         ),
       ),
-      PopupMenuItem<int>(
-        value: 1,
-        child: Row(
-          children: [
-            SvgPicture.asset(
-              AppAssets.shareIcon,
-              width: 16,
-              height: 16,
-            ),
-            const SizedBox(
-              width: 10,
-            ),
-            Text(
-              context.l10n.t_share,
-            )
-          ],
-        ),
-      ),
+      // PopupMenuItem<int>(
+      //   value: 1,
+      //   child: Row(
+      //     children: [
+      //       SvgPicture.asset(
+      //         AppAssets.shareIcon,
+      //         width: 16,
+      //         height: 16,
+      //       ),
+      //       const SizedBox(
+      //         width: 10,
+      //       ),
+      //       Text(
+      //         context.l10n.t_share,
+      //       )
+      //     ],
+      //   ),
+      // ),
       PopupMenuItem<int>(
         value: 2,
         child: Row(

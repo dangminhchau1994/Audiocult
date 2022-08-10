@@ -18,6 +18,7 @@ import 'package:flutter_svg/svg.dart';
 
 import '../../../di/bloc_locator.dart';
 import '../../../w_components/appbar/common_appbar.dart';
+import '../../../w_components/comment/comment_item_bloc.dart';
 import '../../../w_components/dialogs/app_dialog.dart';
 import '../../../w_components/images/no_image_available.dart';
 import '../../../w_components/menus/common_fab_menu.dart';
@@ -42,6 +43,7 @@ class _MainScreenState extends State<MainScreen> {
   final GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
   final _pageController = PageController();
   final MainBloc _mainBloc = locator.get();
+  final _commentItemBloc = CommentItemBloc(locator.get());
   final _cartBloc = getIt.get<MyCartBloc>();
   ProfileData? _profileData;
 
@@ -51,6 +53,7 @@ class _MainScreenState extends State<MainScreen> {
     FCMService(context, locator.get()).askPermission();
     _cartBloc.loadAllCartItems();
     _mainBloc.getUserProfile();
+    _commentItemBloc.getReactionIcons();
     _mainBloc.profileStream.listen((event) {
       setState(() {
         _profileData = event;
@@ -60,7 +63,7 @@ class _MainScreenState extends State<MainScreen> {
 
   List<Widget> _buildPages() {
     final pages = <Widget>[];
-    pages.add(HomeScreen());
+    pages.add(const HomeScreen());
     pages.add(const AtlasScreen());
     pages.add(const SizedBox());
     pages.add(const MusicScreen());
