@@ -62,6 +62,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
           artist: element.artistUser?.userName ?? 'N/A',
           duration: Duration(seconds: int.tryParse(element.duration ?? '0')!),
           artUri: Uri.parse(element.image400.toString()),
+          displayTitle: element.userId.toString(),
           extras: {
             'url': element.songPath.toString(),
           },

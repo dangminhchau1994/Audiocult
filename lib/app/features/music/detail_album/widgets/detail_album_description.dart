@@ -110,21 +110,21 @@ class DetailAlbumDescription extends StatelessWidget {
                     const SizedBox(
                       width: 10,
                     ),
-                    WButtonInkwell(
-                      onPressed: () {
-                        ToastUtility.showPending(context: context, message: context.l10n.t_feature_development);
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          color: AppColors.secondaryButtonColor,
-                        ),
-                        padding: const EdgeInsets.all(12),
-                        child: Center(
-                          child: SvgPicture.asset(AppAssets.shareIcon),
-                        ),
-                      ),
-                    )
+                    // WButtonInkwell(
+                    //   onPressed: () {
+                    //     ToastUtility.showPending(context: context, message: context.l10n.t_feature_development);
+                    //   },
+                    //   child: Container(
+                    //     decoration: BoxDecoration(
+                    //       borderRadius: BorderRadius.circular(20),
+                    //       color: AppColors.secondaryButtonColor,
+                    //     ),
+                    //     padding: const EdgeInsets.all(12),
+                    //     child: Center(
+                    //       child: SvgPicture.asset(AppAssets.shareIcon),
+                    //     ),
+                    //   ),
+                    // )
                   ],
                 ),
                 _buildPlayCount(data?.totalPlay ?? '', context)

@@ -7,5 +7,13 @@ class TopSongRequest {
   final String? view;
   final String? type;
 
-  TopSongRequest({this.sort, this.page, this.limit, this.view, this.type, this.genresId, this.when});
+  TopSongRequest({
+    this.sort,
+    this.page,
+    this.limit,
+    this.view,
+    this.type,
+    this.genresId,
+    this.when,
+  });
 }

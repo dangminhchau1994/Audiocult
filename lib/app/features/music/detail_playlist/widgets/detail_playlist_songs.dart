@@ -150,16 +150,16 @@ class _DetailPlayListSongsState extends State<DetailPlayListSongs> {
                     const SizedBox(
                       width: 10,
                     ),
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        color: AppColors.secondaryButtonColor,
-                      ),
-                      padding: const EdgeInsets.all(12),
-                      child: Center(
-                        child: SvgPicture.asset(AppAssets.shareIcon),
-                      ),
-                    )
+                    // Container(
+                    //   decoration: BoxDecoration(
+                    //     borderRadius: BorderRadius.circular(20),
+                    //     color: AppColors.secondaryButtonColor,
+                    //   ),
+                    //   padding: const EdgeInsets.all(12),
+                    //   child: Center(
+                    //     child: SvgPicture.asset(AppAssets.shareIcon),
+                    //   ),
+                    // )
                   ],
                 ),
                 _buildPlayCount(widget.totalViews ?? '', context)

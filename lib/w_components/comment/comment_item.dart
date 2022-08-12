@@ -4,7 +4,6 @@ import 'package:audio_cult/app/data_source/models/responses/reaction_icon/reacti
 import 'package:audio_cult/app/injections.dart';
 import 'package:audio_cult/app/utils/datetime/date_time_utils.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
-import 'package:audio_cult/di/bloc_locator.dart';
 import 'package:audio_cult/w_components/comment/comment_item_bloc.dart';
 import 'package:audio_cult/w_components/error_empty/error_section.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -12,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_reaction_button/flutter_reaction_button.dart';
 import 'package:flutter_svg/svg.dart';
 
+import '../../app/data_source/services/hive_service_provider.dart';
 import '../../app/features/profile/profile_screen.dart';
 import '../../app/utils/constants/app_colors.dart';
 import '../../app/utils/route/app_route.dart';
@@ -32,10 +32,22 @@ class CommentItem extends StatefulWidget {
 
 class _CommentItemState extends State<CommentItem> {
   final _bloc = CommentItemBloc(locator.get());
+  var reactions = <Reaction<ReactionIconResponse>>[];
 
   @override
   void initState() {
     super.initState();
+    reactions = locator<HiveServiceProvider>()
+        .getReactions()
+        .map(
+          (e) => Reaction<ReactionIconResponse>(
+            value: e,
+            icon: _buildReactionsIcon(
+              e.imagePath ?? '',
+            ),
+          ),
+        )
+        .toList();
   }
 
   @override
@@ -152,67 +164,31 @@ class _CommentItemState extends State<CommentItem> {
                     ),
                     Row(
                       children: [
-                        StreamBuilder<BlocState<List<ReactionIconResponse>>>(
-                          initialData: const BlocState.loading(),
-                          stream: _bloc.getReactionIconStream,
-                          builder: (context, snapshot) {
-                            final state = snapshot.data!;
-
-                            return state.when(
-                              success: (success) {
-                                final data = success as List<ReactionIconResponse>;
-                                var reactions = <Reaction<ReactionIconResponse>>[];
-                                reactions = data
-                                    .map(
-                                      (e) => Reaction<ReactionIconResponse>(
-                                        value: e,
-                                        //title: _buildTitle(e.name ?? ''),
-                                        icon: _buildReactionsIcon(
-                                          e.imagePath ?? '',
-                                        ),
-                                      ),
-                                    )
-                                    .toList();
-
-                                return ReactionButtonToggle<ReactionIconResponse>(
-                                  boxPosition: Position.BOTTOM,
-                                  boxPadding: const EdgeInsets.all(12),
-                                  boxColor: AppColors.secondaryButtonColor,
-                                  onReactionChanged: (ReactionIconResponse? value, bool isChecked) {
-                                    _bloc.postReactionIcon(
-                                      'feed_mini',
-                                      int.parse(widget.data?.commentId ?? ''),
-                                      int.parse(value?.iconId ?? ''),
-                                    );
-                                  },
-                                  reactions: reactions,
-                                  initialReaction: Reaction<ReactionIconResponse>(
-                                    value: ReactionIconResponse(),
-                                    icon: SvgPicture.network(
-                                      widget.data?.lastIcon?.imagePath ?? data[0].imagePath!,
-                                      height: 30,
-                                      width: 30,
-                                      placeholderBuilder: (BuildContext context) => const Center(
-                                        child: CircularProgressIndicator(),
-                                      ),
-                                    ),
-                                  ),
-                                  selectedReaction: reactions[0],
-                                );
-                              },
-                              loading: () {
-                                return CircularProgressIndicator(
-                                  color: AppColors.primaryButtonColor,
-                                );
-                              },
-                              error: (error) {
-                                return ErrorSectionWidget(
-                                  errorMessage: error,
-                                  onRetryTap: () {},
-                                );
-                              },
+                        ReactionButtonToggle<ReactionIconResponse>(
+                          boxPosition: Position.BOTTOM,
+                          boxPadding: const EdgeInsets.all(12),
+                          boxColor: AppColors.secondaryButtonColor,
+                          onReactionChanged: (ReactionIconResponse? value, bool isChecked) {
+                            _bloc.postReactionIcon(
+                              'feed_mini',
+                              int.parse(widget.data?.commentId ?? ''),
+                              int.parse(value?.iconId ?? ''),
                             );
                           },
+                          reactions: reactions,
+                          initialReaction: Reaction<ReactionIconResponse>(
+                            value: ReactionIconResponse(),
+                            icon: SvgPicture.network(
+                              widget.data?.lastIcon?.imagePath ??
+                                  locator<HiveServiceProvider>().getReactions()[0].imagePath!,
+                              height: 30,
+                              width: 30,
+                              placeholderBuilder: (BuildContext context) => const Center(
+                                child: CircularProgressIndicator(),
+                              ),
+                            ),
+                          ),
+                          selectedReaction: reactions[0],
                         ),
                         const SizedBox(
                           width: 6,

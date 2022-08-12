@@ -15,6 +15,9 @@ import '../../../../../w_components/comment/comment_args.dart';
 import '../../../../../w_components/comment/comment_list_screen.dart';
 import '../../../../utils/constants/app_colors.dart';
 import '../../../../utils/route/app_route.dart';
+import '../../../profile/profile_screen.dart';
+import '../../search/search_args.dart';
+import '../../search/search_screen.dart';
 
 class DetailSongDescription extends StatelessWidget {
   const DetailSongDescription({Key? key, this.data, this.id, this.title}) : super(key: key);
@@ -47,23 +50,56 @@ class DetailSongDescription extends StatelessWidget {
             //first row
             Row(
               children: [
-                DetailDescriptionLabel(
-                  title: 'ARTIST',
-                  value: data?.artistUser?.userName ?? 'N/A',
+                WButtonInkwell(
+                  onPressed: () {
+                    if (data?.artistUser?.userId != null) {
+                      Navigator.pushNamed(
+                        context,
+                        AppRoute.routeProfile,
+                        arguments: ProfileScreen.createArguments(id: data?.artistUser?.userId ?? ''),
+                      );
+                    }
+                  },
+                  child: DetailDescriptionLabel(
+                    title: 'ARTIST',
+                    value: data?.artistUser?.userName ?? 'N/A',
+                  ),
                 ),
                 const SizedBox(
                   width: 32,
                 ),
-                DetailDescriptionLabel(
-                  title: 'LABEL',
-                  value: data?.labelUser?.userName ?? 'N/A',
+                WButtonInkwell(
+                  onPressed: () {
+                    if (data?.labelUser?.userId != null) {
+                      Navigator.pushNamed(
+                        context,
+                        AppRoute.routeProfile,
+                        arguments: ProfileScreen.createArguments(id: data?.labelUser?.userId ?? ''),
+                      );
+                    }
+                  },
+                  child: DetailDescriptionLabel(
+                    title: 'LABEL',
+                    value: data?.labelUser?.userName ?? 'N/A',
+                  ),
                 ),
                 const SizedBox(
                   width: 32,
                 ),
-                const DetailDescriptionLabel(
-                  title: 'Remixers',
-                  value: '',
+                WButtonInkwell(
+                  onPressed: () {
+                    if (data?.collabUser?.userId != null) {
+                      Navigator.pushNamed(
+                        context,
+                        AppRoute.routeProfile,
+                        arguments: ProfileScreen.createArguments(id: data?.collabUser?.userId ?? ''),
+                      );
+                    }
+                  },
+                  child: DetailDescriptionLabel(
+                    title: 'Remixers',
+                    value: data?.collabUser?.userName ?? 'N/A',
+                  ),
                 )
               ],
             ),
@@ -73,9 +109,21 @@ class DetailSongDescription extends StatelessWidget {
             //second row
             Row(
               children: [
-                DetailDescriptionLabel(
-                  title: 'GENRE',
-                  value: data?.genreName ?? 'N/A',
+                WButtonInkwell(
+                  onPressed: () {
+                    Navigator.pushNamed(
+                      context,
+                      AppRoute.routeTopSongs,
+                      arguments: SearchArgs(
+                        searchType: SearchType.topSong,
+                        genreID: data?.genreId ?? '',
+                      ),
+                    );
+                  },
+                  child: DetailDescriptionLabel(
+                    title: 'GENRE',
+                    value: data?.genreName ?? 'N/A',
+                  ),
                 ),
               ],
             ),

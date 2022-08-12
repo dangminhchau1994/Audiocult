@@ -10,8 +10,10 @@ import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import '../../../w_components/customizes/animated_text.dart';
 import '../../../w_components/wave_music/wave_progress_bars.dart';
+import '../../utils/route/app_route.dart';
 import '../audio_player/audio_player.dart';
 import '../audio_player/miniplayer.dart';
+import '../profile/profile_screen.dart';
 
 class NameNControls extends StatefulWidget {
   final MediaItem mediaItem;
@@ -135,20 +137,20 @@ class _NameNControlsState extends State<NameNControls> {
                     //     ),
                     //   ),
                     // if (widget.mediaItem.artist != null)
-                      // PopupMenuItem<int>(
-                      //   value: 5,
-                      //   child: Row(
-                      //     children: const [
-                      //       Icon(
-                      //         Icons.person_rounded,
-                      //       ),
-                      //       SizedBox(width: 10),
-                      //       Text(
-                      //         'View Artist',
-                      //       ),
-                      //     ],
-                      //   ),
-                      // ),
+                    // PopupMenuItem<int>(
+                    //   value: 5,
+                    //   child: Row(
+                    //     children: const [
+                    //       Icon(
+                    //         Icons.person_rounded,
+                    //       ),
+                    //       SizedBox(width: 10),
+                    //       Text(
+                    //         'View Artist',
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
                   ],
                   child: Center(
                     child: Padding(
@@ -176,16 +178,27 @@ class _NameNControlsState extends State<NameNControls> {
                           ),
 
                           /// Subtitle container
-                          AnimatedText(
-                            text: '${widget.mediaItem.artist ?? "Unknown"} • ${widget.mediaItem.album ?? "Unknown"}',
-                            pauseAfterRound: const Duration(seconds: 3),
-                            showFadingOnlyWhenScrolling: false,
-                            fadingEdgeEndFraction: 0.1,
-                            fadingEdgeStartFraction: 0.1,
-                            startAfter: const Duration(seconds: 2),
-                            style: context
-                                .bodyTextStyle()
-                                ?.copyWith(fontWeight: FontWeight.w300, color: AppColors.subTitleColor),
+                          GestureDetector(
+                            onTap: () async {
+                              await Navigator.pushNamed(
+                                context,
+                                AppRoute.routeProfile,
+                                arguments: ProfileScreen.createArguments(
+                                  id: widget.mediaItem.displayTitle ?? '',
+                                ),
+                              );
+                            },
+                            child: AnimatedText(
+                              text: '${widget.mediaItem.artist ?? "Unknown"} • ${widget.mediaItem.album ?? "Unknown"}',
+                              pauseAfterRound: const Duration(seconds: 3),
+                              showFadingOnlyWhenScrolling: false,
+                              fadingEdgeEndFraction: 0.1,
+                              fadingEdgeStartFraction: 0.1,
+                              startAfter: const Duration(seconds: 2),
+                              style: context
+                                  .bodyTextStyle()
+                                  ?.copyWith(fontWeight: FontWeight.w300, color: AppColors.subTitleColor),
+                            ),
                           ),
                         ],
                       ),

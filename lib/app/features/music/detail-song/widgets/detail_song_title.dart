@@ -1,7 +1,10 @@
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
+import 'package:audio_cult/w_components/buttons/w_button_inkwell.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../utils/datetime/date_time_utils.dart';
+import '../../../../utils/route/app_route.dart';
+import '../../../profile/profile_screen.dart';
 
 class DetailSongTitle extends StatelessWidget {
   const DetailSongTitle({
@@ -9,10 +12,12 @@ class DetailSongTitle extends StatelessWidget {
     this.title,
     this.artistName,
     this.time,
+    this.userId,
   }) : super(key: key);
 
   final String? title;
   final String? artistName;
+  final String? userId;
   final String? time;
 
   @override
@@ -36,12 +41,20 @@ class DetailSongTitle extends StatelessWidget {
           ),
           Row(
             children: [
-              Text(
-                artistName ?? 'N/A',
-                style: context.bodyTextPrimaryStyle()!.copyWith(
-                      color: Colors.white,
-                      fontSize: 16
-                    ),
+              WButtonInkwell(
+                onPressed: () {
+                  if (userId != null) {
+                    Navigator.pushNamed(
+                      context,
+                      AppRoute.routeProfile,
+                      arguments: ProfileScreen.createArguments(id: userId ?? ''),
+                    );
+                  }
+                },
+                child: Text(
+                  artistName ?? 'N/A',
+                  style: context.bodyTextPrimaryStyle()!.copyWith(color: Colors.white, fontSize: 16),
+                ),
               ),
               const SizedBox(
                 width: 10,

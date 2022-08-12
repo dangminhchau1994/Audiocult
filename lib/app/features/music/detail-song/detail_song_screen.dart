@@ -90,6 +90,7 @@ class _DetailSongScreenState extends State<DetailSongScreen> {
                                 time: detail.timeStamp,
                                 artistName: detail.artistUser?.userName,
                                 title: detail.title,
+                                userId: detail.artistUser?.userId,
                               ),
                               // Play Button
                               DetailSongPlayButton(
