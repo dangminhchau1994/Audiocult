@@ -54,10 +54,21 @@ class _TopPlaylistItemState extends State<TopPlaylistItem> {
       margin: const EdgeInsets.symmetric(vertical: 12),
       child: Column(
         children: [
-          CommonImageNetWork(
-            width: double.infinity,
-            height: 150,
-            imagePath: widget.playlist?.imagePath ?? '',
+          WButtonInkwell(
+            onPressed: () {
+              Navigator.pushNamed(
+                context,
+                AppRoute.routeDetailPlayList,
+                arguments: {
+                  'playlist_id': widget.playlist?.playlistId,
+                },
+              );
+            },
+            child: CommonImageNetWork(
+              width: double.infinity,
+              height: 150,
+              imagePath: widget.playlist?.imagePath ?? '',
+            ),
           ),
           const SizedBox(
             height: 12,

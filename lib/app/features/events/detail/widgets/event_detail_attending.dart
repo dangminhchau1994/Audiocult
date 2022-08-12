@@ -42,7 +42,7 @@ class _EventDetailAttendingState extends State<EventDetailAttending> {
       case '3':
         return _iconPath = AppAssets.starIcon;
       default:
-        return '';
+        return _iconPath = AppAssets.starIcon;
     }
   }
 
@@ -55,7 +55,7 @@ class _EventDetailAttendingState extends State<EventDetailAttending> {
       case '3':
         return _title = context.l10n.t_not_attending;
       default:
-        return '';
+        return _title = context.l10n.t_not_attending;;
     }
   }
 
