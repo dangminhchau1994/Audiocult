@@ -2,6 +2,8 @@ import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../utils/datetime/date_time_utils.dart';
+import '../../../../utils/route/app_route.dart';
+import '../../../profile/profile_screen.dart';
 
 class DetailAlbumTitle extends StatelessWidget {
   const DetailAlbumTitle({
@@ -9,11 +11,13 @@ class DetailAlbumTitle extends StatelessWidget {
     this.title,
     this.userName,
     this.time,
+    this.userId,
   }) : super(key: key);
 
   final String? title;
   final String? userName;
   final String? time;
+  final String? userId;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +31,7 @@ class DetailAlbumTitle extends StatelessWidget {
             title ?? '',
             style: context.bodyTextPrimaryStyle()!.copyWith(
                   color: Colors.white,
-                   fontSize: 18,
+                  fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),
           ),
@@ -36,12 +40,18 @@ class DetailAlbumTitle extends StatelessWidget {
           ),
           Row(
             children: [
-              Text(
-                userName ?? 'N/A',
-                style: context.bodyTextPrimaryStyle()!.copyWith(
-                      color: Colors.white,
-                      fontSize: 16
-                    ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(
+                    context,
+                    AppRoute.routeProfile,
+                    arguments: ProfileScreen.createArguments(id: userId ?? ''),
+                  );
+                },
+                child: Text(
+                  userName ?? 'N/A',
+                  style: context.bodyTextPrimaryStyle()!.copyWith(color: Colors.white, fontSize: 16),
+                ),
               ),
               const SizedBox(
                 width: 10,
@@ -56,10 +66,7 @@ class DetailAlbumTitle extends StatelessWidget {
               ),
               Text(
                 DateTimeUtils.formatyMMMMd(int.parse(time ?? '')),
-                style: context.bodyTextPrimaryStyle()!.copyWith(
-                      color: Colors.white,
-                      fontSize: 16
-                    ),
+                style: context.bodyTextPrimaryStyle()!.copyWith(color: Colors.white, fontSize: 16),
               ),
             ],
           )

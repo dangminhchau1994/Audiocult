@@ -1,7 +1,10 @@
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
+import 'package:audio_cult/w_components/buttons/w_button_inkwell.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../utils/datetime/date_time_utils.dart';
+import '../../../../utils/route/app_route.dart';
+import '../../../profile/profile_screen.dart';
 
 class DetailPlayListTitle extends StatelessWidget {
   const DetailPlayListTitle({
@@ -9,11 +12,13 @@ class DetailPlayListTitle extends StatelessWidget {
     this.title,
     this.userName,
     this.time,
+    this.userId,
   }) : super(key: key);
 
   final String? title;
   final String? userName;
   final String? time;
+  final String? userId;
 
   @override
   Widget build(BuildContext context) {
@@ -36,12 +41,21 @@ class DetailPlayListTitle extends StatelessWidget {
           ),
           Row(
             children: [
-              Text(
-                userName ?? 'N/A',
-                style: context.bodyTextPrimaryStyle()!.copyWith(
-                      color: Colors.white,
-                      fontSize: 16,
-                    ),
+              WButtonInkwell(
+                onPressed: () {
+                  Navigator.pushNamed(
+                    context,
+                    AppRoute.routeProfile,
+                    arguments: ProfileScreen.createArguments(id: userId ?? ''),
+                  );
+                },
+                child: Text(
+                  userName ?? 'N/A',
+                  style: context.bodyTextPrimaryStyle()!.copyWith(
+                        color: Colors.white,
+                        fontSize: 16,
+                      ),
+                ),
               ),
               const SizedBox(
                 width: 10,

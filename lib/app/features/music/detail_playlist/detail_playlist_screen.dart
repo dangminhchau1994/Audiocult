@@ -105,6 +105,7 @@ class _DetailPlayListScreenState extends State<DetailPlayListScreen> with Dispos
                                 time: detail.timeStamp,
                                 userName: detail.fullName,
                                 title: detail.title,
+                                userId: detail.userId,
                               ),
                               // Play Button
                               DetailPlayListPlayButton(
