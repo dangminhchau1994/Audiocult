@@ -283,7 +283,7 @@ class _MySliverAppBarState extends State<MySliverAppBar> {
                     },
                   )
                 else
-                  Container()
+                  const SizedBox.shrink()
                 // CommonIconButton(
                 //   icon: SvgPicture.asset(
                 //     AppAssets.messageIcon,
