@@ -6,9 +6,17 @@ class FilterUsersRequest {
   final List<String>? genreIds;
   final int? page;
   final String? userId;
+  final String? getSubscribed;
 
   FilterUsersRequest(
-      {this.keyword, this.groupId, this.categoryId, this.countryISO, this.genreIds, this.page, this.userId});
+      {this.keyword,
+      this.groupId,
+      this.categoryId,
+      this.countryISO,
+      this.genreIds,
+      this.page,
+      this.userId,
+      this.getSubscribed});
 
   Map<String, dynamic> toJson() {
     final data = <String, dynamic>{};
@@ -19,6 +27,9 @@ class FilterUsersRequest {
     data['genres_ids'] = genreIds?.join(',');
     data['page'] = page;
     data['user_id'] = userId;
+    if (getSubscribed != null) {
+      data['get_subscribed'] = getSubscribed;
+    }
     return data;
   }
 

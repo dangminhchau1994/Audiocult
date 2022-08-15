@@ -213,11 +213,21 @@ class _MySliverAppBarState extends State<MySliverAppBar> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text('${widget.profile?.totalSubscribers ?? 0} subscribers'),
+                GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(context, AppRoute.routeSubscriptions,
+                          arguments: {'user_id': widget.profile?.userId});
+                    },
+                    child: Text('${widget.profile?.totalSubscribers ?? 0} subscribers')),
                 const SizedBox(
                   width: kHorizontalSpacing,
                 ),
-                Text('${widget.profile?.totalSubscriptions ?? 0} subscribed'),
+                GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(context, AppRoute.routeSubscriptions,
+                          arguments: {'user_id': widget.profile?.userId, 'get_subscribed': '1'});
+                    },
+                    child: Text('${widget.profile?.totalSubscriptions ?? 0} subscribed')),
               ],
             ),
           ),
@@ -273,15 +283,16 @@ class _MySliverAppBarState extends State<MySliverAppBar> {
                     },
                   )
                 else
-                  CommonIconButton(
-                    icon: SvgPicture.asset(
-                      AppAssets.messageIcon,
-                    ),
-                    text: context.l10n.t_message,
-                    width: 169,
-                    color: AppColors.inputFillColor,
-                    onTap: () {},
-                  )
+                  Container()
+                // CommonIconButton(
+                //   icon: SvgPicture.asset(
+                //     AppAssets.messageIcon,
+                //   ),
+                //   text: context.l10n.t_message,
+                //   width: 169,
+                //   color: AppColors.inputFillColor,
+                //   onTap: () {},
+                // )
               ],
             ),
           ),

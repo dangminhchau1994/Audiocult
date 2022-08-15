@@ -21,7 +21,8 @@ import 'package:tuple/tuple.dart';
 
 class AtlasScreen extends StatefulWidget {
   final String? userId;
-  const AtlasScreen({Key? key, this.userId}) : super(key: key);
+  final String? getSubscribed;
+  const AtlasScreen({Key? key, this.userId, this.getSubscribed}) : super(key: key);
 
   @override
   State<AtlasScreen> createState() => _AtlasScreenState();
@@ -39,8 +40,8 @@ class _AtlasScreenState extends State<AtlasScreen> with AutomaticKeepAliveClient
     super.initState();
     _bloc = getIt.get<AtlasBloc>();
     _bloc.getAtlasUsersStream.listen(_listenData);
-    _bloc.getAtlasUsers(1, widget.userId);
-    _pagingController.addPageRequestListener((page) => _bloc.getAtlasUsers(page, widget.userId));
+    _bloc.getAtlasUsers(1, widget.userId, widget.getSubscribed);
+    _pagingController.addPageRequestListener((page) => _bloc.getAtlasUsers(page, widget.userId, widget.getSubscribed));
     _searchTextController.addListener(_listenKeywordChange);
     _scrollController.addListener(_listenScrollView);
   }
@@ -133,7 +134,7 @@ class _AtlasScreenState extends State<AtlasScreen> with AutomaticKeepAliveClient
     return RefreshIndicator(
       onRefresh: () async {
         await _pullRefresh();
-        return _bloc.getAtlasUsers(1, widget.userId);
+        return _bloc.getAtlasUsers(1, widget.userId, widget.getSubscribed);
       },
       child: StreamBuilder<BlocState<Tuple2<List<AtlasUser>, Exception?>>>(
         stream: _bloc.getAtlasUsersStream,

@@ -40,14 +40,14 @@ class AtlasBloc extends BaseBloc {
     });
   }
 
-  Future<void> getAtlasUsers(int pageNumber,String? userId) async {
+  Future<void> getAtlasUsers(int pageNumber, String? userId, String? getSubscribed) async {
     _cancel?.cancel();
     _cancel = CancelToken();
     if (pageNumber == 1) {
       await refreshAtlasUserData();
     }
     final result = await _appRepository.getAtlasUsers(
-      FilterUsersRequest(keyword: _keyword, page: pageNumber,userId: userId),
+      FilterUsersRequest(keyword: _keyword, page: pageNumber, userId: userId, getSubscribed: getSubscribed),
       cancel: _cancel,
     );
     return result.fold(

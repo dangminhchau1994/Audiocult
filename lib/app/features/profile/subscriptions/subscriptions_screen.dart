@@ -6,7 +6,8 @@ import 'package:flutter/material.dart';
 
 class SubscriptionsScreen extends StatefulWidget {
   final String? userId;
-  const SubscriptionsScreen({Key? key, this.userId}) : super(key: key);
+  final String? getSubscribed;
+  const SubscriptionsScreen({Key? key, this.userId, this.getSubscribed}) : super(key: key);
 
   @override
   State<SubscriptionsScreen> createState() => _SubscriptionsScreenState();
@@ -23,6 +24,7 @@ class _SubscriptionsScreenState extends State<SubscriptionsScreen> {
         ),
         body: AtlasScreen(
           userId: widget.userId,
+          getSubscribed: widget.getSubscribed,
         ));
   }
 }
