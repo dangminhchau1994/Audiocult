@@ -191,7 +191,7 @@ class _TopSongScreenState extends State<TopSongScreen> with AutomaticKeepAliveCl
           child: LoadingBuilder<TopSongBloc, List<Song>>(
             builder: (data, _) {
               //only first page
-              final isLastPage = data.length == GlobalConstants.loadMoreItem - 1;
+              final isLastPage = data.length <= GlobalConstants.loadMoreItem - 1;
               if (isLastPage) {
                 _pagingController.appendLastPage(data);
               } else {

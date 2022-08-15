@@ -58,7 +58,7 @@ class CommentList extends StatelessWidget {
         child: LoadingBuilder<CommentListBloc, List<CommentResponse>>(
           builder: (data, _) {
             //only first page
-            final isLastPage = data.length == GlobalConstants.loadMoreItem - 1;
+            final isLastPage = data.length <= GlobalConstants.loadMoreItem - 1;
             if (isLastPage) {
               pagingController?.appendLastPage(data);
             } else {

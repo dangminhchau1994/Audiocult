@@ -265,7 +265,7 @@ class _PostPageState extends State<PostPage> {
             child: LoadingBuilder<HomeBloc, List<FeedResponse>>(
               builder: (data, _) {
                 // only first page
-                final isLastPage = data.length == GlobalConstants.loadMoreItem - 1;
+                final isLastPage = data.length <= GlobalConstants.loadMoreItem - 1;
                 if (isLastPage) {
                   _pagingFeedController.appendLastPage(data);
                 } else {

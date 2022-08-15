@@ -189,7 +189,7 @@ class _TopPlaylistScreenState extends State<TopPlaylistScreen> {
           child: LoadingBuilder<TopPlaylistBloc, List<PlaylistResponse>>(
             builder: (data, _) {
               //only first page
-              final isLastPage = data.length == GlobalConstants.loadMoreItem - 1;
+              final isLastPage = data.length <= GlobalConstants.loadMoreItem - 1;
               if (isLastPage) {
                 _pagingController.appendLastPage(data);
               } else {

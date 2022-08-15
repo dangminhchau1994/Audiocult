@@ -122,7 +122,7 @@ class _LibraryScreenState extends State<LibraryScreen> with AutomaticKeepAliveCl
                       );
                     }
                     //only first page
-                    final isLastPage = data.length == GlobalConstants.loadMoreItem - 1;
+                    final isLastPage = data.length <= GlobalConstants.loadMoreItem - 1;
                     if (isLastPage) {
                       _pagingController.appendLastPage(data);
                     } else {
@@ -194,15 +194,8 @@ class _LibraryScreenState extends State<LibraryScreen> with AutomaticKeepAliveCl
                   padding: const EdgeInsets.only(bottom: 150),
                   child: WButtonInkwell(
                     onPressed: () async {
-                      final result = await Navigator.pushNamed(
-                        context,
-                        AppRoute.routeCreatePlayList,
-                        arguments: {
-                          'update_playlist_params': UpdatePlaylistParams(
-                            title: ''
-                          )
-                        }
-                      );
+                      final result = await Navigator.pushNamed(context, AppRoute.routeCreatePlayList,
+                          arguments: {'update_playlist_params': UpdatePlaylistParams(title: '')});
                       if (result != null) {
                         _pagingController.refresh();
                         _libraryBloc.requestData(

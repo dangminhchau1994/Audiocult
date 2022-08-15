@@ -103,7 +103,7 @@ class _PopularEventsState extends State<PopularEvents> {
                   },
                   builder: (data, _) {
                     //only first page
-                    final isLastPage = data.length == GlobalConstants.loadMoreItem - 1;
+                    final isLastPage = data.length <= GlobalConstants.loadMoreItem - 1;
                     if (isLastPage) {
                       _pagingController.appendLastPage(data);
                     } else {

@@ -63,6 +63,7 @@ class _AtlasScreenState extends State<AtlasScreen> with AutomaticKeepAliveClient
     _keywordOnChangedDebouncer.value = _searchTextController.text;
     _keywordOnChangedDebouncer.values.listen((search) {
       _pagingController.refresh();
+      _bloc.getAtlasUsers(1, widget.userId, widget.getSubscribed);
     });
   }
 

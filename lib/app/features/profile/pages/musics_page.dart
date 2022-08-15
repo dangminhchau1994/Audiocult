@@ -44,7 +44,7 @@ class _MusicsPageState extends State<MusicsPage> {
       data.when(
           success: (success) {
             final data = success as List<Song>;
-            final isLastPage = data.length == GlobalConstants.loadMoreItem - 1;
+            final isLastPage = data.length <= GlobalConstants.loadMoreItem - 1;
             if (isLastPage) {
               _pagingController.appendLastPage(data);
             } else {

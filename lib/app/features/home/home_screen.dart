@@ -129,7 +129,7 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
               },
               builder: (data, _) {
                 // only first page
-                final isLastPage = data.length == GlobalConstants.loadMoreItem - 1;
+                final isLastPage = data.length <= GlobalConstants.loadMoreItem - 1;
                 if (isLastPage) {
                   _pagingFeedController.appendLastPage(data);
                 } else {
