@@ -41,7 +41,11 @@ class _AtlasScreenState extends State<AtlasScreen> with AutomaticKeepAliveClient
     _bloc = getIt.get<AtlasBloc>();
     _bloc.getAtlasUsersStream.listen(_listenData);
     _bloc.getAtlasUsers(1, widget.userId, widget.getSubscribed);
-    _pagingController.addPageRequestListener((page) => _bloc.getAtlasUsers(page, widget.userId, widget.getSubscribed));
+    _pagingController.addPageRequestListener((page) {
+      if (page > 1) {
+        _bloc.getAtlasUsers(page, widget.userId, widget.getSubscribed);
+      }
+    });
     _searchTextController.addListener(_listenKeywordChange);
     _scrollController.addListener(_listenScrollView);
   }
