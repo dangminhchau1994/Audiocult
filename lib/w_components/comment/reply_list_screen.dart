@@ -48,7 +48,7 @@ class _ReplyListScreenState extends State<ReplyListScreen> {
       case CommentType.album:
         return 'music_album';
       case CommentType.playlist:
-        return 'advanced_music_playlist';
+        return 'advancedmusic_playlist';
       case CommentType.song:
         return 'music_song';
       case CommentType.event:
