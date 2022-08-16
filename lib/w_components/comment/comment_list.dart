@@ -6,6 +6,7 @@ import 'package:audio_cult/w_components/comment/comment_args.dart';
 import 'package:audio_cult/w_components/comment/comment_item.dart';
 import 'package:audio_cult/w_components/comment/comment_list_bloc.dart';
 import 'package:audio_cult/w_components/comment/reply_item.dart';
+import 'package:audio_cult/w_components/dialogs/report_dialog.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -92,15 +93,13 @@ class CommentList extends StatelessWidget {
                               },
                               child: CommentItem(
                                 data: item,
-                                reportType: commentArgs?.reportType,
-                                itemId: commentArgs?.itemId,
                                 onReply: (data) {
                                   Navigator.pushNamed(
                                     context,
                                     AppRoute.routeReplyListScreen,
                                     arguments: CommentArgs(
                                       data: data,
-                                      reportType: commentArgs?.reportType,
+                                      reportType: ReportType.comment,
                                       commentType: commentArgs?.commentType,
                                       itemId: commentArgs?.itemId,
                                     ),

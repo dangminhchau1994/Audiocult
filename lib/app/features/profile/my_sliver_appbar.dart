@@ -293,9 +293,6 @@ class _MySliverAppBarState extends State<MySliverAppBar> {
                   )
                 else
                   const SizedBox.shrink(),
-                const SizedBox(
-                  width: 16,
-                ),
                 if (widget.profile?.userId != locator.get<PrefProvider>().currentUserId)
                   WButtonInkwell(
                     onPressed: () {},

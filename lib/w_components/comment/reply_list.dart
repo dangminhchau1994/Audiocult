@@ -53,8 +53,6 @@ class ReplyList extends StatelessWidget {
               ),
               header: CommentItem(
                 data: commentArgs!.data,
-                reportType: commentArgs?.reportType,
-                itemId: commentArgs?.itemId,
                 onReply: (data) {
                   onFocus!();
                 },
@@ -96,8 +94,6 @@ class ReplyList extends StatelessWidget {
                                 },
                                 child: CommentItem(
                                   data: item,
-                                  reportType: commentArgs?.reportType,
-                                  itemId: int.parse(item.commentId ?? ''),
                                   onReply: (data) {
                                     onFocus!();
                                   },

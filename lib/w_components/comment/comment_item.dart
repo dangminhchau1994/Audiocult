@@ -21,13 +21,9 @@ class CommentItem extends StatefulWidget {
     Key? key,
     this.data,
     this.onReply,
-    this.reportType,
-    this.itemId,
   }) : super(key: key);
 
   final CommentResponse? data;
-  final ReportType? reportType;
-  final int? itemId;
   final Function(CommentResponse data)? onReply;
 
   @override
@@ -157,8 +153,8 @@ class _CommentItemState extends State<CommentItem> {
                                 ),
                                 content: Builder(
                                   builder: (context) => ReportDialog(
-                                    type: widget.reportType,
-                                    itemId: widget.itemId,
+                                    type: ReportType.comment,
+                                    itemId: int.parse(widget.data?.commentId ?? ''),
                                   ),
                                 ),
                               ),

@@ -44,7 +44,6 @@ class FeedItemInteraction extends StatelessWidget {
                   arguments: CommentArgs(
                     itemId: int.parse(data?.feedId ?? ''),
                     title: 'Comments',
-                    reportType: ReportType.feed,
                     commentType: CommentType.home,
                     data: null,
                   ),
