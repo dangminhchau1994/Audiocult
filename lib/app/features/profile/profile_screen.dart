@@ -40,6 +40,9 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
       vsync: this,
     );
     _profileBloc?.requestData(params: ProfileRequest(userId: widget.params['userId'] as String));
+    _profileBloc?.blockUserStream.listen((event) {
+      Navigator.pop(context);
+    });
   }
 
   @override
@@ -63,12 +66,16 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
                     physics: const ClampingScrollPhysics(),
                     slivers: [
                       MySliverAppBar(
-                          controller: _scrollController,
-                          tabController: _tabController,
-                          profile: data,
-                          onPicKImage: (value) {
-                            _profileBloc?.uploadAvatar(value);
-                          }),
+                        controller: _scrollController,
+                        tabController: _tabController,
+                        profile: data,
+                        onPicKImage: (value) {
+                          _profileBloc?.uploadAvatar(value);
+                        },
+                        onBlockUser: () {
+                          _profileBloc?.blockUser(int.parse(widget.params['userId'] as String));
+                        },
+                      ),
                       SliverFillRemaining(
                         child: TabBarView(
                           controller: _tabController,

@@ -428,6 +428,20 @@ class AppServiceProvider {
     );
   }
 
+  Future<List<CommentResponse>> blockUser(int userId) async {
+    final response = await _dioHelper.delete(
+      route: '/restful_api/user/block-user',
+      options: Options(headers: {'Content-Type': 'application/x-www-form-urlencoded'}),
+      requestBody: {
+        'user_id': userId,
+      },
+      responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
+    );
+    return response.mapData(
+      (json) => asType<List<dynamic>>(json)?.map((e) => CommentResponse.fromJson(e as Map<String, dynamic>)).toList(),
+    );
+  }
+
   Future<List<Song>> getSongsByAlbumId(int albumId, int page, int limit) async {
     final response = await _dioHelper.get(
       route: '/restful_api/song',

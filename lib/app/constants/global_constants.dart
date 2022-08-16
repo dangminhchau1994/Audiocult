@@ -192,6 +192,28 @@ class GlobalConstants {
     ];
   }
 
+  static List<PopupMenuEntry<int>> menuProfile(BuildContext context) {
+    return [
+      PopupMenuItem<int>(
+        value: 0,
+        child: Row(
+          children: [
+            const Icon(
+              Icons.block,
+              color: Colors.grey,
+            ),
+            const SizedBox(
+              width: 10,
+            ),
+            Text(
+              context.l10n.t_block_user,
+            )
+          ],
+        ),
+      ),
+    ];
+  }
+
   static List<PopupMenuEntry<int>> menuDetail(BuildContext context) {
     return [
       PopupMenuItem<int>(

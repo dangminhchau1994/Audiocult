@@ -14,7 +14,9 @@ import 'package:provider/provider.dart';
 import 'package:sliver_header_delegate/sliver_header_delegate.dart';
 
 import '../../../w_components/dialogs/app_dialog.dart';
+import '../../../w_components/menus/common_popup_menu.dart';
 import '../../base/pair.dart';
+import '../../constants/global_constants.dart';
 import '../../data_source/models/responses/atlas_user.dart';
 import '../../data_source/models/responses/profile_data.dart';
 import '../../utils/constants/app_colors.dart';
@@ -26,8 +28,15 @@ class MySliverAppBar extends StatefulWidget {
   final TabController? tabController;
   final ProfileData? profile;
   final Function(XFile image)? onPicKImage;
-  const MySliverAppBar({Key? key, this.controller, this.tabController, this.profile, this.onPicKImage})
-      : super(key: key);
+  final Function()? onBlockUser;
+  const MySliverAppBar({
+    Key? key,
+    this.controller,
+    this.tabController,
+    this.profile,
+    this.onPicKImage,
+    this.onBlockUser,
+  }) : super(key: key);
 
   @override
   State<MySliverAppBar> createState() => _MySliverAppBarState();
@@ -281,7 +290,43 @@ class _MySliverAppBarState extends State<MySliverAppBar> {
                     width: 169,
                     color: AppColors.inputFillColor,
                     onTap: () {},
-                  )
+                  ),
+                const SizedBox(
+                  width: 16,
+                ),
+                if (widget.profile?.userId != locator.get<PrefProvider>().currentUserId)
+                  WButtonInkwell(
+                      onPressed: () {},
+                      child: Container(
+                        height: 54,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          color: AppColors.inputFillColor,
+                        ),
+                        child: CommonPopupMenu(
+                          icon: SvgPicture.asset(
+                            AppAssets.verticalIcon,
+                            width: 24,
+                            height: 24,
+                          ),
+                          items: GlobalConstants.menuProfile(context),
+                          onSelected: (selected) {
+                            switch (selected) {
+                              case 0:
+                                widget.onBlockUser!();
+                                break;
+                              case 1:
+                                break;
+                              case 2:
+                                break;
+                              default:
+                            }
+                          },
+                        ),
+                      ),
+                    )
+                else
+                  const SizedBox()
               ],
             ),
           ),

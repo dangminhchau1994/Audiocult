@@ -15,6 +15,7 @@
     "t_share": "Share",
     "t_song_detail": "Song Details",
     "t_remember_me":"Remember me",
+    "t_block_user":"Block this user",
     "t_report":"Report",
     "t_choose_one":"Choose one...",
     "t_comment_optional":"A comment? (optional):",

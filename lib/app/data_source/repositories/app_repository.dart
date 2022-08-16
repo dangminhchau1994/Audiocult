@@ -110,6 +110,12 @@ class AppRepository extends BaseRepository {
     );
   }
 
+  Future<Either<List<CommentResponse>, Exception>> blockUser(int userId) {
+    return safeCall(
+      () => appServiceProvider.blockUser(userId),
+    );
+  }
+
   Future<Either<List<Song>, Exception>> getSongByPlaylistId(
     int playlistId,
     int page,

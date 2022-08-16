@@ -1,4 +1,5 @@
 import 'package:audio_cult/app/base/base_bloc.dart';
+import 'package:audio_cult/app/data_source/models/responses/comment/comment_response.dart';
 import 'package:audio_cult/app/features/atlas/subscribe_user_bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:image_picker/image_picker.dart';
@@ -16,6 +17,9 @@ class ProfileBloc extends BaseBloc<ProfileRequest, ProfileData> {
   final _getListSubscriptionsSubject = PublishSubject<BlocState<List<ProfileData>>>();
   final _uploadAvatarSubject = PublishSubject<String>();
   final _subscribeSubject = PublishSubject<int>();
+  final _blocUserSubject = PublishSubject<BlocState<List<CommentResponse>>>();
+
+  Stream<BlocState<List<CommentResponse>>> get blockUserStream => _blocUserSubject.stream;
   Stream<BlocState<List<ProfileData>>> get getListSubscriptionsStream => _getListSubscriptionsSubject.stream;
   Stream<String> get uploadAvatarStream => _uploadAvatarSubject.stream;
   Stream<int> get subscribeStream => _subscribeSubject.stream;
@@ -29,6 +33,20 @@ class ProfileBloc extends BaseBloc<ProfileRequest, ProfileData> {
   Future<Either<ProfileData, Exception>> loadData(ProfileRequest? params) async {
     final result = await _appRepository.getUserProfile(params?.userId);
     return result;
+  }
+
+  void blockUser(int userId) async {
+    showOverLayLoading();
+
+    await Future.delayed(const Duration(milliseconds: 1000));
+    final result = await _appRepository.blockUser(userId);
+    hideOverlayLoading();
+
+    result.fold((l) {
+      _blocUserSubject.sink.add(BlocState.success(l));
+    }, (r) {
+      _blocUserSubject.sink.add(BlocState.error(r.toString()));
+    });
   }
 
   void subscribeUser(AtlasUser user) async {
