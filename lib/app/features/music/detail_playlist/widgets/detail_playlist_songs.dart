@@ -1,15 +1,15 @@
 import 'package:audio_cult/app/constants/global_constants.dart';
 import 'package:audio_cult/app/features/music/detail_playlist/detail_playlist_bloc.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
-import 'package:audio_cult/l10n/l10n.dart';
 import 'package:audio_cult/w_components/buttons/w_button_inkwell.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-
 import '../../../../../w_components/comment/comment_args.dart';
 import '../../../../../w_components/comment/comment_list_screen.dart';
+import '../../../../../w_components/dialogs/report_dialog.dart';
 import '../../../../../w_components/error_empty/error_section.dart';
 import '../../../../../w_components/loading/loading_widget.dart';
+import '../../../../../w_components/menus/common_popup_menu.dart';
 import '../../../../../w_components/reactions/common_reaction.dart';
 import '../../../../base/bloc_state.dart';
 import '../../../../data_source/models/responses/song/song_response.dart';
@@ -148,18 +148,57 @@ class _DetailPlayListSongsState extends State<DetailPlayListSongs> {
                       ),
                     ),
                     const SizedBox(
-                      width: 10,
+                      width: 12,
                     ),
-                    // Container(
-                    //   decoration: BoxDecoration(
-                    //     borderRadius: BorderRadius.circular(20),
-                    //     color: AppColors.secondaryButtonColor,
-                    //   ),
-                    //   padding: const EdgeInsets.all(12),
-                    //   child: Center(
-                    //     child: SvgPicture.asset(AppAssets.shareIcon),
-                    //   ),
-                    // )
+                    WButtonInkwell(
+                      onPressed: () {},
+                      child: Container(
+                        height: 54,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          color: AppColors.secondaryButtonColor,
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 6),
+                          child: CommonPopupMenu(
+                            icon: SvgPicture.asset(
+                              AppAssets.verticalIcon,
+                              width: 24,
+                              height: 24,
+                            ),
+                            items: GlobalConstants.menuDetail(context),
+                            onSelected: (selected) {
+                              switch (selected) {
+                                case 0:
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) => AlertDialog(
+                                      insetPadding: EdgeInsets.zero,
+                                      contentPadding: EdgeInsets.zero,
+                                      clipBehavior: Clip.antiAliasWithSaveLayer,
+                                      shape: const RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.all(Radius.circular(16)),
+                                      ),
+                                      content: Builder(
+                                        builder: (context) => ReportDialog(
+                                          type: ReportType.playlist,
+                                          itemId: int.parse(widget.playListId ?? ''),
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                  break;
+                                case 1:
+                                  break;
+                                case 2:
+                                  break;
+                                default:
+                              }
+                            },
+                          ),
+                        ),
+                      ),
+                    )
                   ],
                 ),
                 _buildPlayCount(widget.totalViews ?? '', context)

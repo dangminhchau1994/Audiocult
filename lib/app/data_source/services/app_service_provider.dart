@@ -9,6 +9,7 @@ import 'package:audio_cult/app/data_source/models/requests/filter_users_request.
 import 'package:audio_cult/app/data_source/models/requests/my_diary_event_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/notification_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/register_request.dart';
+import 'package:audio_cult/app/data_source/models/requests/report_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/upload_photo_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/upload_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/upload_video_request.dart';
@@ -31,6 +32,7 @@ import 'package:audio_cult/app/data_source/models/responses/page_template_respon
 import 'package:audio_cult/app/data_source/models/responses/playlist/playlist_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/playlist/update_playlist_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/privacy_settings/privacy_settings_response.dart';
+import 'package:audio_cult/app/data_source/models/responses/reasons/reason_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/timezone/timezone_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/universal_search/universal_search_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/universal_search/universal_search_result_item.dart';
@@ -477,6 +479,30 @@ class AppServiceProvider {
     );
     return response.mapData(
       (json) => Song.fromJson(json as Map<String, dynamic>),
+    );
+  }
+
+  Future<List<ReasonResponse>> getReasons() async {
+    final response = await _dioHelper.get(
+      route: '/restful_api/report/reasons',
+      options: Options(headers: {'Content-Type': 'application/x-www-form-urlencoded'}),
+      responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
+    );
+    return response.mapData(
+      (json) => asType<List<dynamic>>(json)?.map((e) => ReasonResponse.fromJson(e as Map<String, dynamic>)).toList(),
+    );
+  }
+
+  Future<List<CommentResponse>> report(ReportRequest request) async {
+    final data = await request.toJson();
+    final response = await _dioHelper.post(
+      route: '/restful_api/report',
+      options: Options(headers: {'Content-Type': 'application/x-www-form-urlencoded'}),
+      requestBody: FormData.fromMap(data),
+      responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
+    );
+    return response.mapData(
+      (json) => asType<List<dynamic>>(json)?.map((e) => CommentResponse.fromJson(e as Map<String, dynamic>)).toList(),
     );
   }
 

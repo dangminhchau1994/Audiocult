@@ -11,6 +11,7 @@ import 'package:audio_cult/w_components/loading/loading_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
+import '../../../w_components/dialogs/report_dialog.dart';
 import '../../../w_components/loading/loading_widget.dart';
 import '../../constants/global_constants.dart';
 
@@ -82,6 +83,26 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
   void _deleteFeed(FeedResponse item, int index) {
     _homeBloc.deleteFeedItem(_pagingFeedController, index);
     _homeBloc.deleteFeed(int.parse(item.feedId ?? ''));
+  }
+
+  void _onReport(FeedResponse item) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        insetPadding: EdgeInsets.zero,
+        contentPadding: EdgeInsets.zero,
+        clipBehavior: Clip.antiAliasWithSaveLayer,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(16)),
+        ),
+        content: Builder(
+          builder: (context) => ReportDialog(
+            type: ReportType.feed,
+            itemId: int.parse(item.feedId ?? ''),
+          ),
+        ),
+      ),
+    );
   }
 
   @override
@@ -163,6 +184,9 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
                           itemBuilder: (context, item, index) {
                             return FeedItem(
                               data: item,
+                              onReport: () {
+                                _onReport(item);
+                              },
                               onEdit: () {
                                 _editFeed(item);
                               },

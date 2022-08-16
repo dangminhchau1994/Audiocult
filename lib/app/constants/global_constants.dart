@@ -14,6 +14,13 @@ class GlobalConstants {
   static const String commentMusic = 'comment_music_song';
   static const String commentEvent = 'comment_event';
   static const String commentAlbum = 'comment_music_album';
+  static const String reportComment = 'comment';
+  static const String reportVideo = 'v';
+  static const String reportPlaylist = 'advancedmusic_playlist';
+  static const String reportSong = 'music_song';
+  static const String reportAlbum = 'music_album';
+  static const String reportPhoto = 'photo';
+  static const String reportFeed = 'feed';
 
   static const int loadMoreItem = 10;
 
@@ -185,7 +192,67 @@ class GlobalConstants {
     ];
   }
 
-  static List<PopupMenuEntry<int>> menuFeedItem(BuildContext context) {
+  static List<PopupMenuEntry<int>> menuDetail(BuildContext context) {
+    return [
+      PopupMenuItem<int>(
+        value: 0,
+        child: Row(
+          children: [
+            const Icon(
+              Icons.flag,
+              color: Colors.grey,
+            ),
+            const SizedBox(
+              width: 10,
+            ),
+            Text(
+              context.l10n.t_report,
+            )
+          ],
+        ),
+      ),
+      // PopupMenuItem<int>(
+      //   value: 0,
+      //   child: Row(
+      //     children: [
+      //       const Icon(
+      //         Icons.edit,
+      //       ),
+      //       const SizedBox(
+      //         width: 10,
+      //       ),
+      //       Text(
+      //         context.l10n.t_edit,
+      //       )
+      //     ],
+      //   ),
+      // ),
+    ];
+  }
+
+  static List<PopupMenuEntry<int>> menuFeedSubcriberItem(BuildContext context) {
+    return [
+      PopupMenuItem<int>(
+        value: 0,
+        child: Row(
+          children: [
+            const Icon(
+              Icons.flag,
+              color: Colors.grey,
+            ),
+            const SizedBox(
+              width: 10,
+            ),
+            Text(
+              context.l10n.t_report,
+            )
+          ],
+        ),
+      ),
+    ];
+  }
+
+  static List<PopupMenuEntry<int>> menuFeedUserItem(BuildContext context) {
     return [
       PopupMenuItem<int>(
         value: 0,

@@ -55,10 +55,21 @@ class _FeaturedAlbumItemState extends State<FeaturedAlbumItem> {
       margin: const EdgeInsets.symmetric(vertical: 12),
       child: Column(
         children: [
-          CommonImageNetWork(
-            width: double.infinity,
-            height: 140,
-            imagePath: widget.album?.imagePath ?? '',
+          WButtonInkwell(
+            onPressed: () {
+              Navigator.pushNamed(
+                context,
+                AppRoute.routeDetailAlbum,
+                arguments: {
+                  'album_id': widget.album?.albumId,
+                },
+              );
+            },
+            child: CommonImageNetWork(
+              width: double.infinity,
+              height: 140,
+              imagePath: widget.album?.imagePath ?? '',
+            ),
           ),
           const SizedBox(
             height: 12,

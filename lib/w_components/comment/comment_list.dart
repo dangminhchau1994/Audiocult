@@ -92,12 +92,15 @@ class CommentList extends StatelessWidget {
                               },
                               child: CommentItem(
                                 data: item,
+                                reportType: commentArgs?.reportType,
+                                itemId: commentArgs?.itemId,
                                 onReply: (data) {
                                   Navigator.pushNamed(
                                     context,
                                     AppRoute.routeReplyListScreen,
                                     arguments: CommentArgs(
                                       data: data,
+                                      reportType: commentArgs?.reportType,
                                       commentType: commentArgs?.commentType,
                                       itemId: commentArgs?.itemId,
                                     ),

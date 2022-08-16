@@ -1,5 +1,4 @@
 import 'package:audio_cult/app/data_source/models/responses/song/song_response.dart';
-import 'package:audio_cult/app/data_source/models/responses/song_detail/song_detail_response.dart';
 import 'package:audio_cult/app/features/music/detail-song/widgets/detail_description_label.dart';
 import 'package:audio_cult/app/utils/constants/app_assets.dart';
 import 'package:audio_cult/app/utils/constants/app_dimens.dart';
@@ -10,9 +9,11 @@ import 'package:audio_cult/w_components/reactions/common_reaction.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:readmore/readmore.dart';
-
 import '../../../../../w_components/comment/comment_args.dart';
 import '../../../../../w_components/comment/comment_list_screen.dart';
+import '../../../../../w_components/dialogs/report_dialog.dart';
+import '../../../../../w_components/menus/common_popup_menu.dart';
+import '../../../../constants/global_constants.dart';
 import '../../../../utils/constants/app_colors.dart';
 import '../../../../utils/route/app_route.dart';
 import '../../../profile/profile_screen.dart';
@@ -200,6 +201,58 @@ class DetailSongDescription extends StatelessWidget {
                         SvgPicture.asset(AppAssets.commentIcon),
                         data?.totalComment ?? '',
                         context,
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 12,
+                    ),
+                    WButtonInkwell(
+                      onPressed: () {},
+                      child: Container(
+                        height: 54,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          color: AppColors.secondaryButtonColor,
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 6),
+                          child: CommonPopupMenu(
+                            icon: SvgPicture.asset(
+                              AppAssets.verticalIcon,
+                              width: 24,
+                              height: 24,
+                            ),
+                            items: GlobalConstants.menuDetail(context),
+                            onSelected: (selected) {
+                              switch (selected) {
+                                case 0:
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) => AlertDialog(
+                                      insetPadding: EdgeInsets.zero,
+                                      contentPadding: EdgeInsets.zero,
+                                      clipBehavior: Clip.antiAliasWithSaveLayer,
+                                      shape: const RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.all(Radius.circular(16)),
+                                      ),
+                                      content: Builder(
+                                        builder: (context) => ReportDialog(
+                                          type: ReportType.song,
+                                          itemId: int.parse(data?.songId ?? ''),
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                  break;
+                                case 1:
+                                  break;
+                                case 2:
+                                  break;
+                                default:
+                              }
+                            },
+                          ),
+                        ),
                       ),
                     )
                   ],

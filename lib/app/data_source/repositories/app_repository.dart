@@ -9,6 +9,7 @@ import 'package:audio_cult/app/data_source/models/requests/filter_users_request.
 import 'package:audio_cult/app/data_source/models/requests/my_diary_event_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/notification_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/register_request.dart';
+import 'package:audio_cult/app/data_source/models/requests/report_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/upload_photo_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/upload_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/upload_video_request.dart';
@@ -35,6 +36,7 @@ import 'package:audio_cult/app/data_source/models/responses/post_reaction/post_r
 import 'package:audio_cult/app/data_source/models/responses/privacy_settings/privacy_settings_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/profile_data.dart';
 import 'package:audio_cult/app/data_source/models/responses/reaction_icon/reaction_icon_response.dart';
+import 'package:audio_cult/app/data_source/models/responses/reasons/reason_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/timezone/timezone_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/universal_search/universal_search_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/universal_search/universal_search_result_item.dart';
@@ -176,6 +178,14 @@ class AppRepository extends BaseRepository {
     return safeCall(
       appServiceProvider.getSongOfDay,
     );
+  }
+
+  Future<Either<List<ReasonResponse>, Exception>> getReasons() {
+    return safeCall(appServiceProvider.getReasons);
+  }
+
+  Future<Either<List<CommentResponse>, Exception>> report(ReportRequest request) {
+    return safeCall(() => appServiceProvider.report(request));
   }
 
   Future<Either<List<DeletePlayListResponse>, Exception>> deleteFeed(int id) {

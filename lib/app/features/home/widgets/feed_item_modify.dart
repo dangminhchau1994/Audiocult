@@ -13,11 +13,13 @@ class FeedItemModify extends StatelessWidget {
     Key? key,
     this.onDelete,
     this.onEdit,
+    this.onReport,
     this.item,
   }) : super(key: key);
 
   final Function()? onDelete;
   final Function()? onEdit;
+  final Function()? onReport;
   final FeedResponse? item;
 
   @override
@@ -25,29 +27,28 @@ class FeedItemModify extends StatelessWidget {
     return Positioned(
       top: 0,
       right: 0,
-      child: Visibility(
-        visible: locator<PrefProvider>().currentUserId == item?.userId,
-        child: CommonPopupMenu(
-          icon: SvgPicture.asset(
-            AppAssets.verticalIcon,
-            width: 28,
-            height: 28,
-          ),
-          items: GlobalConstants.menuFeedItem(context),
-          onSelected: (selected) {
-            switch (selected) {
-              case 0:
-                onEdit!();
-                break;
-              case 1:
-                onDelete!();
-                break;
-              case 2:
-                break;
-              default:
-            }
-          },
+      child: CommonPopupMenu(
+        icon: SvgPicture.asset(
+          AppAssets.verticalIcon,
+          width: 28,
+          height: 28,
         ),
+        items: locator<PrefProvider>().currentUserId == item?.userId
+            ? GlobalConstants.menuFeedUserItem(context)
+            : GlobalConstants.menuFeedSubcriberItem(context),
+        onSelected: (selected) {
+          switch (selected) {
+            case 0:
+              locator<PrefProvider>().currentUserId == item?.userId ? onEdit!() : onReport!();
+              break;
+            case 1:
+              onDelete!();
+              break;
+            case 2:
+              break;
+            default:
+          }
+        },
       ),
     );
   }

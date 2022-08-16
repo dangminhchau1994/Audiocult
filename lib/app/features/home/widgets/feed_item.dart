@@ -5,6 +5,7 @@ import 'package:audio_cult/app/features/home/widgets/feed_item_modify.dart';
 import 'package:audio_cult/app/features/home/widgets/feed_item_user_info.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
 import 'package:audio_cult/l10n/l10n.dart';
+import 'package:audio_cult/w_components/dialogs/report_dialog.dart';
 import 'package:audio_cult/w_components/textfields/common_input.dart';
 import 'package:flutter/material.dart';
 import '../../../../w_components/comment/comment_args.dart';
@@ -17,18 +18,19 @@ class FeedItem extends StatefulWidget {
     this.data,
     this.onDelete,
     this.onEdit,
+    this.onReport,
   }) : super(key: key);
 
   final FeedResponse? data;
   final Function()? onDelete;
   final Function()? onEdit;
+  final Function()? onReport;
 
   @override
   State<FeedItem> createState() => _FeedItemState();
 }
 
 class _FeedItemState extends State<FeedItem> {
-
   @override
   void initState() {
     super.initState();
@@ -77,6 +79,7 @@ class _FeedItemState extends State<FeedItem> {
                       itemId: int.parse(widget.data?.feedId ?? ''),
                       title: 'Comments',
                       commentType: CommentType.home,
+                      reportType: ReportType.feed,
                       data: null,
                     ),
                   );
@@ -89,6 +92,7 @@ class _FeedItemState extends State<FeedItem> {
           item: widget.data,
           onDelete: widget.onDelete,
           onEdit: widget.onEdit,
+          onReport: widget.onReport,
         ),
       ],
     );

@@ -1,16 +1,16 @@
-import 'package:audio_cult/app/base/bloc_state.dart';
 import 'package:audio_cult/app/data_source/models/responses/comment/comment_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/reaction_icon/reaction_icon_response.dart';
 import 'package:audio_cult/app/injections.dart';
 import 'package:audio_cult/app/utils/datetime/date_time_utils.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
+import 'package:audio_cult/l10n/l10n.dart';
+import 'package:audio_cult/w_components/buttons/w_button_inkwell.dart';
 import 'package:audio_cult/w_components/comment/comment_item_bloc.dart';
-import 'package:audio_cult/w_components/error_empty/error_section.dart';
+import 'package:audio_cult/w_components/dialogs/report_dialog.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_reaction_button/flutter_reaction_button.dart';
 import 'package:flutter_svg/svg.dart';
-
 import '../../app/data_source/services/hive_service_provider.dart';
 import '../../app/features/profile/profile_screen.dart';
 import '../../app/utils/constants/app_colors.dart';
@@ -21,9 +21,13 @@ class CommentItem extends StatefulWidget {
     Key? key,
     this.data,
     this.onReply,
+    this.reportType,
+    this.itemId,
   }) : super(key: key);
 
   final CommentResponse? data;
+  final ReportType? reportType;
+  final int? itemId;
   final Function(CommentResponse data)? onReply;
 
   @override
@@ -140,17 +144,38 @@ class _CommentItemState extends State<CommentItem> {
                   children: [
                     Row(
                       children: [
-                        Text(
-                          DateTimeUtils.convertToAgo(int.parse(widget.data?.timeStamp ?? '')),
-                          style: context.bodyTextPrimaryStyle()!.copyWith(
-                                color: AppColors.subTitleColor,
+                        WButtonInkwell(
+                          onPressed: () {
+                            showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                insetPadding: EdgeInsets.zero,
+                                contentPadding: EdgeInsets.zero,
+                                clipBehavior: Clip.antiAliasWithSaveLayer,
+                                shape: const RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(16)),
+                                ),
+                                content: Builder(
+                                  builder: (context) => ReportDialog(
+                                    type: widget.reportType,
+                                    itemId: widget.itemId,
+                                  ),
+                                ),
                               ),
+                            );
+                          },
+                          child: Text(
+                            context.l10n.t_report,
+                            style: context.bodyTextPrimaryStyle()!.copyWith(
+                                  color: Colors.lightBlue,
+                                ),
+                          ),
                         ),
                         const SizedBox(
                           width: 18,
                         ),
-                        GestureDetector(
-                          onTap: () {
+                        WButtonInkwell(
+                          onPressed: () {
                             widget.onReply!(widget.data!);
                           },
                           child: Text(
@@ -159,6 +184,15 @@ class _CommentItemState extends State<CommentItem> {
                                   color: Colors.lightBlue,
                                 ),
                           ),
+                        ),
+                        const SizedBox(
+                          width: 18,
+                        ),
+                        Text(
+                          DateTimeUtils.convertToAgo(int.parse(widget.data?.timeStamp ?? '')),
+                          style: context.bodyTextPrimaryStyle()!.copyWith(
+                                color: AppColors.subTitleColor,
+                              ),
                         ),
                       ],
                     ),

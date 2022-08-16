@@ -5,16 +5,16 @@ import 'package:audio_cult/w_components/buttons/w_button_inkwell.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:readmore/readmore.dart';
-
 import '../../../../../w_components/comment/comment_args.dart';
 import '../../../../../w_components/comment/comment_list_screen.dart';
+import '../../../../../w_components/dialogs/report_dialog.dart';
+import '../../../../../w_components/menus/common_popup_menu.dart';
 import '../../../../../w_components/reactions/common_reaction.dart';
+import '../../../../constants/global_constants.dart';
 import '../../../../utils/constants/app_assets.dart';
 import '../../../../utils/constants/app_colors.dart';
 import '../../../../utils/constants/app_dimens.dart';
 import '../../../../utils/route/app_route.dart';
-import '../../../../utils/toast/toast_utils.dart';
-import '../../detail-song/widgets/detail_description_label.dart';
 
 class DetailAlbumDescription extends StatelessWidget {
   final Album? data;
@@ -108,23 +108,57 @@ class DetailAlbumDescription extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(
-                      width: 10,
+                      width: 12,
                     ),
-                    // WButtonInkwell(
-                    //   onPressed: () {
-                    //     ToastUtility.showPending(context: context, message: context.l10n.t_feature_development);
-                    //   },
-                    //   child: Container(
-                    //     decoration: BoxDecoration(
-                    //       borderRadius: BorderRadius.circular(20),
-                    //       color: AppColors.secondaryButtonColor,
-                    //     ),
-                    //     padding: const EdgeInsets.all(12),
-                    //     child: Center(
-                    //       child: SvgPicture.asset(AppAssets.shareIcon),
-                    //     ),
-                    //   ),
-                    // )
+                    WButtonInkwell(
+                      onPressed: () {},
+                      child: Container(
+                        height: 54,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          color: AppColors.secondaryButtonColor,
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 6),
+                          child: CommonPopupMenu(
+                            icon: SvgPicture.asset(
+                              AppAssets.verticalIcon,
+                              width: 24,
+                              height: 24,
+                            ),
+                            items: GlobalConstants.menuDetail(context),
+                            onSelected: (selected) {
+                              switch (selected) {
+                                case 0:
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) => AlertDialog(
+                                      insetPadding: EdgeInsets.zero,
+                                      contentPadding: EdgeInsets.zero,
+                                      clipBehavior: Clip.antiAliasWithSaveLayer,
+                                      shape: const RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.all(Radius.circular(16)),
+                                      ),
+                                      content: Builder(
+                                        builder: (context) => ReportDialog(
+                                          type: ReportType.album,
+                                          itemId: int.parse(data?.albumId ?? ''),
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                  break;
+                                case 1:
+                                  break;
+                                case 2:
+                                  break;
+                                default:
+                              }
+                            },
+                          ),
+                        ),
+                      ),
+                    )
                   ],
                 ),
                 _buildPlayCount(data?.totalPlay ?? '', context)
