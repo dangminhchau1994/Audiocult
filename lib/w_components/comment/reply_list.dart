@@ -63,7 +63,7 @@ class ReplyList extends StatelessWidget {
               expanded: LoadingBuilder<ReplyListBloc, List<CommentResponse>>(
                 builder: (data, _) {
                   //only first page
-                  final isLastPage = data.length == GlobalConstants.loadMoreItem - 1;
+                  final isLastPage = data.length <= GlobalConstants.loadMoreItem - 1;
                   pagingController?.refresh();
                   if (isLastPage) {
                     pagingController!.appendLastPage(data);

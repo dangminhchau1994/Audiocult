@@ -86,7 +86,7 @@ class _CalendarEventListState extends State<CalendarEventList> {
           },
           builder: (data, _) {
             //only first page
-            final isLastPage = data.length == GlobalConstants.loadMoreItem - 1;
+            final isLastPage = data.length <= GlobalConstants.loadMoreItem - 1;
             if (isLastPage) {
               widget.pagingController?.appendLastPage(data);
             } else {

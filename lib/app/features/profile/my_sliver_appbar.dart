@@ -222,11 +222,21 @@ class _MySliverAppBarState extends State<MySliverAppBar> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text('${widget.profile?.totalSubscribers ?? 0} subscribers'),
+                GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(context, AppRoute.routeSubscriptions,
+                          arguments: {'user_id': widget.profile?.userId});
+                    },
+                    child: Text('${widget.profile?.totalSubscribers ?? 0} subscribers')),
                 const SizedBox(
                   width: kHorizontalSpacing,
                 ),
-                Text('${widget.profile?.totalSubscriptions ?? 0} subscribed'),
+                GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(context, AppRoute.routeSubscriptions,
+                          arguments: {'user_id': widget.profile?.userId, 'get_subscribed': '1'});
+                    },
+                    child: Text('${widget.profile?.totalSubscriptions ?? 0} subscribed')),
               ],
             ),
           ),
@@ -282,49 +292,41 @@ class _MySliverAppBarState extends State<MySliverAppBar> {
                     },
                   )
                 else
-                  CommonIconButton(
-                    icon: SvgPicture.asset(
-                      AppAssets.messageIcon,
-                    ),
-                    text: context.l10n.t_message,
-                    width: 169,
-                    color: AppColors.inputFillColor,
-                    onTap: () {},
-                  ),
+                  const SizedBox.shrink(),
                 const SizedBox(
                   width: 16,
                 ),
                 if (widget.profile?.userId != locator.get<PrefProvider>().currentUserId)
                   WButtonInkwell(
-                      onPressed: () {},
-                      child: Container(
-                        height: 54,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          color: AppColors.inputFillColor,
-                        ),
-                        child: CommonPopupMenu(
-                          icon: SvgPicture.asset(
-                            AppAssets.verticalIcon,
-                            width: 24,
-                            height: 24,
-                          ),
-                          items: GlobalConstants.menuProfile(context),
-                          onSelected: (selected) {
-                            switch (selected) {
-                              case 0:
-                                widget.onBlockUser!();
-                                break;
-                              case 1:
-                                break;
-                              case 2:
-                                break;
-                              default:
-                            }
-                          },
-                        ),
+                    onPressed: () {},
+                    child: Container(
+                      height: 54,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: AppColors.inputFillColor,
                       ),
-                    )
+                      child: CommonPopupMenu(
+                        icon: SvgPicture.asset(
+                          AppAssets.verticalIcon,
+                          width: 24,
+                          height: 24,
+                        ),
+                        items: GlobalConstants.menuProfile(context),
+                        onSelected: (selected) {
+                          switch (selected) {
+                            case 0:
+                              widget.onBlockUser!();
+                              break;
+                            case 1:
+                              break;
+                            case 2:
+                              break;
+                            default:
+                          }
+                        },
+                      ),
+                    ),
+                  )
                 else
                   const SizedBox()
               ],
