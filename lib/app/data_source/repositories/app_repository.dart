@@ -37,6 +37,7 @@ import 'package:audio_cult/app/data_source/models/responses/privacy_settings/pri
 import 'package:audio_cult/app/data_source/models/responses/profile_data.dart';
 import 'package:audio_cult/app/data_source/models/responses/reaction_icon/reaction_icon_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/reasons/reason_response.dart';
+import 'package:audio_cult/app/data_source/models/responses/terms/terms_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/timezone/timezone_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/universal_search/universal_search_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/universal_search/universal_search_result_item.dart';
@@ -203,6 +204,12 @@ class AppRepository extends BaseRepository {
   Future<Either<EventResponse, Exception>> getEventDetail(int id) {
     return safeCall(
       () => appServiceProvider.getEventDetail(id),
+    );
+  }
+
+  Future<Either<TermsResponse, Exception>> getTerms(String titleUrl) {
+    return safeCall(
+      () => appServiceProvider.getTerms(titleUrl),
     );
   }
 

@@ -58,6 +58,7 @@ import '../models/responses/post_reaction/post_reaction.dart';
 import '../models/responses/profile_data.dart';
 import '../models/responses/register_response.dart';
 import '../models/responses/song/song_response.dart';
+import '../models/responses/terms/terms_response.dart';
 import '../models/responses/user_group.dart';
 import '../networks/core/dio_helper.dart';
 import '../networks/core/handler/app_response_handler.dart';
@@ -278,6 +279,18 @@ class AppServiceProvider {
     return response.mapData(
       (json) =>
           asType<List<dynamic>>(json)?.map((e) => UploadPhotoResponse.fromJson(e as Map<String, dynamic>)).toList(),
+    );
+  }
+
+  Future<TermsResponse> getTerms(String titleUrl) async {
+    final response = await _dioHelper.get(
+      route: '/restful_api/page',
+      requestParams: {'title_url': titleUrl},
+      options: Options(headers: {'Content-Type': 'application/x-www-form-urlencoded'}),
+      responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
+    );
+    return response.mapData(
+      (json) => TermsResponse.fromJson(json as Map<String, dynamic>),
     );
   }
 

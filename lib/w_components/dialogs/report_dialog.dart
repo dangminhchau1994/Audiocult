@@ -5,12 +5,14 @@ import 'package:audio_cult/app/data_source/models/responses/reasons/reason_respo
 import 'package:audio_cult/app/injections.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
+import 'package:audio_cult/app/utils/route/app_route.dart';
 import 'package:audio_cult/app/utils/toast/toast_utils.dart';
 import 'package:audio_cult/l10n/l10n.dart';
 import 'package:audio_cult/w_components/buttons/common_button.dart';
 import 'package:audio_cult/w_components/dialogs/report_dialog_bloc.dart';
 import 'package:audio_cult/w_components/dropdown/common_dropdown.dart';
 import 'package:audio_cult/w_components/textfields/common_input.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 import '../../app/base/bloc_state.dart';
@@ -254,6 +256,10 @@ class _ReportDialogState extends State<ReportDialog> {
             ),
             TextSpan(
               text: context.l10n.t_tearm_of_use,
+              recognizer: TapGestureRecognizer()
+                ..onTap = () {
+                  Navigator.pushNamed(context, AppRoute.routeTerms);
+                },
               style: context.body2TextStyle()?.copyWith(color: AppColors.activeLabelItem, fontSize: 16),
             ),
           ],

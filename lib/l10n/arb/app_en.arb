@@ -15,6 +15,7 @@
     "t_full_name":"Full Name",
     "t_report":"Report",
     "t_block_user":"Block this user",
+    "t_terms":"Terms",
     "t_choose_one":"Choose one...",
     "t_report_violation":"You are about to report a violation of our",
     "t_tearm_of_use":"Terms of use",

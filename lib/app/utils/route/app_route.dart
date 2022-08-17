@@ -40,6 +40,7 @@ import 'package:audio_cult/app/features/profile/profile_screen.dart';
 import 'package:audio_cult/app/features/profile/subscriptions/subscriptions_screen.dart';
 import 'package:audio_cult/app/features/search_suggestion/search_suggestion_screen.dart';
 import 'package:audio_cult/app/features/settings/settings_screen.dart';
+import 'package:audio_cult/app/features/terms/terms_screen.dart';
 import 'package:audio_cult/app/features/universal_search/universal_search_screen.dart';
 import 'package:audio_cult/app/features/videos/video_player_screen.dart';
 import 'package:audio_cult/app/injections.dart';
@@ -109,6 +110,7 @@ class AppRoute {
   static const String routeSearchSuggestion = '/route_search_suggestion';
   static const String routeMyCart = '/route_my_cart';
   static const String routeEditFeed = '/route_edit_feed';
+  static const String routeTerms = '/route_terms';
 
   ///#end region
 
@@ -160,6 +162,11 @@ class AppRoute {
           EditFeedScreen(
             data: arguments['feed_response'] as FeedResponse,
           ),
+        );
+      case routeTerms:
+        return _pageRoute(
+          settings,
+          const TermsScreen(),
         );
 
       case routeNotification:
