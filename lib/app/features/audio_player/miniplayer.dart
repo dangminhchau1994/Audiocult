@@ -240,6 +240,7 @@ class ControlButtons extends StatelessWidget {
               builder: (context, snapshot) {
                 final queueState = snapshot.data;
                 return IconButton(
+                  disabledColor: AppColors.subTitleColor,
                   icon: const Icon(Icons.skip_previous_rounded),
                   iconSize: minelayer ? 24.0 : 45.0,
                   tooltip: 'Previous',
@@ -282,8 +283,7 @@ class ControlButtons extends StatelessWidget {
                                   icon: const Icon(
                                     Icons.pause_rounded,
                                   ),
-                                  color: Theme.of(context).iconTheme.color,
-                                )
+                                  color: AppColors.subTitleColor)
                               : IconButton(
                                   tooltip: 'Play',
                                   onPressed: audioHandler.play,
@@ -336,6 +336,7 @@ class ControlButtons extends StatelessWidget {
               builder: (context, snapshot) {
                 final queueState = snapshot.data;
                 return IconButton(
+                  disabledColor: AppColors.subTitleColor,
                   icon: const Icon(Icons.skip_next_rounded),
                   iconSize: minelayer ? 24.0 : 45.0,
                   tooltip: 'Skip',
