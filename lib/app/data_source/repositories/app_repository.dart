@@ -135,9 +135,9 @@ class AppRepository extends BaseRepository {
     );
   }
 
-  Future<Either<List<FeedResponse>, Exception>> getFeeds(int page, int limit, int lastFeedId) {
+  Future<Either<List<FeedResponse>, Exception>> getFeeds(int page, int limit, int lastFeedId, String? userId) {
     return safeCall(
-      () => appServiceProvider.getFeeds(page, limit, lastFeedId),
+      () => appServiceProvider.getFeeds(page, limit, lastFeedId,userId),
     );
   }
 

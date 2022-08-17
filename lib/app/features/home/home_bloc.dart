@@ -165,6 +165,7 @@ class HomeBloc extends BaseBloc<FeedRequest, List<FeedResponse>> {
       params?.page ?? 0,
       params?.limit ?? 0,
       params?.lastFeedId ?? 0,
+      params?.userId
     );
     return result;
   }

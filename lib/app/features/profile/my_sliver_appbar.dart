@@ -230,7 +230,7 @@ class _MySliverAppBarState extends State<MySliverAppBar> {
                     child: Text('${widget.profile?.totalSubscribers ?? 0} subscribers')),
                 const SizedBox(
                   width: kHorizontalSpacing,
-                ),
+              ),
                 GestureDetector(
                     onTap: () {
                       Navigator.pushNamed(context, AppRoute.routeSubscriptions, arguments: {
