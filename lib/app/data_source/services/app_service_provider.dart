@@ -1335,4 +1335,14 @@ class AppServiceProvider {
     );
     return response;
   }
+
+  Future<String?> getCount() async {
+    final token = await authentication();
+    final response = await _dioHelper.get(
+      route: '/restful_api/user/statistics',
+      options: Options(headers: {'Authorization': 'Bearer ${token.accessToken}'}),
+      responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
+    );
+    return response.data['total_user'].toString();
+  }
 }
