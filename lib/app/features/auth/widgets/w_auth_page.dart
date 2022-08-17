@@ -1,3 +1,5 @@
+import 'package:audio_cult/app/features/auth/w_auth_bloc.dart';
+import 'package:audio_cult/app/injections.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
 import 'package:audio_cult/app/utils/constants/app_dimens.dart';
 import 'package:audio_cult/app/utils/constants/app_font_sizes.dart';
@@ -19,6 +21,13 @@ class WAuthPage extends StatefulWidget {
 }
 
 class _WAuthPageState extends State<WAuthPage> {
+  final WAuthPageBloc _authPageBloc = WAuthPageBloc(locator.get(), locator.get());
+  @override
+  void initState() {
+    super.initState();
+    _authPageBloc.getCount();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -57,6 +66,19 @@ class _WAuthPageState extends State<WAuthPage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
+                      StreamBuilder<String?>(
+                          initialData: '...',
+                          stream: _authPageBloc.navigateMainStream,
+                          builder: (context, snapshot) {
+                            return Padding(
+                              padding: const EdgeInsets.symmetric(vertical: kVerticalSpacing),
+                              child: Text(
+                                '${snapshot.data ?? ' '}k+',
+                                style: context.body2TextStyle()?.copyWith(fontWeight: FontWeight.w300),
+                                textAlign: TextAlign.center,
+                              ),
+                            );
+                          }),
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: kVerticalSpacing),
                         child: Text(

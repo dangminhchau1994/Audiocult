@@ -128,13 +128,14 @@ class AppServiceProvider {
     );
   }
 
-  Future<List<FeedResponse>> getFeeds(int page, int limit, int lastFeedId) async {
+  Future<List<FeedResponse>> getFeeds(int page, int limit, int lastFeedId, String? userId) async {
     final response = await _dioHelper.get(
       route: '/restful_api/feed',
       options: Options(headers: {'Content-Type': 'application/x-www-form-urlencoded'}),
       requestParams: {
         'page': page,
         'limit': limit,
+        'user_id': userId,
         'last_feed_id': lastFeedId,
       },
       responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
@@ -1346,5 +1347,15 @@ class AppServiceProvider {
       responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
     );
     return response;
+  }
+
+  Future<String?> getCount() async {
+    final token = await authentication();
+    final response = await _dioHelper.get(
+      route: '/restful_api/user/statistics',
+      options: Options(headers: {'Authorization': 'Bearer ${token.accessToken}'}),
+      responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
+    );
+    return response.data['total_user'].toString();
   }
 }

@@ -361,6 +361,7 @@ class AppRoute {
             settings,
             SubscriptionsScreen(
               userId: arguments['user_id'] as String?,
+              title: arguments['title'] as String?,
               getSubscribed: arguments['get_subscribed'] != null ? arguments['get_subscribed'] as String? : null,
             ));
       case routeVideoPlayer:

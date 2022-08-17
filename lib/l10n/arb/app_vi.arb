@@ -5,7 +5,7 @@
         "description": "Text shown in the AppBar of the Counter Page"
     },
     "t_auth_page":"Welcome back\nto our community",
-    "t_auth_member_join":"2k+ music lovers joined us, now it’s your turn",
+    "t_auth_member_join":" music lovers joined us, now it’s your turn",
     "t_sign_up":"Sign Up",
     "t_sign_in":"Sign In",
     "t_email":"Email",

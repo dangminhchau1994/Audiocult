@@ -287,10 +287,7 @@ class _NameNControlsState extends State<NameNControls> {
                                         ? const Icon(
                                             Icons.shuffle_rounded,
                                           )
-                                        : Icon(
-                                            Icons.shuffle_rounded,
-                                            color: Theme.of(context).disabledColor,
-                                          ),
+                                        : Icon(Icons.shuffle_rounded, color: AppColors.subTitleColor),
                                     onPressed: () async {
                                       final enable = !shuffleModeEnabled;
                                       await widget.audioHandler.setShuffleMode(
@@ -315,10 +312,7 @@ class _NameNControlsState extends State<NameNControls> {
                                   final repeatMode = snapshot.data ?? AudioServiceRepeatMode.none;
                                   const texts = ['None', 'All', 'One'];
                                   final icons = [
-                                    Icon(
-                                      Icons.repeat_rounded,
-                                      color: Theme.of(context).disabledColor,
-                                    ),
+                                    Icon(Icons.repeat_rounded, color: AppColors.subTitleColor),
                                     const Icon(
                                       Icons.repeat_rounded,
                                     ),
