@@ -7,7 +7,8 @@ import 'package:flutter/material.dart';
 class SubscriptionsScreen extends StatefulWidget {
   final String? userId;
   final String? getSubscribed;
-  const SubscriptionsScreen({Key? key, this.userId, this.getSubscribed}) : super(key: key);
+  final String? title;
+  const SubscriptionsScreen({Key? key, this.userId, this.getSubscribed, this.title}) : super(key: key);
 
   @override
   State<SubscriptionsScreen> createState() => _SubscriptionsScreenState();
@@ -20,7 +21,7 @@ class _SubscriptionsScreenState extends State<SubscriptionsScreen> {
         backgroundColor: AppColors.mainColor,
         appBar: CommonAppBar(
           backgroundColor: AppColors.mainColor,
-          title: context.l10n.t_subscriptions,
+          title: widget.title ?? context.l10n.t_subscriptions,
         ),
         body: AtlasScreen(
           userId: widget.userId,

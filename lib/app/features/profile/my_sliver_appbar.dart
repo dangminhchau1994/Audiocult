@@ -225,7 +225,7 @@ class _MySliverAppBarState extends State<MySliverAppBar> {
                 GestureDetector(
                     onTap: () {
                       Navigator.pushNamed(context, AppRoute.routeSubscriptions,
-                          arguments: {'user_id': widget.profile?.userId});
+                          arguments: {'user_id': widget.profile?.userId, 'title': 'Subscribers'});
                     },
                     child: Text('${widget.profile?.totalSubscribers ?? 0} subscribers')),
                 const SizedBox(
@@ -233,8 +233,11 @@ class _MySliverAppBarState extends State<MySliverAppBar> {
                 ),
                 GestureDetector(
                     onTap: () {
-                      Navigator.pushNamed(context, AppRoute.routeSubscriptions,
-                          arguments: {'user_id': widget.profile?.userId, 'get_subscribed': '1'});
+                      Navigator.pushNamed(context, AppRoute.routeSubscriptions, arguments: {
+                        'title': 'Subscribed',
+                        'user_id': widget.profile?.userId,
+                        'get_subscribed': '1'
+                      });
                     },
                     child: Text('${widget.profile?.totalSubscriptions ?? 0} subscribed')),
               ],
