@@ -8,10 +8,12 @@ class FlavorValues {
   FlavorValues({
     @required this.mainUrl,
     @required this.placeUrl,
+    @required this.ticketUrl,
   });
 
   final String? mainUrl;
   final String? placeUrl;
+  final String? ticketUrl;
 }
 
 class FlavorConfig {

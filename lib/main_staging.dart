@@ -9,7 +9,10 @@ void main() {
     () => MyGlobal(
       flavorConfig: FlavorConfig(
         flavor: Flavor.staging,
-        values: FlavorValues(mainUrl: 'http://staging.audiocult.net', placeUrl: 'https://maps.googleapis.com'),
+        values: FlavorValues(
+            mainUrl: 'http://staging.audiocult.net',
+            placeUrl: 'https://maps.googleapis.com',
+            ticketUrl: 'http://tickets.staging.audiocult.net'),
       ),
       child: const App(),
     ),
