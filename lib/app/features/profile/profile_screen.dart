@@ -9,13 +9,10 @@ import 'package:audio_cult/app/features/profile/pages/post_page.dart';
 import 'package:audio_cult/app/features/profile/pages/videos_page.dart';
 import 'package:audio_cult/app/features/profile/profile_bloc.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
-import 'package:audio_cult/di/bloc_locator.dart';
 import 'package:audio_cult/w_components/loading/loading_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../constants/global_constants.dart';
-import '../../data_source/models/requests/feed_request.dart';
 import '../../data_source/models/responses/profile_data.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -50,10 +47,6 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
     });
   }
 
-  void _reloadApi() {
-    
-  }
-
   @override
   Widget build(BuildContext context) {
     return BlocHandle(
@@ -83,7 +76,6 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
                         },
                         onBlockUser: () {
                           _profileBloc?.blockUser(int.parse(widget.params['userId'] as String));
-                          _reloadApi();
                         },
                       ),
                       SliverFillRemaining(
