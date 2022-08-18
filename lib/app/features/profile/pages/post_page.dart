@@ -212,13 +212,7 @@ class _PostPageState extends State<PostPage> {
 
                   if (result != null) {
                     _pagingFeedController.refresh();
-                    _homeBloc.requestData(
-                      params: FeedRequest(
-                        page: 1,
-                        userId: widget.profile?.userId,
-                        limit: GlobalConstants.loadMoreItem,
-                      ),
-                    );
+                    await _fetchPage(1, 0);
                   }
                 },
                 child: Container(
