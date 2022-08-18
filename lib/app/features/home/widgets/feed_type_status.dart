@@ -45,7 +45,7 @@ class _FeedTypeStatusState extends State<FeedTypeStatus> {
   @override
   void dispose() {
     super.dispose();
-    _controller.dispose();
+    // _controller?.dispose();
   }
 
   @override

@@ -5,6 +5,7 @@ import 'package:audio_cult/app/data_source/models/notification_option.dart';
 import 'package:audio_cult/app/data_source/models/requests/create_event_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/create_playlist_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/create_post_request.dart';
+import 'package:audio_cult/app/data_source/models/requests/feed_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/filter_users_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/my_diary_event_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/notification_request.dart';
@@ -136,9 +137,9 @@ class AppRepository extends BaseRepository {
     );
   }
 
-  Future<Either<List<FeedResponse>, Exception>> getFeeds(int page, int limit, int lastFeedId, String? userId) {
+  Future<Either<List<FeedResponse>, Exception>> getFeeds(FeedRequest request) {
     return safeCall(
-      () => appServiceProvider.getFeeds(page, limit, lastFeedId, userId),
+      () => appServiceProvider.getFeeds(request),
     );
   }
 

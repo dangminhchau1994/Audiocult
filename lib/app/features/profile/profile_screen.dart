@@ -1,5 +1,6 @@
 import 'package:audio_cult/app/base/bloc_handle.dart';
 import 'package:audio_cult/app/data_source/models/requests/profile_request.dart';
+import 'package:audio_cult/app/features/home/home_bloc.dart';
 import 'package:audio_cult/app/features/profile/my_sliver_appbar.dart';
 import 'package:audio_cult/app/features/profile/pages/about_page.dart';
 import 'package:audio_cult/app/features/profile/pages/events_page.dart';
@@ -28,6 +29,7 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateMixin {
   final ScrollController _scrollController = ScrollController();
+  late HomeBloc _homeBloc;
   TabController? _tabController;
   ProfileBloc? _profileBloc;
 
@@ -73,7 +75,7 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
                           _profileBloc?.uploadAvatar(value);
                         },
                         onBlockUser: () {
-                          //_profileBloc?.blockUser(int.parse(widget.params['userId'] as String));
+                          _profileBloc?.blockUser(int.parse(widget.params['userId'] as String));
                         },
                       ),
                       SliverFillRemaining(

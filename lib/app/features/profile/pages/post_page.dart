@@ -35,7 +35,6 @@ class PostPage extends StatefulWidget {
 }
 
 class _PostPageState extends State<PostPage> {
-  double height = 8;
   final PagingController<int, FeedResponse> _pagingFeedController = PagingController(firstPageKey: 1);
   late HomeBloc _homeBloc;
   final ScrollController _scrollController = ScrollController();
@@ -44,8 +43,8 @@ class _PostPageState extends State<PostPage> {
   void initState() {
     super.initState();
     _scrollController.addListener(() {
-      widget.scrollController!
-          .animateTo(_scrollController.offset, duration: const Duration(milliseconds: 50), curve: Curves.easeOut);
+      widget.scrollController
+          ?.animateTo(_scrollController.offset, duration: const Duration(milliseconds: 50), curve: Curves.easeOut);
     });
     Provider.of<ProfileBloc>(context, listen: false)
         .getListSubscriptions(widget.profile?.userId, 1, GlobalConstants.loadMoreItem);
@@ -105,7 +104,6 @@ class _PostPageState extends State<PostPage> {
         SliverToBoxAdapter(
           child: Column(
             children: [
-              SizedBox(height: height),
               Container(
                 margin: const EdgeInsets.all(kVerticalSpacing),
                 padding: const EdgeInsets.all(kVerticalSpacing),
@@ -212,13 +210,7 @@ class _PostPageState extends State<PostPage> {
 
                   if (result != null) {
                     _pagingFeedController.refresh();
-                    _homeBloc.requestData(
-                      params: FeedRequest(
-                        page: 1,
-                        userId: widget.profile?.userId,
-                        limit: GlobalConstants.loadMoreItem,
-                      ),
-                    );
+                    await _fetchPage(1, 0);
                   }
                 },
                 child: Container(

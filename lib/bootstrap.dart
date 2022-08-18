@@ -47,6 +47,8 @@ Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
   await openHiveBox('settings');
   await startService();
   FlutterError.onError = (details) {
+    debugPrint(details.exceptionAsString());
+    print(details);
     log(details.exceptionAsString(), stackTrace: details.stack);
   };
 
