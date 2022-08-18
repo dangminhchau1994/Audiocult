@@ -161,12 +161,7 @@ class HomeBloc extends BaseBloc<FeedRequest, List<FeedResponse>> {
 
   @override
   Future<Either<List<FeedResponse>, Exception>> loadData(FeedRequest? params) async {
-    final result = await _appRepository.getFeeds(
-      params?.page ?? 0,
-      params?.limit ?? 0,
-      params?.lastFeedId ?? 0,
-      params?.userId
-    );
+    final result = await _appRepository.getFeeds(params ?? FeedRequest());
     return result;
   }
 }

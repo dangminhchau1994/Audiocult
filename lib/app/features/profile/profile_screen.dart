@@ -1,5 +1,6 @@
 import 'package:audio_cult/app/base/bloc_handle.dart';
 import 'package:audio_cult/app/data_source/models/requests/profile_request.dart';
+import 'package:audio_cult/app/features/home/home_bloc.dart';
 import 'package:audio_cult/app/features/profile/my_sliver_appbar.dart';
 import 'package:audio_cult/app/features/profile/pages/about_page.dart';
 import 'package:audio_cult/app/features/profile/pages/events_page.dart';
@@ -8,10 +9,13 @@ import 'package:audio_cult/app/features/profile/pages/post_page.dart';
 import 'package:audio_cult/app/features/profile/pages/videos_page.dart';
 import 'package:audio_cult/app/features/profile/profile_bloc.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
+import 'package:audio_cult/di/bloc_locator.dart';
 import 'package:audio_cult/w_components/loading/loading_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../constants/global_constants.dart';
+import '../../data_source/models/requests/feed_request.dart';
 import '../../data_source/models/responses/profile_data.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -28,6 +32,7 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateMixin {
   final ScrollController _scrollController = ScrollController();
+  late HomeBloc _homeBloc;
   TabController? _tabController;
   ProfileBloc? _profileBloc;
 
@@ -43,6 +48,10 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
     _profileBloc?.blockUserStream.listen((event) {
       Navigator.pop(context);
     });
+  }
+
+  void _reloadApi() {
+    
   }
 
   @override
@@ -73,7 +82,8 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
                           _profileBloc?.uploadAvatar(value);
                         },
                         onBlockUser: () {
-                          //_profileBloc?.blockUser(int.parse(widget.params['userId'] as String));
+                          _profileBloc?.blockUser(int.parse(widget.params['userId'] as String));
+                          _reloadApi();
                         },
                       ),
                       SliverFillRemaining(

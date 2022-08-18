@@ -22,7 +22,7 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMixin {
+class _HomeScreenState extends State<HomeScreen> {
   final PagingController<int, FeedResponse> _pagingFeedController = PagingController(firstPageKey: 1);
   late HomeBloc _homeBloc;
 
@@ -222,7 +222,4 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
       ),
     );
   }
-
-  @override
-  bool get wantKeepAlive => true;
 }

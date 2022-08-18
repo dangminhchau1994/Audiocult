@@ -230,14 +230,11 @@ class _MySliverAppBarState extends State<MySliverAppBar> {
                     child: Text('${widget.profile?.totalSubscribers ?? 0} subscribers')),
                 const SizedBox(
                   width: kHorizontalSpacing,
-              ),
+                ),
                 GestureDetector(
                     onTap: () {
-                      Navigator.pushNamed(context, AppRoute.routeSubscriptions, arguments: {
-                        'title': 'Subscribed',
-                        'user_id': widget.profile?.userId,
-                        'get_subscribed': '1'
-                      });
+                      Navigator.pushNamed(context, AppRoute.routeSubscriptions,
+                          arguments: {'title': 'Subscribed', 'user_id': widget.profile?.userId, 'get_subscribed': '1'});
                     },
                     child: Text('${widget.profile?.totalSubscriptions ?? 0} subscribed')),
               ],
@@ -296,39 +293,39 @@ class _MySliverAppBarState extends State<MySliverAppBar> {
                   )
                 else
                   const SizedBox.shrink(),
-                // if (widget.profile?.userId != locator.get<PrefProvider>().currentUserId)
-                //   WButtonInkwell(
-                //     onPressed: () {},
-                //     child: Container(
-                //       height: 54,
-                //       decoration: BoxDecoration(
-                //         borderRadius: BorderRadius.circular(20),
-                //         color: AppColors.inputFillColor,
-                //       ),
-                //       child: CommonPopupMenu(
-                //         icon: SvgPicture.asset(
-                //           AppAssets.verticalIcon,
-                //           width: 24,
-                //           height: 24,
-                //         ),
-                //         items: GlobalConstants.menuProfile(context),
-                //         onSelected: (selected) {
-                //           switch (selected) {
-                //             case 0:
-                //               widget.onBlockUser!();
-                //               break;
-                //             case 1:
-                //               break;
-                //             case 2:
-                //               break;
-                //             default:
-                //           }
-                //         },
-                //       ),
-                //     ),
-                //   )
-                // else
-                //   const SizedBox()
+                if (widget.profile?.userId != locator.get<PrefProvider>().currentUserId)
+                  WButtonInkwell(
+                    onPressed: () {},
+                    child: Container(
+                      height: 54,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: AppColors.inputFillColor,
+                      ),
+                      child: CommonPopupMenu(
+                        icon: SvgPicture.asset(
+                          AppAssets.verticalIcon,
+                          width: 24,
+                          height: 24,
+                        ),
+                        items: GlobalConstants.menuProfile(context),
+                        onSelected: (selected) {
+                          switch (selected) {
+                            case 0:
+                              widget.onBlockUser!();
+                              break;
+                            case 1:
+                              break;
+                            case 2:
+                              break;
+                            default:
+                          }
+                        },
+                      ),
+                    ),
+                  )
+                else
+                  const SizedBox()
               ],
             ),
           ),

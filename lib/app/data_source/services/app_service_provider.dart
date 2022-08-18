@@ -5,6 +5,7 @@ import 'package:audio_cult/app/data_source/models/requests/create_event_request.
 import 'package:audio_cult/app/data_source/models/requests/create_playlist_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/create_post_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/event_request.dart';
+import 'package:audio_cult/app/data_source/models/requests/feed_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/filter_users_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/my_diary_event_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/notification_request.dart';
@@ -128,16 +129,12 @@ class AppServiceProvider {
     );
   }
 
-  Future<List<FeedResponse>> getFeeds(int page, int limit, int lastFeedId, String? userId) async {
+  Future<List<FeedResponse>> getFeeds(FeedRequest request) async {
+    final data = await request.toJson();
     final response = await _dioHelper.get(
       route: '/restful_api/feed',
       options: Options(headers: {'Content-Type': 'application/x-www-form-urlencoded'}),
-      requestParams: {
-        'page': page,
-        'limit': limit,
-        'user_id': userId,
-        'last_feed_id': lastFeedId,
-      },
+      requestParams: data,
       responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
     );
     return response.mapData(
@@ -443,7 +440,7 @@ class AppServiceProvider {
   }
 
   Future<List<CommentResponse>> blockUser(int userId) async {
-    final response = await _dioHelper.delete(
+    final response = await _dioHelper.post(
       route: '/restful_api/user/block-user',
       options: Options(headers: {'Content-Type': 'application/x-www-form-urlencoded'}),
       requestBody: {
