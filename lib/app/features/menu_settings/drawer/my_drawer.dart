@@ -8,7 +8,7 @@ import 'package:audio_cult/app/utils/constants/app_font_sizes.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/app/utils/mixins/disposable_state_mixin.dart';
 import 'package:audio_cult/app/utils/route/app_route.dart';
-import 'package:audio_cult/l10n/l10n.dart';
+import 'package:audio_cult/w_components/loading/loading_widget.dart';
 import 'package:blur/blur.dart';
 import 'package:disposing/disposing.dart';
 import 'package:flutter/material.dart';
@@ -27,6 +27,8 @@ class MyDrawer extends StatefulWidget {
 }
 
 class _MyDrawerState extends State<MyDrawer> with DisposableStateMixin {
+  final _bloc = getIt.get<MainBloc>();
+
   @override
   void initState() {
     super.initState();
@@ -76,7 +78,7 @@ class _MyDrawerState extends State<MyDrawer> with DisposableStateMixin {
                             ],
                           );
                         }
-                        return Container();
+                        return const LoadingWidget();
                       }),
                 ),
               )
@@ -111,7 +113,7 @@ class _MyDrawerState extends State<MyDrawer> with DisposableStateMixin {
                                 const SizedBox(
                                   width: 8,
                                 ),
-                                Text(context.l10n.t_subscriptions)
+                                Text(context.localize.t_subscriptions),
                               ],
                             ),
                           ),
@@ -128,7 +130,7 @@ class _MyDrawerState extends State<MyDrawer> with DisposableStateMixin {
                                 const SizedBox(
                                   width: 8,
                                 ),
-                                Text(context.l10n.t_settings)
+                                Text(context.localize.t_settings),
                               ],
                             ),
                           ),
@@ -147,7 +149,7 @@ class _MyDrawerState extends State<MyDrawer> with DisposableStateMixin {
                             onPressed: () {
                               AppDialog.showYesNoDialog(
                                 context,
-                                message: context.l10n.t_question_logout,
+                                message: context.localize.t_question_logout,
                                 onYesPressed: () {
                                   getIt.get<MainBloc>().logout();
                                 },
@@ -165,7 +167,7 @@ class _MyDrawerState extends State<MyDrawer> with DisposableStateMixin {
                                     width: 8,
                                   ),
                                   Text(
-                                    context.l10n.t_logout,
+                                    context.localize.t_logout,
                                     style: context.bodyTextStyle()?.copyWith(color: AppColors.subTitleColor),
                                   )
                                 ],

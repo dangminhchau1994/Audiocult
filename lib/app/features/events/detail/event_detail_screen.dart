@@ -16,8 +16,9 @@ import 'package:audio_cult/app/features/events/detail/widgets/event_detail_title
 import 'package:audio_cult/app/features/ticket/w_bottom_dialog.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
 import 'package:audio_cult/app/utils/constants/app_dimens.dart';
+import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/di/bloc_locator.dart';
-import 'package:audio_cult/l10n/l10n.dart';
+
 import 'package:audio_cult/w_components/buttons/common_button.dart';
 import 'package:flutter/material.dart';
 
@@ -105,7 +106,7 @@ class _EventDetailState extends State<EventDetail> {
                         child: data.tickets!.isNotEmpty
                             ? CommonButton(
                                 color: AppColors.primaryButtonColor,
-                                text: context.l10n.t_buy,
+                                text: context.localize.t_buy,
                                 onTap: () {
                                   showModalBottomSheet(
                                       backgroundColor: Colors.transparent,

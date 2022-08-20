@@ -4,7 +4,7 @@ import 'package:audio_cult/app/injections.dart';
 import 'package:audio_cult/app/utils/constants/app_assets.dart';
 import 'package:audio_cult/app/utils/constants/app_dimens.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
-import 'package:audio_cult/l10n/l10n.dart';
+
 import 'package:audio_cult/w_components/dropdown/common_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -49,13 +49,14 @@ class _EventDetailAttendingState extends State<EventDetailAttending> {
   String _getTitle(String id) {
     switch (id) {
       case '1':
-        return _title = context.l10n.t_attending;
+        return _title = context.localize.t_attending;
       case '2':
-        return _title = context.l10n.t_maybe_attending;
+        return _title = context.localize.t_maybe_attending;
       case '3':
-        return _title = context.l10n.t_not_attending;
+        return _title = context.localize.t_not_attending;
       default:
-        return _title = context.l10n.t_not_attending;;
+        return _title = context.localize.t_not_attending;
+        ;
     }
   }
 
@@ -111,7 +112,7 @@ class _EventDetailAttendingState extends State<EventDetailAttending> {
                 onTap: () {
                   ToastUtility.showPending(
                     context: context,
-                    message: context.l10n.t_feature_development,
+                    message: context.localize.t_feature_development,
                   );
                 },
                 child: _buildComponent(
@@ -119,7 +120,7 @@ class _EventDetailAttendingState extends State<EventDetailAttending> {
                     AppAssets.mailIcon,
                   ),
                   Text(
-                    context.l10n.t_invite_friend,
+                    context.localize.t_invite_friend,
                     style: context.bodyTextPrimaryStyle()!.copyWith(
                           color: Colors.white,
                           fontSize: 16,

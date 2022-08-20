@@ -2,7 +2,7 @@ import 'package:audio_cult/app/data_source/models/requests/upload_request.dart';
 import 'package:audio_cult/app/data_source/models/responses/album/album_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/song/song_response.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
-import 'package:audio_cult/l10n/l10n.dart';
+
 import 'package:audio_cult/w_components/radios/common_radio_button.dart';
 import 'package:audio_cult/w_components/textfields/common_input.dart';
 import 'package:flutter/material.dart';
@@ -99,14 +99,14 @@ class MetaDataStepState extends State<MetaDataStep> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(context.l10n.t_meta_data, style: context.bodyTextStyle()?.copyWith(fontSize: 18)),
+            Text(context.localize.t_meta_data, style: context.bodyTextStyle()?.copyWith(fontSize: 18)),
             const SizedBox(
               height: kVerticalSpacing,
             ),
             CommonRadioButton(
               isSelected: groupId2 == 1,
               index: 1,
-              title: context.l10n.t_sell,
+              title: context.localize.t_sell,
               onChanged: (v) {
                 setState(() {
                   groupId2 = v;
@@ -118,9 +118,9 @@ class MetaDataStepState extends State<MetaDataStep> {
               height: kVerticalSpacing,
             ),
             CommonInput(
-              labelRight: context.l10n.t_usd,
+              labelRight: context.localize.t_usd,
               isReadOnly: groupId2 == -1 || groupId2 == 0,
-              hintText: context.l10n.t_tracking_pricing,
+              hintText: context.localize.t_tracking_pricing,
               textInputType: TextInputType.number,
               onChanged: (v) {
                 setState(() {
@@ -134,7 +134,7 @@ class MetaDataStepState extends State<MetaDataStep> {
             CommonRadioButton(
               isSelected: groupId2 == 0,
               index: 0,
-              title: context.l10n.t_free_download,
+              title: context.localize.t_free_download,
               onChanged: (v) {
                 setState(() {
                   groupId2 = v;
@@ -146,7 +146,7 @@ class MetaDataStepState extends State<MetaDataStep> {
             const SizedBox(
               height: kVerticalSpacing,
             ),
-            Text('${context.l10n.t_license}:'),
+            Text('${context.localize.t_license}:'),
             const SizedBox(
               height: kVerticalSpacing,
             ),
@@ -164,7 +164,7 @@ class MetaDataStepState extends State<MetaDataStep> {
             const SizedBox(
               height: kVerticalSpacing,
             ),
-            Text('${context.l10n.t_creative_commons}:'),
+            Text('${context.localize.t_creative_commons}:'),
             const SizedBox(
               height: kVerticalSpacing,
             ),
@@ -196,7 +196,7 @@ class MetaDataStepState extends State<MetaDataStep> {
                 Expanded(
                   child: CommonButton(
                     color: AppColors.secondaryButtonColor,
-                    text: context.l10n.btn_back,
+                    text: context.localize.btn_back,
                     onTap: () {
                       widget.onBack?.call();
                     },
@@ -208,7 +208,7 @@ class MetaDataStepState extends State<MetaDataStep> {
                 Expanded(
                   child: CommonButton(
                     color: AppColors.primaryButtonColor,
-                    text: context.l10n.btn_completed,
+                    text: context.localize.btn_completed,
                     onTap: () {
                       if (groupId1 == -1 || groupId2 == -1) {
                         ToastUtility.showError(context: context, message: 'Please fill all information');

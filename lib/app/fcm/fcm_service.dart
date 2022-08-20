@@ -7,6 +7,7 @@ import 'package:audio_cult/app/fcm/fcm_bloc.dart';
 import 'package:audio_cult/app/features/profile/profile_screen.dart';
 import 'package:audio_cult/app/injections.dart';
 import 'package:audio_cult/app/utils/constants/app_assets.dart';
+import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/di/bloc_locator.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -182,8 +183,8 @@ class FCMService {
             context: context!,
             barrierDismissible: false,
             builder: (context) => CupertinoAlertDialog(
-              title: const Text('Allow Notifications'),
-              content: const Text('Our app would like to send you notifications'),
+              title: Text(context.localize.t_allow_notis),
+              content: Text(context.localize.t_noti_request_message),
               actions: [
                 TextButton(
                   onPressed: () {

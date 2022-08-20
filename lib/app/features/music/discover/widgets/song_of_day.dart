@@ -31,7 +31,7 @@ class _SongOfDayState extends State<SongOfDay> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'SONG OF THE DAY',
+          context.localize.t_song_of_the_day.toUpperCase(),
           style: context.bodyTextPrimaryStyle()!.copyWith(
                 color: AppColors.subTitleColor,
               ),

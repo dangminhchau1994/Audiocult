@@ -1,5 +1,5 @@
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
-import 'package:audio_cult/l10n/l10n.dart';
+
 import 'package:flutter/material.dart';
 
 import '../../../../../w_components/images/common_image_network.dart';
@@ -41,7 +41,7 @@ class EditFeedBackGround extends StatelessWidget {
               onChanged!(value);
             },
             decoration: InputDecoration(
-              hintText: context.l10n.t_what_new,
+              hintText: context.localize.t_what_new,
               hintStyle: context.bodyTextPrimaryStyle()!.copyWith(
                     color: AppColors.subTitleColor,
                     fontSize: 18,

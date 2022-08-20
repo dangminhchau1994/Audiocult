@@ -4,7 +4,7 @@ import 'package:audio_cult/app/features/profile/profile_bloc.dart';
 import 'package:audio_cult/app/utils/constants/app_dimens.dart';
 import 'package:audio_cult/app/utils/constants/app_font_sizes.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
-import 'package:audio_cult/l10n/l10n.dart';
+
 import 'package:audio_cult/w_components/images/common_image_network.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -114,7 +114,7 @@ class _PostPageState extends State<PostPage> {
                     Row(
                       children: [
                         Text(
-                          context.l10n.t_subscriptions,
+                          context.localize.t_subscriptions,
                           style: context
                               .body1TextStyle()
                               ?.copyWith(fontSize: AppFontSize.size18, fontWeight: FontWeight.w600),
@@ -234,7 +234,7 @@ class _PostPageState extends State<PostPage> {
                         width: 10,
                       ),
                       Text(
-                        context.l10n.t_create_post,
+                        context.localize.t_create_post,
                         style: TextStyle(
                           color: AppColors.activeLabelItem,
                         ),

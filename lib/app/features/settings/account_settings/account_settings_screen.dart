@@ -8,10 +8,11 @@ import 'package:audio_cult/app/features/settings/account_settings/account_settin
 import 'package:audio_cult/app/features/settings/page_template_widgets/single_selection_widget.dart';
 import 'package:audio_cult/app/features/settings/page_template_widgets/textfield_widget.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
+import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/app/utils/route/app_route.dart';
 import 'package:audio_cult/app/utils/toast/toast_utils.dart';
 import 'package:audio_cult/di/bloc_locator.dart';
-import 'package:audio_cult/l10n/l10n.dart';
+import 'package:audio_cult/localized_widget_wrapper/language_widget.dart';
 import 'package:audio_cult/w_components/buttons/common_button.dart';
 import 'package:audio_cult/w_components/dropdown/common_dropdown.dart';
 import 'package:audio_cult/w_components/expandable_wrapper_widget.dart';
@@ -20,6 +21,7 @@ import 'package:audio_cult/w_components/w_keyboard_dismiss.dart';
 import 'package:collection/collection.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:tuple/tuple.dart';
 
 class AccountSettingsScreen extends StatefulWidget {
@@ -47,7 +49,9 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> with Auto
           if (tupleData.item1?.error == null) {
             ToastUtility.showSuccess(context: context, message: response?.message);
             if (shouldBackHome) {
-              Navigator.of(context).pushReplacementNamed(AppRoute.routeMain);
+              Phoenix.rebirth(context);
+              // Navigator.of(context).pushReplacementNamed(AppRoute.routeMain);
+
             }
           } else {
             ToastUtility.showError(context: context, message: response?.error);
@@ -106,19 +110,19 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> with Auto
       physics: const BouncingScrollPhysics(),
       children: <Widget>[
         ExpandableWrapperWidget(
-          context.l10n.t_account_settings,
+          context.localize.t_account_settings,
           _accountSettingsWidget(context, account),
           headerPadding: EdgeInsets.zero,
           headerColor: Colors.transparent,
         ),
         ExpandableWrapperWidget(
-          context.l10n.t_change_password,
+          context.localize.t_change_password,
           _changePasswordWidget(context, account: account),
           headerPadding: EdgeInsets.zero,
           headerColor: Colors.transparent,
         ),
         ExpandableWrapperWidget(
-          context.l10n.t_payment_methods,
+          context.localize.t_payment_methods,
           _paymentMethodsWidget(context, account: account),
           headerPadding: EdgeInsets.zero,
           headerColor: Colors.transparent,
@@ -136,7 +140,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> with Auto
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           TextfieldWidget(
-            context.l10n.t_full_name,
+            context.localize.t_full_name,
             initialText: tempAccount.fullName,
             onChanged: (string) {
               account.fullName = string;
@@ -144,7 +148,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> with Auto
             },
           ),
           TextfieldWidget(
-            context.l10n.t_email,
+            context.localize.t_email,
             initialText: tempAccount.email,
             onChanged: (string) {
               account.email = string;
@@ -167,7 +171,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> with Auto
       stream: _bloc.accountUpdatedStream,
       builder: (_, snapshot) {
         return CommonButton(
-          text: context.l10n.t_update,
+          text: context.localize.t_update,
           color: AppColors.primaryButtonColor,
           onTap: snapshot.data == true ? _bloc.updateAccountSettings : null,
         );
@@ -190,7 +194,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> with Auto
                       return SelectMenuModel(title: e.title, isSelected: e.languageId == selectedLanguage.languageId);
                     }).toList();
                     return SingleSelectionWidget(
-                      context.l10n.t_primary_language,
+                      context.localize.t_primary_language,
                       options,
                       onSelected: (selection) {
                         _bloc.languageOnChanged(languages.firstWhereOrNull(
@@ -227,7 +231,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> with Auto
                     );
                   }).toList();
                   return SingleSelectionWidget(
-                    context.l10n.t_timezone,
+                    context.localize.t_timezone,
                     options,
                     onSelected: (selection) {
                       _bloc.timezoneOnChanged(timeZones.firstWhereOrNull(
@@ -252,23 +256,23 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> with Auto
       width: double.infinity,
       child: Column(
         children: [
-          Text(context.l10n.t_change_password_note),
+          Text(context.localize.t_change_password_note),
           TextfieldWidget(
-            context.l10n.t_change_password,
+            context.localize.t_change_password,
             onChanged: (currentPass) {
               tempProfile?.currentPass = currentPass;
               _bloc.accountSettingsDataOnChanged(tempProfile);
             },
           ),
           TextfieldWidget(
-            context.l10n.t_new_password,
+            context.localize.t_new_password,
             onChanged: (newPass) {
               tempProfile?.newPass = newPass;
               _bloc.accountSettingsDataOnChanged(tempProfile);
             },
           ),
           TextfieldWidget(
-            context.l10n.t_confirm_new_password,
+            context.localize.t_confirm_new_password,
             onChanged: (confirmPass) {
               tempProfile?.confirmPass = confirmPass;
               _bloc.accountSettingsDataOnChanged(tempProfile);
@@ -287,7 +291,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> with Auto
       stream: _bloc.passwordUpdatedStream,
       builder: (_, snapshot) {
         return CommonButton(
-          text: context.l10n.t_update,
+          text: context.localize.t_update,
           color: AppColors.primaryButtonColor,
           onTap: snapshot.data == true ? _bloc.updateAccountSettings : null,
         );
@@ -298,9 +302,9 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> with Auto
   Widget _paymentMethodsWidget(BuildContext context, {AccountSettings? account}) {
     return Column(
       children: [
-        Text(context.l10n.t_payment_methods_note),
+        Text(context.localize.t_payment_methods_note),
         TextfieldWidget(
-          context.l10n.t_paypal_email,
+          context.localize.t_paypal_email,
           onChanged: (email) {
             account?.paypalEmail = email;
             _bloc.accountSettingsDataOnChanged(account);
@@ -318,7 +322,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> with Auto
       stream: _bloc.paymentMethodStream,
       builder: (_, snapshot) {
         return CommonButton(
-          text: context.l10n.t_update,
+          text: context.localize.t_update,
           color: AppColors.primaryButtonColor,
           onTap: snapshot.data == true ? _bloc.updateAccountSettings : null,
         );

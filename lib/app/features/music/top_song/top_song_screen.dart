@@ -7,8 +7,9 @@ import 'package:audio_cult/app/features/music/discover/widgets/song_item.dart';
 import 'package:audio_cult/app/features/music/filter/enum_filter_music.dart';
 import 'package:audio_cult/app/features/music/top_song/top_song_bloc.dart';
 import 'package:audio_cult/app/utils/constants/app_dimens.dart';
+import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/app/utils/route/app_route.dart';
-import 'package:audio_cult/l10n/l10n.dart';
+
 import 'package:audio_cult/w_components/appbar/common_appbar.dart';
 import 'package:audio_cult/w_components/buttons/w_button_inkwell.dart';
 import 'package:audio_cult/w_components/dropdown/common_dropdown.dart';
@@ -103,7 +104,7 @@ class _TopSongScreenState extends State<TopSongScreen> with AutomaticKeepAliveCl
     return Scaffold(
       backgroundColor: AppColors.mainColor,
       appBar: CommonAppBar(
-        title: context.l10n.t_top_song,
+        title: context.localize.t_top_song,
         actions: [
           WButtonInkwell(
             onPressed: () async {

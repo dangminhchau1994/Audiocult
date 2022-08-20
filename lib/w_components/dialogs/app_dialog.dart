@@ -1,4 +1,5 @@
 import 'package:audio_cult/app/base/pair.dart';
+import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
@@ -13,7 +14,7 @@ class AppDialog {
       context: context,
       builder: (context) {
         return CupertinoAlertDialog(
-          title: const Text('Alert'),
+          title: Text(context.localize.t_alert),
           content: Text(message ?? ''),
           actions: [
             CupertinoDialogAction(
@@ -21,7 +22,7 @@ class AppDialog {
                 Navigator.pop(context);
                 onNoPressed?.call();
               },
-              child: const Text('No'),
+              child: Text(context.localize.t_no),
             ),
             CupertinoDialogAction(
               isDefaultAction: true,
@@ -29,7 +30,7 @@ class AppDialog {
                 Navigator.pop(context);
                 onYesPressed?.call();
               },
-              child: const Text('Yes'),
+              child: Text(context.localize.t_yes),
             ),
           ],
         );

@@ -1,6 +1,5 @@
 import 'package:audio_cult/app/data_source/models/requests/create_event_request.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
-import 'package:audio_cult/l10n/l10n.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../w_components/buttons/common_button.dart';
@@ -28,49 +27,7 @@ class FifthStepScreen extends StatefulWidget {
 class FifthStepScreenState extends State<FifthStepScreen> {
   SelectMenuModel? _privacy;
   SelectMenuModel? _privacyComment;
-  static List<SelectMenuModel> listPrivacy = [
-    SelectMenuModel(
-      id: 1,
-      title: 'Everyone',
-      isSelected: true,
-      icon: Image.asset(
-        AppAssets.icPublic,
-        width: 24,
-      ),
-    ),
-    SelectMenuModel(
-      id: 2,
-      title: 'Subscriptions',
-      icon: Image.asset(
-        AppAssets.icSubscription,
-        width: 24,
-      ),
-    ),
-    SelectMenuModel(
-      id: 3,
-      title: 'Friends of Friends',
-      icon: Image.asset(
-        AppAssets.icFriends,
-        width: 24,
-      ),
-    ),
-    SelectMenuModel(
-      id: 4,
-      title: 'Only me',
-      icon: Image.asset(
-        AppAssets.icLock,
-        width: 24,
-      ),
-    ),
-    SelectMenuModel(
-      id: 5,
-      title: 'Customize',
-      icon: Image.asset(
-        AppAssets.icSetting,
-        width: 24,
-      ),
-    ),
-  ];
+  List<SelectMenuModel> listPrivacy = <SelectMenuModel>[];
 
   @override
   void initState() {
@@ -80,18 +37,66 @@ class FifthStepScreenState extends State<FifthStepScreen> {
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    listPrivacy = [
+      SelectMenuModel(
+        id: 1,
+        title: context.localize.t_everyone,
+        isSelected: true,
+        icon: Image.asset(
+          AppAssets.icPublic,
+          width: 24,
+        ),
+      ),
+      SelectMenuModel(
+        id: 2,
+        title: context.localize.t_subscriptions,
+        icon: Image.asset(
+          AppAssets.icSubscription,
+          width: 24,
+        ),
+      ),
+      SelectMenuModel(
+        id: 3,
+        title: context.localize.t_friends_of_friends,
+        icon: Image.asset(
+          AppAssets.icFriends,
+          width: 24,
+        ),
+      ),
+      SelectMenuModel(
+        id: 4,
+        title: context.localize.t_only_me,
+        icon: Image.asset(
+          AppAssets.icLock,
+          width: 24,
+        ),
+      ),
+      SelectMenuModel(
+        id: 5,
+        title: context.localize.t_customize,
+        icon: Image.asset(
+          AppAssets.icSetting,
+          width: 24,
+        ),
+      ),
+    ];
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: kHorizontalSpacing),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(context.l10n.t_privacy, style: context.bodyTextStyle()?.copyWith(fontSize: 18)),
+          Text(context.localize.t_privacy, style: context.bodyTextStyle()?.copyWith(fontSize: 18)),
           const SizedBox(
             height: kVerticalSpacing / 2,
           ),
           Text(
-            context.l10n.t_sub_privacy,
+            context.localize.t_sub_privacy,
             style: context.bodyTextStyle()?.copyWith(color: AppColors.unActiveLabelItem),
           ),
           const SizedBox(
@@ -111,12 +116,12 @@ class FifthStepScreenState extends State<FifthStepScreen> {
           const SizedBox(
             height: kVerticalSpacing + 20,
           ),
-          Text(context.l10n.t_comment_privacy, style: context.bodyTextStyle()?.copyWith(fontSize: 18)),
+          Text(context.localize.t_comment_privacy, style: context.bodyTextStyle()?.copyWith(fontSize: 18)),
           const SizedBox(
             height: kVerticalSpacing,
           ),
           Text(
-            context.l10n.t_sub_comment_privacy,
+            context.localize.t_sub_comment_privacy,
             style: context.bodyTextStyle()?.copyWith(color: AppColors.unActiveLabelItem),
           ),
           const SizedBox(
@@ -140,7 +145,7 @@ class FifthStepScreenState extends State<FifthStepScreen> {
               Expanded(
                 child: CommonButton(
                   color: AppColors.secondaryButtonColor,
-                  text: context.l10n.btn_back,
+                  text: context.localize.btn_back,
                   onTap: () {
                     widget.onBack?.call();
                   },
@@ -152,7 +157,7 @@ class FifthStepScreenState extends State<FifthStepScreen> {
               Expanded(
                 child: CommonButton(
                   color: AppColors.primaryButtonColor,
-                  text: context.l10n.btn_completed,
+                  text: context.localize.btn_completed,
                   onTap: () {
                     widget.onComplete!();
                   },

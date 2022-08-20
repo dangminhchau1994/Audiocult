@@ -1,5 +1,6 @@
 import 'package:audio_cult/app/data_source/models/responses/song/song_response.dart';
-import 'package:audio_cult/l10n/l10n.dart';
+import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
+
 import 'package:flutter/material.dart';
 
 import '../../../../../w_components/error_empty/error_section.dart';
@@ -37,7 +38,7 @@ class _DetailAlbumSongsState extends State<DetailAlbumSongs> {
             stream: widget.albumBloc!.getSongByIdStream,
             builder: (context, snapshot) {
               final state = snapshot.data!;
-    
+
               return state.when(
                 success: (data) {
                   final songs = data as List<Song>;
@@ -65,7 +66,7 @@ class _DetailAlbumSongsState extends State<DetailAlbumSongs> {
                         )
                       : Center(
                           child: Text(
-                            context.l10n.t_no_data,
+                            context.localize.t_no_data,
                           ),
                         );
                 },

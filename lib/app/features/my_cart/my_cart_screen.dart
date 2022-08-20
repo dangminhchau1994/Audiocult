@@ -9,7 +9,7 @@ import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/app/utils/route/app_route.dart';
 import 'package:audio_cult/app/utils/toast/toast_utils.dart';
 import 'package:audio_cult/di/bloc_locator.dart';
-import 'package:audio_cult/l10n/l10n.dart';
+
 import 'package:audio_cult/w_components/appbar/common_appbar.dart';
 import 'package:audio_cult/w_components/buttons/common_button.dart';
 import 'package:audio_cult/w_components/dashed_line_widget/dashed_line_widget.dart';
@@ -47,7 +47,7 @@ class _MyCartScreenState extends State<MyCartScreen> {
     return Scaffold(
       backgroundColor: AppColors.mainColor,
       appBar: CommonAppBar(
-        title: context.l10n.t_my_cart,
+        title: context.localize.t_my_cart,
         actions: [_deleteCartButton()],
       ),
       body: BlocHandle(bloc: _bloc, child: SafeArea(child: _body())),
@@ -74,11 +74,11 @@ class _MyCartScreenState extends State<MyCartScreen> {
   TextButton _deleteSelectedItemsButton(int numberOfItems) {
     return TextButton(
       onPressed: () => _showConfirmationDialog(
-        context.l10n.t_are_you_sure_continue,
+        context.localize.t_are_you_sure_continue,
         goAhead: _bloc.removeCheckedItems,
       ),
       child: Text(
-        '${context.l10n.t_delete} ${numberOfItems.toString()} ${numberOfItems == 1 ? context.l10n.t_song : context.l10n.t_songs}',
+        '${context.localize.t_delete} ${numberOfItems.toString()} ${numberOfItems == 1 ? context.localize.t_song : context.localize.t_songs}',
       ),
     );
   }
@@ -86,10 +86,10 @@ class _MyCartScreenState extends State<MyCartScreen> {
   TextButton _deleteAllButton() {
     return TextButton(
       onPressed: () => _showConfirmationDialog(
-        context.l10n.t_are_you_sure_continue,
+        context.localize.t_are_you_sure_continue,
         goAhead: _bloc.clearCart,
       ),
-      child: Text(context.l10n.t_clear_cart),
+      child: Text(context.localize.t_clear_cart),
     );
   }
 
@@ -103,7 +103,7 @@ class _MyCartScreenState extends State<MyCartScreen> {
           CupertinoDialogAction(
             onPressed: Navigator.of(context).pop,
             child: Text(
-              context.l10n.t_no,
+              context.localize.t_no,
             ),
           ),
           CupertinoDialogAction(
@@ -112,7 +112,7 @@ class _MyCartScreenState extends State<MyCartScreen> {
               Navigator.of(context).pop();
             },
             child: Text(
-              context.l10n.t_yes,
+              context.localize.t_yes,
               style: context.body1TextStyle()?.copyWith(color: Colors.red),
             ),
           ),
@@ -192,7 +192,7 @@ class _MyCartScreenState extends State<MyCartScreen> {
               children: [
                 SvgPicture.asset(AppAssets.icCart),
                 const SizedBox(height: 20),
-                Text(context.l10n.t_cart_empty),
+                Text(context.localize.t_cart_empty),
               ],
             ),
           ),
@@ -246,13 +246,13 @@ class _MyCartScreenState extends State<MyCartScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _priceRowWidget(
-            title: _bloc.cartItems.length == 1 ? context.l10n.t_song : context.l10n.t_songs,
+            title: _bloc.cartItems.length == 1 ? context.localize.t_song : context.localize.t_songs,
             value: subTotal.toString()),
         const SizedBox(height: 20),
         _taxesWidget(totalTax),
         const LineDashedWidget(),
         const SizedBox(height: 20),
-        _priceRowWidget(title: context.l10n.t_total, value: grandTotal.toString(), isHighlighted: true),
+        _priceRowWidget(title: context.localize.t_total, value: grandTotal.toString(), isHighlighted: true),
         const SizedBox(height: 20),
       ],
     );
@@ -264,7 +264,7 @@ class _MyCartScreenState extends State<MyCartScreen> {
         : Padding(
             padding: const EdgeInsets.only(bottom: 20),
             child: _priceRowWidget(
-              title: '${context.l10n.t_taxes} (${NumberFormat.compact().format(_bloc.taxes * 100)} %)',
+              title: '${context.localize.t_taxes} (${NumberFormat.compact().format(_bloc.taxes * 100)} %)',
               value: totalTax.toString(),
             ),
           );
@@ -299,7 +299,7 @@ class _MyCartScreenState extends State<MyCartScreen> {
   Widget _checkoutButton() {
     return CommonButton(
       color: AppColors.primaryButtonColor,
-      text: context.l10n.t_checkout,
+      text: context.localize.t_checkout,
       onTap: () {
         // TODO: remove this when checkout done
         ToastUtility.showPending(context: context, message: "This feature is coming soon");

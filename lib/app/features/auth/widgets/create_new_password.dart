@@ -4,7 +4,6 @@ import 'package:audio_cult/app/injections.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/app/utils/route/app_route.dart';
 import 'package:audio_cult/app/utils/toast/toast_utils.dart';
-import 'package:audio_cult/l10n/l10n.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../w_components/buttons/common_button.dart';
@@ -51,12 +50,12 @@ class _CheckEmailPageState extends State<CreateNewPasswordPage> {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: kVerticalSpacing),
               child: Text(
-                context.l10n.t_create_new_password,
+                context.localize.t_create_new_password,
                 style: context.headerStyle()?.copyWith(),
               ),
             ),
             Text(
-              context.l10n.t_sub_create,
+              context.localize.t_sub_create,
               style: context.bodyTextStyle()?.copyWith(color: AppColors.unActiveLabelItem),
             ),
             Padding(
@@ -69,7 +68,7 @@ class _CheckEmailPageState extends State<CreateNewPasswordPage> {
                 },
                 isHidden: isHiddenPassword,
                 isPasswordField: true,
-                hintText: context.l10n.t_new_password,
+                hintText: context.localize.t_new_password,
                 onChanged: (v) {
                   setState(() {
                     _password = v;
@@ -87,7 +86,7 @@ class _CheckEmailPageState extends State<CreateNewPasswordPage> {
                 },
                 isHidden: isHiddenNewPassword,
                 isPasswordField: true,
-                hintText: context.l10n.t_confirm_password,
+                hintText: context.localize.t_confirm_password,
                 onChanged: (v) {
                   setState(() {
                     _newPassword = v;
@@ -97,7 +96,7 @@ class _CheckEmailPageState extends State<CreateNewPasswordPage> {
             ),
             CommonButton(
               color: AppColors.activeLabelItem,
-              text: context.l10n.t_save,
+              text: context.localize.t_save,
               onTap: () {
                 if (_newPassword.isEmpty) {
                   ToastUtility.showError(context: context, message: 'Can not be empty!');

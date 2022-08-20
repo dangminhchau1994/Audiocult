@@ -1,6 +1,7 @@
 import 'package:audio_cult/app/data_source/models/responses/playlist/playlist_response.dart';
 import 'package:audio_cult/app/features/music/discover/widgets/album_item.dart';
 import 'package:audio_cult/app/features/music/discover/widgets/section_title.dart';
+import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/app/utils/route/app_route.dart';
 import 'package:audio_cult/w_components/buttons/w_button_inkwell.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +29,7 @@ class TopPlaylist extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SectionTitle(
-            title: 'Top of Playlists',
+            title: context.localize.t_top_of_playlist,
             onShowAll: onShowAll,
           ),
           const SizedBox(

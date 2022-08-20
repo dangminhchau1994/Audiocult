@@ -6,7 +6,7 @@ import 'package:audio_cult/app/utils/constants/app_dimens.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/app/view/no_data_widget.dart';
 import 'package:audio_cult/di/bloc_locator.dart';
-import 'package:audio_cult/l10n/l10n.dart';
+
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
@@ -87,7 +87,7 @@ class _PopularEventsState extends State<PopularEvents> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                context.l10n.t_popular_events,
+                context.localize.t_popular_events,
                 style: context.bodyTextStyle()?.copyWith(
                       color: Colors.white,
                     ),

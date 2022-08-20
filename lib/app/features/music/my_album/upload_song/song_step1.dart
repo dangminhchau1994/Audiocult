@@ -10,7 +10,7 @@ import 'package:audio_cult/app/utils/constants/app_assets.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
 import 'package:audio_cult/app/utils/constants/app_dimens.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
-import 'package:audio_cult/l10n/l10n.dart';
+
 import 'package:audio_cult/w_components/buttons/common_button.dart';
 import 'package:audio_cult/w_components/buttons/w_button_inkwell.dart';
 import 'package:dotted_border/dotted_border.dart';
@@ -57,7 +57,8 @@ class SongStep1State extends State<SongStep1> {
     }
     //album
     if (widget.album != null) {
-      final listSongAlbum = await _uploadSongBloc?.getMixTapSongs('', '','','', 1, GlobalConstants.loadMoreItem, '', '',
+      final listSongAlbum = await _uploadSongBloc?.getMixTapSongs(
+          '', '', '', '', 1, GlobalConstants.loadMoreItem, '', '',
           userId: locator.get<MainBloc>().profileData!.userId, albumId: widget.album!.albumId);
       listSongAlbum?.forEach((element) {
         listFileAudio.add(Pair(PlatformFile(name: element.title ?? '', size: 1), const Duration()));
@@ -85,12 +86,12 @@ class SongStep1State extends State<SongStep1> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(context.l10n.t_upload_music, style: context.bodyTextStyle()?.copyWith(fontSize: 18)),
+            Text(context.localize.t_upload_music, style: context.bodyTextStyle()?.copyWith(fontSize: 18)),
             const SizedBox(
               height: kVerticalSpacing / 2,
             ),
             Text(
-              context.l10n.t_sub_upload_music,
+              context.localize.t_sub_upload_music,
               style: context.bodyTextStyle()?.copyWith(color: AppColors.unActiveLabelItem),
             ),
             const SizedBox(
@@ -135,11 +136,11 @@ class SongStep1State extends State<SongStep1> {
                         width: 48,
                       ),
                       Text(
-                        context.l10n.t_upload_music,
+                        context.localize.t_upload_music,
                         style: context.bodyTextStyle()?.copyWith(color: AppColors.subTitleColor, fontSize: 18),
                       ),
                       Text(
-                        context.l10n.t_limit_upload,
+                        context.localize.t_limit_upload,
                         style: context.bodyTextStyle()?.copyWith(color: AppColors.borderOutline, fontSize: 12),
                       )
                     ],
@@ -176,7 +177,7 @@ class SongStep1State extends State<SongStep1> {
             ),
             CommonButton(
               color: AppColors.primaryButtonColor,
-              text: context.l10n.btn_next,
+              text: context.localize.btn_next,
               onTap: listFileAudio.isEmpty
                   ? null
                   : () {

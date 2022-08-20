@@ -6,7 +6,7 @@ import 'package:audio_cult/app/features/my_diary_in_month/my_diary_in_month_bloc
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
 import 'package:audio_cult/app/utils/route/app_route.dart';
 import 'package:audio_cult/di/bloc_locator.dart';
-import 'package:audio_cult/l10n/l10n.dart';
+
 import 'package:audio_cult/w_components/appbar/common_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
@@ -48,7 +48,7 @@ class _MyDiaryInMonthScreenState extends State<MyDiaryInMonthScreen> {
         actions: [
           TextButton(
             onPressed: _todayButtonOnTap,
-            child: Text(context.l10n.t_today),
+            child: Text(context.localize.t_today),
           ),
         ],
       ),

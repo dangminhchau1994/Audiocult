@@ -3,7 +3,7 @@ import 'package:audio_cult/app/injections.dart';
 import 'package:audio_cult/app/utils/constants/app_assets.dart';
 import 'package:audio_cult/app/utils/constants/app_dimens.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
-import 'package:audio_cult/l10n/l10n.dart';
+
 import 'package:audio_cult/w_components/buttons/common_icon_button.dart';
 import 'package:audio_cult/w_components/buttons/w_button_inkwell.dart';
 import 'package:audio_cult/w_components/images/common_image_network.dart';
@@ -156,14 +156,14 @@ class _MySliverAppBarState extends State<MySliverAppBar> {
                                   0,
                                   Container(),
                                 ),
-                                context.l10n.t_take_picture,
+                                context.localize.t_take_picture,
                               ),
                               Pair(
                                 Pair(
                                   1,
                                   Container(),
                                 ),
-                                context.l10n.t_choose_gallery,
+                                context.localize.t_choose_gallery,
                               ),
                             ],
                             onTap: (index) async {
@@ -265,7 +265,7 @@ class _MySliverAppBarState extends State<MySliverAppBar> {
                                   color: Colors.white,
                                 ),
                           width: 169,
-                          text: context.l10n.t_subscribed,
+                          text: context.localize.t_subscribed,
                           color: isSubscribe == 0 ? AppColors.inputFillColor : AppColors.activeLabelItem,
                           onTap: () {
                             final atlasUser = AtlasUser();
@@ -284,7 +284,7 @@ class _MySliverAppBarState extends State<MySliverAppBar> {
                       AppAssets.edit,
                       color: Colors.white,
                     ),
-                    text: context.l10n.t_edit_page,
+                    text: context.localize.t_edit_page,
                     width: 169,
                     color: AppColors.inputFillColor,
                     onTap: () {
@@ -363,7 +363,7 @@ class _MySliverAppBarState extends State<MySliverAppBar> {
                               color: _currentIndex == 0 ? AppColors.activeLabelItem : Colors.white,
                             ),
                           ),
-                          Text(context.l10n.t_post)
+                          Text(context.localize.t_post)
                         ],
                       ),
                     ),
@@ -378,7 +378,7 @@ class _MySliverAppBarState extends State<MySliverAppBar> {
                               color: _currentIndex == 1 ? AppColors.activeLabelItem : Colors.white,
                             ),
                           ),
-                          Text(context.l10n.t_about)
+                          Text(context.localize.t_about)
                         ],
                       ),
                     ),
@@ -393,7 +393,7 @@ class _MySliverAppBarState extends State<MySliverAppBar> {
                               color: _currentIndex == 2 ? AppColors.activeLabelItem : Colors.white,
                             ),
                           ),
-                          Text(context.l10n.t_videos)
+                          Text(context.localize.t_videos)
                         ],
                       ),
                     ),
@@ -407,7 +407,7 @@ class _MySliverAppBarState extends State<MySliverAppBar> {
                               color: _currentIndex == 3 ? AppColors.activeLabelItem : Colors.white,
                             ),
                           ),
-                          Text(context.l10n.t_music)
+                          Text(context.localize.t_music)
                         ],
                       ),
                     ),
@@ -421,7 +421,7 @@ class _MySliverAppBarState extends State<MySliverAppBar> {
                               color: _currentIndex == 4 ? AppColors.activeLabelItem : Colors.white,
                             ),
                           ),
-                          Text(context.l10n.t_events)
+                          Text(context.localize.t_events)
                         ],
                       ),
                     ),

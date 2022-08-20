@@ -9,7 +9,7 @@ import 'package:flutter/foundation.dart';
 
 class AtlasFilterProvider extends ChangeNotifier {
   final AppRepository _appRepository;
-  final _defaultSelectOption = SelectMenuModel(id: -1, title: 'All', isSelected: true);
+  final _defaultSelectOption = SelectMenuModel(id: -1, title: '...', isSelected: true);
   List<Genre>? musicGenres;
   List<Country>? countries;
   List<AtlasCategory>? userGroups;

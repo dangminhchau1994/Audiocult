@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:audio_cult/app/base/base_bloc.dart';
 import 'package:audio_cult/app/base/bloc_state.dart';
+import 'package:audio_cult/app/data_source/local/pref_provider.dart';
 import 'package:audio_cult/app/data_source/models/event_view_wrapper.dart';
 import 'package:audio_cult/app/data_source/models/requests/my_diary_event_request.dart';
 import 'package:audio_cult/app/data_source/models/responses/events/event_response.dart';
@@ -15,6 +16,7 @@ import '../../../utils/debouncer.dart';
 
 class MyDiaryBloc extends BaseBloc {
   final AppRepository _appRepository;
+  final PrefProvider _prefProvider;
   final formatStr = 'yyyy-MM-dd';
   final _myDiaryEventRequest = MyDiaryEventRequest();
   final _debouncer = Debouncer(milliseconds: 1500);
@@ -32,7 +34,9 @@ class MyDiaryBloc extends BaseBloc {
     return key.day * 1000000 + key.month * 10000 + key.year;
   }
 
-  MyDiaryBloc(this._appRepository);
+  String? get appLanguageId => _prefProvider.languageId;
+
+  MyDiaryBloc(this._appRepository, this._prefProvider);
 
   final _dateTimeInRangeStreamController = StreamController<Tuple2<DateTime?, DateTime?>>.broadcast();
   Stream<Tuple2<DateTime?, DateTime?>> get dateTimeInRangeStream => _dateTimeInRangeStreamController.stream;

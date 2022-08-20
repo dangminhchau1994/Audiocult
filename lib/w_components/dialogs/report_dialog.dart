@@ -7,7 +7,7 @@ import 'package:audio_cult/app/utils/constants/app_colors.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/app/utils/route/app_route.dart';
 import 'package:audio_cult/app/utils/toast/toast_utils.dart';
-import 'package:audio_cult/l10n/l10n.dart';
+
 import 'package:audio_cult/w_components/buttons/common_button.dart';
 import 'package:audio_cult/w_components/dialogs/report_dialog_bloc.dart';
 import 'package:audio_cult/w_components/dropdown/common_dropdown.dart';
@@ -73,7 +73,7 @@ class _ReportDialogState extends State<ReportDialog> {
     super.initState();
     _bloc.getReasons();
     _bloc.reportStream.listen((event) {
-      ToastUtility.showSuccess(context: context, message: context.l10n.t_report_success);
+      ToastUtility.showSuccess(context: context, message: context.localize.t_report_success);
       Navigator.pop(context);
     });
   }
@@ -124,7 +124,7 @@ class _ReportDialogState extends State<ReportDialog> {
     return Padding(
       padding: const EdgeInsets.only(top: 30),
       child: CommonButton(
-        text: context.l10n.t_submit,
+        text: context.localize.t_submit,
         color: _reasonSelection?.id != -1 ? AppColors.primaryButtonColor : Colors.grey,
         onTap: _reasonSelection?.id != -1
             ? () {
@@ -147,7 +147,7 @@ class _ReportDialogState extends State<ReportDialog> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            context.l10n.t_comment_optional,
+            context.localize.t_comment_optional,
             style: context.bodyTextStyle()?.copyWith(color: Colors.white, fontSize: 16),
           ),
           const SizedBox(height: 6),
@@ -170,7 +170,7 @@ class _ReportDialogState extends State<ReportDialog> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            context.l10n.t_reason,
+            context.localize.t_reason,
             style: context.bodyTextStyle()?.copyWith(color: Colors.white, fontSize: 16),
           ),
           const SizedBox(height: 8),
@@ -198,7 +198,7 @@ class _ReportDialogState extends State<ReportDialog> {
 
                   return CommonDropdown(
                     selection: _reasonSelection,
-                    hint: context.l10n.t_choose_one,
+                    hint: context.localize.t_choose_one,
                     data: _reasons as List<SelectMenuModel>,
                     onChanged: (value) {
                       setState(() {
@@ -229,7 +229,7 @@ class _ReportDialogState extends State<ReportDialog> {
     return Padding(
       padding: const EdgeInsets.only(top: 4),
       child: Text(
-        context.l10n.t_stricly_confidential,
+        context.localize.t_stricly_confidential,
         style: context.body2TextStyle()?.copyWith(color: Colors.white, fontSize: 16),
       ),
     );
@@ -238,7 +238,7 @@ class _ReportDialogState extends State<ReportDialog> {
   Widget _buildTitle() {
     return Center(
       child: Text(
-        context.l10n.t_report,
+        context.localize.t_report,
         style: context.body2TextStyle()?.copyWith(color: Colors.white, fontSize: 18),
       ),
     );
@@ -251,11 +251,11 @@ class _ReportDialogState extends State<ReportDialog> {
         text: TextSpan(
           children: [
             TextSpan(
-              text: context.l10n.t_report_violation,
+              text: context.localize.t_report_violation,
               style: context.body2TextStyle()?.copyWith(color: Colors.white, fontSize: 16),
             ),
             TextSpan(
-              text: context.l10n.t_tearm_of_use,
+              text: context.localize.t_tearm_of_use,
               recognizer: TapGestureRecognizer()
                 ..onTap = () {
                   Navigator.pushNamed(context, AppRoute.routeTerms);

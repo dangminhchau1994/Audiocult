@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:audio_cult/app/features/events/create_event/widgets/insert_photo.dart';
 import 'package:audio_cult/app/utils/constants/app_dimens.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
-import 'package:audio_cult/l10n/l10n.dart';
+
 import 'package:audio_cult/w_components/textfields/common_chip_input.dart';
 import 'package:audio_cult/w_components/textfields/common_input.dart';
 import 'package:flutter/material.dart';
@@ -53,12 +53,12 @@ class _SecondStepScreenState extends State<SecondStepScreen> {
               ),
               const SizedBox(height: 10),
               Text(
-                context.l10n.t_help_text,
+                context.localize.t_help_text,
                 style: context.bodyTextStyle()?.copyWith(color: AppColors.subTitleColor, fontSize: 16),
               ),
               const SizedBox(height: 20),
               CommonInput(
-                hintText: context.l10n.t_tags_event,
+                hintText: context.localize.t_tags_event,
                 onChanged: (value) {
                   widget.createEventRequest?.tags = value;
                 },
@@ -80,7 +80,7 @@ class _SecondStepScreenState extends State<SecondStepScreen> {
               ),
               const SizedBox(height: 10),
               CommonChipInput(
-                hintText: context.l10n.t_artist_line_up_hint,
+                hintText: context.localize.t_artist_line_up_hint,
                 maxChip: 10,
                 chooseMany: true,
                 onChooseMultipleTag: (value) {
@@ -94,12 +94,12 @@ class _SecondStepScreenState extends State<SecondStepScreen> {
               ),
               const SizedBox(height: 20),
               Text(
-                context.l10n.t_entertainment_line_up,
+                context.localize.t_entertainment_line_up,
                 style: context.bodyTextStyle()?.copyWith(color: Colors.white, fontSize: 18),
               ),
               const SizedBox(height: 10),
               CommonChipInput(
-                hintText: context.l10n.t_artist_line_up_hint,
+                hintText: context.localize.t_artist_line_up_hint,
                 maxChip: 10,
                 chooseMany: true,
                 onChooseMultipleTag: (value) {},
@@ -117,7 +117,7 @@ class _SecondStepScreenState extends State<SecondStepScreen> {
                       flex: 2,
                       child: CommonButton(
                         color: AppColors.ebonyClay,
-                        text: context.l10n.btn_back,
+                        text: context.localize.btn_back,
                         onTap: widget.onBack,
                       ),
                     ),
@@ -126,7 +126,7 @@ class _SecondStepScreenState extends State<SecondStepScreen> {
                       flex: 2,
                       child: CommonButton(
                         color: AppColors.primaryButtonColor,
-                        text: context.l10n.btn_next,
+                        text: context.localize.btn_next,
                         onTap: () {
                           widget.onNext!();
                         },

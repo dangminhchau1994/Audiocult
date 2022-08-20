@@ -8,12 +8,14 @@ import 'package:audio_cult/app/data_source/models/responses/language_response.da
 import 'package:audio_cult/app/data_source/models/responses/timezone/timezone_response.dart';
 import 'package:audio_cult/app/data_source/models/update_account_settings_response.dart';
 import 'package:audio_cult/app/data_source/repositories/app_repository.dart';
+import 'package:audio_cult/localized_widget_wrapper/language_bloc.dart';
 import 'package:collection/collection.dart';
 import 'package:tuple/tuple.dart';
 
 class AccountSettingsBloc extends BaseBloc {
   final AppRepository _appRepository;
   final PrefProvider _prefProvider;
+  final LanguageBloc _languageBloc;
   AccountSettings? _accountSettings;
   TimeZone? _currentTimeZone;
   Language? _currentLanguage;
@@ -43,7 +45,11 @@ class AccountSettingsBloc extends BaseBloc {
   final _loadLanguagesStreamController = StreamController<BlocState<Tuple2<List<Language>, Language?>>>.broadcast();
   Stream<BlocState<Tuple2<List<Language>, Language?>>> get loadLanguagesStream => _loadLanguagesStreamController.stream;
 
-  AccountSettingsBloc(this._appRepository, this._prefProvider) {
+  AccountSettingsBloc(
+    this._appRepository,
+    this._prefProvider,
+    this._languageBloc,
+  ) {
     loadUserProfile();
   }
 
@@ -119,13 +125,17 @@ class AccountSettingsBloc extends BaseBloc {
   void updateAccountSettings() async {
     showOverLayLoading();
     if (_accountSettings != null) {
-      final shouldBackToHome = _accountSettings?.timezoneId != _currentTimeZone?.id;
+      final shouldBackToHome = _accountSettings?.timezoneId != _currentTimeZone?.id ||
+          _accountSettings?.languageId != _currentLanguage?.languageId;
       _accountSettings?.timezoneId = _currentTimeZone?.id;
       _accountSettings?.languageId = _currentLanguage?.languageId;
       final result = await _appRepository.updateAccountSettings(_accountSettings!);
       result.fold((response) {
-        _updateAccountStreamController.sink.add(BlocState.success(Tuple2(response, shouldBackToHome)));
-        hideOverlayLoading();
+        _appRepository.clearProfile();
+        _updateAppLanguage(languageId: _accountSettings?.languageId ?? '').then((_) {
+          hideOverlayLoading();
+          _updateAccountStreamController.sink.add(BlocState.success(Tuple2(response, shouldBackToHome)));
+        });
       }, (exception) {
         _updateAccountStreamController.sink.add(BlocState.error(exception.toString()));
         hideOverlayLoading();
@@ -151,5 +161,10 @@ class AccountSettingsBloc extends BaseBloc {
       _timezones ?? [],
       _currentTimeZone ?? _timezones?.first,
     )));
+  }
+
+  Future<void> _updateAppLanguage({required String languageId}) async {
+    _prefProvider.setAppLanguage(languageId: languageId);
+    await _languageBloc.initLocalizedText();
   }
 }

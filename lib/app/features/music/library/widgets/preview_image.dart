@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:audio_cult/app/data_source/models/requests/create_playlist_request.dart';
-import 'package:audio_cult/l10n/l10n.dart';
+import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -58,15 +59,15 @@ class _PreViewImageState extends State<PreViewImage> {
       await showDialog(
         context: context,
         builder: (BuildContext context) => CupertinoAlertDialog(
-          title: Text(context.l10n.t_camera_permission),
-          content: Text(context.l10n.t_need_photos),
+          title: Text(context.localize.t_camera_permission),
+          content: Text(context.localize.t_need_photos),
           actions: <Widget>[
             CupertinoDialogAction(
-              child: Text(context.l10n.t_cancel),
+              child: Text(context.localize.t_cancel),
               onPressed: () => Navigator.of(context).pop(),
             ),
             CupertinoDialogAction(
-              child: Text(context.l10n.t_settings),
+              child: Text(context.localize.t_settings),
               onPressed: () {
                 openAppSettings();
                 Navigator.of(context).pop();

@@ -2,7 +2,8 @@ import 'package:audio_cult/app/constants/global_constants.dart';
 import 'package:audio_cult/app/data_source/models/responses/events/event_response.dart';
 import 'package:audio_cult/app/features/events/all_events/widgets/all_event_item.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
-import 'package:audio_cult/l10n/l10n.dart';
+import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
+
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
@@ -90,8 +91,8 @@ class _EventPopUpState extends State<EventPopUp> {
         child: LoadingBuilder<MapBloc, List<EventResponse>>(
           noDataBuilder: (state) {
             return EmptyPlayList(
-              title: context.l10n.t_no_data_found,
-              content: context.l10n.t_no_data_found_content,
+              title: context.localize.t_no_data_found,
+              content: context.localize.t_no_data_found_content,
             );
           },
           builder: (data, _) {

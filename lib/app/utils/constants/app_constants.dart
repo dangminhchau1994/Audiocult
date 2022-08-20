@@ -9,6 +9,7 @@ class AppConstants {
   static const String basicToken = 'Basic bW9iaWxlYXBwOjZlMzFlZjY1NzY4Nzg5ZDJlNjE0NGViNzkyODc4ZDYyMTFlOTc0MDY=';
   static const String androidKey = 'AIzaSyCq_ewBkTd_Ptlva35RYyHJU7oBYCGhMpY';
   static const String iosKey = 'AIzaSyCq_ewBkTd_Ptlva35RYyHJU7oBYCGhMpY';
+  static const String backupLocalizedFile = 'localized_text.json';
 }
 
 const fileExtensions = ['mp3', 'wav'];

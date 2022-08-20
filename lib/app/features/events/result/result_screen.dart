@@ -1,6 +1,7 @@
 import 'package:audio_cult/app/features/events/result/result_bloc.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
-import 'package:audio_cult/l10n/l10n.dart';
+import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
+
 import 'package:audio_cult/w_components/appbar/common_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -87,7 +88,7 @@ class _ResultScreenState extends State<ResultScreen> {
     return Scaffold(
       backgroundColor: AppColors.mainColor,
       appBar: CommonAppBar(
-        title: context.l10n.t_result,
+        title: context.localize.t_result,
       ),
       body: RefreshIndicator(
         color: AppColors.primaryButtonColor,
@@ -109,8 +110,8 @@ class _ResultScreenState extends State<ResultScreen> {
         child: LoadingBuilder<ResultBloc, List<EventResponse>>(
           noDataBuilder: (state) {
             return EmptyPlayList(
-              title: context.l10n.t_no_data_found,
-              content: context.l10n.t_no_data_found_content,
+              title: context.localize.t_no_data_found,
+              content: context.localize.t_no_data_found_content,
             );
           },
           builder: (data, _) {

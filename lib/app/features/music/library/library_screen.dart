@@ -6,8 +6,8 @@ import 'package:audio_cult/app/features/music/search/search_item.dart';
 import 'package:audio_cult/app/utils/constants/app_assets.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
 import 'package:audio_cult/app/utils/constants/app_dimens.dart';
+import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/app/utils/route/app_route.dart';
-import 'package:audio_cult/l10n/l10n.dart';
 import 'package:audio_cult/w_components/appbar/common_appbar.dart';
 import 'package:audio_cult/w_components/buttons/w_button_inkwell.dart';
 import 'package:disposing/disposing.dart';
@@ -130,7 +130,7 @@ class _LibraryScreenState extends State<LibraryScreen> with AutomaticKeepAliveCl
       backgroundColor: AppColors.mainColor,
       appBar: CommonAppBar(
         height: widget.hasAppBar! ? 50 : 0,
-        title: widget.hasAppBar! ? context.l10n.t_my_playslist : '',
+        title: widget.hasAppBar! ? context.localize.t_my_playlist : '',
       ),
       body: BlocHandle(
         bloc: _libraryBloc,
@@ -162,8 +162,8 @@ class _LibraryScreenState extends State<LibraryScreen> with AutomaticKeepAliveCl
                     builder: (data, _) {
                       if (data.isEmpty) {
                         return EmptyPlayList(
-                          title: context.l10n.t_empty_playlist,
-                          content: context.l10n.t_create_first_playlist,
+                          title: context.localize.t_empty_playlist,
+                          content: context.localize.t_create_first_playlist,
                         );
                       }
                       //only first page
@@ -260,7 +260,7 @@ class _LibraryScreenState extends State<LibraryScreen> with AutomaticKeepAliveCl
                               width: 10,
                             ),
                             Text(
-                              context.l10n.t_create_playlist,
+                              context.localize.t_create_playlist,
                               style: TextStyle(
                                 color: AppColors.activeLabelItem,
                               ),

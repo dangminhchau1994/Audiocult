@@ -1,7 +1,7 @@
 import 'package:audio_cult/app/data_source/models/responses/events/event_response.dart';
 import 'package:audio_cult/app/utils/constants/app_dimens.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
-import 'package:audio_cult/l10n/l10n.dart';
+
 import 'package:audio_cult/w_components/buttons/w_button_inkwell.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +30,7 @@ class ArtistLineUp extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                context.l10n.t_artist_lineup,
+                context.localize.t_artist_lineup,
                 style: context.bodyTextPrimaryStyle()!.copyWith(
                       color: AppColors.subTitleColor,
                       fontSize: 16,
@@ -46,12 +46,12 @@ class ArtistLineUp extends StatelessWidget {
                 children: data!.lineup!.artist!
                     .map(
                       (e) => WButtonInkwell(
-                        onPressed: () async{
+                        onPressed: () async {
                           await Navigator.pushNamed(
-                          context,
-                          AppRoute.routeProfile,
-                          arguments: ProfileScreen.createArguments(id: e.userId ?? ''),
-                        );
+                            context,
+                            AppRoute.routeProfile,
+                            arguments: ProfileScreen.createArguments(id: e.userId ?? ''),
+                          );
                         },
                         child: Row(
                           children: [

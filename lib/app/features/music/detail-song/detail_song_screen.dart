@@ -12,7 +12,7 @@ import 'package:audio_cult/app/features/music/detail-song/widgets/detail_song_ti
 import 'package:audio_cult/app/features/my_cart/my_cart_bloc.dart';
 import 'package:audio_cult/app/utils/constants/app_assets.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
-import 'package:audio_cult/l10n/l10n.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -172,7 +172,7 @@ class _DetailSongScreenState extends State<DetailSongScreen> {
                   SvgPicture.asset(alreadyAdded ? AppAssets.icAllEvents : AppAssets.cartIcon),
                   const SizedBox(width: 8),
                   Text(
-                    alreadyAdded ? context.l10n.t_added_to_cart : context.l10n.t_add_to_cart,
+                    alreadyAdded ? context.localize.t_added_to_cart : context.localize.t_add_to_cart,
                     style: context.body1TextStyle(),
                   ),
                 ],

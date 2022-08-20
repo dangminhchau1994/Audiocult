@@ -6,9 +6,10 @@ import 'package:audio_cult/app/features/music/my_album/widgets/meta_data_step.da
 import 'package:audio_cult/app/features/music/my_album/widgets/privacy_step.dart';
 import 'package:audio_cult/app/injections.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
+import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/app/utils/mixins/disposable_state_mixin.dart';
 import 'package:audio_cult/app/utils/toast/toast_utils.dart';
-import 'package:audio_cult/l10n/l10n.dart';
+
 import 'package:audio_cult/w_components/appbar/common_appbar.dart';
 import 'package:disposing/disposing.dart';
 import 'package:flutter/material.dart';
@@ -64,7 +65,7 @@ class _UploadSongScreenState extends State<UploadSongScreen> with DisposableStat
           top: false,
           child: Scaffold(
             appBar: CommonAppBar(
-              title: context.l10n.t_upload_song,
+              title: context.localize.t_upload_song,
               backgroundColor: AppColors.mainColor,
             ),
             backgroundColor: AppColors.mainColor,

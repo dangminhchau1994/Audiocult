@@ -1,7 +1,8 @@
 import 'package:audio_cult/app/features/music/featured_mixtape/featured_mixtapes_bloc.dart';
 import 'package:audio_cult/app/features/player_widgets/player_screen.dart';
 import 'package:audio_cult/app/utils/constants/app_dimens.dart';
-import 'package:audio_cult/l10n/l10n.dart';
+import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -99,7 +100,7 @@ class _FeaturedMixTapesScreenState extends State<FeaturedMixTapesScreen> with Au
     return Scaffold(
       backgroundColor: AppColors.mainColor,
       appBar: CommonAppBar(
-        title: context.l10n.t_featured_mixtapes,
+        title: context.localize.t_featured_mixtapes,
         actions: [
           WButtonInkwell(
             onPressed: () async {

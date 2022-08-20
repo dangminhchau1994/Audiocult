@@ -67,7 +67,7 @@ FeedResponse _$FeedResponseFromJson(Map<String, dynamic> json) => FeedResponse(
       feedLink: json['feed_link'] as String?,
       embedCode: json['embed_code'] as String?,
       feedIcon: json['feed_icon'] as String?,
-      feedTotalLike: json['feed_total_like'].toString(),
+      feedTotalLike: json['feed_total_like'] as String?,
       enableLike: json['enable_like'] as bool?,
       likeTypeId: json['like_type_id'] as String?,
       totalComment: json['total_comment'] as String?,

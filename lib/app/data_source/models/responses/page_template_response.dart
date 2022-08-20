@@ -1,8 +1,9 @@
 // ignore_for_file: no_default_cases
 
 import 'package:audio_cult/app/base/index_walker.dart';
+import 'package:audio_cult/app/data_source/models/responses/atlas_category.dart';
 import 'package:audio_cult/app/data_source/models/responses/page_template_custom_field_response.dart';
-import 'package:audio_cult/app/utils/constants/gender_enum.dart';
+// import 'package:audio_cult/app/utils/constants/gender_enum.dart'; //  remove later
 import 'package:audio_cult/app/utils/constants/page_template_field_type.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
@@ -16,7 +17,10 @@ class PageTemplateResponse {
 
   @JsonKey(name: 'country_iso')
   String? countryISO;
-  Gender? gender;
+  @JsonKey(name: 'gender')
+  String? genderId;
+  @JsonKey(name: 'gender_list')
+  List<Gender>? listOfGenders;
   @JsonKey(name: 'custom_gender')
   List<String>? genderText;
   @JsonKey(name: 'city_location')
@@ -31,6 +35,8 @@ class PageTemplateResponse {
   String? latPin;
   @JsonKey(name: 'ac_page_long_pin')
   String? lngPin;
+  @JsonKey(name: 'page_template')
+  List<AtlasCategory>? pageTemplates;
   @JsonKey(name: 'user_group_id')
   String? userGroupId;
 
@@ -43,7 +49,7 @@ class PageTemplateResponse {
       'val[country_iso]': countryISO,
       'val[city_location]': cityLocation,
       'val[postal_code]': postalCode,
-      'val[gender]': gender?.paramValue,
+      'val[gender]': genderId == '127' ? 'custom' : genderId,
       'val[month]': dateTimeBirthDay?.month,
       'val[day]': dateTimeBirthDay?.day,
       'val[year]': dateTimeBirthDay?.year,
@@ -51,9 +57,15 @@ class PageTemplateResponse {
       'val[ac_page_long_pin]': lngPin,
       'val[user_group_id]': userGroupId,
     };
-    if (gender == Gender.custom) {
+    if (genderId == '127') {
       mappingJson['val[custom_gender][]'] = genderText;
     }
+    mappingJson.addAll(convertCustomFieldsDataToParams(customFields));
+    return mappingJson;
+  }
+
+  Map<String, dynamic> convertCustomFieldsDataToParams(List<PageTemplateCustomFieldConfig>? fields) {
+    final mappingJson = <String, dynamic>{};
     for (final field in customFields ?? <PageTemplateCustomFieldConfig>[]) {
       var key = 'custom[${field.fieldId}]';
       if (field.varType == PageTemplateFieldType.multiselect) {
@@ -111,4 +123,14 @@ class SelectableOption {
   String toString() {
     return 'SelectableOption: ${key} - ${value} - ${selected}';
   }
+}
+
+@JsonSerializable()
+class Gender {
+  int? id;
+  String? phrase;
+
+  Gender();
+
+  factory Gender.fromJson(Map<String, dynamic> json) => _$GenderFromJson(json);
 }

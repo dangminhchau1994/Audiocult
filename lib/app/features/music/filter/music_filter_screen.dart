@@ -6,7 +6,7 @@ import 'package:audio_cult/app/injections.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
 import 'package:audio_cult/app/utils/constants/app_dimens.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
-import 'package:audio_cult/l10n/l10n.dart';
+
 import 'package:audio_cult/w_components/appbar/common_appbar.dart';
 import 'package:audio_cult/w_components/buttons/common_button.dart';
 import 'package:audio_cult/w_components/buttons/w_button_inkwell.dart';
@@ -61,7 +61,7 @@ class _MusicFilterScreenState extends State<MusicFilterScreen> {
     return Scaffold(
       appBar: CommonAppBar(
         backgroundColor: AppColors.mainColor,
-        title: context.l10n.t_filter,
+        title: context.localize.t_filter,
         actions: [
           WButtonInkwell(
             borderRadius: BorderRadius.circular(8),
@@ -74,7 +74,7 @@ class _MusicFilterScreenState extends State<MusicFilterScreen> {
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Text(
-                  context.l10n.t_clear_filter,
+                  context.localize.t_clear_filter,
                   style: context.bodyTextStyle()?.copyWith(color: AppColors.lightBlue),
                 ),
               ),
@@ -177,7 +177,7 @@ class _MusicFilterScreenState extends State<MusicFilterScreen> {
                               }).toList();
                             }
                           },
-                          hintText: context.l10n.t_genres,
+                          hintText: context.localize.t_genres,
                           listCheckBox: snapshot.data!
                               .map(
                                 (e) => InputTagSelect(
@@ -198,20 +198,20 @@ class _MusicFilterScreenState extends State<MusicFilterScreen> {
                 //   padding: const EdgeInsets.symmetric(vertical: kVerticalSpacing),
                 //   child: Row(
                 //     children: [
-                //       Expanded(child: CommonInput(hintText: context.l10n.t_lower)),
+                //       Expanded(child: CommonInput(hintText: context.localize.t_lower)),
                 //       const SizedBox(
                 //         width: kHorizontalSpacing,
                 //       ),
-                //       Expanded(child: CommonInput(hintText: context.l10n.t_higher))
+                //       Expanded(child: CommonInput(hintText: context.localize.t_higher))
                 //     ],
                 //   ),
                 // ),
                 CommonButton(
                   color: AppColors.activeLabelItem,
-                  text: context.l10n.t_apply,
+                  text: context.localize.t_apply,
                   onTap: () {
                     saveCacheFilter();
-                    Navigator.pop(context,_cacheFilter);
+                    Navigator.pop(context, _cacheFilter);
                   },
                 )
               ],

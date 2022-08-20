@@ -1,5 +1,6 @@
 import 'package:audio_cult/app/features/music/discover/widgets/section_title.dart';
 import 'package:audio_cult/app/features/music/discover/widgets/song_page.dart';
+import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:flutter/material.dart';
 
 class FeatureMixtapes extends StatelessWidget {
@@ -30,7 +31,7 @@ class FeatureMixtapes extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SectionTitle(
-            title: 'Featured Mixtapes',
+            title: context.localize.t_featured_mixtapes,
             onShowAll: onShowAll,
           ),
           const SizedBox(

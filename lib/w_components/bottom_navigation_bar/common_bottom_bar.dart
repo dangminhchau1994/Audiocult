@@ -1,4 +1,5 @@
 import 'package:audio_cult/app/utils/constants/app_assets.dart';
+import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:blur/blur.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -33,13 +34,13 @@ class CommonBottomBar extends StatelessWidget {
                       : SvgPicture.asset(
                           AppAssets.homeIcon,
                         ),
-                  label: 'Home',
+                  label: context.localize.t_home,
                 ),
                 BottomNavigationBarItem(
                   icon: currentIndex == 1
                       ? SvgPicture.asset(AppAssets.atlasActiveIcon)
                       : SvgPicture.asset(AppAssets.atlasIcon),
-                  label: 'Atlas',
+                  label: context.localize.t_atlas,
                 ),
                 const BottomNavigationBarItem(
                   icon: SizedBox(),
@@ -49,13 +50,13 @@ class CommonBottomBar extends StatelessWidget {
                   icon: currentIndex == 3
                       ? SvgPicture.asset(AppAssets.musicActiveIcon)
                       : SvgPicture.asset(AppAssets.musicIcon),
-                  label: 'Music',
+                  label: context.localize.t_music,
                 ),
                 BottomNavigationBarItem(
                   icon: currentIndex == 4
                       ? SvgPicture.asset(AppAssets.eventActiveIcon)
                       : SvgPicture.asset(AppAssets.eventIcon),
-                  label: 'Events',
+                  label: context.localize.t_events,
                 ),
               ],
               currentIndex: currentIndex ?? 0,

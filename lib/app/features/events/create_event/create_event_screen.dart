@@ -8,7 +8,8 @@ import 'package:audio_cult/app/features/events/create_event/third_step_screen.da
 import 'package:audio_cult/app/features/events/create_event/widgets/stepper_event.dart';
 import 'package:audio_cult/app/features/music/my_album/upload_song/upload_song_bloc.dart';
 import 'package:audio_cult/app/injections.dart';
-import 'package:audio_cult/l10n/l10n.dart';
+import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
+
 import 'package:audio_cult/w_components/appbar/common_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -37,7 +38,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
     return Scaffold(
       backgroundColor: AppColors.mainColor,
       appBar: CommonAppBar(
-        title: context.l10n.t_create_event,
+        title: context.localize.t_create_event,
       ),
       body: MultiProvider(
         providers: [

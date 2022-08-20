@@ -1,5 +1,5 @@
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
-import 'package:audio_cult/l10n/l10n.dart';
+
 import 'package:flutter/material.dart';
 
 import '../../../../../w_components/radios/common_radio_button.dart';
@@ -21,7 +21,7 @@ class FilterDistance extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          context.l10n.t_distance,
+          context.localize.t_distance,
           style: context.bodyTextStyle()?.copyWith(
                 color: Colors.white,
               ),
@@ -31,14 +31,14 @@ class FilterDistance extends StatelessWidget {
           primary: false,
           shrinkWrap: true,
           separatorBuilder: (context, index) => const Divider(height: 20),
-          itemCount: GlobalConstants.getDistanceList().length,
+          itemCount: GlobalConstants.getDistanceList(context).length,
           itemBuilder: (context, index) {
             return CommonRadioButton(
-              title: GlobalConstants.getDistanceList()[index].keys.first,
+              title: GlobalConstants.getDistanceList(context)[index].keys.first,
               index: index,
               isSelected: selectedIndex == index,
               onChanged: (index) {
-                onChanged!(GlobalConstants.getDistanceList()[index].values.first, index);
+                onChanged!(GlobalConstants.getDistanceList(context)[index].values.first, index);
               },
             );
           },

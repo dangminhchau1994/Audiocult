@@ -1,6 +1,7 @@
 import 'package:audio_cult/app/features/atlas/atlas_screen.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
-import 'package:audio_cult/l10n/l10n.dart';
+import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
+
 import 'package:audio_cult/w_components/appbar/common_appbar.dart';
 import 'package:flutter/material.dart';
 
@@ -21,7 +22,7 @@ class _SubscriptionsScreenState extends State<SubscriptionsScreen> {
         backgroundColor: AppColors.mainColor,
         appBar: CommonAppBar(
           backgroundColor: AppColors.mainColor,
-          title: widget.title ?? context.l10n.t_subscriptions,
+          title: widget.title ?? context.localize.t_subscriptions,
         ),
         body: AtlasScreen(
           userId: widget.userId,

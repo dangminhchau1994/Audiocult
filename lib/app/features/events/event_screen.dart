@@ -1,5 +1,6 @@
 import 'package:audio_cult/app/features/events/my_diary/my_diary_screen.dart';
-import 'package:audio_cult/l10n/l10n.dart';
+import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_tab_bar/indicator/custom_indicator.dart';
 
@@ -35,33 +36,29 @@ class _EventScreenState extends State<EventScreen> {
             case 0:
               return CommonTabbarItem(
                 index: index,
-                width: MediaQuery.of(context).size.width / _pageCount,
                 currentIndex: _currentIndex,
-                title: context.l10n.t_all_events,
+                title: context.localize.t_all_events,
                 hasIcon: false,
               );
             case 1:
               return CommonTabbarItem(
                 index: index,
-                width: MediaQuery.of(context).size.width / _pageCount,
                 currentIndex: _currentIndex,
-                title: context.l10n.t_my_diary,
+                title: context.localize.t_my_diary,
                 hasIcon: false,
               );
             case 2:
               return CommonTabbarItem(
                 index: index,
-                width: MediaQuery.of(context).size.width / _pageCount,
                 currentIndex: _currentIndex,
-                title: context.l10n.t_my_tickets,
+                title: context.localize.t_my_tickets,
                 hasIcon: false,
               );
             case 3:
               return CommonTabbarItem(
                 index: index,
-                width: MediaQuery.of(context).size.width / _pageCount,
                 currentIndex: _currentIndex,
-                title: context.l10n.t_invitations,
+                title: context.localize.t_invitations,
                 hasIcon: false,
               );
             default:

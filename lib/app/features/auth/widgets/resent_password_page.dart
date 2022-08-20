@@ -4,7 +4,7 @@ import 'package:audio_cult/app/features/auth/resent_password/resent_password_scr
 import 'package:audio_cult/app/injections.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/app/utils/route/app_route.dart';
-import 'package:audio_cult/l10n/l10n.dart';
+
 import 'package:flutter/material.dart';
 
 import '../../../../w_components/buttons/common_button.dart';
@@ -45,18 +45,18 @@ class _ResentPasswordPageState extends State<ResentPasswordPage> {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: kVerticalSpacing),
               child: Text(
-                context.l10n.t_resent_password,
+                context.localize.t_resent_password,
                 style: context.headerStyle()?.copyWith(),
               ),
             ),
             Text(
-              context.l10n.t_sub_resent_password,
+              context.localize.t_sub_resent_password,
               style: context.bodyTextStyle()?.copyWith(color: AppColors.unActiveLabelItem),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: kVerticalSpacing),
               child: CommonInput(
-                hintText: context.l10n.t_email,
+                hintText: context.localize.t_email,
                 onChanged: (v) {
                   setState(() {
                     _email = v;
@@ -66,7 +66,7 @@ class _ResentPasswordPageState extends State<ResentPasswordPage> {
             ),
             CommonButton(
               color: AppColors.activeLabelItem,
-              text: context.l10n.t_submit,
+              text: context.localize.t_submit,
               onTap: () {
                 FocusManager.instance.primaryFocus?.unfocus();
                 _resentPasswordBloc.resentEmail(_email);

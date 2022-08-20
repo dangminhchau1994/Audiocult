@@ -4,7 +4,7 @@ import 'package:audio_cult/app/features/home/widgets/feed_item_interaction.dart'
 import 'package:audio_cult/app/features/home/widgets/feed_item_modify.dart';
 import 'package:audio_cult/app/features/home/widgets/feed_item_user_info.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
-import 'package:audio_cult/l10n/l10n.dart';
+import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/w_components/textfields/common_input.dart';
 import 'package:flutter/material.dart';
 import '../../../../w_components/comment/comment_args.dart';
@@ -69,7 +69,7 @@ class _FeedItemState extends State<FeedItem> {
               const Divider(height: 0.5, color: Colors.grey),
               const SizedBox(height: 20),
               CommonInput(
-                hintText: context.l10n.t_leave_comment,
+                hintText: context.localize.t_leave_comment,
                 onTap: () {
                   Navigator.pushNamed(
                     context,
