@@ -171,7 +171,10 @@ class _DetailSongScreenState extends State<DetailSongScreen> {
                 children: [
                   SvgPicture.asset(alreadyAdded ? AppAssets.icAllEvents : AppAssets.cartIcon),
                   const SizedBox(width: 8),
-                  Text(context.l10n.t_add_to_cart, style: context.body1TextStyle()),
+                  Text(
+                    alreadyAdded ? context.l10n.t_added_to_cart : context.l10n.t_add_to_cart,
+                    style: context.body1TextStyle(),
+                  ),
                 ],
               ),
             ),
