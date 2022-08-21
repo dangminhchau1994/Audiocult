@@ -231,6 +231,7 @@ class _AtlasScreenState extends State<AtlasScreen> with AutomaticKeepAliveClient
                   updatedSubscriptionCount: latestSubscriptionCount,
                   updatedSubscriptionStatus: latestSubscriptionValue,
                   userSubscriptionInProcess: subscriptionInProcess?[user.userId] ?? false,
+                  isSubscriptionButtonHidden: user.userId == _bloc.myUserId,
                   subscriptionOnChanged: () {
                     _bloc.subscribeUser(user);
                   },

@@ -16,6 +16,7 @@ class AtlasUserWidget extends StatelessWidget {
   final bool? updatedSubscriptionStatus;
   final int? updatedSubscriptionCount;
   final VoidCallback? onTap;
+  final bool? isSubscriptionButtonHidden;
 
   const AtlasUserWidget(
     this.atlasUser, {
@@ -25,6 +26,7 @@ class AtlasUserWidget extends StatelessWidget {
     this.updatedSubscriptionCount,
     this.updatedSubscriptionStatus,
     this.onTap,
+    this.isSubscriptionButtonHidden,
   }) : super(key: key);
 
   @override
@@ -136,6 +138,7 @@ class AtlasUserWidget extends StatelessWidget {
   }
 
   Widget _subscribeButton(BuildContext context) {
+    if (isSubscriptionButtonHidden == true) return Container();
     return TextButton(
       onPressed: () => userSubscriptionInProcess ? null : subscriptionOnChanged?.call(),
       child: Container(
