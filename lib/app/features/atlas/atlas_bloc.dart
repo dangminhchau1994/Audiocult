@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:audio_cult/app/base/base_bloc.dart';
+import 'package:audio_cult/app/data_source/local/pref_provider.dart';
 import 'package:audio_cult/app/data_source/models/requests/filter_users_request.dart';
 import 'package:audio_cult/app/data_source/models/responses/atlas_user.dart';
 import 'package:audio_cult/app/data_source/repositories/app_repository.dart';
@@ -17,6 +18,7 @@ typedef UserSubscriptionDataType = Map<String?, bool?>;
 
 class AtlasBloc extends BaseBloc {
   final AppRepository _appRepository;
+  late PrefProvider _prefProvider;
   final SubscribeUserBloc _subscribeUserBloc;
   final UserSubscriptionDataType _subscriptionsInProcess = {};
   List<AtlasUser>? _allUsers;
@@ -26,6 +28,8 @@ class AtlasBloc extends BaseBloc {
   CancelToken? _cancel;
   List<AtlasUser>? get allUsers => _allUsers;
 
+  String? get myUserId => _prefProvider?.currentUserId;
+
   final _getAtlasUsers = PublishSubject<BlocState<Tuple2<List<AtlasUser>, Exception?>>>();
   Stream<BlocState<Tuple2<List<AtlasUser>, Exception?>>> get getAtlasUsersStream => _getAtlasUsers.stream;
 
@@ -33,7 +37,11 @@ class AtlasBloc extends BaseBloc {
   Stream<Tuple2<List<AtlasUser>, UserSubscriptionDataType>> get updatedUserSubscriptionStream =>
       _updatedUserSubscription.stream;
 
-  AtlasBloc(this._appRepository, this._subscribeUserBloc) {
+  AtlasBloc(
+    this._appRepository,
+    this._subscribeUserBloc,
+    this._prefProvider,
+  ) {
     _subscribeUserBloc.subsriptionOnChangeStream.listen((data) {
       if (data.value2 == runtimeType) return;
       _updateSubscriptionDataOfUser(AtlasUser()..userId = data.value1);

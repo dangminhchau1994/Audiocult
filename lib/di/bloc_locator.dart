@@ -104,7 +104,11 @@ void setupLocator() {
   getIt.registerLazySingleton<ResultBloc>(
     () => ResultBloc(locator.get<AppRepository>()),
   );
-  getIt.registerFactory<AtlasBloc>(() => AtlasBloc(locator.get<AppRepository>(), locator.get<SubscribeUserBloc>()));
+  getIt.registerFactory<AtlasBloc>(() => AtlasBloc(
+        locator.get<AppRepository>(),
+        locator.get<SubscribeUserBloc>(),
+        locator.get<PrefProvider>(),
+      ));
 
   getIt.registerLazySingleton<CalendarBloc>(
     () => CalendarBloc(locator.get<AppRepository>()),
