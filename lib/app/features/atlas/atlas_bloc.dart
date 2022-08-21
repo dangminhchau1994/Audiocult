@@ -18,7 +18,7 @@ typedef UserSubscriptionDataType = Map<String?, bool?>;
 
 class AtlasBloc extends BaseBloc {
   final AppRepository _appRepository;
-  late PrefProvider _prefProvider;
+  final PrefProvider _prefProvider;
   final SubscribeUserBloc _subscribeUserBloc;
   final UserSubscriptionDataType _subscriptionsInProcess = {};
   List<AtlasUser>? _allUsers;
@@ -28,7 +28,7 @@ class AtlasBloc extends BaseBloc {
   CancelToken? _cancel;
   List<AtlasUser>? get allUsers => _allUsers;
 
-  String? get myUserId => _prefProvider?.currentUserId;
+  String? get myUserId => _prefProvider.currentUserId;
 
   final _getAtlasUsers = PublishSubject<BlocState<Tuple2<List<AtlasUser>, Exception?>>>();
   Stream<BlocState<Tuple2<List<AtlasUser>, Exception?>>> get getAtlasUsersStream => _getAtlasUsers.stream;
