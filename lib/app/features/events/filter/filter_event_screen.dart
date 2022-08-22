@@ -71,68 +71,80 @@ class _FilterEventScreenState extends State<FilterEventScreen> {
             )
           ],
         ),
-        body: Container(
-          margin: const EdgeInsets.symmetric(
-            horizontal: kHorizontalSpacing,
-            vertical: kVerticalSpacing,
-          ),
-          child: Column(
+        body: SafeArea(
+          child: Stack(
             children: [
-              CommonInput(
-                editingController: _textController,
-                hintText: context.l10n.t_keyword,
-                onChanged: (value) {
-                  _keyword.value = value;
-                },
+              Positioned(
+                top: kVerticalSpacing,
+                left: kHorizontalSpacing,
+                right: kHorizontalSpacing,
+                bottom: 80,
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      CommonInput(
+                        editingController: _textController,
+                        hintText: context.l10n.t_keyword,
+                        onChanged: (value) {
+                          _keyword.value = value;
+                        },
+                      ),
+                      const SizedBox(height: 20),
+                      const Divider(height: 1, color: Colors.grey),
+                      const SizedBox(height: 20),
+                      FilterWhen(
+                        selectedIndex: _whenSelectedIndex,
+                        onChanged: (value, index) {
+                          setState(() {
+                            _when = value;
+                            _whenSelectedIndex = index;
+                          });
+                        },
+                      ),
+                      const SizedBox(height: 20),
+                      const Divider(height: 1, color: Colors.grey),
+                      const SizedBox(height: 20),
+                      FilterDistance(
+                        selectedIndex: _distanceSelectedIndex,
+                        onChanged: (value, index) {
+                          setState(() {
+                            _distance = value;
+                            _distanceSelectedIndex = index;
+                          });
+                        },
+                      ),
+                    ],
+                  ),
+                ),
               ),
-              const SizedBox(height: 20),
-              const Divider(height: 1, color: Colors.grey),
-              const SizedBox(height: 20),
-              FilterWhen(
-                selectedIndex: _whenSelectedIndex,
-                onChanged: (value, index) {
-                  setState(() {
-                    _when = value;
-                    _whenSelectedIndex = index;
-                  });
-                },
-              ),
-              const SizedBox(height: 20),
-              const Divider(height: 1, color: Colors.grey),
-              const SizedBox(height: 20),
-              FilterDistance(
-                selectedIndex: _distanceSelectedIndex,
-                onChanged: (value, index) {
-                  setState(() {
-                    _distance = value;
-                    _distanceSelectedIndex = index;
-                  });
-                },
-              ),
-              const Spacer(),
-              ValueListenableBuilder<String>(
-                valueListenable: _keyword,
-                builder: (context, value, child) {
-                  return CommonButton(
-                    text: context.l10n.t_apply,
-                    color: isValidated(value) ? AppColors.activeLabelItem : Colors.grey,
-                    onTap: isValidated(value)
-                        ? () {
-                            Navigator.pushNamed(
-                              context,
-                              AppRoute.routeResultEvent,
-                              arguments: {
-                                'event_result': EventRequest(
-                                  query: _keyword.value,
-                                  distance: _distance,
-                                  when: _when,
-                                )
-                              },
-                            );
-                          }
-                        : null,
-                  );
-                },
+              Positioned(
+                left: kHorizontalSpacing,
+                right: kHorizontalSpacing,
+                bottom: 0,
+                child: ValueListenableBuilder<String>(
+                  valueListenable: _keyword,
+                  builder: (context, value, child) {
+                    return CommonButton(
+                      text: context.l10n.t_apply,
+                      color: isValidated(value) ? AppColors.activeLabelItem : Colors.grey,
+                      onTap: isValidated(value)
+                          ? () {
+                              Navigator.pushNamed(
+                                context,
+                                AppRoute.routeResultEvent,
+                                arguments: {
+                                  'event_result': EventRequest(
+                                    query: _keyword.value,
+                                    distance: _distance,
+                                    when: _when,
+                                  )
+                                },
+                              );
+                            }
+                          : null,
+                    );
+                  },
+                ),
               )
             ],
           ),

@@ -27,6 +27,7 @@ class FilterWhen extends StatelessWidget {
         ),
         const SizedBox(height: 20),
         ListView.separated(
+          primary: false,
           shrinkWrap: true,
           separatorBuilder: (context, index) => const Divider(height: 20),
           itemCount: GlobalConstants.getWhenList().length,
