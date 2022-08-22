@@ -9,6 +9,7 @@ import 'package:audio_cult/app/features/profile/pages/post_page.dart';
 import 'package:audio_cult/app/features/profile/pages/videos_page.dart';
 import 'package:audio_cult/app/features/profile/profile_bloc.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
+import 'package:audio_cult/app/view/no_data_widget.dart';
 import 'package:audio_cult/w_components/loading/loading_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -54,6 +55,7 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
       child: Scaffold(
           backgroundColor: AppColors.mainColor,
           body: LoadingBuilder<ProfileBloc, ProfileData>(
+            noDataBuilder: (state) => const NoDataWidget(),
             builder: (data, _) {
               data.currency = _profileBloc?.currency;
               return DefaultTabController(
