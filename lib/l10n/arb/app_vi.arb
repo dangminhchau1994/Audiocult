@@ -147,6 +147,7 @@
     "t_checkout": "Checkout",
     "t_cart_empty": "Cart is empty",
     "t_add_to_cart": "Add to cart",
+    "t_added_to_cart": "Added to cart",
     "t_are_you_sure_continue": "Are you sure you want to continue?",
     "t_yes": "Yes",
     "t_no": "No"

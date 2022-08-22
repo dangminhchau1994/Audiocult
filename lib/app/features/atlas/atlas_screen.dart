@@ -6,13 +6,13 @@ import 'package:audio_cult/app/features/atlas/atlas_user_widget.dart';
 import 'package:audio_cult/app/features/profile/profile_screen.dart';
 import 'package:audio_cult/app/utils/constants/app_assets.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
+import 'package:audio_cult/app/utils/debouncer.dart';
 import 'package:audio_cult/app/utils/route/app_route.dart';
 import 'package:audio_cult/app/view/no_data_widget.dart';
 import 'package:audio_cult/di/bloc_locator.dart';
 import 'package:audio_cult/l10n/l10n.dart';
 import 'package:audio_cult/w_components/loading/loading_widget.dart';
 import 'package:collection/collection.dart';
-import 'package:debounce_throttle/debounce_throttle.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -29,7 +29,7 @@ class AtlasScreen extends StatefulWidget {
 }
 
 class _AtlasScreenState extends State<AtlasScreen> with AutomaticKeepAliveClientMixin {
-  final _keywordOnChangedDebouncer = Debouncer<String>(const Duration(milliseconds: 500), initialValue: '');
+  final _debouncer = Debouncer(milliseconds: 1000);
   final _searchTextController = TextEditingController();
   final _scrollController = ScrollController();
   final _pagingController = PagingController<int, AtlasUser>(firstPageKey: 1);
@@ -60,8 +60,7 @@ class _AtlasScreenState extends State<AtlasScreen> with AutomaticKeepAliveClient
 
   void _listenKeywordChange() {
     _bloc.keywordOnChanged(_searchTextController.text);
-    _keywordOnChangedDebouncer.value = _searchTextController.text;
-    _keywordOnChangedDebouncer.values.listen((search) {
+    _debouncer.run(() {
       _pagingController.refresh();
       _bloc.getAtlasUsers(1, widget.userId, widget.getSubscribed);
     });
@@ -112,7 +111,10 @@ class _AtlasScreenState extends State<AtlasScreen> with AutomaticKeepAliveClient
           padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
           child: Column(
             children: [
-              _searchWrapper(),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 14),
+                child: _searchWrapper(),
+              ),
               Expanded(child: _refreshableListView()),
             ],
           ),
@@ -214,7 +216,7 @@ class _AtlasScreenState extends State<AtlasScreen> with AutomaticKeepAliveClient
         }
         return Scrollbar(
           child: PagedListView<int, AtlasUser>(
-            padding: const EdgeInsets.symmetric(vertical: 24),
+            padding: const EdgeInsets.only(bottom: 24),
             scrollController: _scrollController,
             pagingController: _pagingController,
             builderDelegate: PagedChildBuilderDelegate<AtlasUser>(
@@ -229,6 +231,7 @@ class _AtlasScreenState extends State<AtlasScreen> with AutomaticKeepAliveClient
                   updatedSubscriptionCount: latestSubscriptionCount,
                   updatedSubscriptionStatus: latestSubscriptionValue,
                   userSubscriptionInProcess: subscriptionInProcess?[user.userId] ?? false,
+                  isSubscriptionButtonHidden: user.userId == _bloc.myUserId,
                   subscriptionOnChanged: () {
                     _bloc.subscribeUser(user);
                   },
