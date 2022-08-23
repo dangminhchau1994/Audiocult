@@ -129,7 +129,7 @@ class DetailSongDescription extends StatelessWidget {
               ],
             ),
             const SizedBox(
-              height: 20,
+              height: 16,
             ),
             //genre tags
             if (data?.tags != null)
@@ -137,11 +137,30 @@ class DetailSongDescription extends StatelessWidget {
                 spacing: 8,
                 runSpacing: 4,
                 children: data!.tags!
-                    .split('')
+                    .split(data!.tags!.contains(',') ? ',' : ' ')
                     .map(
-                      (e) => Text(
-                        e,
-                        style: TextStyle(color: AppColors.lightBlue),
+                      (e) => WButtonInkwell(
+                        onPressed: () {
+                          debugPrint('chau: ${e.replaceAll('#', '')}');
+                          Navigator.pushNamed(
+                            context,
+                            AppRoute.routeTopSongs,
+                            arguments: SearchArgs(
+                              tag: e.replaceAll('#', ''),
+                            ),
+                          );
+                        },
+                        child: Text(
+                          e.isNotEmpty
+                              ? e.contains('#')
+                                  ? e
+                                  : '#$e'
+                              : '',
+                          style: TextStyle(
+                            color: AppColors.lightBlue,
+                            fontSize: 16,
+                          ),
+                        ),
                       ),
                     )
                     .toList(),
@@ -149,7 +168,7 @@ class DetailSongDescription extends StatelessWidget {
             else
               Container(),
             const SizedBox(
-              height: 20,
+              height: 16,
             ),
             //read more text
             if (data?.description != null)

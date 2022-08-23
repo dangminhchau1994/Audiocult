@@ -1,4 +1,5 @@
 import 'package:audio_cult/app/base/base_bloc.dart';
+import 'package:audio_cult/app/data_source/models/requests/top_song_request.dart';
 import 'package:rxdart/rxdart.dart';
 import '../../../base/bloc_state.dart';
 import '../../../data_source/models/responses/album/album_response.dart';
@@ -44,10 +45,10 @@ class SearchBloc extends BaseBloc {
     });
   }
 
-  void getTopSongs(String query, String sort, String genresId, String when, int page, int limit) async {
+  void getTopSongs(TopSongRequest params) async {
     _getTopSongSubject.sink.add(const BlocState.loading());
 
-    final result = await _appRepository.getTopSongs(query, sort, genresId, when, page, limit);
+    final result = await _appRepository.getTopSongs(params);
 
     result.fold((success) {
       _getTopSongSubject.sink.add(BlocState.success(success));

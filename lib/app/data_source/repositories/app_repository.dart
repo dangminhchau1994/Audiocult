@@ -11,6 +11,7 @@ import 'package:audio_cult/app/data_source/models/requests/my_diary_event_reques
 import 'package:audio_cult/app/data_source/models/requests/notification_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/register_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/report_request.dart';
+import 'package:audio_cult/app/data_source/models/requests/top_song_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/upload_photo_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/upload_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/upload_video_request.dart';
@@ -89,16 +90,9 @@ class AppRepository extends BaseRepository {
     return safeCall(() => appServiceProvider.login(request));
   }
 
-  Future<Either<List<Song>, Exception>> getTopSongs(
-    String query,
-    String sort,
-    String genresId,
-    String when,
-    int page,
-    int limit,
-  ) {
+  Future<Either<List<Song>, Exception>> getTopSongs(TopSongRequest params) {
     return safeCall(
-      () => appServiceProvider.getTopSongs(query, sort, genresId, when, page, limit),
+      () => appServiceProvider.getTopSongs(params),
     );
   }
 

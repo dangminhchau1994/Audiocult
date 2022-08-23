@@ -39,6 +39,7 @@ class _TopSongScreenState extends State<TopSongScreen> with AutomaticKeepAliveCl
   late TopSongBloc _topSongBloc;
   final PagingController<int, Song> _pagingController = PagingController(firstPageKey: 1);
   String? _genreID;
+  String? _tag;
 
   @override
   void dispose() {
@@ -50,6 +51,7 @@ class _TopSongScreenState extends State<TopSongScreen> with AutomaticKeepAliveCl
   void initState() {
     super.initState();
     _genreID = widget.arguments.genreID;
+    _tag = widget.arguments.tag;
     _topSongBloc = getIt.get<TopSongBloc>();
     _pagingController.addPageRequestListener((pageKey) {
       if (pageKey > 1) {
@@ -60,6 +62,7 @@ class _TopSongScreenState extends State<TopSongScreen> with AutomaticKeepAliveCl
       params: TopSongRequest(
         sort: 'most-viewed',
         page: 1,
+        tag: _tag,
         genresId: _genreID,
         limit: GlobalConstants.loadMoreItem,
       ),
@@ -74,6 +77,7 @@ class _TopSongScreenState extends State<TopSongScreen> with AutomaticKeepAliveCl
           page: pageKey,
           limit: GlobalConstants.loadMoreItem,
           genresId: _genreID,
+          tag: _tag,
         ),
       );
       newItems.fold(
@@ -123,6 +127,7 @@ class _TopSongScreenState extends State<TopSongScreen> with AutomaticKeepAliveCl
                     sort: sort == 'Latest' ? 'Latest' : sort!.toLowerCase().replaceAll(' ', '_'),
                     page: 1,
                     genresId: _genreID,
+                    tag: _tag,
                     when: when!.toLowerCase().replaceAll(' ', '_'),
                     limit: GlobalConstants.loadMoreItem,
                   ),
@@ -184,6 +189,7 @@ class _TopSongScreenState extends State<TopSongScreen> with AutomaticKeepAliveCl
                 sort: 'most-viewed',
                 page: 1,
                 genresId: _genreID,
+                tag: _tag,
                 limit: GlobalConstants.loadMoreItem,
               ),
             );
@@ -238,6 +244,7 @@ class _TopSongScreenState extends State<TopSongScreen> with AutomaticKeepAliveCl
                 params: TopSongRequest(
                   sort: 'most-viewed',
                   page: 1,
+                  tag: _tag,
                   genresId: _genreID,
                   limit: GlobalConstants.loadMoreItem,
                 ),

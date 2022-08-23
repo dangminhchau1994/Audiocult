@@ -1,3 +1,4 @@
+import 'package:audio_cult/app/data_source/models/requests/top_song_request.dart';
 import 'package:audio_cult/app/features/music/discover/discover_bloc.dart';
 import 'package:audio_cult/app/features/music/discover/widgets/featured_albums.dart';
 import 'package:audio_cult/app/features/music/discover/widgets/featured_mixtapes.dart';
@@ -38,7 +39,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> with AutomaticKeepAlive
   }
 
   void _getAllData() {
-    getIt.get<DiscoverBloc>().getTopSongs('', 'most-viewed', '', '', 1, 3);
+    getIt.get<DiscoverBloc>().getTopSongs(TopSongRequest(sort: 'most-viewed', page: 1, limit: 3));
     getIt.get<DiscoverBloc>().getAlbums('', 'featured', '', '', '', 1, 3);
     getIt.get<DiscoverBloc>().getMixTapSongs('', 'most-viewed', '', '', 1, 3, 'featured', 'mixtape-song');
     getIt.get<DiscoverBloc>().getPlaylist('', 1, 2, 'most-liked', '', '', 1);
@@ -87,16 +88,21 @@ class _DiscoverScreenState extends State<DiscoverScreen> with AutomaticKeepAlive
                         duration: const Duration(milliseconds: 500),
                         curve: Curves.ease,
                       );
-                      getIt.get<DiscoverBloc>().getTopSongs('', 'most-viewed', '', '', index++ > 2 ? 1 : index++, 3);
+                      getIt
+                          .get<DiscoverBloc>()
+                          .getTopSongs(TopSongRequest(sort: 'most-viewed', page: index++ > 2 ? 1 : index++, limit: 3));
                     },
                     onPageChange: (index) {
-                      getIt.get<DiscoverBloc>().getTopSongs('', 'most-viewed', '', '', index + 1, 3);
-                      setState(() {
-                        _currentIndex = index;
-                      });
+                      getIt
+                          .get<DiscoverBloc>()
+                          .getTopSongs(TopSongRequest(sort: 'most-viewed', page: index + 1, limit: 3));
+                      _currentIndex = index;
+                      setState(() {});
                     },
                     onRetry: () {
-                      getIt.get<DiscoverBloc>().getTopSongs('', 'most-viewed', '', '', _currentIndex + 1, 3);
+                      getIt
+                          .get<DiscoverBloc>()
+                          .getTopSongs(TopSongRequest(sort: 'most-viewed', page: _currentIndex + 1, limit: 3));
                     },
                   ),
                   FeaturedAlbums(
@@ -123,7 +129,9 @@ class _DiscoverScreenState extends State<DiscoverScreen> with AutomaticKeepAlive
                         duration: const Duration(milliseconds: 500),
                         curve: Curves.ease,
                       );
-                      getIt.get<DiscoverBloc>().getTopSongs('', 'most-viewed', '', '', index++ > 1 ? 1 : index++, 3);
+                      getIt
+                          .get<DiscoverBloc>()
+                          .getTopSongs(TopSongRequest(sort: 'most-viewed', page: index++ > 1 ? 1 : index++, limit: 3));
                     },
                     onPageChange: (index) {
                       getIt

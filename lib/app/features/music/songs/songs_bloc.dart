@@ -14,14 +14,7 @@ class SongsBloc extends BaseBloc<TopSongRequest, List<Song>> {
 
   @override
   Future<Either<List<Song>, Exception>> loadData(TopSongRequest? params) async {
-    final result = await _appRepository.getTopSongs(
-      '',
-      params?.sort ?? '',
-      params?.genresId ?? '',
-      params?.when ?? '',
-      params?.page ?? 0,
-      params?.limit ?? 0,
-    );
+    final result = await _appRepository.getTopSongs(params ?? TopSongRequest());
     return result;
   }
 }

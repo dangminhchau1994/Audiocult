@@ -2,6 +2,7 @@ import 'package:audio_cult/app/data_source/models/responses/feed/feed_response.d
 import 'package:audio_cult/app/utils/constants/app_assets.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 import '../../../utils/constants/app_colors.dart';
@@ -67,20 +68,26 @@ class FeedItemUserInfo extends StatelessWidget {
             children: [
               Wrap(
                 children: [
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pushNamed(
-                        context,
-                        AppRoute.routeProfile,
-                        arguments: ProfileScreen.createArguments(id: data!.userId!),
-                      );
-                    },
-                    child: Text(
-                      '${data?.userName ?? ''} ${data?.feedInfo ?? ''} ${getFriendTagged(data!)}',
-                      style: context.buttonTextStyle()!.copyWith(
-                            fontSize: 16,
-                            color: Colors.white,
-                          ),
+                  RichText(
+                    text: TextSpan(
+                      style: context.buttonTextStyle()!.copyWith(fontSize: 16, color: Colors.white),
+                      children: [
+                        TextSpan(
+                          text: data?.userName ?? '',
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              Navigator.pushNamed(
+                                context,
+                                AppRoute.routeProfile,
+                                arguments: ProfileScreen.createArguments(id: data!.userId!),
+                              );
+                            },
+                        ),
+                        const TextSpan(text: ' '),
+                        TextSpan(text: data?.feedInfo ?? ''),
+                        const TextSpan(text: ' '),
+                        TextSpan(text: getFriendTagged(data!)),
+                      ],
                     ),
                   ),
                   Visibility(

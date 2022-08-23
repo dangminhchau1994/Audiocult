@@ -11,6 +11,7 @@ import 'package:audio_cult/app/data_source/models/requests/my_diary_event_reques
 import 'package:audio_cult/app/data_source/models/requests/notification_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/register_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/report_request.dart';
+import 'package:audio_cult/app/data_source/models/requests/top_song_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/upload_photo_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/upload_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/upload_video_request.dart';
@@ -304,6 +305,7 @@ class AppServiceProvider {
         'location': request.location,
         'country_iso': request.countryIso,
         'view': request.view,
+        'tag': request.tag,
         'distance': request.distance,
         'when': request.when,
         'start_time': request.startTime,
@@ -420,18 +422,12 @@ class AppServiceProvider {
     );
   }
 
-  Future<List<Song>> getTopSongs(String query, String sort, String genresId, String when, int page, int limit) async {
+  Future<List<Song>> getTopSongs(TopSongRequest request) async {
+    final params = await request.toJson();
     final response = await _dioHelper.get(
       route: '/restful_api/song',
       options: Options(headers: {'Content-Type': 'application/x-www-form-urlencoded'}),
-      requestParams: {
-        'search[search]': query,
-        'sort': sort,
-        'genre_id': genresId,
-        'when': when,
-        'page': page,
-        'limit': limit,
-      },
+      requestParams: params,
       responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
     );
     return response.mapData(

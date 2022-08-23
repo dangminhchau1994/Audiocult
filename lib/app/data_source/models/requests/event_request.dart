@@ -7,6 +7,7 @@ class EventRequest {
   final String? view;
   final String? distance;
   final String? when;
+  final String? tag;
   final String? startTime;
   final String? endTime;
   final String? sort;
@@ -20,6 +21,7 @@ class EventRequest {
     this.postalCode,
     this.location,
     this.countryIso,
+    this.tag,
     this.view,
     this.distance,
     this.when,

@@ -2,9 +2,12 @@ import 'package:audio_cult/app/data_source/models/responses/events/event_respons
 import 'package:audio_cult/app/utils/constants/app_dimens.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/l10n/l10n.dart';
+import 'package:audio_cult/w_components/buttons/w_button_inkwell.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../data_source/models/requests/event_request.dart';
 import '../../../../utils/constants/app_colors.dart';
+import '../../../../utils/route/app_route.dart';
 
 class EventDetailDescription extends StatelessWidget {
   const EventDetailDescription({
@@ -39,12 +42,21 @@ class EventDetailDescription extends StatelessWidget {
                 children: data!.tags!
                     .split(',')
                     .map(
-                      (e) => Text(
-                        '#$e',
-                        style: context.bodyTextPrimaryStyle()!.copyWith(
-                              color: AppColors.lightBlue,
-                              fontSize: 14,
-                            ),
+                      (e) => WButtonInkwell(
+                        onPressed: () {
+                          Navigator.pushNamed(
+                            context,
+                            AppRoute.routeResultEvent,
+                            arguments: {'event_result': EventRequest(tag: e.replaceAll('#', ''))},
+                          );
+                        },
+                        child: Text(
+                          '#$e',
+                          style: context.bodyTextPrimaryStyle()!.copyWith(
+                                color: AppColors.lightBlue,
+                                fontSize: 16,
+                              ),
+                        ),
                       ),
                     )
                     .toList(),
