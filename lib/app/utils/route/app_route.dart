@@ -41,6 +41,7 @@ import 'package:audio_cult/app/features/profile/subscriptions/subscriptions_scre
 import 'package:audio_cult/app/features/search_suggestion/search_suggestion_screen.dart';
 import 'package:audio_cult/app/features/settings/settings_screen.dart';
 import 'package:audio_cult/app/features/terms/terms_screen.dart';
+import 'package:audio_cult/app/features/ticket/payments/payment_tickets_screen.dart';
 import 'package:audio_cult/app/features/universal_search/universal_search_screen.dart';
 import 'package:audio_cult/app/features/videos/video_player_screen.dart';
 import 'package:audio_cult/app/injections.dart';
@@ -111,6 +112,7 @@ class AppRoute {
   static const String routeMyCart = '/route_my_cart';
   static const String routeEditFeed = '/route_edit_feed';
   static const String routeTerms = '/route_terms';
+  static const String routePaymentTicket = '/route_payment_ticket';
 
   ///#end region
 
@@ -387,6 +389,8 @@ class AppRoute {
         return _pageRoute(settings, SearchSuggestionScreen(initialSearchText: arguments as String?));
       case routeMyCart:
         return _pageRoute(settings, const MyCartScreen());
+      case routePaymentTicket:
+        return _pageRoute(settings, const PaymentTicketsScreen());
       default:
         return null;
     }

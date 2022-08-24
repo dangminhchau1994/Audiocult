@@ -19,4 +19,18 @@ class PaymentServiceProvider {
         });
     return response;
   }
+
+  Future<BaseRes?> addTicketToCart(List<Items> list, String eventId, String userName) async {
+    final body = <String, dynamic>{};
+    list.forEach((element) {
+      body.addAll({'item_${element.id}': element.count});
+    });
+    print(body);
+    final response = await _dioHelper.post(
+      route: '/capi/$userName/$eventId/cart/add',
+      requestBody: FormData.fromMap(body),
+      responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
+    );
+    return response;
+  }
 }

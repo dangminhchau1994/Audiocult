@@ -709,4 +709,8 @@ class AppRepository extends BaseRepository {
   Future<Either<TicketProductList?, Exception>> getListTicket(String eventId, String userName) {
     return safeCall(() => paymentServiceProvider.getListTicket(eventId, userName));
   }
+
+  Future<Either<BaseRes?, Exception>> addTicketToCart(List<Items> list, String eventId, String userName) {
+    return safeCall(() => paymentServiceProvider.addTicketToCart(list, eventId, userName));
+  }
 }
