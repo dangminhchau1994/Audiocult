@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:audio_cult/app/features/ticket/w_ticket_bloc.dart';
 import 'package:audio_cult/app/injections.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
@@ -5,6 +7,7 @@ import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/w_components/buttons/common_button.dart';
 import 'package:audio_cult/w_components/loading/loading_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
 
 import '../../../w_components/error_empty/error_section.dart';
 import '../../base/bloc_state.dart';
@@ -60,67 +63,28 @@ class _WBottomTicketState extends State<WBottomTicket> {
                       success: (success) {
                         final data = success as TicketProductList;
                         final listItems = data.itemsByCategory?[0].items ?? [];
-                        return ListView(
-                            shrinkWrap: true,
-                            children: listItems
-                                .map((e) => Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text(e.name ?? '', style: context.body1TextStyle()?.copyWith(fontSize: 18)),
-                                        const SizedBox(
-                                          height: 16,
-                                        ),
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text('${data.currency} - ${e.price?.gross}',
-                                                style: context
-                                                    .body1TextStyle()
-                                                    ?.copyWith(color: AppColors.activeLabelItem)),
-                                            Row(
-                                              children: [
-                                                Container(
-                                                  padding: const EdgeInsets.all(8),
-                                                  decoration: BoxDecoration(
-                                                      color: AppColors.inputFillColor,
-                                                      borderRadius: BorderRadius.circular(8)),
-                                                  child: const Icon(
-                                                    Icons.remove,
-                                                    color: Colors.white,
-                                                  ),
-                                                ),
-                                                Padding(
-                                                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                                                  child: Text(
-                                                    '0',
-                                                    style: context
-                                                        .body2TextStyle()
-                                                        ?.copyWith(fontSize: 20, fontWeight: FontWeight.w700),
-                                                  ),
-                                                ),
-                                                Container(
-                                                  padding: const EdgeInsets.all(8),
-                                                  decoration: BoxDecoration(
-                                                      color: AppColors.inputFillColor,
-                                                      borderRadius: BorderRadius.circular(8)),
-                                                  child: const Icon(
-                                                    Icons.add,
-                                                    color: Colors.white,
-                                                  ),
-                                                ),
-                                              ],
-                                            )
-                                          ],
-                                        ),
-                                        const SizedBox(
-                                          height: 16,
-                                        ),
-                                        Divider(
-                                          color: AppColors.subTitleColor,
-                                        )
-                                      ],
-                                    ))
-                                .toList());
+                        return Column(
+                          children: [
+                            Expanded(
+                              child: ListView(
+                                  shrinkWrap: true,
+                                  children: listItems
+                                      .map((e) => ProductItem(
+                                            data: data,
+                                            item: e,
+                                          ))
+                                      .toList()),
+                            ),
+                            Container(
+                              margin: const EdgeInsets.symmetric(vertical: 8),
+                              child: CommonButton(
+                                color: AppColors.primaryButtonColor,
+                                text: 'Buy',
+                                onTap: () {},
+                              ),
+                            ),
+                          ],
+                        );
                       },
                       loading: LoadingWidget.new,
                       error: (error) {
@@ -131,19 +95,111 @@ class _WBottomTicketState extends State<WBottomTicket> {
                       });
                 }),
           ),
-          Container(
-            margin: const EdgeInsets.symmetric(vertical: 8),
-            child: CommonButton(
-              color: AppColors.primaryButtonColor,
-              text: 'Buy',
-              onTap: () {},
-            ),
-          ),
           const SizedBox(
             height: 16,
           )
         ],
       ),
+    );
+  }
+}
+
+class ProductItem extends StatefulWidget {
+  const ProductItem({
+    Key? key,
+    required this.data,
+    required this.item,
+  }) : super(key: key);
+
+  final TicketProductList data;
+  final Items item;
+
+  @override
+  State<ProductItem> createState() => _ProductItemState();
+}
+
+class _ProductItemState extends State<ProductItem> {
+  final ValueNotifier<int> _counter = ValueNotifier<int>(0);
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(widget.item.name ?? '', style: context.body1TextStyle()?.copyWith(fontSize: 18)),
+        const SizedBox(
+          height: 16,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text('${widget.data.currency} - ${widget.item.price?.gross}',
+                style: context.body1TextStyle()?.copyWith(color: AppColors.activeLabelItem)),
+            Row(
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    if (_counter.value > 0) {
+                      _counter.value -= 1;
+                      widget.item.count = _counter.value;
+                    }
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(color: AppColors.inputFillColor, borderRadius: BorderRadius.circular(8)),
+                    child: const Icon(
+                      Icons.remove,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+                ValueListenableBuilder<int>(
+                  key: Key(const Uuid().v4()),
+                  valueListenable: _counter,
+                  builder: (_, int value, Widget? child) => Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Text(
+                      '$value',
+                      style: context.body2TextStyle()?.copyWith(fontSize: 20, fontWeight: FontWeight.w700),
+                    ),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    var limit = 10;
+                    if (widget.item.avail != null && widget.item.avail!.isNotEmpty) {
+                      limit = widget.item.avail![0];
+                    }
+                    if (_counter.value < limit) {
+                      _counter.value += 1;
+                      widget.item.count = _counter.value;
+                    }
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(color: AppColors.inputFillColor, borderRadius: BorderRadius.circular(8)),
+                    child: const Icon(
+                      Icons.add,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ],
+            )
+          ],
+        ),
+        const SizedBox(
+          height: 16,
+        ),
+        Divider(
+          color: AppColors.subTitleColor,
+        )
+      ],
     );
   }
 }

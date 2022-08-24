@@ -61,23 +61,23 @@ Map<String, dynamic> _$ItemsByCategoryToJson(ItemsByCategory instance) => <Strin
     };
 
 Items _$ItemsFromJson(Map<String, dynamic> json) => Items(
-      id: json['id'] as int?,
-      name: json['name'] as String?,
-      picture: json['picture'] as String?,
-      description: json['description'] as String?,
-      hasVariations: json['has_variations'] as int?,
-      requireVoucher: json['require_voucher'] as bool?,
-      orderMin: json['order_min'] as String?,
-      orderMax: json['order_max'] as int?,
-      price: json['price'] == null ? null : Price.fromJson(json['price'] as Map<String, dynamic>),
-      minPrice: json['min_price'] as String?,
-      maxPrice: json['max_price'] as String?,
-      allowWaitinglist: json['allow_waitinglist'] as bool?,
-      freePrice: json['free_price'] as bool?,
-      avail: (json['avail'] as List<dynamic>?)?.map((e) => e != null ? e as int : 0).toList(),
-      originalPrice: json['original_price'] as String?,
-      variations: (json['variations'] as List<dynamic>?)?.map((e) => e as String).toList(),
-    );
+    id: json['id'] as int?,
+    name: json['name'] as String?,
+    picture: json['picture'] as String?,
+    description: json['description'] as String?,
+    hasVariations: json['has_variations'] as int?,
+    requireVoucher: json['require_voucher'] as bool?,
+    orderMin: json['order_min'] as String?,
+    orderMax: json['order_max'] as int?,
+    price: json['price'] == null ? null : Price.fromJson(json['price'] as Map<String, dynamic>),
+    minPrice: json['min_price'] as String?,
+    maxPrice: json['max_price'] as String?,
+    allowWaitinglist: json['allow_waitinglist'] as bool?,
+    freePrice: json['free_price'] as bool?,
+    avail: (json['avail'] as List<dynamic>?)?.map((e) => e != null ? e as int : 0).toList(),
+    originalPrice: json['original_price'] as String?,
+    variations: (json['variations'] as List<dynamic>?)?.map((e) => e as String).toList(),
+    count: 0);
 
 Map<String, dynamic> _$ItemsToJson(Items instance) => <String, dynamic>{
       'id': instance.id,
@@ -96,6 +96,7 @@ Map<String, dynamic> _$ItemsToJson(Items instance) => <String, dynamic>{
       'avail': instance.avail,
       'original_price': instance.originalPrice,
       'variations': instance.variations,
+      'count': instance.count
     };
 
 Price _$PriceFromJson(Map<String, dynamic> json) => Price(
