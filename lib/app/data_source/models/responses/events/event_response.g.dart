@@ -46,6 +46,10 @@ EventResponse _$EventResponseFromJson(Map<String, dynamic> json) =>
       lineup: json['lineup'] == null
           ? null
           : Lineup.fromJson(json['lineup'] as Map<String, dynamic>),
+      tickets: (json['tickets'] as List<dynamic>?)
+          ?.map((e) => Ticket.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      cultixUri: json['cultix_uri'] as String?,
     );
 
 Map<String, dynamic> _$EventResponseToJson(EventResponse instance) =>
@@ -82,6 +86,8 @@ Map<String, dynamic> _$EventResponseToJson(EventResponse instance) =>
       'categories': instance.categories,
       'lineup': instance.lineup,
       'last_icon': instance.lastIcon,
+      'tickets': instance.tickets,
+      'cultix_uri': instance.cultixUri,
     };
 
 LastIcon _$LastIconFromJson(Map<String, dynamic> json) => LastIcon(

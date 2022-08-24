@@ -13,17 +13,18 @@ import 'package:audio_cult/app/features/events/detail/widgets/event_detail_map.d
 import 'package:audio_cult/app/features/events/detail/widgets/event_detail_navbar.dart';
 import 'package:audio_cult/app/features/events/detail/widgets/event_detail_photo.dart';
 import 'package:audio_cult/app/features/events/detail/widgets/event_detail_title.dart';
+import 'package:audio_cult/app/features/ticket/w_bottom_dialog.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
 import 'package:audio_cult/app/utils/constants/app_dimens.dart';
 import 'package:audio_cult/di/bloc_locator.dart';
 import 'package:audio_cult/l10n/l10n.dart';
 import 'package:audio_cult/w_components/buttons/common_button.dart';
 import 'package:flutter/material.dart';
+
 import '../../../../w_components/error_empty/error_section.dart';
 import '../../../../w_components/loading/loading_widget.dart';
 import '../../../utils/constants/app_assets.dart';
 import '../../../utils/file/file_utils.dart';
-import '../../../utils/toast/toast_utils.dart';
 
 class EventDetail extends StatefulWidget {
   const EventDetail({
@@ -101,16 +102,29 @@ class _EventDetailState extends State<EventDetail> {
                           horizontal: kHorizontalSpacing,
                           vertical: kVerticalSpacing,
                         ),
-                        child: CommonButton(
-                          color: AppColors.primaryButtonColor,
-                          text: context.l10n.t_buy,
-                          onTap: () {
-                            ToastUtility.showPending(
-                              context: context,
-                              message: context.l10n.t_feature_development,
-                            );
-                          },
-                        ),
+                        child: data.tickets!.isNotEmpty
+                            ? CommonButton(
+                                color: AppColors.primaryButtonColor,
+                                text: context.l10n.t_buy,
+                                onTap: () {
+                                  showModalBottomSheet(
+                                      backgroundColor: Colors.transparent,
+                                      enableDrag: true,
+                                      isScrollControlled: false,
+                                      shape: const RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.vertical(
+                                          top: Radius.circular(10),
+                                        ),
+                                      ),
+                                      clipBehavior: Clip.antiAliasWithSaveLayer,
+                                      context: context,
+                                      builder: (_) => WBottomTicket(
+                                            eventId: data.eventId,
+                                            userName: data.cultixUri?.split('/')[3] ?? '',
+                                          ));
+                                },
+                              )
+                            : const SizedBox.shrink(),
                       ),
                     ),
                     ArtistLineUp(data: data),

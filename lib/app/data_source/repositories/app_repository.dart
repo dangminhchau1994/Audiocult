@@ -62,11 +62,13 @@ import '../models/responses/background/background_response.dart';
 import '../models/responses/create_album_response.dart';
 import '../models/responses/events/event_category_response.dart';
 import '../models/responses/login_response.dart';
+import '../models/responses/productlist/productlist.dart';
 import '../models/responses/register_response.dart';
 import '../models/responses/song/song_response.dart';
 import '../models/responses/user_group.dart';
 import '../services/app_service_provider.dart';
 import '../services/assets_local_provider.dart';
+import '../services/payment_service_provider.dart';
 import '../services/place_service_provider.dart';
 import 'base_repository.dart';
 
@@ -75,15 +77,16 @@ class AppRepository extends BaseRepository {
   final PlaceServiceProvider placeServiceProvider;
   final HiveServiceProvider hiveServiceProvider;
   final AssetsLocalServiceProvider assetsLocalServiceProvider;
+  final PaymentServiceProvider paymentServiceProvider;
   final PrefProvider prefProvider;
 
-  AppRepository({
-    required this.appServiceProvider,
-    required this.placeServiceProvider,
-    required this.hiveServiceProvider,
-    required this.assetsLocalServiceProvider,
-    required this.prefProvider,
-  });
+  AppRepository(
+      {required this.appServiceProvider,
+      required this.placeServiceProvider,
+      required this.hiveServiceProvider,
+      required this.assetsLocalServiceProvider,
+      required this.prefProvider,
+      required this.paymentServiceProvider});
 
   Future<Either<LoginResponse, Exception>> login(LoginRequest request) {
     return safeCall(() => appServiceProvider.login(request));
@@ -701,5 +704,9 @@ class AppRepository extends BaseRepository {
 
   Future<Either<String?, Exception>> getCount() {
     return safeCall(appServiceProvider.getCount);
+  }
+
+  Future<Either<TicketProductList?, Exception>> getListTicket(String eventId, String userName) {
+    return safeCall(() => paymentServiceProvider.getListTicket(eventId, userName));
   }
 }
