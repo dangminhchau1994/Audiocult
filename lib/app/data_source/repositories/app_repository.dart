@@ -36,6 +36,7 @@ import 'package:audio_cult/app/data_source/models/responses/playlist/update_play
 import 'package:audio_cult/app/data_source/models/responses/post_reaction/post_reaction.dart';
 import 'package:audio_cult/app/data_source/models/responses/privacy_settings/privacy_settings_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/profile_data.dart';
+import 'package:audio_cult/app/data_source/models/responses/question_ticket/question_ticket.dart';
 import 'package:audio_cult/app/data_source/models/responses/reaction_icon/reaction_icon_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/reasons/reason_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/terms/terms_response.dart';
@@ -712,5 +713,9 @@ class AppRepository extends BaseRepository {
 
   Future<Either<BaseRes?, Exception>> addTicketToCart(List<Items> list, String eventId, String userName) {
     return safeCall(() => paymentServiceProvider.addTicketToCart(list, eventId, userName));
+  }
+
+  Future<Either<QuestionTicket?, Exception>> getListPaymentTickets(String eventId, String username) {
+    return safeCall(() => paymentServiceProvider.getListPaymentTickets(eventId, username));
   }
 }

@@ -1,4 +1,5 @@
 import 'package:audio_cult/app/data_source/models/responses/productlist/productlist.dart';
+import 'package:audio_cult/app/data_source/models/responses/question_ticket/question_ticket.dart';
 import 'package:dio/dio.dart';
 
 import '../models/base_response.dart';
@@ -31,6 +32,15 @@ class PaymentServiceProvider {
       requestBody: FormData.fromMap(body),
       responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
     );
+    return response;
+  }
+
+  Future<QuestionTicket> getListPaymentTickets(String eventId, String userName) async {
+    final response = await _dioHelper.get(
+        route: '/capi/$userName/$eventId/questions',
+        responseBodyMapper: (jsonMapper) {
+          return QuestionTicket.fromJson(jsonMapper as Map<String, dynamic>);
+        });
     return response;
   }
 }

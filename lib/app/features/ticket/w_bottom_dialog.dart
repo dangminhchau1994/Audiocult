@@ -1,4 +1,5 @@
 import 'package:audio_cult/app/base/bloc_handle.dart';
+import 'package:audio_cult/app/features/ticket/payments/payment_tickets_screen.dart';
 import 'package:audio_cult/app/features/ticket/w_ticket_bloc.dart';
 import 'package:audio_cult/app/injections.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
@@ -30,7 +31,8 @@ class _WBottomTicketState extends State<WBottomTicket> {
     super.initState();
     _ticketBloc.getListTicket(widget.eventId!, widget.userName!);
     _ticketBloc.addTicketsStream.listen((event) {
-      Navigator.pushNamed(context, AppRoute.routePaymentTicket);
+      Navigator.pushNamed(context, AppRoute.routePaymentTicket,
+          arguments: PaymentTicketsScreen.createArguments(eventId: widget.eventId!, userName: widget.userName!));
     });
   }
 

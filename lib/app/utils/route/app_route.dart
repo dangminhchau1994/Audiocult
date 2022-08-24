@@ -390,7 +390,11 @@ class AppRoute {
       case routeMyCart:
         return _pageRoute(settings, const MyCartScreen());
       case routePaymentTicket:
-        return _pageRoute(settings, const PaymentTicketsScreen());
+        return _pageRoute(
+            settings,
+            PaymentTicketsScreen(
+              params: asType(settings.arguments) as Map<String, dynamic>,
+            ));
       default:
         return null;
     }
