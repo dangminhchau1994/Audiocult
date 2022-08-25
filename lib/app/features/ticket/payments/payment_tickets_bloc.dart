@@ -17,12 +17,12 @@ class PaymentTicketsBloc extends BaseBloc {
     final result = await _appRepository.getListPaymentTickets(eventId, username);
 
     result.fold((data) {
-      data!.itemQuestions!.forEach(
-        (element) {
-          print(element.id);
-        },
-      );
-      // _getListPaymentSubject.sink.add(BlocState.success(data!));
+      // data!.itemQuestions!.forEach(
+      //   (element) {
+      //     print(element.id);
+      //   },
+      // );
+      _getListPaymentSubject.sink.add(BlocState.success(data!));
     }, (e) {
       _getListPaymentSubject.sink.add(BlocState.error(e.toString()));
     });

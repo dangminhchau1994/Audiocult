@@ -9,10 +9,12 @@ class CommonButton extends StatelessWidget {
     this.onTap,
     this.iconPath = '',
     this.width = double.infinity,
+    this.colorText,
   }) : super(key: key);
 
   final String? text;
   final Color? color;
+  final Color? colorText;
   final Function()? onTap;
   final double? width;
   final String? iconPath;
@@ -33,7 +35,10 @@ class CommonButton extends StatelessWidget {
         onPressed: onTap,
         child: Padding(
           padding: const EdgeInsets.all(16),
-          child: Text(text ?? '' ,style: context.buttonTextStyle(),),
+          child: Text(
+            text ?? '',
+            style: context.buttonTextStyle()?.copyWith(color: colorText ?? Colors.white),
+          ),
         ),
       ),
     );

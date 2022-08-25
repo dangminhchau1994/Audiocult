@@ -12,10 +12,7 @@ class TicketCartScreen extends StatefulWidget {
 
   @override
   State<TicketCartScreen> createState() => _TicketCartScreenState();
-  static Map<String, dynamic> createArguments({
-    required TicketProductList? cart,
-  }) =>
-      {
+  static Map<String, dynamic> createArguments({required TicketProductList? cart}) => {
         'cart': cart,
       };
 }
