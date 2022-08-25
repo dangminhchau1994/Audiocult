@@ -119,6 +119,7 @@ class _EventDetailState extends State<EventDetail> {
                                       clipBehavior: Clip.antiAliasWithSaveLayer,
                                       context: context,
                                       builder: (_) => WBottomTicket(
+                                            eventName: data.title,
                                             eventId: data.eventId,
                                             userName: data.cultixUri?.split('/')[3] ?? '',
                                           ));

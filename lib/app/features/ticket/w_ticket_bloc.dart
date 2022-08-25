@@ -28,14 +28,19 @@ class TicketBloc extends BaseBloc {
 
   void addTicketToCart(List<Items> list, String eventId, String userName) async {
     showOverLayLoading();
-    final result = await _appRepository.addTicketToCart(list, eventId, userName);
+    final resultClearCart = await _appRepository.clearTicketToCart(eventId, userName);
     hideOverlayLoading();
-    result.fold((data) {
-      if (data!.isSuccess!) {
-        _addTicketsSubject.add(true);
-      } else {
-        showError(AppException('Error'));
-      }
+    resultClearCart.fold((l) async {
+      showOverLayLoading();
+      final resultAddCart = await _appRepository.addTicketToCart(list, eventId, userName);
+      hideOverlayLoading();
+      resultAddCart.fold((data) {
+        if (data!.isSuccess!) {
+          _addTicketsSubject.add(true);
+        } else {
+          showError(AppException('Error'));
+        }
+      }, showError);
     }, showError);
   }
 }

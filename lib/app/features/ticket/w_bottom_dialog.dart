@@ -18,7 +18,8 @@ import '../../data_source/models/responses/productlist/productlist.dart';
 class WBottomTicket extends StatefulWidget {
   final String? eventId;
   final String? userName;
-  const WBottomTicket({Key? key, this.eventId, this.userName}) : super(key: key);
+  final String? eventName;
+  const WBottomTicket({Key? key, this.eventId, this.userName, this.eventName}) : super(key: key);
 
   @override
   State<WBottomTicket> createState() => _WBottomTicketState();
@@ -26,13 +27,15 @@ class WBottomTicket extends StatefulWidget {
 
 class _WBottomTicketState extends State<WBottomTicket> {
   final TicketBloc _ticketBloc = TicketBloc(locator.get());
+  TicketProductList? cart;
   @override
   void initState() {
     super.initState();
     _ticketBloc.getListTicket(widget.eventId!, widget.userName!);
     _ticketBloc.addTicketsStream.listen((event) {
       Navigator.pushNamed(context, AppRoute.routePaymentTicket,
-          arguments: PaymentTicketsScreen.createArguments(eventId: widget.eventId!, userName: widget.userName!));
+          arguments: PaymentTicketsScreen.createArguments(
+              eventId: widget.eventId!, userName: widget.userName!, cart: cart, eventName: widget.eventName ?? ''));
     });
   }
 
@@ -69,8 +72,8 @@ class _WBottomTicketState extends State<WBottomTicket> {
                     final state = snapshot.data!;
                     return state.when(
                         success: (success) {
-                          final data = success as TicketProductList;
-                          final listItems = data.itemsByCategory?[0].items ?? [];
+                          cart = success as TicketProductList;
+                          final listItems = cart?.itemsByCategory?[0].items ?? [];
                           return Column(
                             children: [
                               Expanded(
@@ -78,7 +81,7 @@ class _WBottomTicketState extends State<WBottomTicket> {
                                     shrinkWrap: true,
                                     children: listItems
                                         .map((e) => ProductItem(
-                                              data: data,
+                                              data: cart!,
                                               item: e,
                                             ))
                                         .toList()),

@@ -35,6 +35,14 @@ class PaymentServiceProvider {
     return response;
   }
 
+  Future<BaseRes?> clearTicketToCart(String eventId, String userName) async {
+    final response = await _dioHelper.post(
+      route: '/capi/$userName/$eventId/cart/clear',
+      responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
+    );
+    return response;
+  }
+
   Future<QuestionTicket> getListPaymentTickets(String eventId, String userName) async {
     final response = await _dioHelper.get(
         route: '/capi/$userName/$eventId/questions',

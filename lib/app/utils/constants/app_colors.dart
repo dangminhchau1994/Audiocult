@@ -36,4 +36,6 @@ class AppColors {
   static final orangeColor = HexColor.fromHex('#F99147');
 
   static final deepOrangeColor = HexColor.fromHex('#FF2D55');
+  
+  static final cartColor = HexColor.fromHex('#3c5878');
 }

@@ -715,6 +715,9 @@ class AppRepository extends BaseRepository {
     return safeCall(() => paymentServiceProvider.addTicketToCart(list, eventId, userName));
   }
 
+  Future<Either<BaseRes?, Exception>> clearTicketToCart( String eventId, String userName) {
+    return safeCall(() => paymentServiceProvider.clearTicketToCart( eventId, userName));
+  }
   Future<Either<QuestionTicket?, Exception>> getListPaymentTickets(String eventId, String username) {
     return safeCall(() => paymentServiceProvider.getListPaymentTickets(eventId, username));
   }

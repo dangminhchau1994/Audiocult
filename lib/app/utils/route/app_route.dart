@@ -42,6 +42,7 @@ import 'package:audio_cult/app/features/search_suggestion/search_suggestion_scre
 import 'package:audio_cult/app/features/settings/settings_screen.dart';
 import 'package:audio_cult/app/features/terms/terms_screen.dart';
 import 'package:audio_cult/app/features/ticket/payments/payment_tickets_screen.dart';
+import 'package:audio_cult/app/features/ticket/payments/ticket_cart_screen.dart';
 import 'package:audio_cult/app/features/universal_search/universal_search_screen.dart';
 import 'package:audio_cult/app/features/videos/video_player_screen.dart';
 import 'package:audio_cult/app/injections.dart';
@@ -113,6 +114,7 @@ class AppRoute {
   static const String routeEditFeed = '/route_edit_feed';
   static const String routeTerms = '/route_terms';
   static const String routePaymentTicket = '/route_payment_ticket';
+  static const String routeTicketCart = '/route_ticket_cart';
 
   ///#end region
 
@@ -393,6 +395,12 @@ class AppRoute {
         return _pageRoute(
             settings,
             PaymentTicketsScreen(
+              params: asType(settings.arguments) as Map<String, dynamic>,
+            ));
+      case routeTicketCart:
+        return _pageRoute(
+            settings,
+            TicketCartScreen(
               params: asType(settings.arguments) as Map<String, dynamic>,
             ));
       default:
