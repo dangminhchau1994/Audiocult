@@ -4,6 +4,7 @@ import 'package:audio_cult/app/utils/constants/app_colors.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/app/utils/toast/toast_utils.dart';
 import 'package:audio_cult/w_components/dropdown/common_dropdown.dart';
+import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../w_components/textfields/common_input.dart';
@@ -19,17 +20,20 @@ class InforPage extends StatefulWidget {
 }
 
 class InforPageState extends State<InforPage> {
-  SelectMenuModel? _nationalitySelect;
   String _email = '';
   String _phoneNumberSuffix = '';
   String _givenName = '';
   String _familyName = '';
+  String _phonePrefix = '';
+  Country? _country;
+  Country? _nationalitySelect;
   bool isValidateAll() {
     if (_email.isEmpty ||
         _phoneNumberSuffix.isEmpty ||
         _givenName.isEmpty ||
         _familyName.isEmpty ||
-        _nationalitySelect == null) {
+        _nationalitySelect == null ||
+        _country == null) {
       ToastUtility.showPending(context: context, message: 'Please fill out all field');
       return false;
     }
@@ -90,13 +94,67 @@ class InforPageState extends State<InforPage> {
                     ],
                   ),
                 ),
-                // CommonDropdown(
-                //   selection: _phonePrefixSelect,
-                //   onChanged: (value) => {},
-                //   onTap: () {},
-                //   data: [],
-                //   hint: '',
-                // ),
+                GestureDetector(
+                  onTap: () {
+                    showCountryPicker(
+                      context: context,
+                      showPhoneCode: true,
+                      countryListTheme: CountryListThemeData(
+                        flagSize: 25,
+                        backgroundColor: Colors.white,
+                        textStyle: const TextStyle(fontSize: 16, color: Colors.blueGrey),
+                        bottomSheetHeight: 700, // Optional. Country list modal height
+                        //Optional. Sets the border radius for the bottomsheet.
+                        borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(20),
+                          topRight: Radius.circular(20),
+                        ),
+                        //Optional. Styles the search field.
+
+                        inputDecoration: InputDecoration(
+                          labelText: 'Search',
+                          hintText: 'Start typing to search',
+                          prefixIcon: const Icon(Icons.search),
+                          border: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: const Color(0xFF8C98A8).withOpacity(0.2),
+                            ),
+                          ),
+                        ),
+                      ),
+                      onSelect: (Country country) {
+                        setState(() {
+                          _phonePrefix = country.countryCode;
+                          _country = country;
+                        });
+                      },
+                    );
+                  },
+                  child: Container(
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                        color: AppColors.inputFillColor.withOpacity(0.4),
+                        borderRadius: BorderRadius.circular(4),
+                        border: Border.all(color: AppColors.outlineBorderColor, width: 2)),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                            child: Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+                                child: _country == null
+                                    ? const Text('')
+                                    : Text('${_country?.name ?? ''} +${_country?.phoneCode ?? ''}'))),
+                        const Icon(
+                          Icons.keyboard_arrow_down_rounded,
+                        ),
+                        const SizedBox(
+                          width: 12,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
                 const SizedBox(
                   height: 4,
                 ),
@@ -121,12 +179,64 @@ class InforPageState extends State<InforPage> {
                     ],
                   ),
                 ),
-                CommonDropdown(
-                  selection: _nationalitySelect,
-                  onChanged: (value) => {},
-                  onTap: () {},
-                  data: [],
-                  hint: '',
+                GestureDetector(
+                  onTap: () {
+                    showCountryPicker(
+                      context: context,
+                      countryListTheme: CountryListThemeData(
+                        flagSize: 25,
+                        backgroundColor: Colors.white,
+                        textStyle: const TextStyle(fontSize: 16, color: Colors.blueGrey),
+                        bottomSheetHeight: 700, // Optional. Country list modal height
+                        //Optional. Sets the border radius for the bottomsheet.
+                        borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(20),
+                          topRight: Radius.circular(20),
+                        ),
+                        //Optional. Styles the search field.
+
+                        inputDecoration: InputDecoration(
+                          labelText: 'Search',
+                          hintText: 'Start typing to search',
+                          prefixIcon: const Icon(Icons.search),
+                          border: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: const Color(0xFF8C98A8).withOpacity(0.2),
+                            ),
+                          ),
+                        ),
+                      ),
+                      onSelect: (Country country) {
+                        setState(() {
+                          _nationalitySelect = country;
+                        });
+                      },
+                    );
+                  },
+                  child: Container(
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                        color: AppColors.inputFillColor.withOpacity(0.4),
+                        borderRadius: BorderRadius.circular(4),
+                        border: Border.all(color: AppColors.outlineBorderColor, width: 2)),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                            child: Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+                                child: _nationalitySelect == null
+                                    ? const Text('')
+                                    : Text(_nationalitySelect?.name ?? ''))),
+                        const Icon(
+                          Icons.keyboard_arrow_down_rounded,
+                        ),
+                        const SizedBox(
+                          width: 12,
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8),
