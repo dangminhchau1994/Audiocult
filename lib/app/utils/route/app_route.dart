@@ -28,6 +28,8 @@ import 'package:audio_cult/app/features/music/featured_mixtape/featured_mixtapes
 import 'package:audio_cult/app/features/music/filter/enum_filter_music.dart';
 import 'package:audio_cult/app/features/music/filter/music_filter_screen.dart';
 import 'package:audio_cult/app/features/music/library/create_playlist_screen.dart';
+import 'package:audio_cult/app/features/music/library/library_bloc.dart';
+import 'package:audio_cult/app/features/music/library/library_screen.dart';
 import 'package:audio_cult/app/features/music/library/update_playlist_params.dart';
 import 'package:audio_cult/app/features/music/my_album/upload_song/upload_song_screen.dart';
 import 'package:audio_cult/app/features/music/top_playlist/top_playlist_screen.dart';
@@ -111,6 +113,7 @@ class AppRoute {
   static const String routeMyCart = '/route_my_cart';
   static const String routeEditFeed = '/route_edit_feed';
   static const String routeTerms = '/route_terms';
+  static const String routeLibrary = '/route_library';
 
   ///#end region
 
@@ -152,6 +155,19 @@ class AppRoute {
           settings,
           FeaturedMixTapesScreen(
             arguments: arguments!,
+          ),
+        );
+
+      case routeLibrary:
+        final arguments = asType(settings.arguments);
+        return _pageRoute(
+          settings,
+          Provider(
+            create: (context) => LibraryBloc(locator.get()),
+            child: LibraryScreen(
+              hasAppBar: arguments['has_app_bar'] as bool,
+              songId: arguments['song_id'] as String,
+            ),
           ),
         );
 

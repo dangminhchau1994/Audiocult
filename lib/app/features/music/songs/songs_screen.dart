@@ -119,23 +119,11 @@ class _SongsScreenState extends State<SongsScreen> with AutomaticKeepAliveClient
                     newPageProgressIndicatorBuilder: (context) => const LoadingWidget(),
                     animateTransitions: true,
                     itemBuilder: (context, item, index) {
-                      return WButtonInkwell(
-                        onPressed: () {
-                          Navigator.pushNamed(
-                            context,
-                            AppRoute.routePlayerScreen,
-                            arguments: PlayerScreen.createArguments(
-                              listSong: _pagingController.itemList ?? [],
-                              index: index,
-                            ),
-                          );
-                        },
-                        child: SongItem(
-                          song: item,
-                          songs: data,
-                          index: index,
-                          currency: _songsBloc.currency,
-                        ),
+                      return SongItem(
+                        song: item,
+                        songs: _pagingController.itemList,
+                        index: index,
+                        currency: _songsBloc.currency,
                       );
                     },
                   ),

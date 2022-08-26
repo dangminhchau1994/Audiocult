@@ -170,7 +170,6 @@ class GlobalConstants {
           ],
         ),
       ),
-      const PopupMenuDivider(),
       // PopupMenuItem<int>(
       //   value: 1,
       //   child: Row(

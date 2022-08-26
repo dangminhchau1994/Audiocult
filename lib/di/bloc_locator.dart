@@ -38,7 +38,6 @@ import '../app/features/events/map/map_bloc.dart';
 import '../app/features/events/popular_event_bloc.dart';
 import '../app/features/main/main_bloc.dart';
 import '../app/features/music/discover/discover_bloc.dart';
-import '../app/features/music/library/library_bloc.dart';
 import '../app/features/music/top_playlist/top_playlist_bloc.dart';
 import '../app/features/music/top_song/top_song_bloc.dart';
 import '../w_components/comment/comment_list_bloc.dart';
@@ -83,10 +82,6 @@ void setupLocator() {
 
   getIt.registerLazySingleton<CreatePlayListBloc>(
     () => CreatePlayListBloc(locator.get<AppRepository>()),
-  );
-
-  getIt.registerLazySingleton<LibraryBloc>(
-    () => LibraryBloc(locator.get<AppRepository>()),
   );
 
   getIt.registerLazySingleton<PlayListDialogBloc>(

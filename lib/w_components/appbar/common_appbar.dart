@@ -11,6 +11,7 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.backgroundColor,
     this.leadingWidth,
     this.centerTitle,
+    this.height,
   }) : super(key: key);
 
   final Widget? leading;
@@ -19,6 +20,7 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Color? backgroundColor;
   final bool? centerTitle;
   final double? leadingWidth;
+  final double? height;
 
   @override
   Widget build(BuildContext context) {
@@ -45,5 +47,5 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => const Size.fromHeight(50);
+  Size get preferredSize => Size.fromHeight(height ?? 50);
 }

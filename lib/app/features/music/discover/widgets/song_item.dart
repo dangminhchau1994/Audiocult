@@ -130,13 +130,12 @@ class SongItem extends StatelessWidget {
                   onSelected: (selected) {
                     switch (selected) {
                       case 0:
-                        showMaterialModalBottomSheet(
-                          context: context,
-                          backgroundColor: Colors.transparent,
-                          builder: (context) {
-                            return PlayListDialog(
-                              songId: song?.songId,
-                            );
+                        Navigator.pushNamed(
+                          context,
+                          AppRoute.routeLibrary,
+                          arguments: {
+                            'has_app_bar': true,
+                            'song_id': song?.songId,
                           },
                         );
                         break;
