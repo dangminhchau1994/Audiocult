@@ -31,7 +31,7 @@ class ProfileBloc extends BaseBloc<ProfileRequest, ProfileData> {
 
   @override
   Future<Either<ProfileData, Exception>> loadData(ProfileRequest? params) async {
-    final result = await _appRepository.getUserProfile(params?.userId);
+    final result = await _appRepository.getUserProfile(params?.userId,data: params?.query);
     return result;
   }
 

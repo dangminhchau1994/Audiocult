@@ -26,8 +26,9 @@ class ItemQuestions {
   String? id;
   ItemTicketQuestion? item;
   List<QuestionsTicketPayment>? questions;
+  String? name;
 
-  ItemQuestions({this.id, this.item, this.questions});
+  ItemQuestions({this.id, this.item, this.questions, this.name});
   factory ItemQuestions.fromJson(Map<String, dynamic> json, String key) => _$ItemQuestionsFromJson(json, key);
 }
 

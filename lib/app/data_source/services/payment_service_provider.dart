@@ -1,6 +1,7 @@
 import 'package:audio_cult/app/data_source/models/responses/productlist/productlist.dart';
 import 'package:audio_cult/app/data_source/models/responses/question_ticket/question_ticket.dart';
 import 'package:dio/dio.dart';
+import 'package:stripe_platform_interface/src/models/payment_methods.dart';
 
 import '../models/base_response.dart';
 import '../networks/core/dio_helper.dart';
@@ -49,6 +50,28 @@ class PaymentServiceProvider {
         responseBodyMapper: (jsonMapper) {
           return QuestionTicket.fromJson(jsonMapper as Map<String, dynamic>);
         });
+    return response;
+  }
+
+  Future<BaseRes?> submitQuestions(Map<String, dynamic> dataStep1, String eventId, String username) async {
+    final response = await _dioHelper.post(
+      route: '/capi/$username/$eventId/questions',
+      requestBody: FormData.fromMap(dataStep1),
+      responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
+    );
+    return response;
+  }
+
+  Future<BaseRes?> submitCardPayment(PaymentMethod paymentMethod, String eventId, String username) async {
+    final response = await _dioHelper.post(
+      route: '/capi/$username/$eventId/payment/stripe',
+      requestBody: FormData.fromMap({
+        'payment_method_id': paymentMethod.id,
+        'stripe_card_brand': paymentMethod.card.brand,
+        'stripe_card_last4': paymentMethod.card.last4
+      }),
+      responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
+    );
     return response;
   }
 }

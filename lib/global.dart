@@ -25,3 +25,10 @@ class MyGlobal extends StatelessWidget {
     );
   }
 }
+
+class StripePaymentPublicKey {
+  static const String keyTest =
+      'pk_test_51Jjgj7BdGMMunEoGYLgrFo81nWCM0DhP8V3AkSqb9Nst8Dgcslm9RRQPbel3mkyYJVRo5OIasoo2WzUlDgpS4DD900O9gc13xz';
+  static const String keyPro =
+      'pk_test_51Jjgj7BdGMMunEoGYLgrFo81nWCM0DhP8V3AkSqb9Nst8Dgcslm9RRQPbel3mkyYJVRo5OIasoo2WzUlDgpS4DD900O9gc13xz';
+}

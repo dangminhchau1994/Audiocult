@@ -6,10 +6,12 @@ import 'package:audio_cult/app/features/main/main_screen.dart';
 import 'package:audio_cult/app/injections.dart';
 import 'package:audio_cult/app/utils/constants/app_assets.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
+import 'package:audio_cult/app/utils/flavor/flavor.dart';
 import 'package:audio_cult/l10n/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
@@ -35,6 +37,8 @@ class _AppState extends State<App> with AfterLayoutMixin<App> {
   @override
   void initState() {
     super.initState();
+    Stripe.publishableKey = FlavorConfig.instance!.values!.stripePubkey!;
+
     _splashBloc.checkScreen();
   }
 

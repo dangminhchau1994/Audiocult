@@ -135,7 +135,12 @@ class AppRoute {
   Route<dynamic>? generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case routeMain:
-        return _pageRoute(settings, const MainScreen());
+        final arguments = asType(settings.arguments);
+        return _pageRoute(
+            settings,
+            MainScreen(
+              fromPayment: arguments != null,
+            ));
       case routeLogin:
         return _pageRoute(settings, const LoginScreen());
       case routeForgotPassword:

@@ -55,6 +55,7 @@ import 'package:audio_cult/w_components/dropdown/common_dropdown.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:stripe_platform_interface/src/models/payment_methods.dart';
 import '../models/base_response.dart';
 import '../models/requests/event_request.dart';
 import '../models/requests/login_request.dart';
@@ -470,7 +471,7 @@ class AppRepository extends BaseRepository {
     return safeCall(() => placeServiceProvider.getPlaceDetailFromId(placeId));
   }
 
-  Future<Either<ProfileData, Exception>> getUserProfile(String? userId, {String data = 'info'}) async {
+  Future<Either<ProfileData, Exception>> getUserProfile(String? userId, {String? data = 'info'}) async {
     final userProfile = await safeCall(() => appServiceProvider.getUserProfile(userId, data: data));
     return userProfile.fold(
       (l) {
@@ -715,10 +716,19 @@ class AppRepository extends BaseRepository {
     return safeCall(() => paymentServiceProvider.addTicketToCart(list, eventId, userName));
   }
 
-  Future<Either<BaseRes?, Exception>> clearTicketToCart( String eventId, String userName) {
-    return safeCall(() => paymentServiceProvider.clearTicketToCart( eventId, userName));
+  Future<Either<BaseRes?, Exception>> clearTicketToCart(String eventId, String userName) {
+    return safeCall(() => paymentServiceProvider.clearTicketToCart(eventId, userName));
   }
+
   Future<Either<QuestionTicket?, Exception>> getListPaymentTickets(String eventId, String username) {
     return safeCall(() => paymentServiceProvider.getListPaymentTickets(eventId, username));
+  }
+
+  Future<Either<BaseRes?, Exception>> submitQuestions(Map<String, dynamic> dataStep1, String eventId, String username) {
+    return safeCall(() => paymentServiceProvider.submitQuestions(dataStep1, eventId, username));
+  }
+
+  Future<Either<BaseRes?, Exception>> submitCardPayment(PaymentMethod paymentMethod, String eventId, String username) {
+    return safeCall(() => paymentServiceProvider.submitCardPayment(paymentMethod, eventId, username));
   }
 }

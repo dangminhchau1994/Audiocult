@@ -32,7 +32,8 @@ import '../menu_settings/drawer/my_drawer.dart';
 import '../music/my_album/upload_song/upload_song_screen.dart';
 
 class MainScreen extends StatefulWidget {
-  const MainScreen({Key? key}) : super(key: key);
+  final bool? fromPayment;
+  const MainScreen({Key? key, this.fromPayment}) : super(key: key);
 
   @override
   State<MainScreen> createState() => _MainScreenState();
@@ -59,6 +60,18 @@ class _MainScreenState extends State<MainScreen> {
         _profileData = event;
       });
     });
+    jumpToMyTicket();
+  }
+
+  void jumpToMyTicket() async {
+    if (widget.fromPayment != null) {
+      await Future.delayed(const Duration(milliseconds: 200));
+
+      setState(() {
+        _currentIndex = 4;
+      });
+      _pageController.jumpToPage(4);
+    }
   }
 
   List<Widget> _buildPages() {

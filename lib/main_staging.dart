@@ -10,6 +10,7 @@ void main() {
       flavorConfig: FlavorConfig(
         flavor: Flavor.staging,
         values: FlavorValues(
+            stripePubkey: StripePaymentPublicKey.keyTest,
             mainUrl: 'http://staging.audiocult.net',
             placeUrl: 'https://maps.googleapis.com',
             ticketUrl: 'http://tickets.staging.audiocult.net'),

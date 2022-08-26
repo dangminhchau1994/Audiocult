@@ -1,3 +1,4 @@
+import 'package:audio_cult/app/base/bloc_handle.dart';
 import 'package:audio_cult/app/base/bloc_state.dart';
 import 'package:audio_cult/app/data_source/models/responses/productlist/productlist.dart';
 import 'package:audio_cult/app/data_source/models/responses/question_ticket/question_ticket.dart';
@@ -48,91 +49,97 @@ class _PaymentTicketsScreenState extends State<PaymentTicketsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: AppColors.mainColor,
-        appBar: const CommonAppBar(title: 'Checkout'),
-        body: StreamBuilder<BlocState<QuestionTicket>>(
-            initialData: const BlocState.loading(),
-            stream: _paymentTicketsBloc.getListPaymentStream,
-            builder: (context, snapshot) {
-              final state = snapshot.data!;
-              return state.when(
-                success: (success) {
-                  return Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            Text(widget.params['event_name'] as String,
-                                style:
-                                    context.bodyTextStyle()?.copyWith(color: AppColors.activeLabelItem, fontSize: 24)),
-                            const SizedBox(
-                              width: 16,
-                            ),
-                            Text(cart?.dateRange ?? '')
-                          ],
-                        ),
-                        const Divider(
-                          color: Colors.white,
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.pushNamed(context, AppRoute.routeTicketCart,
-                                arguments: TicketCartScreen.createArguments(
-                                  cart: cart,
-                                ));
-                          },
-                          child: Container(
-                            padding: const EdgeInsets.all(8),
-                            decoration:
-                                BoxDecoration(color: AppColors.cartColor, borderRadius: BorderRadius.circular(8)),
-                            child: Row(children: [
-                              const Icon(
-                                Icons.shopping_cart_outlined,
+    return BlocHandle(
+      bloc: _paymentTicketsBloc,
+      child: Scaffold(
+          backgroundColor: AppColors.mainColor,
+          appBar: const CommonAppBar(title: 'Checkout'),
+          body: StreamBuilder<BlocState<QuestionTicket>>(
+              initialData: const BlocState.loading(),
+              stream: _paymentTicketsBloc.getListPaymentStream,
+              builder: (context, snapshot) {
+                final state = snapshot.data!;
+                return state.when(
+                  success: (success) {
+                    return Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Text(widget.params['event_name'] as String,
+                                  style: context
+                                      .bodyTextStyle()
+                                      ?.copyWith(color: AppColors.activeLabelItem, fontSize: 24)),
+                              const SizedBox(
+                                width: 16,
                               ),
-                              Expanded(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8),
-                                  child: Text(
-                                    'Your cart',
-                                    style: context.body1TextStyle()?.copyWith(fontWeight: FontWeight.w700),
+                              Text(cart?.dateRange ?? '')
+                            ],
+                          ),
+                          const Divider(
+                            color: Colors.white,
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.pushNamed(context, AppRoute.routeTicketCart,
+                                  arguments: TicketCartScreen.createArguments(
+                                    cart: cart,
+                                  ));
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.all(8),
+                              decoration:
+                                  BoxDecoration(color: AppColors.cartColor, borderRadius: BorderRadius.circular(8)),
+                              child: Row(children: [
+                                const Icon(
+                                  Icons.shopping_cart_outlined,
+                                ),
+                                Expanded(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8),
+                                    child: Text(
+                                      'Your cart',
+                                      style: context.body1TextStyle()?.copyWith(fontWeight: FontWeight.w700),
+                                    ),
                                   ),
                                 ),
-                              ),
-                              const Icon(Icons.arrow_forward_ios_rounded)
-                            ]),
+                                const Icon(Icons.arrow_forward_ios_rounded)
+                              ]),
+                            ),
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8),
-                          child: Text(
-                            'Checkout',
-                            style: context.headerStyle1(),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 8),
+                            child: Text(
+                              'Checkout',
+                              style: context.headerStyle1(),
+                            ),
                           ),
-                        ),
-                        Expanded(
-                            child: CheckoutTicket(
-                          cart: cart,
-                          questionTicket: success as QuestionTicket,
-                        ))
-                      ],
-                    ),
-                  );
-                },
-                loading: () {
-                  return const Center(
-                    child: LoadingWidget(),
-                  );
-                },
-                error: (error) {
-                  return ErrorSectionWidget(
-                    errorMessage: error,
-                    onRetryTap: () {},
-                  );
-                },
-              );
-            }));
+                          Expanded(
+                              child: CheckoutTicket(
+                                  eventId: widget.params['event_id'] as String,
+                                  userName: widget.params['user_name'] as String,
+                                  cart: cart,
+                                  questionTicket: success as QuestionTicket,
+                                  bloc: _paymentTicketsBloc))
+                        ],
+                      ),
+                    );
+                  },
+                  loading: () {
+                    return const Center(
+                      child: LoadingWidget(),
+                    );
+                  },
+                  error: (error) {
+                    return ErrorSectionWidget(
+                      errorMessage: error,
+                      onRetryTap: () {},
+                    );
+                  },
+                );
+              })),
+    );
   }
 }

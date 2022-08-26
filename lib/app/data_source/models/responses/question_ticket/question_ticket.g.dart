@@ -16,7 +16,7 @@ QuestionTicket _$QuestionTicketFromJson(Map<String, dynamic> json) => QuestionTi
       cartSession: json['cart_session'] as String?,
       invoiceAddressAsked: json['invoice_address_asked'] as String?,
     )..itemQuestions = (json['item_questions'] as Map<String, dynamic>)
-       .entries
+        .entries
         .map((e) => ItemQuestions.fromJson(e.value as Map<String, dynamic>, e.key))
         .toList();
 
@@ -31,6 +31,7 @@ Map<String, dynamic> _$QuestionTicketToJson(QuestionTicket instance) => <String,
     };
 
 ItemQuestions _$ItemQuestionsFromJson(Map<String, dynamic> json, String key) => ItemQuestions(
+      name: '',
       id: key,
       item: json['item'] == null ? null : ItemTicketQuestion.fromJson(json['item'] as Map<String, dynamic>),
       questions: (json['questions'] as List<dynamic>?)
