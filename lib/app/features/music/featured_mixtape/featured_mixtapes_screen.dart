@@ -213,23 +213,11 @@ class _FeaturedMixTapesScreenState extends State<FeaturedMixTapesScreen> with Au
                     newPageProgressIndicatorBuilder: (context) => const LoadingWidget(),
                     animateTransitions: true,
                     itemBuilder: (context, item, index) {
-                      return WButtonInkwell(
-                        onPressed: () {
-                          Navigator.pushNamed(
-                            context,
-                            AppRoute.routePlayerScreen,
-                            arguments: PlayerScreen.createArguments(
-                              listSong: _pagingController.itemList ?? [],
-                              index: index,
-                            ),
-                          );
-                        },
-                        child: SongItem(
-                          song: item,
-                          songs: data,
-                          index: index,
-                          currency: _featuredMixtapesBloc.currency,
-                        ),
+                      return SongItem(
+                        song: item,
+                        songs: _pagingController.itemList,
+                        index: index,
+                        currency: _featuredMixtapesBloc.currency,
                       );
                     },
                   ),

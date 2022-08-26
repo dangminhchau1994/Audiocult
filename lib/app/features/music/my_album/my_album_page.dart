@@ -251,6 +251,16 @@ class _MyAlbumPageState extends State<MyAlbumPage> with DisposableStateMixin {
                                                     userId: locator.get<MainBloc>().profileData!.userId);
                                               }
                                               break;
+                                            case 4:
+                                              await Navigator.pushNamed(
+                                                context,
+                                                AppRoute.routeLibrary,
+                                                arguments: {
+                                                  'has_app_bar': true,
+                                                  'song_id': songs[index].songId,
+                                                },
+                                              );
+                                              break;
                                             case 5:
                                               AppDialog.showYesNoDialog(
                                                 context,

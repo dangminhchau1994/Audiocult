@@ -1,5 +1,6 @@
 import 'package:audio_cult/app/base/base_bloc.dart';
 import 'package:audio_cult/app/base/bloc_state.dart';
+import 'package:audio_cult/app/data_source/models/requests/top_song_request.dart';
 import 'package:audio_cult/app/data_source/models/responses/album/album_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/playlist/playlist_response.dart';
 import 'package:rxdart/rxdart.dart';
@@ -25,10 +26,10 @@ class DiscoverBloc extends BaseBloc {
 
   String? get currency => _appRepository.getCurrency();
 
-  void getTopSongs(String query, String sort, String genresId, String when, int page, int limit) async {
+  void getTopSongs(TopSongRequest params) async {
     _getTopSongSubject.sink.add(const BlocState.loading());
 
-    final result = await _appRepository.getTopSongs(query, sort, genresId, when, page, limit);
+    final result = await _appRepository.getTopSongs(params);
 
     result.fold((success) {
       _getTopSongSubject.sink.add(BlocState.success(success));

@@ -1,3 +1,4 @@
+import 'package:audio_cult/app/data_source/models/requests/top_song_request.dart';
 import 'package:audio_cult/app/data_source/models/responses/playlist/playlist_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/song/song_response.dart';
 import 'package:audio_cult/app/features/music/discover/widgets/song_item.dart';
@@ -9,7 +10,6 @@ import 'package:audio_cult/app/utils/constants/app_dimens.dart';
 import 'package:audio_cult/l10n/l10n.dart';
 import 'package:audio_cult/w_components/buttons/w_button_inkwell.dart';
 import 'package:flutter/material.dart';
-
 import '../../../../di/bloc_locator.dart';
 import '../../../../w_components/error_empty/error_section.dart';
 import '../../../../w_components/loading/loading_widget.dart';
@@ -48,7 +48,7 @@ class _SearchScreenState extends State<SearchScreen> {
   void initState() {
     super.initState();
     focusNode = FocusNode();
-    searchType = widget.arguments.searchType;
+    searchType = widget.arguments.searchType!;
     debouncer = Debouncer(milliseconds: 500);
     editingController = TextEditingController(text: '');
 
@@ -59,21 +59,21 @@ class _SearchScreenState extends State<SearchScreen> {
     switch (searchType) {
       case SearchType.album:
         debouncer.run(() {
-          getIt.get<SearchBloc>().getAlbums(value, 'featured','','','', 1, 10);
+          getIt.get<SearchBloc>().getAlbums(value, 'featured', '', '', '', 1, 10);
         });
         break;
       case SearchType.playlist:
         debouncer.run(() {
-          getIt.get<SearchBloc>().getPlaylist(value, 1, 10, 'most-liked','','', 1);
+          getIt.get<SearchBloc>().getPlaylist(value, 1, 10, 'most-liked', '', '', 1);
         });
         break;
       case SearchType.topSong:
         debouncer.run(() {
-          getIt.get<SearchBloc>().getTopSongs(value, 'most-viewed', '','', 1, 10);
+          getIt.get<SearchBloc>().getTopSongs(TopSongRequest(query: value, sort: 'most-viewed', page: 1, limit: 10));
         });
         break;
       case SearchType.mixtapes:
-        getIt.get<SearchBloc>().getMixTapSongs(value, 'most-viewed','','', 1, 10, 'featured', 'mixtape-song');
+        getIt.get<SearchBloc>().getMixTapSongs(value, 'most-viewed', '', '', 1, 10, 'featured', 'mixtape-song');
         break;
     }
   }

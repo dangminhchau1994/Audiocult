@@ -19,6 +19,7 @@ class ProfileData {
   bool? isFriend;
   bool? isFriendOfFriend;
   bool? isFriendRequest;
+  bool? blockable;
   String? relationId;
   String? relationWithId;
   String? relationPhrase;
@@ -58,6 +59,7 @@ class ProfileData {
     this.relationWithId,
     this.relationPhrase,
     this.coverPhoto,
+    this.blockable,
     this.biography,
     this.audioArtistCategory,
     this.favoriteGenresOfMusic,
@@ -77,6 +79,7 @@ class ProfileData {
     email = iw['email'].get();
     gender = iw['gender'].get();
     birthday = iw['birthday'].get();
+    blockable = iw['blockable'].get();
     birthdaySearch = iw['birthday_search'].get();
     countryIso = iw['country_iso'].get();
     languageId = iw['language_id'].get();
@@ -123,6 +126,7 @@ class ProfileData {
     data['is_online'] = isOnline;
     data['title'] = title;
     data['is_friend'] = isFriend;
+    data['blockable'] = blockable;
     data['is_friend_of_friend'] = isFriendOfFriend;
     data['is_friend_request'] = isFriendRequest;
     data['relation_id'] = relationId;

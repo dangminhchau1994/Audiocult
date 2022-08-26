@@ -90,8 +90,10 @@ class _LoadingBuilderState<T extends BaseBloc, TModel> extends State<LoadingBuil
                     ),
                   ),
                 );
+        } else if (state == null) {
+          return widget.noDataBuilder!(null);
         }
-        // ignore: cast_nullable_to_non_nullable
+
         return widget.builder((state as DataLoadedState).data as TModel, state.params);
       },
     );
