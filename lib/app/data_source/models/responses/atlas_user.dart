@@ -1,9 +1,5 @@
-// ignore_for_file: unnecessary_brace_in_string_interps
-
 import 'package:audio_cult/app/base/index_walker.dart';
-import 'package:json_annotation/json_annotation.dart';
 
-@JsonSerializable()
 class AtlasUserResponse {
   String? status;
   List<AtlasUser>? data;

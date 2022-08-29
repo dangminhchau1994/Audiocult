@@ -255,12 +255,8 @@ class AppRepository extends BaseRepository {
     );
   }
 
-  Future<Either<List<EventResponse>, Exception>> getEvents(
-    EventRequest request,
-  ) {
-    return safeCall(
-      () => appServiceProvider.getEvents(request),
-    );
+  Future<Either<List<EventResponse>, Exception>> getEvents(EventRequest request, {bool? hasTicket}) {
+    return safeCall(() => appServiceProvider.getEvents(request, hasTicket: hasTicket));
   }
 
   Future<Either<List<BackgroundResponse>, Exception>> getBackgrounds() {
@@ -751,5 +747,9 @@ class AppRepository extends BaseRepository {
 
   Future<Either<PaymentStripe?, Exception>> getStripeAccount(String? username, String? eventId) {
     return safeCall(() => paymentServiceProvider.getStripeAccount(username, eventId));
+  }
+
+  Future<Either<BaseRes?, Exception>> getAllMyTickets({String? eventId}) {
+    return safeCall(() => appServiceProvider.getAllMyTickets(eventId: eventId));
   }
 }

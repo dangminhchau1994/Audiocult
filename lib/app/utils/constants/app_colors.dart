@@ -40,4 +40,6 @@ class AppColors {
   static final cartColor = HexColor.fromHex('#3c5878');
 
   static final greenColor = HexColor.fromHex('#50a167');
+
+  static final pirateGold = HexColor.fromHex('#CA8A04');
 }
