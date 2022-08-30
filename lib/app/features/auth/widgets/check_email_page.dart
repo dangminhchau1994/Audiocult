@@ -55,7 +55,7 @@ class _CheckEmailPageState extends State<CheckEmailPage> {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: kVerticalSpacing),
               child: CommonInput(
-                hintText: 'Input code...',
+                hintText: context.localize.t_input_code,
                 onChanged: (v) {
                   setState(() {
                     _codeSent = v;

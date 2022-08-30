@@ -315,5 +315,6 @@
     "t_playlist_has_no_comment":"No comments for this playlists",
     "t_albums":"Albums",
     "t_current_playlist":"Current playlist",
-    "t_not_find_what_looking_for":"We couldn't find what you're looking for"
+    "t_not_find_what_looking_for":"We couldn't find what you're looking for",
+    "t_input_code":"Input code..."
 }

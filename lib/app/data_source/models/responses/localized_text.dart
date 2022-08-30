@@ -328,6 +328,7 @@ class LocalizedText {
   late String t_current_playlist;
   late String t_not_find_what_looking_for;
   late String t_my_playlist;
+  late String t_input_code;
 
   LocalizedText.fromJson(Map<String, dynamic> json) {
     final iw = IW(json);
@@ -657,6 +658,7 @@ class LocalizedText {
     t_current_playlist = iw['t_current_playlist'].get() ?? _undefined;
     t_not_find_what_looking_for = iw['t_not_find_what_looking_for'].get() ?? _undefined;
     t_my_playlist = iw['t_my_playlist'].get() ?? _undefined;
+    t_input_code = iw['t_input_code'].get() ?? _undefined;
   }
 }
 

@@ -44,12 +44,3 @@ Map<String, dynamic> _$PageTemplateResponseToJson(
       'page_template': instance.pageTemplates,
       'user_group_id': instance.userGroupId,
     };
-
-Gender _$GenderFromJson(Map<String, dynamic> json) => Gender()
-  ..id = json['id'] as int?
-  ..phrase = json['phrase'] as String?;
-
-Map<String, dynamic> _$GenderToJson(Gender instance) => <String, dynamic>{
-      'id': instance.id,
-      'phrase': instance.phrase,
-    };

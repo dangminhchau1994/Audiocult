@@ -466,8 +466,8 @@ class AppRepository extends BaseRepository {
   }
 
   Future<Either<ProfileData, Exception>> getUserProfile(String? userId, {String? data = 'info'}) async {
-    final rs = hiveServiceProvider.getProfile();
-    if (rs == null) {
+    final cachedProfile = hiveServiceProvider.getProfile();
+    if (cachedProfile == null) {
       final userProfile = await safeCall(() => appServiceProvider.getUserProfile(userId, data: data));
       return userProfile.fold(
         (l) {
@@ -486,7 +486,7 @@ class AppRepository extends BaseRepository {
         },
       );
     }
-    return left(rs);
+    return left(cachedProfile);
   }
 
   void clearProfile() {

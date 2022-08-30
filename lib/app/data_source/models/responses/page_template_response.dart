@@ -2,8 +2,8 @@
 
 import 'package:audio_cult/app/base/index_walker.dart';
 import 'package:audio_cult/app/data_source/models/responses/atlas_category.dart';
+import 'package:audio_cult/app/data_source/models/responses/gender.dart';
 import 'package:audio_cult/app/data_source/models/responses/page_template_custom_field_response.dart';
-// import 'package:audio_cult/app/utils/constants/gender_enum.dart'; //  remove later
 import 'package:audio_cult/app/utils/constants/page_template_field_type.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
@@ -123,14 +123,4 @@ class SelectableOption {
   String toString() {
     return 'SelectableOption: ${key} - ${value} - ${selected}';
   }
-}
-
-@JsonSerializable()
-class Gender {
-  int? id;
-  String? phrase;
-
-  Gender();
-
-  factory Gender.fromJson(Map<String, dynamic> json) => _$GenderFromJson(json);
 }
