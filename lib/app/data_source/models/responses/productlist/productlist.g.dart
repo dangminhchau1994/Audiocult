@@ -77,7 +77,9 @@ Items _$ItemsFromJson(Map<String, dynamic> json) => Items(
     avail: (json['avail'] as List<dynamic>?)?.map((e) => e != null ? e as int : 0).toList(),
     originalPrice: json['original_price'] as String?,
     variations: (json['variations'] as List<dynamic>?)?.map((e) => e as String).toList(),
-    count: 0);
+    count: 0,
+    eventTitle: '',
+    imagePath: '');
 
 Map<String, dynamic> _$ItemsToJson(Items instance) => <String, dynamic>{
       'id': instance.id,

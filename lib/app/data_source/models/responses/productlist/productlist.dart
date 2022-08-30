@@ -71,6 +71,8 @@ class Items {
   String? originalPrice;
   List<String>? variations;
   int? count;
+  String? imagePath;
+  String? eventTitle;
 
   Items(
       {this.id,
@@ -89,7 +91,9 @@ class Items {
       this.avail,
       this.originalPrice,
       this.variations,
-      this.count});
+      this.count,
+      this.eventTitle,
+      this.imagePath});
   factory Items.fromJson(Map<String, dynamic> json) => _$ItemsFromJson(json);
 }
 

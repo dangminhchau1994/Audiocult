@@ -52,4 +52,16 @@ class PaymentTicketsBloc extends BaseBloc {
       return false;
     });
   }
+
+  Future<bool> confirmPayment(String eventId, String username) async {
+    showOverLayLoading();
+    final result = await _appRepository.confirmPayment(eventId, username);
+    hideOverlayLoading();
+    return result.fold((data) {
+      return true;
+    }, (e) {
+      showError(e);
+      return false;
+    });
+  }
 }

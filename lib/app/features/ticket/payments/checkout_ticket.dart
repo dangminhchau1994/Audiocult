@@ -198,7 +198,12 @@ class _CheckoutTicketState extends State<CheckoutTicket> {
           _reviewOrderPageKey.currentState!.updateData(widget.cart, paymentMethod, dataStep1);
           return;
         }
-      } else if (_currentStep == 2) {}
+      } else if (_currentStep == 2) {
+        final step3Result = await widget.bloc?.confirmPayment(widget.eventId!, widget.userName!);
+        if (!step3Result!) {
+          return;
+        }
+      }
       completedStep['$_currentStep'] = true;
       setState(() => _currentStep += 1);
     } else {

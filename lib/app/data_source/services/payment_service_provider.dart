@@ -74,4 +74,15 @@ class PaymentServiceProvider {
     );
     return response;
   }
+
+  Future<BaseRes?> confirmPayment(String eventId, String username) async {
+    final response = await _dioHelper.post(
+      route: '/capi/$username/$eventId/payment/stripe',
+      requestBody: FormData.fromMap({
+        'ajax': 1,
+      }),
+      responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
+    );
+    return response;
+  }
 }

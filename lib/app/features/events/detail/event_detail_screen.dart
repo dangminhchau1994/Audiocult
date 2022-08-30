@@ -121,6 +121,7 @@ class _EventDetailState extends State<EventDetail> {
                                       builder: (_) => WBottomTicket(
                                             eventName: data.title,
                                             eventId: data.eventId,
+                                            imageEvent: data.imagePath,
                                             userName: data.cultixUri?.split('/')[3] ?? '',
                                           ));
                                 },

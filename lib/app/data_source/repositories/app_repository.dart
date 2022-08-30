@@ -725,4 +725,8 @@ class AppRepository extends BaseRepository {
   Future<Either<BaseRes?, Exception>> submitCardPayment(PaymentMethod paymentMethod, String eventId, String username) {
     return safeCall(() => paymentServiceProvider.submitCardPayment(paymentMethod, eventId, username));
   }
+
+  Future<Either<BaseRes?, Exception>> confirmPayment(String eventId, String username) {
+    return safeCall(() => paymentServiceProvider.confirmPayment(eventId, username));
+  }
 }

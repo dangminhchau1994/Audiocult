@@ -1,4 +1,5 @@
 import 'package:audio_cult/app/base/bloc_handle.dart';
+import 'package:audio_cult/app/features/ticket/my_cart/my_cart_ticket.dart';
 import 'package:audio_cult/app/features/ticket/payments/payment_tickets_screen.dart';
 import 'package:audio_cult/app/features/ticket/w_ticket_bloc.dart';
 import 'package:audio_cult/app/injections.dart';
@@ -19,7 +20,8 @@ class WBottomTicket extends StatefulWidget {
   final String? eventId;
   final String? userName;
   final String? eventName;
-  const WBottomTicket({Key? key, this.eventId, this.userName, this.eventName}) : super(key: key);
+  final String? imageEvent;
+  const WBottomTicket({Key? key, this.eventId, this.userName, this.eventName, this.imageEvent}) : super(key: key);
 
   @override
   State<WBottomTicket> createState() => _WBottomTicketState();
@@ -91,13 +93,25 @@ class _WBottomTicketState extends State<WBottomTicket> {
                                 child: CommonButton(
                                   color: AppColors.primaryButtonColor,
                                   text: 'Buy',
-                                  onTap: () {
+                                  onTap: () async {
                                     final isCartAdded =
                                         listItems.where((element) => element.count! == 0).length == listItems.length;
                                     if (!isCartAdded) {
                                       final listAdded = List<Items>.from(listItems);
                                       listAdded.removeWhere((element) => element.count == 0);
-                                      _ticketBloc.addTicketToCart(listAdded, widget.eventId!, widget.userName!);
+                                      listAdded.forEach((element) {
+                                        element.imagePath = widget.imageEvent;
+                                        element.eventTitle = widget.eventName;
+                                      });
+                                      final result = await Navigator.pushNamed(context, AppRoute.routeMyCartTicket,
+                                          arguments:
+                                              MyCartTicket.createArguments(cart: listAdded, currency: cart!.currency));
+                                      setState(() {});
+
+                                      if (result != null) {
+                                        _ticketBloc.addTicketToCart(
+                                            result as List<Items>, widget.eventId!, widget.userName!);
+                                      }
                                     } else {
                                       ToastUtility.showError(context: context, message: 'Please order some Ticket!');
                                     }
@@ -141,11 +155,18 @@ class ProductItem extends StatefulWidget {
 }
 
 class _ProductItemState extends State<ProductItem> {
-  final ValueNotifier<int> _counter = ValueNotifier<int>(0);
+  ValueNotifier<int>? _counter;
 
   @override
   void initState() {
     super.initState();
+    _counter = ValueNotifier<int>(widget.item.count!);
+  }
+
+  @override
+  void didUpdateWidget(covariant ProductItem oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    _counter = ValueNotifier<int>(widget.item.count!);
   }
 
   @override
@@ -166,9 +187,9 @@ class _ProductItemState extends State<ProductItem> {
               children: [
                 GestureDetector(
                   onTap: () {
-                    if (_counter.value > 0) {
-                      _counter.value -= 1;
-                      widget.item.count = _counter.value;
+                    if (_counter!.value > 0) {
+                      _counter!.value -= 1;
+                      widget.item.count = _counter!.value;
                     }
                   },
                   child: Container(
@@ -182,7 +203,7 @@ class _ProductItemState extends State<ProductItem> {
                 ),
                 ValueListenableBuilder<int>(
                   key: Key(const Uuid().v4()),
-                  valueListenable: _counter,
+                  valueListenable: _counter!,
                   builder: (_, int value, Widget? child) => Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: Text(
@@ -197,9 +218,9 @@ class _ProductItemState extends State<ProductItem> {
                     if (widget.item.avail != null && widget.item.avail!.isNotEmpty) {
                       limit = widget.item.avail![0];
                     }
-                    if (_counter.value < limit) {
-                      _counter.value += 1;
-                      widget.item.count = _counter.value;
+                    if (_counter!.value < limit) {
+                      _counter!.value += 1;
+                      widget.item.count = _counter!.value;
                     }
                   },
                   child: Container(
