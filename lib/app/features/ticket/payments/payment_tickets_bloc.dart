@@ -1,6 +1,7 @@
 import 'package:audio_cult/app/base/base_bloc.dart';
 import 'package:audio_cult/app/base/bloc_state.dart';
 import 'package:audio_cult/app/data_source/models/responses/question_ticket/question_ticket.dart';
+import 'package:audio_cult/app/data_source/networks/exceptions/app_exception.dart';
 import 'package:audio_cult/app/data_source/repositories/app_repository.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:stripe_platform_interface/src/models/payment_methods.dart';
@@ -58,7 +59,13 @@ class PaymentTicketsBloc extends BaseBloc {
     final result = await _appRepository.confirmPayment(eventId, username);
     hideOverlayLoading();
     return result.fold((data) {
-      return true;
+      if (data!.isSuccess!) {
+        return true;
+      } else {
+        showError(AppException(data.message));
+
+        return false;
+      }
     }, (e) {
       showError(e);
       return false;
