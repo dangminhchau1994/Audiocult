@@ -25,7 +25,6 @@ class MainBloc extends BaseBloc {
     this._prefProvider, {
     LanguageBloc? languageBloc,
   }) {
-    // TODO: remove after testing
     _languageBloc = languageBloc;
   }
 
