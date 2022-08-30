@@ -32,5 +32,5 @@ class StripePaymentPublicKey {
   static const String keyTest =
       'pk_test_51Jjgj7BdGMMunEoGYLgrFo81nWCM0DhP8V3AkSqb9Nst8Dgcslm9RRQPbel3mkyYJVRo5OIasoo2WzUlDgpS4DD900O9gc13xz';
   static const String keyPro =
-      'pk_test_51Jjgj7BdGMMunEoGYLgrFo81nWCM0DhP8V3AkSqb9Nst8Dgcslm9RRQPbel3mkyYJVRo5OIasoo2WzUlDgpS4DD900O9gc13xz';
+      'pk_live_51Iy6RsDeve528Qr3dd5eSImYbpctnD9rTMdi5eldypRzNwSjs6LZhR1nOa4MgVNLjkcj9Cmohu8l0mvHUVv700Jc00qV2pSm2B';
 }
