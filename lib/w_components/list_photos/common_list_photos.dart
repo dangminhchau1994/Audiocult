@@ -1,6 +1,5 @@
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
-import 'package:audio_cult/l10n/l10n.dart';
 import 'package:audio_cult/w_components/appbar/common_appbar.dart';
 import 'package:audio_cult/w_components/list_photos/common_photo_item.dart';
 import 'package:flutter/material.dart';
@@ -39,7 +38,7 @@ class _CommonListPhotosState extends State<CommonListPhotos> {
     return Scaffold(
       backgroundColor: AppColors.mainColor,
       appBar: CommonAppBar(
-        title: context.l10n.t_photos,
+        title: context.localize.t_photos,
         centerTitle: true,
         actions: [
           if (_selectedIndex >= 0)
@@ -52,7 +51,7 @@ class _CommonListPhotosState extends State<CommonListPhotos> {
               },
               child: Padding(
                 padding: const EdgeInsets.all(14),
-                child: Text(context.l10n.t_done),
+                child: Text(context.localize.t_done),
               ),
             )
           else
@@ -95,7 +94,7 @@ class _CommonListPhotosState extends State<CommonListPhotos> {
                             color: AppColors.primaryButtonColor,
                           ),
                           child: Text(
-                            context.l10n.t_add_image,
+                            context.localize.t_add_image,
                             style: context.bodyTextStyle()?.copyWith(color: Colors.white),
                           ),
                         ),
@@ -115,7 +114,7 @@ class _CommonListPhotosState extends State<CommonListPhotos> {
 
   Widget _buildBody(BuildContext context) {
     if (widget.path == null) {
-      return const Center(child: Text('Request paths first.'));
+      return Center(child: Text(context.localize.t_request_path_first));
     }
     return GridView.custom(
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(

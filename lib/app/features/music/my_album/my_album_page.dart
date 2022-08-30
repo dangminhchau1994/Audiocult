@@ -7,10 +7,11 @@ import 'package:audio_cult/app/features/music/search/search_item.dart';
 import 'package:audio_cult/app/injections.dart';
 import 'package:audio_cult/app/utils/constants/app_assets.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
+import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/app/utils/mixins/disposable_state_mixin.dart';
 import 'package:audio_cult/app/utils/route/app_route.dart';
 import 'package:audio_cult/app/utils/toast/toast_utils.dart';
-import 'package:audio_cult/l10n/l10n.dart';
+
 import 'package:audio_cult/w_components/buttons/w_button_inkwell.dart';
 import 'package:audio_cult/w_components/dialogs/app_dialog.dart';
 import 'package:disposing/disposing.dart';
@@ -92,7 +93,7 @@ class _MyAlbumPageState extends State<MyAlbumPage> with DisposableStateMixin {
                         return Column(
                           children: [
                             SectionTitle(
-                              title: context.l10n.t_choose_gallery,
+                              title: context.localize.t_choose_gallery,
                               // onShowAll: () {},
                             ),
                             const SizedBox(
@@ -203,7 +204,7 @@ class _MyAlbumPageState extends State<MyAlbumPage> with DisposableStateMixin {
                         return Column(
                           children: [
                             SectionTitle(
-                              title: context.l10n.t_song_mixtaps,
+                              title: context.localize.t_song_mixtaps,
                               // onShowAll: () {},
                             ),
                             const SizedBox(
@@ -308,7 +309,7 @@ class _MyAlbumPageState extends State<MyAlbumPage> with DisposableStateMixin {
                 CommonIconButton(
                   color: AppColors.secondaryButtonColor,
                   textColor: AppColors.activeLabelItem,
-                  text: context.l10n.t_upload,
+                  text: context.localize.t_upload,
                   icon: Image.asset(AppAssets.icUpload, width: 24),
                   onTap: () {
                     AppDialog.showSelectionBottomSheet(
@@ -319,14 +320,14 @@ class _MyAlbumPageState extends State<MyAlbumPage> with DisposableStateMixin {
                             0,
                             Container(),
                           ),
-                          context.l10n.t_upload_song,
+                          context.localize.t_upload_song,
                         ),
                         Pair(
                           Pair(
                             1,
                             Container(),
                           ),
-                          context.l10n.t_upload_album,
+                          context.localize.t_upload_album,
                         ),
                       ],
                       onTap: (index) async {

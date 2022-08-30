@@ -1,7 +1,6 @@
 import 'package:audio_cult/app/data_source/models/responses/events/event_response.dart';
 import 'package:audio_cult/app/utils/constants/app_dimens.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
-import 'package:audio_cult/l10n/l10n.dart';
 import 'package:audio_cult/w_components/buttons/w_button_inkwell.dart';
 import 'package:flutter/material.dart';
 
@@ -28,7 +27,7 @@ class EventDetailDescription extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              context.l10n.t_description,
+              context.localize.t_description,
               style: context.bodyTextPrimaryStyle()!.copyWith(
                     color: AppColors.subTitleColor,
                     fontSize: 16,

@@ -3,7 +3,7 @@ import 'dart:typed_data';
 import 'package:audio_cult/app/data_source/models/responses/events/event_response.dart';
 import 'package:audio_cult/app/utils/constants/app_dimens.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
-import 'package:audio_cult/l10n/l10n.dart';
+
 import 'package:audio_cult/w_components/buttons/w_button_inkwell.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
@@ -150,7 +150,7 @@ class _EventDetailMapState extends State<EventDetailMap> {
                 //   onPressed: () {
                 //     ToastUtility.showPending(
                 //       context: context,
-                //       message: context.l10n.t_feature_development,
+                //       message: context.localize.t_feature_development,
                 //     );
                 //   },
                 //   child: Container(

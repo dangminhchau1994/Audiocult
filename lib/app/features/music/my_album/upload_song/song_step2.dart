@@ -6,7 +6,7 @@ import 'package:audio_cult/app/data_source/models/responses/profile_data.dart';
 import 'package:audio_cult/app/data_source/models/responses/song/song_response.dart';
 import 'package:audio_cult/app/features/music/my_album/upload_song/upload_song_bloc.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
-import 'package:audio_cult/l10n/l10n.dart';
+
 import 'package:audio_cult/w_components/buttons/common_button.dart';
 import 'package:audio_cult/w_components/buttons/w_button_inkwell.dart';
 import 'package:audio_cult/w_components/textfields/common_input.dart';
@@ -108,12 +108,12 @@ class SongStep2State extends State<SongStep2> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(context.l10n.t_main_info, style: context.bodyTextStyle()?.copyWith(fontSize: 18)),
+                Text(context.localize.t_main_info, style: context.bodyTextStyle()?.copyWith(fontSize: 18)),
                 const SizedBox(
                   height: kVerticalSpacing / 2,
                 ),
                 Text(
-                  context.l10n.t_sub_main_info,
+                  context.localize.t_sub_main_info,
                   style: context.bodyTextStyle()?.copyWith(color: AppColors.unActiveLabelItem),
                 ),
                 const SizedBox(
@@ -122,7 +122,7 @@ class SongStep2State extends State<SongStep2> {
                 if (widget.isUploadSong!)
                   CommonInput(
                     editingController: trackTitleEditTextController,
-                    hintText: context.l10n.t_track_title,
+                    hintText: context.localize.t_track_title,
                     onChanged: (v) {
                       setState(() {
                         _uploadRequest.title = v;
@@ -133,7 +133,7 @@ class SongStep2State extends State<SongStep2> {
                 else
                   CommonInput(
                     editingController: albumNameEditTextController,
-                    hintText: context.l10n.t_album_name,
+                    hintText: context.localize.t_album_name,
                     onChanged: (v) {
                       setState(() {
                         _uploadRequest.title = v;
@@ -149,7 +149,7 @@ class SongStep2State extends State<SongStep2> {
                 else
                   CommonInput(
                     editingController: yearEditTextController,
-                    hintText: context.l10n.t_year,
+                    hintText: context.localize.t_year,
                     textInputType: TextInputType.datetime,
                     onChanged: (v) {
                       setState(() {
@@ -184,7 +184,7 @@ class SongStep2State extends State<SongStep2> {
                             _uploadRequest.genreId = _genreSelection!.id.toString();
                           });
                         },
-                        hint: context.l10n.t_genres,
+                        hint: context.localize.t_genres,
                         // ignore: cast_nullable_to_non_nullable
                         data: snapshot.hasData ? _genres as List<SelectMenuModel> : [],
                       );
@@ -202,7 +202,7 @@ class SongStep2State extends State<SongStep2> {
                       _uploadRequest.musicType = _musicType!.id.toString();
                     });
                   },
-                  hint: context.l10n.t_music_type,
+                  hint: context.localize.t_music_type,
                   data: _musicList,
                 ),
                 const SizedBox(
@@ -218,7 +218,7 @@ class SongStep2State extends State<SongStep2> {
                         _uploadRequest.artistUserId = data.userId;
                         return Row(
                           children: [
-                            Text('${context.l10n.t_artist}: '),
+                            Text('${context.localize.t_artist}: '),
                             Text(
                               data.fullName ?? '',
                               style: context.body1TextStyle()?.copyWith(color: AppColors.activeLabelItem),
@@ -229,7 +229,7 @@ class SongStep2State extends State<SongStep2> {
                       return CommonChipInput(
                         groupUserId: '8',
                         initTags: [],
-                        hintText: context.l10n.t_artist,
+                        hintText: context.localize.t_artist,
                         onChooseTag: (value) {
                           setState(() {
                             _uploadRequest.artistUserId = value.userId;
@@ -253,7 +253,7 @@ class SongStep2State extends State<SongStep2> {
                     Navigator.pushNamed(context, AppRoute.routeProfile,
                         arguments: ProfileScreen.createArguments(id: value.userId!));
                   },
-                  hintText: context.l10n.t_collab_remix,
+                  hintText: context.localize.t_collab_remix,
                   initTags: collabUser == null ? [] : [collabUser!],
                   onChooseTag: (value) {
                     setState(() {
@@ -274,7 +274,7 @@ class SongStep2State extends State<SongStep2> {
                           _uploadRequest.labelUserId = data.userId;
                           return Row(
                             children: [
-                              Text('${context.l10n.t_label}: '),
+                              Text('${context.localize.t_label}: '),
                               GestureDetector(
                                 onTap: () {
                                   Navigator.pushNamed(context, AppRoute.routeProfile,
@@ -295,7 +295,7 @@ class SongStep2State extends State<SongStep2> {
                           },
                           groupUserId: '9',
                           initTags: labelUser == null ? [] : [labelUser!],
-                          hintText: context.l10n.t_label,
+                          hintText: context.localize.t_label,
                           onChooseTag: (value) {
                             setState(() {
                               _uploadRequest.labelUserId = value.userId;
@@ -311,7 +311,7 @@ class SongStep2State extends State<SongStep2> {
                 ),
                 CommonInput(
                   editingController: descriptionEditTextController,
-                  hintText: '* ${context.l10n.t_description}',
+                  hintText: '* ${context.localize.t_description}',
                   height: 100,
                   maxLine: 100,
                   onChanged: (v) {
@@ -326,7 +326,7 @@ class SongStep2State extends State<SongStep2> {
                 ),
                 CommonInput(
                   editingController: tagsEditTextController,
-                  hintText: context.l10n.t_tags_separate,
+                  hintText: context.localize.t_tags_separate,
                   onChanged: (v) {
                     setState(() {
                       _uploadRequest.tags = v;
@@ -336,12 +336,12 @@ class SongStep2State extends State<SongStep2> {
                 const SizedBox(
                   height: kVerticalSpacing,
                 ),
-                Text(context.l10n.t_upload_song_cover, style: context.bodyTextStyle()?.copyWith(fontSize: 18)),
+                Text(context.localize.t_upload_song_cover, style: context.bodyTextStyle()?.copyWith(fontSize: 18)),
                 const SizedBox(
                   height: kVerticalSpacing / 2,
                 ),
                 Text(
-                  context.l10n.t_sub_upload_song_cover,
+                  context.localize.t_sub_upload_song_cover,
                   style: context.bodyTextStyle()?.copyWith(color: AppColors.unActiveLabelItem),
                 ),
                 const SizedBox(
@@ -358,14 +358,14 @@ class SongStep2State extends State<SongStep2> {
                             0,
                             Container(),
                           ),
-                          context.l10n.t_take_picture,
+                          context.localize.t_take_picture,
                         ),
                         Pair(
                           Pair(
                             1,
                             Container(),
                           ),
-                          context.l10n.t_choose_gallery,
+                          context.localize.t_choose_gallery,
                         ),
                       ],
                       onTap: (index) async {
@@ -430,7 +430,7 @@ class SongStep2State extends State<SongStep2> {
                     Expanded(
                       child: CommonButton(
                         color: AppColors.secondaryButtonColor,
-                        text: context.l10n.btn_back,
+                        text: context.localize.btn_back,
                         onTap: () {
                           widget.onBack?.call();
                         },
@@ -442,7 +442,7 @@ class SongStep2State extends State<SongStep2> {
                     Expanded(
                       child: CommonButton(
                         color: AppColors.primaryButtonColor,
-                        text: context.l10n.btn_next,
+                        text: context.localize.btn_next,
                         onTap: () {
                           setState(() {
                             isValidate1 = true;

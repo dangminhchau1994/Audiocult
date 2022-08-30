@@ -1,5 +1,5 @@
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
-import 'package:audio_cult/l10n/l10n.dart';
+
 import 'package:flutter/material.dart';
 import '../buttons/w_button_inkwell.dart';
 
@@ -28,7 +28,7 @@ class CommentDelete extends StatelessWidget {
               width: 20,
             ),
             Text(
-              context.l10n.t_delete,
+              context.localize.t_delete,
               style: context.buttonTextStyle()!.copyWith(fontSize: 14),
             )
           ],

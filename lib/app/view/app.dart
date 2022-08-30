@@ -8,6 +8,8 @@ import 'package:audio_cult/app/utils/constants/app_assets.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
 import 'package:audio_cult/app/utils/flavor/flavor.dart';
 import 'package:audio_cult/l10n/l10n.dart';
+
+import 'package:audio_cult/localized_widget_wrapper/language_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -33,7 +35,11 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> with AfterLayoutMixin<App> {
-  final SplashBloc _splashBloc = SplashBloc(locator.get(), locator.get());
+  final SplashBloc _splashBloc = SplashBloc(
+    locator.get(),
+    locator.get(),
+    locator.get(),
+  );
   @override
   void initState() {
     super.initState();

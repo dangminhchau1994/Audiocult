@@ -4,7 +4,6 @@ import 'package:audio_cult/app/utils/constants/app_assets.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/app/utils/route/app_route.dart';
-import 'package:audio_cult/l10n/l10n.dart';
 import 'package:audio_cult/w_components/appbar/common_appbar.dart';
 import 'package:audio_cult/w_components/buttons/common_button.dart';
 import 'package:audio_cult/w_components/dropdown/common_dropdown.dart';
@@ -36,13 +35,13 @@ class _FilterAtlasScreenState extends State<FilterAtlasScreen> {
     return Scaffold(
       backgroundColor: AppColors.mainColor,
       appBar: CommonAppBar(
-        title: context.l10n.t_filter,
+        title: context.localize.t_filter,
         actions: [
           TextButton(
             onPressed: () {
               context.read<AtlasFilterProvider>().clearFilter();
             },
-            child: Text(context.l10n.t_clear_filter),
+            child: Text(context.localize.t_clear_filter),
           ),
         ],
       ),
@@ -95,7 +94,7 @@ class _FilterAtlasScreenState extends State<FilterAtlasScreen> {
           selector: (_, provider) => provider.userGroupOptions ?? [],
           builder: (_, options, __) {
             return _dropdownWidget(
-              context.l10n.t_choose_role,
+              context.localize.t_choose_role,
               options,
               options.firstWhereOrNull((element) => element.isSelected == true),
               context.read<AtlasFilterProvider>().selectUserGroup,
@@ -118,7 +117,7 @@ class _FilterAtlasScreenState extends State<FilterAtlasScreen> {
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 16),
           child: _dropdownWidget(
-            context.l10n.t_choose_category,
+            context.localize.t_choose_category,
             options,
             options.firstWhereOrNull((element) => element.isSelected == true),
             context.read<AtlasFilterProvider>().selectSubCategory,
@@ -141,7 +140,7 @@ class _FilterAtlasScreenState extends State<FilterAtlasScreen> {
           selector: (_, provider) => provider.countryOptions ?? [],
           builder: (_, options, __) {
             return _dropdownWidget(
-              context.l10n.t_choose_country,
+              context.localize.t_choose_country,
               options,
               options.firstWhereOrNull((element) => element.isSelected == true),
               context.read<AtlasFilterProvider>().selectCountry,
@@ -181,7 +180,7 @@ class _FilterAtlasScreenState extends State<FilterAtlasScreen> {
             Center(
               child: Padding(
                 padding: const EdgeInsets.only(bottom: 12),
-                child: Text(context.l10n.t_no_data),
+                child: Text(context.localize.t_no_data),
               ),
             )
           else
@@ -206,7 +205,7 @@ class _FilterAtlasScreenState extends State<FilterAtlasScreen> {
         children: [
           const SizedBox(height: 24),
           Text(
-            '${context.l10n.t_music_genre}:',
+            '${context.localize.t_music_genre}:',
             style: context.bodyTextStyle()?.copyWith(fontSize: 16),
           ),
           const SizedBox(height: 16),
@@ -228,7 +227,7 @@ class _FilterAtlasScreenState extends State<FilterAtlasScreen> {
           selector: (_, provider) => provider.musicGenres ?? [],
           builder: (_, genres, __) {
             if (genres.isEmpty) {
-              return Center(child: Text(context.l10n.t_no_data));
+              return Center(child: Text(context.localize.t_no_data));
             }
             return GridView.builder(
               shrinkWrap: true,
@@ -271,7 +270,7 @@ class _FilterAtlasScreenState extends State<FilterAtlasScreen> {
   Widget _filterButton() {
     return CommonButton(
       color: AppColors.activeLabelItem,
-      text: context.l10n.t_filter,
+      text: context.localize.t_filter,
       onTap: () {
         final request = context.read<AtlasFilterProvider>().getFilterAtlasUsers();
         if (request == null) return;

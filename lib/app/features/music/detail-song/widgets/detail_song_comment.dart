@@ -4,7 +4,7 @@ import 'package:audio_cult/app/features/music/detail-song/detail_song_bloc.dart'
 import 'package:audio_cult/app/features/my_cart/my_cart_bloc.dart';
 import 'package:audio_cult/app/injections.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
-import 'package:audio_cult/l10n/l10n.dart';
+
 import 'package:audio_cult/w_components/comment/comment_item.dart';
 import 'package:audio_cult/w_components/comment/comment_list_screen.dart';
 import 'package:audio_cult/w_components/loading/loading_widget.dart';
@@ -83,7 +83,7 @@ class _DetailSongCommentState extends State<DetailSongComment> {
                     width: 2,
                   ),
                 ),
-                hintText: context.l10n.t_leave_comment,
+                hintText: context.localize.t_leave_comment,
                 hintStyle: context.bodyTextPrimaryStyle()!.copyWith(
                       color: AppColors.subTitleColor,
                     ),
@@ -97,11 +97,11 @@ class _DetailSongCommentState extends State<DetailSongComment> {
               stream: songBloc.getCommentsStream,
               builder: (context, snapshot) {
                 final state = snapshot.data!;
-    
+
                 return state.when(
                   success: (success) {
                     final data = success as List<CommentResponse>;
-    
+
                     if (data.isEmpty) {
                       return const Center(
                         child: Text(
@@ -110,7 +110,7 @@ class _DetailSongCommentState extends State<DetailSongComment> {
                         ),
                       );
                     }
-    
+
                     return Column(
                       children: [
                         ListView.separated(
@@ -172,7 +172,7 @@ class _DetailSongCommentState extends State<DetailSongComment> {
                             },
                             child: Center(
                               child: Text(
-                                context.l10n.t_view_more_comment,
+                                context.localize.t_view_more_comment,
                                 style: context.bodyTextPrimaryStyle()!.copyWith(
                                       color: AppColors.lightBlue,
                                       fontWeight: FontWeight.bold,

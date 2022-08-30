@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
-import 'package:audio_cult/l10n/l10n.dart';
+
 import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -118,7 +118,7 @@ class CommentInput extends StatelessWidget {
                         width: 2,
                       ),
                     ),
-                    hintText: context.l10n.t_leave_comment,
+                    hintText: context.localize.t_leave_comment,
                     hintStyle: context.bodyTextPrimaryStyle()!.copyWith(
                           color: AppColors.subTitleColor,
                         ),

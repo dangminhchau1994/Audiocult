@@ -1,5 +1,9 @@
 import 'package:audio_cult/app/data_source/local/pref_provider.dart';
+import 'package:audio_cult/app/data_source/models/responses/language_response.dart';
 import 'package:audio_cult/app/data_source/repositories/app_repository.dart';
+import 'package:audio_cult/app/data_source/services/app_service_provider.dart';
+import 'package:audio_cult/app/data_source/services/assets_local_provider.dart';
+import 'package:audio_cult/app/data_source/services/language_provider.dart';
 import 'package:audio_cult/app/fcm/fcm_bloc.dart';
 import 'package:audio_cult/app/features/atlas/atlas_bloc.dart';
 import 'package:audio_cult/app/features/atlas/subscribe_user_bloc.dart';
@@ -32,6 +36,7 @@ import 'package:audio_cult/app/features/settings/privacy_settings/privacy_settin
 import 'package:audio_cult/app/features/universal_search/universal_seach_bloc.dart';
 import 'package:audio_cult/app/features/universal_search/universal_search_results_bloc.dart';
 import 'package:audio_cult/app/injections.dart';
+import 'package:audio_cult/localized_widget_wrapper/language_bloc.dart';
 import 'package:audio_cult/w_components/comment/reply_list_bloc.dart';
 import 'package:get_it/get_it.dart';
 import '../app/features/events/map/map_bloc.dart';
@@ -45,7 +50,13 @@ import '../w_components/comment/comment_list_bloc.dart';
 final getIt = GetIt.instance;
 
 void setupLocator() {
-  getIt.registerLazySingleton<MainBloc>(() => MainBloc(locator.get<AppRepository>(), locator.get<PrefProvider>()));
+  getIt.registerLazySingleton<MainBloc>(
+    () => MainBloc(
+      locator.get<AppRepository>(),
+      locator.get<PrefProvider>(),
+      languageBloc: locator.get<LanguageBloc>(),
+    ),
+  );
 
   getIt.registerLazySingleton<TopSongBloc>(() => TopSongBloc(locator.get<AppRepository>()));
 
@@ -106,7 +117,7 @@ void setupLocator() {
       ));
 
   getIt.registerLazySingleton<CalendarBloc>(
-    () => CalendarBloc(locator.get<AppRepository>()),
+    () => CalendarBloc(locator.get<AppRepository>(), locator.get<PrefProvider>()),
   );
 
   getIt.registerLazySingleton<PopularEventBloc>(
@@ -132,7 +143,12 @@ void setupLocator() {
     ),
   );
 
-  getIt.registerFactory<MyDiaryBloc>(() => MyDiaryBloc(locator.get<AppRepository>()));
+  getIt.registerFactory<MyDiaryBloc>(
+    () => MyDiaryBloc(
+      locator.get<AppRepository>(),
+      locator.get<PrefProvider>(),
+    ),
+  );
 
   getIt.registerFactory<MyDiaryInMonthBloc>(() => MyDiaryInMonthBloc(locator.get<AppRepository>()));
 
@@ -148,7 +164,12 @@ void setupLocator() {
   );
 
   getIt.registerFactory<AccountSettingsBloc>(
-      () => AccountSettingsBloc(locator.get<AppRepository>(), locator.get<PrefProvider>()));
+    () => AccountSettingsBloc(
+      locator.get<AppRepository>(),
+      locator.get<PrefProvider>(),
+      locator.get<LanguageBloc>(),
+    ),
+  );
 
   getIt.registerFactory<NotificationSettingsBloc>(() => NotificationSettingsBloc(locator.get<AppRepository>()));
 
@@ -163,4 +184,11 @@ void setupLocator() {
   getIt.registerFactory<SearchSuggestionBloc>(SearchSuggestionBloc.new);
 
   getIt.registerLazySingleton(() => MyCartBloc(locator.get<AppRepository>()));
+
+  getIt.registerLazySingleton(
+    () => LanguageBloc(
+      prefProvider: locator.get<PrefProvider>(),
+      localizedTextProvider: locator.get<LanguageProvider>(),
+    ),
+  );
 }

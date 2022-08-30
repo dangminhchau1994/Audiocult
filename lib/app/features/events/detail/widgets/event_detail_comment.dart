@@ -1,6 +1,6 @@
 import 'package:audio_cult/app/features/events/detail/event_detail_bloc.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
-import 'package:audio_cult/l10n/l10n.dart';
+
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 
@@ -85,7 +85,7 @@ class _EventDetailCommentState extends State<EventDetailComment> {
                     width: 2,
                   ),
                 ),
-                hintText: context.l10n.t_leave_comment,
+                hintText: context.localize.t_leave_comment,
                 hintStyle: context.bodyTextPrimaryStyle()!.copyWith(
                       color: AppColors.subTitleColor,
                       fontSize: 14,
@@ -175,7 +175,7 @@ class _EventDetailCommentState extends State<EventDetailComment> {
                             },
                             child: Center(
                               child: Text(
-                                context.l10n.t_view_more_comment,
+                                context.localize.t_view_more_comment,
                                 style: context.bodyTextPrimaryStyle()!.copyWith(
                                       color: AppColors.lightBlue,
                                       fontSize: 14,

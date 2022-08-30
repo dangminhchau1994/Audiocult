@@ -1,3 +1,6 @@
+import 'package:audio_cult/app/data_source/models/responses/localized_text.dart';
+import 'package:audio_cult/app/data_source/services/language_provider.dart';
+import 'package:audio_cult/app/injections.dart';
 import 'package:flutter/material.dart';
 
 import '../constants/app_font_sizes.dart';
@@ -67,4 +70,8 @@ extension AppTextExtension on BuildContext {
   TextStyle? subtitleTextStyle() => textTheme().bodyText1?.copyWith(
         fontWeight: FontWeight.w400,
       );
+}
+
+extension LocalizedTextExtension on BuildContext {
+  LocalizedText get localize => locator.get<LanguageProvider>().localizedText;
 }

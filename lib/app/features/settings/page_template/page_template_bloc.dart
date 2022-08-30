@@ -9,8 +9,6 @@ import 'package:audio_cult/app/data_source/models/responses/genre.dart';
 import 'package:audio_cult/app/data_source/models/responses/page_template_custom_field_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/page_template_response.dart';
 import 'package:audio_cult/app/data_source/repositories/app_repository.dart';
-import 'package:audio_cult/app/utils/constants/gender_enum.dart';
-import 'package:audio_cult/l10n/l10n.dart';
 import 'package:audio_cult/w_components/dropdown/common_dropdown.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/cupertino.dart';
@@ -69,14 +67,6 @@ class PageTemplateBloc extends BaseBloc {
   final _profileIsModifiedStreamController = StreamController<bool>.broadcast();
   Stream<bool> get profileModified => _profileIsModifiedStreamController.stream;
 
-  List<Gender> get allGenders => [
-        Gender.male,
-        Gender.female,
-        Gender.alien,
-        Gender.panda,
-        Gender.custom,
-      ];
-
   PageTemplateBloc(this._appRepo, this._prefProvider);
 
   void loadPageTemplateData() async {
@@ -87,11 +77,20 @@ class PageTemplateBloc extends BaseBloc {
         (profile) {
           _userProfile = profile;
           loadAllCountries();
-          loadAllPageTemplates();
-          _userProfileStreamController.sink.add(BlocState.success(profile));
+
           _customFieldConfigs = profile.customFields;
+          _allPageTemplates = profile.pageTemplates;
           _loadCustomFieldsStreamController.sink.add(BlocState.success(_customFieldConfigs));
           selectGender(null);
+          _userProfileStreamController.sink.add(BlocState.success(profile));
+          _loadPageTemplatesStreamController.sink.add(
+            BlocState.success(
+              Tuple2(
+                _allPageTemplates ?? [],
+                _allPageTemplates?.firstWhereOrNull((element) => element.userGroupId == _userProfile?.userGroupId),
+              ),
+            ),
+          );
         },
         (exception) {
           _userProfileStreamController.sink.add(BlocState.error(exception.toString()));
@@ -112,26 +111,6 @@ class PageTemplateBloc extends BaseBloc {
     });
   }
 
-  void loadAllPageTemplates() async {
-    final result = await _appRepo.getAtlasCategories();
-    result.fold((categories) {
-      _allPageTemplates = categories;
-      _loadPageTemplatesStreamController.sink.add(
-        BlocState.success(
-          Tuple2(
-            _allPageTemplates ?? [],
-            _allPageTemplates?.firstWhereOrNull(
-              (element) => element.userGroupId == _userProfile?.userGroupId,
-            ),
-          ),
-        ),
-      );
-    }, (exception) {
-      _allPageTemplates = [];
-      _loadPageTemplatesStreamController.sink.add(BlocState.error(exception.toString()));
-    });
-  }
-
   void selectCountry(SelectMenuModel option) async {
     _profileIsModifiedStreamController.sink.add(true);
     final selectedCountry = _countries?.firstWhereOrNull((element) => element.name == option.title);
@@ -142,14 +121,9 @@ class PageTemplateBloc extends BaseBloc {
   void selectGender(SelectMenuModel? option) {
     if (option != null) {
       _profileIsModifiedStreamController.sink.add(true);
-      _userProfile?.gender = allGenders.firstWhereOrNull((element) => element.indexs == option.id);
-    } else {
-      _userProfile?.gender = allGenders.firstWhereOrNull((element) => element == _userProfile?.gender);
+      _userProfile?.genderId = option.id.toString();
     }
-    _selectedGenderChanged.sink.add(Tuple2(
-      _userProfile?.gender ?? Gender.none,
-      (_userProfile?.genderText?.isNotEmpty == true) ? _userProfile?.genderText?.first : null,
-    ));
+    _userProfileStreamController.sink.add(BlocState.success(_userProfile));
   }
 
   void selectPageTemplate(SelectMenuModel selection) async {
@@ -184,8 +158,8 @@ class PageTemplateBloc extends BaseBloc {
   void genderTextOnChanged(String text) {
     if (_userProfile?.genderText?[0] != text) {
       _profileIsModifiedStreamController.sink.add(true);
+      _userProfile?.genderText?[0] = text;
     }
-    _userProfile?.genderText?[0] = text;
   }
 
   void zipCodeOnChanged(String text) {
@@ -233,10 +207,6 @@ class PageTemplateBloc extends BaseBloc {
 
   Future<bool> updatePageTemplate(BuildContext context) async {
     if (_userProfile == null) {
-      return false;
-    }
-    if (_userProfile?.gender == Gender.custom && _userProfile?.genderText?.first.isNotEmpty != true) {
-      showError(Exception([context.l10n.t_require_your_custom_gender]));
       return false;
     }
     showOverLayLoading();

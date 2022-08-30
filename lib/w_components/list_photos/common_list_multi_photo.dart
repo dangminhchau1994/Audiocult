@@ -2,7 +2,7 @@
 import 'dart:collection';
 
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
-import 'package:audio_cult/l10n/l10n.dart';
+
 import 'package:audio_cult/w_components/list_photos/common_multi_photo_item.dart';
 import 'package:flutter/material.dart';
 import 'package:photo_manager/photo_manager.dart';
@@ -43,7 +43,7 @@ class _CommonListMultiPhotosState extends State<CommonListMultiPhotos> {
     return Scaffold(
       backgroundColor: AppColors.mainColor,
       appBar: CommonAppBar(
-        title: isMultiSelectionEnabled ? getSelectedItemCount() : context.l10n.t_photos,
+        title: isMultiSelectionEnabled ? getSelectedItemCount() : context.localize.t_photos,
         centerTitle: false,
         leading: isMultiSelectionEnabled
             ? IconButton(
@@ -71,7 +71,7 @@ class _CommonListMultiPhotosState extends State<CommonListMultiPhotos> {
               },
               child: Padding(
                 padding: const EdgeInsets.all(14),
-                child: Text(context.l10n.t_done),
+                child: Text(context.localize.t_done),
               ),
             )
           else
@@ -90,11 +90,11 @@ class _CommonListMultiPhotosState extends State<CommonListMultiPhotos> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Flexible(
+                    Flexible(
                       flex: 7,
                       child: Text(
-                        'You have granted access to some photos. You can add photos or allow access to all photos',
-                        style: TextStyle(color: Colors.white),
+                        context.localize.t_access_photo,
+                        style: const TextStyle(color: Colors.white),
                       ),
                     ),
                     Flexible(
@@ -114,7 +114,7 @@ class _CommonListMultiPhotosState extends State<CommonListMultiPhotos> {
                             color: AppColors.primaryButtonColor,
                           ),
                           child: Text(
-                            context.l10n.t_add_image,
+                            context.localize.t_add_image,
                             style: context.bodyTextStyle()?.copyWith(color: Colors.white),
                           ),
                         ),
@@ -150,7 +150,7 @@ class _CommonListMultiPhotosState extends State<CommonListMultiPhotos> {
 
   Widget _buildBody(BuildContext context) {
     if (widget.path == null) {
-      return const Center(child: Text('Request paths first.'));
+      return Center(child: Text(context.localize.t_request_path_first));
     }
     return GridView.custom(
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(

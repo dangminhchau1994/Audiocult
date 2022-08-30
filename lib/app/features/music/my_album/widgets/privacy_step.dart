@@ -1,6 +1,6 @@
 import 'package:audio_cult/app/utils/constants/app_assets.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
-import 'package:audio_cult/l10n/l10n.dart';
+
 import 'package:flutter/material.dart';
 
 import '../../../../../w_components/buttons/common_button.dart';
@@ -79,12 +79,12 @@ class PrivacyStepState extends State<PrivacyStep> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(context.l10n.t_privacy, style: context.bodyTextStyle()?.copyWith(fontSize: 18)),
+          Text(context.localize.t_privacy, style: context.bodyTextStyle()?.copyWith(fontSize: 18)),
           const SizedBox(
             height: kVerticalSpacing / 2,
           ),
           Text(
-            context.l10n.t_sub_privacy,
+            context.localize.t_sub_privacy,
             style: context.bodyTextStyle()?.copyWith(color: AppColors.unActiveLabelItem),
           ),
           const SizedBox(
@@ -102,12 +102,12 @@ class PrivacyStepState extends State<PrivacyStep> {
           const SizedBox(
             height: kVerticalSpacing,
           ),
-          Text(context.l10n.t_comment_privacy, style: context.bodyTextStyle()?.copyWith(fontSize: 18)),
+          Text(context.localize.t_comment_privacy, style: context.bodyTextStyle()?.copyWith(fontSize: 18)),
           const SizedBox(
             height: kVerticalSpacing / 2,
           ),
           Text(
-            context.l10n.t_sub_comment_privacy,
+            context.localize.t_sub_comment_privacy,
             style: context.bodyTextStyle()?.copyWith(color: AppColors.unActiveLabelItem),
           ),
           const SizedBox(
@@ -130,7 +130,7 @@ class PrivacyStepState extends State<PrivacyStep> {
               Expanded(
                 child: CommonButton(
                   color: AppColors.secondaryButtonColor,
-                  text: context.l10n.btn_back,
+                  text: context.localize.btn_back,
                   onTap: () {
                     widget.onBack?.call();
                   },
@@ -142,7 +142,7 @@ class PrivacyStepState extends State<PrivacyStep> {
               Expanded(
                 child: CommonButton(
                   color: AppColors.primaryButtonColor,
-                  text: context.l10n.btn_next,
+                  text: context.localize.btn_next,
                   onTap: () {
                     widget.onNext?.call();
                   },

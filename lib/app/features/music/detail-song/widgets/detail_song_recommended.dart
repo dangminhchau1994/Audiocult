@@ -3,7 +3,7 @@ import 'package:audio_cult/app/features/music/detail-song/detail_song_bloc.dart'
 import 'package:audio_cult/app/features/music/discover/widgets/song_item.dart';
 import 'package:audio_cult/app/features/my_cart/my_cart_bloc.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
-import 'package:audio_cult/l10n/l10n.dart';
+
 import 'package:flutter/material.dart';
 
 import '../../../../../w_components/error_empty/error_section.dart';
@@ -55,7 +55,7 @@ class _DetailSongRecommendedState extends State<DetailSongRecommended> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      context.l10n.t_recommended_song,
+                      context.localize.t_recommended_song,
                       style: context.buttonTextStyle()!.copyWith(
                             fontSize: 18,
                           ),

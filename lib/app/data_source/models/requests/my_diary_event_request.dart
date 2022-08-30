@@ -1,5 +1,5 @@
 import 'package:audio_cult/app/utils/constants/app_assets.dart';
-import 'package:audio_cult/l10n/l10n.dart';
+import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -52,13 +52,13 @@ extension MyDiaryEventViewExension on MyDiaryEventView {
   String title(BuildContext context) {
     switch (this) {
       case MyDiaryEventView.attending:
-        return context.l10n.t_attending;
+        return context.localize.t_attending;
       case MyDiaryEventView.mayAttend:
-        return context.l10n.t_maybe_attending;
+        return context.localize.t_maybe_attending;
       case MyDiaryEventView.notAttending:
-        return context.l10n.t_already_bought;
+        return context.localize.t_already_bought;
       case MyDiaryEventView.all:
-        return context.l10n.t_all_events;
+        return context.localize.t_all_events;
     }
   }
 }

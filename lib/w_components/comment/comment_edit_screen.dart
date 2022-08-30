@@ -2,7 +2,7 @@ import 'package:audio_cult/app/data_source/models/responses/comment/comment_resp
 import 'package:audio_cult/app/utils/constants/app_dimens.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/di/bloc_locator.dart';
-import 'package:audio_cult/l10n/l10n.dart';
+
 import 'package:audio_cult/w_components/appbar/common_appbar.dart';
 import 'package:audio_cult/w_components/buttons/common_button.dart';
 import 'package:audio_cult/w_components/comment/comment_list_bloc.dart';
@@ -50,7 +50,7 @@ class _CommentEditScreenState extends State<CommentEditScreen> {
       child: Scaffold(
         backgroundColor: AppColors.mainColor,
         appBar: CommonAppBar(
-          title: context.l10n.t_edit,
+          title: context.localize.t_edit,
           centerTitle: true,
         ),
         body: Container(
@@ -88,7 +88,7 @@ class _CommentEditScreenState extends State<CommentEditScreen> {
                       width: 2,
                     ),
                   ),
-                  hintText: context.l10n.t_leave_comment,
+                  hintText: context.localize.t_leave_comment,
                   hintStyle: context.bodyTextPrimaryStyle()!.copyWith(
                         color: AppColors.subTitleColor,
                       ),
@@ -106,7 +106,7 @@ class _CommentEditScreenState extends State<CommentEditScreen> {
                           Navigator.pop(context);
                         },
                         child: CommonButton(
-                          text: context.l10n.t_cancel,
+                          text: context.localize.t_cancel,
                           width: 150,
                           color: AppColors.secondaryButtonColor,
                         ),
@@ -128,7 +128,7 @@ class _CommentEditScreenState extends State<CommentEditScreen> {
                                       int.parse(widget.argument.commentId ?? ''),
                                     );
                                   },
-                            text: context.l10n.t_submit,
+                            text: context.localize.t_submit,
                             width: 200,
                             color: AppColors.primaryButtonColor,
                           );

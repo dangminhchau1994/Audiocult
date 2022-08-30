@@ -5,9 +5,9 @@ import 'package:audio_cult/app/features/music/library/update_playlist_params.dar
 import 'package:audio_cult/app/features/music/library/widgets/preview_image.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
 import 'package:audio_cult/app/utils/constants/app_dimens.dart';
-import 'package:audio_cult/app/utils/toast/toast_utils.dart';
+import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/di/bloc_locator.dart';
-import 'package:audio_cult/l10n/l10n.dart';
+
 import 'package:audio_cult/w_components/appbar/common_appbar.dart';
 import 'package:audio_cult/w_components/buttons/common_button.dart';
 import 'package:audio_cult/w_components/textfields/common_input.dart';
@@ -72,7 +72,7 @@ class _CreatePlayListScreenState extends State<CreatePlayListScreen> with Dispos
         child: Scaffold(
           backgroundColor: AppColors.mainColor,
           appBar: CommonAppBar(
-            title: context.l10n.t_create_playlist,
+            title: context.localize.t_create_playlist,
           ),
           body: Container(
             margin: const EdgeInsets.symmetric(
@@ -94,7 +94,7 @@ class _CreatePlayListScreenState extends State<CreatePlayListScreen> with Dispos
                         ),
                         CommonInput(
                           editingController: _playListNameController,
-                          hintText: context.l10n.t_playlist_name,
+                          hintText: context.localize.t_playlist_name,
                           onChanged: (value) {
                             _createPlayListRequest.title = value;
                           },
@@ -129,7 +129,7 @@ class _CreatePlayListScreenState extends State<CreatePlayListScreen> with Dispos
                                 width: 2,
                               ),
                             ),
-                            hintText: context.l10n.t_optional_description,
+                            hintText: context.localize.t_optional_description,
                             hintStyle: TextStyle(color: AppColors.unActiveLabelItem),
                           ),
                         ),
@@ -138,7 +138,7 @@ class _CreatePlayListScreenState extends State<CreatePlayListScreen> with Dispos
                         ),
                         CommonButton(
                           color: AppColors.primaryButtonColor,
-                          text: context.l10n.t_apply,
+                          text: context.localize.t_apply,
                           onTap: () {
                             if (_formKey.currentState!.validate()) {
                               if (widget.updatePlaylistParams?.title?.isNotEmpty ?? false) {

@@ -4,7 +4,6 @@ import 'package:audio_cult/app/features/home/post_video/post_video.dart';
 import 'package:audio_cult/app/utils/constants/app_assets.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
-import 'package:audio_cult/l10n/l10n.dart';
 import 'package:audio_cult/w_components/appbar/common_appbar.dart';
 import 'package:audio_cult/w_components/buttons/w_button_inkwell.dart';
 import 'package:flutter/material.dart';
@@ -47,7 +46,7 @@ class _HomeCreatePostState extends State<HomeCreatePost> {
           leadingWidth: 120,
           leading: Center(
             child: Text(
-              context.l10n.t_create_post,
+              context.localize.t_create_post,
               style: context.bodyTextPrimaryStyle()!.copyWith(color: Colors.white, fontSize: 18),
             ),
           ),
@@ -78,7 +77,7 @@ class _HomeCreatePostState extends State<HomeCreatePost> {
                   index: index,
                   width: MediaQuery.of(context).size.width / _pageCount,
                   currentIndex: _currentIndex,
-                  title: context.l10n.t_status,
+                  title: context.localize.t_status,
                   unActiveIcon: SvgPicture.asset(AppAssets.edit, width: 20, height: 20),
                   activeIcon: SvgPicture.asset(AppAssets.activeEdit, width: 20, height: 20),
                   hasIcon: true,
@@ -90,7 +89,7 @@ class _HomeCreatePostState extends State<HomeCreatePost> {
                   currentIndex: _currentIndex,
                   unActiveIcon: SvgPicture.asset(AppAssets.photo, width: 20, height: 20),
                   activeIcon: SvgPicture.asset(AppAssets.activePhoto, width: 20, height: 20),
-                  title: context.l10n.t_photos,
+                  title: context.localize.t_photos,
                   hasIcon: true,
                 );
               case 2:
@@ -100,7 +99,7 @@ class _HomeCreatePostState extends State<HomeCreatePost> {
                   currentIndex: _currentIndex,
                   unActiveIcon: SvgPicture.asset(AppAssets.video, width: 20, height: 20),
                   activeIcon: SvgPicture.asset(AppAssets.activeVideo, width: 20, height: 20),
-                  title: context.l10n.t_videos,
+                  title: context.localize.t_videos,
                   hasIcon: true,
                 );
               default:

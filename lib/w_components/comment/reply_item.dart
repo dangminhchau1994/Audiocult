@@ -1,6 +1,6 @@
 import 'package:audio_cult/app/injections.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
-import 'package:audio_cult/l10n/l10n.dart';
+
 import 'package:audio_cult/w_components/buttons/w_button_inkwell.dart';
 import 'package:audio_cult/w_components/comment/comment_args.dart';
 import 'package:audio_cult/w_components/comment/comment_list_bloc.dart';
@@ -77,7 +77,7 @@ class _ReplyItemState extends State<ReplyItem> {
                 setState(() {});
               },
               child: Text(
-                context.l10n.t_view_reply,
+                context.localize.t_view_reply,
                 overflow: TextOverflow.ellipsis,
                 style: context.bodyTextPrimaryStyle()!.copyWith(
                       color: AppColors.lightBlue,

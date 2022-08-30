@@ -1,5 +1,4 @@
 import 'package:audio_cult/app/base/index_walker.dart';
-import 'package:audio_cult/app/utils/constants/gender_enum.dart';
 
 class BlockedUser {
   String? blockUserId;
@@ -8,7 +7,6 @@ class BlockedUser {
   String? userServerId;
   String? userName;
   String? fullName;
-  Gender? gender;
   String? userImageUrl;
   String? isInvisible;
   String? userGroupId;
@@ -26,7 +24,6 @@ class BlockedUser {
     userServerId = iw['user_server_id'].get();
     userName = iw['user_name'].get();
     fullName = iw['full_name'].get();
-    gender = GenderExtension.initFromText(iw['gender'].getString);
     userImageUrl = iw['user_image'].get();
     isInvisible = iw['is_invisible'].get();
     userGroupId = iw['user_group_id'].get();

@@ -1,4 +1,4 @@
-import 'package:audio_cult/l10n/l10n.dart';
+import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:flutter/material.dart';
 
 class NoImageAvailable extends StatelessWidget {
@@ -22,7 +22,7 @@ class NoImageAvailable extends StatelessWidget {
               const Icon(Icons.image, color: Color(0xff9f9f9f), size: 48),
               const SizedBox(height: 8),
               Text(
-                context.l10n.t_no_image_available,
+                context.localize.t_no_image_available,
                 style: const TextStyle(color: Color(0xff7F7F7F), fontSize: 16),
               )
             ],

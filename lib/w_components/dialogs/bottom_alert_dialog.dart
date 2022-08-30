@@ -1,11 +1,12 @@
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
+import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/w_components/buttons/w_button_inkwell.dart';
 import 'package:flutter/material.dart';
 
 import '../../app/base/pair.dart';
 
 class BottomAlertDialog extends StatelessWidget {
-  final List<Pair<Pair<int,Widget>, String>>? listSelection;
+  final List<Pair<Pair<int, Widget>, String>>? listSelection;
   final Function(int id)? onTap;
   final bool isShowSelect;
   const BottomAlertDialog({Key? key, this.listSelection, this.onTap, this.isShowSelect = true}) : super(key: key);
@@ -28,7 +29,7 @@ class BottomAlertDialog extends StatelessWidget {
               Container(
                 alignment: Alignment.centerLeft,
                 padding: const EdgeInsets.all(16),
-                child: const Text('Select:'),
+                child: Text(context.localize.t_select),
               ),
             Column(
               mainAxisSize: MainAxisSize.min,

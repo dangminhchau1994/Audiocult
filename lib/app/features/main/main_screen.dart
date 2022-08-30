@@ -6,9 +6,9 @@ import 'package:audio_cult/app/features/main/main_bloc.dart';
 import 'package:audio_cult/app/features/music/music_screen.dart';
 import 'package:audio_cult/app/features/my_cart/my_cart_bloc.dart';
 import 'package:audio_cult/app/injections.dart';
+import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/app/utils/route/app_route.dart';
 import 'package:audio_cult/app/utils/toast/toast_utils.dart';
-import 'package:audio_cult/l10n/l10n.dart';
 import 'package:audio_cult/w_components/bottom_navigation_bar/common_bottom_bar.dart';
 import 'package:audio_cult/w_components/buttons/w_button_inkwell.dart';
 import 'package:audio_cult/w_components/menus/common_circular_menu.dart';
@@ -93,13 +93,13 @@ class _MainScreenState extends State<MainScreen> {
   String getAppBarTitle(int currentIndex) {
     switch (currentIndex) {
       case 0:
-        return context.l10n.t_home;
+        return context.localize.t_home;
       case 1:
-        return context.l10n.t_atlas;
+        return context.localize.t_atlas;
       case 3:
-        return context.l10n.t_music;
+        return context.localize.t_music;
       case 4:
-        return context.l10n.t_events;
+        return context.localize.t_events;
       default:
         return '';
     }
@@ -109,7 +109,7 @@ class _MainScreenState extends State<MainScreen> {
     if (currentIndex == 0 || currentIndex == 1) {
       return WButtonInkwell(
         onPressed: () {
-          ToastUtility.showPending(context: context, message: context.l10n.t_feature_development);
+          ToastUtility.showPending(context: context, message: context.localize.t_feature_development);
         },
         child: SvgPicture.asset(
           AppAssets.messageIcon,
@@ -119,7 +119,7 @@ class _MainScreenState extends State<MainScreen> {
     } else {
       return WButtonInkwell(
         onPressed: () {
-          ToastUtility.showPending(context: context, message: context.l10n.t_feature_development);
+          ToastUtility.showPending(context: context, message: context.localize.t_feature_development);
         },
         child: SvgPicture.asset(
           AppAssets.searchIcon,
@@ -228,14 +228,14 @@ class _MainScreenState extends State<MainScreen> {
                     0,
                     Container(),
                   ),
-                  context.l10n.t_upload_song,
+                  context.localize.t_upload_song,
                 ),
                 Pair(
                   Pair(
                     1,
                     Container(),
                   ),
-                  context.l10n.t_upload_album,
+                  context.localize.t_upload_album,
                 ),
               ],
               onTap: (index) {

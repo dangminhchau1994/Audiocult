@@ -1,7 +1,8 @@
 import 'package:audio_cult/app/base/bloc_handle.dart';
 import 'package:audio_cult/app/features/music/playlist_dialog_bloc.dart';
 import 'package:audio_cult/app/features/music/search/search_item.dart';
-import 'package:audio_cult/l10n/l10n.dart';
+import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
+
 import 'package:disposing/disposing.dart';
 import 'package:flutter/material.dart';
 
@@ -51,7 +52,7 @@ class _PlayListDialogState extends State<PlayListDialog> with DisposableStateMix
 
   void callData(String value) {
     debouncer.run(() {
-      getIt.get<PlayListDialogBloc>().getPlaylist(value, 1, 10, 'latest','','', 0);
+      getIt.get<PlayListDialogBloc>().getPlaylist(value, 1, 10, 'latest', '', '', 0);
     });
   }
 
@@ -86,7 +87,7 @@ class _PlayListDialogState extends State<PlayListDialog> with DisposableStateMix
               width: 2,
             ),
           ),
-          hintText: context.l10n.t_search,
+          hintText: context.localize.t_search,
           contentPadding: const EdgeInsets.only(
             top: 20,
             left: 10,
@@ -173,7 +174,7 @@ class _PlayListDialogState extends State<PlayListDialog> with DisposableStateMix
                               return Column(
                                 children: [
                                   Text(
-                                    context.l10n.t_no_data,
+                                    context.localize.t_no_data,
                                   )
                                 ],
                               );

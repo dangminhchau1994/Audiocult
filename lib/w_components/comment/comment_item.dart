@@ -3,7 +3,7 @@ import 'package:audio_cult/app/data_source/models/responses/reaction_icon/reacti
 import 'package:audio_cult/app/injections.dart';
 import 'package:audio_cult/app/utils/datetime/date_time_utils.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
-import 'package:audio_cult/l10n/l10n.dart';
+
 import 'package:audio_cult/w_components/buttons/w_button_inkwell.dart';
 import 'package:audio_cult/w_components/comment/comment_item_bloc.dart';
 import 'package:audio_cult/w_components/dialogs/report_dialog.dart';
@@ -161,7 +161,7 @@ class _CommentItemState extends State<CommentItem> {
                             );
                           },
                           child: Text(
-                            context.l10n.t_report,
+                            context.localize.t_report,
                             style: context.bodyTextPrimaryStyle()!.copyWith(
                                   color: Colors.lightBlue,
                                 ),

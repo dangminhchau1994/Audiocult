@@ -3,7 +3,7 @@ import 'package:audio_cult/app/utils/constants/app_assets.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/di/bloc_locator.dart';
-import 'package:audio_cult/l10n/l10n.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -116,7 +116,7 @@ class _SearchSuggestionScreenState extends State<SearchSuggestionScreen> {
       child: TextButton(
         onPressed: Navigator.of(context).pop,
         child: Text(
-          context.l10n.t_cancel,
+          context.localize.t_cancel,
           style: context.buttonTextStyle(),
         ),
       ),
@@ -154,7 +154,7 @@ class _SearchSuggestionScreenState extends State<SearchSuggestionScreen> {
             if (searchHistory.isEmpty) {
               return Padding(
                 padding: const EdgeInsets.only(top: 28),
-                child: Text('No recent search', style: context.body1TextStyle()),
+                child: Text(context.localize.t_no_recent_search, style: context.body1TextStyle()),
               );
             }
             return ListView.separated(

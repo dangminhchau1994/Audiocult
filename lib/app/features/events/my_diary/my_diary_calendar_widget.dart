@@ -4,10 +4,15 @@ class MyDiaryCalendarWidget extends StatefulWidget {
   final DateTime? startDateInRange;
   final DateTime? endDateInRange;
   final Function(Tuple2<DateTime?, DateTime?>) focusRangeDateOnChanged;
+  final String? locale;
 
-  const MyDiaryCalendarWidget(
-      {required this.startDateInRange, required this.endDateInRange, required this.focusRangeDateOnChanged, Key? key})
-      : super(key: key);
+  const MyDiaryCalendarWidget({
+    required this.startDateInRange,
+    required this.endDateInRange,
+    required this.focusRangeDateOnChanged,
+    this.locale,
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<MyDiaryCalendarWidget> createState() => _MyDiaryCalendarWidgetState();
@@ -19,6 +24,7 @@ class _MyDiaryCalendarWidgetState extends State<MyDiaryCalendarWidget> {
   @override
   Widget build(BuildContext context) {
     return TableCalendar<EventResponse>(
+      locale: widget.locale,
       focusedDay: widget.endDateInRange ?? widget.startDateInRange ?? DateTime.now(),
       firstDay: DateTime.utc(2010, 10, 16),
       lastDay: DateTime.utc(2030, 3, 14),
@@ -63,6 +69,7 @@ class _MyDiaryCalendarWidgetState extends State<MyDiaryCalendarWidget> {
         _rangeSelectionMode = RangeSelectionMode.toggledOff;
         setState(() {});
       },
+      onFormatChanged: (_) {},
     );
   }
 }

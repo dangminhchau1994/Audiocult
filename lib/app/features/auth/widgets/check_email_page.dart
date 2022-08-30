@@ -1,7 +1,7 @@
 import 'package:audio_cult/app/base/bloc_handle.dart';
 import 'package:audio_cult/app/injections.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
-import 'package:audio_cult/l10n/l10n.dart';
+
 import 'package:flutter/material.dart';
 
 import '../../../../w_components/buttons/common_button.dart';
@@ -44,18 +44,18 @@ class _CheckEmailPageState extends State<CheckEmailPage> {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: kVerticalSpacing),
               child: Text(
-                context.l10n.t_check_email,
+                context.localize.t_check_email,
                 style: context.headerStyle()?.copyWith(),
               ),
             ),
             Text(
-              context.l10n.t_sub_check_email,
+              context.localize.t_sub_check_email,
               style: context.bodyTextStyle()?.copyWith(color: AppColors.unActiveLabelItem),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: kVerticalSpacing),
               child: CommonInput(
-                hintText: 'Input code...',
+                hintText: context.localize.t_input_code,
                 onChanged: (v) {
                   setState(() {
                     _codeSent = v;
@@ -65,14 +65,14 @@ class _CheckEmailPageState extends State<CheckEmailPage> {
             ),
             CommonButton(
                 color: AppColors.activeLabelItem,
-                text: context.l10n.t_submit,
+                text: context.localize.t_submit,
                 onTap: () {
                   _checkEmailBloc.sendCode(_codeSent);
                 }),
             Padding(
               padding: const EdgeInsets.only(top: kVerticalSpacing),
               child: Text(
-                context.l10n.t_bottom_check_email,
+                context.localize.t_bottom_check_email,
                 style: context.bodyTextStyle()?.copyWith(color: AppColors.unActiveLabelItem),
               ),
             ),
@@ -81,7 +81,7 @@ class _CheckEmailPageState extends State<CheckEmailPage> {
                 Navigator.pop(context);
               },
               child: Text(
-                context.l10n.t_bottom1_check_email,
+                context.localize.t_bottom1_check_email,
                 style: context.bodyTextStyle()?.copyWith(color: AppColors.lightBlueColor),
               ),
             ),

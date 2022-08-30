@@ -1,6 +1,6 @@
 import 'package:audio_cult/app/utils/constants/app_assets.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
-import 'package:audio_cult/l10n/l10n.dart';
+
 import 'package:audio_cult/w_components/buttons/common_button.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
@@ -52,7 +52,7 @@ class AddVideo extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            context.l10n.t_add_video_title,
+                            context.localize.t_add_video_title,
                             style: context.buttonTextStyle()!.copyWith(
                                   fontSize: 16,
                                   color: AppColors.activeLabelItem,
@@ -60,7 +60,7 @@ class AddVideo extends StatelessWidget {
                           ),
                           const SizedBox(height: 10),
                           Text(
-                            context.l10n.t_add_video_content,
+                            context.localize.t_add_video_content,
                             overflow: TextOverflow.ellipsis,
                             style: context.buttonTextStyle()!.copyWith(
                                   fontSize: 14,
@@ -78,7 +78,7 @@ class AddVideo extends StatelessWidget {
                   child: CommonButton(
                     width: 130,
                     color: AppColors.primaryButtonColor,
-                    text: context.l10n.t_browse,
+                    text: context.localize.t_browse,
                   ),
                 )
               ],

@@ -1,6 +1,8 @@
 import 'package:audio_cult/app/features/music/library/library_bloc.dart';
 import 'package:audio_cult/app/injections.dart';
+import 'package:audio_cult/localized_widget_wrapper/language_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:provider/provider.dart';
 
 import 'app/utils/configs/app_config.dart';
@@ -22,7 +24,9 @@ class MyGlobal extends StatelessWidget {
           //provider of app to global
           Provider<AppRoute>(create: (_) => AppRoute()),
         ],
-        child: child,
+        child: Phoenix(child: LanguageWidget(builder: (_) {
+          return child;
+        })),
       ),
     );
   }

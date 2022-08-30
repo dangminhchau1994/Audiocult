@@ -10,7 +10,7 @@ import 'package:audio_cult/app/features/music/my_album/upload_song/upload_song_b
 import 'package:audio_cult/app/injections.dart';
 import 'package:audio_cult/app/services/media_service.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
-import 'package:audio_cult/l10n/l10n.dart';
+
 import 'package:audio_cult/w_components/list_photos/common_list_multi_photo.dart';
 import 'package:disposing/disposing.dart';
 import 'package:flutter/cupertino.dart';
@@ -97,15 +97,15 @@ class _PostPhotosState extends State<PostPhotos> with DisposableStateMixin, Auto
       await showDialog(
         context: context,
         builder: (BuildContext context) => CupertinoAlertDialog(
-          title: Text(context.l10n.t_camera_permission),
-          content: Text(context.l10n.t_need_photos),
+          title: Text(context.localize.t_camera_permission),
+          content: Text(context.localize.t_need_photos),
           actions: <Widget>[
             CupertinoDialogAction(
-              child: Text(context.l10n.t_cancel),
+              child: Text(context.localize.t_cancel),
               onPressed: () => Navigator.of(context).pop(),
             ),
             CupertinoDialogAction(
-              child: Text(context.l10n.t_settings),
+              child: Text(context.localize.t_settings),
               onPressed: () {
                 openAppSettings();
                 Navigator.of(context).pop();
@@ -227,7 +227,7 @@ class _PostPhotosState extends State<PostPhotos> with DisposableStateMixin, Auto
                       },
                       decoration: InputDecoration(
                         contentPadding: const EdgeInsets.all(18),
-                        hintText: context.l10n.t_say_something_photo,
+                        hintText: context.localize.t_say_something_photo,
                         hintStyle:
                             context.bodyTextPrimaryStyle()!.copyWith(color: AppColors.subTitleColor, fontSize: 18),
                         focusedBorder: InputBorder.none,

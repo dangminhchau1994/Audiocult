@@ -4,6 +4,7 @@ import 'package:audio_cult/app/features/music/library/library_screen.dart';
 import 'package:audio_cult/app/features/music/songs/songs_screen.dart';
 import 'package:audio_cult/app/injections.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
+import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/w_components/tabbars/common_tabbar.dart';
 import 'package:audio_cult/w_components/tabbars/common_tabbar_item.dart';
 import 'package:flutter/material.dart';
@@ -51,41 +52,36 @@ class _MusicScreenState extends State<MusicScreen> {
               case 0:
                 return CommonTabbarItem(
                   index: index,
-                  width: MediaQuery.of(context).size.width / 4,
                   currentIndex: _currentIndex,
-                  title: 'Discover',
+                  title: context.localize.t_discover,
                   hasIcon: false,
                 );
               case 1:
                 return CommonTabbarItem(
                   index: index,
-                  width: MediaQuery.of(context).size.width / 4,
                   currentIndex: _currentIndex,
-                  title: 'Musics',
+                  title: context.localize.t_music,
                   hasIcon: false,
                 );
               case 2:
                 return CommonTabbarItem(
                   index: index,
-                  width: MediaQuery.of(context).size.width / 4,
                   currentIndex: _currentIndex,
-                  title: 'Albums',
+                  title: context.localize.t_albums,
                   hasIcon: false,
                 );
               case 3:
                 return CommonTabbarItem(
                   index: index,
-                  width: MediaQuery.of(context).size.width / 4,
                   currentIndex: _currentIndex,
-                  title: 'My Library',
+                  title: context.localize.t_my_library,
                   hasIcon: false,
                 );
               case 4:
                 return CommonTabbarItem(
                   index: index,
-                  width: MediaQuery.of(context).size.width / 4,
                   currentIndex: _currentIndex,
-                  title: 'My Album',
+                  title: context.localize.t_my_album,
                   hasIcon: false,
                 );
               default:

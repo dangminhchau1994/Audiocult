@@ -5,7 +5,7 @@ import 'package:audio_cult/app/features/music/featured_albums/featured_album_blo
 import 'package:audio_cult/app/features/profile/profile_screen.dart';
 import 'package:audio_cult/app/injections.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
-import 'package:audio_cult/l10n/l10n.dart';
+
 import 'package:audio_cult/w_components/images/common_image_network.dart';
 import 'package:flutter/material.dart';
 
@@ -219,7 +219,7 @@ class _FeaturedAlbumItemState extends State<FeaturedAlbumItem> {
                         Expanded(
                           child: Center(
                             child: Text(
-                              context.l10n.t_no_data,
+                              context.localize.t_no_data,
                             ),
                           ),
                         ),

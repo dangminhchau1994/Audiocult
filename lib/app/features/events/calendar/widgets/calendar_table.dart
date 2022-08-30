@@ -10,10 +10,12 @@ class CalendarTable extends StatefulWidget {
     this.listCalendar,
     this.query,
     this.callData,
+    this.locale,
   }) : super(key: key);
 
   final List<ValueNotifier<dynamic>>? listCalendar;
   final String? query;
+  final String? locale;
   final Function(String query, int page, DateTime startDate, DateTime endDate)? callData;
 
   @override
@@ -35,6 +37,7 @@ class _CalendarTableState extends State<CalendarTable> {
         final rangeSelectionMode = asType<RangeSelectionMode>(values.elementAt(6));
 
         return TableCalendar(
+          locale: widget.locale,
           firstDay: DateTime.utc(2010, 10, 16),
           lastDay: DateTime.utc(2030, 3, 14),
           focusedDay: currentDate!,

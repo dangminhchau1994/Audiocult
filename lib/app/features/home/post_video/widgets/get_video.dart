@@ -1,6 +1,6 @@
 import 'package:audio_cult/app/utils/constants/app_assets.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
-import 'package:audio_cult/l10n/l10n.dart';
+
 import 'package:audio_cult/w_components/buttons/w_button_inkwell.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
@@ -53,7 +53,7 @@ class GetVideo extends StatelessWidget {
                   ),
                   const SizedBox(height: 10),
                   Text(
-                    context.l10n.t_shared_video,
+                    context.localize.t_shared_video,
                     overflow: TextOverflow.ellipsis,
                     style: context.buttonTextStyle()!.copyWith(
                           fontSize: 14,
@@ -64,7 +64,7 @@ class GetVideo extends StatelessWidget {
                   WButtonInkwell(
                     onPressed: onRemoveFile,
                     child: Text(
-                      context.l10n.t_remove_file,
+                      context.localize.t_remove_file,
                       overflow: TextOverflow.ellipsis,
                       style: context.buttonTextStyle()!.copyWith(
                             fontSize: 14,

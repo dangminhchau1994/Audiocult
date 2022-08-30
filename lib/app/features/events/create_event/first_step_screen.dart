@@ -1,5 +1,4 @@
 import 'package:audio_cult/app/base/bloc_state.dart';
-import 'package:audio_cult/app/constants/global_constants.dart';
 import 'package:audio_cult/app/data_source/models/requests/create_event_request.dart';
 import 'package:audio_cult/app/features/auth/register/register_bloc.dart';
 import 'package:audio_cult/app/features/events/create_event/create_event_bloc.dart';
@@ -7,7 +6,7 @@ import 'package:audio_cult/app/features/events/create_event/widgets/event_dateti
 import 'package:audio_cult/app/injections.dart';
 import 'package:audio_cult/app/utils/constants/app_dimens.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
-import 'package:audio_cult/l10n/l10n.dart';
+
 import 'package:audio_cult/w_components/buttons/common_button.dart';
 import 'package:audio_cult/w_components/dropdown/common_dropdown.dart';
 import 'package:audio_cult/w_components/error_empty/error_section.dart';
@@ -88,19 +87,19 @@ class _FirstStepScreenState extends State<FirstStepScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  context.l10n.t_main_info,
+                  context.localize.t_main_info,
                   style: context.bodyTextStyle()?.copyWith(color: Colors.white, fontSize: 18),
                 ),
                 const SizedBox(height: 20),
                 Text(
-                  context.l10n.t_please_fill,
+                  context.localize.t_please_fill,
                   style: context.bodyTextStyle()?.copyWith(
                         color: AppColors.subTitleColor,
                       ),
                 ),
                 const SizedBox(height: 20),
                 CommonInput(
-                  hintText: context.l10n.t_event_title,
+                  hintText: context.localize.t_event_title,
                   errorText: _errorTitle.isEmpty ? null : _errorTitle,
                   onChanged: (value) {
                     widget.createEventRequest?.title = value;
@@ -131,7 +130,7 @@ class _FirstStepScreenState extends State<FirstStepScreen> {
 
                           return CommonDropdown(
                             selection: _categorySelections,
-                            hint: context.l10n.t_category,
+                            hint: context.localize.t_category,
                             data: _categories as List<SelectMenuModel>,
                             isValidate: _isValidateCategory,
                             onChanged: (value) {
@@ -178,14 +177,14 @@ class _FirstStepScreenState extends State<FirstStepScreen> {
                   child: AbsorbPointer(
                     child: CommonInput(
                       editingController: _locationTextController,
-                      hintText: context.l10n.t_location,
+                      hintText: context.localize.t_location,
                       errorText: _errorLocation.isEmpty ? null : _errorLocation,
                     ),
                   ),
                 ),
                 const SizedBox(height: 20),
                 Text(
-                  context.l10n.t_start_time,
+                  context.localize.t_start_time,
                   style: context.bodyTextStyle()?.copyWith(color: Colors.white, fontSize: 18),
                 ),
                 const SizedBox(height: 20),
@@ -200,7 +199,7 @@ class _FirstStepScreenState extends State<FirstStepScreen> {
                 ),
                 const SizedBox(height: 20),
                 Text(
-                  context.l10n.t_end_time,
+                  context.localize.t_end_time,
                   style: context.bodyTextStyle()?.copyWith(color: Colors.white, fontSize: 18),
                 ),
                 const SizedBox(height: 20),
@@ -217,7 +216,7 @@ class _FirstStepScreenState extends State<FirstStepScreen> {
                   padding: const EdgeInsets.only(top: 30),
                   child: CommonButton(
                     color: AppColors.primaryButtonColor,
-                    text: context.l10n.btn_next,
+                    text: context.localize.btn_next,
                     onTap: () {
                       setState(() {
                         _isValidateCategory = true;

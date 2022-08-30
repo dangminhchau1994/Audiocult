@@ -34,6 +34,7 @@ class HiveServiceProvider {
 
   ProfileData? getProfile() {
     final result = Hive.box(HiveBoxName.userProfileBox).get(HiveBoxKey.profile, defaultValue: null);
+    if (result == null) return null;
     return ProfileData.fromJson(Map<String, dynamic>.from(result as Map));
   }
 

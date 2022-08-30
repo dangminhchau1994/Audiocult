@@ -10,7 +10,7 @@ import 'package:audio_cult/app/features/home/post_video/widgets/get_video.dart';
 import 'package:audio_cult/app/features/music/my_album/upload_song/upload_song_bloc.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/di/bloc_locator.dart';
-import 'package:audio_cult/l10n/l10n.dart';
+
 import 'package:audio_cult/w_components/buttons/w_button_inkwell.dart';
 import 'package:audio_cult/w_components/textfields/common_input.dart';
 import 'package:disposing/disposing.dart';
@@ -146,7 +146,7 @@ class _PostVideoState extends State<PostVideo> with DisposableStateMixin, Automa
                         _videoTitle = value;
                       }
                     },
-                    hintText: _fileName.isEmpty ? context.l10n.t_paste_url : context.l10n.t_video_title,
+                    hintText: _fileName.isEmpty ? context.localize.t_paste_url : context.localize.t_video_title,
                     suffixIcon: _showAddVideo || _urlVideo.isEmpty || _fileName.isNotEmpty
                         ? const SizedBox()
                         : WButtonInkwell(
@@ -185,7 +185,7 @@ class _PostVideoState extends State<PostVideo> with DisposableStateMixin, Automa
                           top: 20,
                           bottom: 10,
                         ),
-                        hintText: context.l10n.t_say_something_video,
+                        hintText: context.localize.t_say_something_video,
                         hintStyle:
                             context.bodyTextPrimaryStyle()!.copyWith(color: AppColors.subTitleColor, fontSize: 18),
                         focusedBorder: InputBorder.none,

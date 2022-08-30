@@ -1,5 +1,5 @@
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
-import 'package:audio_cult/l10n/l10n.dart';
+
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import '../../../../utils/constants/app_colors.dart';
@@ -52,7 +52,7 @@ class AddPhoto extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        context.l10n.t_upload_multi_photo,
+                        context.localize.t_upload_multi_photo,
                         style: context.buttonTextStyle()!.copyWith(
                               fontSize: 16,
                               color: AppColors.activeLabelItem,
@@ -60,7 +60,7 @@ class AddPhoto extends StatelessWidget {
                       ),
                       const SizedBox(height: 10),
                       Text(
-                        context.l10n.t_recommended_upload,
+                        context.localize.t_recommended_upload,
                         overflow: TextOverflow.ellipsis,
                         style: context.buttonTextStyle()!.copyWith(
                               fontSize: 14,

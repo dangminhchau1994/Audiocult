@@ -3,7 +3,7 @@ import 'package:audio_cult/app/features/events/calendar/widgets/calendar_event_l
 import 'package:audio_cult/app/features/events/calendar/widgets/calendar_table.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
 import 'package:audio_cult/app/utils/constants/app_dimens.dart';
-import 'package:audio_cult/l10n/l10n.dart';
+
 import 'package:audio_cult/w_components/appbar/common_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -115,7 +115,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
       child: Scaffold(
         backgroundColor: AppColors.mainColor,
         appBar: CommonAppBar(
-          title: context.l10n.t_calendar,
+          title: context.localize.t_calendar,
         ),
         body: Column(
           children: [
@@ -140,6 +140,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                       listCalendar: _listCalendar,
                       callData: callData,
                       query: _text.value,
+                      locale: _calendarBloc.currentAppLanguage,
                     )
                   ],
                 ),
@@ -191,7 +192,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                   width: 2,
                 ),
               ),
-              hintText: context.l10n.t_search,
+              hintText: context.localize.t_search,
               prefixIcon: GestureDetector(
                 onTap: () {
                   if (query!.isNotEmpty) {

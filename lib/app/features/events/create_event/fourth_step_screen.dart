@@ -1,7 +1,7 @@
 import 'package:audio_cult/app/data_source/models/requests/create_event_request.dart';
 import 'package:audio_cult/app/utils/constants/app_dimens.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
-import 'package:audio_cult/l10n/l10n.dart';
+
 import 'package:flutter/material.dart';
 
 import '../../../../w_components/buttons/common_button.dart';
@@ -41,17 +41,17 @@ class _FourthStepScreenState extends State<FourthStepScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                context.l10n.t_add_host_detail,
+                context.localize.t_add_host_detail,
                 style: context.bodyTextStyle()?.copyWith(color: Colors.white, fontSize: 18),
               ),
               const SizedBox(height: 10),
               Text(
-                context.l10n.t_help_text,
+                context.localize.t_help_text,
                 style: context.bodyTextStyle()?.copyWith(color: AppColors.subTitleColor, fontSize: 16),
               ),
               const SizedBox(height: 20),
               CommonInput(
-                hintText: context.l10n.t_host_name,
+                hintText: context.localize.t_host_name,
                 onChanged: (value) {
                   widget.createEventRequest?.hostName = value;
                 },
@@ -66,21 +66,21 @@ class _FourthStepScreenState extends State<FourthStepScreen> {
               ),
               const SizedBox(height: 20),
               CommonInput(
-                hintText: context.l10n.t_host_website,
+                hintText: context.localize.t_host_website,
                 onChanged: (value) {
                   widget.createEventRequest?.hostWebsite = value;
                 },
               ),
               const SizedBox(height: 20),
               CommonInput(
-                hintText: context.l10n.t_host_facebook,
+                hintText: context.localize.t_host_facebook,
                 onChanged: (value) {
                   widget.createEventRequest?.hostFacebook = value;
                 },
               ),
               const SizedBox(height: 20),
               CommonInput(
-                hintText: context.l10n.t_host_twitter,
+                hintText: context.localize.t_host_twitter,
                 onChanged: (value) {
                   widget.createEventRequest?.hostTwitter = value;
                 },
@@ -93,7 +93,7 @@ class _FourthStepScreenState extends State<FourthStepScreen> {
                       flex: 2,
                       child: CommonButton(
                         color: AppColors.ebonyClay,
-                        text: context.l10n.btn_back,
+                        text: context.localize.btn_back,
                         onTap: widget.onBack,
                       ),
                     ),
@@ -102,7 +102,7 @@ class _FourthStepScreenState extends State<FourthStepScreen> {
                       flex: 2,
                       child: CommonButton(
                         color: AppColors.primaryButtonColor,
-                        text: context.l10n.btn_next,
+                        text: context.localize.btn_next,
                         onTap: () {
                           widget.onNext!();
                         },

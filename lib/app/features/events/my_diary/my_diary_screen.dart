@@ -13,7 +13,7 @@ import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/app/utils/route/app_route.dart';
 import 'package:audio_cult/app/view/no_data_widget.dart';
 import 'package:audio_cult/di/bloc_locator.dart';
-import 'package:audio_cult/l10n/l10n.dart';
+
 import 'package:audio_cult/w_components/error_empty/error_section.dart';
 import 'package:audio_cult/w_components/loading/loading_widget.dart';
 import 'package:audio_cult/w_components/w_keyboard_dismiss.dart';
@@ -245,7 +245,7 @@ class _MyDiaryScreenState extends State<MyDiaryScreen> with AutomaticKeepAliveCl
                 controller: _searchTextController,
                 decoration: InputDecoration(
                   border: InputBorder.none,
-                  hintText: context.l10n.t_search,
+                  hintText: context.localize.t_search,
                 ),
               ),
             ),
@@ -264,6 +264,7 @@ class _MyDiaryScreenState extends State<MyDiaryScreen> with AutomaticKeepAliveCl
           dateTimeInRange = data.data! as Tuple2<DateTime?, DateTime?>;
         }
         return MyDiaryCalendarWidget(
+          locale: _bloc.appLanguageId,
           startDateInRange: dateTimeInRange?.item1,
           endDateInRange: dateTimeInRange?.item2,
           focusRangeDateOnChanged: (dateInRange) {

@@ -1,6 +1,6 @@
 import 'package:audio_cult/app/data_source/models/responses/album/album_response.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
-import 'package:audio_cult/l10n/l10n.dart';
+
 import 'package:audio_cult/w_components/buttons/w_button_inkwell.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -42,7 +42,7 @@ class DetailAlbumDescription extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              context.l10n.t_description,
+              context.localize.t_description,
               style: context.bodyTextPrimaryStyle()!.copyWith(
                     color: AppColors.subTitleColor,
                     fontSize: 16,
@@ -57,8 +57,8 @@ class DetailAlbumDescription extends StatelessWidget {
               trimLines: 3,
               colorClickableText: Colors.pink,
               trimMode: TrimMode.Line,
-              trimCollapsedText: context.l10n.t_read_more,
-              trimExpandedText: context.l10n.t_read_less,
+              trimCollapsedText: context.localize.t_read_more,
+              trimExpandedText: context.localize.t_read_less,
               style: context.bodyTextPrimaryStyle()!.copyWith(
                     color: AppColors.subTitleColor,
                     fontSize: 14,
