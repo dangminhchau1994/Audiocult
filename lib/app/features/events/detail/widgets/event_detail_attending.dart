@@ -1,5 +1,6 @@
 import 'package:audio_cult/app/constants/global_constants.dart';
 import 'package:audio_cult/app/features/events/detail/event_detail_bloc.dart';
+import 'package:audio_cult/app/features/events/detail/invite_friend_dialog.dart';
 import 'package:audio_cult/app/injections.dart';
 import 'package:audio_cult/app/utils/constants/app_assets.dart';
 import 'package:audio_cult/app/utils/constants/app_dimens.dart';
@@ -55,7 +56,7 @@ class _EventDetailAttendingState extends State<EventDetailAttending> {
       case '3':
         return _title = context.l10n.t_not_attending;
       default:
-        return _title = context.l10n.t_not_attending;;
+        return _title = context.l10n.t_not_attending;
     }
   }
 
@@ -109,9 +110,21 @@ class _EventDetailAttendingState extends State<EventDetailAttending> {
               flex: 2,
               child: GestureDetector(
                 onTap: () {
-                  ToastUtility.showPending(
+                  showDialog(
                     context: context,
-                    message: context.l10n.t_feature_development,
+                    builder: (context) => AlertDialog(
+                      insetPadding: EdgeInsets.zero,
+                      contentPadding: EdgeInsets.zero,
+                      clipBehavior: Clip.antiAliasWithSaveLayer,
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(16)),
+                      ),
+                      content: Builder(
+                        builder: (context) => InviteFriendDialog(
+                          eventId: widget.eventId,
+                        ),
+                      ),
+                    ),
                   );
                 },
                 child: _buildComponent(

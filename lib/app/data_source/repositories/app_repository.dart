@@ -7,6 +7,8 @@ import 'package:audio_cult/app/data_source/models/requests/create_playlist_reque
 import 'package:audio_cult/app/data_source/models/requests/create_post_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/feed_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/filter_users_request.dart';
+import 'package:audio_cult/app/data_source/models/requests/get_invitation_request.dart';
+import 'package:audio_cult/app/data_source/models/requests/invite_friend_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/my_diary_event_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/notification_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/register_request.dart';
@@ -24,6 +26,8 @@ import 'package:audio_cult/app/data_source/models/responses/comment/comment_resp
 import 'package:audio_cult/app/data_source/models/responses/country_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/create_playlist/create_playlist_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/create_post/create_post_response.dart';
+import 'package:audio_cult/app/data_source/models/responses/event_invitation/event_invitation_response.dart';
+import 'package:audio_cult/app/data_source/models/responses/event_invitation/invite_friend_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/events/event_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/feed/feed_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/genre.dart';
@@ -134,6 +138,18 @@ class AppRepository extends BaseRepository {
   Future<Either<List<FeedResponse>, Exception>> getFeeds(FeedRequest request) {
     return safeCall(
       () => appServiceProvider.getFeeds(request),
+    );
+  }
+
+  Future<Either<List<EventInvitationResponse>, Exception>> getInvitation(GetInvitationRequest request) {
+    return safeCall(
+      () => appServiceProvider.getInvitation(request),
+    );
+  }
+
+  Future<Either<InviteFriendResponse, Exception>> inviteFriends(InviteFriendRequest request) {
+    return safeCall(
+      () => appServiceProvider.inviteFriends(request),
     );
   }
 
