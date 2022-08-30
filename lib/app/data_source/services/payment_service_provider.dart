@@ -77,7 +77,7 @@ class PaymentServiceProvider {
 
   Future<BaseRes?> confirmPayment(String eventId, String username) async {
     final response = await _dioHelper.post(
-      route: '/capi/$username/$eventId/payment/stripe',
+      route: '/capi/$username/$eventId/confirm/summary',
       requestBody: FormData.fromMap({
         'ajax': 1,
       }),
