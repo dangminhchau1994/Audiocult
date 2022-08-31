@@ -12,7 +12,7 @@ PageTemplateResponse _$PageTemplateResponseFromJson(
       ..countryISO = json['country_iso'] as String?
       ..genderId = json['gender'] as String?
       ..listOfGenders = (json['gender_list'] as List<dynamic>?)
-          ?.map((e) => Gender.fromJson(e as Map<String, dynamic>))
+          ?.map((e) => GenderResponse.fromJson(e as Map<String, dynamic>))
           .toList()
       ..genderText = (json['custom_gender'] as List<dynamic>?)
           ?.map((e) => e as String)
