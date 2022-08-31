@@ -5,6 +5,7 @@ import 'package:audio_cult/app/base/bloc_state.dart';
 import 'package:audio_cult/app/data_source/local/pref_provider.dart';
 import 'package:audio_cult/app/data_source/models/responses/atlas_category.dart';
 import 'package:audio_cult/app/data_source/models/responses/country_response.dart';
+import 'package:audio_cult/app/data_source/models/responses/gender_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/genre.dart';
 import 'package:audio_cult/app/data_source/models/responses/page_template_custom_field_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/page_template_response.dart';
@@ -44,8 +45,8 @@ class PageTemplateBloc extends BaseBloc {
   Stream<BlocState<Tuple2<List<AtlasCategory>, AtlasCategory?>>> get loadPageTemplatesStream =>
       _loadPageTemplatesStreamController.stream;
 
-  final _selectedGenderChanged = StreamController<Tuple2<Gender, String?>>.broadcast();
-  Stream<Tuple2<Gender, String?>> get genderChangedStream => _selectedGenderChanged.stream;
+  final _selectedGenderChanged = StreamController<Tuple2<GenderResponse, String?>>.broadcast();
+  Stream<Tuple2<GenderResponse, String?>> get genderChangedStream => _selectedGenderChanged.stream;
 
   final _dateOfBirthChanged = StreamController<DateTime>.broadcast();
   Stream<DateTime> get dobChangedStream => _dateOfBirthChanged.stream;

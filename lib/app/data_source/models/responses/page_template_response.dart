@@ -2,7 +2,7 @@
 
 import 'package:audio_cult/app/base/index_walker.dart';
 import 'package:audio_cult/app/data_source/models/responses/atlas_category.dart';
-import 'package:audio_cult/app/data_source/models/responses/gender.dart';
+import 'package:audio_cult/app/data_source/models/responses/gender_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/page_template_custom_field_response.dart';
 import 'package:audio_cult/app/utils/constants/page_template_field_type.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -20,7 +20,7 @@ class PageTemplateResponse {
   @JsonKey(name: 'gender')
   String? genderId;
   @JsonKey(name: 'gender_list')
-  List<Gender>? listOfGenders;
+  List<GenderResponse>? listOfGenders;
   @JsonKey(name: 'custom_gender')
   List<String>? genderText;
   @JsonKey(name: 'city_location')

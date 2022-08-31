@@ -1,16 +1,18 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'gender.dart';
+part of 'gender_response.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-Gender _$GenderFromJson(Map<String, dynamic> json) => Gender()
-  ..id = json['id'] as int?
-  ..phrase = json['phrase'] as String?;
+GenderResponse _$GenderResponseFromJson(Map<String, dynamic> json) =>
+    GenderResponse()
+      ..id = json['id'] as int?
+      ..phrase = json['phrase'] as String?;
 
-Map<String, dynamic> _$GenderToJson(Gender instance) => <String, dynamic>{
+Map<String, dynamic> _$GenderResponseToJson(GenderResponse instance) =>
+    <String, dynamic>{
       'id': instance.id,
       'phrase': instance.phrase,
     };
