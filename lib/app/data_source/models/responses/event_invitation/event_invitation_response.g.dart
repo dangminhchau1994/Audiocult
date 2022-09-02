@@ -15,6 +15,7 @@ EventInvitationResponse _$EventInvitationResponseFromJson(
       userName: json['user_name'] as String?,
       fullName: json['full_name'] as String?,
       gender: json['gender'] as String?,
+      isChecked: json['is_checked'] as bool? ?? false,
       userImage: json['user_image'] as String?,
       isInvisible: json['is_invisible'] as String?,
       userGroupId: json['user_group_id'] as String?,
@@ -40,6 +41,7 @@ Map<String, dynamic> _$EventInvitationResponseToJson(
       'language_id': instance.languageId,
       'last_activity': instance.lastActivity,
       'birthday': instance.birthday,
+      'is_checked': instance.isChecked,
       'country_iso': instance.countryIso,
       'is_active': instance.isActive,
     };

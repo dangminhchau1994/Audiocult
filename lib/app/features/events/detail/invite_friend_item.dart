@@ -1,7 +1,6 @@
 import 'package:audio_cult/app/data_source/models/responses/event_invitation/event_invitation_response.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
-import 'package:audio_cult/w_components/checkbox/common_checkbox.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
@@ -17,21 +16,19 @@ class InviteFriendItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(8),
-      decoration: BoxDecoration(
-        color: AppColors.inputFillColor.withOpacity(0.4),
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Stack(
-        alignment: Alignment.center,
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+    return Stack(
+      children: [
+        Container(
+          padding: const EdgeInsets.all(12),
+          decoration: BoxDecoration(
+            color: AppColors.inputFillColor.withOpacity(0.4),
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Column(
             children: [
               CachedNetworkImage(
-                width: 50,
-                height: 50,
+                width: 60,
+                height: 60,
                 imageUrl: data?.userImage ?? '',
                 imageBuilder: (context, imageProvider) => Container(
                   decoration: BoxDecoration(
@@ -49,7 +46,7 @@ class InviteFriendItem extends StatelessWidget {
                 ),
                 errorWidget: (context, url, error) => const Icon(Icons.error),
               ),
-              const SizedBox(height: 4),
+              const SizedBox(height: 8),
               Text(
                 data?.fullName ?? '',
                 style: context.bodyTextPrimaryStyle()!.copyWith(
@@ -57,9 +54,9 @@ class InviteFriendItem extends StatelessWidget {
                       fontSize: 16,
                     ),
               ),
-              const SizedBox(height: 4),
+              const SizedBox(height: 8),
               Text(
-                data?.isInvisible ?? '',
+                data?.isActive == null ? '' : data!.isActive.toString(),
                 style: context.bodyTextPrimaryStyle()!.copyWith(
                       color: Colors.white,
                       fontSize: 16,
@@ -67,21 +64,27 @@ class InviteFriendItem extends StatelessWidget {
               ),
             ],
           ),
-          Positioned(
-            top: 0,
-            right: 0,
-            child: Visibility(
-              visible: data?.isActive == null,
-              child: CommonCheckbox(
-                isChecked: data?.isChecked,
-                onChanged: (value) {
-                  onChecked!(data!, value);
-                },
+        ),
+        Positioned(
+          top: 0,
+          right: 0,
+          child: Visibility(
+            visible: data?.isActive == null,
+            child: Checkbox(
+              checkColor: Colors.white,
+              activeColor: data!.isChecked! ? AppColors.activeLabelItem : Colors.transparent,
+              value: data?.isChecked,
+              side: BorderSide(
+                color: AppColors.outlineBorderColor,
+                width: 2,
               ),
+              onChanged: (value) {
+                onChecked!(data!, value!);
+              },
             ),
-          )
-        ],
-      ),
+          ),
+        ),
+      ],
     );
   }
 }

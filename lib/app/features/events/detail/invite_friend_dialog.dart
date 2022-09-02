@@ -8,6 +8,8 @@ import 'package:audio_cult/app/utils/constants/app_colors.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/l10n/l10n.dart';
 import 'package:audio_cult/w_components/buttons/common_button.dart';
+import 'package:audio_cult/w_components/buttons/w_button_inkwell.dart';
+import 'package:audio_cult/w_components/checkbox/common_checkbox.dart';
 import 'package:audio_cult/w_components/error_empty/error_section.dart';
 import 'package:audio_cult/w_components/loading/loading_widget.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -36,6 +38,16 @@ class _InviteFriendDialogState extends State<InviteFriendDialog> {
     _callData('');
   }
 
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _bloc.getInviteStream.listen((event) {
+      setState(() {
+        _users = event;
+      });
+    });
+  }
+
   void _callData(String keyword) {
     _bloc.getInvitation(GetInvitationRequest(
       itemId: widget.eventId,
@@ -46,7 +58,10 @@ class _InviteFriendDialogState extends State<InviteFriendDialog> {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
+    return GestureDetector(
+      onTap: () {
+        FocusManager.instance.primaryFocus?.unfocus();
+      },
       child: Container(
         width: double.infinity,
         decoration: BoxDecoration(
@@ -64,7 +79,7 @@ class _InviteFriendDialogState extends State<InviteFriendDialog> {
                 const SizedBox(height: 12),
                 _buildSearch(),
                 const SizedBox(height: 12),
-                //_buildListUser(),
+                _buildListUser(),
                 const SizedBox(height: 12),
                 _buildUnselectedAll(_users.length.toString()),
                 const SizedBox(height: 12),
@@ -91,7 +106,15 @@ class _InviteFriendDialogState extends State<InviteFriendDialog> {
   Widget _buildSearch() {
     return CommonInput(
       hintText: context.l10n.t_search_email,
-      onChanged: (value) {},
+      onChanged: (query) {
+        setState(() {
+          if (query.isEmpty) {
+            _users = _users;
+          } else {
+            _users = _users.where((e) => e.fullName!.toLowerCase().contains(query.toLowerCase())).toList();
+          }
+        });
+      },
     );
   }
 
@@ -148,122 +171,104 @@ class _InviteFriendDialogState extends State<InviteFriendDialog> {
 
   Widget _buildUnselectedAll(String length) {
     return Visibility(
-      visible: int.parse(length) > 0,
-      child: Text(
-        '${context.l10n.t_deselected_all} $length',
-        style: context.bodyTextPrimaryStyle()!.copyWith(
-              color: AppColors.activeLabelItem,
-              fontSize: 16,
-            ),
+      visible: _users.where((element) => element.isChecked == true).toList().isNotEmpty,
+      child: WButtonInkwell(
+        onPressed: () {
+          for (final element in _users) {
+            setState(() {
+              element.isChecked = false;
+            });
+          }
+        },
+        child: Text(
+          '${context.l10n.t_deselected_all} (${_users.where((element) => element.isChecked == true).toList().length})',
+          style: context.bodyTextPrimaryStyle()!.copyWith(
+                color: AppColors.activeLabelItem,
+                fontSize: 16,
+              ),
+        ),
       ),
     );
   }
 
   Widget _buildListUser() {
-    return Container(
-      padding: const EdgeInsets.all(10),
-      child: Column(
-        children: [
-          StreamBuilder<BlocState<List<EventInvitationResponse>>>(
-            stream: _bloc.getInviteStream,
-            initialData: const BlocState.loading(),
-            builder: (context, snapshot) {
-              final state = snapshot.data!;
-
-              return state.when(
-                success: (success) {
-                  _users = success as List<EventInvitationResponse>;
-
-                  return Wrap(
-                    spacing: 8,
-                    runSpacing: 4,
-                    children: _users
-                        .map(
-                          (e) => InviteFriendItem(
-                            data: e,
-                            onChecked: (data, isChecked) {
-                              setState(() {
-                                data.isChecked = isChecked;
-                              });
-                            },
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Wrap(
+          spacing: 8,
+          runSpacing: 4,
+          children: _users
+              .map(
+                (e) => InviteFriendItem(
+                  data: e,
+                  onChecked: (data, isChecked) {
+                    setState(() {
+                      e.isChecked = isChecked;
+                    });
+                  },
+                ),
+              )
+              .toList(),
+        ),
+        const SizedBox(height: 8),
+        Wrap(
+          spacing: 12,
+          runSpacing: 8,
+          children: [
+            for (var i = 0; i < _users.length; i++)
+              if (_users[i].isChecked == true)
+                Stack(
+                  children: [
+                    CachedNetworkImage(
+                      width: 54,
+                      height: 54,
+                      imageUrl: _users[i].userImage ?? '',
+                      imageBuilder: (context, imageProvider) => Container(
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: imageProvider,
+                            fit: BoxFit.cover,
                           ),
-                        )
-                        .toList(),
-                  );
-                },
-                loading: () {
-                  return const Center(
-                    child: LoadingWidget(),
-                  );
-                },
-                error: (error) {
-                  return ErrorSectionWidget(
-                    errorMessage: error,
-                    onRetryTap: () {
-                      _callData('');
-                    },
-                  );
-                },
-              );
-            },
-          ),
-          const SizedBox(height: 8),
-          for (var i = 0; i < _users.length; i++)
-            _users[i].isChecked == true
-                ? Wrap(
-                    spacing: 8,
-                    runSpacing: 4,
-                    children: _users
-                        .map(
-                          (e) => Stack(
-                            children: [
-                              CachedNetworkImage(
-                                width: 50,
-                                height: 50,
-                                imageUrl: e.userImage ?? '',
-                                imageBuilder: (context, imageProvider) => Container(
-                                  decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                      image: imageProvider,
-                                      fit: BoxFit.cover,
-                                    ),
-                                    shape: BoxShape.circle,
-                                  ),
-                                ),
-                                placeholder: (context, url) => Center(
-                                  child: CircularProgressIndicator(
-                                    color: AppColors.primaryButtonColor,
-                                  ),
-                                ),
-                                errorWidget: (context, url, error) => const Icon(Icons.error),
-                              ),
-                              Positioned(
-                                right: 0,
-                                top: 0,
-                                child: Container(
-                                  padding: const EdgeInsets.all(4),
-                                  decoration: BoxDecoration(
-                                    color: AppColors.inputFillColor,
-                                    shape: BoxShape.circle,
-                                  ),
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      setState(() {
-                                        _users[i].isChecked = false;
-                                      });
-                                    },
-                                    child: const Icon(Icons.close),
-                                  ),
-                                ),
-                              )
-                            ],
+                          shape: BoxShape.circle,
+                        ),
+                      ),
+                      placeholder: (context, url) => Center(
+                        child: CircularProgressIndicator(
+                          color: AppColors.primaryButtonColor,
+                        ),
+                      ),
+                      errorWidget: (context, url, error) => const Icon(Icons.error),
+                    ),
+                    Positioned(
+                      right: 0,
+                      top: 0,
+                      child: Container(
+                        padding: const EdgeInsets.all(4),
+                        decoration: BoxDecoration(
+                          color: AppColors.inputFillColor,
+                          shape: BoxShape.circle,
+                        ),
+                        child: GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              _users[i].isChecked = false;
+                            });
+                          },
+                          child: const Icon(
+                            Icons.close,
+                            size: 20,
                           ),
-                        )
-                        .toList(),
-                  )
-                : const SizedBox()
-        ],
-      ),
+                        ),
+                      ),
+                    )
+                  ],
+                )
+              else
+                const SizedBox()
+          ],
+        )
+      ],
     );
   }
 }

@@ -12,19 +12,19 @@ class InviteFriendBloc extends BaseBloc {
 
   InviteFriendBloc(this._appRepository);
 
-  final _getInviteSubject = PublishSubject<BlocState<List<EventInvitationResponse>>>();
+  final _getInviteSubject = PublishSubject<List<EventInvitationResponse>>();
   final _inviteFriendSubject = PublishSubject<BlocState<InviteFriendResponse>>();
 
-  Stream<BlocState<List<EventInvitationResponse>>> get getInviteStream => _getInviteSubject.stream;
+  Stream<List<EventInvitationResponse>> get getInviteStream => _getInviteSubject.stream;
   Stream<BlocState<InviteFriendResponse>> get inviteFriendStream => _inviteFriendSubject.stream;
 
   void getInvitation(GetInvitationRequest request) async {
     final result = await _appRepository.getInvitation(request);
 
     result.fold((l) {
-      _getInviteSubject.sink.add(BlocState.success(l));
+      _getInviteSubject.sink.add(l);
     }, (r) {
-      _getInviteSubject.sink.add(BlocState.error(r.toString()));
+      _getInviteSubject.sink.addError(r.toString());
     });
   }
 
