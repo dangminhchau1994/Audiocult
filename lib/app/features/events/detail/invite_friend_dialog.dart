@@ -1,94 +1,111 @@
-import 'package:audio_cult/app/base/bloc_state.dart';
-import 'package:audio_cult/app/data_source/models/requests/get_invitation_request.dart';
+import 'package:audio_cult/app/base/bloc_handle.dart';
+import 'package:audio_cult/app/data_source/models/requests/invite_friend_request.dart';
 import 'package:audio_cult/app/data_source/models/responses/event_invitation/event_invitation_response.dart';
 import 'package:audio_cult/app/features/events/detail/invite_friend_bloc.dart';
 import 'package:audio_cult/app/features/events/detail/invite_friend_item.dart';
-import 'package:audio_cult/app/injections.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/l10n/l10n.dart';
 import 'package:audio_cult/w_components/buttons/common_button.dart';
 import 'package:audio_cult/w_components/buttons/w_button_inkwell.dart';
-import 'package:audio_cult/w_components/checkbox/common_checkbox.dart';
-import 'package:audio_cult/w_components/error_empty/error_section.dart';
-import 'package:audio_cult/w_components/loading/loading_widget.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import '../../../../w_components/textfields/common_input.dart';
+import '../../../data_source/models/requests/get_invitation_request.dart';
+import '../../../utils/toast/toast_utils.dart';
 
 class InviteFriendDialog extends StatefulWidget {
   const InviteFriendDialog({
     Key? key,
     this.eventId,
+    this.bloc,
+    this.users,
   }) : super(key: key);
 
   final int? eventId;
+  final InviteFriendBloc? bloc;
+  final List<EventInvitationResponse>? users;
 
   @override
   State<InviteFriendDialog> createState() => _InviteFriendDialogState();
 }
 
 class _InviteFriendDialogState extends State<InviteFriendDialog> {
-  final _bloc = InviteFriendBloc(locator.get());
-  var _users = <EventInvitationResponse>[];
+  final _request = InviteFriendRequest();
+  var _originalUsers = <EventInvitationResponse>[];
+  var _checkedUsers = <EventInvitationResponse>[];
+  var _apiUsers = <EventInvitationResponse>[];
 
   @override
   void initState() {
     super.initState();
-    _callData('');
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    _bloc.getInviteStream.listen((event) {
-      setState(() {
-        _users = event;
-      });
+    _initData();
+    widget.bloc?.inviteFriendStream.listen((event) {
+      ToastUtility.showSuccess(context: context, message: context.l10n.t_invite_friend_success);
+      Navigator.pop(context);
+      widget.bloc?.getInvitation(GetInvitationRequest(
+        itemId: widget.eventId,
+        searchType: 'event',
+        keyword: '',
+      ));
     });
   }
 
-  void _callData(String keyword) {
-    _bloc.getInvitation(GetInvitationRequest(
-      itemId: widget.eventId,
-      searchType: 'event',
-      keyword: keyword,
-    ));
+  void _initData() {
+    _apiUsers = widget.users!;
+    _originalUsers = _apiUsers;
+    _checkedUsers = widget.users!;
+  }
+
+  void _runFilter(String keyword) {
+    var results = <EventInvitationResponse>[];
+    if (keyword.isEmpty) {
+      results = _apiUsers;
+    } else {
+      results = _apiUsers.where((user) => user.fullName!.toLowerCase().contains(keyword.toLowerCase())).toList();
+    }
+
+    setState(() {
+      _originalUsers = results;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        FocusManager.instance.primaryFocus?.unfocus();
-      },
-      child: Container(
-        width: double.infinity,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: AppColors.mainColor,
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                _buildInviteFriend(),
-                const SizedBox(height: 12),
-                _buildSearch(),
-                const SizedBox(height: 12),
-                _buildListUser(),
-                const SizedBox(height: 12),
-                _buildUnselectedAll(_users.length.toString()),
-                const SizedBox(height: 12),
-                _buildInputMail(),
-                const SizedBox(height: 12),
-                _buildPersonalMessage(),
-                const SizedBox(height: 18),
-                _buildSubmitButton()
-              ],
+    return BlocHandle(
+      bloc: widget.bloc!,
+      child: GestureDetector(
+        onTap: () {
+          FocusManager.instance.primaryFocus?.unfocus();
+        },
+        child: Container(
+          width: double.infinity,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: AppColors.mainColor,
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  _buildInviteFriend(),
+                  const SizedBox(height: 12),
+                  _buildSearch(),
+                  const SizedBox(height: 12),
+                  _buildListUser(),
+                  const SizedBox(height: 12),
+                  _buildUnselectedAll(),
+                  const SizedBox(height: 12),
+                  _buildInputMail(),
+                  const SizedBox(height: 12),
+                  _buildPersonalMessage(),
+                  const SizedBox(height: 18),
+                  _buildSubmitButton()
+                ],
+              ),
             ),
           ),
         ),
@@ -96,25 +113,35 @@ class _InviteFriendDialogState extends State<InviteFriendDialog> {
     );
   }
 
+  void _sendRequest() {
+    final sb = StringBuffer();
+    for (final item in _checkedUsers) {
+      sb.write('${item.userId},');
+    }
+
+    _request.type = 'event';
+    _request.itemId = widget.eventId.toString();
+    _request.userIds = sb.toString();
+    widget.bloc?.inviteFriends(_request);
+  }
+
   Widget _buildSubmitButton() {
     return CommonButton(
       color: AppColors.primaryButtonColor,
       text: context.l10n.t_submit_button,
+      onTap: _checkedUsers
+                  .firstWhere((element) => element.isChecked == true, orElse: EventInvitationResponse.new)
+                  .isChecked ==
+              true
+          ? _sendRequest
+          : null,
     );
   }
 
   Widget _buildSearch() {
     return CommonInput(
       hintText: context.l10n.t_search_email,
-      onChanged: (query) {
-        setState(() {
-          if (query.isEmpty) {
-            _users = _users;
-          } else {
-            _users = _users.where((e) => e.fullName!.toLowerCase().contains(query.toLowerCase())).toList();
-          }
-        });
-      },
+      onChanged: _runFilter,
     );
   }
 
@@ -142,7 +169,9 @@ class _InviteFriendDialogState extends State<InviteFriendDialog> {
         const SizedBox(height: 8),
         CommonInput(
           maxLine: 3,
-          onChanged: (value) {},
+          onChanged: (value) {
+            _request.personalMessage = value;
+          },
         ),
       ],
     );
@@ -163,25 +192,27 @@ class _InviteFriendDialogState extends State<InviteFriendDialog> {
         CommonInput(
           maxLine: 3,
           hintText: context.l10n.t_seperate_email,
-          onChanged: (value) {},
+          onChanged: (value) {
+            _request.emails = value;
+          },
         ),
       ],
     );
   }
 
-  Widget _buildUnselectedAll(String length) {
+  Widget _buildUnselectedAll() {
     return Visibility(
-      visible: _users.where((element) => element.isChecked == true).toList().isNotEmpty,
+      visible: _checkedUsers.where((element) => element.isChecked == true).toList().isNotEmpty,
       child: WButtonInkwell(
         onPressed: () {
-          for (final element in _users) {
+          for (final element in _checkedUsers) {
             setState(() {
               element.isChecked = false;
             });
           }
         },
         child: Text(
-          '${context.l10n.t_deselected_all} (${_users.where((element) => element.isChecked == true).toList().length})',
+          '${context.l10n.t_deselected_all} (${_checkedUsers.where((element) => element.isChecked == true).toList().length})',
           style: context.bodyTextPrimaryStyle()!.copyWith(
                 color: AppColors.activeLabelItem,
                 fontSize: 16,
@@ -195,35 +226,49 @@ class _InviteFriendDialogState extends State<InviteFriendDialog> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Wrap(
-          spacing: 8,
-          runSpacing: 4,
-          children: _users
-              .map(
-                (e) => InviteFriendItem(
-                  data: e,
-                  onChecked: (data, isChecked) {
-                    setState(() {
-                      e.isChecked = isChecked;
-                    });
-                  },
+        if (_originalUsers.isNotEmpty)
+          Wrap(
+            spacing: 8,
+            runSpacing: 4,
+            children: _originalUsers
+                .map(
+                  (e) => InviteFriendItem(
+                    data: e,
+                    onChecked: (data, isChecked) {
+                      setState(() {
+                        e.isChecked = isChecked;
+                        for (var i = 0; i < _checkedUsers.length; i++) {
+                          if (_checkedUsers[i].userId == e.userId) {
+                            _checkedUsers[i].isChecked = isChecked;
+                          }
+                        }
+                      });
+                    },
+                  ),
+                )
+                .toList(),
+          )
+        else
+          Text(
+            context.l10n.t_no_data,
+            style: context.bodyTextPrimaryStyle()!.copyWith(
+                  color: Colors.white,
+                  fontSize: 16,
                 ),
-              )
-              .toList(),
-        ),
+          ),
         const SizedBox(height: 8),
         Wrap(
           spacing: 12,
           runSpacing: 8,
           children: [
-            for (var i = 0; i < _users.length; i++)
-              if (_users[i].isChecked == true)
+            for (var i = 0; i < _checkedUsers.length; i++)
+              if (_checkedUsers[i].isChecked == true)
                 Stack(
                   children: [
                     CachedNetworkImage(
                       width: 54,
                       height: 54,
-                      imageUrl: _users[i].userImage ?? '',
+                      imageUrl: _checkedUsers[i].userImage ?? '',
                       imageBuilder: (context, imageProvider) => Container(
                         decoration: BoxDecoration(
                           image: DecorationImage(
@@ -252,7 +297,7 @@ class _InviteFriendDialogState extends State<InviteFriendDialog> {
                         child: GestureDetector(
                           onTap: () {
                             setState(() {
-                              _users[i].isChecked = false;
+                              _checkedUsers[i].isChecked = false;
                             });
                           },
                           child: const Icon(

@@ -163,10 +163,12 @@ class AppServiceProvider {
   }
 
   Future<InviteFriendResponse> inviteFriends(InviteFriendRequest request) async {
+    final params = await request.toJson();
     final response = await _dioHelper.post(
       route: '/restful_api/invite',
       options: Options(headers: {'Content-Type': 'application/x-www-form-urlencoded'}),
       responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
+      requestBody: FormData.fromMap(params),
     );
     return response.mapData(
       (json) => InviteFriendResponse.fromJson(json as Map<String, dynamic>),
