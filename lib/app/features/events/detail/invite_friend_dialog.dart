@@ -2,6 +2,7 @@ import 'package:audio_cult/app/base/bloc_handle.dart';
 import 'package:audio_cult/app/data_source/models/requests/invite_friend_request.dart';
 import 'package:audio_cult/app/data_source/models/responses/event_invitation/event_invitation_response.dart';
 import 'package:audio_cult/app/features/events/detail/invite_friend_bloc.dart';
+import 'package:audio_cult/app/features/events/detail/invite_friend_checked_item.dart';
 import 'package:audio_cult/app/features/events/detail/invite_friend_item.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
@@ -263,51 +264,13 @@ class _InviteFriendDialogState extends State<InviteFriendDialog> {
           children: [
             for (var i = 0; i < _checkedUsers.length; i++)
               if (_checkedUsers[i].isChecked == true)
-                Stack(
-                  children: [
-                    CachedNetworkImage(
-                      width: 54,
-                      height: 54,
-                      imageUrl: _checkedUsers[i].userImage ?? '',
-                      imageBuilder: (context, imageProvider) => Container(
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: imageProvider,
-                            fit: BoxFit.cover,
-                          ),
-                          shape: BoxShape.circle,
-                        ),
-                      ),
-                      placeholder: (context, url) => Center(
-                        child: CircularProgressIndicator(
-                          color: AppColors.primaryButtonColor,
-                        ),
-                      ),
-                      errorWidget: (context, url, error) => const Icon(Icons.error),
-                    ),
-                    Positioned(
-                      right: 0,
-                      top: 0,
-                      child: Container(
-                        padding: const EdgeInsets.all(4),
-                        decoration: BoxDecoration(
-                          color: AppColors.inputFillColor,
-                          shape: BoxShape.circle,
-                        ),
-                        child: GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              _checkedUsers[i].isChecked = false;
-                            });
-                          },
-                          child: const Icon(
-                            Icons.close,
-                            size: 20,
-                          ),
-                        ),
-                      ),
-                    )
-                  ],
+                InviteFriendCheckedItem(
+                  data: _checkedUsers[i],
+                  onChecked: (data) {
+                    setState(() {
+                      data.isChecked = false;
+                    });
+                  },
                 )
               else
                 const SizedBox()
