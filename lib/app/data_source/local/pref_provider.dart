@@ -48,6 +48,11 @@ class PrefProvider {
     return true;
   }
 
+  Future<bool> clearBadge() async {
+    await _prefs.remove(PrefNames.badgeCount);
+    return true;
+  }
+
   Future<bool> clearAuthentication() async {
     await _prefs.remove(PrefNames.accessToken);
     return true;

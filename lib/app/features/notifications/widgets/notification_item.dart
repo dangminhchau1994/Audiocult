@@ -1,3 +1,4 @@
+import 'package:audio_cult/app/injections.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/app/utils/route/app_route.dart';
 import 'package:audio_cult/w_components/buttons/w_button_inkwell.dart';
@@ -6,7 +7,10 @@ import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 
+import '../../../../di/bloc_locator.dart';
+import '../../../data_source/local/pref_provider.dart';
 import '../../../data_source/models/responses/notifications/notification_response.dart';
+import '../../../fcm/fcm_bloc.dart';
 import '../../../utils/constants/app_colors.dart';
 import '../../profile/profile_screen.dart';
 
@@ -20,6 +24,8 @@ class NotificationItem extends StatelessWidget {
 
   void _navigateScreen(int index, BuildContext context) {
     final notification = data?.notifications?[index];
+
+    _markReaded();
 
     switch (notification?.getNotificationType()) {
       case NotificationType.visitorNew:
@@ -72,6 +78,13 @@ class NotificationItem extends StatelessWidget {
       // ignore: no_default_cases
       default:
         break;
+    }
+  }
+
+  void _markReaded() async {
+    if (locator<PrefProvider>().countBadge! > 0) {
+      await locator<PrefProvider>().setCountBadge(locator<PrefProvider>().countBadge! - 1);
+      getIt<FCMBloc>().countBadge(locator<PrefProvider>().countBadge ?? 0);
     }
   }
 

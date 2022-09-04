@@ -12,6 +12,9 @@ import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import '../../../di/bloc_locator.dart';
 import '../../../w_components/loading/loading_widget.dart';
+import '../../data_source/local/pref_provider.dart';
+import '../../fcm/fcm_bloc.dart';
+import '../../injections.dart';
 import '../../utils/constants/app_colors.dart';
 import '../../utils/constants/app_dimens.dart';
 
@@ -70,6 +73,13 @@ class _NotificationScreenState extends State<NotificationScreen> {
     }
   }
 
+  void _clearNotificationBadge() async {
+    if (locator<PrefProvider>().countBadge! > 0) {
+      await locator<PrefProvider>().clearBadge();
+      getIt<FCMBloc>().countBadge(locator<PrefProvider>().countBadge ?? 0);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -85,6 +95,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
             ),
             child: WButtonInkwell(
               onPressed: () {
+                _clearNotificationBadge();
                 _notificationBloc.markAllRead();
                 _pagingController.refresh();
                 _notificationBloc.requestData(

@@ -7,6 +7,8 @@ import 'package:audio_cult/app/data_source/models/requests/create_post_request.d
 import 'package:audio_cult/app/data_source/models/requests/event_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/feed_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/filter_users_request.dart';
+import 'package:audio_cult/app/data_source/models/requests/get_invitation_request.dart';
+import 'package:audio_cult/app/data_source/models/requests/invite_friend_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/my_diary_event_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/notification_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/register_request.dart';
@@ -24,6 +26,8 @@ import 'package:audio_cult/app/data_source/models/responses/comment/comment_resp
 import 'package:audio_cult/app/data_source/models/responses/country_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/create_playlist/create_playlist_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/create_post/create_post_response.dart';
+import 'package:audio_cult/app/data_source/models/responses/event_invitation/event_invitation_response.dart';
+import 'package:audio_cult/app/data_source/models/responses/event_invitation/invite_friend_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/events/event_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/feed/feed_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/language_response.dart';
@@ -141,6 +145,34 @@ class AppServiceProvider {
     );
     return response.mapData(
       (json) => asType<List<dynamic>>(json)?.map((e) => FeedResponse.fromJson(e as Map<String, dynamic>)).toList(),
+    );
+  }
+
+  Future<List<EventInvitationResponse>> getInvitation(GetInvitationRequest request) async {
+    final data = await request.toJson();
+    final response = await _dioHelper.get(
+      route: '/restful_api/invite',
+      options: Options(headers: {'Content-Type': 'application/x-www-form-urlencoded'}),
+      requestParams: data,
+      responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
+    );
+    return response.mapData(
+      (json) => asType<List<dynamic>>(json['items'])
+          ?.map((e) => EventInvitationResponse.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Future<InviteFriendResponse> inviteFriends(InviteFriendRequest request) async {
+    final params = await request.toJson();
+    final response = await _dioHelper.post(
+      route: '/restful_api/invite',
+      options: Options(headers: {'Content-Type': 'application/x-www-form-urlencoded'}),
+      responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
+      requestBody: FormData.fromMap(params),
+    );
+    return response.mapData(
+      (json) => InviteFriendResponse.fromJson(json as Map<String, dynamic>),
     );
   }
 

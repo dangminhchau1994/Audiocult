@@ -1,16 +1,18 @@
 import 'package:audio_cult/app/constants/global_constants.dart';
+import 'package:audio_cult/app/data_source/models/responses/event_invitation/event_invitation_response.dart';
 import 'package:audio_cult/app/features/events/detail/event_detail_bloc.dart';
+import 'package:audio_cult/app/features/events/detail/invite_friend_dialog.dart';
 import 'package:audio_cult/app/injections.dart';
 import 'package:audio_cult/app/utils/constants/app_assets.dart';
 import 'package:audio_cult/app/utils/constants/app_dimens.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
-
+import 'package:audio_cult/l10n/l10n.dart';
 import 'package:audio_cult/w_components/dropdown/common_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-
+import '../../../../data_source/models/requests/get_invitation_request.dart';
 import '../../../../utils/constants/app_colors.dart';
-import '../../../../utils/toast/toast_utils.dart';
+import '../invite_friend_bloc.dart';
 
 class EventDetailAttending extends StatefulWidget {
   const EventDetailAttending({
@@ -27,11 +29,14 @@ class EventDetailAttending extends StatefulWidget {
 }
 
 class _EventDetailAttendingState extends State<EventDetailAttending> {
+  late SelectMenuModel _attendSelected;
+  final EventDetailBloc _eventDetailBloc = EventDetailBloc(locator.get());
+  final _bloc = InviteFriendBloc(locator.get());
+  List<EventInvitationResponse> _users = [];
   String _iconPath = '';
   String _title = '';
   String _rsvpId = '';
-  final EventDetailBloc _eventDetailBloc = EventDetailBloc(locator.get());
-  late SelectMenuModel _attendSelected;
+  bool _openDialog = false;
 
   String _getIconPath(String id) {
     switch (id) {
@@ -55,16 +60,31 @@ class _EventDetailAttendingState extends State<EventDetailAttending> {
       case '3':
         return _title = context.localize.t_not_attending;
       default:
-        return _title = context.localize.t_not_attending;
-        ;
+        return _title = context.l10n.t_not_attending;
     }
   }
 
   @override
   void initState() {
+    super.initState();
     _rsvpId = widget.rsvpId ?? '';
     _attendSelected = SelectMenuModel(id: -1);
-    super.initState();
+    _bloc.getInvitation(GetInvitationRequest(
+      itemId: widget.eventId,
+      searchType: 'event',
+      keyword: '',
+    ));
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _bloc.getInviteStream.listen((event) {
+      setState(() {
+        _users = event;
+        _openDialog = true;
+      });
+    });
   }
 
   @override
@@ -109,12 +129,28 @@ class _EventDetailAttendingState extends State<EventDetailAttending> {
             Expanded(
               flex: 2,
               child: GestureDetector(
-                onTap: () {
-                  ToastUtility.showPending(
-                    context: context,
-                    message: context.localize.t_feature_development,
-                  );
-                },
+                onTap: _openDialog
+                    ? () {
+                        showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            insetPadding: EdgeInsets.zero,
+                            contentPadding: EdgeInsets.zero,
+                            clipBehavior: Clip.antiAliasWithSaveLayer,
+                            shape: const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(16)),
+                            ),
+                            content: Builder(
+                              builder: (context) => InviteFriendDialog(
+                                eventId: widget.eventId,
+                                users: _users,
+                                bloc: _bloc,
+                              ),
+                            ),
+                          ),
+                        );
+                      }
+                    : null,
                 child: _buildComponent(
                   SvgPicture.asset(
                     AppAssets.mailIcon,
