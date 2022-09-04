@@ -67,7 +67,7 @@
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Play music</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>photos</string>
+	<string>Using upload your avatar</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>audio</string>
