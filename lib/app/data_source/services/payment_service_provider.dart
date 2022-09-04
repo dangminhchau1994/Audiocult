@@ -79,7 +79,7 @@ class PaymentServiceProvider {
     final response = await _dioHelper.post(
       route: '/capi/$username/$eventId/confirm/summary',
       requestBody: FormData.fromMap({
-        'ajax': 1,
+        'dummy': 'dummy',
       }),
       responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
     );
