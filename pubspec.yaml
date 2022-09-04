@@ -80,12 +80,15 @@ dependencies:
   tuple: ^2.0.0
   syncfusion_flutter_calendar: ^20.1.57
   sliver_header_delegate:
-   git:
-    url: https://github.com/lngyeen/flutter_sliver_header_delegate.git
-    ref: bugfix/cannot-click-on-header
-  flick_video_player: 
+    git:
+      url: https://github.com/lngyeen/flutter_sliver_header_delegate.git
+      ref: bugfix/cannot-click-on-header
+  flick_video_player:
   video_player: ^2.4.2
   uni_links: ^0.5.1
+  country_picker: ^2.0.16
+  flutter_stripe: ^4.0.0
+  flutter_phoenix: ^1.0.0
 
 dev_dependencies:
   bloc_test: ^9.0.2
@@ -107,20 +110,21 @@ flutter:
     - assets/fonts/
     - assets/imgs/
     - assets/master_data/
+    - assets/languages/
   fonts:
-  - family: NunitoSans
-    fonts:
-      - asset: assets/fonts/NunitoSans-Regular.ttf
-        weight: 100
-      - asset: assets/fonts/NunitoSans-Light.ttf
-        weight: 300
-      - asset: assets/fonts/NunitoSans-Regular.ttf
-        weight: 400
-      - asset: assets/fonts/NunitoSans-Bold.ttf
-        weight: 500
-      - asset: assets/fonts/NunitoSans-SemiBold.ttf
-        weight: 600
-      - asset: assets/fonts/NunitoSans-Bold.ttf
-        weight: 700
-      - asset: assets/fonts/NunitoSans-ExtraBold.ttf
-        weight: 900
+    - family: NunitoSans
+      fonts:
+        - asset: assets/fonts/NunitoSans-Regular.ttf
+          weight: 100
+        - asset: assets/fonts/NunitoSans-Light.ttf
+          weight: 300
+        - asset: assets/fonts/NunitoSans-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/NunitoSans-Bold.ttf
+          weight: 500
+        - asset: assets/fonts/NunitoSans-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/NunitoSans-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/NunitoSans-ExtraBold.ttf
+          weight: 900

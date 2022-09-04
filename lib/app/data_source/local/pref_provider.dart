@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PrefNames {
@@ -7,6 +6,7 @@ class PrefNames {
   static const String fcmToken = 'fcm_token';
   static const String badgeCount = 'badge_count';
   static const String showBadge = 'show_badge';
+  static const String languageIdKey = 'languageId';
 }
 
 class PrefProvider {
@@ -21,6 +21,7 @@ class PrefProvider {
   String? get currentUserId => _prefs.getString(PrefNames.userId);
   int? get countBadge => _prefs.getInt(PrefNames.badgeCount);
   int? get showBadge => _prefs.getInt(PrefNames.showBadge);
+  String get languageId => _prefs.getString(PrefNames.languageIdKey) ?? 'en';
 
   Future<bool> setFCMToken(String fcmToken) async {
     await _prefs.setString(PrefNames.fcmToken, fcmToken);
@@ -55,5 +56,9 @@ class PrefProvider {
   Future<bool> clearUserId() async {
     await _prefs.remove(PrefNames.userId);
     return true;
+  }
+
+  void setAppLanguage({required String languageId}) async {
+    await _prefs.setString(PrefNames.languageIdKey, languageId);
   }
 }

@@ -7,7 +7,6 @@ import 'package:audio_cult/app/utils/constants/app_constants.dart';
 import 'package:audio_cult/app/utils/constants/app_dimens.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/app/utils/route/app_route.dart';
-import 'package:audio_cult/l10n/l10n.dart';
 import 'package:audio_cult/w_components/buttons/common_button.dart';
 import 'package:disposing/disposing.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -26,7 +25,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> with DisposableStateMixin, AutomaticKeepAliveClientMixin {
-  final LoginBloc _loginBloc = LoginBloc(locator.get(), locator.get());
+  final LoginBloc _loginBloc = LoginBloc(locator.get(), locator.get(), locator.get());
   String _email = '';
   String _password = '';
   bool isHiddenPassword = true;
@@ -51,7 +50,7 @@ class _LoginPageState extends State<LoginPage> with DisposableStateMixin, Automa
             Padding(
               padding: const EdgeInsets.symmetric(vertical: kVerticalSpacing),
               child: CommonInput(
-                hintText: context.l10n.t_email,
+                hintText: context.localize.t_email,
                 onChanged: (value) {
                   setState(() {
                     _email = value;
@@ -69,7 +68,7 @@ class _LoginPageState extends State<LoginPage> with DisposableStateMixin, Automa
                 },
                 isHidden: isHiddenPassword,
                 isPasswordField: true,
-                hintText: context.l10n.t_password,
+                hintText: context.localize.t_password,
                 onChanged: (value) {
                   setState(() {
                     _password = value;
@@ -84,7 +83,7 @@ class _LoginPageState extends State<LoginPage> with DisposableStateMixin, Automa
                   Navigator.pushNamed(context, AppRoute.routeForgotPassword);
                 },
                 child: Text(
-                  context.l10n.t_forgot_password,
+                  context.localize.t_forgot_password,
                   style: context.bodyTextStyle()?.copyWith(color: AppColors.lightBlueColor),
                 ),
               ),
@@ -94,7 +93,7 @@ class _LoginPageState extends State<LoginPage> with DisposableStateMixin, Automa
             ),
             CommonButton(
               color: AppColors.activeLabelItem,
-              text: context.l10n.t_sign_in,
+              text: context.localize.t_sign_in,
               onTap: () async {
                 final loginRequest = LoginRequest()
                   ..clientId = AppConstants.clientId

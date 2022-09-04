@@ -6,7 +6,6 @@ import 'package:audio_cult/app/utils/constants/app_colors.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/app/utils/toast/toast_utils.dart';
 import 'package:audio_cult/di/bloc_locator.dart';
-import 'package:audio_cult/l10n/l10n.dart';
 import 'package:audio_cult/w_components/buttons/common_button.dart';
 import 'package:audio_cult/w_components/loading/loading_widget.dart';
 import 'package:flutter/cupertino.dart';
@@ -35,7 +34,7 @@ class _NotificationSettingsWidgetState extends State<NotificationSettingsWidget>
     _bloc.updateNotificationStream.listen((event) {
       event.whenOrNull(
         success: (_) {
-          ToastUtility.showSuccess(context: context, message: context.l10n.t_success);
+          ToastUtility.showSuccess(context: context, message: context.localize.t_success);
         },
         error: (exception) {
           ToastUtility.showError(context: context, message: exception);
@@ -56,7 +55,7 @@ class _NotificationSettingsWidgetState extends State<NotificationSettingsWidget>
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                context.l10n.t_notification_settings,
+                context.localize.t_notification_settings,
                 style: context.title1TextStyle(),
               ),
               const SizedBox(height: 24),
@@ -114,7 +113,7 @@ class _NotificationSettingsWidgetState extends State<NotificationSettingsWidget>
       builder: (_, snapshot) {
         return CommonButton(
           color: AppColors.primaryButtonColor,
-          text: context.l10n.t_update,
+          text: context.localize.t_update,
           onTap: snapshot.data == false ? null : _bloc.updateNotification,
         );
       },

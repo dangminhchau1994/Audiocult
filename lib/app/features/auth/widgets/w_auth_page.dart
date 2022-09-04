@@ -4,7 +4,6 @@ import 'package:audio_cult/app/utils/constants/app_colors.dart';
 import 'package:audio_cult/app/utils/constants/app_dimens.dart';
 import 'package:audio_cult/app/utils/constants/app_font_sizes.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
-import 'package:audio_cult/l10n/l10n.dart';
 import 'package:flutter/material.dart';
 
 import '../../../utils/constants/app_assets.dart';
@@ -51,7 +50,7 @@ class _WAuthPageState extends State<WAuthPage> {
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: kVerticalSpacing),
                   child: Text(
-                    context.l10n.t_auth_page,
+                    context.localize.t_auth_page,
                     style:
                         context.body2TextStyle()?.copyWith(fontSize: AppFontSize.size24, fontWeight: FontWeight.w700),
                     textAlign: TextAlign.center,
@@ -66,34 +65,41 @@ class _WAuthPageState extends State<WAuthPage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      StreamBuilder<String?>(
-                          initialData: '...',
-                          stream: _authPageBloc.navigateMainStream,
-                          builder: (context, snapshot) {
-                            return Padding(
-                              padding: const EdgeInsets.symmetric(vertical: kVerticalSpacing),
-                              child: Text(
-                                '${snapshot.data ?? ' '}k+',
-                                style: context.body2TextStyle()?.copyWith(fontWeight: FontWeight.w300),
-                                textAlign: TextAlign.center,
-                              ),
-                            );
-                          }),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: kVerticalSpacing),
-                        child: Text(
-                          context.l10n.t_auth_member_join,
-                          style: context.body2TextStyle()?.copyWith(fontWeight: FontWeight.w300),
-                          textAlign: TextAlign.center,
+                      // StreamBuilder<String?>(
+                      //     initialData: '...',
+                      //     stream: _authPageBloc.navigateMainStream,
+                      //     builder: (context, snapshot) {
+                      //       return Padding(
+                      //         padding: const EdgeInsets.symmetric(vertical: kVerticalSpacing),
+                      //         child: Text(
+                      //           '${snapshot.data ?? ' '}k+',
+                      //           style: context.body2TextStyle()?.copyWith(fontWeight: FontWeight.w300),
+                      //           textAlign: TextAlign.center,
+                      //         ),
+                      //       );
+                      //     }),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: kVerticalSpacing),
+                          child: Text(
+                            context.localize.t_auth_member_join,
+                            style: context.body2TextStyle()?.copyWith(fontWeight: FontWeight.w300),
+                            textAlign: TextAlign.center,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         ),
                       ),
-                      const SizedBox(
-                        width: kHorizontalSpacing,
-                      ),
+                      // const SizedBox(
+                      //   width: kHorizontalSpacing,
+                      // ),
                       if (widget.isShowIconRight)
-                        Image.asset(
-                          AppAssets.authVectorIcon,
-                          height: 36,
+                        Padding(
+                          padding: const EdgeInsets.only(right: kVerticalSpacing),
+                          child: Image.asset(
+                            AppAssets.authVectorIcon,
+                            height: 36,
+                          ),
                         )
                       else
                         const SizedBox.shrink(),

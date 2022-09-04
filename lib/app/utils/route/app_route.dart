@@ -43,6 +43,9 @@ import 'package:audio_cult/app/features/profile/subscriptions/subscriptions_scre
 import 'package:audio_cult/app/features/search_suggestion/search_suggestion_screen.dart';
 import 'package:audio_cult/app/features/settings/settings_screen.dart';
 import 'package:audio_cult/app/features/terms/terms_screen.dart';
+import 'package:audio_cult/app/features/ticket/my_cart/my_cart_ticket.dart';
+import 'package:audio_cult/app/features/ticket/payments/payment_tickets_screen.dart';
+import 'package:audio_cult/app/features/ticket/payments/ticket_cart_screen.dart';
 import 'package:audio_cult/app/features/universal_search/universal_search_screen.dart';
 import 'package:audio_cult/app/features/videos/video_player_screen.dart';
 import 'package:audio_cult/app/injections.dart';
@@ -114,6 +117,9 @@ class AppRoute {
   static const String routeEditFeed = '/route_edit_feed';
   static const String routeTerms = '/route_terms';
   static const String routeLibrary = '/route_library';
+  static const String routePaymentTicket = '/route_payment_ticket';
+  static const String routeTicketCart = '/route_ticket_cart';
+  static const String routeMyCartTicket = '/route_my_cart_ticket';
 
   ///#end region
 
@@ -134,7 +140,12 @@ class AppRoute {
   Route<dynamic>? generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case routeMain:
-        return _pageRoute(settings, const MainScreen());
+        final arguments = asType(settings.arguments);
+        return _pageRoute(
+            settings,
+            MainScreen(
+              fromPayment: arguments != null,
+            ));
       case routeLogin:
         return _pageRoute(settings, const LoginScreen());
       case routeForgotPassword:
@@ -403,6 +414,24 @@ class AppRoute {
         return _pageRoute(settings, SearchSuggestionScreen(initialSearchText: arguments as String?));
       case routeMyCart:
         return _pageRoute(settings, const MyCartScreen());
+      case routePaymentTicket:
+        return _pageRoute(
+            settings,
+            PaymentTicketsScreen(
+              params: asType(settings.arguments) as Map<String, dynamic>,
+            ));
+      case routeTicketCart:
+        return _pageRoute(
+            settings,
+            TicketCartScreen(
+              params: asType(settings.arguments) as Map<String, dynamic>,
+            ));
+      case routeMyCartTicket:
+        return _pageRoute(
+            settings,
+            MyCartTicket(
+              params: asType(settings.arguments) as Map<String, dynamic>,
+            ));
       default:
         return null;
     }

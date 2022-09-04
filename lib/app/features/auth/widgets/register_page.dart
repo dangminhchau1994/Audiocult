@@ -5,7 +5,6 @@ import 'package:audio_cult/app/features/auth/register/register_bloc.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
 import 'package:audio_cult/app/utils/constants/app_dimens.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
-import 'package:audio_cult/l10n/l10n.dart';
 import 'package:audio_cult/w_components/buttons/common_button.dart';
 import 'package:audio_cult/w_components/checkbox/common_checkbox.dart';
 import 'package:audio_cult/w_components/error_empty/widget_state.dart';
@@ -47,7 +46,7 @@ class _RegisterPageState extends State<RegisterPage> with DisposableStateMixin, 
   void initState() {
     super.initState();
     _registerBloc.navigateMainStream.listen((data) {
-      ToastUtility.showSuccess(context: context, message: 'Register successful!');
+      ToastUtility.showSuccess(context: context, message: context.localize.t_register_successfully);
       // widget.onSuccess?.call();
       Navigator.pushNamedAndRemoveUntil(context, AppRoute.routeMain, (route) => false);
     }).disposeOn(disposeBag);
@@ -86,7 +85,7 @@ class _RegisterPageState extends State<RegisterPage> with DisposableStateMixin, 
                         },
                         onTap: () {},
                         data: snapshot.hasData ? _roles as List<SelectMenuModel> : [],
-                        hint: context.l10n.t_choose_your_role,
+                        hint: context.localize.t_choose_your_role,
                       ),
                     ),
                   );
@@ -96,7 +95,7 @@ class _RegisterPageState extends State<RegisterPage> with DisposableStateMixin, 
                 margin: const EdgeInsets.symmetric(horizontal: 8),
                 padding: const EdgeInsets.symmetric(vertical: kVerticalSpacing),
                 child: CommonInput(
-                  hintText: context.l10n.t_full_name,
+                  hintText: context.localize.t_full_name,
                   onChanged: (value) {
                     setState(() {
                       _fullName = value;
@@ -108,7 +107,7 @@ class _RegisterPageState extends State<RegisterPage> with DisposableStateMixin, 
                 margin: const EdgeInsets.symmetric(horizontal: 8),
                 padding: const EdgeInsets.only(bottom: kVerticalSpacing / 2),
                 child: CommonInput(
-                  hintText: context.l10n.t_user_name,
+                  hintText: context.localize.t_user_name,
                   onChanged: (value) {
                     setState(() {
                       _userName = value;
@@ -147,7 +146,9 @@ class _RegisterPageState extends State<RegisterPage> with DisposableStateMixin, 
                       border: Border.all(color: AppColors.outlineBorderColor, width: 2),
                     ),
                     child: Text(
-                      _placeAndLocation != null ? '${_placeAndLocation?.place?.fullAddress}' : context.l10n.t_location,
+                      _placeAndLocation != null
+                          ? '${_placeAndLocation?.place?.fullAddress}'
+                          : context.localize.t_location,
                       style: context.body1TextStyle()?.copyWith(color: Colors.white),
                     ),
                   ),
@@ -157,7 +158,7 @@ class _RegisterPageState extends State<RegisterPage> with DisposableStateMixin, 
                 margin: const EdgeInsets.symmetric(horizontal: 8),
                 padding: const EdgeInsets.only(bottom: kVerticalSpacing),
                 child: CommonInput(
-                  hintText: context.l10n.t_email,
+                  hintText: context.localize.t_email,
                   onChanged: (value) {
                     setState(() {
                       _email = value;
@@ -174,7 +175,7 @@ class _RegisterPageState extends State<RegisterPage> with DisposableStateMixin, 
                       isHiddenPassword = !isHiddenPassword;
                     });
                   },
-                  hintText: context.l10n.t_password,
+                  hintText: context.localize.t_password,
                   isHidden: isHiddenPassword,
                   isPasswordField: true,
                   onChanged: (value) {
@@ -186,7 +187,7 @@ class _RegisterPageState extends State<RegisterPage> with DisposableStateMixin, 
               ),
               CommonCheckbox(
                 isChecked: isCheck,
-                title: context.l10n.t_sub_register_checkbox,
+                title: context.localize.t_sub_register_checkbox,
                 onChanged: (value) {
                   setState(() {
                     isCheck = value;
@@ -195,11 +196,11 @@ class _RegisterPageState extends State<RegisterPage> with DisposableStateMixin, 
               ),
               Text.rich(
                 TextSpan(
-                  text: context.l10n.t_register_text,
+                  text: context.localize.t_register_text,
                   style: context.bodyTextStyle()?.copyWith(color: AppColors.unActiveLabelItem),
                   children: <TextSpan>[
                     TextSpan(
-                      text: context.l10n.t_term,
+                      text: context.localize.t_term,
                       style: context.bodyTextStyle()?.copyWith(
                             color: AppColors.unActiveLabelItem,
                             decoration: TextDecoration.underline,
@@ -214,7 +215,7 @@ class _RegisterPageState extends State<RegisterPage> with DisposableStateMixin, 
               ),
               CommonButton(
                 color: isCheck ? AppColors.activeLabelItem : AppColors.primaryButtonColor,
-                text: context.l10n.t_sign_up,
+                text: context.localize.t_sign_up,
                 onTap: !isCheck
                     ? null
                     : () {
@@ -267,7 +268,7 @@ class AddressSearch extends SearchDelegate<Suggestion?> {
   List<Widget>? buildActions(BuildContext context) {
     return [
       IconButton(
-        tooltip: 'Clear',
+        tooltip: context.localize.t_clear,
         icon: const Icon(Icons.clear),
         onPressed: () {
           query = '';
@@ -279,7 +280,7 @@ class AddressSearch extends SearchDelegate<Suggestion?> {
   @override
   Widget? buildLeading(BuildContext context) {
     return IconButton(
-      tooltip: 'Back',
+      tooltip: context.localize.t_back,
       icon: const Icon(Icons.arrow_back_ios_new_rounded),
       onPressed: () {
         close(context, null);
@@ -309,11 +310,11 @@ class AddressSearch extends SearchDelegate<Suggestion?> {
       builder: (context, snapshot) => query == ''
           ? Container(
               padding: const EdgeInsets.all(16),
-              child: const Text('Enter your address'),
+              child: Text(context.localize.t_enter_your_address),
             )
           : snapshot.hasData
               ? snapshot.data?.isEmpty == true
-                  ? const EmptyDataStateWidget('Empty data!')
+                  ? EmptyDataStateWidget(context.localize.t_empty_data)
                   : ListView.builder(
                       itemBuilder: (context, index) => ListTile(
                         // ignore: cast_nullable_to_non_nullable

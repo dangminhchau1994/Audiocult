@@ -7,7 +7,7 @@ import 'package:audio_cult/app/features/music/search/search_bloc.dart';
 import 'package:audio_cult/app/features/music/search/search_item.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
 import 'package:audio_cult/app/utils/constants/app_dimens.dart';
-import 'package:audio_cult/l10n/l10n.dart';
+import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/w_components/buttons/w_button_inkwell.dart';
 import 'package:flutter/material.dart';
 import '../../../../di/bloc_locator.dart';
@@ -141,7 +141,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 : Column(
                     children: [
                       Text(
-                        context.l10n.t_no_data,
+                        context.localize.t_no_data,
                       )
                     ],
                   );
@@ -207,7 +207,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 : Column(
                     children: [
                       Text(
-                        context.l10n.t_no_data,
+                        context.localize.t_no_data,
                       )
                     ],
                   );
@@ -272,7 +272,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 : Column(
                     children: [
                       Text(
-                        context.l10n.t_no_data,
+                        context.localize.t_no_data,
                       )
                     ],
                   );
@@ -346,7 +346,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     width: 2,
                   ),
                 ),
-                hintText: context.l10n.t_search,
+                hintText: context.localize.t_search,
                 contentPadding: const EdgeInsets.only(
                   top: 20,
                   left: 10,

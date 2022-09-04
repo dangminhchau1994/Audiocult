@@ -8,7 +8,7 @@ import 'package:audio_cult/app/utils/constants/app_colors.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/app/utils/file/file_utils.dart';
 import 'package:audio_cult/di/bloc_locator.dart';
-import 'package:audio_cult/l10n/l10n.dart';
+
 import 'package:audio_cult/w_components/appbar/common_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -105,7 +105,7 @@ class _MapScreenState extends State<MapScreen> {
                   width: 2,
                 ),
               ),
-              hintText: context.l10n.t_search,
+              hintText: context.localize.t_search,
               prefixIcon: GestureDetector(
                 onTap: () {
                   if (query.isNotEmpty) {}
@@ -152,7 +152,7 @@ class _MapScreenState extends State<MapScreen> {
         backgroundColor: AppColors.secondaryButtonColor,
         resizeToAvoidBottomInset: false,
         appBar: CommonAppBar(
-          title: context.l10n.t_map,
+          title: context.localize.t_map,
         ),
         body: Stack(
           children: [
@@ -256,7 +256,7 @@ class _MapScreenState extends State<MapScreen> {
                       ),
                       const SizedBox(width: 10),
                       Text(
-                        context.l10n.t_view_events,
+                        context.localize.t_view_events,
                         style: context.bodyTextStyle()?.copyWith(
                               color: Colors.white,
                             ),

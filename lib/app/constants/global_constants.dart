@@ -1,4 +1,4 @@
-import 'package:audio_cult/l10n/l10n.dart';
+import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/w_components/dropdown/common_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -79,7 +79,7 @@ class GlobalConstants {
           1,
           SvgPicture.asset(AppAssets.edit),
         ),
-        context.l10n.t_edit,
+        context.localize.t_edit,
       ),
       if (locator.get<MainBloc>().profileData!.userId == '1')
         Pair(
@@ -90,7 +90,7 @@ class GlobalConstants {
               width: 24,
             ),
           ),
-          context.l10n.t_feature_song,
+          context.localize.t_feature_song,
         ),
       if (locator.get<MainBloc>().profileData!.userId == '1')
         Pair(
@@ -101,14 +101,14 @@ class GlobalConstants {
               width: 24,
             ),
           ),
-          context.l10n.t_song_of_the_day,
+          context.localize.t_song_of_the_day,
         ),
       Pair(
         Pair(
           4,
           SvgPicture.asset(AppAssets.addPlaylistIcon),
         ),
-        context.l10n.t_add_playlist,
+        context.localize.t_add_playlist,
       ),
       Pair(
         Pair(
@@ -118,35 +118,35 @@ class GlobalConstants {
             width: 24,
           ),
         ),
-        context.l10n.t_delete,
+        context.localize.t_delete,
       ),
     ];
   }
 
   static List<SelectMenuModel> getSelectedMenu(BuildContext context) {
     return [
-      SelectMenuModel(id: 1, title: context.l10n.t_attending),
-      SelectMenuModel(id: 2, title: context.l10n.t_maybe_attending),
-      SelectMenuModel(id: 3, title: context.l10n.t_not_attending),
+      SelectMenuModel(id: 1, title: context.localize.t_attending),
+      SelectMenuModel(id: 2, title: context.localize.t_maybe_attending),
+      SelectMenuModel(id: 3, title: context.localize.t_not_attending),
     ];
   }
 
-  static List<Map<String, String>> getWhenList() {
+  static List<Map<String, String>> getWhenList(BuildContext context) {
     return [
-      {'All time': 'all-time'},
-      {'This month': 'this-month'},
-      {'This week': 'this-week'},
-      {'Today': 'today'},
-      {'Upcoming': 'upcoming'},
+      {context.localize.t_all_time: 'all-time'},
+      {context.localize.t_this_month: 'this-month'},
+      {context.localize.t_this_week: 'this-week'},
+      {context.localize.t_today: 'today'},
+      {context.localize.t_upcoming: 'upcoming'},
     ];
   }
 
-  static List<Map<String, String>> getDistanceList() {
+  static List<Map<String, String>> getDistanceList(BuildContext context) {
     return [
-      {'50 Miles': '50'},
-      {'100 Miles': '100'},
-      {'200 Miles': '200'},
-      {'300 Miles': '300'},
+      {'50 ${context.localize.t_miles}': '50'},
+      {'100 ${context.localize.t_miles}': '100'},
+      {'200 ${context.localize.t_miles}': '200'},
+      {'300 ${context.localize.t_miles}': '300'},
     ];
   }
 
@@ -165,7 +165,7 @@ class GlobalConstants {
               width: 10,
             ),
             Text(
-              context.l10n.t_add_playlist,
+              context.localize.t_add_playlist,
             )
           ],
         ),
@@ -183,7 +183,7 @@ class GlobalConstants {
       //         width: 10,
       //       ),
       //       Text(
-      //         context.l10n.t_share,
+      //         context.localize.t_share,
       //       )
       //     ],
       //   ),
@@ -205,7 +205,7 @@ class GlobalConstants {
               width: 10,
             ),
             Text(
-              context.l10n.t_block_user,
+              context.localize.t_block_user,
             )
           ],
         ),
@@ -227,7 +227,7 @@ class GlobalConstants {
               width: 10,
             ),
             Text(
-              context.l10n.t_report,
+              context.localize.t_report,
             )
           ],
         ),
@@ -243,7 +243,7 @@ class GlobalConstants {
       //         width: 10,
       //       ),
       //       Text(
-      //         context.l10n.t_edit,
+      //         context.localize.t_edit,
       //       )
       //     ],
       //   ),
@@ -265,7 +265,7 @@ class GlobalConstants {
               width: 10,
             ),
             Text(
-              context.l10n.t_report,
+              context.localize.t_report,
             )
           ],
         ),
@@ -286,7 +286,7 @@ class GlobalConstants {
               width: 10,
             ),
             Text(
-              context.l10n.t_edit,
+              context.localize.t_edit,
             )
           ],
         ),
@@ -302,7 +302,7 @@ class GlobalConstants {
               width: 10,
             ),
             Text(
-              context.l10n.t_delete,
+              context.localize.t_delete,
             )
           ],
         ),
@@ -318,7 +318,7 @@ class GlobalConstants {
       //         width: 10,
       //       ),
       //       Text(
-      //         context.l10n.t_save,
+      //         context.localize.t_save,
       //       )
       //     ],
       //   ),
@@ -331,13 +331,13 @@ class GlobalConstants {
       PopupMenuItem<int>(
         value: 0,
         child: Text(
-          context.l10n.t_delete,
+          context.localize.t_delete,
         ),
       ),
       // PopupMenuItem<int>(
       //   value: 1,
       //   child: Text(
-      //     context.l10n.t_edit,
+      //     context.localize.t_edit,
       //   ),
       // ),
     ];
@@ -358,7 +358,7 @@ class GlobalConstants {
               width: 10,
             ),
             Text(
-              context.l10n.t_add_playlist,
+              context.localize.t_add_playlist,
             )
           ],
         ),
@@ -376,7 +376,7 @@ class GlobalConstants {
       //         width: 10,
       //       ),
       //       Text(
-      //         context.l10n.t_share,
+      //         context.localize.t_share,
       //       )
       //     ],
       //   ),
@@ -394,7 +394,7 @@ class GlobalConstants {
               width: 10,
             ),
             Text(
-              context.l10n.t_song_detail,
+              context.localize.t_song_detail,
             )
           ],
         ),

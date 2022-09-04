@@ -2,9 +2,10 @@ import 'package:audio_cult/app/base/bloc_handle.dart';
 import 'package:audio_cult/app/data_source/models/responses/universal_search/universal_search_result_item.dart';
 import 'package:audio_cult/app/features/universal_search/universal_search_results_bloc.dart';
 import 'package:audio_cult/app/utils/constants/app_assets.dart';
+import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 
 import 'package:audio_cult/di/bloc_locator.dart';
-import 'package:audio_cult/l10n/l10n.dart';
+
 import 'package:audio_cult/w_components/error_empty/error_section.dart';
 import 'package:audio_cult/w_components/error_empty/widget_state.dart';
 import 'package:audio_cult/w_components/loading/loading_widget.dart';
@@ -50,7 +51,7 @@ class UniversalSearchResultsPageState extends State<UniversalSearchResultsPage> 
         loading: Container.new,
         error: (error) {
           _erroMsg = error;
-          _pagingController.error = context.l10n.t_error;
+          _pagingController.error = context.localize.t_error;
         },
       );
     });
@@ -89,7 +90,7 @@ class UniversalSearchResultsPageState extends State<UniversalSearchResultsPage> 
       pagingController: _pagingController,
       builderDelegate: PagedChildBuilderDelegate(
         firstPageErrorIndicatorBuilder: (_) => ErrorSectionWidget(
-          errorMessage: _erroMsg ?? context.l10n.t_went_wrong,
+          errorMessage: _erroMsg ?? context.localize.t_went_wrong,
           onRetryTap: () {
             _pagingController.refresh();
             _bloc.keywordOnChange(_keyword ?? '', widget.searchView);
@@ -101,7 +102,7 @@ class UniversalSearchResultsPageState extends State<UniversalSearchResultsPage> 
             return EmptyDataStateWidget(null, imagePath: _iconPathForEmptyPage());
           }
           return EmptyDataStateWidget(
-            context.l10n.t_input_your_keyword,
+            context.localize.t_input_your_keyword,
             imagePath: _iconPathForEmptyPage(),
           );
         },

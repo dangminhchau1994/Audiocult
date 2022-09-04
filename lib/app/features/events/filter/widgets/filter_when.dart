@@ -1,6 +1,6 @@
 import 'package:audio_cult/app/constants/global_constants.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
-import 'package:audio_cult/l10n/l10n.dart';
+
 import 'package:audio_cult/w_components/radios/common_radio_button.dart';
 import 'package:flutter/material.dart';
 
@@ -20,7 +20,7 @@ class FilterWhen extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          context.l10n.t_when,
+          context.localize.t_when,
           style: context.bodyTextStyle()?.copyWith(
                 color: Colors.white,
               ),
@@ -30,14 +30,14 @@ class FilterWhen extends StatelessWidget {
           primary: false,
           shrinkWrap: true,
           separatorBuilder: (context, index) => const Divider(height: 20),
-          itemCount: GlobalConstants.getWhenList().length,
+          itemCount: GlobalConstants.getWhenList(context).length,
           itemBuilder: (context, index) {
             return CommonRadioButton(
               index: index,
               isSelected: selectedIndex == index,
-              title: GlobalConstants.getWhenList()[index].keys.first,
+              title: GlobalConstants.getWhenList(context)[index].keys.first,
               onChanged: (index) {
-                onChanged!(GlobalConstants.getWhenList()[index].values.first, index);
+                onChanged!(GlobalConstants.getWhenList(context)[index].values.first, index);
               },
             );
           },

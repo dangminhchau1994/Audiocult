@@ -3,6 +3,7 @@ import 'package:audio_cult/app/data_source/models/responses/album/album_response
 import 'package:audio_cult/app/features/music/discover/discover_bloc.dart';
 import 'package:audio_cult/app/features/music/discover/widgets/album_item.dart';
 import 'package:audio_cult/app/features/music/discover/widgets/section_title.dart';
+import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/w_components/buttons/w_button_inkwell.dart';
 import 'package:flutter/material.dart';
 import '../../../../../di/bloc_locator.dart';
@@ -28,7 +29,7 @@ class FeaturedAlbums extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SectionTitle(
-            title: 'Featured Albums',
+            title: context.localize.t_featured_albums,
             onShowAll: onShowAll,
           ),
           const SizedBox(

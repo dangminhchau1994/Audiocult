@@ -10,9 +10,10 @@ void main() async {
       flavorConfig: FlavorConfig(
         flavor: Flavor.dev,
         values: FlavorValues(
-          mainUrl: 'http://staging.audiocult.net',
-          placeUrl: 'https://maps.googleapis.com',
-        ),
+            stripePubkey: StripePaymentPublicKey.keyTest,
+            mainUrl: 'http://staging.audiocult.net',
+            placeUrl: 'https://maps.googleapis.com',
+            ticketUrl: 'http://tickets.staging.audiocult.net'),
       ),
       child: const App(),
     ),

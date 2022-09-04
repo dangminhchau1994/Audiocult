@@ -9,7 +9,11 @@ void main() {
     () => MyGlobal(
       flavorConfig: FlavorConfig(
         flavor: Flavor.production,
-        values: FlavorValues(mainUrl: 'https://audiocult.net', placeUrl: 'https://maps.googleapis.com'),
+        values: FlavorValues(
+            stripePubkey: StripePaymentPublicKey.keyPro,
+            mainUrl: 'https://audiocult.net',
+            placeUrl: 'https://maps.googleapis.com',
+            ticketUrl: 'http://tickets.staging.audiocult.net'),
       ),
       child: const App(),
     ),

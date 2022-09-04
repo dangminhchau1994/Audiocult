@@ -1,5 +1,6 @@
 import 'package:audio_cult/app/utils/constants/app_dimens.dart';
-import 'package:audio_cult/l10n/l10n.dart';
+import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
+
 import 'package:flutter/material.dart';
 
 class ErrorSectionWidget extends StatelessWidget {
@@ -30,7 +31,7 @@ class ErrorSectionWidget extends StatelessWidget {
               ),
             ],
           ),
-          TextButton(onPressed: () => onRetryTap?.call(), child: Text(retryText ?? context.l10n.t_retry)),
+          TextButton(onPressed: () => onRetryTap?.call(), child: Text(retryText ?? context.localize.t_retry)),
         ],
       ),
     );

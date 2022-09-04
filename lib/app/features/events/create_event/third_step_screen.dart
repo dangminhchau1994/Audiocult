@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:audio_cult/app/features/events/create_event/widgets/preview_image.dart';
 import 'package:audio_cult/app/utils/constants/app_dimens.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
-import 'package:audio_cult/l10n/l10n.dart';
+
 import 'package:flutter/material.dart';
 import '../../../../w_components/buttons/common_button.dart';
 import '../../../data_source/models/requests/create_event_request.dart';
@@ -39,12 +39,12 @@ class _ThirdStepScreenState extends State<ThirdStepScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              context.l10n.t_upload_event_banner,
+              context.localize.t_upload_event_banner,
               style: context.bodyTextStyle()?.copyWith(color: Colors.white, fontSize: 18),
             ),
             const SizedBox(height: 10),
             Text(
-              context.l10n.t_please_check_preview,
+              context.localize.t_please_check_preview,
               style: context.bodyTextStyle()?.copyWith(color: AppColors.subTitleColor, fontSize: 14),
             ),
             const SizedBox(height: 20),
@@ -130,7 +130,7 @@ class _ThirdStepScreenState extends State<ThirdStepScreen> {
                     flex: 2,
                     child: CommonButton(
                       color: AppColors.ebonyClay,
-                      text: context.l10n.btn_back,
+                      text: context.localize.btn_back,
                       onTap: widget.onBack,
                     ),
                   ),
@@ -139,7 +139,7 @@ class _ThirdStepScreenState extends State<ThirdStepScreen> {
                     flex: 2,
                     child: CommonButton(
                       color: AppColors.primaryButtonColor,
-                      text: context.l10n.btn_next,
+                      text: context.localize.btn_next,
                       onTap: () {
                         widget.onNext!();
                       },

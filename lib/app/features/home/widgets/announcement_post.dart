@@ -3,7 +3,6 @@ import 'package:audio_cult/app/data_source/models/responses/announcement/announc
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/app/utils/number/number_utils.dart';
 import 'package:audio_cult/app/utils/route/app_route.dart';
-import 'package:audio_cult/l10n/l10n.dart';
 import 'package:audio_cult/w_components/buttons/w_button_inkwell.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -162,7 +161,7 @@ class _AnnouncementPostState extends State<AnnouncementPost> {
                     width: 10,
                   ),
                   Text(
-                    context.l10n.t_create_post,
+                    context.localize.t_create_post,
                     style: TextStyle(
                       color: AppColors.activeLabelItem,
                     ),

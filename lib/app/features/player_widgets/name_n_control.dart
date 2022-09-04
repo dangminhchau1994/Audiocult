@@ -458,7 +458,7 @@ class _NameNControlsState extends State<NameNControls> {
                     Expanded(
                       child: Center(
                         child: Text(
-                          'Current Playlist',
+                          context.localize.t_current_playlist,
                           textAlign: TextAlign.center,
                           style: TextStyle(fontWeight: FontWeight.w400, color: AppColors.unActiveLabelItem),
                         ),

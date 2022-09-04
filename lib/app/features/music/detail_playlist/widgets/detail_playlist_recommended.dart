@@ -1,7 +1,7 @@
 import 'package:audio_cult/app/data_source/models/responses/playlist/playlist_response.dart';
 import 'package:audio_cult/app/features/music/detail_playlist/detail_playlist_bloc.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
-import 'package:audio_cult/l10n/l10n.dart';
+
 import 'package:audio_cult/w_components/buttons/w_button_inkwell.dart';
 import 'package:flutter/material.dart';
 import '../../../../../w_components/error_empty/error_section.dart';
@@ -55,7 +55,7 @@ class _DetailPlayListRecommendedState extends State<DetailPlayListRecommended> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      context.l10n.t_recommended_playlist,
+                      context.localize.t_recommended_playlist,
                       style: context.buttonTextStyle()!.copyWith(
                             fontSize: 18,
                           ),

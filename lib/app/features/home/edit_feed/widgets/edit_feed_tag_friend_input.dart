@@ -1,5 +1,5 @@
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
-import 'package:audio_cult/l10n/l10n.dart';
+
 import 'package:flutter/material.dart';
 
 import '../../../../../w_components/textfields/common_chip_input.dart';
@@ -38,7 +38,7 @@ class EditFeedTagFriendInput extends StatelessWidget {
           Flexible(
             child: CommonChipInput(
               initTags: listProfile,
-              hintText: context.l10n.t_who_with_you,
+              hintText: context.localize.t_who_with_you,
               maxChip: 10,
               chooseMany: true,
               enableBorder: false,

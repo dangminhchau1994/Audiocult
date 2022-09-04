@@ -8,10 +8,14 @@ class FlavorValues {
   FlavorValues({
     @required this.mainUrl,
     @required this.placeUrl,
+    @required this.ticketUrl,
+    @required this.stripePubkey,
   });
 
   final String? mainUrl;
   final String? placeUrl;
+  final String? ticketUrl;
+  final String? stripePubkey;
 }
 
 class FlavorConfig {

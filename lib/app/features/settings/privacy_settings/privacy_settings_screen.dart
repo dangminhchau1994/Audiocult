@@ -7,7 +7,6 @@ import 'package:audio_cult/app/utils/constants/app_assets.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/di/bloc_locator.dart';
-import 'package:audio_cult/l10n/l10n.dart';
 import 'package:audio_cult/w_components/buttons/common_button.dart';
 import 'package:audio_cult/w_components/error_empty/error_section.dart';
 import 'package:audio_cult/w_components/error_empty/widget_state.dart';
@@ -98,9 +97,9 @@ class _PrivacySettingsScreenState extends State<PrivacySettingsScreen> {
 
   Widget _profileSectionWidget() {
     return ExpandableWrapperWidget(
-      context.l10n.t_profile,
+      context.localize.t_profile,
       _profileSectionContent(),
-      description: context.l10n.t_profile_desc,
+      description: context.localize.t_profile_desc,
       controller: _expandableProfileSectionController,
     );
   }
@@ -112,7 +111,7 @@ class _PrivacySettingsScreenState extends State<PrivacySettingsScreen> {
       builder: (_, snapshot) {
         if (!snapshot.hasData) {
           return ErrorSectionWidget(
-            errorMessage: context.l10n.t_no_data_found,
+            errorMessage: context.localize.t_no_data_found,
             onRetryTap: _bloc.loadPrivacySettings,
           );
         }
@@ -157,7 +156,7 @@ class _PrivacySettingsScreenState extends State<PrivacySettingsScreen> {
       builder: (_, snapshot) {
         final isEnable = snapshot.data!;
         return CommonButton(
-          text: context.l10n.t_update,
+          text: context.localize.t_update,
           onTap: isEnable ? _bloc.saveDataProfileSection : null,
           color: AppColors.primaryButtonColor,
         );
@@ -259,9 +258,9 @@ class _PrivacySettingsScreenState extends State<PrivacySettingsScreen> {
 
   Widget _appSharingItemsSectionWidget() {
     return ExpandableWrapperWidget(
-      context.l10n.t_app_sharing_items,
+      context.localize.t_app_sharing_items,
       _appSharingItemsSectionContent(),
-      description: context.l10n.t_app_sharing_items_desc,
+      description: context.localize.t_app_sharing_items_desc,
       controller: _expandableAppSharingSectionController,
     );
   }
@@ -273,7 +272,7 @@ class _PrivacySettingsScreenState extends State<PrivacySettingsScreen> {
       builder: (_, snapshot) {
         if (!snapshot.hasData) {
           return ErrorSectionWidget(
-            errorMessage: context.l10n.t_no_data_found,
+            errorMessage: context.localize.t_no_data_found,
             onRetryTap: _bloc.loadPrivacySettings,
           );
         }
@@ -318,7 +317,7 @@ class _PrivacySettingsScreenState extends State<PrivacySettingsScreen> {
       builder: (_, snapshot) {
         final isEnable = snapshot.data!;
         return CommonButton(
-          text: context.l10n.t_update,
+          text: context.localize.t_update,
           onTap: isEnable ? _bloc.saveDataAppSharingSection : null,
           color: AppColors.primaryButtonColor,
         );
@@ -328,9 +327,9 @@ class _PrivacySettingsScreenState extends State<PrivacySettingsScreen> {
 
   Widget _blockedUsersSectionWidget() {
     return ExpandableWrapperWidget(
-      context.l10n.t_blocked,
+      context.localize.t_blocked,
       _blockedUsersSectionContent(),
-      description: context.l10n.t_blocked_desc,
+      description: context.localize.t_blocked_desc,
       controller: _expandableBlockedSectionController,
     );
   }
@@ -342,7 +341,7 @@ class _PrivacySettingsScreenState extends State<PrivacySettingsScreen> {
       builder: (_, snapshot) {
         if (!snapshot.hasData) {
           return ErrorSectionWidget(
-            errorMessage: context.l10n.t_no_data_found,
+            errorMessage: context.localize.t_no_data_found,
             onRetryTap: _bloc.loadPrivacySettings,
           );
         }
@@ -353,7 +352,7 @@ class _PrivacySettingsScreenState extends State<PrivacySettingsScreen> {
                 if (items.isEmpty) {
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 24),
-                    child: EmptyDataStateWidget(context.l10n.t_no_data),
+                    child: EmptyDataStateWidget(context.localize.t_no_data),
                   );
                 }
                 return Padding(
@@ -426,7 +425,7 @@ class _PrivacySettingsScreenState extends State<PrivacySettingsScreen> {
                   color: AppColors.inputFillColor,
                 ),
                 child: Text(
-                  context.l10n.t_unblock,
+                  context.localize.t_unblock,
                   style: context.body2TextStyle()?.copyWith(color: Colors.white),
                 ),
               ),

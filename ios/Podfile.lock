@@ -174,6 +174,27 @@ PODS:
   - sqflite (0.0.2):
     - Flutter
     - FMDB (>= 2.7.5)
+  - Stripe (22.5.1):
+    - Stripe/Stripe3DS2 (= 22.5.1)
+    - StripeApplePay (= 22.5.1)
+    - StripeCore (= 22.5.1)
+    - StripeUICore (= 22.5.1)
+  - Stripe/Stripe3DS2 (22.5.1):
+    - StripeApplePay (= 22.5.1)
+    - StripeCore (= 22.5.1)
+    - StripeUICore (= 22.5.1)
+  - stripe_ios (0.0.1):
+    - Flutter
+    - Stripe (~> 22.5.1)
+    - StripeFinancialConnections (~> 22.5.1)
+  - StripeApplePay (22.5.1):
+    - StripeCore (= 22.5.1)
+  - StripeCore (22.5.1)
+  - StripeFinancialConnections (22.5.1):
+    - StripeCore (= 22.5.1)
+    - StripeUICore (= 22.5.1)
+  - StripeUICore (22.5.1):
+    - StripeCore (= 22.5.1)
   - SwiftyGif (5.4.3)
   - Toast (4.0.0)
   - TOCropViewController (2.6.1)
@@ -211,6 +232,7 @@ DEPENDENCIES:
   - photo_manager (from `.symlinks/plugins/photo_manager/ios`)
   - shared_preferences_ios (from `.symlinks/plugins/shared_preferences_ios/ios`)
   - sqflite (from `.symlinks/plugins/sqflite/ios`)
+  - stripe_ios (from `.symlinks/plugins/stripe_ios/ios`)
   - uni_links (from `.symlinks/plugins/uni_links/ios`)
   - url_launcher_ios (from `.symlinks/plugins/url_launcher_ios/ios`)
   - video_player_avfoundation (from `.symlinks/plugins/video_player_avfoundation/ios`)
@@ -238,6 +260,11 @@ SPEC REPOS:
     - ReachabilitySwift
     - SDWebImage
     - SDWebImageWebPCoder
+    - Stripe
+    - StripeApplePay
+    - StripeCore
+    - StripeFinancialConnections
+    - StripeUICore
     - SwiftyGif
     - Toast
     - TOCropViewController
@@ -287,6 +314,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/shared_preferences_ios/ios"
   sqflite:
     :path: ".symlinks/plugins/sqflite/ios"
+  stripe_ios:
+    :path: ".symlinks/plugins/stripe_ios/ios"
   uni_links:
     :path: ".symlinks/plugins/uni_links/ios"
   url_launcher_ios:
@@ -340,6 +369,12 @@ SPEC CHECKSUMS:
   SDWebImageWebPCoder: 3dc350894112feab5375cfba9ce0986544a66a69
   shared_preferences_ios: 548a61f8053b9b8a49ac19c1ffbc8b92c50d68ad
   sqflite: 6d358c025f5b867b29ed92fc697fd34924e11904
+  Stripe: 2b2decd03146e08a350960966d41f3028c2eac29
+  stripe_ios: e94186250816de030881ced3399154eab186e439
+  StripeApplePay: b14f06ac6fc24b56704c1e598149ed0cc45e166f
+  StripeCore: 4833738f2ca4336712f279f3c2867a0a7eb67c93
+  StripeFinancialConnections: 982115b82af429968d8aa78d329a42ed7ba3feab
+  StripeUICore: 08c1efbd7e3c54ee7fa74334a37a1d4c08ba944d
   SwiftyGif: 6c3eafd0ce693cad58bb63d2b2fb9bacb8552780
   Toast: 91b396c56ee72a5790816f40d3a94dd357abc196
   TOCropViewController: edfd4f25713d56905ad1e0b9f5be3fbe0f59c863

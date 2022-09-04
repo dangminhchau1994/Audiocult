@@ -1,6 +1,6 @@
 import 'package:audio_cult/app/features/music/detail_playlist/detail_playlist_bloc.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
-import 'package:audio_cult/l10n/l10n.dart';
+
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 
@@ -82,7 +82,7 @@ class _DetailPlayListCommentState extends State<DetailPlayListComment> {
                     width: 2,
                   ),
                 ),
-                hintText: context.l10n.t_leave_comment,
+                hintText: context.localize.t_leave_comment,
                 hintStyle: context.bodyTextPrimaryStyle()!.copyWith(
                       color: AppColors.subTitleColor,
                     ),
@@ -171,7 +171,7 @@ class _DetailPlayListCommentState extends State<DetailPlayListComment> {
                             },
                             child: Center(
                               child: Text(
-                                context.l10n.t_view_more_comment,
+                                context.localize.t_view_more_comment,
                                 style: context.bodyTextPrimaryStyle()!.copyWith(
                                       color: AppColors.lightBlue,
                                       fontWeight: FontWeight.bold,

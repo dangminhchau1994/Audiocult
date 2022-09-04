@@ -9,7 +9,8 @@ import 'package:audio_cult/app/features/home/edit_feed/widgets/edit_feed_map.dar
 import 'package:audio_cult/app/features/home/edit_feed/widgets/edit_feed_search_location_input.dart';
 import 'package:audio_cult/app/features/home/edit_feed/widgets/edit_feed_tag_friend_input.dart';
 import 'package:audio_cult/app/injections.dart';
-import 'package:audio_cult/l10n/l10n.dart';
+import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
+
 import 'package:audio_cult/w_components/appbar/common_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -123,7 +124,7 @@ class _EditFeedScreenState extends State<EditFeedScreen> {
       child: Scaffold(
         backgroundColor: AppColors.mainColor,
         appBar: CommonAppBar(
-          title: context.l10n.t_edit_post,
+          title: context.localize.t_edit_post,
           backgroundColor: AppColors.secondaryButtonColor,
         ),
         body: Provider<UploadSongBloc>(

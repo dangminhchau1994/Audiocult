@@ -1,6 +1,5 @@
 import 'package:audio_cult/app/utils/constants/app_dimens.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
-import 'package:audio_cult/l10n/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -25,7 +24,7 @@ class EventFilter extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                context.l10n.t_all_events,
+                context.localize.t_all_events,
                 style: context.bodyTextStyle()?.copyWith(
                       color: Colors.white,
                     ),
@@ -51,7 +50,7 @@ class EventFilter extends StatelessWidget {
                         width: 8,
                       ),
                       Text(
-                        'Filter',
+                        context.localize.t_filter,
                         style: context.bodyTextStyle()?.copyWith(
                               color: Colors.white,
                             ),

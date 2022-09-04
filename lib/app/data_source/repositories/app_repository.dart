@@ -41,6 +41,7 @@ import 'package:audio_cult/app/data_source/models/responses/playlist/update_play
 import 'package:audio_cult/app/data_source/models/responses/post_reaction/post_reaction.dart';
 import 'package:audio_cult/app/data_source/models/responses/privacy_settings/privacy_settings_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/profile_data.dart';
+import 'package:audio_cult/app/data_source/models/responses/question_ticket/question_ticket.dart';
 import 'package:audio_cult/app/data_source/models/responses/reaction_icon/reaction_icon_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/reasons/reason_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/terms/terms_response.dart';
@@ -59,6 +60,7 @@ import 'package:audio_cult/w_components/dropdown/common_dropdown.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:stripe_platform_interface/src/models/payment_methods.dart';
 import '../models/base_response.dart';
 import '../models/requests/event_request.dart';
 import '../models/requests/login_request.dart';
@@ -67,11 +69,13 @@ import '../models/responses/background/background_response.dart';
 import '../models/responses/create_album_response.dart';
 import '../models/responses/events/event_category_response.dart';
 import '../models/responses/login_response.dart';
+import '../models/responses/productlist/productlist.dart';
 import '../models/responses/register_response.dart';
 import '../models/responses/song/song_response.dart';
 import '../models/responses/user_group.dart';
 import '../services/app_service_provider.dart';
 import '../services/assets_local_provider.dart';
+import '../services/payment_service_provider.dart';
 import '../services/place_service_provider.dart';
 import 'base_repository.dart';
 
@@ -80,15 +84,16 @@ class AppRepository extends BaseRepository {
   final PlaceServiceProvider placeServiceProvider;
   final HiveServiceProvider hiveServiceProvider;
   final AssetsLocalServiceProvider assetsLocalServiceProvider;
+  final PaymentServiceProvider paymentServiceProvider;
   final PrefProvider prefProvider;
 
-  AppRepository({
-    required this.appServiceProvider,
-    required this.placeServiceProvider,
-    required this.hiveServiceProvider,
-    required this.assetsLocalServiceProvider,
-    required this.prefProvider,
-  });
+  AppRepository(
+      {required this.appServiceProvider,
+      required this.placeServiceProvider,
+      required this.hiveServiceProvider,
+      required this.assetsLocalServiceProvider,
+      required this.prefProvider,
+      required this.paymentServiceProvider});
 
   Future<Either<LoginResponse, Exception>> login(LoginRequest request) {
     return safeCall(() => appServiceProvider.login(request));
@@ -476,24 +481,28 @@ class AppRepository extends BaseRepository {
     return safeCall(() => placeServiceProvider.getPlaceDetailFromId(placeId));
   }
 
-  Future<Either<ProfileData, Exception>> getUserProfile(String? userId, {String data = 'info'}) async {
-    final userProfile = await safeCall(() => appServiceProvider.getUserProfile(userId, data: data));
-    return userProfile.fold(
-      (l) {
-        if (userId == prefProvider.currentUserId) {
-          hiveServiceProvider.saveProfile(l);
-        }
-        return left(ProfileData.fromJson(l as Map<String, dynamic>));
-      },
-      (r) {
-        final profile = hiveServiceProvider.getProfile();
-        if (profile != null) {
-          return left(profile);
-        } else {
-          return right(NoCacheDataException(''));
-        }
-      },
-    );
+  Future<Either<ProfileData, Exception>> getUserProfile(String? userId, {String? data = 'info'}) async {
+    final cachedProfile = hiveServiceProvider.getProfile();
+    if (cachedProfile == null) {
+      final userProfile = await safeCall(() => appServiceProvider.getUserProfile(userId, data: data));
+      return userProfile.fold(
+        (l) {
+          if (userId == prefProvider.currentUserId) {
+            hiveServiceProvider.saveProfile(l);
+          }
+          return left(ProfileData.fromJson(l as Map<String, dynamic>));
+        },
+        (r) {
+          final profile = hiveServiceProvider.getProfile();
+          if (profile != null) {
+            return left(profile);
+          } else {
+            return right(NoCacheDataException(''));
+          }
+        },
+      );
+    }
+    return left(cachedProfile);
   }
 
   void clearProfile() {
@@ -711,5 +720,33 @@ class AppRepository extends BaseRepository {
 
   Future<Either<String?, Exception>> getCount() {
     return safeCall(appServiceProvider.getCount);
+  }
+
+  Future<Either<TicketProductList?, Exception>> getListTicket(String eventId, String userName) {
+    return safeCall(() => paymentServiceProvider.getListTicket(eventId, userName));
+  }
+
+  Future<Either<BaseRes?, Exception>> addTicketToCart(List<Items> list, String eventId, String userName) {
+    return safeCall(() => paymentServiceProvider.addTicketToCart(list, eventId, userName));
+  }
+
+  Future<Either<BaseRes?, Exception>> clearTicketToCart(String eventId, String userName) {
+    return safeCall(() => paymentServiceProvider.clearTicketToCart(eventId, userName));
+  }
+
+  Future<Either<QuestionTicket?, Exception>> getListPaymentTickets(String eventId, String username) {
+    return safeCall(() => paymentServiceProvider.getListPaymentTickets(eventId, username));
+  }
+
+  Future<Either<BaseRes?, Exception>> submitQuestions(Map<String, dynamic> dataStep1, String eventId, String username) {
+    return safeCall(() => paymentServiceProvider.submitQuestions(dataStep1, eventId, username));
+  }
+
+  Future<Either<BaseRes?, Exception>> submitCardPayment(PaymentMethod paymentMethod, String eventId, String username) {
+    return safeCall(() => paymentServiceProvider.submitCardPayment(paymentMethod, eventId, username));
+  }
+
+  Future<Either<BaseRes?, Exception>> confirmPayment(String eventId, String username) {
+    return safeCall(() => paymentServiceProvider.confirmPayment(eventId, username));
   }
 }

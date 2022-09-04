@@ -54,7 +54,7 @@ class _CommonDropdownState extends State<CommonDropdown> {
             borderRadius: BorderRadius.circular(4),
             border: widget.noBorder!
                 ? Border.all(color: Colors.transparent)
-                : Border.all(
+                : Border.all( width: 2,
                     color: widget.selection == null && widget.isValidate
                         ? Colors.red.withOpacity(0.6)
                         : widget.isBorderVisible

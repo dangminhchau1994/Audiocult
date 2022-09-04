@@ -31,6 +31,7 @@ import 'package:audio_cult/app/data_source/models/responses/event_invitation/inv
 import 'package:audio_cult/app/data_source/models/responses/events/event_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/feed/feed_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/language_response.dart';
+import 'package:audio_cult/app/data_source/models/responses/localized_text.dart';
 import 'package:audio_cult/app/data_source/models/responses/login_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/notifications/notification_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/page_template_custom_field_response.dart';
@@ -872,7 +873,7 @@ class AppServiceProvider {
     );
   }
 
-  Future<dynamic> getUserProfile(String? userId, {String data = 'info'}) async {
+  Future<dynamic> getUserProfile(String? userId, {String? data = 'info'}) async {
     final response = await _dioHelper.get(
       route: '/restful_api/user/$userId?data=$data',
       responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
@@ -1382,5 +1383,30 @@ class AppServiceProvider {
       responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
     );
     return response.data['total_user'].toString();
+  }
+
+  Future<Map<String, dynamic>?> getLocalizedTextData(String languageId) async {
+    final result = await _dioHelper.get(
+      route: '/restful_api/language/phrases',
+      requestParams: {'language_id': languageId},
+      responseBodyMapper: (json) {
+        final response = BaseRes<List<dynamic>>.fromJson(json as Map<String, dynamic>);
+        if (response.isSuccess == true) {
+          final listOfTranslatedText = response.data
+                  ?.map(
+                    (e) => TranslatedText.fromJson(e as Map<String, dynamic>).toDictionary(),
+                  )
+                  .toList() ??
+              [];
+          final dictionary = <String, dynamic>{};
+          for (final text in listOfTranslatedText) {
+            dictionary.addAll(text);
+          }
+          return dictionary;
+        }
+        return null;
+      },
+    );
+    return result;
   }
 }

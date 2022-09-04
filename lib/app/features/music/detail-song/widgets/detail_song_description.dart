@@ -3,7 +3,7 @@ import 'package:audio_cult/app/features/music/detail-song/widgets/detail_descrip
 import 'package:audio_cult/app/utils/constants/app_assets.dart';
 import 'package:audio_cult/app/utils/constants/app_dimens.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
-import 'package:audio_cult/l10n/l10n.dart';
+
 import 'package:audio_cult/w_components/buttons/w_button_inkwell.dart';
 import 'package:audio_cult/w_components/reactions/common_reaction.dart';
 import 'package:flutter/material.dart';
@@ -39,7 +39,7 @@ class DetailSongDescription extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              context.l10n.t_description,
+              context.localize.t_description,
               style: context.bodyTextPrimaryStyle()!.copyWith(
                     color: AppColors.subTitleColor,
                     fontSize: 16,
@@ -177,8 +177,8 @@ class DetailSongDescription extends StatelessWidget {
                 trimLines: 3,
                 colorClickableText: Colors.pink,
                 trimMode: TrimMode.Line,
-                trimCollapsedText: context.l10n.t_read_more,
-                trimExpandedText: context.l10n.t_read_less,
+                trimCollapsedText: context.localize.t_read_more,
+                trimExpandedText: context.localize.t_read_less,
                 moreStyle: TextStyle(
                   color: AppColors.lightBlueColor,
                 ),

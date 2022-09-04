@@ -3,7 +3,7 @@ import 'package:audio_cult/app/features/music/playlist_dialog.dart';
 import 'package:audio_cult/app/utils/datetime/date_time_utils.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/app/utils/toast/toast_utils.dart';
-import 'package:audio_cult/l10n/l10n.dart';
+
 import 'package:audio_cult/w_components/buttons/w_button_inkwell.dart';
 import 'package:audio_cult/w_components/images/common_image_network.dart';
 import 'package:audio_cult/w_components/menus/common_popup_menu.dart';
@@ -140,7 +140,7 @@ class SongItem extends StatelessWidget {
                         );
                         break;
                       case 1:
-                        ToastUtility.showPending(context: context, message: context.l10n.t_feature_development);
+                        ToastUtility.showPending(context: context, message: context.localize.t_feature_development);
                         break;
                       case 2:
                         Navigator.pushNamed(

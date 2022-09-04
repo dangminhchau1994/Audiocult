@@ -1,7 +1,8 @@
 import 'package:audio_cult/app/data_source/models/responses/playlist/playlist_response.dart';
 import 'package:audio_cult/app/features/music/top_playlist/top_playlist_bloc.dart';
 import 'package:audio_cult/app/features/music/top_playlist/widgets/top_playlist_item.dart';
-import 'package:audio_cult/l10n/l10n.dart';
+import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -95,7 +96,7 @@ class _TopPlaylistScreenState extends State<TopPlaylistScreen> {
     return Scaffold(
       backgroundColor: AppColors.mainColor,
       appBar: CommonAppBar(
-        title: context.l10n.t_top_playlist,
+        title: context.localize.t_top_playlist,
         actions: [
           WButtonInkwell(
             onPressed: () async {

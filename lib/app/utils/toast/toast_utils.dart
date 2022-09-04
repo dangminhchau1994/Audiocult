@@ -2,7 +2,7 @@ import 'package:audio_cult/app/utils/constants/app_colors.dart';
 import 'package:audio_cult/app/utils/constants/app_dimens.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/app/utils/toast/w_notification_toast.dart';
-import 'package:audio_cult/l10n/l10n.dart';
+
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -17,7 +17,7 @@ class ToastUtility {
       fToast: fToast,
       message: message,
       iconUrl: AppAssets.icNotiChecked,
-      title: context.l10n.t_success,
+      title: context.localize.t_success,
     );
 
     fToast.showToast(
@@ -42,7 +42,7 @@ class ToastUtility {
       fToast: fToast,
       message: message,
       iconUrl: AppAssets.icNotiError,
-      title: context.l10n.t_error,
+      title: context.localize.t_error,
     );
 
     fToast.showToast(
@@ -67,7 +67,7 @@ class ToastUtility {
       fToast: fToast,
       message: message,
       iconUrl: AppAssets.icNotiPending,
-      title: context.l10n.t_Pending,
+      title: context.localize.t_Pending,
     );
 
     fToast.showToast(
@@ -91,7 +91,7 @@ class ToastUtility {
     final Widget toast = WNotificationToast(
       fToast: fToast,
       message: message,
-      title: context.l10n.t_information,
+      title: context.localize.t_information,
     );
 
     fToast.showToast(
@@ -116,7 +116,7 @@ class ToastUtility {
       fToast: fToast,
       message: message,
       iconUrl: AppAssets.icNotiError,
-      title: context.l10n.t_error,
+      title: context.localize.t_error,
       child: Column(
         children: [
           Container(
@@ -130,7 +130,7 @@ class ToastUtility {
               onTryAgain?.call();
             },
             child: Text(
-              context.l10n.t_retry,
+              context.localize.t_retry,
               style: context.bodyTextStyle()?.copyWith(color: AppColors.lightBlueColor),
             ),
           )

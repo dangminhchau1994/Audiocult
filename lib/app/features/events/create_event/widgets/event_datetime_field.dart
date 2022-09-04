@@ -1,5 +1,5 @@
 import 'package:audio_cult/app/utils/constants/app_assets.dart';
-import 'package:audio_cult/l10n/l10n.dart';
+import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -16,6 +16,7 @@ class EventDateTimeField extends StatelessWidget {
     this.dateFormat,
     this.isBorderVisible = true,
     this.backgroundColor,
+    this.hintText,
   }) : super(key: key);
 
   final Function(
@@ -30,6 +31,7 @@ class EventDateTimeField extends StatelessWidget {
   final DateFormat? dateFormat;
   final bool isBorderVisible;
   final Color? backgroundColor;
+  final String? hintText;
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +39,7 @@ class EventDateTimeField extends StatelessWidget {
       initialValue: initialDateTime,
       decoration: InputDecoration(
         filled: true,
-        hintText: context.l10n.t_choose_date,
+        hintText: context.localize.t_choose_date,
         suffixIcon: Container(
           padding: const EdgeInsets.all(18),
           child: SvgPicture.asset(

@@ -15,13 +15,11 @@ import 'package:audio_cult/app/features/settings/page_template_widgets/textarea_
 import 'package:audio_cult/app/features/settings/page_template_widgets/textfield_widget.dart';
 import 'package:audio_cult/app/utils/constants/app_assets.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
-import 'package:audio_cult/app/utils/constants/gender_enum.dart';
 import 'package:audio_cult/app/utils/constants/page_template_field_type.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/app/utils/file/file_utils.dart';
 import 'package:audio_cult/app/utils/toast/toast_utils.dart';
 import 'package:audio_cult/di/bloc_locator.dart';
-import 'package:audio_cult/l10n/l10n.dart';
 import 'package:audio_cult/w_components/buttons/common_button.dart';
 import 'package:audio_cult/w_components/dropdown/common_dropdown.dart';
 import 'package:audio_cult/w_components/loading/loading_widget.dart';
@@ -69,7 +67,6 @@ class _PageTemplateScreenState extends State<PageTemplateScreen> with AutomaticK
     _cityTextController.addListener(() {
       _bloc.cityOnChanged(_cityTextController.text);
     });
-    _bloc.loadAllPageTemplates();
     _bloc.loadPageTemplateData();
   }
 
@@ -99,7 +96,7 @@ class _PageTemplateScreenState extends State<PageTemplateScreen> with AutomaticK
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  context.l10n.t_basic_information,
+                  context.localize.t_basic_information,
                   style: context.title1TextStyle()?.copyWith(fontWeight: FontWeight.w600),
                 ),
                 _countriesDropdownMenuWidget(),
@@ -157,9 +154,9 @@ class _PageTemplateScreenState extends State<PageTemplateScreen> with AutomaticK
                   )
                   .toList();
               return Container(
-                margin: const EdgeInsets.symmetric(vertical: 12),
+                margin: const EdgeInsets.only(top: 28),
                 child: _dropdownWidget(
-                  context.l10n.t_page_template,
+                  context.localize.t_page_template,
                   options,
                   options.firstWhereOrNull((element) => element.isSelected == true),
                   (selection) {
@@ -190,12 +187,12 @@ class _PageTemplateScreenState extends State<PageTemplateScreen> with AutomaticK
               final field = data as PageTemplateResponse;
               return CommonInput(
                 editingController: _cityTextController..text = field.cityLocation ?? '',
-                hintText: '${context.l10n.t_city}...',
+                hintText: '${context.localize.t_city}...',
               );
             },
             loading: LoadingWidget.new,
             error: (e) {
-              return CommonInput(editingController: _cityTextController, hintText: '${context.l10n.t_city}...');
+              return CommonInput(editingController: _cityTextController, hintText: '${context.localize.t_city}...');
             },
           );
         }
@@ -225,7 +222,7 @@ class _PageTemplateScreenState extends State<PageTemplateScreen> with AutomaticK
               return Padding(
                 padding: const EdgeInsets.symmetric(vertical: 16),
                 child: _dropdownWidget(
-                  context.l10n.t_choose_country,
+                  context.localize.t_choose_country,
                   options,
                   options.firstWhereOrNull((element) => element.isSelected == true),
                   (option) {
@@ -233,7 +230,7 @@ class _PageTemplateScreenState extends State<PageTemplateScreen> with AutomaticK
                     _bloc.selectCountry(option);
                   },
                   () {},
-                  hint: context.l10n.t_choose_country,
+                  hint: context.localize.t_choose_country,
                 ),
               );
             },
@@ -275,7 +272,7 @@ class _PageTemplateScreenState extends State<PageTemplateScreen> with AutomaticK
             Center(
               child: Padding(
                 padding: const EdgeInsets.only(bottom: 12),
-                child: Text(context.l10n.t_no_data),
+                child: Text(context.localize.t_no_data),
               ),
             )
           else
@@ -306,7 +303,7 @@ class _PageTemplateScreenState extends State<PageTemplateScreen> with AutomaticK
           success: (profile) {
             return CommonInput(
               editingController: _zipCodeTextController..text = (profile as PageTemplateResponse).postalCode ?? '',
-              hintText: context.l10n.t_podtal_code,
+              hintText: context.localize.t_podtal_code,
               textInputType: TextInputType.number,
             );
           },
@@ -314,7 +311,7 @@ class _PageTemplateScreenState extends State<PageTemplateScreen> with AutomaticK
           error: (e) {
             return CommonInput(
               editingController: _zipCodeTextController,
-              hintText: context.l10n.t_podtal_code,
+              hintText: context.localize.t_podtal_code,
               textInputType: TextInputType.number,
             );
           },
@@ -325,38 +322,58 @@ class _PageTemplateScreenState extends State<PageTemplateScreen> with AutomaticK
 
   Widget _genderDropDownWidget() {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 12),
-      child: StreamBuilder<Tuple2<Gender, String?>>(
-        stream: _bloc.genderChangedStream,
-        initialData: const Tuple2(Gender.none, null),
-        builder: (context, snapshot) {
-          final gender = snapshot.data?.item1 ?? Gender.none;
-          final genderText = snapshot.data?.item2;
-          final options = _bloc.allGenders
-              .map(
-                (e) => SelectMenuModel(
-                  id: e.indexs,
-                  title: e.title(context),
-                  isSelected: e.indexs == gender.indexs,
-                ),
-              )
-              .toList();
-          return Column(
-            children: [
-              CommonDropdown(
-                data: options,
-                hint: context.l10n.t_your_gender,
-                selection: options.firstWhereOrNull((element) => element.isSelected == true),
-                onChanged: (selection) {
-                  if (selection == null) return;
-                  _focusCustomGenderTextFieldIfNeed(
-                      selection.title?.toLowerCase() == Gender.custom.title(context).toLowerCase());
-                  _bloc.selectGender(selection);
-                },
-              ),
-              if (gender == Gender.custom) _customGenderTextField(genderText ?? '') else Container(),
-            ],
-          );
+      padding: const EdgeInsets.only(top: 16),
+      child: StreamBuilder<BlocState<PageTemplateResponse?>>(
+        initialData: const BlocState.loading(),
+        stream: _bloc.userProfileStream,
+        builder: (_, snapshot) {
+          if (!snapshot.hasData || snapshot.data == null) return Container();
+
+          final state = snapshot.data;
+          return state?.when(success: (data) {
+                final profile = data as PageTemplateResponse;
+                final genders = data.listOfGenders;
+                if (genders?.isEmpty == true) return Container();
+                final options = genders
+                    ?.map(
+                      (e) => SelectMenuModel(
+                        id: e.id,
+                        title: e.phrase,
+                        isSelected: e.id == int.tryParse(profile.genderId ?? ''),
+                      ),
+                    )
+                    .toList();
+                options?.add(
+                  SelectMenuModel(
+                    id: 127,
+                    title: context.localize.t_custom,
+                    isSelected: profile.genderId == '127',
+                  ),
+                );
+                return Column(
+                  children: [
+                    CommonDropdown(
+                      data: options,
+                      hint: '...',
+                      selection: options?.firstWhereOrNull((element) => element.isSelected == true),
+                      onChanged: (selection) {
+                        if (selection == null) return;
+                        _focusCustomGenderTextFieldIfNeed(selection.id == 127);
+                        _bloc.selectGender(selection);
+                      },
+                    ),
+                    if (profile.genderId == '127')
+                      _customGenderTextField(profile.genderText?.isNotEmpty == true ? profile.genderText!.first : '')
+                    else
+                      Container(),
+                  ],
+                );
+              }, error: (e) {
+                return Container();
+              }, loading: () {
+                return const LoadingWidget();
+              }) ??
+              Container();
         },
       ),
     );
@@ -364,18 +381,18 @@ class _PageTemplateScreenState extends State<PageTemplateScreen> with AutomaticK
 
   void _focusCustomGenderTextFieldIfNeed(bool isTrue) {
     if (!isTrue) return;
+    _genderTextController.text = '';
     _customGenderFocusNode.requestFocus();
   }
 
   Widget _customGenderTextField(String text) {
     return Padding(
-      padding: const EdgeInsets.only(top: 30),
-      child: CommonInput(
-        focusNode: _customGenderFocusNode,
-        editingController: _genderTextController..text = text,
-        hintText: '${context.l10n.t_your_gender}...',
-      ),
-    );
+        padding: const EdgeInsets.only(top: 16),
+        child: CommonInput(
+          focusNode: _customGenderFocusNode,
+          editingController: _genderTextController..text = text,
+          hintText: '${context.localize.t_your_gender}...',
+        ));
   }
 
   Widget _dateOfBirthWidget() {
@@ -391,7 +408,7 @@ class _PageTemplateScreenState extends State<PageTemplateScreen> with AutomaticK
               success: (data) {
                 final profile = data as PageTemplateResponse;
                 return Container(
-                  margin: const EdgeInsets.symmetric(vertical: 12),
+                  margin: const EdgeInsets.only(top: 28),
                   padding: const EdgeInsets.only(top: 12),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(4),
@@ -404,7 +421,7 @@ class _PageTemplateScreenState extends State<PageTemplateScreen> with AutomaticK
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 10),
                         child: Text(
-                          context.l10n.t_birthday,
+                          context.localize.t_birthday,
                           style: context.title1TextStyle()?.copyWith(color: AppColors.pealSky),
                         ),
                       ),
@@ -427,6 +444,7 @@ class _PageTemplateScreenState extends State<PageTemplateScreen> with AutomaticK
       dateFormat: DateFormat('dd.MM.yyyy'),
       shouldIgnoreTime: true,
       initialDateTime: dateTime,
+      hintText: context.localize.t_choose_date,
       onChanged: (day, month, year, _, __) {
         final dateTime = DateTime(year, month, day);
         _bloc.selectDateOfBirth(dateTime);
@@ -448,11 +466,11 @@ class _PageTemplateScreenState extends State<PageTemplateScreen> with AutomaticK
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    context.l10n.t_about_me,
+                    context.localize.t_about_me,
                     style: context.title1TextStyle(),
                   ),
                   const SizedBox(height: 8),
-                  Text(context.l10n.t_page_temlate_desc),
+                  Text(context.localize.t_page_temlate_desc),
                   ..._aboutMeComponents(fieldsConfig)
                 ],
               );
@@ -581,10 +599,10 @@ class _PageTemplateScreenState extends State<PageTemplateScreen> with AutomaticK
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          context.l10n.t_add_pin_on_map,
+          context.localize.t_add_pin_on_map,
           style: context.title1TextStyle(),
         ),
-        Text(context.l10n.t_page_temlate_desc),
+        Text(context.localize.t_page_temlate_desc),
         const SizedBox(height: 12),
         _mapStreamWidget(),
       ],
@@ -670,7 +688,7 @@ class _PageTemplateScreenState extends State<PageTemplateScreen> with AutomaticK
         children: [
           TextButton(
             child: Text(
-              context.l10n.t_map,
+              context.localize.t_map,
               style: context
                   .title1TextStyle()
                   ?.copyWith(color: Colors.white.withOpacity(mapType == MapType.normal ? 1 : 0.3)),
@@ -680,7 +698,7 @@ class _PageTemplateScreenState extends State<PageTemplateScreen> with AutomaticK
           Container(width: 1, height: 45, color: AppColors.lightBlueColor),
           TextButton(
             child: Text(
-              context.l10n.t_satellite,
+              context.localize.t_satellite,
               style: context
                   .title1TextStyle()
                   ?.copyWith(color: Colors.white.withOpacity(mapType == MapType.satellite ? 1 : 0.3)),
@@ -699,13 +717,16 @@ class _PageTemplateScreenState extends State<PageTemplateScreen> with AutomaticK
       builder: (_, snapshot) {
         return CommonButton(
           color: AppColors.primaryButtonColor,
-          text: context.l10n.t_update,
+          text: context.localize.t_update,
           onTap: snapshot.data == false
               ? null
               : () async {
                   final result = await _bloc.updatePageTemplate(context);
                   if (result) {
-                    ToastUtility.showSuccess(context: context, message: context.l10n.t_success);
+                    ToastUtility.showSuccess(
+                      context: context,
+                      message: context.localize.t_success,
+                    );
                   }
                 },
         );

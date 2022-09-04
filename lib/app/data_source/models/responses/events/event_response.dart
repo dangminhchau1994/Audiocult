@@ -1,4 +1,5 @@
 import 'package:audio_cult/app/data_source/models/responses/song_detail/song_detail_response.dart';
+import 'package:audio_cult/app/data_source/models/responses/ticket/ticket.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:intl/intl.dart';
 
@@ -38,41 +39,44 @@ class EventResponse {
   List<List<String>>? categories;
   Lineup? lineup;
   LastIcon? lastIcon;
+  List<Ticket>? tickets;
+  String? cultixUri;
 
-  EventResponse({
-    this.rsvpId,
-    this.eventId,
-    this.viewId,
-    this.isFeatured,
-    this.isSponsor,
-    this.privacy,
-    this.privacyComment,
-    this.moduleId,
-    this.itemId,
-    this.userId,
-    this.title,
-    this.location,
-    this.countryIso,
-    this.countryChildId,
-    this.postalCode,
-    this.lastIcon,
-    this.city,
-    this.timeStamp,
-    this.startTime,
-    this.endTime,
-    this.imagePath,
-    this.totalComment,
-    this.totalLike,
-    this.gmap,
-    this.address,
-    this.tags,
-    this.lat,
-    this.lng,
-    this.description,
-    this.eventDate,
-    this.categories,
-    this.lineup,
-  });
+  EventResponse(
+      {this.rsvpId,
+      this.eventId,
+      this.viewId,
+      this.isFeatured,
+      this.isSponsor,
+      this.privacy,
+      this.privacyComment,
+      this.moduleId,
+      this.itemId,
+      this.userId,
+      this.title,
+      this.location,
+      this.countryIso,
+      this.countryChildId,
+      this.postalCode,
+      this.lastIcon,
+      this.city,
+      this.timeStamp,
+      this.startTime,
+      this.endTime,
+      this.imagePath,
+      this.totalComment,
+      this.totalLike,
+      this.gmap,
+      this.address,
+      this.tags,
+      this.lat,
+      this.lng,
+      this.description,
+      this.eventDate,
+      this.categories,
+      this.lineup,
+      this.tickets,
+      this.cultixUri});
 
   factory EventResponse.fromJson(Map<String, dynamic> json) => _$EventResponseFromJson(json);
 

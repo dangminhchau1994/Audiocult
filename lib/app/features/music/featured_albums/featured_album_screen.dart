@@ -3,8 +3,9 @@ import 'package:audio_cult/app/data_source/models/responses/album/album_response
 import 'package:audio_cult/app/features/music/featured_albums/featured_album_bloc.dart';
 import 'package:audio_cult/app/features/music/featured_albums/widgets/featured_album_item.dart';
 import 'package:audio_cult/app/utils/constants/app_dimens.dart';
+import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/app/utils/route/app_route.dart';
-import 'package:audio_cult/l10n/l10n.dart';
+
 import 'package:audio_cult/w_components/appbar/common_appbar.dart';
 import 'package:audio_cult/w_components/buttons/w_button_inkwell.dart';
 import 'package:flutter/material.dart';
@@ -95,7 +96,7 @@ class _FeaturedAlbumScreenState extends State<FeaturedAlbumScreen> {
     return Scaffold(
       backgroundColor: AppColors.mainColor,
       appBar: CommonAppBar(
-        title: context.l10n.t_featured_album,
+        title: context.localize.t_featured_album,
         actions: [
           WButtonInkwell(
             onPressed: () async {

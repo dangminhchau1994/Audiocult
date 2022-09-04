@@ -54,11 +54,11 @@ class _EventDetailAttendingState extends State<EventDetailAttending> {
   String _getTitle(String id) {
     switch (id) {
       case '1':
-        return _title = context.l10n.t_attending;
+        return _title = context.localize.t_attending;
       case '2':
-        return _title = context.l10n.t_maybe_attending;
+        return _title = context.localize.t_maybe_attending;
       case '3':
-        return _title = context.l10n.t_not_attending;
+        return _title = context.localize.t_not_attending;
       default:
         return _title = context.l10n.t_not_attending;
     }
@@ -156,7 +156,7 @@ class _EventDetailAttendingState extends State<EventDetailAttending> {
                     AppAssets.mailIcon,
                   ),
                   Text(
-                    context.l10n.t_invite_friend,
+                    context.localize.t_invite_friend,
                     style: context.bodyTextPrimaryStyle()!.copyWith(
                           color: Colors.white,
                           fontSize: 16,

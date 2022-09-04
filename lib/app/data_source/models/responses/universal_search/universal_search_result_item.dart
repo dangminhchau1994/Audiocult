@@ -1,5 +1,6 @@
 import 'package:audio_cult/app/base/index_walker.dart';
-import 'package:audio_cult/l10n/l10n.dart';
+import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
+
 import 'package:flutter/widgets.dart';
 
 class UniversalSearchItem {
@@ -58,19 +59,19 @@ extension UniversalSearchViewExtension on UniversalSearchView {
   String title(BuildContext context) {
     switch (this) {
       case UniversalSearchView.all:
-        return context.l10n.t_all;
+        return context.localize.t_all;
       case UniversalSearchView.video:
-        return context.l10n.t_videos;
+        return context.localize.t_videos;
       case UniversalSearchView.event:
-        return context.l10n.t_events;
+        return context.localize.t_events;
       case UniversalSearchView.song:
-        return context.l10n.t_songs;
+        return context.localize.t_songs;
       case UniversalSearchView.photo:
-        return context.l10n.t_photos;
+        return context.localize.t_photos;
       case UniversalSearchView.rssfeed:
-        return context.l10n.t_rssfeed;
+        return context.localize.t_rssfeed;
       case UniversalSearchView.page:
-        return context.l10n.t_pages;
+        return context.localize.t_pages;
     }
   }
 

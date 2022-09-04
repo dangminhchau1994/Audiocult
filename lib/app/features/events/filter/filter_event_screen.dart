@@ -4,7 +4,7 @@ import 'package:audio_cult/app/features/events/filter/widgets/filter_when.dart';
 import 'package:audio_cult/app/utils/constants/app_dimens.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/app/utils/route/app_route.dart';
-import 'package:audio_cult/l10n/l10n.dart';
+
 import 'package:audio_cult/w_components/appbar/common_appbar.dart';
 import 'package:audio_cult/w_components/buttons/common_button.dart';
 import 'package:audio_cult/w_components/textfields/common_input.dart';
@@ -45,7 +45,7 @@ class _FilterEventScreenState extends State<FilterEventScreen> {
         resizeToAvoidBottomInset: false,
         backgroundColor: AppColors.mainColor,
         appBar: CommonAppBar(
-          title: context.l10n.t_filter,
+          title: context.localize.t_filter,
           actions: [
             WButtonInkwell(
               borderRadius: BorderRadius.circular(8),
@@ -63,7 +63,7 @@ class _FilterEventScreenState extends State<FilterEventScreen> {
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Text(
-                    context.l10n.t_clear_filter,
+                    context.localize.t_clear_filter,
                     style: context.bodyTextStyle()?.copyWith(color: AppColors.lightBlue),
                   ),
                 ),
@@ -84,7 +84,7 @@ class _FilterEventScreenState extends State<FilterEventScreen> {
                     children: [
                       CommonInput(
                         editingController: _textController,
-                        hintText: context.l10n.t_keyword,
+                        hintText: context.localize.t_keyword,
                         onChanged: (value) {
                           _keyword.value = value;
                         },
@@ -125,7 +125,7 @@ class _FilterEventScreenState extends State<FilterEventScreen> {
                   valueListenable: _keyword,
                   builder: (context, value, child) {
                     return CommonButton(
-                      text: context.l10n.t_apply,
+                      text: context.localize.t_apply,
                       color: isValidated(value) ? AppColors.activeLabelItem : Colors.grey,
                       onTap: isValidated(value)
                           ? () {

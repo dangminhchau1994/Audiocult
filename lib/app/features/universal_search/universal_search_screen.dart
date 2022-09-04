@@ -13,7 +13,7 @@ import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/app/utils/route/app_route.dart';
 import 'package:audio_cult/app/utils/toast/toast_utils.dart';
 import 'package:audio_cult/di/bloc_locator.dart';
-import 'package:audio_cult/l10n/l10n.dart';
+
 import 'package:audio_cult/w_components/appbar/common_appbar.dart';
 import 'package:audio_cult/w_components/loading/loading_widget.dart';
 import 'package:audio_cult/w_components/tabbars/common_tabbar.dart';
@@ -106,7 +106,7 @@ class _UniversalSearchScreenState extends State<UniversalSearchScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CommonAppBar(title: context.l10n.t_search),
+      appBar: CommonAppBar(title: context.localize.t_search),
       backgroundColor: AppColors.mainColor,
       body: SafeArea(
         child: WKeyboardDismiss(
@@ -203,48 +203,48 @@ class _UniversalSearchScreenState extends State<UniversalSearchScreen> {
         return CommonTabbarItem(
           index: UniversalSearchView.all.index,
           currentIndex: _currentIndex,
-          title: context.l10n.t_all,
+          title: context.localize.t_all,
           hasIcon: false,
         );
       case UniversalSearchView.video:
         return CommonTabbarItem(
           index: UniversalSearchView.video.index,
-          title: context.l10n.t_videos,
+          title: context.localize.t_videos,
           hasIcon: false,
           currentIndex: _currentIndex,
         );
       case UniversalSearchView.event:
         return CommonTabbarItem(
           index: UniversalSearchView.event.index,
-          title: context.l10n.t_events,
+          title: context.localize.t_events,
           hasIcon: false,
           currentIndex: _currentIndex,
         );
       case UniversalSearchView.song:
         return CommonTabbarItem(
           index: UniversalSearchView.song.index,
-          title: context.l10n.t_songs,
+          title: context.localize.t_songs,
           hasIcon: false,
           currentIndex: _currentIndex,
         );
       case UniversalSearchView.photo:
         return CommonTabbarItem(
           index: UniversalSearchView.photo.index,
-          title: context.l10n.t_photos,
+          title: context.localize.t_photos,
           hasIcon: false,
           currentIndex: _currentIndex,
         );
       case UniversalSearchView.rssfeed:
         return CommonTabbarItem(
           index: UniversalSearchView.rssfeed.index,
-          title: context.l10n.t_rssfeed,
+          title: context.localize.t_rssfeed,
           hasIcon: false,
           currentIndex: _currentIndex,
         );
       case UniversalSearchView.page:
         return CommonTabbarItem(
           index: UniversalSearchView.page.index,
-          title: context.l10n.t_pages,
+          title: context.localize.t_pages,
           hasIcon: false,
           currentIndex: _currentIndex,
         );

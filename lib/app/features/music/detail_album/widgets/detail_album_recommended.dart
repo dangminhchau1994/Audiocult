@@ -2,7 +2,7 @@ import 'package:audio_cult/app/base/bloc_state.dart';
 import 'package:audio_cult/app/data_source/models/responses/album/album_response.dart';
 import 'package:audio_cult/app/features/music/detail_album/detail_album_bloc.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
-import 'package:audio_cult/l10n/l10n.dart';
+
 import 'package:audio_cult/w_components/buttons/w_button_inkwell.dart';
 import 'package:flutter/material.dart';
 import '../../../../../w_components/error_empty/error_section.dart';
@@ -55,7 +55,7 @@ class _DetailAlbumRecommendedState extends State<DetailAlbumRecommended> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      context.l10n.t_recommended_albums,
+                      context.localize.t_recommended_albums,
                       style: context.buttonTextStyle()!.copyWith(
                             fontSize: 18,
                           ),

@@ -3,7 +3,8 @@ import 'package:audio_cult/app/data_source/models/responses/terms/terms_response
 import 'package:audio_cult/app/features/terms/terms_bloc.dart';
 import 'package:audio_cult/app/injections.dart';
 import 'package:audio_cult/app/utils/constants/app_dimens.dart';
-import 'package:audio_cult/l10n/l10n.dart';
+import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
+
 import 'package:audio_cult/w_components/appbar/common_appbar.dart';
 import 'package:audio_cult/w_components/loading/loading_widget.dart';
 import 'package:flutter/material.dart';
@@ -32,7 +33,7 @@ class _TermsScreenState extends State<TermsScreen> {
     return Scaffold(
       backgroundColor: AppColors.mainColor,
       appBar: CommonAppBar(
-        title: context.l10n.t_terms,
+        title: context.localize.t_term,
       ),
       body: Container(
         margin: const EdgeInsets.symmetric(

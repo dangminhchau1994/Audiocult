@@ -3,19 +3,17 @@ import 'package:audio_cult/app/features/settings/notifications_settings/notifica
 import 'package:audio_cult/app/features/settings/page_template/page_template_screen.dart';
 import 'package:audio_cult/app/features/settings/privacy_settings/privacy_settings_screen.dart';
 import 'package:audio_cult/app/utils/constants/app_assets.dart';
-import 'package:audio_cult/l10n/l10n.dart';
+import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
+
+import 'package:audio_cult/localized_widget_wrapper/language_widget.dart';
 import 'package:audio_cult/w_components/appbar/common_appbar.dart';
 import 'package:audio_cult/w_components/menus/common_fab_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_tab_bar/indicator/custom_indicator.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../../di/bloc_locator.dart';
 import '../../../w_components/tabbars/common_tabbar.dart';
 import '../../../w_components/tabbars/common_tabbar_item.dart';
-import '../../data_source/local/pref_provider.dart';
-import '../../fcm/fcm_bloc.dart';
-import '../../injections.dart';
 import '../../utils/constants/app_colors.dart';
 import '../../utils/route/app_route.dart';
 import '../../utils/toast/toast_utils.dart';
@@ -32,42 +30,34 @@ class _SettingsScreenState extends State<SettingsScreen> {
   final _tabController = CustomTabBarController();
   final _pageCount = 4;
   var _currentIndex = 0;
-  final _tabbarItems = <CommonTabbarItem>[];
 
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    _initTabbarItems();
-  }
-
-  void _initTabbarItems() {
-    _tabbarItems.addAll([
-      const CommonTabbarItem(
+  List<CommonTabbarItem> _initTabbarItems(BuildContext context) {
+    return [
+      CommonTabbarItem(
         index: 0,
-        title: 'Page template',
+        title: context.localize.t_page_template,
         hasIcon: false,
+        currentIndex: _currentIndex,
       ),
-      const CommonTabbarItem(
+      CommonTabbarItem(
         index: 1,
-        title: 'Account',
+        title: context.localize.t_account,
         hasIcon: false,
+        currentIndex: _currentIndex,
       ),
-      const CommonTabbarItem(
+      CommonTabbarItem(
         index: 2,
-        title: 'Privacy',
+        title: context.localize.t_privacy,
         hasIcon: false,
+        currentIndex: _currentIndex,
       ),
-      const CommonTabbarItem(
+      CommonTabbarItem(
         index: 3,
-        title: 'Notification',
+        title: context.localize.t_notification,
         hasIcon: false,
+        currentIndex: _currentIndex,
       ),
-    ]);
+    ];
   }
 
   @override
@@ -93,7 +83,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             onSearchTap: () {
               ToastUtility.showPending(
                 context: context,
-                message: context.l10n.t_feature_development,
+                message: context.localize.t_feature_development,
               );
             },
             onNotificationTap: () async {
@@ -102,7 +92,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             onCartTap: () {
               ToastUtility.showPending(
                 context: context,
-                message: context.l10n.t_feature_development,
+                message: context.localize.t_feature_development,
               );
             },
           ),
@@ -115,9 +105,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           pageController: _pageController,
           tabBarController: _tabController,
           currentIndex: _currentIndex,
-          tabbarItemBuilder: (context, index) {
-            return _tabbarItems[index];
-          },
+          tabbarItemBuilder: (context, index) => _initTabbarItems(context)[index],
           pageViewBuilder: (context, index) {
             switch (index) {
               case 0:

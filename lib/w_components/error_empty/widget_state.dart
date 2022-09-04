@@ -46,10 +46,11 @@ class EmptyDataStateWidget extends StatelessWidget {
                     fontWeight: FontWeight.w700,
                     fontSize: AppFontSize.size19,
                   ),
+              textAlign: TextAlign.center,
             ),
             const SizedBox(height: 16),
             Text(
-              "We couldn't find what you're looking for",
+              context.localize.t_not_find_what_looking_for,
               style: context.body3TextStyle()?.copyWith(
                     color: Colors.grey,
                     fontSize: AppFontSize.size17,

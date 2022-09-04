@@ -1,5 +1,7 @@
 // ignore_for_file: avoid_redundant_argument_values
 
+import 'package:audio_cult/app/data_source/services/payment_service_provider.dart';
+import 'package:audio_cult/app/data_source/services/language_provider.dart';
 import 'package:audio_cult/app/services/media_handler_service.dart';
 import 'package:audio_cult/app/services/media_service.dart';
 import 'package:audio_cult/app/services/permission_handler_service.dart';
@@ -70,6 +72,11 @@ Future<void> initDependency() async {
     return PlaceServiceProvider(dio);
   });
 
+  locator.registerLazySingleton<PaymentServiceProvider>(() {
+    final dio = _createDio(FlavorConfig.instance!.values!.ticketUrl!);
+    return PaymentServiceProvider(dio);
+  });
+
   locator.registerSingleton<PermissionService>(PermissionHandlerPermissionService());
 
   locator.registerSingleton<MediaServiceInterface>(MediaServiceHandler());
@@ -80,8 +87,15 @@ Future<void> initDependency() async {
         placeServiceProvider: locator.get(),
         hiveServiceProvider: locator.get(),
         assetsLocalServiceProvider: locator.get(),
-        prefProvider: locator.get()),
+        prefProvider: locator.get(),
+        paymentServiceProvider: locator.get()),
   );
   locator.registerLazySingleton(HiveServiceProvider.new);
   locator.registerLazySingleton(AssetsLocalServiceProvider.new);
+  locator.registerLazySingleton(
+    () => LanguageProvider(
+      assetProvider: locator.get<AssetsLocalServiceProvider>(),
+      appServiceProvider: locator.get<AppServiceProvider>(),
+    ),
+  );
 }

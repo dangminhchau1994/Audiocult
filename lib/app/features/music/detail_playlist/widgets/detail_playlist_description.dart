@@ -1,5 +1,5 @@
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
-import 'package:audio_cult/l10n/l10n.dart';
+
 import 'package:flutter/material.dart';
 
 import '../../../../utils/constants/app_colors.dart';
@@ -26,7 +26,7 @@ class DetailPlaylistDescription extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    context.l10n.t_description,
+                    context.localize.t_description,
                     style: context.bodyTextPrimaryStyle()!.copyWith(
                           color: AppColors.subTitleColor,
                           fontSize: 18,

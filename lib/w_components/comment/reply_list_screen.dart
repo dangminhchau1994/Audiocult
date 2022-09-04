@@ -1,4 +1,4 @@
-import 'package:audio_cult/l10n/l10n.dart';
+import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/w_components/comment/comment_args.dart';
 import 'package:audio_cult/w_components/comment/comment_delete.dart';
 import 'package:audio_cult/w_components/comment/comment_edit.dart';
@@ -259,7 +259,7 @@ class _ReplyListScreenState extends State<ReplyListScreen> {
         backgroundColor: AppColors.mainColor,
         appBar: CommonAppBar(
           centerTitle: false,
-          title: context.l10n.t_reply,
+          title: context.localize.t_reply,
         ),
         body: Stack(
           fit: StackFit.expand,

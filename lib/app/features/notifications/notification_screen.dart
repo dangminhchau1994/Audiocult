@@ -5,7 +5,6 @@ import 'package:audio_cult/app/features/notifications/notification_bloc.dart';
 import 'package:audio_cult/app/features/notifications/widgets/notification_item.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/app/view/no_data_widget.dart';
-import 'package:audio_cult/l10n/l10n.dart';
 import 'package:audio_cult/w_components/appbar/common_appbar.dart';
 import 'package:audio_cult/w_components/buttons/w_button_inkwell.dart';
 import 'package:audio_cult/w_components/loading/loading_builder.dart';
@@ -76,7 +75,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
     return Scaffold(
       backgroundColor: AppColors.mainColor,
       appBar: CommonAppBar(
-        title: context.l10n.t_notifications,
+        title: context.localize.t_notifications,
         actions: [
           Padding(
             padding: const EdgeInsets.only(
@@ -97,7 +96,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                 );
               },
               child: Text(
-                context.l10n.t_mark_all_read,
+                context.localize.t_mark_all_read,
                 style: context.body2TextStyle()?.copyWith(
                       color: AppColors.lightBlue,
                     ),

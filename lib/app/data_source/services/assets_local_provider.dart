@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:audio_cult/app/data_source/models/responses/localized_text.dart';
+import 'package:audio_cult/app/utils/constants/app_constants.dart';
 import 'package:audio_cult/w_components/dropdown/common_dropdown.dart';
 import 'package:flutter/services.dart';
 
@@ -21,5 +23,10 @@ class AssetsLocalServiceProvider {
         )
         .toList();
     return result;
+  }
+
+  Future<LocalizedText> getLocalizedText() async {
+    final data = await rootBundle.loadString('assets/languages/${AppConstants.backupLocalizedFile}');
+    return LocalizedText.fromJson(json.decode(data) as Map<String, dynamic>);
   }
 }
