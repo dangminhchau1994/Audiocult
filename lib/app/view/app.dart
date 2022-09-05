@@ -9,7 +9,6 @@ import 'package:audio_cult/app/utils/constants/app_colors.dart';
 import 'package:audio_cult/app/utils/flavor/flavor.dart';
 import 'package:audio_cult/l10n/l10n.dart';
 
-import 'package:audio_cult/localized_widget_wrapper/language_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
