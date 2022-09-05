@@ -20,11 +20,13 @@ class SplashBloc extends BaseBloc {
   );
 
   void checkScreen() {
-    if (_prefProvider.isAuthenticated) {
-      checkLoginSubject.sink.add(StatePage.main);
-    } else {
-      checkLoginSubject.sink.add(StatePage.login);
-    }
+    initializeLocalizedTextData().then((value) {
+      if (_prefProvider.isAuthenticated) {
+        checkLoginSubject.sink.add(StatePage.main);
+      } else {
+        checkLoginSubject.sink.add(StatePage.login);
+      }
+    });
   }
 
   Future<void> initializeLocalizedTextData() async {
