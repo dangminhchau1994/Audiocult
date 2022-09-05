@@ -13,7 +13,7 @@ void main() async {
             stripePubkey: StripePaymentPublicKey.keyTest,
             mainUrl: 'http://staging.audiocult.net',
             placeUrl: 'https://maps.googleapis.com',
-            ticketUrl: 'http://tickets.staging.audiocult.net'),
+            ticketUrl: 'https://tickets.staging.audiocult.net'),
       ),
       child: const App(),
     ),
