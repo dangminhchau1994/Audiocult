@@ -11,8 +11,8 @@ class BaseRes<T> {
   factory BaseRes.fromJson(Map<String, dynamic> json) {
     return BaseRes(
       data: json['data'] as T ?? json['predictions'] as T,
-      message: json['message'],
-      code: json['code'] as int?,
+      message: json['message'] ?? json['messages'],
+      code: int.tryParse(json['code'].toString()) ?? 0,
       status: json['status'],
       error: json['error'],
       isSuccess: json['status'] == StatusString.success,
