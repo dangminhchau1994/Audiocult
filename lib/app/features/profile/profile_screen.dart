@@ -42,7 +42,7 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
       length: 5,
       vsync: this,
     );
-    _profileBloc?.requestData(params: ProfileRequest(userId: widget.params['userId'] as String));
+    _profileBloc?.requestData(params: ProfileRequest(userId: widget.params['userId'] as String,query: 'info'));
     _profileBloc?.blockUserStream.listen((event) {
       Navigator.pop(context);
     });

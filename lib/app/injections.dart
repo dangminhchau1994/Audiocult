@@ -96,6 +96,7 @@ Future<void> initDependency() async {
     () => LanguageProvider(
       assetProvider: locator.get<AssetsLocalServiceProvider>(),
       appServiceProvider: locator.get<AppServiceProvider>(),
+      prefProvider: locator.get<PrefProvider>(),
     ),
   );
 }

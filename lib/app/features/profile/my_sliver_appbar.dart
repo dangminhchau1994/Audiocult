@@ -59,7 +59,7 @@ class _MySliverAppBarState extends State<MySliverAppBar> {
     } else {
       _scrollController = ScrollController();
     }
-    _scrollController!.addListener(() {
+    _scrollController?.addListener(() {
       if (_scrollController!.offset >= 0 || _scrollController!.offset <= 312) {
         setState(() {
           offset = _scrollController!.offset;
@@ -141,7 +141,7 @@ class _MySliverAppBarState extends State<MySliverAppBar> {
                                     backgroundImage: NetworkImage(snapshot.data ?? ''),
                                   ));
                             })),
-                if (_scrollController!.offset == 0)
+                if (_scrollController?.offset == 0)
                   if (widget.profile?.userId == locator.get<PrefProvider>().currentUserId)
                     Positioned(
                       right: 8,
@@ -293,7 +293,9 @@ class _MySliverAppBarState extends State<MySliverAppBar> {
                   )
                 else
                   const SizedBox.shrink(),
-                if (widget.profile?.userId != locator.get<PrefProvider>().currentUserId && widget.profile!.blockable!)
+                if (widget.profile?.userId != locator.get<PrefProvider>().currentUserId &&
+                    widget.profile?.blockable != null &&
+                    widget.profile!.blockable!)
                   WButtonInkwell(
                     onPressed: () {},
                     child: Container(
@@ -325,7 +327,7 @@ class _MySliverAppBarState extends State<MySliverAppBar> {
                     ),
                   )
                 else
-                  const SizedBox()
+                  const SizedBox.shrink()
               ],
             ),
           ),

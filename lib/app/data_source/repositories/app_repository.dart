@@ -482,27 +482,23 @@ class AppRepository extends BaseRepository {
   }
 
   Future<Either<ProfileData, Exception>> getUserProfile(String? userId, {String? data = 'info'}) async {
-    final cachedProfile = hiveServiceProvider.getProfile();
-    if (cachedProfile == null) {
-      final userProfile = await safeCall(() => appServiceProvider.getUserProfile(userId, data: data));
-      return userProfile.fold(
-        (l) {
-          if (userId == prefProvider.currentUserId) {
-            hiveServiceProvider.saveProfile(l);
-          }
-          return left(ProfileData.fromJson(l as Map<String, dynamic>));
-        },
-        (r) {
-          final profile = hiveServiceProvider.getProfile();
-          if (profile != null) {
-            return left(profile);
-          } else {
-            return right(NoCacheDataException(''));
-          }
-        },
-      );
-    }
-    return left(cachedProfile);
+    final userProfile = await safeCall(() => appServiceProvider.getUserProfile(userId, data: data));
+    return userProfile.fold(
+      (l) {
+        if (userId == prefProvider.currentUserId) {
+          hiveServiceProvider.saveProfile(l);
+        }
+        return left(ProfileData.fromJson(l as Map<String, dynamic>));
+      },
+      (r) {
+        final profile = hiveServiceProvider.getProfile();
+        if (profile != null) {
+          return left(profile);
+        } else {
+          return right(NoCacheDataException(''));
+        }
+      },
+    );
   }
 
   void clearProfile() {

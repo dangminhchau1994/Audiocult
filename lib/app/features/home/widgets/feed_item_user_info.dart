@@ -120,7 +120,7 @@ class FeedItemUserInfo extends StatelessWidget {
               Row(
                 children: [
                   Text(
-                    DateTimeUtils.convertToAgo(int.parse(data?.timeStamp ?? '')),
+                    DateTimeUtils.convertToAgo(int.tryParse(data?.timeStamp ?? '0') ?? 0),
                     style: context.buttonTextStyle()!.copyWith(
                           fontSize: 14,
                           color: Colors.grey,
