@@ -18,15 +18,25 @@ class FeedTypePhoto extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          data?.feedStatus ?? '',
-          style: context.buttonTextStyle()!.copyWith(
-                fontSize: 16,
-                color: Colors.white,
-              ),
+        Visibility(
+          visible: data?.feedStatus != null,
+          child: Text(
+            data?.feedStatus ?? '',
+            style: context.buttonTextStyle()!.copyWith(
+                  fontSize: 16,
+                  color: Colors.white,
+                ),
+          ),
         ),
         const SizedBox(height: 20),
-        if (data?.feedImageUrl != null)
+        if (data?.feedImageUrl != null && data?.feedImageUrl?.length == 1)
+          CachedNetworkImage(
+            imageUrl: data?.feedImageUrl?[0] ?? '',
+            fit: BoxFit.cover,
+          )
+        else
+          const SizedBox(),
+        if (data?.feedImageUrl != null && data!.feedImageUrl!.length > 1)
           GridView(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
@@ -48,19 +58,15 @@ class FeedTypePhoto extends StatelessWidget {
     return List<Widget>.generate(min(numImages, maxImages), (index) {
       final imageUrl = imageUrls[index];
 
-      // If its the last image
       if (index == maxImages - 1) {
-        // Check how many more images are left
         final remaining = numImages - maxImages;
 
-        // If no more are remaining return a simple image widget
         if (remaining == 0) {
           return CachedNetworkImage(
             imageUrl: imageUrl,
             fit: BoxFit.cover,
           );
         } else {
-          // Create the facebook like effect for the last image with number of remaining images
           return GestureDetector(
             child: Stack(
               fit: StackFit.expand,

@@ -27,61 +27,55 @@ class FifthStepScreen extends StatefulWidget {
 class FifthStepScreenState extends State<FifthStepScreen> {
   SelectMenuModel? _privacy;
   SelectMenuModel? _privacyComment;
-  List<SelectMenuModel> listPrivacy = <SelectMenuModel>[];
+  static List<SelectMenuModel> listPrivacy = [
+    SelectMenuModel(
+      id: 1,
+      title: 'Everyone',
+      isSelected: true,
+      icon: Image.asset(
+        AppAssets.icPublic,
+        width: 24,
+      ),
+    ),
+    SelectMenuModel(
+      id: 2,
+      title: 'Subscriptions',
+      icon: Image.asset(
+        AppAssets.icSubscription,
+        width: 24,
+      ),
+    ),
+    SelectMenuModel(
+      id: 3,
+      title: 'Friends of Friends',
+      icon: Image.asset(
+        AppAssets.icFriends,
+        width: 24,
+      ),
+    ),
+    SelectMenuModel(
+      id: 4,
+      title: 'Only me',
+      icon: Image.asset(
+        AppAssets.icLock,
+        width: 24,
+      ),
+    ),
+    SelectMenuModel(
+      id: 5,
+      title: 'Customize',
+      icon: Image.asset(
+        AppAssets.icSetting,
+        width: 24,
+      ),
+    ),
+  ];
 
   @override
   void initState() {
     super.initState();
     _privacy = listPrivacy[0];
     _privacyComment = listPrivacy[0];
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    listPrivacy = [
-      SelectMenuModel(
-        id: 1,
-        title: context.localize.t_everyone,
-        isSelected: true,
-        icon: Image.asset(
-          AppAssets.icPublic,
-          width: 24,
-        ),
-      ),
-      SelectMenuModel(
-        id: 2,
-        title: context.localize.t_subscriptions,
-        icon: Image.asset(
-          AppAssets.icSubscription,
-          width: 24,
-        ),
-      ),
-      SelectMenuModel(
-        id: 3,
-        title: context.localize.t_friends_of_friends,
-        icon: Image.asset(
-          AppAssets.icFriends,
-          width: 24,
-        ),
-      ),
-      SelectMenuModel(
-        id: 4,
-        title: context.localize.t_only_me,
-        icon: Image.asset(
-          AppAssets.icLock,
-          width: 24,
-        ),
-      ),
-      SelectMenuModel(
-        id: 5,
-        title: context.localize.t_customize,
-        icon: Image.asset(
-          AppAssets.icSetting,
-          width: 24,
-        ),
-      ),
-    ];
   }
 
   @override

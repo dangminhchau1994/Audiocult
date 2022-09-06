@@ -10,11 +10,9 @@ import 'package:audio_cult/app/features/music/detail_album/widgets/detail_album_
 import 'package:audio_cult/app/features/music/detail_album/widgets/detail_album_title.dart';
 import 'package:audio_cult/di/bloc_locator.dart';
 import 'package:flutter/material.dart';
-
 import '../../../../w_components/error_empty/error_section.dart';
 import '../../../../w_components/loading/loading_widget.dart';
 import '../../../base/bloc_state.dart';
-import '../../../injections.dart';
 import '../../../utils/constants/app_colors.dart';
 
 class DetailAlbumScreen extends StatefulWidget {

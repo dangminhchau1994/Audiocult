@@ -67,12 +67,15 @@ class _FeedTypeStatusState extends State<FeedTypeStatus> {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            data.feedStatus ?? '',
-            style: context.buttonTextStyle()!.copyWith(
-                  fontSize: 16,
-                  color: Colors.white,
-                ),
+          Visibility(
+            visible: data.feedStatus != null,
+            child: Text(
+              data.feedStatus ?? '',
+              style: context.buttonTextStyle()!.copyWith(
+                    fontSize: 16,
+                    color: Colors.white,
+                  ),
+            ),
           ),
           const SizedBox(height: 10),
           SizedBox(

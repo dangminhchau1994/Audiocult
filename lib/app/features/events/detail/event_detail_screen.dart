@@ -109,22 +109,23 @@ class _EventDetailState extends State<EventDetail> {
                                 text: context.localize.t_buy,
                                 onTap: () {
                                   showModalBottomSheet(
-                                      backgroundColor: Colors.transparent,
-                                      enableDrag: true,
-                                      isScrollControlled: false,
-                                      shape: const RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.vertical(
-                                          top: Radius.circular(10),
-                                        ),
+                                    backgroundColor: Colors.transparent,
+                                    enableDrag: true,
+                                    isScrollControlled: false,
+                                    shape: const RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.vertical(
+                                        top: Radius.circular(10),
                                       ),
-                                      clipBehavior: Clip.antiAliasWithSaveLayer,
-                                      context: context,
-                                      builder: (_) => WBottomTicket(
-                                            eventName: data.title,
-                                            eventId: data.eventId,
-                                            imageEvent: data.imagePath,
-                                            userName: data.cultixUri?.split('/')[3] ?? '',
-                                          ));
+                                    ),
+                                    clipBehavior: Clip.antiAliasWithSaveLayer,
+                                    context: context,
+                                    builder: (_) => WBottomTicket(
+                                      eventName: data.title,
+                                      eventId: data.eventId,
+                                      imageEvent: data.imagePath,
+                                      userName: data.cultixUri?.split('/')[3] ?? '',
+                                    ),
+                                  );
                                 },
                               )
                             : const SizedBox.shrink(),

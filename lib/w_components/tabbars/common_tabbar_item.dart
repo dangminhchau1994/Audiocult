@@ -41,25 +41,16 @@ class CommonTabbarItem extends StatelessWidget {
             const SizedBox(
               width: 10,
             ),
-            _expandedTextWidget(context),
+            Text(
+              title ?? '',
+              maxLines: 1,
+              style: context.bodyTextPrimaryStyle()!.copyWith(
+                    color: index == currentIndex ? AppColors.activeLabelItem : Colors.white,
+                  ),
+            ),
           ],
         ),
       ),
     );
-  }
-
-  Widget _expandedTextWidget(BuildContext context) {
-    final text = Text(
-      title ?? '',
-      style: context.bodyTextPrimaryStyle()!.copyWith(
-            color: index == currentIndex ? AppColors.activeLabelItem : Colors.white,
-          ),
-      maxLines: 1,
-      overflow: TextOverflow.ellipsis,
-    );
-    if (width != null) {
-      return Expanded(child: text);
-    }
-    return text;
   }
 }

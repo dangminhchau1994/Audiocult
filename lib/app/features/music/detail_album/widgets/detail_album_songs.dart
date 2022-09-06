@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import '../../../../../w_components/error_empty/error_section.dart';
 import '../../../../../w_components/loading/loading_widget.dart';
 import '../../../../base/bloc_state.dart';
+import '../../../../constants/global_constants.dart';
 import '../../../../utils/constants/app_colors.dart';
 import '../../discover/widgets/song_item.dart';
 import '../detail_album_bloc.dart';
@@ -25,7 +26,7 @@ class _DetailAlbumSongsState extends State<DetailAlbumSongs> {
   @override
   void initState() {
     super.initState();
-    widget.albumBloc!.getSongByAlbumId(int.parse(widget.albumId ?? ''), 1, 3);
+    widget.albumBloc!.getSongByAlbumId(int.parse(widget.albumId ?? ''), 1, GlobalConstants.loadMoreItem);
   }
 
   @override

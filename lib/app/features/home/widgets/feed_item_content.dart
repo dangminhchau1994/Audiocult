@@ -11,7 +11,6 @@ import 'package:video_player/video_player.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import '../../../data_source/models/responses/feed/feed_response.dart';
 
-
 class FeedItemContent extends StatefulWidget {
   const FeedItemContent({Key? key, this.data}) : super(key: key);
 
@@ -43,7 +42,6 @@ class _FeedItemContentState extends State<FeedItemContent> {
         widget.data?.customDataCache?.destination.toString() ?? '',
       ),
     );
-    
   }
 
   @override
@@ -64,6 +62,7 @@ class _FeedItemContentState extends State<FeedItemContent> {
         final event = widget.data?.customDataCache;
         return FeedTypeEvent(
           event: event,
+          eventId: widget.data?.itemId ?? '',
         );
       case FeedType.advancedSong:
         final song = widget.data?.customDataCache;

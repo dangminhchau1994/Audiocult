@@ -118,6 +118,9 @@ class _FirstStepScreenState extends State<FirstStepScreen> {
 
                           _categories ??=
                               data.map((e) => SelectMenuModel(id: int.parse(e.categoryId!), title: e.name)).toList();
+
+                          debugPrint('chaudang: ${data.length}');
+
                           if (_categories is List) {
                             (_categories as List<SelectMenuModel>).map((e) {
                               if (e.id == _categorySelections?.id) {
