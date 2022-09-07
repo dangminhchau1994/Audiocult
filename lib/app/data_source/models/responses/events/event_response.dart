@@ -26,6 +26,9 @@ class EventResponse {
   String? timeStamp;
   String? startTime;
   String? endTime;
+  String? startTimeString;
+  String? endTimeString;
+  String? timeStampString;
   String? imagePath;
   String? totalComment;
   String? totalLike;
@@ -63,6 +66,9 @@ class EventResponse {
       this.timeStamp,
       this.startTime,
       this.endTime,
+      this.startTimeString,
+      this.endTimeString,
+      this.timeStampString,
       this.imagePath,
       this.totalComment,
       this.totalLike,

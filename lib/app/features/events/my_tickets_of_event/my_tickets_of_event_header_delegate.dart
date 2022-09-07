@@ -88,19 +88,13 @@ class MyTicketsOfEventHeaderDelegate extends SliverPersistentHeaderDelegate {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(_dateTimeString(int.parse(event.startTime ?? '0') * 1000, context)),
+            Text(event.startTimeString?.toUpperCase() ?? ''),
             const SizedBox(height: 4),
-            Text(_dateTimeString(int.parse(event.endTime ?? '0') * 1000, context)),
+            Text(event.endTimeString?.toUpperCase() ?? ''),
           ],
         ),
       ],
     );
-  }
-
-  String _dateTimeString(int millisecond, BuildContext context) {
-    final dateString = DateFormat('yMMMd').format(DateTime.fromMillisecondsSinceEpoch(millisecond));
-    final timeString = DateFormat.jm().format(DateTime.fromMillisecondsSinceEpoch(millisecond));
-    return '$dateString ${context.localize.t_at.toLowerCase()} $timeString';
   }
 
   @override
