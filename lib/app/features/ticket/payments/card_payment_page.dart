@@ -36,10 +36,12 @@ class CardPaymentPageState extends State<CardPaymentPage> {
         name: '${data['name_parts_0'] + data['name_parts_1']}',
       ); // mocked data for tests
       final result = await widget.bloc!.getStripeAccount(widget.username, widget.eventId);
-      Stripe.publishableKey = result!.stripePubkey!;
+      if (result != null) {
+        Stripe.publishableKey = result.stripePubkey!;
+      }
       _paymentMethod = await Stripe.instance.createPaymentMethod(
           PaymentMethodParams.card(paymentMethodData: PaymentMethodData(billingDetails: billingDetails)),
-          {'stripeAccountId': result.stripeConnectedAccountId ?? ''});
+          {'stripeAccountId': result?.stripeConnectedAccountId ?? ''});
     }
 
     return _paymentMethod!;
