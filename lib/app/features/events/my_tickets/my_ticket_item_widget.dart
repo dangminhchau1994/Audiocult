@@ -108,37 +108,47 @@ class MyTicketItemWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(4),
         color: AppColors.mainColor,
       ),
-      child: Text(
-        DateFormat('MMMd').format(DateTime.fromMillisecondsSinceEpoch(int.parse(event.timeStamp ?? '0') * 1000)),
-        style: Theme.of(context).textTheme.headline6,
-        textAlign: TextAlign.center,
-      ),
+      child: event.startDateTime != null
+          ? Text(
+              DateFormat.MMMd().format(event.startDateTime!),
+              style: context.headerStyle()?.copyWith(fontSize: AppFontSize.size16),
+              textAlign: TextAlign.center,
+            )
+          : Container(),
     );
   }
 
   Widget _timeWidget(BuildContext context) {
     return Container(
       width: double.infinity,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(4),
-        color: Colors.white,
-      ),
-      padding: const EdgeInsets.symmetric(vertical: 6),
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(4), color: Colors.white),
+      padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          SvgPicture.asset(
-            AppAssets.icClock,
-            color: Colors.black,
-            width: 18,
-          ),
-          const SizedBox(width: 4),
-          Text(
-            DateFormat.j().format(DateTime.fromMillisecondsSinceEpoch(int.parse(event.timeStamp ?? '0') * 1000)),
-            style: Theme.of(context).textTheme.bodyText2?.copyWith(color: Colors.black),
-            textAlign: TextAlign.center,
-          ),
+          SvgPicture.asset(AppAssets.icClock, color: AppColors.mainColor, width: 16),
+          const SizedBox(width: 2),
+          if (event.startDateTime != null)
+            _fittedTextWidget(
+              DateFormat.jm().format(event.startDateTime!),
+              style: context.body2TextStyle()?.copyWith(color: AppColors.mainColor),
+            )
+          else
+            Container(),
         ],
+      ),
+    );
+  }
+
+  Widget _fittedTextWidget(String string, {TextStyle? style, BoxFit? boxFit}) {
+    return Flexible(
+      child: FittedBox(
+        fit: boxFit ?? BoxFit.scaleDown,
+        child: Text(
+          string,
+          style: style,
+          textAlign: TextAlign.center,
+        ),
       ),
     );
   }

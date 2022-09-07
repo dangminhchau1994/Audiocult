@@ -3,8 +3,14 @@ part of 'my_tickets_of_event_screen.dart';
 class TicketWidget extends StatelessWidget {
   final VoidCallback onTap;
   final TicketDetails details;
+  final EventResponse event;
 
-  const TicketWidget(this.details, {required this.onTap, Key? key}) : super(key: key);
+  const TicketWidget(
+    this.details,
+    this.event, {
+    required this.onTap,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -119,9 +125,9 @@ class TicketWidget extends StatelessWidget {
       children: [
         Column(
           children: [
-            _dateTimeWidget(details.dateFrom ?? '', context, isFrom: true),
+            _dateTimeWidget(context, dateTime: event.startDateTime, isFrom: true),
             const SizedBox(height: 6),
-            _dateTimeWidget(details.dateTo ?? '', context, isFrom: false),
+            _dateTimeWidget(context, dateTime: event.endDateTime, isFrom: false),
           ],
         ),
         _qrCodeWidget(),
@@ -129,14 +135,9 @@ class TicketWidget extends StatelessWidget {
     );
   }
 
-  String _formatedDateTime(String string) {
-    if (string.isNotEmpty != true) return '';
-    final date = DateTime.parse(string);
-    return DateFormat('MMM d - h:mm a').format(date);
-  }
-
-  Widget _dateTimeWidget(String dateTime, BuildContext context, {bool? isFrom}) {
-    final string = _formatedDateTime(dateTime);
+  Widget _dateTimeWidget(BuildContext context, {DateTime? dateTime, bool? isFrom}) {
+    if (dateTime == null) return Container();
+    final string = DateFormat.MMMd().add_jm().format(dateTime);
     if (string.isEmpty == true) return Container();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

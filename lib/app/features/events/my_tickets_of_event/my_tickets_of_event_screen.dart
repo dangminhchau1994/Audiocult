@@ -109,6 +109,7 @@ class _MyTicketsOfEventScreenState extends State<MyTicketsOfEventScreen> {
       delegate: SliverChildBuilderDelegate((context, index) {
         return TicketWidget(
           tickets[index],
+          widget.event,
           onTap: () => showBarModalBottomSheet(
             context: context,
             builder: (_) => TicketDetailsWidget(tickets[index], widget.event),

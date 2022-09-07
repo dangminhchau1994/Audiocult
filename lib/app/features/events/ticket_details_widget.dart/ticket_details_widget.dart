@@ -17,6 +17,7 @@ import 'package:intl/intl.dart';
 class TicketDetailsWidget extends StatelessWidget {
   final TicketDetails ticketDetails;
   final EventResponse event;
+  // ignore: avoid_field_initializers_in_const_classes
   final _eventInfoSectionHeight = 330.0;
 
   const TicketDetailsWidget(
@@ -175,13 +176,13 @@ class TicketDetailsWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                _formatedDateTime(ticketDetails.dateFrom ?? '', context),
+                _formatedDateTime(context, dateTime: event.startDateTime),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
               const SizedBox(height: 8),
               Text(
-                _formatedDateTime(ticketDetails.dateTo ?? '', context),
+                _formatedDateTime(context, dateTime: event.endDateTime),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
@@ -192,10 +193,9 @@ class TicketDetailsWidget extends StatelessWidget {
     );
   }
 
-  String _formatedDateTime(String string, BuildContext context) {
-    if (string.isNotEmpty != true) return '';
-    final date = DateTime.parse(string);
-    return '${DateFormat.yMd().format(date)} ${context.localize.t_at.toLowerCase()} ${DateFormat.jm().format(date)}';
+  String _formatedDateTime(BuildContext context, {DateTime? dateTime}) {
+    if (dateTime == null) return '';
+    return DateFormat.yMMMMd().add_jm().format(dateTime);
   }
 
   Widget _statusTag({required String status, required String statusCode}) {

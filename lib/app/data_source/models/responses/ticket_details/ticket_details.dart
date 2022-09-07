@@ -1,4 +1,5 @@
 import 'package:audio_cult/app/base/index_walker.dart';
+import 'package:intl/intl.dart';
 
 class TicketDetails {
   String? details;
@@ -28,5 +29,13 @@ class TicketDetails {
     orderCode = iw['order_code'].get();
     statusCode = iw['status_code'].get();
     eventId = iw['event_id'].get();
+  }
+
+  DateTime? get dateTimeFrom {
+    return DateTime.tryParse(dateFrom ?? '');
+  }
+
+  DateTime? get dateTimeTo {
+    return DateTime.tryParse(dateTo ?? '');
   }
 }

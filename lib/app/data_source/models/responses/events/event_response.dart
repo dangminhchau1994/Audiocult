@@ -92,6 +92,14 @@ class EventResponse {
     final dateTimeFromStr = DateFormat('MMM dd, yyyy hh:mm a').format(dateTime);
     return dateTimeFromStr;
   }
+
+  DateTime? get startDateTime {
+    return DateTime.tryParse(startTimeString ?? '');
+  }
+
+  DateTime? get endDateTime {
+    return DateTime.tryParse(endTimeString ?? '');
+  }
 }
 
 @JsonSerializable(fieldRename: FieldRename.snake)
