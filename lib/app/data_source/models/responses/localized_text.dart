@@ -329,6 +329,21 @@ class LocalizedText {
   late String t_not_find_what_looking_for;
   late String t_my_playlist;
   late String t_input_code;
+  late String t_from;
+  late String t_to;
+  late String t_code;
+  late String t_ticket;
+  late String t_tickets;
+  late String t_no_ticket_yet;
+  late String t_attend_first_event;
+  late String t_go_to_popular_events;
+  late String t_no_results_found;
+  late String t_subscriber;
+  late String t_subscribers;
+  late String t_biography;
+  late String t_audio_artist_category;
+  late String t_favorite_genres_of_music;
+  late String t_at;
 
   LocalizedText.fromJson(Map<String, dynamic> json) {
     final iw = IW(json);
@@ -659,6 +674,21 @@ class LocalizedText {
     t_not_find_what_looking_for = iw['t_not_find_what_looking_for'].get() ?? _undefined;
     t_my_playlist = iw['t_my_playlist'].get() ?? _undefined;
     t_input_code = iw['t_input_code'].get() ?? _undefined;
+    t_from = iw['t_from'].get() ?? _undefined;
+    t_to = iw['t_to'].get() ?? _undefined;
+    t_code = iw['t_code'].get() ?? _undefined;
+    t_ticket = iw['t_ticket'].get() ?? _undefined;
+    t_tickets = iw['t_tickets'].get() ?? _undefined;
+    t_no_ticket_yet = iw['t_no_ticket_yet'].get() ?? _undefined;
+    t_attend_first_event = iw['t_attend_first_event'].get() ?? _undefined;
+    t_go_to_popular_events = iw['t_go_to_popular_events'].get() ?? _undefined;
+    t_no_results_found = iw['t_no_results_found'].get() ?? _undefined;
+    t_subscriber = iw['t_subscriber'].get() ?? _undefined;
+    t_subscribers = iw['t_subscribers'].get() ?? _undefined;
+    t_biography = iw['t_biography'].get() ?? _undefined;
+    t_audio_artist_category = iw['t_audio_artist_categoryt'].get() ?? _undefined;
+    t_favorite_genres_of_music = iw['t_favorite_genres_of_music'].get() ?? _undefined;
+    t_at = iw['t_at'].get() ?? _undefined;
   }
 }
 

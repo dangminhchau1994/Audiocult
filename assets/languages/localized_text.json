@@ -316,5 +316,19 @@
     "t_albums":"Albums",
     "t_current_playlist":"Current playlist",
     "t_not_find_what_looking_for":"We couldn't find what you're looking for",
-    "t_input_code":"Input code..."
+    "t_input_code":"Input code...",
+    "t_from": "From",
+    "t_to": "To",
+    "t_code": "Code",
+    "t_ticket": "Ticket",
+    "t_tickets": "Tickets",
+    "t_no_ticket_yet": "You don't have tickets yet",
+    "t_attend_first_event": "Attend your first event with Audiocult",
+    "t_go_to_popular_events": "Go to Popular Events",
+    "t_subscriber": "Subscriber",
+    "t_subscribers": "Subscribers",
+    "t_biography": "Biography",
+    "t_audio_artist_category": "Audio Artist Category",
+    "t_favorite_genres_of_music": "Favorite Genres Of Music",
+    "t_at": "At"
 }

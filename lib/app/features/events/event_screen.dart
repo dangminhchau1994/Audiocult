@@ -1,6 +1,6 @@
 import 'package:audio_cult/app/features/events/my_diary/my_diary_screen.dart';
+import 'package:audio_cult/app/features/events/my_tickets/my_tickets_screen.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_tab_bar/indicator/custom_indicator.dart';
 
@@ -79,7 +79,7 @@ class EventScreenState extends State<EventScreen> {
             case 1:
               return const MyDiaryScreen();
             case 2:
-              return const SizedBox();
+              return MyTicketsScreen(emptyPageAction: () => _pageController.jumpToPage(0));
             case 3:
               return const SizedBox();
             default:

@@ -157,6 +157,8 @@ class AppAssets {
 
   static const icCart = 'assets/icons/ic_cart.svg';
 
+  static const icArrowDown = 'assets/icons/arrow_down.svg';
+
   static const icUpload = 'assets/icons/ic_upload.png';
   static const icUploadFrame = 'assets/icons/ic_upload_frame.png';
   static const icMusicNote = 'assets/icons/ic_music_note.png';
