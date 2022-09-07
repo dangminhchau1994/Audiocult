@@ -43,7 +43,6 @@ class EventScreenState extends State<EventScreen> {
             case 0:
               return CommonTabbarItem(
                 index: index,
-                width: MediaQuery.of(context).size.width / 4,
                 currentIndex: _currentIndex,
                 title: context.localize.t_all_events,
                 hasIcon: false,
@@ -52,7 +51,6 @@ class EventScreenState extends State<EventScreen> {
               return CommonTabbarItem(
                 index: index,
                 currentIndex: _currentIndex,
-                width: MediaQuery.of(context).size.width / 4,
                 title: context.localize.t_my_diary,
                 hasIcon: false,
               );
@@ -60,7 +58,6 @@ class EventScreenState extends State<EventScreen> {
               return CommonTabbarItem(
                 index: index,
                 currentIndex: _currentIndex,
-                width: MediaQuery.of(context).size.width / 4,
                 title: context.localize.t_my_tickets,
                 hasIcon: false,
               );
@@ -68,7 +65,6 @@ class EventScreenState extends State<EventScreen> {
               return CommonTabbarItem(
                 index: index,
                 currentIndex: _currentIndex,
-                width: MediaQuery.of(context).size.width / 4,
                 title: context.localize.t_invitations,
                 hasIcon: false,
               );
