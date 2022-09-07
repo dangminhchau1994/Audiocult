@@ -22,9 +22,8 @@ class MyTicketItemWidget extends StatelessWidget {
               padding: const EdgeInsets.all(12),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  _numberOfTicketsTag(event.tickets?.length ?? 0, context),
                   _dateTimeWidget(context),
                 ],
               ),
@@ -73,17 +72,6 @@ class MyTicketItemWidget extends StatelessWidget {
           ),
         ),
       ],
-    );
-  }
-
-  Widget _numberOfTicketsTag(int number, BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(4),
-        color: AppColors.activeLabelItem,
-      ),
-      child: Text('$number ${(number > 1) ? context.localize.t_tickets : context.localize.t_ticket}'),
     );
   }
 
