@@ -13,14 +13,21 @@ class EventScreen extends StatefulWidget {
   const EventScreen({Key? key}) : super(key: key);
 
   @override
-  State<EventScreen> createState() => _EventScreenState();
+  State<EventScreen> createState() => EventScreenState();
 }
 
-class _EventScreenState extends State<EventScreen> {
+class EventScreenState extends State<EventScreen> {
   final _pageController = PageController();
   final _tabController = CustomTabBarController();
   final _pageCount = 4;
   var _currentIndex = 0;
+
+  void startWithTicket() {
+    setState(() {
+      _currentIndex = 2;
+      _pageController.jumpToPage(2);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

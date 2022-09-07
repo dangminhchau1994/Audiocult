@@ -47,6 +47,7 @@ class _MainScreenState extends State<MainScreen> {
   final _commentItemBloc = CommentItemBloc(locator.get());
   final _cartBloc = getIt.get<MyCartBloc>();
   ProfileData? _profileData;
+  final GlobalKey<EventScreenState> _eventKey = GlobalKey();
 
   @override
   void initState() {
@@ -71,6 +72,9 @@ class _MainScreenState extends State<MainScreen> {
         _currentIndex = 4;
       });
       _pageController.jumpToPage(4);
+      await Future.delayed(const Duration(milliseconds: 200));
+
+      _eventKey.currentState!.startWithTicket();
     }
   }
 
@@ -80,7 +84,9 @@ class _MainScreenState extends State<MainScreen> {
     pages.add(const AtlasScreen());
     pages.add(const SizedBox());
     pages.add(const MusicScreen());
-    pages.add(const EventScreen());
+    pages.add(EventScreen(
+      key: _eventKey,
+    ));
     return pages;
   }
 
@@ -174,7 +180,6 @@ class _MainScreenState extends State<MainScreen> {
               },
               onNotificationTap: () async {
                 await Navigator.pushNamed(context, AppRoute.routeNotification);
-               
               },
               onCartTap: () {
                 Navigator.of(context).pushNamed(AppRoute.routeMyCart);

@@ -61,7 +61,6 @@ class CardPaymentPageState extends State<CardPaymentPage> {
                 ),
                 CardField(
                   controller: _cardEditController,
-                  onCardChanged: print,
                 ),
                 const SizedBox(
                   height: 16,
