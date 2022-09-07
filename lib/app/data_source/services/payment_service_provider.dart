@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:stripe_platform_interface/src/models/payment_methods.dart';
 
 import '../models/base_response.dart';
+import '../models/responses/payment_stripe.dart';
 import '../networks/core/dio_helper.dart';
 
 class PaymentServiceProvider {
@@ -27,7 +28,6 @@ class PaymentServiceProvider {
     list.forEach((element) {
       body.addAll({'item_${element.id}': element.count});
     });
-    print(body);
     final response = await _dioHelper.post(
       route: '/capi/$userName/$eventId/cart/add',
       requestBody: FormData.fromMap(body),
@@ -84,5 +84,13 @@ class PaymentServiceProvider {
       responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
     );
     return response;
+  }
+
+  Future<PaymentStripe?> getStripeAccount(String? username, String? eventId) async {
+    final response = await _dioHelper.get(
+      route: '/capi/$username/$eventId/payment/stripe',
+    );
+
+    return PaymentStripe.fromJson(response as Map<String, dynamic>);
   }
 }

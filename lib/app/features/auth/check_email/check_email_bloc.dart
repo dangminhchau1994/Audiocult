@@ -22,7 +22,6 @@ class CheckEmailBloc extends BaseBloc {
         if (l1!.isSuccess!) {
           _navigateMain.add(l1.isSuccess!);
         } else {
-          print(l1.error['message']);
           showError(AppException('${l1.error['message']}'));
         }
       }, showError);

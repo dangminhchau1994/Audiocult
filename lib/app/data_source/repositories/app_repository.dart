@@ -60,7 +60,9 @@ import 'package:audio_cult/w_components/dropdown/common_dropdown.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:image_picker/image_picker.dart';
+// ignore: implementation_imports
 import 'package:stripe_platform_interface/src/models/payment_methods.dart';
+
 import '../models/base_response.dart';
 import '../models/requests/event_request.dart';
 import '../models/requests/login_request.dart';
@@ -69,6 +71,7 @@ import '../models/responses/background/background_response.dart';
 import '../models/responses/create_album_response.dart';
 import '../models/responses/events/event_category_response.dart';
 import '../models/responses/login_response.dart';
+import '../models/responses/payment_stripe.dart';
 import '../models/responses/productlist/productlist.dart';
 import '../models/responses/register_response.dart';
 import '../models/responses/song/song_response.dart';
@@ -744,5 +747,9 @@ class AppRepository extends BaseRepository {
 
   Future<Either<BaseRes?, Exception>> confirmPayment(String eventId, String username) {
     return safeCall(() => paymentServiceProvider.confirmPayment(eventId, username));
+  }
+
+  Future<Either<PaymentStripe?, Exception>> getStripeAccount(String? username, String? eventId) {
+    return safeCall(() => paymentServiceProvider.getStripeAccount(username, eventId));
   }
 }

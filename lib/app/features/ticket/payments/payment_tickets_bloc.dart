@@ -6,6 +6,8 @@ import 'package:audio_cult/app/data_source/repositories/app_repository.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:stripe_platform_interface/src/models/payment_methods.dart';
 
+import '../../../data_source/models/responses/payment_stripe.dart';
+
 class PaymentTicketsBloc extends BaseBloc {
   final AppRepository _appRepository;
 
@@ -19,11 +21,6 @@ class PaymentTicketsBloc extends BaseBloc {
     final result = await _appRepository.getListPaymentTickets(eventId, username);
 
     result.fold((data) {
-      // data!.itemQuestions!.forEach(
-      //   (element) {
-      //     print(element.id);
-      //   },
-      // );
       _getListPaymentSubject.sink.add(BlocState.success(data!));
     }, (e) {
       _getListPaymentSubject.sink.add(BlocState.error(e.toString()));
@@ -69,6 +66,18 @@ class PaymentTicketsBloc extends BaseBloc {
     }, (e) {
       showError(e);
       return false;
+    });
+  }
+
+  Future<PaymentStripe?> getStripeAccount(String? username, String? eventId) async {
+    showOverLayLoading();
+    final result = await _appRepository.getStripeAccount(username, eventId);
+    hideOverlayLoading();
+    return result.fold((data) {
+      return data;
+    }, (e) {
+      showError(e);
+      return null;
     });
   }
 }
