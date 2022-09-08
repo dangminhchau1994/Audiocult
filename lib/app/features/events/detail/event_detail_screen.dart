@@ -103,7 +103,9 @@ class _EventDetailState extends State<EventDetail> {
                           horizontal: kHorizontalSpacing,
                           vertical: kVerticalSpacing,
                         ),
-                        child: data.tickets!.isNotEmpty
+                        child: data.tickets!.isNotEmpty &&
+                                DateTime.now().isBefore(
+                                    DateTime.fromMicrosecondsSinceEpoch(int.tryParse(data.startTime ?? '0')! * 1000000))
                             ? CommonButton(
                                 color: AppColors.primaryButtonColor,
                                 text: context.localize.t_buy,
