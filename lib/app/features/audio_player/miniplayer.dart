@@ -188,7 +188,7 @@ class _MiniPlayerState extends State<MiniPlayer> {
                                   : preferredMiniButtons,
                             ),
                           ),
-                          //  child!,
+                           child!,
                         ],
                       ),
                     ),
