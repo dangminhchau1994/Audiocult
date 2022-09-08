@@ -89,7 +89,9 @@ class EventDateTimeField extends StatelessWidget {
       ),
       format: dateFormat ?? (shouldIgnoreTime ? DateFormat('yyyy/MM/dd') : DateFormat('yyyy/MM/dd HH:mm')),
       onShowPicker: (context, currentValue) async {
+        final localeParts = context.language!.locale!.split('_');
         final date = await showDatePicker(
+          locale: Locale(localeParts.first, localeParts.last),
           context: context,
           firstDate: DateTime(1900),
           initialDate: currentValue ?? DateTime.now(),

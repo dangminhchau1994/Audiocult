@@ -50,7 +50,7 @@ class _AboutPageState extends State<AboutPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Biography'.toUpperCase(),
+              context.localize.t_biography.toUpperCase(),
               style: context.bodyTextStyle()?.copyWith(color: AppColors.borderOutline),
             ),
             const SizedBox(
@@ -63,7 +63,7 @@ class _AboutPageState extends State<AboutPage> {
             Wrap(
               children: [
                 Text(
-                  'Audio Artist Category:'.toUpperCase(),
+                  context.localize.t_audio_artist_category.toUpperCase(),
                   style: context.bodyTextStyle()?.copyWith(color: AppColors.borderOutline),
                 ),
                 Wrap(
@@ -83,7 +83,7 @@ class _AboutPageState extends State<AboutPage> {
             Wrap(
               children: [
                 Text(
-                  'Favorite Genres Of Music:'.toUpperCase(),
+                  context.localize.t_favorite_genres_of_music.toUpperCase(),
                   style: context.bodyTextStyle()?.copyWith(color: AppColors.borderOutline),
                 ),
                 Wrap(

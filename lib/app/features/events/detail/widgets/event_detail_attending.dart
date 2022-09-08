@@ -60,7 +60,7 @@ class _EventDetailAttendingState extends State<EventDetailAttending> {
       case '3':
         return _title = context.localize.t_not_attending;
       default:
-        return _title = context.l10n.t_not_attending;
+        return _title = context.localize.t_not_attending;
     }
   }
 

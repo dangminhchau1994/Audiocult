@@ -43,7 +43,7 @@ class _StepperUploadState extends State<StepperUpload> {
             child: Padding(
               padding: const EdgeInsets.all(8),
               child: Text(
-                'STEP ${widget.currentStep} OF 4',
+                '${context.localize.t_step.toUpperCase()} ${widget.currentStep} ${context.localize.t_of.toUpperCase()} 4',
                 style: context.bodyTextStyle()?.copyWith(color: AppColors.subTitleColor),
               ),
             ))

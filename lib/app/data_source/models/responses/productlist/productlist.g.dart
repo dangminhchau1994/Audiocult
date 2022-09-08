@@ -6,7 +6,8 @@ part of 'productlist.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-TicketProductList _$TicketProductListFromJson(Map<String, dynamic> json) => TicketProductList(
+TicketProductList _$TicketProductListFromJson(Map<String, dynamic> json) =>
+    TicketProductList(
       currency: json['currency'] as String?,
       displayNetPrices: json['display_net_prices'] as bool?,
       showVariationsExpanded: json['show_variations_expanded'] as bool?,
@@ -27,7 +28,8 @@ TicketProductList _$TicketProductListFromJson(Map<String, dynamic> json) => Tick
       poweredby: json['poweredby'] as String?,
     );
 
-Map<String, dynamic> _$TicketProductListToJson(TicketProductList instance) => <String, dynamic>{
+Map<String, dynamic> _$TicketProductListToJson(TicketProductList instance) =>
+    <String, dynamic>{
       'currency': instance.currency,
       'display_net_prices': instance.displayNetPrices,
       'show_variations_expanded': instance.showVariationsExpanded,
@@ -46,14 +48,18 @@ Map<String, dynamic> _$TicketProductListToJson(TicketProductList instance) => <S
       'poweredby': instance.poweredby,
     };
 
-ItemsByCategory _$ItemsByCategoryFromJson(Map<String, dynamic> json) => ItemsByCategory(
+ItemsByCategory _$ItemsByCategoryFromJson(Map<String, dynamic> json) =>
+    ItemsByCategory(
       id: json['id'] as int?,
       name: json['name'] as String?,
       description: json['description'] as String?,
-      items: (json['items'] as List<dynamic>?)?.map((e) => Items.fromJson(e as Map<String, dynamic>)).toList(),
+      items: (json['items'] as List<dynamic>?)
+          ?.map((e) => Items.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
-Map<String, dynamic> _$ItemsByCategoryToJson(ItemsByCategory instance) => <String, dynamic>{
+Map<String, dynamic> _$ItemsByCategoryToJson(ItemsByCategory instance) =>
+    <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
       'description': instance.description,
@@ -61,25 +67,30 @@ Map<String, dynamic> _$ItemsByCategoryToJson(ItemsByCategory instance) => <Strin
     };
 
 Items _$ItemsFromJson(Map<String, dynamic> json) => Items(
-    id: json['id'] as int?,
-    name: json['name'] as String?,
-    picture: json['picture'] as String?,
-    description: json['description'] as String?,
-    hasVariations: json['has_variations'] as int?,
-    requireVoucher: json['require_voucher'] as bool?,
-    orderMin: json['order_min'] as String?,
-    orderMax: json['order_max'] as int?,
-    price: json['price'] == null ? null : Price.fromJson(json['price'] as Map<String, dynamic>),
-    minPrice: json['min_price'] as String?,
-    maxPrice: json['max_price'] as String?,
-    allowWaitinglist: json['allow_waitinglist'] as bool?,
-    freePrice: json['free_price'] as bool?,
-    avail: (json['avail'] as List<dynamic>?)?.map((e) => e != null ? e as int : 0).toList(),
-    originalPrice: json['original_price'] as String?,
-    variations: (json['variations'] as List<dynamic>?)?.map((e) => e as String).toList(),
-    count: 0,
-    eventTitle: '',
-    imagePath: '');
+      id: json['id'] as int?,
+      name: json['name'] as String?,
+      picture: json['picture'] as String?,
+      description: json['description'] as String?,
+      hasVariations: json['has_variations'] as int?,
+      requireVoucher: json['require_voucher'] as bool?,
+      orderMin: json['order_min'] as String?,
+      orderMax: json['order_max'] as int?,
+      price: json['price'] == null
+          ? null
+          : Price.fromJson(json['price'] as Map<String, dynamic>),
+      minPrice: json['min_price'] as String?,
+      maxPrice: json['max_price'] as String?,
+      allowWaitinglist: json['allow_waitinglist'] as bool?,
+      freePrice: json['free_price'] as bool?,
+      avail: (json['avail'] as List<dynamic>?)?.map((e) => e as int).toList(),
+      originalPrice: json['original_price'] as String?,
+      variations: (json['variations'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
+      count: json['count'] as int?,
+      eventTitle: json['event_title'] as String?,
+      imagePath: json['image_path'] as String?,
+    );
 
 Map<String, dynamic> _$ItemsToJson(Items instance) => <String, dynamic>{
       'id': instance.id,
@@ -98,7 +109,9 @@ Map<String, dynamic> _$ItemsToJson(Items instance) => <String, dynamic>{
       'avail': instance.avail,
       'original_price': instance.originalPrice,
       'variations': instance.variations,
-      'count': instance.count
+      'count': instance.count,
+      'image_path': instance.imagePath,
+      'event_title': instance.eventTitle,
     };
 
 Price _$PriceFromJson(Map<String, dynamic> json) => Price(

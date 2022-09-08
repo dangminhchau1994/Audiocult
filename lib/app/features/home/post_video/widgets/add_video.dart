@@ -48,26 +48,29 @@ class AddVideo extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(width: 20),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            context.localize.t_add_video_title,
-                            style: context.buttonTextStyle()!.copyWith(
-                                  fontSize: 16,
-                                  color: AppColors.activeLabelItem,
-                                ),
-                          ),
-                          const SizedBox(height: 10),
-                          Text(
-                            context.localize.t_add_video_content,
-                            overflow: TextOverflow.ellipsis,
-                            style: context.buttonTextStyle()!.copyWith(
-                                  fontSize: 14,
-                                  color: Colors.white70,
-                                ),
-                          ),
-                        ],
+                      Flexible(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              context.localize.t_add_video_title,
+                              style: context.buttonTextStyle()!.copyWith(
+                                    fontSize: 16,
+                                    color: AppColors.activeLabelItem,
+                                  ),
+                            ),
+                            const SizedBox(height: 10),
+                            Text(
+                              context.localize.t_add_video_content,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: context.buttonTextStyle()!.copyWith(
+                                    fontSize: 14,
+                                    color: Colors.white70,
+                                  ),
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),
