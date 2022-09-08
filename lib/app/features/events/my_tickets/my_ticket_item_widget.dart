@@ -77,7 +77,7 @@ class MyTicketItemWidget extends StatelessWidget {
 
   Widget _dateTimeWidget(BuildContext context) {
     return SizedBox(
-      width: 80,
+      width: 90,
       child: Column(
         children: [
           _dateWidget(context),
@@ -101,6 +101,8 @@ class MyTicketItemWidget extends StatelessWidget {
               DateFormat.MMMd(context.language?.locale).format(event.startDateTime!),
               style: context.headerStyle()?.copyWith(fontSize: AppFontSize.size16),
               textAlign: TextAlign.center,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
             )
           : Container(),
     );
