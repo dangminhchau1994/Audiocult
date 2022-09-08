@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:audio_cult/app/base/base_bloc.dart';
 import 'package:audio_cult/app/constants/global_constants.dart';
+import 'package:audio_cult/app/data_source/local/pref_provider.dart';
 import 'package:audio_cult/app/data_source/models/requests/event_request.dart';
 import 'package:audio_cult/app/data_source/models/responses/events/event_response.dart';
 import 'package:audio_cult/app/data_source/repositories/app_repository.dart';
@@ -26,7 +27,11 @@ class MyTicketsBloc extends BaseBloc {
     var index = 0;
     filters = GlobalConstants.getWhenList(context)
         .map(
-          (e) => MyTicketsTimeFilter(index: index++, title: e.keys.first, value: e.values.first),
+          (e) => MyTicketsTimeFilter(
+            index: index++,
+            title: e.keys.first,
+            value: e.values.first,
+          ),
         )
         .toList();
     _currentFilter = filters.first;

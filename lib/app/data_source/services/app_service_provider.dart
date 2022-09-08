@@ -1235,12 +1235,19 @@ class AppServiceProvider {
     return result;
   }
 
-  Future<LanguageResponse> getSupportedLanguages() async {
-    final result = await _dioHelper.get(
-      route: '/restful_api/language',
-      responseBodyMapper: (json) => LanguageResponse.fromJson(json as Map<String, dynamic>),
-    );
-    return result;
+  Future<List<Language>> getSupportedLanguages() async {
+    try {
+      final result = await _dioHelper.get(
+        route: '/restful_api/language',
+        responseBodyMapper: (json) {
+          final data = json['data'] as List<dynamic>;
+          return data.map((e) => Language.fromJson(e as Map<String, dynamic>)).toList();
+        },
+      );
+      return result;
+    } catch (_) {
+      return [];
+    }
   }
 
   Future<ProfileData> getMyUserInfo() async {

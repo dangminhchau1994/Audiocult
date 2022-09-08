@@ -644,8 +644,8 @@ class AppRepository extends BaseRepository {
     return safeCall(appServiceProvider.getAllTimezones);
   }
 
-  Future<Either<LanguageResponse, Exception>> getAllSupportedLanguages() async {
-    return safeCall(appServiceProvider.getSupportedLanguages);
+  Future<List<Language>> getAllSupportedLanguages() async {
+    return appServiceProvider.getSupportedLanguages();
   }
 
   Future<Either<ProfileData, Exception>> getMyUserInfo() {

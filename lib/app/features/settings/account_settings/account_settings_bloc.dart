@@ -49,9 +49,7 @@ class AccountSettingsBloc extends BaseBloc {
     this._appRepository,
     this._prefProvider,
     this._languageBloc,
-  ) {
-    loadUserProfile();
-  }
+  );
 
   void loadUserProfile() async {
     final userId = _prefProvider.currentUserId;
@@ -90,23 +88,20 @@ class AccountSettingsBloc extends BaseBloc {
     );
   }
 
-  void _loadAllSupportedLanguages() async {
-    final result = await _appRepository.getAllSupportedLanguages();
-    result.fold(
-      (l) {
-        _languages = l.languages;
-        _currentLanguage = _languages?.firstWhereOrNull(
-          (element) => element.languageId == _accountSettings?.languageId,
-        );
-        _loadLanguagesStreamController.sink.add(BlocState.success(Tuple2(
-          l.languages ?? [],
-          _currentLanguage ?? l.languages?.first,
-        )));
-      },
-      (r) {
-        _loadLanguagesStreamController.sink.add(BlocState.error(r.toString()));
-      },
-    );
+  Future<void> _loadAllSupportedLanguages() async {
+    try {
+      _languages = await _appRepository.getAllSupportedLanguages();
+      _currentLanguage = _languages?.firstWhereOrNull(
+        (element) => element.languageId == _accountSettings?.languageId,
+      );
+      _loadLanguagesStreamController.sink.add(
+        BlocState.success(
+          Tuple2(_languages ?? [], _currentLanguage ?? _languages?.first),
+        ),
+      );
+    } catch (e) {
+      _loadLanguagesStreamController.sink.add(BlocState.error(e.toString()));
+    }
   }
 
   void accountSettingsDataOnChanged(AccountSettings? account) {

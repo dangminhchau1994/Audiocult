@@ -195,7 +195,7 @@ class TicketDetailsWidget extends StatelessWidget {
 
   String _formatedDateTime(BuildContext context, {DateTime? dateTime}) {
     if (dateTime == null) return '';
-    return DateFormat.yMMMMd().add_jm().format(dateTime);
+    return DateFormat.yMMMMd(context.language?.locale).add_jm().format(dateTime);
   }
 
   Widget _statusTag({required String status, required String statusCode}) {

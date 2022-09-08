@@ -9,10 +9,8 @@ import 'package:audio_cult/app/features/settings/page_template_widgets/single_se
 import 'package:audio_cult/app/features/settings/page_template_widgets/textfield_widget.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
-import 'package:audio_cult/app/utils/route/app_route.dart';
 import 'package:audio_cult/app/utils/toast/toast_utils.dart';
 import 'package:audio_cult/di/bloc_locator.dart';
-import 'package:audio_cult/localized_widget_wrapper/language_widget.dart';
 import 'package:audio_cult/w_components/buttons/common_button.dart';
 import 'package:audio_cult/w_components/dropdown/common_dropdown.dart';
 import 'package:audio_cult/w_components/expandable_wrapper_widget.dart';
@@ -40,6 +38,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> with Auto
   @override
   void initState() {
     super.initState();
+    _bloc.loadUserProfile();
     _bloc.updateAccountStream.listen((event) {
       event.when(
         success: (data) {
@@ -50,8 +49,6 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> with Auto
             ToastUtility.showSuccess(context: context, message: response?.message);
             if (shouldBackHome) {
               Phoenix.rebirth(context);
-              // Navigator.of(context).pushReplacementNamed(AppRoute.routeMain);
-
             }
           } else {
             ToastUtility.showError(context: context, message: response?.error);
@@ -204,9 +201,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> with Auto
                     );
                   },
                   loading: LoadingWidget.new,
-                  error: (error) {
-                    return ErrorWidget(error);
-                  }) ??
+                  error: (_) => Container()) ??
               Container();
         }
         return Container();

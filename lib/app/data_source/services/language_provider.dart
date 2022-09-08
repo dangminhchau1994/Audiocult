@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:audio_cult/app/data_source/local/pref_provider.dart';
+import 'package:audio_cult/app/data_source/models/responses/language_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/localized_text.dart';
 import 'package:audio_cult/app/data_source/services/app_service_provider.dart';
 import 'package:audio_cult/app/data_source/services/assets_local_provider.dart';
@@ -14,6 +15,7 @@ class LanguageProvider {
   late AppServiceProvider _appServiceProvider;
   late LocalizedText? _localizedText;
   late PrefProvider? _prefProvider;
+  List<Language> allLanguages = [];
 
   final _localizedTextStreamController = StreamController<LocalizedText>.broadcast();
 

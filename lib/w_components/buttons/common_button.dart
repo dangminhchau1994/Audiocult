@@ -38,6 +38,7 @@ class CommonButton extends StatelessWidget {
           child: Text(
             text ?? '',
             style: context.buttonTextStyle()?.copyWith(color: colorText ?? Colors.white),
+            textAlign: TextAlign.center,
           ),
         ),
       ),
