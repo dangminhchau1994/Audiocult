@@ -89,9 +89,9 @@ class MyTicketsOfEventHeaderDelegate extends SliverPersistentHeaderDelegate {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(DateFormat.yMMMMd().add_jm().format(event.startDateTime!)),
+              Text(DateFormat.yMMMMd(context.language?.locale).add_jm().format(event.startDateTime!)),
               const SizedBox(height: 4),
-              Text(DateFormat.yMMMMd().add_jm().format(event.endDateTime!)),
+              Text(DateFormat.yMMMMd(context.language?.locale).add_jm().format(event.endDateTime!)),
             ],
           )
         else

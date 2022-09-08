@@ -98,7 +98,7 @@ class MyTicketItemWidget extends StatelessWidget {
       ),
       child: event.startDateTime != null
           ? Text(
-              DateFormat.MMMd().format(event.startDateTime!),
+              DateFormat.MMMd(context.language?.locale).format(event.startDateTime!),
               style: context.headerStyle()?.copyWith(fontSize: AppFontSize.size16),
               textAlign: TextAlign.center,
             )
@@ -118,7 +118,7 @@ class MyTicketItemWidget extends StatelessWidget {
           const SizedBox(width: 2),
           if (event.startDateTime != null)
             _fittedTextWidget(
-              DateFormat.jm().format(event.startDateTime!),
+              DateFormat.jm(context.language?.locale).format(event.startDateTime!),
               style: context.body2TextStyle()?.copyWith(color: AppColors.mainColor),
             )
           else

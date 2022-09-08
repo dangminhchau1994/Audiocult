@@ -137,7 +137,7 @@ class TicketWidget extends StatelessWidget {
 
   Widget _dateTimeWidget(BuildContext context, {DateTime? dateTime, bool? isFrom}) {
     if (dateTime == null) return Container();
-    final string = DateFormat.MMMd().add_jm().format(dateTime);
+    final string = DateFormat.MMMd(context.language?.locale).add_jm().format(dateTime);
     if (string.isEmpty == true) return Container();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

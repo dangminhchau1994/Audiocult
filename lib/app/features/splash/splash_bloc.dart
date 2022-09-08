@@ -9,20 +9,23 @@ enum StatePage { init, login, main }
 
 class SplashBloc extends BaseBloc {
   final PrefProvider _prefProvider;
-  final LanguageProvider _localizedTextProvider;
+  final LanguageProvider _languageProvider;
   // ignore: unused_field
   final AppRepository _appRepository;
   final checkLoginSubject = BehaviorSubject<StatePage>();
   SplashBloc(
     this._prefProvider,
     this._appRepository,
-    this._localizedTextProvider,
+    this._languageProvider,
   );
 
   void checkScreen() {
     initializeLocalizedTextData().then((value) {
       if (_prefProvider.isAuthenticated) {
-        checkLoginSubject.sink.add(StatePage.main);
+        _appRepository.getAllSupportedLanguages().then((languages) {
+          _languageProvider.allLanguages = languages;
+          checkLoginSubject.sink.add(StatePage.main);
+        });
       } else {
         checkLoginSubject.sink.add(StatePage.login);
       }
@@ -31,7 +34,7 @@ class SplashBloc extends BaseBloc {
 
   Future<void> initializeLocalizedTextData() async {
     final languageId = _prefProvider.languageId;
-    await _localizedTextProvider.initLocalizedText(languageId);
+    await _languageProvider.initLocalizedText(languageId);
   }
 
   @override
