@@ -65,7 +65,7 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   void jumpToMyTicket() async {
-    if (widget.fromPayment != null) {
+    if (widget.fromPayment != null && widget.fromPayment == true) {
       await Future.delayed(const Duration(milliseconds: 200));
 
       setState(() {
