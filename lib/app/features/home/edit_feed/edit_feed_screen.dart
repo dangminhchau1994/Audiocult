@@ -43,7 +43,7 @@ class EditFeedScreen extends StatefulWidget {
 class _EditFeedScreenState extends State<EditFeedScreen> {
   final CreatePostRequest _createPostRequest = CreatePostRequest();
   final Set<Marker> _markers = {};
-  final _listPrivacy = GlobalConstants.listPrivacy;
+  late List<SelectMenuModel> _listPrivacy;
   final RegisterBloc _registerBloc = RegisterBloc(locator.get(), locator.get());
   late FeedResponse? _result;
   late TextEditingController _textEditingController;
@@ -62,9 +62,14 @@ class _EditFeedScreenState extends State<EditFeedScreen> {
   void initState() {
     super.initState();
     _getCustomMarker();
-    _initData();
     _initRequest();
     _setFlags();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _initData();
   }
 
   void _initData() {
@@ -73,6 +78,7 @@ class _EditFeedScreenState extends State<EditFeedScreen> {
     _imagePath = widget.data?.statusBackground ?? '';
     _lat = widget.data?.locationLatlng?.latitude ?? 0.0;
     _lng = widget.data?.locationLatlng?.longitude ?? 0.0;
+    _listPrivacy = GlobalConstants.listPrivacy(context);
     _privacy = _listPrivacy[int.parse(widget.data?.privacy ?? '')];
   }
 
@@ -254,7 +260,7 @@ class _EditFeedScreenState extends State<EditFeedScreen> {
                                         hint: '',
                                         backgroundColor: Colors.transparent,
                                         noBorder: true,
-                                        data: GlobalConstants.listPrivacy,
+                                        data: GlobalConstants.listPrivacy(context),
                                         onChanged: (value) {
                                           setState(() {
                                             _privacy = value;
@@ -347,7 +353,7 @@ class _EditFeedScreenState extends State<EditFeedScreen> {
                               CommonButton(
                                 width: 110,
                                 color: AppColors.primaryButtonColor,
-                                text: 'Post',
+                                text: context.localize.t_post,
                                 onTap: () {
                                   getIt<EditFeedBloc>().editPost(_createPostRequest);
                                   Navigator.pop(context, _result);

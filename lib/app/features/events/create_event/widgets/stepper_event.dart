@@ -44,7 +44,7 @@ class _StepperEventState extends State<StepperEvent> {
             child: Padding(
               padding: const EdgeInsets.all(8),
               child: Text(
-                'STEP ${widget.currentStep} OF 5',
+                '${context.localize.t_step} ${widget.currentStep} ${context.localize.t_of} 5',
                 style: context.bodyTextStyle()?.copyWith(color: AppColors.subTitleColor),
               ),
             ))

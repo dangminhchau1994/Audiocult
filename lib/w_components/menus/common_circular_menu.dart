@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:audio_cult/app/utils/constants/app_assets.dart';
+import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:blur/blur.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -68,7 +69,7 @@ class _CommonCircularMenuState extends State<CommonCircularMenu> {
             });
             widget.onPostTap?.call();
           },
-          label: 'Posts',
+          label: context.localize.t_posts,
           icon: SvgPicture.asset(
             AppAssets.postIcon,
             color: Colors.white,
@@ -87,7 +88,7 @@ class _CommonCircularMenuState extends State<CommonCircularMenu> {
             });
             widget.onMusicTap?.call();
           },
-          label: 'Music',
+          label: context.localize.t_music,
         ),
         CircularMenuItem(
           isToogleButton: false,
@@ -102,7 +103,7 @@ class _CommonCircularMenuState extends State<CommonCircularMenu> {
             });
             widget.onEventTap?.call();
           },
-          label: 'Event',
+          label: context.localize.t_event,
         ),
       ],
     );

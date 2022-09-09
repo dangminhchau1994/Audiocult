@@ -344,6 +344,23 @@ class LocalizedText {
   late String t_audio_artist_category;
   late String t_favorite_genres_of_music;
   late String t_at;
+  late String t_unknown;
+  late String t_none;
+  late String t_one;
+  late String t_repeat;
+  late String t_posts;
+  late String t_event;
+  late String t_others;
+  late String t_and;
+  late String t_invite_friend_success;
+  late String t_submit_button;
+  late String t_search_email;
+  late String t_add_personal_message;
+  late String t_invite_friend_mail;
+  late String t_seperate_email;
+  late String t_deselected_all;
+  late String t_step;
+  late String t_of;
 
   LocalizedText.fromJson(Map<String, dynamic> json) {
     final iw = IW(json);
@@ -689,6 +706,23 @@ class LocalizedText {
     t_audio_artist_category = iw['t_audio_artist_categoryt'].get() ?? _undefined;
     t_favorite_genres_of_music = iw['t_favorite_genres_of_music'].get() ?? _undefined;
     t_at = iw['t_at'].get() ?? _undefined;
+    t_unknown = iw['t_unknown'].get() ?? _undefined;
+    t_none = iw['t_none'].get() ?? _undefined;
+    t_one = iw['t_one'].get() ?? _undefined;
+    t_repeat = iw['t_repeat'].get() ?? _undefined;
+    t_posts = iw['t_posts'].get() ?? _undefined;
+    t_event = iw['t_event'].get() ?? _undefined;
+    t_others = iw['t_others;'].get() ?? _undefined;
+    t_and = iw['t_and;'].get() ?? _undefined;
+    t_invite_friend_success = iw['t_invite_friend_success'].get() ?? _undefined;
+    t_submit_button = iw['t_submit_button'].get() ?? _undefined;
+    t_search_email = iw['t_search_email'].get() ?? _undefined;
+    t_add_personal_message = iw['t_add_personal_message'].get() ?? _undefined;
+    t_invite_friend_mail = iw['t_invite_friend_mail'].get() ?? _undefined;
+    t_seperate_email = iw['t_seperate_email'].get() ?? _undefined;
+    t_deselected_all = iw['t_deselected_all'].get() ?? _undefined;
+    t_step = iw['t_step'].get() ?? _undefined;
+    t_of = iw['t_of'].get() ?? _undefined;
   }
 }
 
