@@ -144,16 +144,18 @@ class _MyTicketsScreenState extends State<MyTicketsScreen> with AutomaticKeepAli
       stream: _bloc.ticketsStream,
       builder: (_, snapshot) {
         if (snapshot.data?.isNotEmpty == true) {
-          return ListView.builder(
-            padding: const EdgeInsets.only(bottom: 120),
-            itemCount: snapshot.data?.length,
-            itemBuilder: (context, index) {
-              final event = snapshot.data![index];
-              return MyTicketItemWidget(
-                event,
-                onTap: () => _listViewItemOnTap(event),
-              );
-            },
+          return RawScrollbar(
+            child: ListView.builder(
+              padding: const EdgeInsets.only(bottom: 120),
+              itemCount: snapshot.data?.length,
+              itemBuilder: (context, index) {
+                final event = snapshot.data![index];
+                return MyTicketItemWidget(
+                  event,
+                  onTap: () => _listViewItemOnTap(event),
+                );
+              },
+            ),
           );
         } else if (snapshot.data == null) {
           return const LoadingWidget();

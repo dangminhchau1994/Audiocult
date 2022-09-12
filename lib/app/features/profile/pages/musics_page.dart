@@ -65,7 +65,7 @@ class _MusicsPageState extends State<MusicsPage> {
       context: context,
       child: Padding(
         padding: const EdgeInsets.all(kVerticalSpacing),
-        child: Scrollbar(
+        child: RawScrollbar(
           child: PagedListView<int, Song>(
             scrollController: _scrollController,
             pagingController: _pagingController,

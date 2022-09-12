@@ -108,7 +108,8 @@ class _AlbumsScreenState extends State<AlbumsScreen> with AutomaticKeepAliveClie
               } else {
                 _pagingController.appendPage(data, _pagingController.firstPageKey + 1);
               }
-              return Scrollbar(
+              return RawScrollbar(
+                controller: ScrollController(),
                 child: PagedListView<int, Album>(
                   pagingController: _pagingController,
                   builderDelegate: PagedChildBuilderDelegate<Album>(

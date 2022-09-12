@@ -173,7 +173,8 @@ class _LibraryScreenState extends State<LibraryScreen> with AutomaticKeepAliveCl
                       } else {
                         _pagingController.appendPage(data, _pagingController.firstPageKey + 1);
                       }
-                      return Scrollbar(
+                      return RawScrollbar(
+                        controller: ScrollController(),
                         child: PagedListView<int, PlaylistResponse>.separated(
                           padding: const EdgeInsets.symmetric(
                             horizontal: 16,
