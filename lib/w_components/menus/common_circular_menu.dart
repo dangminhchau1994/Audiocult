@@ -55,7 +55,9 @@ class _CommonCircularMenuState extends State<CommonCircularMenu> {
               child: Blur(
                 blur: 10,
                 blurColor: AppColors.secondaryButtonColor,
-                child: Container(),
+                child: Container(
+                  color: AppColors.secondaryButtonColor.withOpacity(0.7),
+                ),
               ),
             )
           : null,
