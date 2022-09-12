@@ -135,7 +135,7 @@ class _PostPageState extends State<PostPage> {
                           child: Padding(
                             padding: const EdgeInsets.all(8),
                             child: Text(
-                              'Show All',
+                              context.localize.t_show_all,
                               style: context.bodyTextPrimaryStyle()!.copyWith(
                                     fontSize: 16,
                                     color: AppColors.lightBlue,

@@ -68,6 +68,9 @@ class _CheckoutTicketState extends State<CheckoutTicket> {
         ),
         content: CardPaymentPage(
           key: _cardPageKey,
+          bloc: widget.bloc,
+          username: widget.userName,
+          eventId: widget.eventId,
         ),
         isActive: _currentStep >= 1,
         state: validate(1),

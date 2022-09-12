@@ -1,3 +1,4 @@
+import 'package:audio_cult/app/features/ticket/payments/payment_tickets_bloc.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
@@ -5,7 +6,10 @@ import 'package:flutter_stripe/flutter_stripe.dart';
 import '../../../utils/toast/toast_utils.dart';
 
 class CardPaymentPage extends StatefulWidget {
-  const CardPaymentPage({Key? key}) : super(key: key);
+  final PaymentTicketsBloc? bloc;
+  final String? username;
+  final String? eventId;
+  const CardPaymentPage({Key? key, this.bloc, this.eventId, this.username}) : super(key: key);
 
   @override
   State<CardPaymentPage> createState() => CardPaymentPageState();
@@ -31,8 +35,13 @@ class CardPaymentPageState extends State<CardPaymentPage> {
         phone: data['phone'] as String,
         name: '${data['name_parts_0'] + data['name_parts_1']}',
       ); // mocked data for tests
+      final result = await widget.bloc!.getStripeAccount(widget.username, widget.eventId);
+      if (result != null) {
+        Stripe.publishableKey = result.stripePubkey!;
+      }
       _paymentMethod = await Stripe.instance.createPaymentMethod(
-          PaymentMethodParams.card(paymentMethodData: PaymentMethodData(billingDetails: billingDetails)));
+          PaymentMethodParams.card(paymentMethodData: PaymentMethodData(billingDetails: billingDetails)),
+          {'stripeAccountId': result?.stripeConnectedAccountId ?? ''});
     }
 
     return _paymentMethod!;
@@ -52,7 +61,6 @@ class CardPaymentPageState extends State<CardPaymentPage> {
                 ),
                 CardField(
                   controller: _cardEditController,
-                  onCardChanged: print,
                 ),
                 const SizedBox(
                   height: 16,

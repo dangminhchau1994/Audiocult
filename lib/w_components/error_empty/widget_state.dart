@@ -40,7 +40,7 @@ class EmptyDataStateWidget extends StatelessWidget {
             ),
             const SizedBox(height: kVerticalSpacing),
             Text(
-              message ?? 'Sorry, no result was found',
+              message ?? context.localize.t_no_results_found,
               style: context.body3TextStyle()?.copyWith(
                     color: Colors.white,
                     fontWeight: FontWeight.w700,
@@ -51,6 +51,7 @@ class EmptyDataStateWidget extends StatelessWidget {
             const SizedBox(height: 16),
             Text(
               context.localize.t_not_find_what_looking_for,
+              textAlign: TextAlign.center,
               style: context.body3TextStyle()?.copyWith(
                     color: Colors.grey,
                     fontSize: AppFontSize.size17,

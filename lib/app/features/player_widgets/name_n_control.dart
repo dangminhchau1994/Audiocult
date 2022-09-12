@@ -189,7 +189,8 @@ class _NameNControlsState extends State<NameNControls> {
                               );
                             },
                             child: AnimatedText(
-                              text: '${widget.mediaItem.artist ?? "Unknown"} • ${widget.mediaItem.album ?? "Unknown"}',
+                              text:
+                                  '${widget.mediaItem.artist ?? context.localize.t_unknown} • ${widget.mediaItem.album ?? context.localize.t_unknown}',
                               pauseAfterRound: const Duration(seconds: 3),
                               showFadingOnlyWhenScrolling: false,
                               fadingEdgeEndFraction: 0.1,
@@ -310,7 +311,11 @@ class _NameNControlsState extends State<NameNControls> {
                                 stream: widget.audioHandler.playbackState.map((state) => state.repeatMode).distinct(),
                                 builder: (context, snapshot) {
                                   final repeatMode = snapshot.data ?? AudioServiceRepeatMode.none;
-                                  const texts = ['None', 'All', 'One'];
+                                  final texts = [
+                                    context.localize.t_none,
+                                    context.localize.t_all,
+                                    context.localize.t_one
+                                  ];
                                   final icons = [
                                     Icon(Icons.repeat_rounded, color: AppColors.subTitleColor),
                                     const Icon(
@@ -328,7 +333,7 @@ class _NameNControlsState extends State<NameNControls> {
                                   final index = cycleModes.indexOf(repeatMode);
                                   return IconButton(
                                     icon: icons[index],
-                                    tooltip: 'Repeat ${texts[(index + 1) % texts.length]}',
+                                    tooltip: '${context.localize.t_repeat} ${texts[(index + 1) % texts.length]}',
                                     onPressed: () {
                                       // Hive.box('settings').put(
                                       //   'repeatMode',

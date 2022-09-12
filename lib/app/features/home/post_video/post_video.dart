@@ -78,7 +78,7 @@ class _PostVideoState extends State<PostVideo> with DisposableStateMixin, Automa
     super.initState();
     _getCustomMarker();
     _request.userId = widget.userId;
-    _privacy = GlobalConstants.listPrivacy[0];
+    _privacy = GlobalConstants.listPrivacy(context)[0];
     getIt.get<HomeBloc>().uploadVideoStream.listen((data) {
       Navigator.pop(context, true);
     }).disposeOn(disposeBag);
@@ -247,7 +247,7 @@ class _PostVideoState extends State<PostVideo> with DisposableStateMixin, Automa
                                 hint: '',
                                 backgroundColor: Colors.transparent,
                                 noBorder: true,
-                                data: GlobalConstants.listPrivacy,
+                                data: GlobalConstants.listPrivacy(context),
                                 onChanged: (value) {
                                   setState(() {
                                     _privacy = value;
@@ -318,7 +318,7 @@ class _PostVideoState extends State<PostVideo> with DisposableStateMixin, Automa
                         CommonButton(
                           width: 110,
                           color: AppColors.primaryButtonColor,
-                          text: 'Post',
+                          text: context.localize.t_post,
                           onTap: () async {
                             _request.video = _video;
                             _request.title = _videoTitle;

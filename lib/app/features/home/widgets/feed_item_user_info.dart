@@ -18,11 +18,14 @@ class FeedItemUserInfo extends StatelessWidget {
 
   final FeedResponse? data;
 
-  String getFriendTagged(FeedResponse data) {
+  String getFriendTagged(FeedResponse data, BuildContext context) {
     if (data.friendsTagged != null) {
-      final otherFriends = data.friendsTagged!.length > 1 ? '${data.friendsTagged!.length - 1} others' : '';
-      final friendTagged = data.friendsTagged!.length > 1 ? ' and $otherFriends' : '';
-      return data.friendsTagged!.isNotEmpty ? 'with ${data.friendsTagged?[0].fullName} $friendTagged' : '';
+      final otherFriends =
+          data.friendsTagged!.length > 1 ? '${data.friendsTagged!.length - 1} ${context.localize.t_others}' : '';
+      final friendTagged = data.friendsTagged!.length > 1 ? ' ${context.localize.t_and} $otherFriends' : '';
+      return data.friendsTagged!.isNotEmpty
+          ? '${context.localize.t_with} ${data.friendsTagged?[0].fullName} $friendTagged'
+          : '';
     }
     return '';
   }
@@ -86,7 +89,7 @@ class FeedItemUserInfo extends StatelessWidget {
                         const TextSpan(text: ' '),
                         TextSpan(text: data?.feedInfo ?? ''),
                         const TextSpan(text: ' '),
-                        TextSpan(text: getFriendTagged(data!)),
+                        TextSpan(text: getFriendTagged(data!, context)),
                       ],
                     ),
                   ),
@@ -97,7 +100,7 @@ class FeedItemUserInfo extends StatelessWidget {
                         style: DefaultTextStyle.of(context).style,
                         children: <TextSpan>[
                           TextSpan(
-                            text: 'at ',
+                            text: '${context.localize.t_at} ',
                             style: context.buttonTextStyle()!.copyWith(
                                   fontSize: 16,
                                   color: Colors.white,

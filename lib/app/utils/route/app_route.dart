@@ -2,6 +2,7 @@ import 'package:audio_cult/app/data_source/models/requests/event_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/filter_users_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/my_diary_event_request.dart';
 import 'package:audio_cult/app/data_source/models/responses/comment/comment_response.dart';
+import 'package:audio_cult/app/data_source/models/responses/events/event_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/feed/feed_response.dart';
 import 'package:audio_cult/app/data_source/repositories/app_repository.dart';
 import 'package:audio_cult/app/features/atlas/subscribe_user_bloc.dart';
@@ -16,6 +17,7 @@ import 'package:audio_cult/app/features/events/calendar/calendar_screen.dart';
 import 'package:audio_cult/app/features/events/create_event/create_event_screen.dart';
 import 'package:audio_cult/app/features/events/detail/event_detail_screen.dart';
 import 'package:audio_cult/app/features/events/filter/filter_event_screen.dart';
+import 'package:audio_cult/app/features/events/my_tickets_of_event/my_tickets_of_event_screen.dart';
 import 'package:audio_cult/app/features/events/result/result_screen.dart';
 import 'package:audio_cult/app/features/home/edit_feed/edit_feed_screen.dart';
 import 'package:audio_cult/app/features/home/home_create_post.dart';
@@ -60,7 +62,6 @@ import 'package:provider/provider.dart';
 import '../../data_source/models/responses/video_data.dart';
 import '../../features/auth/create_new_password/create_new_password_screen.dart';
 import '../../features/events/map/map_screen.dart';
-import '../../features/music/featured_albums/featured_album_screen.dart';
 import '../../features/music/search/search_args.dart';
 import '../../features/music/search/search_screen.dart';
 import '../../features/music/top_song/top_song_screen.dart';
@@ -120,6 +121,7 @@ class AppRoute {
   static const String routePaymentTicket = '/route_payment_ticket';
   static const String routeTicketCart = '/route_ticket_cart';
   static const String routeMyCartTicket = '/route_my_cart_ticket';
+  static const String routeMyTicketsOfEvent = '/my_tickets_of_event';
 
   ///#end region
 
@@ -432,6 +434,9 @@ class AppRoute {
             MyCartTicket(
               params: asType(settings.arguments) as Map<String, dynamic>,
             ));
+      case routeMyTicketsOfEvent:
+        final event = asType<EventResponse>(settings.arguments)!;
+        return _pageRoute(settings, MyTicketsOfEventScreen(event));
       default:
         return null;
     }

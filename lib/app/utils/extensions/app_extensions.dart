@@ -1,6 +1,9 @@
+import 'package:audio_cult/app/data_source/local/pref_provider.dart';
+import 'package:audio_cult/app/data_source/models/responses/language_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/localized_text.dart';
 import 'package:audio_cult/app/data_source/services/language_provider.dart';
 import 'package:audio_cult/app/injections.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 
 import '../constants/app_font_sizes.dart';
@@ -74,4 +77,12 @@ extension AppTextExtension on BuildContext {
 
 extension LocalizedTextExtension on BuildContext {
   LocalizedText get localize => locator.get<LanguageProvider>().localizedText;
+}
+
+extension LanguageExtension on BuildContext {
+  Language? get language {
+    final languages = locator.get<LanguageProvider>().allLanguages;
+    final languageId = locator.get<PrefProvider>().languageId;
+    return languages.firstWhereOrNull((element) => element.languageId == languageId);
+  }
 }

@@ -338,7 +338,7 @@ class AppServiceProvider {
     );
   }
 
-  Future<List<EventResponse>> getEvents(EventRequest request) async {
+  Future<List<EventResponse>> getEvents(EventRequest request, {bool? hasTicket}) async {
     final response = await _dioHelper.get(
       route: '/restful_api/event',
       options: Options(headers: {'Content-Type': 'application/x-www-form-urlencoded'}),
@@ -358,7 +358,8 @@ class AppServiceProvider {
         'sort': request.sort,
         'page': request.page,
         'limit': request.limit,
-        'user_id': request.userId
+        'user_id': request.userId,
+        'is_buyed': hasTicket
       },
     );
     return response.mapData(
@@ -1246,12 +1247,19 @@ class AppServiceProvider {
     return result;
   }
 
-  Future<LanguageResponse> getSupportedLanguages() async {
-    final result = await _dioHelper.get(
-      route: '/restful_api/language',
-      responseBodyMapper: (json) => LanguageResponse.fromJson(json as Map<String, dynamic>),
-    );
-    return result;
+  Future<List<Language>> getSupportedLanguages() async {
+    try {
+      final result = await _dioHelper.get(
+        route: '/restful_api/language',
+        responseBodyMapper: (json) {
+          final data = json['data'] as List<dynamic>;
+          return data.map((e) => Language.fromJson(e as Map<String, dynamic>)).toList();
+        },
+      );
+      return result;
+    } catch (_) {
+      return [];
+    }
   }
 
   Future<ProfileData> getMyUserInfo() async {
@@ -1420,5 +1428,14 @@ class AppServiceProvider {
       },
     );
     return result;
+  }
+
+  Future<BaseRes> getAllMyTickets({String? eventId}) async {
+    final response = await _dioHelper.get(
+      route: '/restful_api/event/ticket',
+      requestParams: {'event_id': eventId},
+      responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
+    );
+    return response;
   }
 }

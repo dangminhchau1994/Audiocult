@@ -1,6 +1,6 @@
 import 'package:audio_cult/app/features/events/my_diary/my_diary_screen.dart';
+import 'package:audio_cult/app/features/events/my_tickets/my_tickets_screen.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_tab_bar/indicator/custom_indicator.dart';
 
@@ -13,14 +13,21 @@ class EventScreen extends StatefulWidget {
   const EventScreen({Key? key}) : super(key: key);
 
   @override
-  State<EventScreen> createState() => _EventScreenState();
+  State<EventScreen> createState() => EventScreenState();
 }
 
-class _EventScreenState extends State<EventScreen> {
+class EventScreenState extends State<EventScreen> {
   final _pageController = PageController();
   final _tabController = CustomTabBarController();
   final _pageCount = 4;
   var _currentIndex = 0;
+
+  void startWithTicket() {
+    setState(() {
+      _currentIndex = 2;
+      _pageController.jumpToPage(2);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +79,7 @@ class _EventScreenState extends State<EventScreen> {
             case 1:
               return const MyDiaryScreen();
             case 2:
-              return const SizedBox();
+              return MyTicketsScreen(emptyPageAction: () => _pageController.jumpToPage(0));
             case 3:
               return const SizedBox();
             default:

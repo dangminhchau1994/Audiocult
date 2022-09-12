@@ -6,7 +6,6 @@ import 'package:audio_cult/app/features/events/detail/invite_friend_checked_item
 import 'package:audio_cult/app/features/events/detail/invite_friend_item.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
-import 'package:audio_cult/l10n/l10n.dart';
 import 'package:audio_cult/w_components/buttons/common_button.dart';
 import 'package:audio_cult/w_components/buttons/w_button_inkwell.dart';
 import 'package:flutter/material.dart';
@@ -41,7 +40,7 @@ class _InviteFriendDialogState extends State<InviteFriendDialog> {
     super.initState();
     _initData();
     widget.bloc?.inviteFriendStream.listen((event) {
-      ToastUtility.showSuccess(context: context, message: context.l10n.t_invite_friend_success);
+      ToastUtility.showSuccess(context: context, message: context.localize.t_invite_friend_success);
       Navigator.pop(context);
       widget.bloc?.getInvitation(GetInvitationRequest(
         itemId: widget.eventId,
@@ -128,7 +127,7 @@ class _InviteFriendDialogState extends State<InviteFriendDialog> {
   Widget _buildSubmitButton() {
     return CommonButton(
       color: AppColors.primaryButtonColor,
-      text: context.l10n.t_submit_button,
+      text: context.localize.t_submit_button,
       onTap: _checkedUsers
                   .firstWhere((element) => element.isChecked == true, orElse: EventInvitationResponse.new)
                   .isChecked ==
@@ -140,14 +139,14 @@ class _InviteFriendDialogState extends State<InviteFriendDialog> {
 
   Widget _buildSearch() {
     return CommonInput(
-      hintText: context.l10n.t_search_email,
+      hintText: context.localize.t_search_email,
       onChanged: _runFilter,
     );
   }
 
   Widget _buildInviteFriend() {
     return Text(
-      context.l10n.t_invite_friend,
+      context.localize.t_invite_friend,
       style: context.bodyTextPrimaryStyle()!.copyWith(
             color: Colors.white,
             fontSize: 16,
@@ -160,7 +159,7 @@ class _InviteFriendDialogState extends State<InviteFriendDialog> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          context.l10n.t_add_personal_message,
+          context.localize.t_add_personal_message,
           style: context.bodyTextPrimaryStyle()!.copyWith(
                 color: Colors.white,
                 fontSize: 16,
@@ -182,7 +181,7 @@ class _InviteFriendDialogState extends State<InviteFriendDialog> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          context.l10n.t_invite_friend_mail,
+          context.localize.t_invite_friend_mail,
           style: context.bodyTextPrimaryStyle()!.copyWith(
                 color: Colors.white,
                 fontSize: 16,
@@ -191,7 +190,7 @@ class _InviteFriendDialogState extends State<InviteFriendDialog> {
         const SizedBox(height: 8),
         CommonInput(
           maxLine: 3,
-          hintText: context.l10n.t_seperate_email,
+          hintText: context.localize.t_seperate_email,
           onChanged: (value) {
             _request.emails = value;
           },
@@ -212,7 +211,7 @@ class _InviteFriendDialogState extends State<InviteFriendDialog> {
           }
         },
         child: Text(
-          '${context.l10n.t_deselected_all} (${_checkedUsers.where((element) => element.isChecked == true).toList().length})',
+          '${context.localize.t_deselected_all} (${_checkedUsers.where((element) => element.isChecked == true).toList().length})',
           style: context.bodyTextPrimaryStyle()!.copyWith(
                 color: AppColors.activeLabelItem,
                 fontSize: 16,
@@ -250,7 +249,7 @@ class _InviteFriendDialogState extends State<InviteFriendDialog> {
           )
         else
           Text(
-            context.l10n.t_no_data,
+            context.localize.t_no_data,
             style: context.bodyTextPrimaryStyle()!.copyWith(
                   color: Colors.white,
                   fontSize: 16,

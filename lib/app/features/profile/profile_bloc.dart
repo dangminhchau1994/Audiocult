@@ -49,9 +49,10 @@ class ProfileBloc extends BaseBloc<ProfileRequest, ProfileData> {
     });
   }
 
-  void subscribeUser(AtlasUser user) async {
+  void subscribeUser(AtlasUser user, {Function()? updatedUser}) async {
     showOverLayLoading();
     final result = await _appRepository.subscribeUser(user);
+    updatedUser?.call();
     hideOverlayLoading();
     result.fold(
       (subscribeResponse) {

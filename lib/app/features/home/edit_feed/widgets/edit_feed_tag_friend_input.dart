@@ -27,7 +27,7 @@ class EditFeedTagFriendInput extends StatelessWidget {
       child: Row(
         children: [
           Text(
-            'with: ',
+            '${context.localize.t_with}: ',
             style: context.bodyTextStyle()?.copyWith(
                   color: Colors.white,
                   fontSize: 16,

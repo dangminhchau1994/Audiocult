@@ -36,6 +36,7 @@ class ReviewOrderPageState extends State<ReviewOrderPage> {
             padding: const EdgeInsets.all(8),
             child: SingleChildScrollView(
               child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(
                     height: 16,
@@ -91,8 +92,10 @@ class ReviewOrderPageState extends State<ReviewOrderPage> {
                   CardInfoHeader(
                     title: 'Contact information',
                     child: Container(
+                    alignment: Alignment.centerLeft,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Text(
                             'Name',

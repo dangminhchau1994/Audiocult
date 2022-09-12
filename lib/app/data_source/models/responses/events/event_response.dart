@@ -26,6 +26,9 @@ class EventResponse {
   String? timeStamp;
   String? startTime;
   String? endTime;
+  String? startTimeString;
+  String? endTimeString;
+  String? timeStampString;
   String? imagePath;
   String? totalComment;
   String? totalLike;
@@ -63,6 +66,9 @@ class EventResponse {
       this.timeStamp,
       this.startTime,
       this.endTime,
+      this.startTimeString,
+      this.endTimeString,
+      this.timeStampString,
       this.imagePath,
       this.totalComment,
       this.totalLike,
@@ -85,6 +91,14 @@ class EventResponse {
     final dateTime = DateTime.fromMillisecondsSinceEpoch(int.parse(startTime!) * 1000);
     final dateTimeFromStr = DateFormat('MMM dd, yyyy hh:mm a').format(dateTime);
     return dateTimeFromStr;
+  }
+
+  DateTime? get startDateTime {
+    return DateTime.tryParse(startTimeString ?? '');
+  }
+
+  DateTime? get endDateTime {
+    return DateTime.tryParse(endTimeString ?? '');
   }
 }
 

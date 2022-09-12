@@ -14,6 +14,7 @@ import 'package:audio_cult/app/features/home/post_status/widgets/status_tag_frie
 import 'package:audio_cult/app/features/music/my_album/upload_song/upload_song_bloc.dart';
 import 'package:audio_cult/app/injections.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
+import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/di/bloc_locator.dart';
 import 'package:audio_cult/w_components/buttons/common_button.dart';
 import 'package:audio_cult/w_components/buttons/w_button_inkwell.dart';
@@ -58,7 +59,6 @@ class _PostStatusState extends State<PostStatus> with DisposableStateMixin, Auto
   void initState() {
     super.initState();
     _createPostRequest.userId = widget.userId;
-    _privacy = GlobalConstants.listPrivacy[0];
     _imagePath = '';
     _showListBackground = false;
     _showTagFriends = false;
@@ -73,6 +73,12 @@ class _PostStatusState extends State<PostStatus> with DisposableStateMixin, Auto
   void dispose() {
     super.dispose();
     _controller?.dispose();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _privacy = GlobalConstants.listPrivacy(context)[0];
   }
 
   void _getCustomMarker() {
@@ -211,7 +217,7 @@ class _PostStatusState extends State<PostStatus> with DisposableStateMixin, Auto
                                       hint: '',
                                       backgroundColor: Colors.transparent,
                                       noBorder: true,
-                                      data: GlobalConstants.listPrivacy,
+                                      data: GlobalConstants.listPrivacy(context),
                                       onChanged: (value) {
                                         setState(() {
                                           _privacy = value;
@@ -286,7 +292,7 @@ class _PostStatusState extends State<PostStatus> with DisposableStateMixin, Auto
                             CommonButton(
                               width: 110,
                               color: AppColors.primaryButtonColor,
-                              text: 'Post',
+                              text: context.localize.t_post,
                               onTap: () {
                                 getIt.get<HomeBloc>().postStatus(_createPostRequest);
                               },

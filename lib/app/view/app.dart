@@ -75,7 +75,6 @@ class _AppState extends State<App> with AfterLayoutMixin<App> {
             try {
               Navigator.pushNamed(navigatorKey.currentState!.context, AppRoute.routeResetPassword, arguments: hashId);
             } catch (e) {
-              print(e);
             }
           }
         }

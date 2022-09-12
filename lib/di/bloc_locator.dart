@@ -12,6 +12,8 @@ import 'package:audio_cult/app/features/events/all_event_bloc.dart';
 import 'package:audio_cult/app/features/events/calendar/calendar_bloc.dart';
 import 'package:audio_cult/app/features/events/detail/event_detail_bloc.dart';
 import 'package:audio_cult/app/features/events/my_diary/my_diary_bloc.dart';
+import 'package:audio_cult/app/features/events/my_tickets/my_tickets_bloc.dart';
+import 'package:audio_cult/app/features/events/my_tickets_of_event/my_tickets_of_event_bloc.dart';
 import 'package:audio_cult/app/features/events/result/result_bloc.dart';
 import 'package:audio_cult/app/features/home/edit_feed/edit_feed_bloc.dart';
 import 'package:audio_cult/app/features/home/home_bloc.dart';
@@ -183,6 +185,8 @@ void setupLocator() {
 
   getIt.registerFactory<SearchSuggestionBloc>(SearchSuggestionBloc.new);
 
+  getIt.registerFactory<MyTicketsOfEventBloc>(() => MyTicketsOfEventBloc(locator.get<AppRepository>()));
+
   getIt.registerLazySingleton(() => MyCartBloc(locator.get<AppRepository>()));
 
   getIt.registerLazySingleton(
@@ -191,4 +195,6 @@ void setupLocator() {
       localizedTextProvider: locator.get<LanguageProvider>(),
     ),
   );
+
+  getIt.registerLazySingleton(() => MyTicketsBloc(locator.get<AppRepository>()));
 }

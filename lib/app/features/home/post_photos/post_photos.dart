@@ -79,7 +79,7 @@ class _PostPhotosState extends State<PostPhotos> with DisposableStateMixin, Auto
     super.initState();
     _getCustomMarker();
     _uploadPhotoRequest.userId = widget.userId;
-    _privacy = GlobalConstants.listPrivacy[0];
+    _privacy = GlobalConstants.listPrivacy(context)[0];
     getIt.get<HomeBloc>().uploadPhotoStream.listen((data) {
       Navigator.pop(context, true);
     }).disposeOn(disposeBag);
@@ -291,7 +291,7 @@ class _PostPhotosState extends State<PostPhotos> with DisposableStateMixin, Auto
                                   hint: '',
                                   backgroundColor: Colors.transparent,
                                   noBorder: true,
-                                  data: GlobalConstants.listPrivacy,
+                                  data: GlobalConstants.listPrivacy(context),
                                   onChanged: (value) {
                                     setState(() {
                                       _privacy = value;
@@ -364,7 +364,7 @@ class _PostPhotosState extends State<PostPhotos> with DisposableStateMixin, Auto
                           CommonButton(
                             width: 110,
                             color: AppColors.primaryButtonColor,
-                            text: 'Post',
+                            text: context.localize.t_post,
                             onTap: () async {
                               _uploadPhotoRequest.images = _listImages;
                               if (_listImages.length > 10) {

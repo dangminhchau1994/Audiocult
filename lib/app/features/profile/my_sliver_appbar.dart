@@ -29,14 +29,17 @@ class MySliverAppBar extends StatefulWidget {
   final ProfileData? profile;
   final Function(XFile image)? onPicKImage;
   final Function()? onBlockUser;
-  const MySliverAppBar({
-    Key? key,
-    this.controller,
-    this.tabController,
-    this.profile,
-    this.onPicKImage,
-    this.onBlockUser,
-  }) : super(key: key);
+  final Function()? onUpdateUser;
+
+  const MySliverAppBar(
+      {Key? key,
+      this.controller,
+      this.tabController,
+      this.profile,
+      this.onPicKImage,
+      this.onBlockUser,
+      this.onUpdateUser})
+      : super(key: key);
 
   @override
   State<MySliverAppBar> createState() => _MySliverAppBarState();
@@ -225,18 +228,22 @@ class _MySliverAppBarState extends State<MySliverAppBar> {
                 GestureDetector(
                     onTap: () {
                       Navigator.pushNamed(context, AppRoute.routeSubscriptions,
-                          arguments: {'user_id': widget.profile?.userId, 'title': 'Subscribers'});
+                          arguments: {'user_id': widget.profile?.userId, 'title': context.localize.t_subscribers});
                     },
-                    child: Text('${widget.profile?.totalSubscribers ?? 0} subscribers')),
+                    child: Text(
+                        '${widget.profile?.totalSubscribers ?? 0} ${(widget.profile?.totalSubscribers ?? 0) > 1 ? context.localize.t_subscribers : context.localize.t_subscriber}')),
                 const SizedBox(
                   width: kHorizontalSpacing,
                 ),
                 GestureDetector(
                     onTap: () {
-                      Navigator.pushNamed(context, AppRoute.routeSubscriptions,
-                          arguments: {'title': 'Subscribed', 'user_id': widget.profile?.userId, 'get_subscribed': '1'});
+                      Navigator.pushNamed(context, AppRoute.routeSubscriptions, arguments: {
+                        'title': context.localize.t_subscribed,
+                        'user_id': widget.profile?.userId,
+                        'get_subscribed': '1'
+                      });
                     },
-                    child: Text('${widget.profile?.totalSubscriptions ?? 0} subscribed')),
+                    child: Text('${widget.profile?.totalSubscriptions ?? 0} ${context.localize.t_subscribed}')),
               ],
             ),
           ),
@@ -271,7 +278,9 @@ class _MySliverAppBarState extends State<MySliverAppBar> {
                             final atlasUser = AtlasUser();
                             atlasUser.userId = widget.profile?.userId;
                             atlasUser.isSubscribed = isSubscribe == 1;
-                            _profileBloc?.subscribeUser(atlasUser);
+                            _profileBloc?.subscribeUser(atlasUser, updatedUser: () {
+                              widget.onUpdateUser?.call();
+                            });
                           },
                         );
                       }),

@@ -19,8 +19,9 @@ class PlayerScreen extends StatefulWidget {
   @override
   State<PlayerScreen> createState() => _PlayerScreenState();
 
-  static Map<String, dynamic> createArguments({required List<Song> listSong, required int index}) =>
-      {'listSong': listSong, 'index': index};
+  static Map<String, dynamic> createArguments(
+          {required List<Song> listSong, required int index, bool fromMini = false}) =>
+      {'listSong': listSong, 'index': index, 'from_mini': fromMini};
 }
 
 class _PlayerScreenState extends State<PlayerScreen> {
@@ -30,17 +31,20 @@ class _PlayerScreenState extends State<PlayerScreen> {
   List<Song> response = [];
   GlobalKey<FlipCardState> cardKey = GlobalKey<FlipCardState>();
   final PanelController _panelController = PanelController();
-
+  bool fromMiniplayer = false;
   @override
   void initState() {
     super.initState();
     globalIndex = widget.params['index'] as int;
     response = widget.params['listSong'] as List<Song>;
-    if (!Platform.isAndroid) {
-      // Don't know why but it fixes the playback issue with iOS Side
-      audioHandler.stop();
+    fromMiniplayer = widget.params['from_mini'] as bool;
+    if (!fromMiniplayer) {
+      if (!Platform.isAndroid) {
+        // Don't know why but it fixes the playback issue with iOS Side
+        audioHandler.stop();
+      }
+      playMusic();
     }
-    playMusic();
   }
 
   void playMusic() async {

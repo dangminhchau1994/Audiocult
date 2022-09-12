@@ -42,7 +42,7 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
       length: 5,
       vsync: this,
     );
-    _profileBloc?.requestData(params: ProfileRequest(userId: widget.params['userId'] as String,query: 'info'));
+    _profileBloc?.requestData(params: ProfileRequest(userId: widget.params['userId'] as String, query: 'info'));
     _profileBloc?.blockUserStream.listen((event) {
       Navigator.pop(context);
     });
@@ -73,6 +73,10 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
                         controller: _scrollController,
                         tabController: _tabController,
                         profile: data,
+                        onUpdateUser: () {
+                          _profileBloc?.requestData(
+                              params: ProfileRequest(userId: widget.params['userId'] as String, query: 'info'));
+                        },
                         onPicKImage: (value) {
                           _profileBloc?.uploadAvatar(value);
                         },
