@@ -50,7 +50,7 @@ class _TermsScreenState extends State<TermsScreen> {
               success: (data) {
                 final terms = data as TermsResponse;
 
-                return Scrollbar(
+                return RawScrollbar(
                   child: ListView(
                     children: [
                       Html(

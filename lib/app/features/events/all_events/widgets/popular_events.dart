@@ -109,7 +109,7 @@ class _PopularEventsState extends State<PopularEvents> {
                     } else {
                       _pagingController.appendPage(data, _pagingController.firstPageKey + 1);
                     }
-                    return Scrollbar(
+                    return RawScrollbar(
                       child: PagedListView<int, EventResponse>.separated(
                         scrollDirection: Axis.horizontal,
                         shrinkWrap: true,

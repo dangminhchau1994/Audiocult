@@ -64,7 +64,7 @@ class _CalendarEventListState extends State<CalendarEventList> {
             } else {
               widget.pagingController?.appendPage(data, widget.pagingController!.firstPageKey + 1);
             }
-            return Scrollbar(
+            return RawScrollbar(
               child: PagedListView<int, EventResponse>.separated(
                 shrinkWrap: true,
                 padding: const EdgeInsets.symmetric(

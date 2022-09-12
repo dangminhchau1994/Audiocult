@@ -103,7 +103,7 @@ class _EventPopUpState extends State<EventPopUp> {
             } else {
               _pagingController.appendPage(data, _pagingController.firstPageKey + 1);
             }
-            return Scrollbar(
+            return RawScrollbar(
               child: PagedListView<int, EventResponse>.separated(
                 shrinkWrap: true,
                 scrollDirection: Axis.horizontal,

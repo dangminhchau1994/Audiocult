@@ -65,7 +65,7 @@ class CommentList extends StatelessWidget {
             } else {
               pagingController?.appendPage(data, pagingController!.firstPageKey + 1);
             }
-            return Scrollbar(
+            return RawScrollbar(
               child: Padding(
                   padding: const EdgeInsets.only(bottom: 120),
                   child: StreamBuilder<PagingController<int, CommentResponse>>(
