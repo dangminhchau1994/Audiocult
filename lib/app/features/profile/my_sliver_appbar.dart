@@ -29,14 +29,17 @@ class MySliverAppBar extends StatefulWidget {
   final ProfileData? profile;
   final Function(XFile image)? onPicKImage;
   final Function()? onBlockUser;
-  const MySliverAppBar({
-    Key? key,
-    this.controller,
-    this.tabController,
-    this.profile,
-    this.onPicKImage,
-    this.onBlockUser,
-  }) : super(key: key);
+  final Function()? onUpdateUser;
+
+  const MySliverAppBar(
+      {Key? key,
+      this.controller,
+      this.tabController,
+      this.profile,
+      this.onPicKImage,
+      this.onBlockUser,
+      this.onUpdateUser})
+      : super(key: key);
 
   @override
   State<MySliverAppBar> createState() => _MySliverAppBarState();
@@ -275,7 +278,9 @@ class _MySliverAppBarState extends State<MySliverAppBar> {
                             final atlasUser = AtlasUser();
                             atlasUser.userId = widget.profile?.userId;
                             atlasUser.isSubscribed = isSubscribe == 1;
-                            _profileBloc?.subscribeUser(atlasUser);
+                            _profileBloc?.subscribeUser(atlasUser, updatedUser: () {
+                              widget.onUpdateUser?.call();
+                            });
                           },
                         );
                       }),
