@@ -154,20 +154,8 @@ class GlobalConstants {
     return [
       PopupMenuItem<int>(
         value: 0,
-        child: Row(
-          children: [
-            SvgPicture.asset(
-              AppAssets.addPlaylistIcon,
-              width: 14,
-              height: 14,
-            ),
-            const SizedBox(
-              width: 10,
-            ),
-            Text(
-              context.localize.t_add_playlist,
-            )
-          ],
+        child: Text(
+          context.localize.t_remove_from_playlist,
         ),
       ),
       // PopupMenuItem<int>(

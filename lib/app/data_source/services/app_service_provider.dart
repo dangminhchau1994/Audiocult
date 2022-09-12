@@ -12,6 +12,7 @@ import 'package:audio_cult/app/data_source/models/requests/invite_friend_request
 import 'package:audio_cult/app/data_source/models/requests/my_diary_event_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/notification_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/register_request.dart';
+import 'package:audio_cult/app/data_source/models/requests/remove_song_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/report_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/top_song_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/upload_photo_request.dart';
@@ -99,6 +100,17 @@ class AppServiceProvider {
       route: '/restful_api/token',
     );
     return LoginResponse.fromJson(response as Map<String, dynamic>);
+  }
+
+  Future<BaseRes> removeSongFromPlaylist(RemoveSongRequest request) async {
+    final params = await request.toJson();
+
+    final response = await _dioHelper.post(
+        route: '/restful_api/playlist/remove-songs',
+        responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
+        requestBody: FormData.fromMap(params));
+
+    return response.mapData((json) => BaseRes.fromJson(json as Map<String, dynamic>));
   }
 
   Future<PlaylistResponse> addToPlayList(

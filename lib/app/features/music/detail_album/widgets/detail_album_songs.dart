@@ -60,6 +60,7 @@ class _DetailAlbumSongsState extends State<DetailAlbumSongs> {
                                 song: songs[index],
                                 songs: songs,
                                 index: index,
+                                hasMenu: false,
                                 fromDetail: true,
                               );
                             },

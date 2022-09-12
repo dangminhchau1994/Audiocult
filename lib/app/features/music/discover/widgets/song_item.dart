@@ -1,15 +1,11 @@
 import 'package:audio_cult/app/constants/global_constants.dart';
-import 'package:audio_cult/app/features/music/playlist_dialog.dart';
 import 'package:audio_cult/app/utils/datetime/date_time_utils.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/app/utils/toast/toast_utils.dart';
-
 import 'package:audio_cult/w_components/buttons/w_button_inkwell.dart';
 import 'package:audio_cult/w_components/images/common_image_network.dart';
 import 'package:audio_cult/w_components/menus/common_popup_menu.dart';
 import 'package:flutter/material.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-
 import '../../../../data_source/models/responses/song/song_response.dart';
 import '../../../../utils/constants/app_colors.dart';
 import '../../../../utils/route/app_route.dart';
@@ -26,6 +22,7 @@ class SongItem extends StatelessWidget {
     this.index,
     this.customizeMenu,
     this.currency,
+    this.removeFromPlaylist,
   }) : super(key: key);
 
   final Song? song;
@@ -36,6 +33,7 @@ class SongItem extends StatelessWidget {
   final int? index;
   final Widget? customizeMenu;
   final String? currency;
+  final Function()? removeFromPlaylist;
 
   @override
   Widget build(BuildContext context) {
@@ -130,14 +128,16 @@ class SongItem extends StatelessWidget {
                   onSelected: (selected) {
                     switch (selected) {
                       case 0:
-                        Navigator.pushNamed(
-                          context,
-                          AppRoute.routeLibrary,
-                          arguments: {
-                            'has_app_bar': true,
-                            'song_id': song?.songId,
-                          },
-                        );
+                        fromDetail!
+                            ? removeFromPlaylist!()
+                            : Navigator.pushNamed(
+                                context,
+                                AppRoute.routeLibrary,
+                                arguments: {
+                                  'has_app_bar': true,
+                                  'song_id': song?.songId,
+                                },
+                              );
                         break;
                       case 1:
                         ToastUtility.showPending(context: context, message: context.localize.t_feature_development);

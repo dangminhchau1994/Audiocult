@@ -4,6 +4,8 @@ import 'package:audio_cult/app/data_source/models/responses/playlist/playlist_re
 import 'package:audio_cult/app/data_source/repositories/app_repository.dart';
 import 'package:rxdart/rxdart.dart';
 import '../../../base/bloc_state.dart';
+import '../../../data_source/models/base_response.dart';
+import '../../../data_source/models/requests/remove_song_request.dart';
 import '../../../data_source/models/responses/comment/comment_response.dart';
 import '../../../data_source/models/responses/song/song_response.dart';
 
@@ -19,12 +21,32 @@ class DetailPlayListBloc extends BaseBloc {
   final _getSongSubject = PublishSubject<BlocState<List<Song>>>();
   final _deletePlayListSubject = PublishSubject<BlocState<DeletePlayListResponse>>();
   final _getPlayListRecommendedSubject = PublishSubject<BlocState<List<PlaylistResponse>>>();
+  final _removeSongFromPlaylistSubject = PublishSubject<BlocState<BaseRes>>();
+  final _removeSongItemSubject = PublishSubject<List<Song>>();
 
+  Stream<BlocState<BaseRes>> get removeSongFromPlaylistStream => _removeSongFromPlaylistSubject.stream;
   Stream<BlocState<PlaylistResponse>> get getPlayListDetailStream => _getPlayListDetailSubject.stream;
   Stream<BlocState<DeletePlayListResponse>> get deletePlayListStream => _deletePlayListSubject.stream;
   Stream<BlocState<List<CommentResponse>>> get getCommentsStream => _getCommentsSubject.stream;
   Stream<BlocState<List<Song>>> get getSongByIdStream => _getSongSubject.stream;
   Stream<BlocState<List<PlaylistResponse>>> get getPlayListRecommendedStream => _getPlayListRecommendedSubject.stream;
+  Stream<List<Song>> get removeItemSongStream => _removeSongItemSubject.stream;
+
+  void removeSongItem(List<Song> songs, int index) {
+    final pos = songs.indexWhere((element) => element.songId == songs[index].songId);
+    songs.removeAt(pos);
+    _removeSongItemSubject.sink.add(songs);
+  }
+
+  void removeSongFromPlaylist(RemoveSongRequest request) async {
+    final result = await _appRepository.removeSongFromPlaylist(request);
+
+    result.fold((success) {
+      _removeSongFromPlaylistSubject.sink.add(BlocState.success(success));
+    }, (error) {
+      _removeSongFromPlaylistSubject.sink.add(BlocState.error(error.toString()));
+    });
+  }
 
   void deletePlayList(int id) async {
     showOverLayLoading();

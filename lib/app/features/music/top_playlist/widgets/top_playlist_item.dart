@@ -1,3 +1,5 @@
+import 'package:audio_cult/app/data_source/local/pref_provider.dart';
+import 'package:audio_cult/app/data_source/models/requests/remove_song_request.dart';
 import 'package:audio_cult/app/data_source/models/responses/playlist/playlist_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/song/song_response.dart';
 import 'package:audio_cult/app/features/music/top_playlist/top_playlist_bloc.dart';
@@ -203,6 +205,7 @@ class _TopPlaylistItemState extends State<TopPlaylistItem> {
                               separatorBuilder: (context, index) => const SizedBox(height: 20),
                               itemBuilder: (context, index) {
                                 return SongItem(
+                                  hasMenu: songs[index].userId == locator<PrefProvider>().currentUserId,
                                   song: songs[index],
                                   songs: songs,
                                   index: index,

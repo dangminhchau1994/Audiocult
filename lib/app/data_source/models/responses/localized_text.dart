@@ -329,12 +329,14 @@ class LocalizedText {
   late String t_not_find_what_looking_for;
   late String t_my_playlist;
   late String t_input_code;
+  late String t_remove_from_playlist;
 
   LocalizedText.fromJson(Map<String, dynamic> json) {
     final iw = IW(json);
     t_auth_page = iw['t_auth_page'].getString ?? _undefined;
     t_auth_member_join = iw['t_auth_member_join'].getString ?? _undefined;
     t_sign_up = iw['t_sign_up'].getString ?? _undefined;
+    t_remove_from_playlist = iw['t_remove_from_playlist'].getString ?? _undefined;
     t_sign_in = iw['t_sign_in'].getString ?? _undefined;
     t_email = iw['t_email'].getString ?? _undefined;
     t_password = iw['t_password'].getString ?? _undefined;

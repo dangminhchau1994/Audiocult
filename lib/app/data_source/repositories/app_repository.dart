@@ -12,6 +12,7 @@ import 'package:audio_cult/app/data_source/models/requests/invite_friend_request
 import 'package:audio_cult/app/data_source/models/requests/my_diary_event_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/notification_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/register_request.dart';
+import 'package:audio_cult/app/data_source/models/requests/remove_song_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/report_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/top_song_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/upload_photo_request.dart';
@@ -708,6 +709,10 @@ class AppRepository extends BaseRepository {
       return profile.currency;
     }
     return null;
+  }
+
+  Future<Either<BaseRes, Exception>> removeSongFromPlaylist(RemoveSongRequest request) {
+    return safeCall(() => appServiceProvider.removeSongFromPlaylist(request));
   }
 
   Future<Either<BaseRes?, Exception>> sendCode(String code, String token) {

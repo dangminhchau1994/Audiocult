@@ -206,6 +206,7 @@ class _FeaturedAlbumItemState extends State<FeaturedAlbumItem> {
                               separatorBuilder: (context, index) => const SizedBox(height: 20),
                               itemBuilder: (context, index) {
                                 return SongItem(
+                                  hasMenu: false,
                                   song: songs[index],
                                   songs: songs,
                                   index: index,

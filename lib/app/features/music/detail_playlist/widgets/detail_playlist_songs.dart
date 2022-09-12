@@ -12,7 +12,10 @@ import '../../../../../w_components/loading/loading_widget.dart';
 import '../../../../../w_components/menus/common_popup_menu.dart';
 import '../../../../../w_components/reactions/common_reaction.dart';
 import '../../../../base/bloc_state.dart';
+import '../../../../data_source/local/pref_provider.dart';
+import '../../../../data_source/models/requests/remove_song_request.dart';
 import '../../../../data_source/models/responses/song/song_response.dart';
+import '../../../../injections.dart';
 import '../../../../utils/constants/app_assets.dart';
 import '../../../../utils/constants/app_colors.dart';
 import '../../../../utils/route/app_route.dart';
@@ -30,6 +33,7 @@ class DetailPlayListSongs extends StatefulWidget {
     this.iconPath,
     this.id,
     this.title,
+    this.userId,
   }) : super(key: key);
 
   final List<Song>? songs;
@@ -40,6 +44,7 @@ class DetailPlayListSongs extends StatefulWidget {
   final String? iconPath;
   final String? totalViews;
   final int? id;
+  final String? userId;
   final String? title;
 
   @override
@@ -73,18 +78,36 @@ class _DetailPlayListSongsState extends State<DetailPlayListSongs> {
                   success: (data) {
                     final songs = data as List<Song>;
                     return songs.isNotEmpty
-                        ? ListView.separated(
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemCount: songs.length,
-                            shrinkWrap: true,
-                            separatorBuilder: (context, index) => const SizedBox(height: 20),
-                            itemBuilder: (context, index) {
-                              return SongItem(
-                                song: songs[index],
-                                songs: songs,
-                                index: index,
-                                fromDetail: true,
-                                currency: widget.detailPlayListBloc?.currency,
+                        ? StreamBuilder<List<Song>>(
+                            stream: widget.detailPlayListBloc?.removeItemSongStream,
+                            initialData: songs,
+                            builder: (context, snapshot) {
+                              final data = snapshot.data;
+
+                              return ListView.separated(
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemCount: data?.length ?? 0,
+                                shrinkWrap: true,
+                                separatorBuilder: (context, index) => const SizedBox(height: 20),
+                                itemBuilder: (context, index) {
+                                  return SongItem(
+                                    song: data?[index],
+                                    songs: data,
+                                    index: index,
+                                    hasMenu: widget.userId == locator<PrefProvider>().currentUserId,
+                                    fromDetail: true,
+                                    currency: widget.detailPlayListBloc?.currency,
+                                    removeFromPlaylist: () {
+                                      widget.detailPlayListBloc?.removeSongFromPlaylist(
+                                        RemoveSongRequest(
+                                          songId: data?[index].songId,
+                                          playlistId: int.parse(widget.playListId ?? '')
+                                        ),
+                                      );
+                                      widget.detailPlayListBloc?.removeSongItem(songs, index);
+                                    },
+                                  );
+                                },
                               );
                             },
                           )

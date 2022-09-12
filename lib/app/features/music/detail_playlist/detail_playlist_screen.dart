@@ -119,6 +119,7 @@ class _DetailPlayListScreenState extends State<DetailPlayListScreen> with Dispos
                         ),
                         //Detail songs by album id
                         DetailPlayListSongs(
+                          userId: detail.userId,
                           playListId: widget.playListId ?? '',
                           totalComments: detail.totalComments,
                           iconPath: detail.lastIcon?.imagePath,
