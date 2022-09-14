@@ -71,7 +71,7 @@ class _EventsPageState extends State<EventsPage> {
       context: context,
       child: Padding(
         padding: const EdgeInsets.all(kVerticalSpacing),
-        child: Scrollbar(
+        child: RawScrollbar(
           child: PagedListView<int, EventResponse>.separated(
             separatorBuilder: (context, index) => const Divider(height: 24),
             padding: const EdgeInsets.symmetric(

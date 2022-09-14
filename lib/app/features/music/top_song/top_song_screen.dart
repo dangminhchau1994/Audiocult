@@ -204,7 +204,7 @@ class _TopSongScreenState extends State<TopSongScreen> with AutomaticKeepAliveCl
               } else {
                 _pagingController.appendPage(data, _pagingController.firstPageKey + 1);
               }
-              return Scrollbar(
+              return RawScrollbar(
                 child: PagedListView<int, Song>.separated(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 16,

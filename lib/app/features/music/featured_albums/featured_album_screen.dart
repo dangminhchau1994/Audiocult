@@ -196,7 +196,7 @@ class _FeaturedAlbumScreenState extends State<FeaturedAlbumScreen> {
               } else {
                 _pagingController.appendPage(data, _pagingController.firstPageKey + 1);
               }
-              return Scrollbar(
+              return RawScrollbar(
                 child: PagedListView<int, Album>.separated(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 16,

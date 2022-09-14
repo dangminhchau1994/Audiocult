@@ -87,12 +87,14 @@ class _MyTicketsOfEventScreenState extends State<MyTicketsOfEventScreen> {
   }
 
   Widget _mainContentWidget(List<TicketDetails> items) {
-    return CustomScrollView(
-      physics: const BouncingScrollPhysics(),
-      slivers: [
-        _eventInfoWidget(widget.event),
-        _ticketListView(items),
-      ],
+    return RawScrollbar(
+      child: CustomScrollView(
+        physics: const BouncingScrollPhysics(),
+        slivers: [
+          _eventInfoWidget(widget.event),
+          _ticketListView(items),
+        ],
+      ),
     );
   }
 

@@ -90,7 +90,8 @@ class _AtlasFilterResultScreenState extends State<AtlasFilterResultScreen> {
           updatedSubscriptionData = tupleData.item1;
           subscriptionsInProcess = tupleData.item2;
         }
-        return Scrollbar(
+        return RawScrollbar(
+          controller: ScrollController(),
           child: Padding(
             padding: const EdgeInsets.all(16),
             child: PagedListView<int, AtlasUser>(

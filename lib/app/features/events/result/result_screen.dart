@@ -122,7 +122,7 @@ class _ResultScreenState extends State<ResultScreen> {
             } else {
               _pagingController.appendPage(data, _pagingController.firstPageKey + 1);
             }
-            return Scrollbar(
+            return RawScrollbar(
               child: PagedListView<int, EventResponse>.separated(
                 shrinkWrap: true,
                 padding: const EdgeInsets.symmetric(

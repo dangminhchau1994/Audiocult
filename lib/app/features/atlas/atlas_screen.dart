@@ -107,12 +107,11 @@ class _AtlasScreenState extends State<AtlasScreen> with AutomaticKeepAliveClient
       bloc: _bloc,
       child: GestureDetector(
         onTap: FocusManager.instance.primaryFocus?.unfocus,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
+        child: SafeArea(
           child: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.only(bottom: 14),
+                padding: const EdgeInsets.all(16),
                 child: _searchWrapper(),
               ),
               Expanded(child: _refreshableListView()),
@@ -214,38 +213,42 @@ class _AtlasScreenState extends State<AtlasScreen> with AutomaticKeepAliveClient
           updatedSubscriptionData = tupleData.item1;
           subscriptionInProcess = tupleData.item2;
         }
-        return Scrollbar(
-          child: PagedListView<int, AtlasUser>(
-            padding: const EdgeInsets.only(bottom: 24),
-            scrollController: _scrollController,
-            pagingController: _pagingController,
-            builderDelegate: PagedChildBuilderDelegate<AtlasUser>(
-              newPageProgressIndicatorBuilder: (_) => const LoadingWidget(),
-              itemBuilder: (context, user, index) {
-                final latestSubscriptionCount =
-                    updatedSubscriptionData?.firstWhereOrNull((e) => e.userId == user.userId)?.subscriptionCount;
-                final latestSubscriptionValue =
-                    updatedSubscriptionData?.firstWhereOrNull((e) => e.userId == user.userId)?.isSubscribed;
-                return AtlasUserWidget(
-                  user,
-                  updatedSubscriptionCount: latestSubscriptionCount,
-                  updatedSubscriptionStatus: latestSubscriptionValue,
-                  userSubscriptionInProcess: subscriptionInProcess?[user.userId] ?? false,
-                  isSubscriptionButtonHidden: user.userId == _bloc.myUserId,
-                  subscriptionOnChanged: () {
-                    _bloc.subscribeUser(user);
-                  },
-                  onTap: () async {
-                    if (user.userId?.isNotEmpty == true) {
-                      await Navigator.pushNamed(
-                        context,
-                        AppRoute.routeProfile,
-                        arguments: ProfileScreen.createArguments(id: user.userId ?? ''),
-                      );
-                    }
-                  },
-                );
-              },
+        return RawScrollbar(
+          controller: _scrollController,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: PagedListView<int, AtlasUser>(
+              padding: const EdgeInsets.only(bottom: 50),
+              scrollController: _scrollController,
+              pagingController: _pagingController,
+              builderDelegate: PagedChildBuilderDelegate<AtlasUser>(
+                newPageProgressIndicatorBuilder: (_) => const LoadingWidget(),
+                itemBuilder: (context, user, index) {
+                  final latestSubscriptionCount =
+                      updatedSubscriptionData?.firstWhereOrNull((e) => e.userId == user.userId)?.subscriptionCount;
+                  final latestSubscriptionValue =
+                      updatedSubscriptionData?.firstWhereOrNull((e) => e.userId == user.userId)?.isSubscribed;
+                  return AtlasUserWidget(
+                    user,
+                    updatedSubscriptionCount: latestSubscriptionCount,
+                    updatedSubscriptionStatus: latestSubscriptionValue,
+                    userSubscriptionInProcess: subscriptionInProcess?[user.userId] ?? false,
+                    isSubscriptionButtonHidden: user.userId == _bloc.myUserId,
+                    subscriptionOnChanged: () {
+                      _bloc.subscribeUser(user);
+                    },
+                    onTap: () async {
+                      if (user.userId?.isNotEmpty == true) {
+                        await Navigator.pushNamed(
+                          context,
+                          AppRoute.routeProfile,
+                          arguments: ProfileScreen.createArguments(id: user.userId ?? ''),
+                        );
+                      }
+                    },
+                  );
+                },
+              ),
             ),
           ),
         );

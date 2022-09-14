@@ -145,7 +145,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                 _pagingController.appendPage(data, _pagingController.firstPageKey + 1);
               }
 
-              return Scrollbar(
+              return RawScrollbar(
                 child: PagedListView<int, NotificationResponse>.separated(
                   pagingController: _pagingController,
                   separatorBuilder: (context, index) => const Divider(height: 24),

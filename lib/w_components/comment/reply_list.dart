@@ -71,7 +71,7 @@ class ReplyList extends StatelessWidget {
                   return Container(
                     height: 650,
                     padding: const EdgeInsets.only(bottom: 50, left: 40),
-                    child: Scrollbar(
+                    child: RawScrollbar(
                       child: StreamBuilder<PagingController<int, CommentResponse>>(
                         initialData: pagingController,
                         stream: replyListBloc?.pagingControllerStream,
