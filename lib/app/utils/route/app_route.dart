@@ -43,6 +43,7 @@ import 'package:audio_cult/app/features/profile/profile_bloc.dart';
 import 'package:audio_cult/app/features/profile/profile_screen.dart';
 import 'package:audio_cult/app/features/profile/subscriptions/subscriptions_screen.dart';
 import 'package:audio_cult/app/features/search_suggestion/search_suggestion_screen.dart';
+import 'package:audio_cult/app/features/settings/account_settings/delete_account_screen.dart';
 import 'package:audio_cult/app/features/settings/settings_screen.dart';
 import 'package:audio_cult/app/features/terms/terms_screen.dart';
 import 'package:audio_cult/app/features/ticket/my_cart/my_cart_ticket.dart';
@@ -108,6 +109,7 @@ class AppRoute {
   static const String routeMyDiaryOnMonth = '/my_diary_on_month';
   static const String routeProfile = '/route_profile';
   static const String routeSettings = '/route_settings';
+  static const String routeDeleteAccount = '/route_delete_account';
   static const String routeSubscriptions = '/route_subscriptions';
   static const String routeVideoPlayer = '/route_video_player';
   static const String routeNotification = '/route_notification';
@@ -192,6 +194,13 @@ class AppRoute {
             data: arguments['feed_response'] as FeedResponse,
           ),
         );
+
+      case routeDeleteAccount:
+        return _pageRoute(
+          settings,
+          const DeleteAccountScreen(),
+        );
+
       case routeTerms:
         return _pageRoute(
           settings,

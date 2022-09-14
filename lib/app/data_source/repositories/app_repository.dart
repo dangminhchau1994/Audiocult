@@ -12,6 +12,7 @@ import 'package:audio_cult/app/data_source/models/requests/invite_friend_request
 import 'package:audio_cult/app/data_source/models/requests/my_diary_event_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/notification_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/register_request.dart';
+import 'package:audio_cult/app/data_source/models/requests/remove_account_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/remove_song_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/report_request.dart';
 import 'package:audio_cult/app/data_source/models/requests/top_song_request.dart';
@@ -471,6 +472,10 @@ class AppRepository extends BaseRepository {
 
   Future<Either<List<UserGroup>, Exception>> getRole(String? token) {
     return safeCall(() => appServiceProvider.getRole(token));
+  }
+
+  Future<Either<BaseRes, Exception>> removeAccount(RemoveAccountRequest request) {
+    return safeCall(() => appServiceProvider.removeAccount(request));
   }
 
   Future<Either<List<Suggestion>, Exception>> fetchSuggestions(String query, String languageCode) {

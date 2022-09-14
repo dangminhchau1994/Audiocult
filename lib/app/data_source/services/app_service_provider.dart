@@ -57,6 +57,7 @@ import 'package:image_picker/image_picker.dart';
 import '../../utils/extensions/app_extensions.dart';
 import '../models/base_response.dart';
 import '../models/requests/login_request.dart';
+import '../models/requests/remove_account_request.dart';
 import '../models/responses/atlas_user.dart';
 import '../models/responses/background/background_response.dart';
 import '../models/responses/create_album_response.dart';
@@ -111,6 +112,17 @@ class AppServiceProvider {
         requestBody: FormData.fromMap(params));
 
     return response.mapData((json) => BaseRes.fromJson(json as Map<String, dynamic>));
+  }
+
+  Future<BaseRes> removeAccount(RemoveAccountRequest request) async {
+    final params = await request.toJson();
+
+    final response = await _dioHelper.post(
+      route: '/restful_api/user/delete-account',
+      requestBody: FormData.fromMap(params),
+    );
+
+    return BaseRes.fromJson(response as Map<String, dynamic>);
   }
 
   Future<PlaylistResponse> addToPlayList(

@@ -4,12 +4,15 @@ import 'package:audio_cult/app/base/base_bloc.dart';
 import 'package:audio_cult/app/base/bloc_state.dart';
 import 'package:audio_cult/app/data_source/local/pref_provider.dart';
 import 'package:audio_cult/app/data_source/models/account_settings.dart';
+import 'package:audio_cult/app/data_source/models/base_response.dart';
+import 'package:audio_cult/app/data_source/models/requests/remove_account_request.dart';
 import 'package:audio_cult/app/data_source/models/responses/language_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/timezone/timezone_response.dart';
 import 'package:audio_cult/app/data_source/models/update_account_settings_response.dart';
 import 'package:audio_cult/app/data_source/repositories/app_repository.dart';
 import 'package:audio_cult/localized_widget_wrapper/language_bloc.dart';
 import 'package:collection/collection.dart';
+import 'package:rxdart/subjects.dart';
 import 'package:tuple/tuple.dart';
 
 class AccountSettingsBloc extends BaseBloc {
@@ -21,6 +24,9 @@ class AccountSettingsBloc extends BaseBloc {
   Language? _currentLanguage;
   List<TimeZone>? _timezones;
   List<Language>? _languages;
+
+  final _deleteAccountSubject = PublishSubject<BaseRes>();
+  Stream<BaseRes> get deleteAccountStream => _deleteAccountSubject.stream;
 
   final _loadProfileStreamController = StreamController<BlocState<AccountSettings?>>.broadcast();
   Stream<BlocState<AccountSettings?>> get loadProfileStream => _loadProfileStreamController.stream;
@@ -50,6 +56,22 @@ class AccountSettingsBloc extends BaseBloc {
     this._prefProvider,
     this._languageBloc,
   );
+
+  void deleteAccount(RemoveAccountRequest request) async {
+    showOverLayLoading();
+    final result = await _appRepository.removeAccount(request);
+    hideOverlayLoading();
+
+    result.fold((data) {
+      _deleteAccountSubject.sink.add(data);
+    }, (err) {
+      _deleteAccountSubject.sink.addError(err.toString());
+    });
+  }
+
+  void clearProfile() {
+    _appRepository.clearProfile();
+  }
 
   void loadUserProfile() async {
     final userId = _prefProvider.currentUserId;

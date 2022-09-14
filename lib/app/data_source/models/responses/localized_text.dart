@@ -362,13 +362,23 @@ class LocalizedText {
   late String t_deselected_all;
   late String t_step;
   late String t_of;
+  late String t_cancel_account;
+  late String t_please_tell_us_why;
+  late String t_enter_your_password;
+  late String t_delete_my_account;
+  late String t_invalid_password;
 
   LocalizedText.fromJson(Map<String, dynamic> json) {
     final iw = IW(json);
+    t_invalid_password = iw['t_invalid_password'].getString ?? 'Invalid Password';
     t_auth_page = iw['t_auth_page'].getString ?? _undefined;
     t_auth_member_join = iw['t_auth_member_join'].getString ?? _undefined;
     t_sign_up = iw['t_sign_up'].getString ?? _undefined;
-    t_remove_from_playlist = iw['t_remove_from_playlist'].getString ?? _undefined;
+    t_remove_from_playlist = iw['t_remove_from_playlist'].getString ?? 'Remove From Playlist';
+    t_cancel_account = iw['t_cancel_account'].getString ?? 'Cancel Account';
+    t_please_tell_us_why = iw['t_please_tell_us_why'].getString ?? 'Please Tell Us Why';
+    t_enter_your_password = iw['t_enter_your_password'].getString ?? 'Enter your password';
+    t_delete_my_account = iw['t_delete_my_account'].getString ?? 'Delete My Account';
     t_sign_in = iw['t_sign_in'].getString ?? _undefined;
     t_email = iw['t_email'].getString ?? _undefined;
     t_password = iw['t_password'].getString ?? _undefined;

@@ -9,6 +9,7 @@ import 'package:audio_cult/app/features/settings/page_template_widgets/single_se
 import 'package:audio_cult/app/features/settings/page_template_widgets/textfield_widget.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
+import 'package:audio_cult/app/utils/route/app_route.dart';
 import 'package:audio_cult/app/utils/toast/toast_utils.dart';
 import 'package:audio_cult/di/bloc_locator.dart';
 import 'package:audio_cult/w_components/buttons/common_button.dart';
@@ -124,6 +125,16 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> with Auto
           headerPadding: EdgeInsets.zero,
           headerColor: Colors.transparent,
         ),
+        Padding(
+          padding: const EdgeInsets.all(12),
+          child: CommonButton(
+            color: AppColors.primaryButtonColor,
+            text: context.localize.t_cancel_account,
+            onTap: () {
+              Navigator.pushNamed(context, AppRoute.routeDeleteAccount);
+            },
+          ),
+        )
       ],
     );
   }
