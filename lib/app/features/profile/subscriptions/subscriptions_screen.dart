@@ -19,14 +19,15 @@ class _SubscriptionsScreenState extends State<SubscriptionsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.mainColor,
+      appBar: CommonAppBar(
         backgroundColor: AppColors.mainColor,
-        appBar: CommonAppBar(
-          backgroundColor: AppColors.mainColor,
-          title: widget.title ?? context.localize.t_subscriptions,
-        ),
-        body: AtlasScreen(
-          userId: widget.userId,
-          getSubscribed: widget.getSubscribed,
-        ));
+        title: widget.title ?? context.localize.t_subscriptions,
+      ),
+      body: AtlasScreen(
+        userId: widget.userId,
+        getSubscribed: widget.getSubscribed,
+      ),
+    );
   }
 }
