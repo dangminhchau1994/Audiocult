@@ -17,15 +17,16 @@ import 'package:loader_overlay/loader_overlay.dart';
 import 'package:tuple/tuple.dart';
 
 class AtlasFilterResultScreen extends StatefulWidget {
-  final FilterUsersRequest dataRequest;
+  final FilterUsersRequest filterRequest;
 
-  const AtlasFilterResultScreen(this.dataRequest, {Key? key}) : super(key: key);
+  const AtlasFilterResultScreen(this.filterRequest, {Key? key}) : super(key: key);
 
   @override
   State<AtlasFilterResultScreen> createState() => _AtlasFilterResultScreenState();
 }
 
 class _AtlasFilterResultScreenState extends State<AtlasFilterResultScreen> {
+  final _scrollController = ScrollController();
   final _pagingController = PagingController<int, AtlasUser>(firstPageKey: 1);
   late AtlasFilterResultBloc _bloc;
 
@@ -33,7 +34,7 @@ class _AtlasFilterResultScreenState extends State<AtlasFilterResultScreen> {
   void initState() {
     super.initState();
     _bloc = getIt.get<AtlasFilterResultBloc>();
-    _bloc.getUsers(widget.dataRequest);
+    _bloc.getUsers(widget.filterRequest);
     _bloc.getAtlasUsersStream.listen((event) {
       if (event.item1.isEmpty) {
         _pagingController.appendLastPage([]);
@@ -43,11 +44,13 @@ class _AtlasFilterResultScreenState extends State<AtlasFilterResultScreen> {
     });
     _pagingController.addPageRequestListener((pageNumber) async {
       final request = FilterUsersRequest(
-        groupId: widget.dataRequest.groupId,
-        categoryId: widget.dataRequest.categoryId,
-        countryISO: widget.dataRequest.countryISO,
-        genreIds: widget.dataRequest.genreIds,
+        groupId: widget.filterRequest.groupId,
+        categoryId: widget.filterRequest.categoryId,
+        countryISO: widget.filterRequest.countryISO,
+        genreIds: widget.filterRequest.genreIds,
         page: pageNumber,
+        userId: widget.filterRequest.userId,
+        getSubscribed: widget.filterRequest.getSubscribed,
       );
       _bloc.getUsers(request);
     });
@@ -64,6 +67,7 @@ class _AtlasFilterResultScreenState extends State<AtlasFilterResultScreen> {
   @override
   void dispose() {
     _pagingController.dispose();
+    _scrollController.dispose();
     super.dispose();
   }
 
@@ -91,11 +95,12 @@ class _AtlasFilterResultScreenState extends State<AtlasFilterResultScreen> {
           subscriptionsInProcess = tupleData.item2;
         }
         return RawScrollbar(
-          controller: ScrollController(),
+          controller: _scrollController,
           child: Padding(
             padding: const EdgeInsets.all(16),
             child: PagedListView<int, AtlasUser>(
               padding: const EdgeInsets.only(bottom: 100),
+              scrollController: _scrollController,
               pagingController: _pagingController,
               builderDelegate: PagedChildBuilderDelegate<AtlasUser>(
                 itemBuilder: (context, user, index) {

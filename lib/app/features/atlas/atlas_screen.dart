@@ -1,5 +1,6 @@
 import 'package:audio_cult/app/base/bloc_handle.dart';
 import 'package:audio_cult/app/base/bloc_state.dart';
+import 'package:audio_cult/app/data_source/models/requests/filter_users_request.dart';
 import 'package:audio_cult/app/data_source/models/responses/atlas_user.dart';
 import 'package:audio_cult/app/features/atlas/atlas_bloc.dart';
 import 'package:audio_cult/app/features/atlas/atlas_user_widget.dart';
@@ -194,7 +195,14 @@ class _AtlasScreenState extends State<AtlasScreen> with AutomaticKeepAliveClient
       child: IconButton(
         color: AppColors.lightBlue,
         onPressed: () {
-          Navigator.pushNamed(context, AppRoute.routeAtlasFilter);
+          Navigator.pushNamed(
+            context,
+            AppRoute.routeAtlasFilter,
+            arguments: FilterUsersRequest(
+              userId: widget.userId,
+              getSubscribed: widget.getSubscribed,
+            ),
+          );
         },
         icon: SvgPicture.asset(AppAssets.whiteFilterIcon),
       ),

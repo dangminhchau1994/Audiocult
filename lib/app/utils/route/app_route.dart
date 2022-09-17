@@ -366,7 +366,10 @@ class AppRoute {
         return _pageRoute(
           settings,
           ChangeNotifierProvider(
-            create: (context) => AtlasFilterProvider(locator.get<AppRepository>()),
+            create: (context) => AtlasFilterProvider(
+              locator.get<AppRepository>(),
+              filterRequest: settings.arguments as FilterUsersRequest?,
+            ),
             child: const FilterAtlasScreen(),
           ),
         );

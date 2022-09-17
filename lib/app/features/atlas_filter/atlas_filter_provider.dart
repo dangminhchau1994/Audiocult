@@ -10,6 +10,8 @@ import 'package:flutter/foundation.dart';
 class AtlasFilterProvider extends ChangeNotifier {
   final AppRepository _appRepository;
   final _defaultSelectOption = SelectMenuModel(id: -1, title: '...', isSelected: true);
+  String? _userId;
+  String? _getSubscribed;
   List<Genre>? musicGenres;
   List<Country>? countries;
   List<AtlasCategory>? userGroups;
@@ -21,7 +23,10 @@ class AtlasFilterProvider extends ChangeNotifier {
   bool countriesIsLoading = false;
   bool userGroupIsLoading = false;
 
-  AtlasFilterProvider(this._appRepository);
+  AtlasFilterProvider(this._appRepository, {FilterUsersRequest? filterRequest}) {
+    _userId = filterRequest?.userId;
+    _getSubscribed = filterRequest?.getSubscribed;
+  }
 
   // USER GROUP
   Future<void> getAllUserGroups() async {
@@ -205,6 +210,8 @@ class AtlasFilterProvider extends ChangeNotifier {
       categoryId: (selectedOptionOfSubCategory?.id ?? -1) < 0 ? null : selectedOptionOfSubCategory?.id,
       countryISO: selectedCountry?.countryISO,
       genreIds: selectedGenres?.map((e) => e.genreId ?? '-1').toList(),
+      userId: _userId,
+      getSubscribed: _getSubscribed,
     );
   }
 }
