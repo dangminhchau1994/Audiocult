@@ -293,7 +293,7 @@
     "t_allow_notis": "Allow Notifications",
     "t_noti_request_message": "Our app would like to send you notifications",
     "t_no_recent_search": "No recent search",
-    "t_token_expired": "Token expired",
+    "t_token_expired": "Your session has expired or invalid. Please login and retry",
     "t_ask_delete_album": "Are you sure to delete this Album?",
     "t_discover": "Discover",
     "t_my_library": "My Library",
@@ -358,5 +358,9 @@
     "t_cancel_account": "Cancel Account",
     "t_please_tell_us_why": "Please Tell Us Why",
     "t_enter_your_password": "Enter your password",
-    "t_delete_my_account": "Delete My Account"
+    "t_delete_my_account": "Delete My Account",
+    "t_last_login": "Last login",
+    "t_member_since": "Member since",
+    "t_membership": "Membership",
+    "t_profile_views": "Profile views"
 }
