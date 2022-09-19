@@ -1,6 +1,7 @@
 import 'package:audio_cult/app/data_source/models/responses/feed/feed_response.dart';
 import 'package:audio_cult/app/utils/constants/app_assets.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
+import 'package:audio_cult/app/utils/reg/reg_util.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -87,7 +88,7 @@ class FeedItemUserInfo extends StatelessWidget {
                             },
                         ),
                         const TextSpan(text: ' '),
-                        TextSpan(text: data?.feedInfo ?? ''),
+                        TextSpan(text: RegUtils.replaceHtml(data?.feedInfo ?? '')),
                         const TextSpan(text: ' '),
                         TextSpan(text: getFriendTagged(data!, context)),
                       ],
