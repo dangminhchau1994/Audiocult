@@ -9,12 +9,16 @@ import 'package:audio_cult/app/features/profile/pages/post_page.dart';
 import 'package:audio_cult/app/features/profile/pages/videos_page.dart';
 import 'package:audio_cult/app/features/profile/profile_bloc.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
+import 'package:audio_cult/app/utils/constants/app_dimens.dart';
+import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/app/view/no_data_widget.dart';
 import 'package:audio_cult/w_components/loading/loading_builder.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
-
 import '../../data_source/models/responses/profile_data.dart';
+import '../../utils/constants/app_assets.dart';
+import '../../utils/constants/app_font_sizes.dart';
 
 class ProfileScreen extends StatefulWidget {
   final Map<String, dynamic> params;
@@ -48,6 +52,44 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
     });
   }
 
+  Widget _buildNoData() {
+    return Center(
+      child: Container(
+        padding: const EdgeInsets.symmetric(
+          horizontal: kVerticalSpacing,
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SvgPicture.asset(
+              AppAssets.eventIcon,
+              width: MediaQuery.of(context).size.width * 0.12,
+            ),
+            const SizedBox(height: kVerticalSpacing),
+            Text(
+              context.localize.t_no_results_found,
+              style: context.body3TextStyle()?.copyWith(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w700,
+                    fontSize: AppFontSize.size19,
+                  ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 16),
+            Text(
+              context.localize.t_not_find_what_looking_for,
+              textAlign: TextAlign.center,
+              style: context.body3TextStyle()?.copyWith(
+                    color: Colors.grey,
+                    fontSize: AppFontSize.size17,
+                  ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocHandle(
@@ -55,7 +97,7 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
       child: Scaffold(
           backgroundColor: AppColors.mainColor,
           body: LoadingBuilder<ProfileBloc, ProfileData>(
-            noDataBuilder: (state) => const NoDataWidget(),
+            noDataBuilder: (state) => _buildNoData(),
             builder: (data, _) {
               data.currency = _profileBloc?.currency;
               return DefaultTabController(
