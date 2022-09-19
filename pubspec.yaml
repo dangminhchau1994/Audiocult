@@ -1,6 +1,6 @@
 name: audio_cult
 description: AudioCult
-version: 1.0.1+7
+version: 1.0.2+9
 publish_to: none
 
 environment:
