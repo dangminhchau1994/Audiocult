@@ -367,6 +367,10 @@ class LocalizedText {
   late String t_enter_your_password;
   late String t_delete_my_account;
   late String t_invalid_password;
+  late String t_last_login;
+  late String t_member_since;
+  late String t_membership;
+  late String t_profile_views;
 
   LocalizedText.fromJson(Map<String, dynamic> json) {
     final iw = IW(json);
@@ -752,6 +756,10 @@ class LocalizedText {
     t_please_tell_us_why = iw['t_please_tell_us_why'].getString ?? 'Please Tell Us Why';
     t_enter_your_password = iw['t_enter_your_password'].getString ?? 'Enter your password';
     t_delete_my_account = iw['t_delete_my_account'].getString ?? 'Delete My Account';
+    t_last_login = iw['t_last_login'].getString ?? 'Last login';
+    t_member_since = iw['t_member_since'].getString ?? 'Member since';
+    t_membership = iw['t_membership'].getString ?? 'Membership';
+    t_profile_views = iw['t_profile_views'].getString ?? 'Profile views';
   }
 }
 

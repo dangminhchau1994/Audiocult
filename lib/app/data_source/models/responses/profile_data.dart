@@ -35,6 +35,8 @@ class ProfileData {
   String? lng;
   String? currency;
   String? accessToken;
+  String? lastLogin;
+  String? joined;
 
   ProfileData({
     this.coverPhotoExists,
@@ -106,6 +108,8 @@ class ProfileData {
     audioArtistCategory =
         iw['audio_artist_category'].getList(defaultValue: [], itemRawBuilder: (values) => values)?.cast<String>();
     currency = iw['currency'].get();
+    lastLogin = iw['last_login'].get();
+    joined = iw['joined'].get();
   }
 
   Map<String, dynamic> toJson() {
