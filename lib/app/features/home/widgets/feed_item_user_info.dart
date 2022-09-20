@@ -77,7 +77,7 @@ class FeedItemUserInfo extends StatelessWidget {
                       style: context.buttonTextStyle()!.copyWith(fontSize: 16, color: Colors.white),
                       children: [
                         TextSpan(
-                          text: data?.userName ?? '',
+                          text: data?.fullName ?? '',
                           recognizer: TapGestureRecognizer()
                             ..onTap = () {
                               Navigator.pushNamed(
