@@ -20,6 +20,7 @@ class ProfileData {
   bool? isFriendOfFriend;
   bool? isFriendRequest;
   bool? blockable;
+  bool? isBlocked;
   String? relationId;
   String? relationWithId;
   String? relationPhrase;
@@ -72,6 +73,7 @@ class ProfileData {
 
     coverPhotoExists = iw['cover_photo_exists'].get();
     userId = iw['user_id'].get();
+    isBlocked = iw['is_blocked'].get();
     accessToken = iw['access_token'].get();
     userGroupId = iw['user_group_id'].get();
     userName = iw['user_name'].get();

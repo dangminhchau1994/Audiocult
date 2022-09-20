@@ -1,10 +1,12 @@
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
+import 'package:audio_cult/w_components/buttons/w_button_inkwell.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import '../../../data_source/models/responses/feed/feed_response.dart';
 import '../../../utils/constants/app_assets.dart';
 import '../../../utils/constants/app_colors.dart';
 import '../../../utils/route/app_route.dart';
+import '../../../utils/toast/toast_utils.dart';
 
 class FeedTypeSong extends StatelessWidget {
   const FeedTypeSong({
@@ -76,10 +78,18 @@ class FeedTypeSong extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: 15),
-                const Icon(
-                  Icons.download,
-                  color: Colors.white,
-                  size: 28,
+                WButtonInkwell(
+                  onPressed: () {
+                    ToastUtility.showPending(
+                      context: context,
+                      message: context.localize.t_feature_development,
+                    );
+                  },
+                  child: const Icon(
+                    Icons.download,
+                    color: Colors.white,
+                    size: 28,
+                  ),
                 )
               ],
             ),

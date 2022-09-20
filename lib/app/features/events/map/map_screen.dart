@@ -201,7 +201,6 @@ class _MapScreenState extends State<MapScreen> {
                                 double.parse(events.isEmpty ? '0.0' : events[0].lat ?? ''),
                                 double.parse(events.isEmpty ? '0.0' : events[0].lng ?? ''),
                               ),
-                              zoom: 10,
                             ),
                             markers: markers,
                             onMapCreated: (controller) {
