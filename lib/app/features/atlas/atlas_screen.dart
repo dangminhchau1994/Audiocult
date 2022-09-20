@@ -221,6 +221,11 @@ class _AtlasScreenState extends State<AtlasScreen> with AutomaticKeepAliveClient
           updatedSubscriptionData = tupleData.item1;
           subscriptionInProcess = tupleData.item2;
         }
+        final isCurrentDataEmpty = _pagingController.itemList == null || _pagingController.itemList?.isNotEmpty != true;
+        final isNewDataEmpty = updatedSubscriptionData?.isNotEmpty != true;
+        if (isCurrentDataEmpty && isNewDataEmpty) {
+          return const NoDataWidget();
+        }
         return RawScrollbar(
           controller: _scrollController,
           child: Padding(
