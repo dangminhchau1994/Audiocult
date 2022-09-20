@@ -296,7 +296,7 @@ class LocalizedText {
   late String t_app_want_send_noti;
   late String t_noti_request_message;
   late String t_no_recent_search;
-  late String t_token_expired;
+  late String t_token_expired_message;
   late String t_ask_delete_album;
   late String t_not_attending;
   late String t_block_user;
@@ -685,7 +685,7 @@ class LocalizedText {
     t_app_want_send_noti = iw['t_app_want_send_noti'].get() ?? '';
     t_noti_request_message = iw['t_noti_request_message'].get() ?? 'Our app would like to send you notifications';
     t_no_recent_search = iw['t_no_recent_search'].get() ?? 'No recent search';
-    t_token_expired = iw['t_token_expired'].get() ?? 'Token expired';
+    t_token_expired_message = iw['t_token_expired_message'].get() ?? 'Your session has expired or invalid. Please login and retry';
     t_ask_delete_album = iw['t_ask_delete_album'].get() ?? 'Are you sure to delete this Album ?';
     t_not_attending = iw['t_not_attending'].get() ?? 'Not Attending';
     t_discover = iw['t_discover'].get() ?? 'Discover';
