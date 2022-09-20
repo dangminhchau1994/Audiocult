@@ -293,7 +293,7 @@
     "t_allow_notis": "Allow Notifications",
     "t_noti_request_message": "Our app would like to send you notifications",
     "t_no_recent_search": "No recent search",
-    "t_token_expired": "Your session has expired or invalid. Please login and retry",
+    "t_token_expired_message": "Your session has expired or invalid. Please login and retry",
     "t_ask_delete_album": "Are you sure to delete this Album?",
     "t_discover": "Discover",
     "t_my_library": "My Library",
