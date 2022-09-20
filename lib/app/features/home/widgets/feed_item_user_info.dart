@@ -25,7 +25,7 @@ class FeedItemUserInfo extends StatelessWidget {
           data.friendsTagged!.length > 1 ? '${data.friendsTagged!.length - 1} ${context.localize.t_others}' : '';
       final friendTagged = data.friendsTagged!.length > 1 ? ' ${context.localize.t_and} $otherFriends' : '';
       return data.friendsTagged!.isNotEmpty
-          ? '${context.localize.t_with} ${data.friendsTagged?[0].fullName} $friendTagged'
+          ? '${context.localize.t_with.toLowerCase()} ${data.friendsTagged?[0].fullName} $friendTagged'
           : '';
     }
     return '';
