@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:audio_cult/app/data_source/repositories/app_repository.dart';
 import 'package:audio_cult/app/injections.dart';
+import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/w_components/dialogs/app_dialog.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -45,17 +46,23 @@ class AuthInterceptor extends QueuedInterceptorsWrapper {
       if (err.requestOptions.path.contains('/restful_api/token')) {
         handler.next(err);
       } else {
-        AppDialog.showYesNoDialog(navigatorKey.currentContext!, message: 'Token expired', onNoPressed: () async {
-          await _prefProvider.clearAuthentication();
-          await _prefProvider.clearUserId();
-          locator.get<AppRepository>().clearProfile();
-          exit(0);
-        }, onYesPressed: () async {
-          await _prefProvider.clearAuthentication();
-          await _prefProvider.clearUserId();
-          locator.get<AppRepository>().clearProfile();
-          await Navigator.pushNamedAndRemoveUntil(navigatorKey.currentContext!, AppRoute.routeLogin, (route) => false);
-        });
+        AppDialog.showYesNoDialog(
+          navigatorKey.currentContext!,
+          message: navigatorKey.currentContext?.localize.t_token_expired_message,
+          onNoPressed: () async {
+            await _prefProvider.clearAuthentication();
+            await _prefProvider.clearUserId();
+            locator.get<AppRepository>().clearProfile();
+            exit(0);
+          },
+          onYesPressed: () async {
+            await _prefProvider.clearAuthentication();
+            await _prefProvider.clearUserId();
+            locator.get<AppRepository>().clearProfile();
+            await Navigator.pushNamedAndRemoveUntil(
+                navigatorKey.currentContext!, AppRoute.routeLogin, (route) => false);
+          },
+        );
       }
     } else {
       handler.next(err);
