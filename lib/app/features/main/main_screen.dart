@@ -52,7 +52,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   void initState() {
     super.initState();
-    FCMService(context, locator.get()).askPermission();
+    FCMService(context, locator.get()).initialize();
     _cartBloc.loadAllCartItems();
     _mainBloc.getUserProfile();
     _commentItemBloc.getReactionIcons();
@@ -62,6 +62,12 @@ class _MainScreenState extends State<MainScreen> {
       });
     });
     jumpToMyTicket();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    FCMService(context, locator.get()).askPermission();
   }
 
   void jumpToMyTicket() async {

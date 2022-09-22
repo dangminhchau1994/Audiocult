@@ -8,17 +8,13 @@ import 'package:audio_cult/app/utils/constants/app_assets.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/di/bloc_locator.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../utils/route/app_route.dart';
 
-Future<void> _backgroundHandler(RemoteMessage message) async {
-  await Firebase.initializeApp();
-  debugPrint('Message from background : ');
-}
+
 
 class FCMService {
   final BuildContext? context;
@@ -32,7 +28,6 @@ class FCMService {
 
   void initialize() async {
     _tapNotificationTerminated();
-    _setNotificationBackGround();
     _initAwesomeNotification();
     _setUpForeGroundIOS();
     _getFCMToken();
@@ -88,10 +83,6 @@ class FCMService {
     }
   }
 
-  void _setNotificationBackGround() {
-    FirebaseMessaging.onBackgroundMessage(_backgroundHandler);
-  }
-
   void _tapNotificationTerminated() {
     FirebaseMessaging.instance.getInitialMessage().then((RemoteMessage? message) {
       _navigateScreen(message?.data ?? {});
@@ -141,7 +132,7 @@ class FCMService {
       if (notification != null && android != null) {
         await AwesomeNotifications().createNotification(
           content: NotificationContent(
-            id: Random().nextInt(1000),
+            id: Random().nextInt(2147483647),
             channelKey: 'basic_channel',
             title: notification.title,
             body: notification.body,

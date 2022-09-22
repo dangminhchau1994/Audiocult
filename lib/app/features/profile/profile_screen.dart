@@ -53,40 +53,55 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
   }
 
   Widget _buildNoData() {
-    return Center(
-      child: Container(
-        padding: const EdgeInsets.symmetric(
-          horizontal: kVerticalSpacing,
+    return Stack(
+      children: [
+        Center(
+          child: Container(
+            padding: const EdgeInsets.symmetric(
+              horizontal: kVerticalSpacing,
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SvgPicture.asset(
+                  AppAssets.eventIcon,
+                  width: MediaQuery.of(context).size.width * 0.12,
+                ),
+                const SizedBox(height: kVerticalSpacing),
+                Text(
+                  context.localize.t_no_results_found,
+                  style: context.body3TextStyle()?.copyWith(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w700,
+                        fontSize: AppFontSize.size19,
+                      ),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  context.localize.t_not_find_what_looking_for,
+                  textAlign: TextAlign.center,
+                  style: context.body3TextStyle()?.copyWith(
+                        color: Colors.grey,
+                        fontSize: AppFontSize.size17,
+                      ),
+                ),
+              ],
+            ),
+          ),
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SvgPicture.asset(
-              AppAssets.eventIcon,
-              width: MediaQuery.of(context).size.width * 0.12,
-            ),
-            const SizedBox(height: kVerticalSpacing),
-            Text(
-              context.localize.t_no_results_found,
-              style: context.body3TextStyle()?.copyWith(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w700,
-                    fontSize: AppFontSize.size19,
-                  ),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 16),
-            Text(
-              context.localize.t_not_find_what_looking_for,
-              textAlign: TextAlign.center,
-              style: context.body3TextStyle()?.copyWith(
-                    color: Colors.grey,
-                    fontSize: AppFontSize.size17,
-                  ),
-            ),
-          ],
+        Positioned(
+          top: 40,
+          left: 10,
+          child: IconButton(
+            icon: const Icon(Icons.arrow_back_ios),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            padding: const EdgeInsets.all(4),
+          ),
         ),
-      ),
+      ],
     );
   }
 

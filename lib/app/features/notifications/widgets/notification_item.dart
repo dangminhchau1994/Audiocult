@@ -25,7 +25,7 @@ class NotificationItem extends StatelessWidget {
   void _navigateScreen(int index, BuildContext context) {
     final notification = data?.notifications?[index];
 
-    _markReaded();
+    //_markReaded();
 
     switch (notification?.getNotificationType()) {
       case NotificationType.visitorNew:
