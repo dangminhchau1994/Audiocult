@@ -10,6 +10,7 @@ import 'package:audio_cult/app/features/music/detail_playlist/widgets/detail_pla
 import 'package:audio_cult/app/features/music/detail_playlist/widgets/detail_playlist_songs.dart';
 import 'package:audio_cult/app/features/music/detail_playlist/widgets/detail_playlist_title.dart';
 import 'package:audio_cult/app/features/music/library/update_playlist_params.dart';
+import 'package:audio_cult/app/injections.dart';
 import 'package:audio_cult/app/utils/route/app_route.dart';
 import 'package:audio_cult/di/bloc_locator.dart';
 import 'package:disposing/disposing.dart';
@@ -33,11 +34,13 @@ class DetailPlayListScreen extends StatefulWidget {
 }
 
 class _DetailPlayListScreenState extends State<DetailPlayListScreen> with DisposableStateMixin {
+  final _bloc = DetailPlayListBloc(locator.get());
+
   @override
   void initState() {
     super.initState();
-    getIt<DetailPlayListBloc>().getPlayListDetail(int.parse(widget.playListId ?? ''));
-    getIt.get<DetailPlayListBloc>().deletePlayListStream.listen((data) {
+    _bloc.getPlayListDetail(int.parse(widget.playListId ?? ''));
+    _bloc.deletePlayListStream.listen((data) {
       Navigator.pop(context, true);
     }).disposeOn(disposeBag);
   }
@@ -49,18 +52,18 @@ class _DetailPlayListScreenState extends State<DetailPlayListScreen> with Dispos
         FocusManager.instance.primaryFocus?.unfocus();
       },
       child: BlocHandle(
-        bloc: getIt<DetailPlayListBloc>(),
+        bloc: _bloc,
         child: Scaffold(
           backgroundColor: AppColors.mainColor,
           body: RefreshIndicator(
             color: AppColors.primaryButtonColor,
             backgroundColor: AppColors.secondaryButtonColor,
             onRefresh: () async {
-              getIt<DetailPlayListBloc>().getPlayListDetail(int.parse(widget.playListId ?? ''));
+              _bloc.getPlayListDetail(int.parse(widget.playListId ?? ''));
             },
             child: StreamBuilder<BlocState<PlaylistResponse>>(
               initialData: const BlocState.loading(),
-              stream: getIt<DetailPlayListBloc>().getPlayListDetailStream,
+              stream: _bloc.getPlayListDetailStream,
               builder: (context, snapshot) {
                 final state = snapshot.data!;
 
@@ -81,7 +84,7 @@ class _DetailPlayListScreenState extends State<DetailPlayListScreen> with Dispos
                               DetailPlayListNavBar(
                                 userId: detail.userId,
                                 onDelete: () {
-                                  getIt.get<DetailPlayListBloc>().deletePlayList(int.parse(widget.playListId ?? ''));
+                                  _bloc.deletePlayList(int.parse(widget.playListId ?? ''));
                                 },
                                 onEdit: () async {
                                   final result =
@@ -95,7 +98,7 @@ class _DetailPlayListScreenState extends State<DetailPlayListScreen> with Dispos
                                   });
 
                                   if (result != null) {
-                                    getIt<DetailPlayListBloc>().getPlayListDetail(int.parse(widget.playListId ?? ''));
+                                    _bloc.getPlayListDetail(int.parse(widget.playListId ?? ''));
                                   }
                                 },
                               ),
@@ -108,7 +111,7 @@ class _DetailPlayListScreenState extends State<DetailPlayListScreen> with Dispos
                               ),
                               // Play Button
                               DetailPlayListPlayButton(
-                                detailPlayListBloc: getIt<DetailPlayListBloc>(),
+                                detailPlayListBloc: _bloc,
                               ),
                             ],
                           ),
@@ -125,7 +128,7 @@ class _DetailPlayListScreenState extends State<DetailPlayListScreen> with Dispos
                           iconPath: detail.lastIcon?.imagePath,
                           totalLike: detail.totalLikes,
                           totalViews: detail.totalView,
-                          detailPlayListBloc: getIt<DetailPlayListBloc>(),
+                          detailPlayListBloc: _bloc,
                           id: int.parse(widget.playListId ?? ''),
                           title: detail.title,
                         ),
@@ -137,6 +140,7 @@ class _DetailPlayListScreenState extends State<DetailPlayListScreen> with Dispos
                         //Recommended Songs
                         DetailPlayListRecommended(
                           id: int.parse(widget.playListId ?? ''),
+                          bloc: _bloc,
                         ),
                       ],
                     );

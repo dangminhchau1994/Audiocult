@@ -4,10 +4,10 @@ import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 
 import 'package:audio_cult/w_components/buttons/w_button_inkwell.dart';
 import 'package:flutter/material.dart';
+import '../../../../../di/bloc_locator.dart';
 import '../../../../../w_components/error_empty/error_section.dart';
 import '../../../../../w_components/loading/loading_widget.dart';
 import '../../../../base/bloc_state.dart';
-import '../../../../injections.dart';
 import '../../../../utils/route/app_route.dart';
 import '../../search/search_item.dart';
 
@@ -15,21 +15,21 @@ class DetailPlayListRecommended extends StatefulWidget {
   const DetailPlayListRecommended({
     Key? key,
     this.id,
+    this.bloc,
   }) : super(key: key);
 
   final int? id;
+  final DetailPlayListBloc? bloc;
 
   @override
   State<DetailPlayListRecommended> createState() => _DetailPlayListRecommendedState();
 }
 
 class _DetailPlayListRecommendedState extends State<DetailPlayListRecommended> {
-  DetailPlayListBloc playListBloc = DetailPlayListBloc(locator.get());
-
   @override
   void initState() {
     super.initState();
-    playListBloc.getPlayListRecommended(widget.id ?? 0);
+    widget.bloc?.getPlayListRecommended(widget.id ?? 0);
   }
 
   @override
@@ -37,7 +37,7 @@ class _DetailPlayListRecommendedState extends State<DetailPlayListRecommended> {
     return SliverToBoxAdapter(
       child: StreamBuilder<BlocState<List<PlaylistResponse>>>(
         initialData: const BlocState.loading(),
-        stream: playListBloc.getPlayListRecommendedStream,
+        stream: widget.bloc?.getPlayListRecommendedStream,
         builder: (context, snapshot) {
           final state = snapshot.data!;
 
@@ -101,7 +101,7 @@ class _DetailPlayListRecommendedState extends State<DetailPlayListRecommended> {
               return ErrorSectionWidget(
                 errorMessage: error,
                 onRetryTap: () {
-                  playListBloc.getPlayListRecommended(widget.id ?? 0);
+                  widget.bloc?.getPlayListRecommended(widget.id ?? 0);
                 },
               );
             },
