@@ -62,8 +62,8 @@ class _PlayerScreenState extends State<PlayerScreen> {
         (element) => MediaItem(
           id: element.songId.toString(),
           title: element.title.toString(),
-          album: element.artistUser?.userName ?? 'N/A',
-          artist: element.artistUser?.userName ?? 'N/A',
+          album: element.albumName ?? 'N/A',
+          artist: element.artistUser?.fullName ?? 'N/A',
           duration: Duration(seconds: int.tryParse(element.duration ?? '0')!),
           artUri: Uri.parse(element.image400.toString()),
           displayTitle: element.userId.toString(),
