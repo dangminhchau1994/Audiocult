@@ -83,7 +83,7 @@ class SongItem extends StatelessWidget {
                       Row(
                         children: [
                           Text(
-                            song?.artistUser?.userName ?? 'N/A',
+                            song?.artistUser?.fullName ?? 'N/A',
                             style: context.bodyTextPrimaryStyle()!.copyWith(
                                   color: AppColors.subTitleColor,
                                   fontSize: 16,
