@@ -362,5 +362,7 @@
     "t_last_login": "Last login",
     "t_member_since": "Member since",
     "t_membership": "Membership",
-    "t_profile_views": "Profile views"
+    "t_profile_views": "Profile views",
+    "t_relogin": "Re-login",
+    "t_close_app": "Close app"
 }
