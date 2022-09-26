@@ -157,7 +157,7 @@ class _PostVideoState extends State<PostVideo> with DisposableStateMixin, Automa
                               });
                             },
                             child: Text(
-                              'Cancel',
+                              context.localize.t_cancel,
                               style: context.buttonTextStyle()!.copyWith(
                                     fontSize: 14,
                                     color: AppColors.activeLabelItem,

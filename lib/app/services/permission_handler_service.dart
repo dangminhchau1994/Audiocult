@@ -76,7 +76,8 @@ class PermissionHandlerPermissionService implements PermissionService {
   Future<bool> handlePhotosPermission(BuildContext context) async {
     final photosPermissionStatus = await requestPhotosPermission();
 
-    if (photosPermissionStatus != PermissionStatus.granted) {
+    if (photosPermissionStatus != PermissionStatus.granted 
+        && photosPermissionStatus != PermissionStatus.limited) {
       await showDialog(
         context: context,
         builder: (_context) => AlertDialog(
@@ -114,7 +115,7 @@ class PermissionHandlerPermissionService implements PermissionService {
             ),
           ],
           title: Text(
-            context.localize.t_camera_permission,
+            context.localize.t_gallery_permission,
             style: const TextStyle(color: Colors.white),
           ),
           content: Text(
