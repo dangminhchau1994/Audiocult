@@ -77,20 +77,21 @@ class FeedTypeSong extends StatelessWidget {
                     height: 20,
                   ),
                 ),
-                const SizedBox(width: 15),
-                WButtonInkwell(
-                  onPressed: () {
-                    ToastUtility.showPending(
-                      context: context,
-                      message: context.localize.t_feature_development,
-                    );
-                  },
-                  child: const Icon(
-                    Icons.download,
-                    color: Colors.white,
-                    size: 28,
-                  ),
-                )
+                // TODO: hidden feature in development
+                // const SizedBox(width: 15),
+                // WButtonInkwell(
+                //   onPressed: () {
+                //     ToastUtility.showPending(
+                //       context: context,
+                //       message: context.localize.t_feature_development,
+                //     );
+                //   },
+                //   child: const Icon(
+                //     Icons.download,
+                //     color: Colors.white,
+                //     size: 28,
+                //   ),
+                // )
               ],
             ),
           ),

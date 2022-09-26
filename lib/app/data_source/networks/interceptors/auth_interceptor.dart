@@ -49,12 +49,14 @@ class AuthInterceptor extends QueuedInterceptorsWrapper {
         AppDialog.showYesNoDialog(
           navigatorKey.currentContext!,
           message: navigatorKey.currentContext?.localize.t_token_expired_message,
+          noButtonTitle: navigatorKey.currentContext?.localize.t_close_app,
           onNoPressed: () async {
             await _prefProvider.clearAuthentication();
             await _prefProvider.clearUserId();
             locator.get<AppRepository>().clearProfile();
             exit(0);
           },
+          yesButtonTitle: navigatorKey.currentContext?.localize.t_relogin,
           onYesPressed: () async {
             await _prefProvider.clearAuthentication();
             await _prefProvider.clearUserId();

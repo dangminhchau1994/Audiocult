@@ -5,7 +5,6 @@ import 'package:audio_cult/app/features/settings/privacy_settings/privacy_settin
 import 'package:audio_cult/app/utils/constants/app_assets.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 
-import 'package:audio_cult/localized_widget_wrapper/language_widget.dart';
 import 'package:audio_cult/w_components/appbar/common_appbar.dart';
 import 'package:audio_cult/w_components/menus/common_fab_menu.dart';
 import 'package:flutter/material.dart';
@@ -65,35 +64,30 @@ class _SettingsScreenState extends State<SettingsScreen> {
     return Scaffold(
       appBar: CommonAppBar(
         actions: [
-          Container(
-            padding: const EdgeInsets.all(8),
-            margin: const EdgeInsets.symmetric(horizontal: 8),
-            width: 36,
-            height: 36,
-            decoration: BoxDecoration(
-              color: AppColors.inputFillColor,
-              shape: BoxShape.circle,
-            ),
-            child: SvgPicture.asset(
-              AppAssets.messageIcon,
-              fit: BoxFit.cover,
-            ),
-          ),
+          // TODO: hidden feature in development
+          // Container(
+          //   padding: const EdgeInsets.all(8),
+          //   margin: const EdgeInsets.symmetric(horizontal: 8),
+          //   width: 36,
+          //   height: 36,
+          //   decoration: BoxDecoration(
+          //     color: AppColors.inputFillColor,
+          //     shape: BoxShape.circle,
+          //   ),
+          //   child: SvgPicture.asset(
+          //     AppAssets.messageIcon,
+          //     fit: BoxFit.cover,
+          //   ),
+          // ),
           CommonFabMenu(
             onSearchTap: () {
-              ToastUtility.showPending(
-                context: context,
-                message: context.localize.t_feature_development,
-              );
+              Navigator.of(context).pushNamed(AppRoute.routeUniversalSearch);
             },
             onNotificationTap: () async {
               await Navigator.pushNamed(context, AppRoute.routeNotification);
             },
             onCartTap: () {
-              ToastUtility.showPending(
-                context: context,
-                message: context.localize.t_feature_development,
-              );
+              Navigator.of(context).pushNamed(AppRoute.routeMyCart);
             },
           ),
         ],

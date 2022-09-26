@@ -371,6 +371,8 @@ class LocalizedText {
   late String t_member_since;
   late String t_membership;
   late String t_profile_views;
+  late String t_relogin;
+  late String t_close_app;
 
   LocalizedText.fromJson(Map<String, dynamic> json) {
     final iw = IW(json);
@@ -685,7 +687,8 @@ class LocalizedText {
     t_app_want_send_noti = iw['t_app_want_send_noti'].get() ?? '';
     t_noti_request_message = iw['t_noti_request_message'].get() ?? 'Our app would like to send you notifications';
     t_no_recent_search = iw['t_no_recent_search'].get() ?? 'No recent search';
-    t_token_expired_message = iw['t_token_expired_message'].get() ?? 'Your session has expired or invalid. Please login and retry';
+    t_token_expired_message =
+        iw['t_token_expired_message'].get() ?? 'Your session has expired or invalid. Please login and retry';
     t_ask_delete_album = iw['t_ask_delete_album'].get() ?? 'Are you sure to delete this Album ?';
     t_not_attending = iw['t_not_attending'].get() ?? 'Not Attending';
     t_discover = iw['t_discover'].get() ?? 'Discover';
@@ -760,6 +763,8 @@ class LocalizedText {
     t_member_since = iw['t_member_since'].getString ?? 'Member since';
     t_membership = iw['t_membership'].getString ?? 'Membership';
     t_profile_views = iw['t_profile_views'].getString ?? 'Profile views';
+    t_relogin = iw['t_relogin'].getString ?? 'Re-login';
+    t_close_app = iw['t_close_app'].getString ?? 'Close app';
   }
 }
 

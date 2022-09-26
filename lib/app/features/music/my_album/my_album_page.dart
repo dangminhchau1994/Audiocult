@@ -272,7 +272,7 @@ class _MyAlbumPageState extends State<MyAlbumPage> with DisposableStateMixin {
                                             case 5:
                                               AppDialog.showYesNoDialog(
                                                 context,
-                                                message: 'Are you sure to delete this song?',
+                                                message: context.localize.t_sure_to_delete_song,
                                                 onYesPressed: () {
                                                   _myAlbumBloc.deleteSongId(songs[index].songId);
                                                 },
