@@ -119,7 +119,8 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
                 length: 5,
                 child: RefreshIndicator(
                   onRefresh: () async {
-                    _profileBloc?.requestData(params: ProfileRequest(userId: widget.params['userId'] as String));
+                    _profileBloc?.requestData(
+                        params: ProfileRequest(userId: widget.params['userId'] as String, query: 'info'));
                   },
                   child: CustomScrollView(
                     shrinkWrap: true,
@@ -138,7 +139,7 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
                           _profileBloc?.uploadAvatar(value);
                         },
                         onBlockUser: () {
-                          _profileBloc?.blockUser(int.parse(widget.params['userId'] as String));
+                          _profileBloc?.blockUser(int.parse(widget.params['userId'] as String,));
                         },
                       ),
                       SliverFillRemaining(
