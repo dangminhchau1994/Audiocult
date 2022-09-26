@@ -373,6 +373,10 @@ class LocalizedText {
   late String t_profile_views;
   late String t_relogin;
   late String t_close_app;
+  late String t_confirm;
+  late String t_camera_permission_requirement;
+  late String t_gallery_permission;
+  late String t_gallery_permission_requirement;
 
   LocalizedText.fromJson(Map<String, dynamic> json) {
     final iw = IW(json);
@@ -765,6 +769,12 @@ class LocalizedText {
     t_profile_views = iw['t_profile_views'].getString ?? 'Profile views';
     t_relogin = iw['t_relogin'].getString ?? 'Re-login';
     t_close_app = iw['t_close_app'].getString ?? 'Close app';
+    t_confirm = iw['t_confirm'].getString ?? 'Confirm';
+    t_camera_permission_requirement = iw['t_camera_permission_requirement'].getString ??
+        'Camera permission should be granted to use this feature, would you like to go to app settings to give camera permission?';
+    t_gallery_permission = iw['t_gallery_permission'].getString ?? 'Gallery Permission';
+    t_gallery_permission_requirement = iw['t_gallery_permission_requirement'].getString ??
+        'Gallery permission should Be granted to use this feature, would you like to go to app settings to give gallery permission?';
   }
 }
 

@@ -3,7 +3,6 @@ import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-import '../../w_components/buttons/common_button.dart';
 import '../utils/constants/app_colors.dart';
 
 class PermissionHandlerPermissionService implements PermissionService {
@@ -38,7 +37,7 @@ class PermissionHandlerPermissionService implements PermissionService {
                 ),
               ),
               child: Text(
-                'Confirm',
+                context.localize.t_confirm,
                 style: context.body2TextStyle()?.copyWith(color: Colors.white),
               ),
             ),
@@ -53,17 +52,17 @@ class PermissionHandlerPermissionService implements PermissionService {
                 ),
               ),
               child: Text(
-                'Cancel',
+                context.localize.t_cancel,
                 style: context.body2TextStyle()?.copyWith(color: Colors.white),
               ),
             ),
           ],
-          title: const Text(
-            'Camera Permission',
-            style: TextStyle(color: Colors.white),
+          title: Text(
+            context.localize.t_camera_permission,
+            style: const TextStyle(color: Colors.white),
           ),
           content: Text(
-            'Camera permission should Be granted to use this feature, would you like to go to app settings to give camera permission?',
+            context.localize.t_camera_permission_requirement,
             style: context.body2TextStyle()?.copyWith(color: AppColors.activeLabelItem),
           ),
         ),
@@ -94,7 +93,7 @@ class PermissionHandlerPermissionService implements PermissionService {
                 ),
               ),
               child: Text(
-                'Gallery Permission',
+                context.localize.t_gallery_permission,
                 style: context.body2TextStyle()?.copyWith(color: Colors.white),
               ),
             ),
@@ -109,17 +108,17 @@ class PermissionHandlerPermissionService implements PermissionService {
                 ),
               ),
               child: Text(
-                'Cancel',
+                context.localize.t_cancel,
                 style: context.body2TextStyle()?.copyWith(color: Colors.white),
               ),
             ),
           ],
-          title: const Text(
-            'Camera Permission',
-            style: TextStyle(color: Colors.white),
+          title: Text(
+            context.localize.t_camera_permission,
+            style: const TextStyle(color: Colors.white),
           ),
           content: Text(
-            'Gallery permission should Be granted to use this feature, would you like to go to app settings to give gallery permission?',
+            context.localize.t_gallery_permission_requirement,
             style: context.body2TextStyle()?.copyWith(color: AppColors.activeLabelItem),
           ),
         ),
