@@ -405,18 +405,34 @@ class SongStep2State extends State<SongStep2> {
                           )
                         else
                           const SizedBox.shrink(),
-                        Center(
-                          child: Container(
-                            padding: const EdgeInsets.all(16),
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: AppColors.activeLabelItem.withOpacity(0.4),
+                        Stack(
+                          children: [
+                            if (widget.song?.imagePath != null && _fileSongCover == null)
+                              Positioned(
+                                  left: 0,
+                                  right: 0,
+                                  bottom: 0,
+                                  top: 0,
+                                  child: Image.network(
+                                    widget.song?.imagePath ?? '',
+                                    fit: BoxFit.cover,
+                                  ))
+                            else
+                              const SizedBox.shrink(),
+                            Center(
+                              child: Container(
+                                padding: const EdgeInsets.all(16),
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: AppColors.activeLabelItem.withOpacity(0.4),
+                                ),
+                                child: Icon(
+                                  Icons.add,
+                                  color: AppColors.activeLabelItem,
+                                ),
+                              ),
                             ),
-                            child: Icon(
-                              Icons.add,
-                              color: AppColors.activeLabelItem,
-                            ),
-                          ),
+                          ],
                         ),
                       ],
                     ),

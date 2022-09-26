@@ -62,6 +62,16 @@ class DiscoverBloc extends BaseBloc {
     });
   }
 
+  Future<List<Song>> getSongWithAlbum(String? userId, String? albumId) async {
+    final result = await _appRepository.getMixTapSongs('', '', '', '', 1, 10, '', '', userId: userId, albumId: albumId);
+
+    return result.fold((success) {
+      return success;
+    }, (error) {
+      return [];
+    });
+  }
+
   void getAlbums(String query, String view, String sort, String genresId, String when, int page, int limit,
       {String? userId}) async {
     _getAlbumSubject.sink.add(const BlocState.loading());

@@ -52,8 +52,8 @@ class SongStep1State extends State<SongStep1> {
       // ignore: use_named_constants
       final file = await downloadFile(widget.song!.songPath!, widget.song!.title ?? const Uuid().v4());
       final byte = await file.readAsBytes();
-      listFileAudio.add(
-          Pair(PlatformFile(name: widget.song!.title ?? '', size: file.lengthSync(), bytes: byte), const Duration()));
+      listFileAudio.add(Pair(PlatformFile(name: widget.song!.title ?? '', size: file.lengthSync(), bytes: byte),
+          Duration(seconds: int.tryParse(widget.song!.duration ?? '0')!)));
     }
     //album
     if (widget.album != null) {
@@ -61,7 +61,8 @@ class SongStep1State extends State<SongStep1> {
           '', '', '', '', 1, GlobalConstants.loadMoreItem, '', '',
           userId: locator.get<MainBloc>().profileData!.userId, albumId: widget.album!.albumId);
       listSongAlbum?.forEach((element) {
-        listFileAudio.add(Pair(PlatformFile(name: element.title ?? '', size: 1), const Duration()));
+        listFileAudio.add(Pair(PlatformFile(name: element.title ?? '', size: 1),
+            Duration(seconds: int.tryParse(element.duration ?? '0')!)));
       });
     }
     setState(() {});

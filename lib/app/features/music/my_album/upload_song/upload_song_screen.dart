@@ -27,9 +27,20 @@ class UploadSongScreen extends StatefulWidget {
 
   @override
   State<UploadSongScreen> createState() => _UploadSongScreenState();
-  static Map<String, dynamic> createArguments(
-          {required bool isUploadSong, required Song? song, required Album? album}) =>
-      {'isUploadSong': isUploadSong, 'song': song, 'album': album};
+  static Map<String, dynamic> createArguments({
+    required bool isUploadSong,
+    required Song? song,
+    required Album? album,
+    bool isEditAlbum = false,
+    bool isEditSong = false,
+  }) =>
+      {
+        'isUploadSong': isUploadSong,
+        'isEditSong': isEditSong,
+        'isEditAlbum': isEditAlbum,
+        'song': song,
+        'album': album
+      };
 }
 
 class _UploadSongScreenState extends State<UploadSongScreen> with DisposableStateMixin {
@@ -39,13 +50,17 @@ class _UploadSongScreenState extends State<UploadSongScreen> with DisposableStat
   final GlobalKey<SongStep2State> _keyStep2 = GlobalKey();
   final GlobalKey<PrivacyStepState> _keyStep3 = GlobalKey();
   final GlobalKey<MetaDataStepState> _keyStep4 = GlobalKey();
-  bool? isUploadSong;
+  bool isUploadSong = true;
+  bool isEditAlbum = false;
+  bool isEditSong = false;
   Song? _song;
   Album? _album;
   @override
   void initState() {
     super.initState();
-    isUploadSong = widget.params['isUploadSong'] as bool?;
+    isUploadSong = widget.params['isUploadSong'] as bool;
+    isEditAlbum = widget.params['isEditAlbum'] as bool;
+    isEditSong = widget.params['isEditSong'] as bool;
     _song = widget.params['song'] as Song?;
     _album = widget.params['album'] as Album?;
     _uploadSongBloc.uploadStream.listen((event) {
@@ -65,7 +80,13 @@ class _UploadSongScreenState extends State<UploadSongScreen> with DisposableStat
           top: false,
           child: Scaffold(
             appBar: CommonAppBar(
-              title: context.localize.t_upload_song,
+              title: !isEditAlbum
+                  ? isUploadSong
+                      ? !isEditSong
+                          ? context.localize.t_upload_song
+                          : 'Edit Song'
+                      : 'Upload Album'
+                  : 'Edit album',
               backgroundColor: AppColors.mainColor,
             ),
             backgroundColor: AppColors.mainColor,
@@ -135,7 +156,7 @@ class _UploadSongScreenState extends State<UploadSongScreen> with DisposableStat
       resultStep2.cost = resultStep4.cost;
       resultStep2.licenseType = resultStep4.licenseType;
       resultStep2.audioFile = XFile(resultStep1[0].first.path!, name: resultStep1[0].first.name);
-      if (isUploadSong!) {
+      if (isUploadSong) {
         _uploadSongBloc.uploadSong(resultStep2);
       } else {
         _uploadSongBloc.uploadAlbum(resultStep2);
@@ -148,7 +169,7 @@ class _UploadSongScreenState extends State<UploadSongScreen> with DisposableStat
       resultStep2.licenseType = resultStep4.licenseType;
 
       //edit
-      if (isUploadSong!) {
+      if (isUploadSong) {
         resultStep2.songId = _song?.songId;
         _uploadSongBloc.editSong(resultStep2);
       } else {

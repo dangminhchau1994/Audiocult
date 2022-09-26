@@ -127,6 +127,11 @@ class _MyAlbumPageState extends State<MyAlbumPage> with DisposableStateMixin {
                                             Navigator.pop(context);
                                             switch (id) {
                                               case 1:
+                                                // //find song of album
+                                                // final listSong = await _myAlbumBloc.getSongWithAlbum(
+                                                //     locator.get<MainBloc>().profileData!.userId, albums[index].albumId);
+
+                                                // ignore: use_build_context_synchronously
                                                 final result = await Navigator.pushNamed(
                                                   context,
                                                   AppRoute.routeUploadSong,
@@ -134,6 +139,7 @@ class _MyAlbumPageState extends State<MyAlbumPage> with DisposableStateMixin {
                                                       // ignore: avoid_bool_literals_in_conditional_expressions
                                                       isUploadSong: false,
                                                       song: null,
+                                                      isEditAlbum: true,
                                                       album: albums[index]),
                                                 );
                                                 if (result != null) {
@@ -241,6 +247,7 @@ class _MyAlbumPageState extends State<MyAlbumPage> with DisposableStateMixin {
                                                     // ignore: avoid_bool_literals_in_conditional_expressions
                                                     isUploadSong: true,
                                                     song: songs[index],
+                                                    isEditSong: true,
                                                     album: null),
                                               );
                                               if (result != null) {

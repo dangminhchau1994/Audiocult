@@ -1049,9 +1049,14 @@ class AppServiceProvider {
 
   Future<CreateAlbumResponse> editAlbum(UploadRequest result) async {
     final dataRequest = await result.toJson();
-    final response = await _dioHelper.put(
+    final response = await _dioHelper.post(
       route: '/restful_api/song/album/${result.albumId}',
-      requestBody: dataRequest,
+      options: Options(headers: {
+        'Content-Type': 'multipart/form-data; charset=UTF-8;',
+        'Accept-Encoding': '*',
+        'Accept-Language': 'en-US,en;q=0.9'
+      }),
+      requestBody: FormData.fromMap(dataRequest),
       responseBodyMapper: (jsonMapper) => BaseRes.fromJson(jsonMapper as Map<String, dynamic>),
     );
 
@@ -1068,6 +1073,7 @@ class AppServiceProvider {
 
   Future<CreateAlbumResponse> editSong(UploadRequest result) async {
     final dataRequest = await result.toJson();
+
     final response = await _dioHelper.put(
       route: '/restful_api/music/${result.songId}',
       requestBody: dataRequest,
