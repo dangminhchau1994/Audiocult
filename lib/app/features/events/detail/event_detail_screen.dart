@@ -5,7 +5,6 @@ import 'package:audio_cult/app/data_source/models/responses/events/event_respons
 import 'package:audio_cult/app/features/events/detail/event_detail_bloc.dart';
 import 'package:audio_cult/app/features/events/detail/widgets/event_detail_artist.dart';
 import 'package:audio_cult/app/features/events/detail/widgets/event_detail_attending.dart';
-import 'package:audio_cult/app/features/events/detail/widgets/event_detail_comment.dart';
 import 'package:audio_cult/app/features/events/detail/widgets/event_detail_description.dart';
 import 'package:audio_cult/app/features/events/detail/widgets/event_detail_festival.dart';
 import 'package:audio_cult/app/features/events/detail/widgets/event_detail_info.dart';
@@ -136,7 +135,6 @@ class _EventDetailState extends State<EventDetail> {
                     ArtistLineUp(data: data),
                     EventDetailDescription(data: data),
                     EventDetailMap(iconMarker: _iconMarker, data: data),
-                    EventDetailComment(id: widget.id, title: data.title)
                   ],
                 );
               },

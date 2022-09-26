@@ -121,31 +121,31 @@ class _EventDetailMapState extends State<EventDetailMap> {
                   totalLike: widget.data?.totalLike ?? '',
                   iconPath: widget.data?.lastIcon?.imagePath,
                 ),
-                const SizedBox(
-                  width: 10,
-                ),
-                WButtonInkwell(
-                  onPressed: () {
-                    Navigator.pushNamed(
-                      context,
-                      AppRoute.routeCommentListScreen,
-                      arguments: CommentArgs(
-                        itemId: int.parse(widget.data?.eventId ?? ''),
-                        title: widget.data?.title ?? '',
-                        commentType: CommentType.event,
-                        data: null,
-                      ),
-                    );
-                  },
-                  child: _buildIcon(
-                    SvgPicture.asset(AppAssets.commentIcon),
-                    widget.data?.totalComment ?? '',
-                    context,
-                  ),
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
+                // const SizedBox(
+                //   width: 10,
+                // ),
+                // WButtonInkwell(
+                //   onPressed: () {
+                //     Navigator.pushNamed(
+                //       context,
+                //       AppRoute.routeCommentListScreen,
+                //       arguments: CommentArgs(
+                //         itemId: int.parse(widget.data?.eventId ?? ''),
+                //         title: widget.data?.title ?? '',
+                //         commentType: CommentType.event,
+                //         data: null,
+                //       ),
+                //     );
+                //   },
+                //   child: _buildIcon(
+                //     SvgPicture.asset(AppAssets.commentIcon),
+                //     widget.data?.totalComment ?? '',
+                //     context,
+                //   ),
+                // ),
+                // const SizedBox(
+                //   width: 10,
+                // ),
                 // WButtonInkwell(
                 //   onPressed: () {
                 //     ToastUtility.showPending(
@@ -167,10 +167,10 @@ class _EventDetailMapState extends State<EventDetailMap> {
               ],
             ),
             const SizedBox(height: 20),
-            const Divider(
-              height: 1,
-              color: Colors.grey,
-            ),
+            // const Divider(
+            //   height: 1,
+            //   color: Colors.grey,
+            // ),
           ],
         ),
       ),
