@@ -40,39 +40,42 @@ class GetVideo extends StatelessWidget {
                 size: 40,
               ),
               const SizedBox(width: 20),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    videoName ?? '',
-                    overflow: TextOverflow.ellipsis,
-                    style: context.buttonTextStyle()!.copyWith(
-                          fontSize: 16,
-                          color: Colors.white,
-                        ),
-                  ),
-                  const SizedBox(height: 10),
-                  Text(
-                    context.localize.t_shared_video,
-                    overflow: TextOverflow.ellipsis,
-                    style: context.buttonTextStyle()!.copyWith(
-                          fontSize: 14,
-                          color: Colors.white,
-                        ),
-                  ),
-                  const SizedBox(height: 10),
-                  WButtonInkwell(
-                    onPressed: onRemoveFile,
-                    child: Text(
-                      context.localize.t_remove_file,
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      videoName ?? '',
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
+                      style: context.buttonTextStyle()!.copyWith(
+                            fontSize: 16,
+                            color: Colors.white,
+                          ),
+                    ),
+                    const SizedBox(height: 10),
+                    Text(
+                      context.localize.t_shared_video,
                       overflow: TextOverflow.ellipsis,
                       style: context.buttonTextStyle()!.copyWith(
                             fontSize: 14,
-                            color: AppColors.activeLabelItem,
+                            color: Colors.white,
                           ),
                     ),
-                  ),
-                ],
+                    const SizedBox(height: 10),
+                    WButtonInkwell(
+                      onPressed: onRemoveFile,
+                      child: Text(
+                        context.localize.t_remove_file,
+                        overflow: TextOverflow.ellipsis,
+                        style: context.buttonTextStyle()!.copyWith(
+                              fontSize: 14,
+                              color: AppColors.activeLabelItem,
+                            ),
+                      ),
+                    ),
+                  ],
+                ),
               )
             ],
           ),
