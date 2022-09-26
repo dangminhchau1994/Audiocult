@@ -139,9 +139,10 @@ class SongItem extends StatelessWidget {
                                 },
                               );
                         break;
-                      case 1:
-                        ToastUtility.showPending(context: context, message: context.localize.t_feature_development);
-                        break;
+                      // TODO: hidden feature in development
+                      // case 1:
+                      //   ToastUtility.showPending(context: context, message: context.localize.t_feature_development);
+                      //   break;
                       case 2:
                         Navigator.pushNamed(
                           context,
@@ -150,6 +151,7 @@ class SongItem extends StatelessWidget {
                         );
                         break;
                       default:
+                        break;
                     }
                   },
                 ),

@@ -117,29 +117,30 @@ class _MainScreenState extends State<MainScreen> {
     }
   }
 
-  Widget _buildIcon(int currentIndex) {
-    if (currentIndex == 0 || currentIndex == 1) {
-      return WButtonInkwell(
-        onPressed: () {
-          ToastUtility.showPending(context: context, message: context.localize.t_feature_development);
-        },
-        child: SvgPicture.asset(
-          AppAssets.messageIcon,
-          fit: BoxFit.cover,
-        ),
-      );
-    } else {
-      return WButtonInkwell(
-        onPressed: () {
-          ToastUtility.showPending(context: context, message: context.localize.t_feature_development);
-        },
-        child: SvgPicture.asset(
-          AppAssets.searchIcon,
-          fit: BoxFit.cover,
-        ),
-      );
-    }
-  }
+  // TODO: hidden feature in development
+  // Widget _buildIcon(int currentIndex) {
+  //   if (currentIndex == 0 || currentIndex == 1) {
+  //     return WButtonInkwell(
+  //       onPressed: () {
+  //         ToastUtility.showPending(context: context, message: context.localize.t_feature_development);
+  //       },
+  //       child: SvgPicture.asset(
+  //         AppAssets.messageIcon,
+  //         fit: BoxFit.cover,
+  //       ),
+  //     );
+  //   } else {
+  //     return WButtonInkwell(
+  //       onPressed: () {
+  //         ToastUtility.showPending(context: context, message: context.localize.t_feature_development);
+  //       },
+  //       child: SvgPicture.asset(
+  //         AppAssets.searchIcon,
+  //         fit: BoxFit.cover,
+  //       ),
+  //     );
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -169,17 +170,18 @@ class _MainScreenState extends State<MainScreen> {
             ),
           ),
           actions: [
-            Container(
-              padding: const EdgeInsets.all(8),
-              margin: const EdgeInsets.symmetric(horizontal: 8),
-              width: 36,
-              height: 36,
-              decoration: BoxDecoration(
-                color: AppColors.inputFillColor,
-                shape: BoxShape.circle,
-              ),
-              child: _buildIcon(_currentIndex),
-            ),
+            // TODO: hidden feature in development
+            // Container(
+            //   padding: const EdgeInsets.all(8),
+            //   margin: const EdgeInsets.symmetric(horizontal: 8),
+            //   width: 36,
+            //   height: 36,
+            //   decoration: BoxDecoration(
+            //     color: AppColors.inputFillColor,
+            //     shape: BoxShape.circle,
+            //   ),
+            //   child: _buildIcon(_currentIndex),
+            // ),
             CommonFabMenu(
               onSearchTap: () {
                 Navigator.of(context).pushNamed(AppRoute.routeUniversalSearch);
