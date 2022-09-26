@@ -364,5 +364,10 @@
     "t_membership": "Membership",
     "t_profile_views": "Profile views",
     "t_relogin": "Re-login",
-    "t_close_app": "Close app"
+    "t_close_app": "Close app",
+    "t_confirm": "Confirm",
+    "t_camera_permission_requirement": "Camera permission should be granted to use this feature, would you like to go to app settings to give camera permission?",
+    "t_gallery_permission": "Gallery Permission",
+    "t_gallery_permission_requirement": "Gallery permission should Be granted to use this feature, would you like to go to app settings to give gallery permission?"
+
 }
