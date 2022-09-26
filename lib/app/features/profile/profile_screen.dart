@@ -139,14 +139,22 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
                           _profileBloc?.uploadAvatar(value);
                         },
                         onBlockUser: () {
-                          _profileBloc?.blockUser(int.parse(widget.params['userId'] as String,));
+                          _profileBloc?.blockUser(int.parse(
+                            widget.params['userId'] as String,
+                          ));
                         },
                       ),
                       SliverFillRemaining(
                         child: TabBarView(
                           controller: _tabController,
                           children: [
-                            PostPage(profile: data, scrollController: _scrollController),
+                            PostPage(
+                                profile: data,
+                                scrollController: _scrollController,
+                                onUpdateProfile: () {
+                                  _profileBloc?.requestData(
+                                      params: ProfileRequest(userId: widget.params['userId'] as String, query: 'info'));
+                                }),
                             AboutPage(profile: data, scrollController: _scrollController),
                             VideosPage(profile: data, scrollController: _scrollController),
                             MusicsPage(profile: data, scrollController: _scrollController),

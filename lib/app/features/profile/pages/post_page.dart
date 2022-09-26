@@ -28,7 +28,8 @@ import '../profile_screen.dart';
 class PostPage extends StatefulWidget {
   final ScrollController? scrollController;
   final ProfileData? profile;
-  const PostPage({Key? key, this.profile, this.scrollController}) : super(key: key);
+  final Function()? onUpdateProfile;
+  const PostPage({Key? key, this.profile, this.scrollController, this.onUpdateProfile}) : super(key: key);
 
   @override
   State<PostPage> createState() => _PostPageState();
@@ -161,10 +162,11 @@ class _PostPageState extends State<PostPage> {
                                     scrollDirection: Axis.horizontal,
                                     itemBuilder: (_, index) {
                                       return WButtonInkwell(
-                                        onPressed: () {
-                                          Navigator.pushNamed(context, AppRoute.routeProfile,
+                                        onPressed: () async {
+                                          await Navigator.pushNamed(context, AppRoute.routeProfile,
                                               arguments:
                                                   ProfileScreen.createArguments(id: subscriptions[index].userId!));
+                                          widget.onUpdateProfile?.call();
                                         },
                                         child: Container(
                                           width: 96,
