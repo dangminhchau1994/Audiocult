@@ -99,7 +99,7 @@ class ProfileData {
     relationPhrase = iw['relation_phrase'].get();
     coverPhoto = iw['cover_photo'].get();
     locationString = iw['location'].get();
-    totalSubscriptions = iw['total_subscriptions'].get();
+    totalSubscriptions = iw['total_subscribed'].get();
     totalSubscribers = iw['total_subscribers'].get();
     biography = iw['biography'].get();
     isSubscribed = iw['is_subscribed'].get();
@@ -140,7 +140,7 @@ class ProfileData {
     data['relation_phrase'] = relationPhrase;
     data['cover_photo'] = coverPhoto;
     data['location'] = locationString;
-    data['total_subscriptions'] = totalSubscriptions;
+    data['total_subscribed'] = totalSubscriptions;
     data['total_subscribers'] = totalSubscribers;
     data['biography'] = biography;
     return data;
