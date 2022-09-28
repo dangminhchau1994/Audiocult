@@ -13,7 +13,7 @@ void main() {
             stripePubkey: StripePaymentPublicKey.keyPro,
             mainUrl: 'https://audiocult.net',
             placeUrl: 'https://maps.googleapis.com',
-            ticketUrl: 'https://tickets.staging.audiocult.net'),
+            ticketUrl: 'https://tickets.audiocult.net'),
       ),
       child: const App(),
     ),
