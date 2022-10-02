@@ -1,5 +1,4 @@
 import 'package:audio_cult/app/base/index_walker.dart';
-import 'package:intl/intl.dart';
 
 class TicketDetails {
   String? details;
