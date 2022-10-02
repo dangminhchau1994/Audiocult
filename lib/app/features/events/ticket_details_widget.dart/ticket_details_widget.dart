@@ -50,9 +50,20 @@ class TicketDetailsWidget extends StatelessWidget {
               SizedBox(
                 height: _eventInfoSectionHeight,
                 child: Stack(children: [
-                  Positioned(top: 0, left: 0, right: 0, bottom: 0, child: _eventInfoBackground()),
-                  Positioned(top: 0, left: 0, right: 0, bottom: 0, child: _eventInfoWidget(context)),
-                  Positioned(right: 20, top: 20, child: _statusAndPriceTagsOfTicket()),
+                  Positioned(
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      bottom: 0,
+                      child: _eventInfoBackground()),
+                  Positioned(
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      bottom: 0,
+                      child: _eventInfoWidget(context)),
+                  Positioned(
+                      right: 20, top: 20, child: _statusAndPriceTagsOfTicket()),
                   Positioned(
                     top: _eventInfoSectionHeight,
                     left: 20,
@@ -96,6 +107,7 @@ class TicketDetailsWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
+            _ticketNameWidget(context),
             _eventTitleWidget(context),
             _locationWidget(),
             _dateTimeWidget(context),
@@ -108,7 +120,9 @@ class TicketDetailsWidget extends StatelessWidget {
   Widget _statusAndPriceTagsOfTicket() {
     return Row(
       children: [
-        _statusTag(status: ticketDetails.status ?? '', statusCode: ticketDetails.statusCode ?? ''),
+        _statusTag(
+            status: ticketDetails.status ?? '',
+            statusCode: ticketDetails.statusCode ?? ''),
         const SizedBox(width: 8),
         _priceTag(),
       ],
@@ -121,12 +135,17 @@ class TicketDetailsWidget extends StatelessWidget {
       children: [
         _qrCodeWidget(),
         const SizedBox(height: 16),
+        _ticketSecretWidget(),
+        const SizedBox(height: 16),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
               '${context.localize.t_code}: ',
-              style: context.textTheme().caption?.copyWith(color: AppColors.subTitleColor),
+              style: context
+                  .textTheme()
+                  .caption
+                  ?.copyWith(color: AppColors.subTitleColor),
             ),
             Text(ticketDetails.orderCode ?? ''),
           ],
@@ -140,6 +159,17 @@ class TicketDetailsWidget extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: kVerticalSpacing),
       child: Text(
         event.title ?? '',
+        style: context.headerStyle1()?.copyWith(fontWeight: FontWeight.w500),
+        textAlign: TextAlign.start,
+      ),
+    );
+  }
+
+  Widget _ticketNameWidget(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: kVerticalSpacing),
+      child: Text(
+        ticketDetails.ticketName ?? '',
         style: context.headerStyle1()?.copyWith(fontWeight: FontWeight.w500),
         textAlign: TextAlign.start,
       ),
@@ -195,7 +225,9 @@ class TicketDetailsWidget extends StatelessWidget {
 
   String _formatedDateTime(BuildContext context, {DateTime? dateTime}) {
     if (dateTime == null) return '';
-    return DateFormat.yMMMMd(context.language?.locale).add_jm().format(dateTime);
+    return DateFormat.yMMMMd(context.language?.locale)
+        .add_jm()
+        .format(dateTime);
   }
 
   Widget _statusTag({required String status, required String statusCode}) {
@@ -216,9 +248,22 @@ class TicketDetailsWidget extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 6),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(4),
-        color: status == TicketStatus.paid ? status?.color : AppColors.subTitleColor,
+        color: status == TicketStatus.paid
+            ? status?.color
+            : AppColors.subTitleColor,
       ),
-      child: Center(child: Text('${ticketDetails.price} ${ticketDetails.currency}')),
+      child: Center(
+          child: Text('${ticketDetails.price} ${ticketDetails.currency}')),
+    );
+  }
+
+  Widget _ticketSecretWidget() {
+    return Padding(
+      padding: const EdgeInsets.all(kHorizontalSpacing),
+      child: Text(
+        ticketDetails.ticketSecret ?? '',
+        maxLines: 2,
+      ),
     );
   }
 
