@@ -19,9 +19,17 @@ class PlayerScreen extends StatefulWidget {
   @override
   State<PlayerScreen> createState() => _PlayerScreenState();
 
-  static Map<String, dynamic> createArguments(
-          {required List<Song> listSong, required int index, bool fromMini = false}) =>
-      {'listSong': listSong, 'index': index, 'from_mini': fromMini};
+  static Map<String, dynamic> createArguments({
+    required List<Song> listSong,
+    required int index,
+    bool fromMini = false,
+    MediaItem? mediaItem,
+  }) =>
+      {
+        'listSong': listSong,
+        'index': index,
+        'from_mini': fromMini,
+      };
 }
 
 class _PlayerScreenState extends State<PlayerScreen> {
@@ -32,6 +40,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
   GlobalKey<FlipCardState> cardKey = GlobalKey<FlipCardState>();
   final PanelController _panelController = PanelController();
   bool fromMiniplayer = false;
+
   @override
   void initState() {
     super.initState();
@@ -66,7 +75,8 @@ class _PlayerScreenState extends State<PlayerScreen> {
           artist: element.artistUser?.fullName ?? 'N/A',
           duration: Duration(seconds: int.tryParse(element.duration ?? '0')!),
           artUri: Uri.parse(element.image400.toString()),
-          displayTitle: element.userId.toString(),
+          displayTitle: element.artistUser?.userId,
+          displaySubtitle: element.albumId.toString(),
           extras: {
             'url': element.songPath.toString(),
           },
