@@ -19,7 +19,9 @@ class MetaDataStep extends StatefulWidget {
   final Function()? onBack;
   final Song? song;
   final Album? album;
-  const MetaDataStep({Key? key, this.onBack, this.onCompleted, this.song, this.album}) : super(key: key);
+  final bool isEdit;
+  const MetaDataStep({Key? key, this.onBack, this.onCompleted, this.song, this.album, this.isEdit = false})
+      : super(key: key);
 
   @override
   State<MetaDataStep> createState() => MetaDataStepState();
@@ -208,7 +210,7 @@ class MetaDataStepState extends State<MetaDataStep> {
                 Expanded(
                   child: CommonButton(
                     color: AppColors.primaryButtonColor,
-                    text: context.localize.btn_completed,
+                    text: widget.isEdit ? 'Update' : context.localize.btn_completed,
                     onTap: () {
                       if (groupId1 == -1 || groupId2 == -1) {
                         ToastUtility.showError(context: context, message: 'Please fill all information');

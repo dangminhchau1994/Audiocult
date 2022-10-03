@@ -407,14 +407,15 @@ class SongStep2State extends State<SongStep2> {
                           const SizedBox.shrink(),
                         Stack(
                           children: [
-                            if (widget.song?.imagePath != null && _fileSongCover == null)
+                            if ((widget.song?.imagePath != null || widget.album?.imagePath != null) &&
+                                _fileSongCover == null)
                               Positioned(
                                   left: 0,
                                   right: 0,
                                   bottom: 0,
                                   top: 0,
                                   child: Image.network(
-                                    widget.song?.imagePath ?? '',
+                                    widget.song?.imagePath ?? widget.album?.imagePath ?? '',
                                     fit: BoxFit.cover,
                                   ))
                             else

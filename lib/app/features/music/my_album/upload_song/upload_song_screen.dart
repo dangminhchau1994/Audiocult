@@ -117,6 +117,7 @@ class _UploadSongScreenState extends State<UploadSongScreen> with DisposableStat
                         onNext: onNext,
                       ),
                       MetaDataStep(
+                        isEdit: isEditSong || isEditAlbum,
                         song: _song,
                         key: _keyStep4,
                         album: _album,
