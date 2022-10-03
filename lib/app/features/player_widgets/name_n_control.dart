@@ -178,28 +178,65 @@ class _NameNControlsState extends State<NameNControls> {
                           ),
 
                           /// Subtitle container
-                          GestureDetector(
-                            onTap: () async {
-                              await Navigator.pushNamed(
-                                context,
-                                AppRoute.routeProfile,
-                                arguments: ProfileScreen.createArguments(
-                                  id: widget.mediaItem.displayTitle ?? '',
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Expanded(
+                                child: GestureDetector(
+                                  onTap: () async {
+                                    await Navigator.pushNamed(
+                                      context,
+                                      AppRoute.routeProfile,
+                                      arguments: ProfileScreen.createArguments(
+                                        id: widget.mediaItem.displayTitle ?? '',
+                                      ),
+                                    );
+                                  },
+                                  child: AnimatedText(
+                                    defaultAlignment: TextAlign.end,
+                                    text: '${widget.mediaItem.artist ?? context.localize.t_unknown}  • ',
+                                    pauseAfterRound: const Duration(seconds: 3),
+                                    showFadingOnlyWhenScrolling: false,
+                                    fadingEdgeEndFraction: 0.1,
+                                    fadingEdgeStartFraction: 0.1,
+                                    startAfter: const Duration(seconds: 2),
+                                    style: context
+                                        .bodyTextStyle()
+                                        ?.copyWith(fontWeight: FontWeight.w300, color: AppColors.subTitleColor),
+                                  ),
                                 ),
-                              );
-                            },
-                            child: AnimatedText(
-                              text:
-                                  '${widget.mediaItem.artist ?? context.localize.t_unknown} • ${widget.mediaItem.album ?? context.localize.t_unknown}',
-                              pauseAfterRound: const Duration(seconds: 3),
-                              showFadingOnlyWhenScrolling: false,
-                              fadingEdgeEndFraction: 0.1,
-                              fadingEdgeStartFraction: 0.1,
-                              startAfter: const Duration(seconds: 2),
-                              style: context
-                                  .bodyTextStyle()
-                                  ?.copyWith(fontWeight: FontWeight.w300, color: AppColors.subTitleColor),
-                            ),
+                              ),
+                              Expanded(
+                                child: GestureDetector(
+                                  onTap: () async {
+                                    if (int.parse(widget.mediaItem.displaySubtitle ?? '0') > 0) {
+                                      await Navigator.pushNamed(
+                                        context,
+                                        AppRoute.routeDetailAlbum,
+                                        arguments: {
+                                          'album_id': widget.mediaItem.displaySubtitle,
+                                        },
+                                      );
+                                    }
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(left: 8),
+                                    child: AnimatedText(
+                                      defaultAlignment: TextAlign.start,
+                                      text: ' ${widget.mediaItem.album ?? context.localize.t_unknown}',
+                                      pauseAfterRound: const Duration(seconds: 3),
+                                      showFadingOnlyWhenScrolling: false,
+                                      fadingEdgeEndFraction: 0.1,
+                                      fadingEdgeStartFraction: 0.1,
+                                      startAfter: const Duration(seconds: 2),
+                                      style: context
+                                          .bodyTextStyle()
+                                          ?.copyWith(fontWeight: FontWeight.w300, color: AppColors.subTitleColor),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       ),

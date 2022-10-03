@@ -61,7 +61,11 @@ class _InviteFriendDialogState extends State<InviteFriendDialog> {
     if (keyword.isEmpty) {
       results = _apiUsers;
     } else {
-      results = _apiUsers.where((user) => user.fullName!.toLowerCase().contains(keyword.toLowerCase())).toList();
+      results = _apiUsers
+          .where((user) =>
+              user.fullName!.toLowerCase().contains(keyword.toLowerCase()) ||
+              user.email!.toLowerCase().contains(keyword.toLowerCase()))
+          .toList();
     }
 
     setState(() {

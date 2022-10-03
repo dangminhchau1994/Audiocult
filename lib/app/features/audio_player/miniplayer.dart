@@ -117,7 +117,11 @@ class _MiniPlayerState extends State<MiniPlayer> {
                               Navigator.pushNamed(
                                 context,
                                 AppRoute.routePlayerScreen,
-                                arguments: PlayerScreen.createArguments(listSong: [], index: 1, fromMini: true),
+                                arguments: PlayerScreen.createArguments(
+                                  listSong: [],
+                                  index: 1,
+                                  fromMini: true,
+                                ),
                               );
                             },
                             title: Text(
@@ -188,7 +192,7 @@ class _MiniPlayerState extends State<MiniPlayer> {
                                   : preferredMiniButtons,
                             ),
                           ),
-                           child!,
+                          child!,
                         ],
                       ),
                     ),

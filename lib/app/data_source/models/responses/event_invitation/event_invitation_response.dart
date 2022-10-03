@@ -15,6 +15,7 @@ class EventInvitationResponse {
   String? userGroupId;
   String? languageId;
   String? lastActivity;
+  String? email;
   dynamic birthday;
   bool? isChecked;
   String? countryIso;
@@ -30,6 +31,7 @@ class EventInvitationResponse {
     this.isChecked = false,
     this.userImage,
     this.isInvisible,
+    this.email,
     this.userGroupId,
     this.languageId,
     this.lastActivity,
