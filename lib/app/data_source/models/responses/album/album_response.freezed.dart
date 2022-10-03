@@ -493,6 +493,8 @@ mixin _$Album {
   bool? get canSponsor => throw _privateConstructorUsedError;
   bool? get canFeature => throw _privateConstructorUsedError;
   bool? get hasPermission => throw _privateConstructorUsedError;
+  @JsonKey(name: 'description')
+  String? get description => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -556,7 +558,8 @@ abstract class $AlbumCopyWith<$Res> {
       bool? canPurchaseSponsor,
       bool? canSponsor,
       bool? canFeature,
-      bool? hasPermission});
+      bool? hasPermission,
+      @JsonKey(name: 'description') String? description});
 
   $LastIconCopyWith<$Res>? get lastIcon;
 }
@@ -624,6 +627,7 @@ class _$AlbumCopyWithImpl<$Res> implements $AlbumCopyWith<$Res> {
     Object? canSponsor = freezed,
     Object? canFeature = freezed,
     Object? hasPermission = freezed,
+    Object? description = freezed,
   }) {
     return _then(_value.copyWith(
       isLiked: isLiked == freezed
@@ -838,6 +842,10 @@ class _$AlbumCopyWithImpl<$Res> implements $AlbumCopyWith<$Res> {
           ? _value.hasPermission
           : hasPermission // ignore: cast_nullable_to_non_nullable
               as bool?,
+      description: description == freezed
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 
@@ -911,7 +919,8 @@ abstract class _$$_AlbumCopyWith<$Res> implements $AlbumCopyWith<$Res> {
       bool? canPurchaseSponsor,
       bool? canSponsor,
       bool? canFeature,
-      bool? hasPermission});
+      bool? hasPermission,
+      @JsonKey(name: 'description') String? description});
 
   @override
   $LastIconCopyWith<$Res>? get lastIcon;
@@ -981,6 +990,7 @@ class __$$_AlbumCopyWithImpl<$Res> extends _$AlbumCopyWithImpl<$Res>
     Object? canSponsor = freezed,
     Object? canFeature = freezed,
     Object? hasPermission = freezed,
+    Object? description = freezed,
   }) {
     return _then(_$_Album(
       isLiked: isLiked == freezed
@@ -1195,6 +1205,10 @@ class __$$_AlbumCopyWithImpl<$Res> extends _$AlbumCopyWithImpl<$Res>
           ? _value.hasPermission
           : hasPermission // ignore: cast_nullable_to_non_nullable
               as bool?,
+      description: description == freezed
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -1255,7 +1269,8 @@ class _$_Album implements _Album {
       this.canPurchaseSponsor,
       this.canSponsor,
       this.canFeature,
-      this.hasPermission});
+      this.hasPermission,
+      @JsonKey(name: 'description') this.description});
 
   factory _$_Album.fromJson(Map<String, dynamic> json) =>
       _$$_AlbumFromJson(json);
@@ -1397,10 +1412,13 @@ class _$_Album implements _Album {
   final bool? canFeature;
   @override
   final bool? hasPermission;
+  @override
+  @JsonKey(name: 'description')
+  final String? description;
 
   @override
   String toString() {
-    return 'Album(isLiked: $isLiked, userId: $userId, userName: $userName, lastIcon: $lastIcon, fullName: $fullName, text: $text, userImage: $userImage, isInvisible: $isInvisible, albumId: $albumId, viewId: $viewId, privacy: $privacy, privacyComment: $privacyComment, isFeatured: $isFeatured, isSponsor: $isSponsor, name: $name, year: $year, genreId: $genreId, isDj: $isDj, licenseType: $licenseType, imagePath: $imagePath, serverId: $serverId, totalTrack: $totalTrack, totalPlay: $totalPlay, totalComment: $totalComment, totalView: $totalView, totalLike: $totalLike, totalDislike: $totalDislike, totalScore: $totalScore, totalRating: $totalRating, totalAttachment: $totalAttachment, timeStamp: $timeStamp, moduleId: $moduleId, itemId: $itemId, isDay: $isDay, artistId: $artistId, itunes: $itunes, amazon: $amazon, googleplay: $googleplay, youtube: $youtube, soundcloud: $soundcloud, labelUser: $labelUser, labelUserId: $labelUserId, artistUser: $artistUser, artistUserId: $artistUserId, collabUser: $collabUser, collabUserId: $collabUserId, canEdit: $canEdit, canAddSong: $canAddSong, canDelete: $canDelete, canPurchaseSponsor: $canPurchaseSponsor, canSponsor: $canSponsor, canFeature: $canFeature, hasPermission: $hasPermission)';
+    return 'Album(isLiked: $isLiked, userId: $userId, userName: $userName, lastIcon: $lastIcon, fullName: $fullName, text: $text, userImage: $userImage, isInvisible: $isInvisible, albumId: $albumId, viewId: $viewId, privacy: $privacy, privacyComment: $privacyComment, isFeatured: $isFeatured, isSponsor: $isSponsor, name: $name, year: $year, genreId: $genreId, isDj: $isDj, licenseType: $licenseType, imagePath: $imagePath, serverId: $serverId, totalTrack: $totalTrack, totalPlay: $totalPlay, totalComment: $totalComment, totalView: $totalView, totalLike: $totalLike, totalDislike: $totalDislike, totalScore: $totalScore, totalRating: $totalRating, totalAttachment: $totalAttachment, timeStamp: $timeStamp, moduleId: $moduleId, itemId: $itemId, isDay: $isDay, artistId: $artistId, itunes: $itunes, amazon: $amazon, googleplay: $googleplay, youtube: $youtube, soundcloud: $soundcloud, labelUser: $labelUser, labelUserId: $labelUserId, artistUser: $artistUser, artistUserId: $artistUserId, collabUser: $collabUser, collabUserId: $collabUserId, canEdit: $canEdit, canAddSong: $canAddSong, canDelete: $canDelete, canPurchaseSponsor: $canPurchaseSponsor, canSponsor: $canSponsor, canFeature: $canFeature, hasPermission: $hasPermission, description: $description)';
   }
 
   @override
@@ -1482,7 +1500,9 @@ class _$_Album implements _Album {
             const DeepCollectionEquality()
                 .equals(other.canFeature, canFeature) &&
             const DeepCollectionEquality()
-                .equals(other.hasPermission, hasPermission));
+                .equals(other.hasPermission, hasPermission) &&
+            const DeepCollectionEquality()
+                .equals(other.description, description));
   }
 
   @JsonKey(ignore: true)
@@ -1541,7 +1561,8 @@ class _$_Album implements _Album {
         const DeepCollectionEquality().hash(canPurchaseSponsor),
         const DeepCollectionEquality().hash(canSponsor),
         const DeepCollectionEquality().hash(canFeature),
-        const DeepCollectionEquality().hash(hasPermission)
+        const DeepCollectionEquality().hash(hasPermission),
+        const DeepCollectionEquality().hash(description)
       ]);
 
   @JsonKey(ignore: true)
@@ -1609,7 +1630,8 @@ abstract class _Album implements Album {
       final bool? canPurchaseSponsor,
       final bool? canSponsor,
       final bool? canFeature,
-      final bool? hasPermission}) = _$_Album;
+      final bool? hasPermission,
+      @JsonKey(name: 'description') final String? description}) = _$_Album;
 
   factory _Album.fromJson(Map<String, dynamic> json) = _$_Album.fromJson;
 
@@ -1736,6 +1758,9 @@ abstract class _Album implements Album {
   bool? get canFeature => throw _privateConstructorUsedError;
   @override
   bool? get hasPermission => throw _privateConstructorUsedError;
+  @override
+  @JsonKey(name: 'description')
+  String? get description => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$$_AlbumCopyWith<_$_Album> get copyWith =>

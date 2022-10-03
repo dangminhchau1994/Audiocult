@@ -80,6 +80,7 @@ class SongStep2State extends State<SongStep2> {
     if (widget.album != null) {
       albumNameEditTextController.text = widget.album!.name ?? '';
       yearEditTextController.text = widget.album!.year ?? '';
+      descriptionEditTextController.text = widget.album!.description ?? '';
       _genreSelection = SelectMenuModel(id: int.parse(widget.album!.genreId ?? '0'), title: '', isSelected: true);
       _musicType = _musicList.where((element) => element.id == int.tryParse(widget.album!.isDj ?? '0')).first;
       _musicType!.isSelected = true;
@@ -324,15 +325,18 @@ class SongStep2State extends State<SongStep2> {
                 const SizedBox(
                   height: 12,
                 ),
-                CommonInput(
-                  editingController: tagsEditTextController,
-                  hintText: context.localize.t_tags_separate,
-                  onChanged: (v) {
-                    setState(() {
-                      _uploadRequest.tags = v;
-                    });
-                  },
-                ),
+                if (!widget.isUploadSong!)
+                  const SizedBox.shrink()
+                else
+                  CommonInput(
+                    editingController: tagsEditTextController,
+                    hintText: context.localize.t_tags_separate,
+                    onChanged: (v) {
+                      setState(() {
+                        _uploadRequest.tags = v;
+                      });
+                    },
+                  ),
                 const SizedBox(
                   height: kVerticalSpacing,
                 ),

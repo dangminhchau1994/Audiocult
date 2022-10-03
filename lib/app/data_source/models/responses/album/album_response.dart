@@ -101,6 +101,7 @@ class Album with _$Album {
     bool? canSponsor,
     bool? canFeature,
     bool? hasPermission,
+    @JsonKey(name: 'description') String? description,
   }) = _Album;
 
   factory Album.fromJson(Map<String, dynamic> json) => _$AlbumFromJson(json);

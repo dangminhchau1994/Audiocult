@@ -99,6 +99,7 @@ _$_Album _$$_AlbumFromJson(Map<String, dynamic> json) => _$_Album(
       canSponsor: json['canSponsor'] as bool?,
       canFeature: json['canFeature'] as bool?,
       hasPermission: json['hasPermission'] as bool?,
+      description: json['description'] as String?,
     );
 
 Map<String, dynamic> _$$_AlbumToJson(_$_Album instance) => <String, dynamic>{
@@ -155,4 +156,5 @@ Map<String, dynamic> _$$_AlbumToJson(_$_Album instance) => <String, dynamic>{
       'canSponsor': instance.canSponsor,
       'canFeature': instance.canFeature,
       'hasPermission': instance.hasPermission,
+      'description': instance.description,
     };
