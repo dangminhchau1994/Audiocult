@@ -91,91 +91,93 @@ class FifthStepScreenState extends State<FifthStepScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: kHorizontalSpacing),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(context.localize.t_privacy, style: context.bodyTextStyle()?.copyWith(fontSize: 18)),
-          const SizedBox(
-            height: kVerticalSpacing / 2,
-          ),
-          Text(
-            context.localize.t_sub_privacy,
-            style: context.bodyTextStyle()?.copyWith(color: AppColors.unActiveLabelItem),
-          ),
-          const SizedBox(
-            height: kVerticalSpacing,
-          ),
-          CommonDropdown(
-            selection: _privacy,
-            hint: '',
-            data: _menuOptions(menuOptions: menuPrivacy, selectedID: _privacy?.id ?? 0),
-            onChanged: (value) {
-              setState(() {
-                _privacy = value;
-                widget.createEventRequest?.privacy = value?.id ?? 0;
-              });
-            },
-          ),
-          const SizedBox(
-            height: kVerticalSpacing + 20,
-          ),
-          Text(context.localize.t_comment_privacy, style: context.bodyTextStyle()?.copyWith(fontSize: 18)),
-          const SizedBox(
-            height: kVerticalSpacing,
-          ),
-          Text(
-            context.localize.t_sub_comment_privacy,
-            style: context.bodyTextStyle()?.copyWith(color: AppColors.unActiveLabelItem),
-          ),
-          const SizedBox(
-            height: kVerticalSpacing,
-          ),
-          CommonDropdown(
-              selection: _privacyComment,
+    return SingleChildScrollView(
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: kHorizontalSpacing),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(context.localize.t_privacy, style: context.bodyTextStyle()?.copyWith(fontSize: 18)),
+            const SizedBox(
+              height: kVerticalSpacing / 2,
+            ),
+            Text(
+              context.localize.t_sub_privacy,
+              style: context.bodyTextStyle()?.copyWith(color: AppColors.unActiveLabelItem),
+            ),
+            const SizedBox(
+              height: kVerticalSpacing,
+            ),
+            CommonDropdown(
+              selection: _privacy,
               hint: '',
-              data: _menuOptions(menuOptions: menuPrivacyComment, selectedID: _privacyComment?.id ?? 0),
+              data: _menuOptions(menuOptions: menuPrivacy, selectedID: _privacy?.id ?? 0),
               onChanged: (value) {
                 setState(() {
-                  _privacyComment = value;
-                  widget.createEventRequest?.privacyComment = value?.id ?? 0;
+                  _privacy = value;
+                  widget.createEventRequest?.privacy = value?.id ?? 0;
                 });
-              }),
-          const SizedBox(
-            height: kVerticalSpacing + 50,
-          ),
-          Row(
-            children: [
-              Expanded(
-                child: CommonButton(
-                  color: AppColors.secondaryButtonColor,
-                  text: context.localize.btn_back,
-                  onTap: () {
-                    widget.onBack?.call();
-                  },
+              },
+            ),
+            const SizedBox(
+              height: kVerticalSpacing + 20,
+            ),
+            Text(context.localize.t_comment_privacy, style: context.bodyTextStyle()?.copyWith(fontSize: 18)),
+            const SizedBox(
+              height: kVerticalSpacing,
+            ),
+            Text(
+              context.localize.t_sub_comment_privacy,
+              style: context.bodyTextStyle()?.copyWith(color: AppColors.unActiveLabelItem),
+            ),
+            const SizedBox(
+              height: kVerticalSpacing,
+            ),
+            CommonDropdown(
+                selection: _privacyComment,
+                hint: '',
+                data: _menuOptions(menuOptions: menuPrivacyComment, selectedID: _privacyComment?.id ?? 0),
+                onChanged: (value) {
+                  setState(() {
+                    _privacyComment = value;
+                    widget.createEventRequest?.privacyComment = value?.id ?? 0;
+                  });
+                }),
+            const SizedBox(
+              height: kVerticalSpacing + 50,
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: CommonButton(
+                    color: AppColors.secondaryButtonColor,
+                    text: context.localize.btn_back,
+                    onTap: () {
+                      widget.onBack?.call();
+                    },
+                  ),
                 ),
-              ),
-              const SizedBox(
-                width: kVerticalSpacing,
-              ),
-              Expanded(
-                child: CommonButton(
-                  color: AppColors.primaryButtonColor,
-                  text: widget.createEventRequest?.isEditing == true
-                      ? context.localize.t_update
-                      : context.localize.btn_completed,
-                  onTap: () {
-                    widget.onComplete!();
-                  },
+                const SizedBox(
+                  width: kVerticalSpacing,
                 ),
-              )
-            ],
-          ),
-          const SizedBox(
-            height: kVerticalSpacing,
-          ),
-        ],
+                Expanded(
+                  child: CommonButton(
+                    color: AppColors.primaryButtonColor,
+                    text: widget.createEventRequest?.isEditing == true
+                        ? context.localize.t_update
+                        : context.localize.btn_completed,
+                    onTap: () {
+                      widget.onComplete!();
+                    },
+                  ),
+                )
+              ],
+            ),
+            const SizedBox(
+              height: kVerticalSpacing,
+            ),
+          ],
+        ),
       ),
     );
   }
