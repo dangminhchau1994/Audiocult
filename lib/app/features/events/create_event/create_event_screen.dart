@@ -156,12 +156,14 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
   }
 
   void onNext() {
+    FocusManager.instance.primaryFocus?.unfocus();
     setState(() {
       _currentStep++;
     });
   }
 
   void onBack() {
+    FocusManager.instance.primaryFocus?.unfocus();
     setState(() {
       _currentStep--;
     });
