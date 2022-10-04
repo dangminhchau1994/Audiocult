@@ -6,7 +6,6 @@ import 'package:audio_cult/app/injections.dart';
 import 'package:audio_cult/app/utils/constants/app_assets.dart';
 import 'package:audio_cult/app/utils/constants/app_dimens.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
-import 'package:audio_cult/l10n/l10n.dart';
 import 'package:audio_cult/w_components/dropdown/common_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -30,7 +29,7 @@ class EventDetailAttending extends StatefulWidget {
 
 class _EventDetailAttendingState extends State<EventDetailAttending> {
   late SelectMenuModel _attendSelected;
-  final EventDetailBloc _eventDetailBloc = EventDetailBloc(locator.get());
+  final EventDetailBloc _eventDetailBloc = EventDetailBloc(locator.get(), locator.get());
   final _bloc = InviteFriendBloc(locator.get());
   List<EventInvitationResponse> _users = [];
   String _iconPath = '';

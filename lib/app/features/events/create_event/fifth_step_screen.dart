@@ -1,10 +1,11 @@
 import 'package:audio_cult/app/data_source/models/requests/create_event_request.dart';
+import 'package:audio_cult/app/utils/constants/app_assets.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../w_components/buttons/common_button.dart';
 import '../../../../w_components/dropdown/common_dropdown.dart';
-import '../../../utils/constants/app_assets.dart';
 import '../../../utils/constants/app_colors.dart';
 import '../../../utils/constants/app_dimens.dart';
 
@@ -27,56 +28,65 @@ class FifthStepScreen extends StatefulWidget {
 class FifthStepScreenState extends State<FifthStepScreen> {
   SelectMenuModel? _privacy;
   SelectMenuModel? _privacyComment;
-  late List<SelectMenuModel> listPrivacy;
+  late List<SelectMenuModel> menuPrivacy;
+  late List<SelectMenuModel> menuPrivacyComment;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    listPrivacy = [
+    menuPrivacy = _initPrivacyMenu();
+    menuPrivacyComment = _initPrivacyMenu();
+    _privacy = widget.createEventRequest?.isEditing != true
+        ? menuPrivacy.first
+        : menuPrivacy.firstWhereOrNull((e) => e.id == widget.createEventRequest?.privacy);
+    widget.createEventRequest?.privacy = _privacy?.id;
+    _privacyComment = widget.createEventRequest?.isEditing != true
+        ? menuPrivacyComment.first
+        : menuPrivacyComment.firstWhereOrNull((e) => e.id == widget.createEventRequest?.privacyComment);
+    widget.createEventRequest?.privacyComment = _privacyComment?.id;
+  }
+
+  List<SelectMenuModel> _initPrivacyMenu() {
+    return [
       SelectMenuModel(
         id: 1,
         title: context.localize.t_everyone,
-        isSelected: true,
-        icon: Image.asset(
-          AppAssets.icPublic,
-          width: 24,
-        ),
+        isSelected: !(widget.createEventRequest?.isEditing ?? false),
+        icon: Image.asset(AppAssets.icPublic, width: 24),
       ),
       SelectMenuModel(
         id: 2,
         title: context.localize.t_subscriptions,
-        icon: Image.asset(
-          AppAssets.icSubscription,
-          width: 24,
-        ),
+        icon: Image.asset(AppAssets.icSubscription, width: 24),
       ),
       SelectMenuModel(
         id: 3,
         title: context.localize.t_friends_of_friends,
-        icon: Image.asset(
-          AppAssets.icFriends,
-          width: 24,
-        ),
+        icon: Image.asset(AppAssets.icFriends, width: 24),
       ),
       SelectMenuModel(
         id: 4,
         title: context.localize.t_only_me,
-        icon: Image.asset(
-          AppAssets.icLock,
-          width: 24,
-        ),
+        icon: Image.asset(AppAssets.icLock, width: 24),
       ),
       SelectMenuModel(
         id: 5,
         title: context.localize.t_customize,
-        icon: Image.asset(
-          AppAssets.icSetting,
-          width: 24,
-        ),
+        icon: Image.asset(AppAssets.icSetting, width: 24),
       ),
     ];
-    _privacy = listPrivacy[0];
-    _privacyComment = listPrivacy[0];
+  }
+
+  List<SelectMenuModel> _menuOptions({
+    required List<SelectMenuModel> menuOptions,
+    required int selectedID,
+  }) {
+    final array = [...menuOptions];
+    final index = array.indexWhere((element) => element.id == selectedID);
+    if (index >= 0 && index < array.length) {
+      array[index].isSelected = true;
+    }
+    return array;
   }
 
   @override
@@ -100,7 +110,7 @@ class FifthStepScreenState extends State<FifthStepScreen> {
           CommonDropdown(
             selection: _privacy,
             hint: '',
-            data: listPrivacy,
+            data: _menuOptions(menuOptions: menuPrivacy, selectedID: _privacy?.id ?? 0),
             onChanged: (value) {
               setState(() {
                 _privacy = value;
@@ -125,7 +135,7 @@ class FifthStepScreenState extends State<FifthStepScreen> {
           CommonDropdown(
               selection: _privacyComment,
               hint: '',
-              data: listPrivacy,
+              data: _menuOptions(menuOptions: menuPrivacyComment, selectedID: _privacyComment?.id ?? 0),
               onChanged: (value) {
                 setState(() {
                   _privacyComment = value;
@@ -152,7 +162,9 @@ class FifthStepScreenState extends State<FifthStepScreen> {
               Expanded(
                 child: CommonButton(
                   color: AppColors.primaryButtonColor,
-                  text: context.localize.btn_completed,
+                  text: widget.createEventRequest?.isEditing == true
+                      ? context.localize.t_update
+                      : context.localize.btn_completed,
                   onTap: () {
                     widget.onComplete!();
                   },

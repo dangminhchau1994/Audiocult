@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:audio_cult/app/data_source/models/responses/song_detail/song_detail_response.dart';
 import 'package:audio_cult/app/data_source/models/responses/ticket/ticket.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -36,6 +38,11 @@ class EventResponse {
   String? address;
   String? lat;
   String? tags;
+  String? facebook;
+  String? twitter;
+  String? website;
+  String? hostName;
+  String? hostDescription;
   String? lng;
   String? description;
   String? eventDate;
@@ -75,6 +82,11 @@ class EventResponse {
       this.gmap,
       this.address,
       this.tags,
+      this.facebook,
+      this.twitter,
+      this.website,
+      this.hostName,
+      this.hostDescription,
       this.lat,
       this.lng,
       this.description,
@@ -116,8 +128,17 @@ class LastIcon {
 @JsonSerializable(fieldRename: FieldRename.snake)
 class Lineup {
   List<ArtistUser>? artist;
+  List<ArtistUser>? entertainment;
 
   Lineup({this.artist});
 
   factory Lineup.fromJson(Map<String, dynamic> json) => _$LineupFromJson(json);
+
+  String artistsToJson() {
+    return jsonEncode(artist);
+  }
+
+  String entertainmentToJson() {
+    return jsonEncode(entertainment);
+  }
 }

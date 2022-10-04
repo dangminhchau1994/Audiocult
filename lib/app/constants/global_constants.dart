@@ -21,7 +21,6 @@ class GlobalConstants {
   static const String reportAlbum = 'music_album';
   static const String reportPhoto = 'photo';
   static const String reportFeed = 'feed';
-  static List<SelectMenuModel>? _privacySelections;
   static List<Pair<Pair<int, Widget>, String>>? _myAlbumMenuPairs;
 
   static const int loadMoreItem = 10;
@@ -30,12 +29,15 @@ class GlobalConstants {
     return url + path;
   }
 
-  static List<SelectMenuModel> listPrivacy(BuildContext context) {
-    return _privacySelections ??= [
+  static List<SelectMenuModel> listPrivacy(
+    BuildContext context, {
+    bool autoFirstOption = true,
+  }) {
+    return [
       SelectMenuModel(
         id: 0,
         title: context.localize.t_everyone,
-        isSelected: true,
+        isSelected: autoFirstOption,
         icon: Image.asset(
           AppAssets.icPublic,
           width: 24,

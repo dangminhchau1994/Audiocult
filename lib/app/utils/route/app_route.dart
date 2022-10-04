@@ -290,7 +290,7 @@ class AppRoute {
       case routeCreateEvent:
         return _pageRoute(
           settings,
-          const CreateEventScreen(),
+          CreateEventScreen(event: asType<EventResponse>(settings.arguments)),
         );
       case routeFeaturedAlbum:
         final SearchArgs? arguments = asType(settings.arguments);

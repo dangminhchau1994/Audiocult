@@ -3,6 +3,7 @@ import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/app/utils/route/app_route.dart';
 import 'package:audio_cult/w_components/buttons/w_button_inkwell.dart';
 import 'package:audio_cult/w_components/images/common_image_network.dart';
+import 'package:audio_cult/w_components/tag_label/tag_label.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -12,9 +13,11 @@ class PopularEventItem extends StatelessWidget {
   const PopularEventItem({
     Key? key,
     this.data,
+    this.isMyEvent = false,
   }) : super(key: key);
 
   final EventResponse? data;
+  final bool isMyEvent;
 
   @override
   Widget build(BuildContext context) {
@@ -37,10 +40,18 @@ class PopularEventItem extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          CommonImageNetWork(
-            width: 250,
-            height: 176,
-            imagePath: data?.imagePath ?? '',
+          Stack(
+            children: [
+              CommonImageNetWork(
+                width: 250,
+                height: 176,
+                imagePath: data?.imagePath ?? '',
+              ),
+              if (isMyEvent)
+                const TagLabel()
+              else
+                Container(),
+            ],
           ),
           const SizedBox(
             height: 10,

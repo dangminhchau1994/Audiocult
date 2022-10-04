@@ -16,6 +16,7 @@ import 'package:audio_cult/app/features/ticket/w_bottom_dialog.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
 import 'package:audio_cult/app/utils/constants/app_dimens.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
+import 'package:audio_cult/app/utils/route/app_route.dart';
 import 'package:audio_cult/di/bloc_locator.dart';
 
 import 'package:audio_cult/w_components/buttons/common_button.dart';
@@ -75,7 +76,7 @@ class _EventDetailState extends State<EventDetail> {
             return state.when(
               success: (success) {
                 final data = success as EventResponse;
-
+                final isMyEvent = data.userId == getIt<EventDetailBloc>().userId;
                 return CustomScrollView(
                   controller: _scrollController,
                   slivers: [
@@ -83,10 +84,25 @@ class _EventDetailState extends State<EventDetail> {
                       child: Stack(
                         children: [
                           EventDetailPhoto(imagePath: data.imagePath ?? ''),
-                          const EventDetailNavBar(),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 20,
+                              vertical: 50,
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const EventDetailNavBar(),
+                                _editButton(
+                                  isHidden: !isMyEvent,
+                                  eventResponse: data,
+                                ),
+                              ],
+                            ),
+                          ),
                           EventDetailTitle(title: data.title ?? ''),
                           EventDetailFestiVal(
-                            category: data.categories?[0][0],
+                            category: data.categories?.first.first,
                           ),
                         ],
                       ),
@@ -153,6 +169,25 @@ class _EventDetailState extends State<EventDetail> {
           },
         ),
       ),
+    );
+  }
+
+  Widget _editButton({
+    required bool isHidden,
+    required EventResponse eventResponse,
+  }) {
+    if (isHidden) return Container();
+    return TextButton(
+      onPressed: () async {
+        final result = await Navigator.of(context).pushNamed(
+          AppRoute.routeCreateEvent,
+          arguments: eventResponse,
+        );
+        if (result != null) {
+          getIt<EventDetailBloc>().displayEventDetail(result as EventResponse);
+        }
+      },
+      child: Text(context.localize.t_edit),
     );
   }
 }

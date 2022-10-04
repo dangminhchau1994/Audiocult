@@ -11,20 +11,52 @@ class CreateEventBloc extends BaseBloc {
   CreateEventBloc(this._appRepository);
 
   final _createEventSubject = PublishSubject<BlocState<EventResponse>>();
+  final _editEventSubject = PublishSubject<BlocState<EventResponse>>();
   final _getEventCategoriesSubject = PublishSubject<BlocState<List<EventCategoryResponse>>>();
 
   Stream<BlocState<EventResponse>> get createEventStream => _createEventSubject.stream;
+  Stream<BlocState<EventResponse>> get editEventStream => _editEventSubject.stream;
   Stream<BlocState<List<EventCategoryResponse>>> get getEventCategoriesStream => _getEventCategoriesSubject.stream;
 
-  void createEvent(CreateEventRequest request) async {
+  @override
+  void dispose() {
+    _createEventSubject.close();
+    _editEventSubject.close();
+    _getEventCategoriesSubject.close();
+    super.dispose();
+  }
+
+  void completeInputEventData(CreateEventRequest? request) async {
+    if (request == null) return;
     _createEventSubject.sink.add(const BlocState.loading());
 
-    final result = await _appRepository.createEvent(request);
+    if (request.isEditing) {
+      update(request);
+    } else {
+      create(request);
+    }
+  }
 
+  void create(CreateEventRequest request) async {
+    final result = await _appRepository.createEvent(request);
     result.fold((success) {
       _createEventSubject.sink.add(BlocState.success(success));
     }, (error) {
       _createEventSubject.sink.add(BlocState.error(error.toString()));
+    });
+  }
+
+  void update(CreateEventRequest request) async {
+    final result = await _appRepository.updateEvent(request);
+    result.fold((success) {
+      if (success?.error != null) {
+        _editEventSubject.sink.add(BlocState.error(success!.error['message'] as String));
+        return;
+      }
+      final event = EventResponse.fromJson(success!.data as Map<String, dynamic>);
+      _editEventSubject.sink.add(BlocState.success(event));
+    }, (error) {
+      _editEventSubject.sink.add(BlocState.error(error.toString()));
     });
   }
 

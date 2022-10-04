@@ -32,7 +32,7 @@ class EventDetailComment extends StatefulWidget {
 }
 
 class _EventDetailCommentState extends State<EventDetailComment> {
-  final EventDetailBloc _eventDetailBloc = EventDetailBloc(locator.get());
+  final EventDetailBloc _eventDetailBloc = EventDetailBloc(locator.get(), locator.get());
 
   @override
   void initState() {

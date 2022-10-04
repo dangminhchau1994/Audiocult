@@ -39,6 +39,11 @@ EventResponse _$EventResponseFromJson(Map<String, dynamic> json) =>
       gmap: json['gmap'] as String?,
       address: json['address'] as String?,
       tags: json['tags'] as String?,
+      facebook: json['facebook'] as String?,
+      twitter: json['twitter'] as String?,
+      website: json['website'] as String?,
+      hostName: json['host_name'] as String?,
+      hostDescription: json['host_description'] as String?,
       lat: json['lat'] as String?,
       lng: json['lng'] as String?,
       description: json['description'] as String?,
@@ -86,6 +91,11 @@ Map<String, dynamic> _$EventResponseToJson(EventResponse instance) =>
       'address': instance.address,
       'lat': instance.lat,
       'tags': instance.tags,
+      'facebook': instance.facebook,
+      'twitter': instance.twitter,
+      'website': instance.website,
+      'host_name': instance.hostName,
+      'host_description': instance.hostDescription,
       'lng': instance.lng,
       'description': instance.description,
       'event_date': instance.eventDate,
@@ -112,8 +122,11 @@ Lineup _$LineupFromJson(Map<String, dynamic> json) => Lineup(
       artist: (json['artist'] as List<dynamic>?)
           ?.map((e) => ArtistUser.fromJson(e as Map<String, dynamic>))
           .toList(),
-    );
+    )..entertainment = (json['entertainment'] as List<dynamic>?)
+        ?.map((e) => ArtistUser.fromJson(e as Map<String, dynamic>))
+        .toList();
 
 Map<String, dynamic> _$LineupToJson(Lineup instance) => <String, dynamic>{
       'artist': instance.artist,
+      'entertainment': instance.entertainment,
     };
