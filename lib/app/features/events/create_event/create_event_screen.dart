@@ -9,6 +9,7 @@ import 'package:audio_cult/app/features/events/create_event/widgets/stepper_even
 import 'package:audio_cult/app/features/music/my_album/upload_song/upload_song_bloc.dart';
 import 'package:audio_cult/app/injections.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
+import 'package:audio_cult/app/utils/toast/toast_utils.dart';
 
 import 'package:audio_cult/w_components/appbar/common_appbar.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +22,9 @@ import '../../../data_source/models/responses/events/event_response.dart';
 import '../../../utils/constants/app_colors.dart';
 
 class CreateEventScreen extends StatefulWidget {
-  const CreateEventScreen({Key? key}) : super(key: key);
+  final EventResponse? event;
+
+  const CreateEventScreen({this.event, Key? key}) : super(key: key);
 
   @override
   State<CreateEventScreen> createState() => _CreateEventScreenState();
@@ -30,15 +33,39 @@ class CreateEventScreen extends StatefulWidget {
 class _CreateEventScreenState extends State<CreateEventScreen> {
   final CreateEventBloc _createEventBloc = CreateEventBloc(locator.get());
   var _currentStep = 1;
-  var _createEventRequest = CreateEventRequest();
+  late CreateEventRequest _createEventRequest;
   var _runStream = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _createEventRequest = CreateEventRequest.initFromEventResponse(eventResponse: widget.event);
+    _createEventBloc.editEventStream.listen((event) {
+      event.when(
+        success: (event) {
+          setState(() {
+            _runStream = false;
+          });
+          ToastUtility.showSuccess(context: context);
+          Navigator.pop(context, event);
+        },
+        loading: () {},
+        error: (e) {
+          setState(() {
+            _runStream = false;
+          });
+          ToastUtility.showError(context: context, message: e);
+        },
+      );
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.mainColor,
       appBar: CommonAppBar(
-        title: context.localize.t_create_event,
+        title: _createEventRequest.isEditing ? context.localize.t_edit_event : context.localize.t_create_event,
       ),
       body: MultiProvider(
         providers: [
@@ -106,7 +133,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                       return ErrorSectionWidget(
                         errorMessage: error,
                         onRetryTap: () {
-                          _createEventBloc.createEvent(_createEventRequest);
+                          _createEventBloc.completeInputEventData(_createEventRequest);
                         },
                       );
                     },
@@ -124,7 +151,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
   void onComplete() {
     setState(() {
       _runStream = true;
-      _createEventBloc.createEvent(_createEventRequest);
+      _createEventBloc.completeInputEventData(_createEventRequest);
     });
   }
 

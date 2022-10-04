@@ -6,11 +6,12 @@ import 'package:audio_cult/app/features/events/create_event/widgets/event_dateti
 import 'package:audio_cult/app/injections.dart';
 import 'package:audio_cult/app/utils/constants/app_dimens.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
-
 import 'package:audio_cult/w_components/buttons/common_button.dart';
 import 'package:audio_cult/w_components/dropdown/common_dropdown.dart';
 import 'package:audio_cult/w_components/error_empty/error_section.dart';
 import 'package:audio_cult/w_components/textfields/common_input.dart';
+import 'package:collection/collection.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../data_source/models/responses/events/event_category_response.dart';
@@ -39,14 +40,21 @@ class _FirstStepScreenState extends State<FirstStepScreen> {
   final String _errorTitle = '';
   final String _errorLocation = '';
   var _categories;
-  SelectMenuModel? _categorySelections;
+  SelectMenuModel? _categorySelection;
   PlaceAndLocation? _placeAndLocation;
   bool _isValidateCategory = false;
+  final _eventTitleTextController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
     _initData();
+  }
+
+  @override
+  void dispose() {
+    _eventTitleTextController.dispose();
+    super.dispose();
   }
 
   @override
@@ -56,17 +64,20 @@ class _FirstStepScreenState extends State<FirstStepScreen> {
   }
 
   void _initData() {
-    widget.createEventRequest?.startDate = DateTime.now().day.toString();
-    widget.createEventRequest?.starMonth = DateTime.now().month.toString();
-    widget.createEventRequest?.startYear = DateTime.now().year.toString();
-    widget.createEventRequest?.startHour = DateTime.now().hour.toString();
-    widget.createEventRequest?.startMinute = DateTime.now().minute.toString();
+    widget.createEventRequest?.startDate ??= DateTime.now().day.toString();
+    widget.createEventRequest?.starMonth ??= DateTime.now().month.toString();
+    widget.createEventRequest?.startYear ??= DateTime.now().year.toString();
+    widget.createEventRequest?.startHour ??= DateTime.now().hour.toString();
+    widget.createEventRequest?.startMinute ??= DateTime.now().minute.toString();
 
-    widget.createEventRequest?.endDate = DateTime.now().day.toString();
-    widget.createEventRequest?.endMonth = DateTime.now().month.toString();
-    widget.createEventRequest?.endYear = DateTime.now().year.toString();
-    widget.createEventRequest?.endHour = DateTime.now().hour.toString();
-    widget.createEventRequest?.endMinute = DateTime.now().minute.toString();
+    widget.createEventRequest?.endDate ??= DateTime.now().day.toString();
+    widget.createEventRequest?.endMonth ??= DateTime.now().month.toString();
+    widget.createEventRequest?.endYear ??= DateTime.now().year.toString();
+    widget.createEventRequest?.endHour ??= DateTime.now().hour.toString();
+    widget.createEventRequest?.endMinute ??= DateTime.now().minute.toString();
+
+    _eventTitleTextController.text = widget.createEventRequest?.title ?? '';
+    _locationTextController.text = widget.createEventRequest?.location ?? '';
   }
 
   @override
@@ -99,6 +110,7 @@ class _FirstStepScreenState extends State<FirstStepScreen> {
                 ),
                 const SizedBox(height: 20),
                 CommonInput(
+                  editingController: _eventTitleTextController,
                   hintText: context.localize.t_event_title,
                   errorText: _errorTitle.isEmpty ? null : _errorTitle,
                   onChanged: (value) {
@@ -118,13 +130,13 @@ class _FirstStepScreenState extends State<FirstStepScreen> {
 
                           _categories ??=
                               data.map((e) => SelectMenuModel(id: int.parse(e.categoryId!), title: e.name)).toList();
-
-                          debugPrint('chaudang: ${data.length}');
-
                           if (_categories is List) {
+                            _categorySelection = (_categories as List<SelectMenuModel>).firstWhereOrNull(
+                              (menuModel) => menuModel.id.toString() == widget.createEventRequest?.categoryId,
+                            );
                             (_categories as List<SelectMenuModel>).map((e) {
-                              if (e.id == _categorySelections?.id) {
-                                _categorySelections = e;
+                              if (e.id == _categorySelection?.id) {
+                                _categorySelection = e;
                                 e.isSelected = true;
                               }
                               return e;
@@ -132,13 +144,13 @@ class _FirstStepScreenState extends State<FirstStepScreen> {
                           }
 
                           return CommonDropdown(
-                            selection: _categorySelections,
+                            selection: _categorySelection,
                             hint: context.localize.t_category,
                             data: _categories as List<SelectMenuModel>,
                             isValidate: _isValidateCategory,
                             onChanged: (value) {
                               setState(() {
-                                _categorySelections = value;
+                                _categorySelection = value;
                                 widget.createEventRequest?.categoryId = value?.id.toString();
                               });
                             },
@@ -192,6 +204,13 @@ class _FirstStepScreenState extends State<FirstStepScreen> {
                 ),
                 const SizedBox(height: 20),
                 EventDateTimeField(
+                  initialDateTime: DateTime(
+                    int.tryParse(widget.createEventRequest?.startYear ?? '') ?? 0,
+                    int.tryParse(widget.createEventRequest?.starMonth ?? '') ?? 0,
+                    int.tryParse(widget.createEventRequest?.startDate ?? '') ?? 0,
+                    int.tryParse(widget.createEventRequest?.startHour ?? '') ?? 0,
+                    int.tryParse(widget.createEventRequest?.startMinute ?? '') ?? 0,
+                  ),
                   onChanged: (date, month, year, hour, minute) {
                     widget.createEventRequest?.startDate = date.toString();
                     widget.createEventRequest?.starMonth = month.toString();
@@ -207,6 +226,13 @@ class _FirstStepScreenState extends State<FirstStepScreen> {
                 ),
                 const SizedBox(height: 20),
                 EventDateTimeField(
+                  initialDateTime: DateTime(
+                    int.tryParse(widget.createEventRequest?.endYear ?? '') ?? 0,
+                    int.tryParse(widget.createEventRequest?.endMonth ?? '') ?? 0,
+                    int.tryParse(widget.createEventRequest?.endDate ?? '') ?? 0,
+                    int.tryParse(widget.createEventRequest?.endHour ?? '') ?? 0,
+                    int.tryParse(widget.createEventRequest?.endMinute ?? '') ?? 0,
+                  ),
                   onChanged: (date, month, year, hour, minute) {
                     widget.createEventRequest?.endDate = date.toString();
                     widget.createEventRequest?.endMonth = month.toString();
@@ -236,5 +262,11 @@ class _FirstStepScreenState extends State<FirstStepScreen> {
         ),
       ),
     );
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(DiagnosticsProperty('_categories', _categories));
   }
 }

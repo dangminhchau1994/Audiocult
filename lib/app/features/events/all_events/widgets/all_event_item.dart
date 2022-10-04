@@ -4,6 +4,7 @@ import 'package:audio_cult/app/utils/constants/app_colors.dart';
 import 'package:audio_cult/app/utils/constants/app_dimens.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/w_components/buttons/w_button_inkwell.dart';
+import 'package:audio_cult/w_components/tag_label/tag_label.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
@@ -14,11 +15,13 @@ class AllEventItem extends StatelessWidget {
   const AllEventItem({
     Key? key,
     this.data,
+    this.isMyEvent = false,
     this.width,
   }) : super(key: key);
 
   final EventResponse? data;
   final double? width;
+  final bool isMyEvent;
 
   @override
   Widget build(BuildContext context) {
@@ -112,7 +115,8 @@ class AllEventItem extends StatelessWidget {
                       )
                     ],
                   ),
-                )
+                ),
+                if (isMyEvent) const TagLabel() else Container()
               ],
             ),
             const SizedBox(height: 10),

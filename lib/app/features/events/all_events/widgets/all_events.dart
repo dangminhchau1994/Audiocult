@@ -9,9 +9,11 @@ class AllEvents extends StatefulWidget {
   const AllEvents({
     Key? key,
     this.pagingController,
+    this.currentUserId,
   }) : super(key: key);
 
   final PagingController<int, EventResponse>? pagingController;
+  final String? currentUserId;
 
   @override
   State<AllEvents> createState() => _AllEventsState();
@@ -38,6 +40,7 @@ class _AllEventsState extends State<AllEvents> {
         itemBuilder: (context, item, index) {
           return AllEventItem(
             data: item,
+            isMyEvent: item.userId == widget.currentUserId,
           );
         },
       ),

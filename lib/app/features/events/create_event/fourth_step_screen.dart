@@ -25,6 +25,32 @@ class FourthStepScreen extends StatefulWidget {
 }
 
 class _FourthStepScreenState extends State<FourthStepScreen> {
+  final _hostNameTextController = TextEditingController();
+  final _descriptionTextController = TextEditingController();
+  final _hostWebsiteTextController = TextEditingController();
+  final _hostFbTextController = TextEditingController();
+  final _hostTwitterTextController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _hostNameTextController.text = widget.createEventRequest?.hostName ?? '';
+    _descriptionTextController.text = widget.createEventRequest?.hostDescription ?? '';
+    _hostWebsiteTextController.text = widget.createEventRequest?.hostWebsite ?? '';
+    _hostFbTextController.text = widget.createEventRequest?.hostFacebook ?? '';
+    _hostTwitterTextController.text = widget.createEventRequest?.hostTwitter ?? '';
+  }
+
+  @override
+  void dispose() {
+    _hostNameTextController.dispose();
+    _descriptionTextController.dispose();
+    _hostWebsiteTextController.dispose();
+    _hostFbTextController.dispose();
+    _hostTwitterTextController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -51,6 +77,7 @@ class _FourthStepScreenState extends State<FourthStepScreen> {
               ),
               const SizedBox(height: 20),
               CommonInput(
+                editingController: _hostNameTextController,
                 hintText: context.localize.t_host_name,
                 onChanged: (value) {
                   widget.createEventRequest?.hostName = value;
@@ -58,7 +85,8 @@ class _FourthStepScreenState extends State<FourthStepScreen> {
               ),
               const SizedBox(height: 20),
               CommonInput(
-                hintText: 'Description',
+                editingController: _descriptionTextController,
+                hintText: context.localize.t_description,
                 maxLine: 5,
                 onChanged: (value) {
                   widget.createEventRequest?.hostDescription = value;
@@ -66,6 +94,7 @@ class _FourthStepScreenState extends State<FourthStepScreen> {
               ),
               const SizedBox(height: 20),
               CommonInput(
+                editingController: _hostWebsiteTextController,
                 hintText: context.localize.t_host_website,
                 onChanged: (value) {
                   widget.createEventRequest?.hostWebsite = value;
@@ -73,6 +102,7 @@ class _FourthStepScreenState extends State<FourthStepScreen> {
               ),
               const SizedBox(height: 20),
               CommonInput(
+                editingController: _hostFbTextController,
                 hintText: context.localize.t_host_facebook,
                 onChanged: (value) {
                   widget.createEventRequest?.hostFacebook = value;
@@ -80,6 +110,7 @@ class _FourthStepScreenState extends State<FourthStepScreen> {
               ),
               const SizedBox(height: 20),
               CommonInput(
+                editingController: _hostTwitterTextController,
                 hintText: context.localize.t_host_twitter,
                 onChanged: (value) {
                   widget.createEventRequest?.hostTwitter = value;

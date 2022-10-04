@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:audio_cult/app/data_source/models/requests/create_event_request.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/app/utils/image/image_utils.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/cupertino.dart';
@@ -50,10 +51,20 @@ class _PreViewImageState extends State<PreViewImage> {
           width: double.infinity,
           padding: const EdgeInsets.all(16),
           color: AppColors.inputFillColor.withOpacity(0.2),
-          child: file != null ? _buildImagePicked() : _buildChooseImage(),
+          child: _bannerWidget(),
         ),
       ),
     );
+  }
+
+  Widget _bannerWidget() {
+    if (file != null) {
+      return _buildImagePicked();
+    } else if (widget.request?.imageUrl != null) {
+      return _networkImageWidget();
+    } else {
+      return _buildChooseImage();
+    }
   }
 
   Future<void> _requestAssets() async {
@@ -141,6 +152,7 @@ class _PreViewImageState extends State<PreViewImage> {
           file = value as File;
           final cropFile = await ImageUtils.cropImage(file?.path ?? '');
           file = File(cropFile!.path);
+          widget.request?.imageUrl = null;
           setState(() {});
         });
       }
@@ -184,6 +196,34 @@ class _PreViewImageState extends State<PreViewImage> {
     );
   }
 
+  Widget _networkImageWidget() {
+    return AspectRatio(
+      aspectRatio: widget.ratio ?? 1,
+      child: CachedNetworkImage(
+        imageUrl: widget.request?.imageUrl ?? '',
+        imageBuilder: (_, image) {
+          return Stack(
+            children: [
+              Container(
+                decoration: BoxDecoration(image: DecorationImage(image: image)),
+              ),
+              Positioned(
+                right: 20,
+                top: 20,
+                child: _removeImageButton(
+                  action: () {
+                    widget.request?.imageUrl = null;
+                    setState(() {});
+                  },
+                ),
+              ),
+            ],
+          );
+        },
+      ),
+    );
+  }
+
   Widget _buildImagePicked() {
     widget.request?.image = file;
     return AspectRatio(
@@ -198,22 +238,28 @@ class _PreViewImageState extends State<PreViewImage> {
             Positioned(
               top: 20,
               right: 20,
-              child: GestureDetector(
-                onTap: () {
+              child: _removeImageButton(
+                action: () {
                   setState(() {
                     file = null;
                     widget.request?.image = file;
                   });
                 },
-                child: const Icon(
-                  Icons.close,
-                  size: 30,
-                  color: Colors.white,
-                ),
               ),
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _removeImageButton({VoidCallback? action}) {
+    return GestureDetector(
+      onTap: action,
+      child: const Icon(
+        Icons.close,
+        size: 30,
+        color: Colors.white,
       ),
     );
   }

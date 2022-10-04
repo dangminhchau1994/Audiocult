@@ -77,7 +77,7 @@ void setupLocator() {
 
   getIt.registerLazySingleton<DetailPlayListBloc>(() => DetailPlayListBloc(locator.get<AppRepository>()));
 
-  getIt.registerLazySingleton<EventDetailBloc>(() => EventDetailBloc(locator.get<AppRepository>()));
+  getIt.registerLazySingleton<EventDetailBloc>(() => EventDetailBloc(locator.get<AppRepository>(), locator.get()));
 
   getIt.registerLazySingleton<CommentListBloc>(
     () => CommentListBloc(locator.get<AppRepository>()),
@@ -102,7 +102,7 @@ void setupLocator() {
   );
 
   getIt.registerLazySingleton<AllEventBloc>(
-    () => AllEventBloc(locator.get<AppRepository>()),
+    () => AllEventBloc(locator.get<AppRepository>(), locator.get()),
   );
 
   getIt.registerLazySingleton<EditFeedBloc>(
@@ -123,7 +123,7 @@ void setupLocator() {
   );
 
   getIt.registerLazySingleton<PopularEventBloc>(
-    () => PopularEventBloc(locator.get<AppRepository>()),
+    () => PopularEventBloc(locator.get<AppRepository>(), locator.get()),
   );
 
   getIt.registerLazySingleton<MapBloc>(

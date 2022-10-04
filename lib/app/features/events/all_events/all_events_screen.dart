@@ -113,6 +113,7 @@ class _AllEventsScreenState extends State<AllEventsScreen> with AutomaticKeepAli
                   const EventFilter(),
                   AllEvents(
                     pagingController: _pagingAllEventController,
+                    currentUserId: _allEventBloc.currentUserId,
                   ),
                   SliverToBoxAdapter(
                     child: Padding(

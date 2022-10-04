@@ -10,8 +10,8 @@ import 'package:audio_cult/app/features/music/my_album/upload_song/upload_song_b
 import 'package:audio_cult/app/injections.dart';
 import 'package:audio_cult/app/services/media_service.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
-
 import 'package:audio_cult/w_components/list_photos/common_list_multi_photo.dart';
+import 'package:collection/collection.dart';
 import 'package:disposing/disposing.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -65,6 +65,7 @@ class _PostPhotosState extends State<PostPhotos> with DisposableStateMixin, Auto
   List<AssetEntity>? _entities;
   int _totalEntitiesCount = 0;
   int _page = 0;
+  late List<SelectMenuModel> _privacyMenu;
 
   void _getCustomMarker() {
     FileUtils.getBytesFromAsset(AppAssets.markerIcon, 80).then((value) {
@@ -77,9 +78,10 @@ class _PostPhotosState extends State<PostPhotos> with DisposableStateMixin, Auto
   @override
   void initState() {
     super.initState();
+    _privacyMenu = GlobalConstants.listPrivacy(context);
+    _privacy = _privacyMenu.firstWhereOrNull((e) => e.isSelected == true);
     _getCustomMarker();
     _uploadPhotoRequest.userId = widget.userId;
-    _privacy = GlobalConstants.listPrivacy(context)[0];
     getIt.get<HomeBloc>().uploadPhotoStream.listen((data) {
       Navigator.pop(context, true);
     }).disposeOn(disposeBag);
@@ -291,7 +293,7 @@ class _PostPhotosState extends State<PostPhotos> with DisposableStateMixin, Auto
                                   hint: '',
                                   backgroundColor: Colors.transparent,
                                   noBorder: true,
-                                  data: GlobalConstants.listPrivacy(context),
+                                  data: _privacyMenu,
                                   onChanged: (value) {
                                     setState(() {
                                       _privacy = value;

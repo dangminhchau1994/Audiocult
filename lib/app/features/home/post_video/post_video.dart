@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'dart:typed_data';
-
 import 'package:audio_cult/app/base/bloc_handle.dart';
 import 'package:audio_cult/app/data_source/models/requests/upload_video_request.dart';
 import 'package:audio_cult/app/features/auth/register/register_bloc.dart';
@@ -10,9 +9,9 @@ import 'package:audio_cult/app/features/home/post_video/widgets/get_video.dart';
 import 'package:audio_cult/app/features/music/my_album/upload_song/upload_song_bloc.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/di/bloc_locator.dart';
-
 import 'package:audio_cult/w_components/buttons/w_button_inkwell.dart';
 import 'package:audio_cult/w_components/textfields/common_input.dart';
+import 'package:collection/collection.dart';
 import 'package:disposing/disposing.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -64,6 +63,7 @@ class _PostVideoState extends State<PostVideo> with DisposableStateMixin, Automa
   String _videoTitle = '';
   String _fileName = '';
   String _status = '';
+  late List<SelectMenuModel> _privacyMenu;
 
   void _getCustomMarker() {
     FileUtils.getBytesFromAsset(AppAssets.markerIcon, 80).then((value) {
@@ -76,9 +76,10 @@ class _PostVideoState extends State<PostVideo> with DisposableStateMixin, Automa
   @override
   void initState() {
     super.initState();
+    _privacyMenu = GlobalConstants.listPrivacy(context);
+    _privacy = _privacyMenu.firstWhereOrNull((e) => e.isSelected == true);
     _getCustomMarker();
     _request.userId = widget.userId;
-    _privacy = GlobalConstants.listPrivacy(context)[0];
     getIt.get<HomeBloc>().uploadVideoStream.listen((data) {
       Navigator.pop(context, true);
     }).disposeOn(disposeBag);
@@ -247,7 +248,7 @@ class _PostVideoState extends State<PostVideo> with DisposableStateMixin, Automa
                                 hint: '',
                                 backgroundColor: Colors.transparent,
                                 noBorder: true,
-                                data: GlobalConstants.listPrivacy(context),
+                                data: _privacyMenu,
                                 onChanged: (value) {
                                   setState(() {
                                     _privacy = value;

@@ -18,9 +18,6 @@ class CustomEventSliver extends SliverPersistentHeaderDelegate {
 
   @override
   Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
-    const size = 60;
-    final top = expandedHeight! - shrinkOffset - size / 2;
-
     return Stack(
       children: [
         EventDetailPhoto(imagePath: data?.imagePath ?? ''),

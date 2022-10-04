@@ -18,6 +18,7 @@ import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 import 'package:audio_cult/di/bloc_locator.dart';
 import 'package:audio_cult/w_components/buttons/common_button.dart';
 import 'package:audio_cult/w_components/buttons/w_button_inkwell.dart';
+import 'package:collection/collection.dart';
 import 'package:disposing/disposing.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -54,6 +55,7 @@ class _PostStatusState extends State<PostStatus> with DisposableStateMixin, Auto
   bool? _enableBackground;
   bool? _showTagFriends;
   String? _imagePath;
+  late List<SelectMenuModel> _privacyMenu;
 
   @override
   void initState() {
@@ -78,7 +80,8 @@ class _PostStatusState extends State<PostStatus> with DisposableStateMixin, Auto
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _privacy = GlobalConstants.listPrivacy(context)[0];
+    _privacyMenu = GlobalConstants.listPrivacy(context);
+    _privacy = _privacyMenu.firstWhereOrNull((e) => e.isSelected == true);
   }
 
   void _getCustomMarker() {
@@ -217,7 +220,7 @@ class _PostStatusState extends State<PostStatus> with DisposableStateMixin, Auto
                                       hint: '',
                                       backgroundColor: Colors.transparent,
                                       noBorder: true,
-                                      data: GlobalConstants.listPrivacy(context),
+                                      data: _privacyMenu,
                                       onChanged: (value) {
                                         setState(() {
                                           _privacy = value;

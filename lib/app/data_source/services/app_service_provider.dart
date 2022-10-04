@@ -392,7 +392,8 @@ class AppServiceProvider {
     if (data.status == StatusString.success) {
       return RegisterResponse(
         // ignore: cast_nullable_to_non_nullable
-        status: data.status as String, data: ProfileData.fromJson(data.data as Map<String, dynamic>),
+        status: data.status as String,
+        data: ProfileData.fromJson(data.data as Map<String, dynamic>),
       );
     } else {
       return RegisterResponse(status: data.status as String, message: data.error['message'] as String);
@@ -716,6 +717,19 @@ class AppServiceProvider {
     return response.mapData(
       (json) => EventResponse.fromJson(json as Map<String, dynamic>),
     );
+  }
+
+  Future<BaseRes> updateEvent(CreateEventRequest request) async {
+    final params = await request.toJson();
+    final response = await _dioHelper.post(
+      route: '/restful_api/event/${request.eventId}',
+      options: Options(headers: {'Content-Type': 'multipart/form-data'}),
+      responseBodyMapper: (jsonMapper) {
+        return BaseRes.fromJson(jsonMapper as Map<String, dynamic>);
+      },
+      requestBody: FormData.fromMap(params),
+    );
+    return response;
   }
 
   Future<CommentResponse> editComment(

@@ -26,7 +26,7 @@ class EventsPage extends StatefulWidget {
 class _EventsPageState extends State<EventsPage> {
   final PagingController<int, EventResponse> _pagingController = PagingController(firstPageKey: 1);
   final ScrollController _scrollController = ScrollController();
-  final AllEventBloc _allEventBloc = AllEventBloc(locator.get());
+  final AllEventBloc _allEventBloc = AllEventBloc(locator.get(), locator.get());
   @override
   void initState() {
     super.initState();

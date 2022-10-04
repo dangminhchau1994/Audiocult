@@ -6,17 +6,14 @@ class EventDetailNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 50, left: 20),
-      child: WButtonInkwell(
-        onPressed: () {
-          Navigator.pop(context);
-        },
-        child: const Icon(
-          Icons.arrow_back_ios,
-          size: 24,
-          color: Colors.white,
-        ),
+    return WButtonInkwell(
+      onPressed: () {
+        Navigator.pop(context);
+      },
+      child: const Icon(
+        Icons.arrow_back_ios,
+        size: 24,
+        color: Colors.white,
       ),
     );
   }

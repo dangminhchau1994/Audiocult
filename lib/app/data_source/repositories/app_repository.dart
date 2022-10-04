@@ -435,6 +435,12 @@ class AppRepository extends BaseRepository {
     );
   }
 
+  Future<Either<BaseRes?, Exception>> updateEvent(CreateEventRequest request) {
+    return safeCall(
+      () => appServiceProvider.updateEvent(request),
+    );
+  }
+
   Future<Either<PlaylistResponse, Exception>> addToPlayList(
     String playListId,
     String songId,

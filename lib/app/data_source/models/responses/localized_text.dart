@@ -377,6 +377,8 @@ class LocalizedText {
   late String t_camera_permission_requirement;
   late String t_gallery_permission;
   late String t_gallery_permission_requirement;
+  late String t_edit_event;
+  late String t_my_event;
 
   LocalizedText.fromJson(Map<String, dynamic> json) {
     final iw = IW(json);
@@ -775,6 +777,8 @@ class LocalizedText {
     t_gallery_permission = iw['t_gallery_permission'].getString ?? 'Gallery Permission';
     t_gallery_permission_requirement = iw['t_gallery_permission_requirement'].getString ??
         'Gallery permission should Be granted to use this feature, would you like to go to app settings to give gallery permission?';
+    t_edit_event = iw['t_edit_event'].get() ?? 'Edit Event';
+    t_my_event = iw['t_my_event'].get() ?? 'My event';
   }
 }
 

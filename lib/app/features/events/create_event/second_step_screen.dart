@@ -32,6 +32,23 @@ class SecondStepScreen extends StatefulWidget {
 }
 
 class _SecondStepScreenState extends State<SecondStepScreen> {
+  final _tagsTextController = TextEditingController();
+  final _descriptionTextController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _tagsTextController.text = widget.createEventRequest?.tags ?? '';
+    _descriptionTextController.text = widget.createEventRequest?.description ?? '';
+  }
+
+  @override
+  void dispose() {
+    _tagsTextController.dispose();
+    _descriptionTextController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -48,7 +65,7 @@ class _SecondStepScreenState extends State<SecondStepScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Description',
+                context.localize.t_description,
                 style: context.bodyTextStyle()?.copyWith(color: Colors.white, fontSize: 18),
               ),
               const SizedBox(height: 10),
@@ -58,6 +75,7 @@ class _SecondStepScreenState extends State<SecondStepScreen> {
               ),
               const SizedBox(height: 20),
               CommonInput(
+                editingController: _tagsTextController,
                 hintText: context.localize.t_tags_event,
                 onChanged: (value) {
                   widget.createEventRequest?.tags = value;
@@ -65,8 +83,9 @@ class _SecondStepScreenState extends State<SecondStepScreen> {
               ),
               const SizedBox(height: 20),
               CommonInput(
+                editingController: _descriptionTextController,
                 maxLine: 5,
-                hintText: 'Description',
+                hintText: context.localize.t_description,
                 onChanged: (value) {
                   widget.createEventRequest?.description = value;
                 },
@@ -75,17 +94,16 @@ class _SecondStepScreenState extends State<SecondStepScreen> {
               const InsertPhoto(),
               const SizedBox(height: 30),
               Text(
-                'Artist Lineup',
+                context.localize.t_artist_lineup,
                 style: context.bodyTextStyle()?.copyWith(color: Colors.white, fontSize: 18),
               ),
               const SizedBox(height: 10),
               CommonChipInput(
+                initTags: widget.createEventRequest?.artistList,
                 hintText: context.localize.t_artist_line_up_hint,
                 maxChip: 10,
                 chooseMany: true,
-                onChooseMultipleTag: (value) {
-                  widget.createEventRequest?.artist = jsonEncode(value);
-                },
+                onChooseMultipleTag: (value) => widget.createEventRequest?.artist = jsonEncode(value),
                 onDeleteTag: (value) {},
                 onPressedChip: (ProfileData value) {
                   Navigator.pushNamed(context, AppRoute.routeProfile,
@@ -93,22 +111,27 @@ class _SecondStepScreenState extends State<SecondStepScreen> {
                 },
               ),
               const SizedBox(height: 20),
-              Text(
-                context.localize.t_entertainment_line_up,
-                style: context.bodyTextStyle()?.copyWith(color: Colors.white, fontSize: 18),
-              ),
-              const SizedBox(height: 10),
-              CommonChipInput(
-                hintText: context.localize.t_artist_line_up_hint,
-                maxChip: 10,
-                chooseMany: true,
-                onChooseMultipleTag: (value) {},
-                onDeleteTag: (value) {},
-                onPressedChip: (ProfileData value) {
-                  Navigator.pushNamed(context, AppRoute.routeProfile,
-                      arguments: ProfileScreen.createArguments(id: value.userId!));
-                },
-              ),
+              // Text(
+              //   context.localize.t_entertainment_line_up,
+              //   style: context
+              //       .bodyTextStyle()
+              //       ?.copyWith(color: Colors.white, fontSize: 18),
+              // ),
+              // const SizedBox(height: 10),
+              // CommonChipInput(
+              //   initTags: widget.createEventRequest?.entertainmentList,
+              //   hintText: context.localize.t_artist_line_up_hint,
+              //   maxChip: 10,
+              //   chooseMany: true,
+              //   onChooseMultipleTag: (value) => widget
+              //       .createEventRequest?.entertainment = jsonEncode(value),
+              //   onDeleteTag: (value) {},
+              //   onPressedChip: (ProfileData value) {
+              //     Navigator.pushNamed(context, AppRoute.routeProfile,
+              //         arguments:
+              //             ProfileScreen.createArguments(id: value.userId!));
+              //   },
+              // ),
               Padding(
                 padding: const EdgeInsets.only(bottom: 10, top: 40),
                 child: Row(

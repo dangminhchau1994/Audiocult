@@ -1,4 +1,5 @@
 import 'package:audio_cult/app/base/base_bloc.dart';
+import 'package:audio_cult/app/data_source/local/pref_provider.dart';
 import 'package:audio_cult/app/data_source/models/responses/events/event_response.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -9,8 +10,11 @@ import '../../../data_source/repositories/app_repository.dart';
 
 class EventDetailBloc extends BaseBloc {
   final AppRepository _appRepository;
+  final PrefProvider _prefProvider;
 
-  EventDetailBloc(this._appRepository);
+  String? get userId => _prefProvider.currentUserId;
+
+  EventDetailBloc(this._appRepository, this._prefProvider);
 
   final _getEventDetailSubject = PublishSubject<BlocState<EventResponse>>();
   final _updateEventSubject = PublishSubject<BlocState<List<EventResponse>>>();
@@ -47,11 +51,13 @@ class EventDetailBloc extends BaseBloc {
 
     final result = await _appRepository.getEventDetail(id);
 
-    result.fold((success) {
-      _getEventDetailSubject.sink.add(BlocState.success(success));
-    }, (error) {
+    result.fold(displayEventDetail, (error) {
       _getEventDetailSubject.sink.add(BlocState.error(error.toString()));
     });
+  }
+
+  void displayEventDetail(EventResponse eventResponse) {
+    _getEventDetailSubject.sink.add(BlocState.success(eventResponse));
   }
 
   void getComments(int id, String typeId, int page, int limit, String sort) async {

@@ -125,6 +125,7 @@ class _PopularEventsState extends State<PopularEvents> {
                           itemBuilder: (context, item, index) {
                             return PopularEventItem(
                               data: item,
+                              isMyEvent: item.userId == _popularEventBloc.currentUserId,
                             );
                           },
                         ),

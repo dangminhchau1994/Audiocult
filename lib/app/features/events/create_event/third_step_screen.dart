@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:audio_cult/app/features/events/create_event/widgets/preview_image.dart';
 import 'package:audio_cult/app/utils/constants/app_dimens.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
@@ -163,7 +162,7 @@ class _ThirdStepScreenState extends State<ThirdStepScreen> {
       ),
       child: Center(
         child: Text(
-          onlyRatio ? ratio : 'Preview ($ratio)',
+          onlyRatio ? ratio : '${context.localize.t_preview} ($ratio)',
           style: context.bodyTextStyle()?.copyWith(
                 color: AppColors.subTitleColor,
                 fontSize: 14,
