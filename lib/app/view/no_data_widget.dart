@@ -13,7 +13,7 @@ class NoDataWidget extends StatelessWidget {
           hasScrollBody: false,
           child: Padding(
             padding: EdgeInsets.only(top: 40),
-            child: Expanded(child: EmptyDataStateWidget(null)),
+            child: EmptyDataStateWidget(null),
           ),
         ),
       ],
