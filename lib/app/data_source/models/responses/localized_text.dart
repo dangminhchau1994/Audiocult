@@ -623,7 +623,7 @@ class LocalizedText {
     t_timezone = iw['t_timezone'].getString ?? 'Time Zone';
     t_change_password_note = iw['t_change_password_note'].getString ??
         'Some tips for creating a password, contains a capital letter, a number, etc.';
-    t_current_password = iw['t_current_password'].getString ?? 'Curernt Password';
+    t_current_password = iw['t_current_password'].getString ?? 'Current Password';
     t_confirm_new_password = iw['t_confirm_new_password'].getString ?? 'Confirm New Password';
     t_payment_methods_note =
         iw['t_payment_methods_note'].getString ?? 'Please, indicate the email that represents your PayPal account.';

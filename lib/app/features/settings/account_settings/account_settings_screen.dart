@@ -264,7 +264,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> with Auto
         children: [
           Text(context.localize.t_change_password_note),
           TextfieldWidget(
-            context.localize.t_change_password,
+            context.localize.t_current_password,
             onChanged: (currentPass) {
               tempProfile?.currentPass = currentPass;
               _bloc.accountSettingsDataOnChanged(tempProfile);
