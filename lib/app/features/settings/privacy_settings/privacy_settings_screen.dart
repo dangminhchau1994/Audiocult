@@ -207,6 +207,8 @@ class _PrivacySettingsScreenState extends State<PrivacySettingsScreen> {
     Function(PrivacyOption) callback,
     int selectedValue,
   ) {
+    final selectedOption = options.firstWhereOrNull((element) => element.value == selectedValue);
+    final privacyItem = PrivacySettingExtension.initialize(selectedOption?.value);
     return PopupMenuButton(
       color: AppColors.mainColor,
       child: Container(
@@ -215,7 +217,7 @@ class _PrivacySettingsScreenState extends State<PrivacySettingsScreen> {
         padding: const EdgeInsets.all(12),
         child: Row(
           children: [
-            SvgPicture.asset(AppAssets.icGlobe),
+            Image.asset(privacyItem!.icon),
             const SizedBox(width: 8),
             Expanded(
               child: Text(
