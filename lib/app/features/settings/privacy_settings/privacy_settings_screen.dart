@@ -6,6 +6,7 @@ import 'package:audio_cult/app/features/settings/privacy_settings/privacy_settin
 import 'package:audio_cult/app/utils/constants/app_assets.dart';
 import 'package:audio_cult/app/utils/constants/app_colors.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
+import 'package:audio_cult/app/view/app.dart';
 import 'package:audio_cult/di/bloc_locator.dart';
 import 'package:audio_cult/w_components/buttons/common_button.dart';
 import 'package:audio_cult/w_components/error_empty/error_section.dart';
@@ -168,6 +169,7 @@ class _PrivacySettingsScreenState extends State<PrivacySettingsScreen> {
     PrivacySettingItem item,
     PrivacySettingsSection section, {
     bool isUppercase = false,
+    String? icon,
   }) {
     return Container(
       height: 70,
@@ -196,6 +198,7 @@ class _PrivacySettingsScreenState extends State<PrivacySettingsScreen> {
               _bloc.selectOption(section: section, item: item, option: option);
             },
             item.defaultValue ?? 1,
+            icon,
           ),
         ],
       ),
@@ -206,9 +209,8 @@ class _PrivacySettingsScreenState extends State<PrivacySettingsScreen> {
     List<PrivacyOption> options,
     Function(PrivacyOption) callback,
     int selectedValue,
+    String? icon,
   ) {
-    final selectedOption = options.firstWhereOrNull((element) => element.value == selectedValue);
-    final privacyItem = PrivacySettingExtension.initialize(selectedOption?.value);
     return PopupMenuButton(
       color: AppColors.mainColor,
       child: Container(
@@ -217,7 +219,7 @@ class _PrivacySettingsScreenState extends State<PrivacySettingsScreen> {
         padding: const EdgeInsets.all(12),
         child: Row(
           children: [
-            Image.asset(privacyItem!.icon),
+            if (icon == null) Container() else Image.asset(icon),
             const SizedBox(width: 8),
             Expanded(
               child: Text(
@@ -289,7 +291,16 @@ class _PrivacySettingsScreenState extends State<PrivacySettingsScreen> {
                       shrinkWrap: true,
                       itemCount: items.length,
                       itemBuilder: (context, index) {
-                        return _listViewItemWidget(items[index], PrivacySettingsSection.appSharing);
+                        final currentItems = items[index];
+                        final selectedOption = currentItems.options?.firstWhereOrNull(
+                          (element) => element.value == currentItems.defaultValue,
+                        );
+                        final privacyStatus = PrivacyStatusExtension.initialize(selectedOption?.value);
+                        return _listViewItemWidget(
+                          currentItems,
+                          PrivacySettingsSection.appSharing,
+                          icon: privacyStatus?.icon,
+                        );
                       },
                     ),
                     Padding(

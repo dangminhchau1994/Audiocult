@@ -63,33 +63,33 @@ class PrivacyOption {
   }
 }
 
-enum PrivacySetting { community, memberOnly, noOne, everyOne }
+enum PrivacyStatus { all, registered, friendsOfFriends, onlyMe }
 
-extension PrivacySettingExtension on PrivacySetting {
-  static PrivacySetting? initialize(int? value) {
+extension PrivacyStatusExtension on PrivacyStatus {
+  static PrivacyStatus? initialize(int? value) {
     switch (value) {
-      case 1:
-        return PrivacySetting.community;
-      case 2:
-        return PrivacySetting.memberOnly;
-      case 4:
-        return PrivacySetting.noOne;
       case 0:
-        return PrivacySetting.everyOne;
+        return PrivacyStatus.all;
+      case 1:
+        return PrivacyStatus.registered;
+      case 2:
+        return PrivacyStatus.friendsOfFriends;
+      case 3:
+        return PrivacyStatus.onlyMe;
     }
     return null;
   }
 
   String get icon {
     switch (this) {
-      case PrivacySetting.community:
-        return AppAssets.icFriends;
-      case PrivacySetting.memberOnly:
-        return AppAssets.icSubscription;
-      case PrivacySetting.noOne:
-        return AppAssets.icLock;
-      case PrivacySetting.everyOne:
+      case PrivacyStatus.all:
         return AppAssets.icPublic;
+      case PrivacyStatus.registered:
+        return AppAssets.icSubscription;
+      case PrivacyStatus.friendsOfFriends:
+        return AppAssets.icFriends;
+      case PrivacyStatus.onlyMe:
+        return AppAssets.icLock;
     }
   }
 }
