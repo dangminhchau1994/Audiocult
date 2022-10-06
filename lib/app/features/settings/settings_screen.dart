@@ -2,20 +2,17 @@ import 'package:audio_cult/app/features/settings/account_settings/account_settin
 import 'package:audio_cult/app/features/settings/notifications_settings/notification_settings_widget.dart';
 import 'package:audio_cult/app/features/settings/page_template/page_template_screen.dart';
 import 'package:audio_cult/app/features/settings/privacy_settings/privacy_settings_screen.dart';
-import 'package:audio_cult/app/utils/constants/app_assets.dart';
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
 
 import 'package:audio_cult/w_components/appbar/common_appbar.dart';
 import 'package:audio_cult/w_components/menus/common_fab_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_tab_bar/indicator/custom_indicator.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../w_components/tabbars/common_tabbar.dart';
 import '../../../w_components/tabbars/common_tabbar_item.dart';
 import '../../utils/constants/app_colors.dart';
 import '../../utils/route/app_route.dart';
-import '../../utils/toast/toast_utils.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({Key? key}) : super(key: key);
@@ -92,7 +89,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
         ],
       ),
-      backgroundColor: AppColors.secondaryButtonColor,
+      backgroundColor: AppColors.mainColor,
       body: SafeArea(
         child: CommonTabbar(
           pageCount: _pageCount,

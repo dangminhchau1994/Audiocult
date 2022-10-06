@@ -8,6 +8,7 @@ import 'package:audio_cult/w_components/loading/loading_widget.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_svg/svg.dart';
 
 class UniversalSearchResultItemWidget extends StatelessWidget {
   final VoidCallback? onTap;
@@ -112,7 +113,36 @@ class UniversalSearchResultItemWidget extends StatelessWidget {
     if (searchItem.itemDisplayPhoto?.isNotEmpty == true) {
       return Container(
         constraints: const BoxConstraints(maxHeight: 120, maxWidth: 100),
-        child: Html(data: searchItem.itemDisplayPhoto),
+        child: Stack(
+          children: [
+            Center(
+              child: Html(
+                data: searchItem.itemDisplayPhoto,
+                onImageTap: (url, context, attributes, element) => onTap?.call(),
+                onImageError: (exception, stackTrace) => Container(),
+                customImageRenders: {
+                  networkSourceMatcher(): networkImageRender(
+                    loadingWidget: () => const Center(child: LoadingWidget()),
+                  )
+                },
+              ),
+            ),
+            if (searchItem.itemTypeId == UniversalSearchView.video.value)
+              Center(
+                child: Container(
+                  width: 30,
+                  height: 30,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: AppColors.mainColor.withOpacity(0.7),
+                  ),
+                  child: SvgPicture.asset(AppAssets.circlePlay),
+                ),
+              )
+            else
+              Container(),
+          ],
+        ),
       );
     }
     return Container();
