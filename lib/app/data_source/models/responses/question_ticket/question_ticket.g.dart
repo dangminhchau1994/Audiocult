@@ -6,24 +6,21 @@ part of 'question_ticket.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-QuestionTicket _$QuestionTicketFromJson(Map<String, dynamic> json) =>
-    QuestionTicket(
+QuestionTicket _$QuestionTicketFromJson(Map<String, dynamic> json) => QuestionTicket(
       event: json['event'] as String?,
       contactForm: (json['contact_form'] as List<dynamic>?)
           ?.map((e) => ContactForm.fromJson(e as Map<String, dynamic>))
           .toList(),
       reverseChargeRelevant: json['reverse_charge_relevant'] as String?,
-      cart: (json['cart'] as List<dynamic>?)
-          ?.map((e) => Cart.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      cart: (json['cart'] as List<dynamic>?)?.map((e) => Cart.fromJson(e as Map<String, dynamic>)).toList(),
       cartSession: json['cart_session'] as String?,
       invoiceAddressAsked: json['invoice_address_asked'] as String?,
-    )..itemQuestions = (json['item_questions'] as List<dynamic>?)
-        ?.map((e) => ItemQuestions.fromJson(e as Map<String, dynamic>))
+    )..itemQuestions = (json['item_questions'] as Map<String, dynamic>)
+        .entries
+        .map((e) => ItemQuestions.fromJson(e.value as Map<String, dynamic>, e.key))
         .toList();
 
-Map<String, dynamic> _$QuestionTicketToJson(QuestionTicket instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$QuestionTicketToJson(QuestionTicket instance) => <String, dynamic>{
       'event': instance.event,
       'contact_form': instance.contactForm,
       'reverse_charge_relevant': instance.reverseChargeRelevant,
@@ -33,44 +30,32 @@ Map<String, dynamic> _$QuestionTicketToJson(QuestionTicket instance) =>
       'item_questions': instance.itemQuestions,
     };
 
-ItemQuestions _$ItemQuestionsFromJson(Map<String, dynamic> json) =>
-    ItemQuestions(
-      id: json['id'] as String?,
-      item: json['item'] == null
-          ? null
-          : ItemTicketQuestion.fromJson(json['item'] as Map<String, dynamic>),
+ItemQuestions _$ItemQuestionsFromJson(Map<String, dynamic> json, String key) => ItemQuestions(
+      name: '',
+      id: key,
+      item: json['item'] == null ? null : ItemTicketQuestion.fromJson(json['item'] as Map<String, dynamic>),
       questions: (json['questions'] as List<dynamic>?)
-          ?.map(
-              (e) => QuestionsTicketPayment.fromJson(e as Map<String, dynamic>))
+          ?.map((e) => QuestionsTicketPayment.fromJson(e as Map<String, dynamic>))
           .toList(),
-      name: json['name'] as String?,
     );
 
-Map<String, dynamic> _$ItemQuestionsToJson(ItemQuestions instance) =>
-    <String, dynamic>{
-      'id': instance.id,
+Map<String, dynamic> _$ItemQuestionsToJson(ItemQuestions instance) => <String, dynamic>{
       'item': instance.item,
       'questions': instance.questions,
-      'name': instance.name,
     };
 
-QuestionsTicketPayment _$QuestionsTicketPaymentFromJson(
-        Map<String, dynamic> json) =>
-    QuestionsTicketPayment(
+QuestionsTicketPayment _$QuestionsTicketPaymentFromJson(Map<String, dynamic> json) => QuestionsTicketPayment(
       name: json['name'] as String?,
       label: json['label'] as String?,
       required: json['required'] as bool?,
       initial: json['initial'] as String?,
       helpText: json['help_text'] as String?,
       type: json['type'] as String?,
-      fieldParts: (json['field_parts'] as List<dynamic>?)
-          ?.map((e) => FieldParts.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      fieldParts:
+          (json['field_parts'] as List<dynamic>?)?.map((e) => FieldParts.fromJson(e as Map<String, dynamic>)).toList(),
     );
 
-Map<String, dynamic> _$QuestionsTicketPaymentToJson(
-        QuestionsTicketPayment instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$QuestionsTicketPaymentToJson(QuestionsTicketPayment instance) => <String, dynamic>{
       'name': instance.name,
       'label': instance.label,
       'required': instance.required,
@@ -90,8 +75,7 @@ FieldParts _$FieldPartsFromJson(Map<String, dynamic> json) => FieldParts(
       multiline: json['multiline'] as bool?,
     );
 
-Map<String, dynamic> _$FieldPartsToJson(FieldParts instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$FieldPartsToJson(FieldParts instance) => <String, dynamic>{
       'label': instance.label,
       'required': instance.required,
       'initial': instance.initial,
@@ -101,8 +85,7 @@ Map<String, dynamic> _$FieldPartsToJson(FieldParts instance) =>
       'multiline': instance.multiline,
     };
 
-ItemTicketQuestion _$ItemTicketQuestionFromJson(Map<String, dynamic> json) =>
-    ItemTicketQuestion(
+ItemTicketQuestion _$ItemTicketQuestionFromJson(Map<String, dynamic> json) => ItemTicketQuestion(
       str: json['str'] as String?,
       name: json['name'] as String?,
       description: json['description'] as String?,
@@ -111,8 +94,7 @@ ItemTicketQuestion _$ItemTicketQuestionFromJson(Map<String, dynamic> json) =>
       admission: json['admission'] as bool?,
     );
 
-Map<String, dynamic> _$ItemTicketQuestionToJson(ItemTicketQuestion instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$ItemTicketQuestionToJson(ItemTicketQuestion instance) => <String, dynamic>{
       'str': instance.str,
       'name': instance.name,
       'description': instance.description,
@@ -133,8 +115,7 @@ ContactForm _$ContactFormFromJson(Map<String, dynamic> json) => ContactForm(
           .toList(),
     );
 
-Map<String, dynamic> _$ContactFormToJson(ContactForm instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$ContactFormToJson(ContactForm instance) => <String, dynamic>{
       'name': instance.name,
       'label': instance.label,
       'required': instance.required,
