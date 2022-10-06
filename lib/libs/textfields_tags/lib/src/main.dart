@@ -173,6 +173,7 @@ class TextFieldTagsState extends State<TextFieldTags> {
   }
 
   void onSubmit(String value) {
+    if (value.isNotEmpty != true) return;
     if (_showValidator == false) {
       final val = widget.letterCase == LetterCase.small
           ? value.trim()
