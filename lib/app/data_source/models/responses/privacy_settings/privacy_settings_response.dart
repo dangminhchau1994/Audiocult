@@ -1,5 +1,6 @@
 import 'package:audio_cult/app/base/index_walker.dart';
 import 'package:audio_cult/app/data_source/models/responses/blocked_user.dart';
+import 'package:audio_cult/app/utils/constants/app_assets.dart';
 
 class PrivacySettingsReponse {
   String? status;
@@ -59,5 +60,36 @@ class PrivacyOption {
     final iw = IW(json);
     phrase = iw['phrase'].get();
     value = iw['value'].get();
+  }
+}
+
+enum PrivacySetting { community, memberOnly, noOne, everyOne }
+
+extension PrivacySettingExtension on PrivacySetting {
+  static PrivacySetting? initialize(int? value) {
+    switch (value) {
+      case 1:
+        return PrivacySetting.community;
+      case 2:
+        return PrivacySetting.memberOnly;
+      case 4:
+        return PrivacySetting.noOne;
+      case 0:
+        return PrivacySetting.everyOne;
+    }
+    return null;
+  }
+
+  String get icon {
+    switch (this) {
+      case PrivacySetting.community:
+        return AppAssets.icFriends;
+      case PrivacySetting.memberOnly:
+        return AppAssets.icSubscription;
+      case PrivacySetting.noOne:
+        return AppAssets.icLock;
+      case PrivacySetting.everyOne:
+        return AppAssets.icPublic;
+    }
   }
 }
