@@ -94,6 +94,7 @@ class EventDateTimeField extends StatelessWidget {
           locale: Locale(localeParts.first, localeParts.last),
           context: context,
           firstDate: DateTime(1900),
+          initialEntryMode: DatePickerEntryMode.calendarOnly,
           initialDate: currentValue ?? DateTime.now(),
           builder: (context, child) {
             return Theme(
