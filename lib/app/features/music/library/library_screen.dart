@@ -17,6 +17,7 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:provider/provider.dart';
 import '../../../../w_components/loading/loading_builder.dart';
 import '../../../../w_components/loading/loading_widget.dart';
+import '../../../base/state.dart';
 import '../../../constants/global_constants.dart';
 import '../../../data_source/models/requests/album_playlist_request.dart';
 import '../../../data_source/models/responses/playlist/playlist_response.dart';
@@ -69,6 +70,19 @@ class _LibraryScreenState extends State<LibraryScreen> with AutomaticKeepAliveCl
       ToastUtility.showSuccess(context: context, message: 'Added To PlayList!');
       Navigator.pop(context);
     }).disposeOn(disposeBag);
+
+    _libraryBloc.appStream!.listen((data) {
+      if (data is DataLoadedState) {
+        final datas = data.data as List<PlaylistResponse>;
+        //only first page
+        final isLastPage = datas.length <= GlobalConstants.loadMoreItem - 1;
+        if (isLastPage) {
+          _pagingController.appendLastPage(datas);
+        } else {
+          _pagingController.appendPage(datas, _pagingController.firstPageKey + 1);
+        }
+      }
+    });
   }
 
   Future<void> _fetchPage(int pageKey) async {
@@ -165,13 +179,6 @@ class _LibraryScreenState extends State<LibraryScreen> with AutomaticKeepAliveCl
                           title: context.localize.t_empty_playlist,
                           content: context.localize.t_create_first_playlist,
                         );
-                      }
-                      //only first page
-                      final isLastPage = data.length <= GlobalConstants.loadMoreItem - 1;
-                      if (isLastPage) {
-                        _pagingController.appendLastPage(data);
-                      } else {
-                        _pagingController.appendPage(data, _pagingController.firstPageKey + 1);
                       }
                       return RawScrollbar(
                         controller: ScrollController(),
