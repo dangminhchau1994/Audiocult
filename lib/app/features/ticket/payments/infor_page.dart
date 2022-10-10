@@ -73,13 +73,13 @@ class InforPageState extends State<InforPage> {
   Map<String, dynamic> getData() {
     final body = <String, dynamic>{};
     final request = TicketInfoPaymentRequest();
-    request.email = _email;
-    request.phone = _phonePrefix + _phoneNumberSuffix;
-    request.nationality = _nationalitySelect?.countryCode;
-    request.givenName = _givenName;
-    request.familyName = _familyName;
-    widget.questionTicket!.itemQuestions!.forEach((element) {
-      if (element.questions![0].name!.isNotEmpty) {
+      request.email = _email;
+      request.phone = _phonePrefix + _phoneNumberSuffix;
+      request.nationality = _nationalitySelect?.countryCode;
+      request.givenName = _givenName;
+      request.familyName = _familyName;
+      widget.questionTicket!.itemQuestions!.forEach((element) {
+        if (element.questions![0].name!.isNotEmpty) {
         body[element.questions![0].name!] = element.name;
       }
     });
@@ -229,8 +229,9 @@ class InforPageState extends State<InforPage> {
                     context: context,
                     countryListTheme: CountryListThemeData(
                       flagSize: 25,
-                      backgroundColor: Colors.white,
-                      textStyle: const TextStyle(fontSize: 16, color: Colors.blueGrey),
+                      backgroundColor: AppColors.mainColor,
+
+                      textStyle: const TextStyle(fontSize: 16, color: Colors.white),
                       bottomSheetHeight: 700, // Optional. Country list modal height
                       //Optional. Sets the border radius for the bottomsheet.
                       borderRadius: const BorderRadius.only(
@@ -239,13 +240,21 @@ class InforPageState extends State<InforPage> {
                       ),
                       //Optional. Styles the search field.
 
-                      inputDecoration: InputDecoration(
+                      inputDecoration: const InputDecoration(
                         labelText: 'Search',
                         hintText: 'Start typing to search',
-                        prefixIcon: const Icon(Icons.search),
+                        prefixIcon: Icon(
+                          Icons.search,
+                          color: Colors.white,
+                        ),
                         border: OutlineInputBorder(
                           borderSide: BorderSide(
-                            color: const Color(0xFF8C98A8).withOpacity(0.2),
+                            color: Colors.white,
+                          ),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Colors.white,
                           ),
                         ),
                       ),

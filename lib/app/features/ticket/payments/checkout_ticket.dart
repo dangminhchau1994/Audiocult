@@ -115,6 +115,7 @@ class _CheckoutTicketState extends State<CheckoutTicket> {
                       colorText: Colors.black,
                       text: 'Go back',
                       onTap: () {
+                        FocusManager.instance.primaryFocus?.unfocus();
                         detail.onStepCancel?.call();
                       },
                     )
@@ -127,6 +128,7 @@ class _CheckoutTicketState extends State<CheckoutTicket> {
                     CommonButton(
                       text: 'Continue',
                       onTap: () {
+                        FocusManager.instance.primaryFocus?.unfocus();
                         detail.onStepContinue?.call();
                       },
                     )

@@ -148,7 +148,7 @@ class _CartBodyState extends State<CartBody> {
             ),
           ],
         ),
-        Text('$totalProduct products')
+        Text('$totalProduct tickets')
       ],
     );
   }

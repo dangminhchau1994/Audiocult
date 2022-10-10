@@ -75,7 +75,7 @@ class _PaymentTicketsScreenState extends State<PaymentTicketsScreen> {
                               const SizedBox(
                                 width: 16,
                               ),
-                              Text(cart?.dateRange ?? '')
+                              // Text(cart?.dateRange ?? '')
                             ],
                           ),
                           const Divider(
