@@ -93,7 +93,7 @@ class _EventDetailAttendingState extends State<EventDetailAttending> {
       child: Padding(
         padding: const EdgeInsets.symmetric(
           horizontal: kHorizontalSpacing,
-          vertical: kVerticalSpacing,
+          vertical: kVerticalSpacing - 12,
         ),
         child: Row(
           children: [

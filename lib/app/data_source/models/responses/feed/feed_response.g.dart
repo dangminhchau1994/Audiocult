@@ -6,14 +6,12 @@ part of 'feed_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-LocationLatlng _$LocationLatlngFromJson(Map<String, dynamic> json) =>
-    LocationLatlng(
+LocationLatlng _$LocationLatlngFromJson(Map<String, dynamic> json) => LocationLatlng(
       latitude: (json['latitude'] as num?)?.toDouble(),
       longitude: (json['longitude'] as num?)?.toDouble(),
     );
 
-Map<String, dynamic> _$LocationLatlngToJson(LocationLatlng instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$LocationLatlngToJson(LocationLatlng instance) => <String, dynamic>{
       'latitude': instance.latitude,
       'longitude': instance.longitude,
     };
@@ -27,19 +25,18 @@ FeedResponse _$FeedResponseFromJson(Map<String, dynamic> json) => FeedResponse(
       userId: json['user_id'] as String?,
       parentUserId: json['parent_user_id'] as String?,
       feedIsLiked: json['feed_is_liked'],
+      description: json['description'] as String?,
+      link: json['link'] as String?,
       itemId: json['item_id'] as String?,
       timeStamp: json['time_stamp'] as String?,
       friendsTagged: (json['friends_tagged'] as List<dynamic>?)
           ?.map((e) => ProfileData.fromJson(e as Map<String, dynamic>))
           .toList(),
-      lastIcon: json['last_icon'] == null
-          ? null
-          : LastIcon.fromJson(json['last_icon'] as Map<String, dynamic>),
+      lastIcon: json['last_icon'] == null ? null : LastIcon.fromJson(json['last_icon'] as Map<String, dynamic>),
       feedReference: json['feed_reference'] as String?,
       locationLatlng: json['location_latlng'] == null
           ? null
-          : LocationLatlng.fromJson(
-              json['location_latlng'] as Map<String, dynamic>),
+          : LocationLatlng.fromJson(json['location_latlng'] as Map<String, dynamic>),
       parentFeedId: json['parent_feed_id'] as String?,
       parentModuleId: json['parent_module_id'] as String?,
       timeUpdate: json['time_update'] as String?,
@@ -73,8 +70,7 @@ FeedResponse _$FeedResponseFromJson(Map<String, dynamic> json) => FeedResponse(
       totalComment: json['total_comment'] as String?,
       customDataCache: json['custom_data_cache'] == null
           ? null
-          : CustomDataCache.fromJson(
-              json['custom_data_cache'] as Map<String, dynamic>),
+          : CustomDataCache.fromJson(json['custom_data_cache'] as Map<String, dynamic>),
       feedCustomHtml: json['feed_custom_html'] as String?,
       bShowEnterCommentBlock: json['b_show_enter_comment_block'] as bool?,
       canLike: json['can_like'] as bool?,
@@ -93,20 +89,15 @@ FeedResponse _$FeedResponseFromJson(Map<String, dynamic> json) => FeedResponse(
       commentTypeId: json['comment_type_id'] as String?,
       totalFriendsTagged: json['total_friends_tagged'] as String?,
       totalImage: json['total_image'] as int?,
-      apiFeedImage: (json['api_feed_image'] as List<dynamic>?)
-          ?.map((e) => e as String)
-          .toList(),
-      feedImageUrl: (json['feed_image_url'] as List<dynamic>?)
-          ?.map((e) => e as String)
-          .toList(),
+      apiFeedImage: (json['api_feed_image'] as List<dynamic>?)?.map((e) => e as String).toList(),
+      feedImageUrl: (json['feed_image_url'] as List<dynamic>?)?.map((e) => e as String).toList(),
       customCss: json['custom_css'] as String?,
       customRel: json['custom_rel'] as String?,
       customJs: json['custom_js'] as String?,
       noTargetBlank: json['no_target_blank'] as bool?,
     );
 
-Map<String, dynamic> _$FeedResponseToJson(FeedResponse instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$FeedResponseToJson(FeedResponse instance) => <String, dynamic>{
       'feed_id': instance.feedId,
       'app_id': instance.appId,
       'privacy': instance.privacy,
@@ -146,6 +137,8 @@ Map<String, dynamic> _$FeedResponseToJson(FeedResponse instance) =>
       'feed_is_liked': instance.feedIsLiked,
       'enable_like': instance.enableLike,
       'like_type_id': instance.likeTypeId,
+      'description': instance.description,
+      'link': instance.link,
       'total_comment': instance.totalComment,
       'custom_data_cache': instance.customDataCache,
       'feed_custom_html': instance.feedCustomHtml,
@@ -191,8 +184,7 @@ Map<String, dynamic> _$LastIconToJson(LastIcon instance) => <String, dynamic>{
       'count_icon': instance.countIcon,
     };
 
-CustomDataCache _$CustomDataCacheFromJson(Map<String, dynamic> json) =>
-    CustomDataCache(
+CustomDataCache _$CustomDataCacheFromJson(Map<String, dynamic> json) => CustomDataCache(
       userId: json['user_id'] as String?,
       profilePageId: json['profile_page_id'] as String?,
       serverId: json['server_id'] as String?,
@@ -207,6 +199,7 @@ CustomDataCache _$CustomDataCacheFromJson(Map<String, dynamic> json) =>
       languageId: json['language_id'] as String?,
       lastActivity: json['last_activity'] as String?,
       birthday: json['birthday'] as String?,
+      image: json['image'] as String?,
       totalPlay: json['total_play'] as String?,
       countryIso: json['country_iso'] as String?,
       startTime: json['start_time'] as String?,
@@ -270,8 +263,7 @@ CustomDataCache _$CustomDataCacheFromJson(Map<String, dynamic> json) =>
       timelineId: json['timeline_id'] as String?,
     );
 
-Map<String, dynamic> _$CustomDataCacheToJson(CustomDataCache instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$CustomDataCacheToJson(CustomDataCache instance) => <String, dynamic>{
       'user_id': instance.userId,
       'profile_page_id': instance.profilePageId,
       'server_id': instance.serverId,
@@ -343,6 +335,7 @@ Map<String, dynamic> _$CustomDataCacheToJson(CustomDataCache instance) =>
       'is_day': instance.isDay,
       'tags': instance.tags,
       'is_cover_photo': instance.isCoverPhoto,
+      'image': instance.image,
       'is_temp': instance.isTemp,
       'description': instance.description,
       'name': instance.name,

@@ -1,4 +1,5 @@
 import 'package:audio_cult/app/features/home/widgets/feed_type_event.dart';
+import 'package:audio_cult/app/features/home/widgets/feed_type_link.dart';
 import 'package:audio_cult/app/features/home/widgets/feed_type_photo.dart';
 import 'package:audio_cult/app/features/home/widgets/feed_type_song.dart';
 import 'package:audio_cult/app/features/home/widgets/feed_type_status.dart';
@@ -97,6 +98,10 @@ class _FeedItemContentState extends State<FeedItemContent> {
           youtubePlayerController: _youtubePlayerController,
           flickVideoManager: _flickVideoManager,
           totalView: widget.data?.totalView,
+        );
+      case FeedType.link:
+        return FeedTypeLink(
+          event: widget.data?.customDataCache,
         );
       case FeedType.none:
         return Container();

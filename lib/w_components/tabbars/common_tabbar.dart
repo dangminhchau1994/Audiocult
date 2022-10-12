@@ -15,6 +15,7 @@ class CommonTabbar extends StatelessWidget {
     this.onPageChanged,
     this.pageViewBuilder,
     this.tabbarItemBuilder,
+    this.backgroundColor,
   }) : super(key: key);
 
   final int? pageCount;
@@ -25,6 +26,7 @@ class CommonTabbar extends StatelessWidget {
   final Function(int index)? onPageChanged;
   final IndexedWidgetBuilder? pageViewBuilder;
   final IndexedWidgetBuilder? tabbarItemBuilder;
+  final Color? backgroundColor;
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +35,7 @@ class CommonTabbar extends StatelessWidget {
         Container(
           width: MediaQuery.of(context).size.width,
           decoration: BoxDecoration(
-            color: AppColors.secondaryButtonColor,
+            color: backgroundColor ?? AppColors.secondaryButtonColor,
           ),
           child: CustomTabBar(
             tabBarController: tabBarController,

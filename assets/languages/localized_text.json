@@ -106,6 +106,7 @@
     "btn_back": "Back",
     "btn_completed": "Create",
     "t_main_info": "Main info",
+    "t_news_feed":"News Feed",
     "t_empty_playlist": "You don't have playlists yet",
     "t_create_first_playlist": "Create your first playlist",
     "t_sub_main_info": "Please fill in the basic information about your song.",

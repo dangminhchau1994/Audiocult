@@ -285,6 +285,12 @@ class AppRepository extends BaseRepository {
     );
   }
 
+  Future<Either<CreatePostResponse, Exception>> createPostEvent(CreatePostRequest request) {
+    return safeCall(
+      () => appServiceProvider.createPostEvent(request),
+    );
+  }
+
   Future<Either<List<UploadPhotoResponse>, Exception>> uploadPhoto(UploadPhotoRequest request) {
     return safeCall(() => appServiceProvider.uploadPhoto(request));
   }
@@ -359,9 +365,19 @@ class AppRepository extends BaseRepository {
     });
   }
 
-  Future<Either<PostReactionResponse, Exception>> postReactionIcon(String typeId, int itemId, int likeType) {
+  Future<Either<PostReactionResponse, Exception>> postReactionIcon(
+    String typeId,
+    int itemId,
+    int likeType, {
+    String? feedEventId,
+  }) {
     return safeCall(
-      () => appServiceProvider.postReactionIcon(typeId, itemId, likeType),
+      () => appServiceProvider.postReactionIcon(
+        typeId,
+        itemId,
+        likeType,
+        feedEventId: feedEventId,
+      ),
     );
   }
 

@@ -4,6 +4,7 @@ class CreatePostRequest {
   String? taggedFriends;
   String? latLng;
   int? feedId;
+  int? itemId;
   String? locationName;
   int? privacy;
   String? userId;
@@ -14,9 +15,10 @@ class CreatePostRequest {
     this.statusBackgroundId,
     this.taggedFriends,
     this.latLng,
+    this.itemId,
     this.locationName,
     this.privacy,
-    this.userId
+    this.userId,
   });
 
   Future<Map<String, dynamic>> toJson() async {
@@ -24,6 +26,9 @@ class CreatePostRequest {
 
     if (feedId != 0) {
       data['val[feed_id]'] = feedId;
+    }
+    if (itemId != 0) {
+      data['val[item_id]'] = itemId;
     }
     data['val[user_status]'] = userStatus;
     data['val[status_background_id]'] = statusBackgroundId;

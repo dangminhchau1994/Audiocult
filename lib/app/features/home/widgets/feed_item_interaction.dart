@@ -25,32 +25,37 @@ class FeedItemInteraction extends StatelessWidget {
         Row(
           children: [
             CommonReactions(
-              reactionType: ReactionType.feed,
+              reactionType: ReactionType.eventComment,
               itemId: data?.feedId ?? '',
+              eventFeedItemId: data?.itemId ?? '',
               totalLike: data?.feedTotalLike.toString(),
               iconPath: data?.lastIcon?.imagePath,
+              eventFeedId: data?.feedId ?? '',
               fromFeed: true,
             ),
             const SizedBox(
               width: 10,
             ),
-            WButtonInkwell(
-              onPressed: () {
-                Navigator.pushNamed(
+            Visibility(
+              visible: data?.getFeedType() != FeedType.advancedEvent,
+              child: WButtonInkwell(
+                onPressed: () {
+                  Navigator.pushNamed(
+                    context,
+                    AppRoute.routeCommentListScreen,
+                    arguments: CommentArgs(
+                      itemId: int.parse(data?.feedId ?? ''),
+                      title: 'Comments',
+                      commentType: CommentType.home,
+                      data: null,
+                    ),
+                  );
+                },
+                child: _buildIcon(
+                  SvgPicture.asset(AppAssets.commentIcon),
+                  data?.totalComment ?? '0',
                   context,
-                  AppRoute.routeCommentListScreen,
-                  arguments: CommentArgs(
-                    itemId: int.parse(data?.feedId ?? ''),
-                    title: 'Comments',
-                    commentType: CommentType.home,
-                    data: null,
-                  ),
-                );
-              },
-              child: _buildIcon(
-                SvgPicture.asset(AppAssets.commentIcon),
-                data?.totalComment ?? '0',
-                context,
+                ),
               ),
             )
           ],

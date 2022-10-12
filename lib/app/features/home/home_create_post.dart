@@ -14,8 +14,16 @@ import '../../../w_components/tabbars/common_tabbar.dart';
 import '../../../w_components/tabbars/common_tabbar_item.dart';
 
 class HomeCreatePost extends StatefulWidget {
+  const HomeCreatePost({
+    Key? key,
+    this.userId,
+    this.eventId,
+    this.eventFeedId,
+  }) : super(key: key);
+
   final String? userId;
-  const HomeCreatePost({Key? key, this.userId}) : super(key: key);
+  final int? eventId;
+  final int? eventFeedId;
 
   @override
   State<HomeCreatePost> createState() => _HomeCreatePostState();
@@ -24,8 +32,14 @@ class HomeCreatePost extends StatefulWidget {
 class _HomeCreatePostState extends State<HomeCreatePost> {
   final _pageController = PageController();
   final _tabController = CustomTabBarController();
-  final _pageCount = 3;
+  var _pageCount = 0;
   var _currentIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _pageCount = widget.eventId != null ? 2 : 3;
+  }
 
   @override
   void dispose() {
@@ -93,15 +107,17 @@ class _HomeCreatePostState extends State<HomeCreatePost> {
                   hasIcon: true,
                 );
               case 2:
-                return CommonTabbarItem(
-                  index: index,
-                  width: MediaQuery.of(context).size.width / _pageCount,
-                  currentIndex: _currentIndex,
-                  unActiveIcon: SvgPicture.asset(AppAssets.video, width: 20, height: 20),
-                  activeIcon: SvgPicture.asset(AppAssets.activeVideo, width: 20, height: 20),
-                  title: context.localize.t_videos,
-                  hasIcon: true,
-                );
+                return widget.eventId != null
+                    ? const SizedBox()
+                    : CommonTabbarItem(
+                        index: index,
+                        width: MediaQuery.of(context).size.width / _pageCount,
+                        currentIndex: _currentIndex,
+                        unActiveIcon: SvgPicture.asset(AppAssets.video, width: 20, height: 20),
+                        activeIcon: SvgPicture.asset(AppAssets.activeVideo, width: 20, height: 20),
+                        title: context.localize.t_videos,
+                        hasIcon: true,
+                      );
               default:
                 return const SizedBox();
             }
@@ -110,6 +126,7 @@ class _HomeCreatePostState extends State<HomeCreatePost> {
             switch (index) {
               case 0:
                 return PostStatus(
+                  eventId: widget.eventId,
                   userId: widget.userId,
                 );
               case 1:
@@ -117,9 +134,11 @@ class _HomeCreatePostState extends State<HomeCreatePost> {
                   userId: widget.userId,
                 );
               case 2:
-                return PostVideo(
-                  userId: widget.userId,
-                );
+                return widget.eventId != null
+                    ? const SizedBox()
+                    : PostVideo(
+                        userId: widget.userId,
+                      );
               default:
                 return const SizedBox();
             }

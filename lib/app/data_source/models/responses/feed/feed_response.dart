@@ -12,6 +12,7 @@ enum FeedType {
   advancedEvent,
   userCover,
   userPhoto,
+  link,
   none,
 }
 
@@ -74,6 +75,8 @@ class FeedResponse {
   dynamic feedIsLiked;
   bool? enableLike;
   String? likeTypeId;
+  String? description;
+  String? link;
   String? totalComment;
   CustomDataCache? customDataCache;
   String? feedCustomHtml;
@@ -107,7 +110,7 @@ class FeedResponse {
   LastIcon? lastIcon;
   LocationLatlng? locationLatlng;
 
-   FeedResponse({
+  FeedResponse({
     this.feedId,
     this.appId,
     this.privacy,
@@ -116,6 +119,8 @@ class FeedResponse {
     this.userId,
     this.parentUserId,
     this.feedIsLiked,
+    this.description,
+    this.link,
     this.itemId,
     this.timeStamp,
     this.friendsTagged,
@@ -198,6 +203,10 @@ class FeedResponse {
         return FeedType.userCover;
       case 'user_photo':
         return FeedType.userPhoto;
+      case 'event_comment':
+        return FeedType.userStatus;
+      case 'link':
+        return FeedType.link;
       default:
         return FeedType.none;
     }
@@ -305,6 +314,7 @@ class CustomDataCache {
   String? isDay;
   String? tags;
   String? isCoverPhoto;
+  String? image;
   String? isTemp;
   String? description;
   // Null? locationLatlng;
@@ -328,6 +338,7 @@ class CustomDataCache {
       this.languageId,
       this.lastActivity,
       this.birthday,
+      this.image,
       this.totalPlay,
       this.countryIso,
       this.startTime,

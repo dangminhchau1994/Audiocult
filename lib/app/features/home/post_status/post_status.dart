@@ -31,8 +31,14 @@ import '../../../utils/mixins/disposable_state_mixin.dart';
 import '../../auth/widgets/register_page.dart';
 
 class PostStatus extends StatefulWidget {
+  const PostStatus({
+    Key? key,
+    this.userId,
+    this.eventId,
+  }) : super(key: key);
+
   final String? userId;
-  const PostStatus({Key? key, this.userId}) : super(key: key);
+  final int? eventId;
 
   @override
   State<PostStatus> createState() => _PostStatusState();
@@ -59,14 +65,21 @@ class _PostStatusState extends State<PostStatus> with DisposableStateMixin, Auto
   void initState() {
     super.initState();
     _createPostRequest.userId = widget.userId;
+    if (widget.eventId != null) {
+      _createPostRequest.itemId = widget.eventId;
+    }
     _imagePath = '';
     _showListBackground = false;
     _showTagFriends = false;
     _enableBackground = false;
     _getCustomMarker();
-    getIt.get<HomeBloc>().createPostStream.listen((data) {
-      Navigator.pop(context, true);
-    }).disposeOn(disposeBag);
+    widget.eventId != null
+        ? getIt.get<HomeBloc>().createPostEventStream.listen((data) {
+            Navigator.pop(context, true);
+          }).disposeOn(disposeBag)
+        : getIt.get<HomeBloc>().createPostStream.listen((data) {
+            Navigator.pop(context, true);
+          }).disposeOn(disposeBag);
   }
 
   @override
@@ -210,20 +223,23 @@ class _PostStatusState extends State<PostStatus> with DisposableStateMixin, Auto
                             else
                               Row(
                                 children: [
-                                  SizedBox(
-                                    width: 100,
-                                    child: CommonDropdown(
-                                      selection: _privacy,
-                                      hint: '',
-                                      backgroundColor: Colors.transparent,
-                                      noBorder: true,
-                                      data: GlobalConstants.listPrivacy(context),
-                                      onChanged: (value) {
-                                        setState(() {
-                                          _privacy = value;
-                                          _createPostRequest.privacy = value?.id;
-                                        });
-                                      },
+                                  Visibility(
+                                    visible: widget.eventId == null,
+                                    child: SizedBox(
+                                      width: 100,
+                                      child: CommonDropdown(
+                                        selection: _privacy,
+                                        hint: '',
+                                        backgroundColor: Colors.transparent,
+                                        noBorder: true,
+                                        data: GlobalConstants.listPrivacy(context),
+                                        onChanged: (value) {
+                                          setState(() {
+                                            _privacy = value;
+                                            _createPostRequest.privacy = value?.id;
+                                          });
+                                        },
+                                      ),
                                     ),
                                   ),
                                   WButtonInkwell(
@@ -294,7 +310,9 @@ class _PostStatusState extends State<PostStatus> with DisposableStateMixin, Auto
                               color: AppColors.primaryButtonColor,
                               text: context.localize.t_post,
                               onTap: () {
-                                getIt.get<HomeBloc>().postStatus(_createPostRequest);
+                                widget.eventId != null
+                                    ? getIt.get<HomeBloc>().postStatusEvent(_createPostRequest)
+                                    : getIt.get<HomeBloc>().postStatus(_createPostRequest);
                               },
                             ),
                           ],
