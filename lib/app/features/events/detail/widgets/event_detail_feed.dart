@@ -81,7 +81,15 @@ class _EventDetailFeedState extends State<EventDetailFeed> {
   }
 
   void _editFeed(FeedResponse item) async {
-    final result = await Navigator.pushNamed(context, AppRoute.routeEditFeed, arguments: {'feed_response': item});
+    final result = await Navigator.pushNamed(
+      context,
+      AppRoute.routeEditFeed,
+      arguments: {
+        'feed_response': item,
+        'event_id': widget.eventId,
+        'from_event': true,
+      },
+    );
     if (result != null) {
       final feed = result as FeedResponse;
       _eventDetaiBloc.editFeedItem(_pagingFeedController, feed);
@@ -170,6 +178,7 @@ class _EventDetailFeedState extends State<EventDetailFeed> {
                 return CustomScrollView(
                   slivers: [
                     AnnouncementPost(
+                      eventId: widget.eventId,
                       callData: () {
                         _pagingFeedController.refresh();
                         _eventDetaiBloc.requestData(
@@ -195,6 +204,7 @@ class _EventDetailFeedState extends State<EventDetailFeed> {
                           itemBuilder: (context, item, index) {
                             return FeedItem(
                               data: item,
+                              fromEventFeed: true,
                               onReport: () {
                                 _onReport(item);
                               },

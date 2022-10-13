@@ -25,6 +25,7 @@ enum CommentType {
   song,
   album,
   playlist,
+  eventFeed,
   event,
 }
 
@@ -60,6 +61,8 @@ class _CommentListScreenState extends State<CommentListScreen> {
         return 'feed';
       case CommentType.event:
         return 'event';
+      case CommentType.eventFeed:
+        return 'event_feed';
     }
   }
 
@@ -108,10 +111,11 @@ class _CommentListScreenState extends State<CommentListScreen> {
 
   void _submitComment() {
     _commentListBloc.createComment(
-      widget.commentArgs.itemId ?? 0,
+      getType() == 'feed' ? 0 : widget.commentArgs.itemId ?? 0,
       getType(),
       _text.value,
       feedId: getType() == 'feed' ? widget.commentArgs.itemId : 0,
+      eventFeedId: getType() == 'event_feed' ? widget.commentArgs.eventFeedId : 0,
     );
 
     //clear text
@@ -268,6 +272,7 @@ class _CommentListScreenState extends State<CommentListScreen> {
               pagingController: _pagingController,
               commentArgs: widget.commentArgs,
               commentListBloc: _commentListBloc,
+              eventFeedId: widget.commentArgs.eventFeedId,
               getType: getType(),
               showBottomSheet: _showBottomSheet,
             ),

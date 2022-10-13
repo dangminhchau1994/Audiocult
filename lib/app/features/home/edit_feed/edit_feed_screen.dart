@@ -32,9 +32,13 @@ class EditFeedScreen extends StatefulWidget {
   const EditFeedScreen({
     Key? key,
     this.data,
+    this.eventId,
+    this.fromEvent = false,
   }) : super(key: key);
 
   final FeedResponse? data;
+  final bool? fromEvent;
+  final int? eventId;
 
   @override
   State<EditFeedScreen> createState() => _EditFeedScreenState();
@@ -83,6 +87,7 @@ class _EditFeedScreenState extends State<EditFeedScreen> {
   }
 
   void _initRequest() {
+    _createPostRequest.eventId = widget.eventId;
     _createPostRequest.feedId = int.parse(widget.data?.feedId ?? '');
     _createPostRequest.userStatus = widget.data?.feedStatus ?? '';
     _createPostRequest.locationName = widget.data?.locationName;
@@ -355,8 +360,11 @@ class _EditFeedScreenState extends State<EditFeedScreen> {
                                 color: AppColors.primaryButtonColor,
                                 text: context.localize.t_post,
                                 onTap: () {
-                                  getIt<EditFeedBloc>().editPost(_createPostRequest);
-                                  Navigator.pop(context, _result);
+                                  widget.fromEvent!
+                                      ? getIt<EditFeedBloc>().editPostStatusEvent(_createPostRequest)
+                                      : getIt<EditFeedBloc>().editPost(_createPostRequest);
+                                  debugPrint('eventId: ${_createPostRequest.eventId}');
+                                  //Navigator.pop(context, _result);
                                 },
                               ),
                             ],

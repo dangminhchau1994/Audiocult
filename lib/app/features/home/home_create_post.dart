@@ -18,12 +18,10 @@ class HomeCreatePost extends StatefulWidget {
     Key? key,
     this.userId,
     this.eventId,
-    this.eventFeedId,
   }) : super(key: key);
 
   final String? userId;
   final int? eventId;
-  final int? eventFeedId;
 
   @override
   State<HomeCreatePost> createState() => _HomeCreatePostState();
@@ -132,6 +130,7 @@ class _HomeCreatePostState extends State<HomeCreatePost> {
               case 1:
                 return PostPhotos(
                   userId: widget.userId,
+                  eventId: widget.eventId,
                 );
               case 2:
                 return widget.eventId != null

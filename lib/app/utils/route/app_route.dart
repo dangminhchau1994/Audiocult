@@ -192,6 +192,8 @@ class AppRoute {
           settings,
           EditFeedScreen(
             data: arguments['feed_response'] as FeedResponse,
+            eventId: arguments['event_id'] != null ? arguments['event_id'] as int : null,
+            fromEvent: arguments['from_event'] != null ? arguments['from_event'] as bool : null,
           ),
         );
 

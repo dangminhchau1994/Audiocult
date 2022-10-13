@@ -342,9 +342,21 @@ class AppRepository extends BaseRepository {
     );
   }
 
-  Future<Either<CommentResponse, Exception>> createComment(int itemId, String type, String text, {int? feedId}) {
+  Future<Either<CommentResponse, Exception>> createComment(
+    int itemId,
+    String type,
+    String text, {
+    int? feedId,
+    int? eventFeedId,
+  }) {
     return safeCall(
-      () => appServiceProvider.createComment(itemId, type, text, feedId: feedId),
+      () => appServiceProvider.createComment(
+        itemId,
+        type,
+        text,
+        feedId: feedId,
+        eventFeedId: eventFeedId,
+      ),
     );
   }
 
@@ -398,10 +410,23 @@ class AppRepository extends BaseRepository {
     );
   }
 
-  Future<Either<CommentResponse, Exception>> createReply(int parentId, int itemId, String type, String text,
-      {int? feedId}) {
+  Future<Either<CommentResponse, Exception>> createReply(
+    int parentId,
+    int itemId,
+    String type,
+    String text, {
+    int? feedId,
+    int? eventFeedId,
+  }) {
     return safeCall(
-      () => appServiceProvider.createReply(parentId, itemId, type, text, feedId: feedId),
+      () => appServiceProvider.createReply(
+        parentId,
+        itemId,
+        type,
+        text,
+        feedId: feedId,
+        eventFeedId: eventFeedId,
+      ),
     );
   }
 

@@ -33,7 +33,7 @@ class FeedItemModify extends StatelessWidget {
           width: 28,
           height: 28,
         ),
-        items: locator<PrefProvider>().currentUserId == item?.userId
+        items: locator<PrefProvider>().currentUserId == item?.userId && item?.getFeedType() != FeedType.advancedEvent
             ? GlobalConstants.menuFeedUserItem(context)
             : GlobalConstants.menuFeedSubcriberItem(context),
         onSelected: (selected) {

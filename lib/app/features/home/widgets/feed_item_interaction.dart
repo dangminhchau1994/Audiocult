@@ -13,9 +13,11 @@ class FeedItemInteraction extends StatelessWidget {
   const FeedItemInteraction({
     Key? key,
     this.data,
+    this.fromEventFeed,
   }) : super(key: key);
 
   final FeedResponse? data;
+  final bool? fromEventFeed;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +27,7 @@ class FeedItemInteraction extends StatelessWidget {
         Row(
           children: [
             CommonReactions(
-              reactionType: ReactionType.eventComment,
+              reactionType: fromEventFeed! ? ReactionType.feed : ReactionType.eventComment,
               itemId: data?.feedId ?? '',
               eventFeedItemId: data?.itemId ?? '',
               totalLike: data?.feedTotalLike.toString(),
@@ -44,9 +46,10 @@ class FeedItemInteraction extends StatelessWidget {
                     context,
                     AppRoute.routeCommentListScreen,
                     arguments: CommentArgs(
-                      itemId: int.parse(data?.feedId ?? ''),
                       title: 'Comments',
-                      commentType: CommentType.home,
+                      itemId: int.parse(data?.feedId ?? ''),
+                      eventFeedId: fromEventFeed! ? int.parse(data?.feedId ?? '') : 0,
+                      commentType: fromEventFeed! ? CommentType.eventFeed : CommentType.home,
                       data: null,
                     ),
                   );
