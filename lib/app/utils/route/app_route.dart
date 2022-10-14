@@ -192,6 +192,8 @@ class AppRoute {
           settings,
           EditFeedScreen(
             data: arguments['feed_response'] as FeedResponse,
+            eventId: arguments['event_id'] != null ? arguments['event_id'] as int : null,
+            fromEvent: arguments['from_event'] != null ? arguments['from_event'] as bool : null,
           ),
         );
 
@@ -285,7 +287,10 @@ class AppRoute {
         final arguments = asType(settings.arguments);
         return _pageRoute(
           settings,
-          HomeCreatePost(userId: arguments != null ? arguments['user_id'] as String? : null),
+          HomeCreatePost(
+            eventId: arguments['event_id'] != null ? arguments['event_id'] as int : null,
+            userId: arguments['user_id'] != null ? arguments['user_id'] as String? : null,
+          ),
         );
       case routeCreateEvent:
         return _pageRoute(

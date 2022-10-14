@@ -17,10 +17,12 @@ import '../home_bloc.dart';
 class AnnouncementPost extends StatefulWidget {
   const AnnouncementPost({
     Key? key,
+    this.eventId,
     this.callData,
   }) : super(key: key);
 
   final Function()? callData;
+  final int? eventId;
 
   @override
   State<AnnouncementPost> createState() => _AnnouncementPostState();
@@ -135,7 +137,13 @@ class _AnnouncementPostState extends State<AnnouncementPost> {
           const SizedBox(height: 20),
           WButtonInkwell(
             onPressed: () async {
-              final result = await Navigator.pushNamed(context, AppRoute.routeCreatePost);
+              final result = await Navigator.pushNamed(
+                context,
+                AppRoute.routeCreatePost,
+                arguments: {
+                  'event_id': widget.eventId,
+                },
+              );
 
               if (result != null) {
                 widget.callData!();

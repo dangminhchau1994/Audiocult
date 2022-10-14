@@ -44,6 +44,7 @@ class PostVideo extends StatefulWidget {
 
 class _PostVideoState extends State<PostVideo> with DisposableStateMixin, AutomaticKeepAliveClientMixin {
   final MediaServiceInterface _mediaService = locator<MediaServiceInterface>();
+  final _listProfile = [];
   final FocusNode _focusNode = FocusNode();
   final Set<Marker> markers = {};
   final _request = UploadVideoRequest();
@@ -52,7 +53,6 @@ class _PostVideoState extends State<PostVideo> with DisposableStateMixin, Automa
   late Uint8List iconMarker;
   late bool? _showMap = false;
   late bool? _showTagFriends = false;
-  List<ProfileData> _listProfile = [];
   double _lat = 0;
   double _lng = 0;
   File? _video;
@@ -110,6 +110,7 @@ class _PostVideoState extends State<PostVideo> with DisposableStateMixin, Automa
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return BlocHandle(
       bloc: getIt<HomeBloc>(),
       child: Provider<UploadSongBloc>(
@@ -120,12 +121,7 @@ class _PostVideoState extends State<PostVideo> with DisposableStateMixin, Automa
               child: Column(
                 children: [
                   if (_showAddVideo || _fileName.isEmpty)
-                    Visibility(
-                      visible: _showAddVideo,
-                      child: AddVideo(
-                        onAddVideo: _pickVideoSource,
-                      ),
-                    )
+                    const SizedBox()
                   else
                     GetVideo(
                       onRemoveFile: () {
@@ -136,40 +132,56 @@ class _PostVideoState extends State<PostVideo> with DisposableStateMixin, Automa
                       },
                       videoName: _fileName,
                     ),
-                  CommonInput(
-                    focusNode: _focusNode,
-                    onChanged: (value) {
-                      if (_fileName.isEmpty) {
-                        setState(() {
-                          _urlVideo = value;
-                        });
-                      } else {
-                        _videoTitle = value;
-                      }
-                    },
-                    hintText: _fileName.isEmpty ? context.localize.t_paste_url : context.localize.t_video_title,
-                    suffixIcon: _showAddVideo || _urlVideo.isEmpty || _fileName.isNotEmpty
-                        ? const SizedBox()
-                        : WButtonInkwell(
-                            onPressed: () {
-                              setState(() {
-                                _showAddVideo = true;
-                                _focusNode.unfocus();
-                              });
-                            },
-                            child: Text(
-                              context.localize.t_cancel,
-                              style: context.buttonTextStyle()!.copyWith(
-                                    fontSize: 14,
-                                    color: AppColors.activeLabelItem,
-                                  ),
-                            ),
+                  Row(
+                    children: [
+                      Expanded(
+                        flex: (_showAddVideo || _fileName.isEmpty) ? 3 : 0,
+                        child: Visibility(
+                          visible: _showAddVideo,
+                          child: AddVideo(
+                            onAddVideo: _pickVideoSource,
                           ),
-                    onTap: () {
-                      setState(() {
-                        _showAddVideo = false;
-                      });
-                    },
+                        ),
+                      ),
+                      Expanded(
+                        flex: _showAddVideo ? 5 : MediaQuery.of(context).size.width.toInt(),
+                        child: CommonInput(
+                          focusNode: _focusNode,
+                          onChanged: (value) {
+                            if (_fileName.isEmpty) {
+                              setState(() {
+                                _urlVideo = value;
+                              });
+                            } else {
+                              _videoTitle = value;
+                            }
+                          },
+                          hintText: _fileName.isEmpty ? context.localize.t_paste_url : context.localize.t_video_title,
+                          suffixIcon: _showAddVideo || _urlVideo.isEmpty || _fileName.isNotEmpty
+                              ? const SizedBox()
+                              : WButtonInkwell(
+                                  onPressed: () {
+                                    setState(() {
+                                      _showAddVideo = true;
+                                      _focusNode.unfocus();
+                                    });
+                                  },
+                                  child: Text(
+                                    context.localize.t_cancel,
+                                    style: context.buttonTextStyle()!.copyWith(
+                                          fontSize: 14,
+                                          color: AppColors.activeLabelItem,
+                                        ),
+                                  ),
+                                ),
+                          onTap: () {
+                            setState(() {
+                              _showAddVideo = false;
+                            });
+                          },
+                        ),
+                      ),
+                    ],
                   ),
                   Visibility(
                     visible: !_showAddVideo,

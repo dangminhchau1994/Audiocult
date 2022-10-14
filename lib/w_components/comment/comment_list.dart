@@ -25,11 +25,13 @@ class CommentList extends StatelessWidget {
     this.commentArgs,
     this.commentListBloc,
     this.getType,
+    this.eventFeedId,
     this.showBottomSheet,
   }) : super(key: key);
 
   final PagingController<int, CommentResponse>? pagingController;
   final CommentArgs? commentArgs;
+  final int? eventFeedId;
   final CommentListBloc? commentListBloc;
   final String? getType;
   final Function(CommentResponse item, int index)? showBottomSheet;
@@ -99,6 +101,7 @@ class CommentList extends StatelessWidget {
                                     AppRoute.routeReplyListScreen,
                                     arguments: CommentArgs(
                                       data: data,
+                                      eventFeedId: eventFeedId,
                                       reportType: ReportType.comment,
                                       commentType: commentArgs?.commentType,
                                       itemId: commentArgs?.itemId,

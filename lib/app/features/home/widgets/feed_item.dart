@@ -17,11 +17,13 @@ class FeedItem extends StatefulWidget {
     this.data,
     this.onDelete,
     this.onEdit,
+    this.fromEventFeed = false,
     this.onReport,
   }) : super(key: key);
 
   final FeedResponse? data;
   final Function()? onDelete;
+  final bool? fromEventFeed;
   final Function()? onEdit;
   final Function()? onReport;
 
@@ -64,24 +66,7 @@ class _FeedItemState extends State<FeedItem> {
               const SizedBox(height: 20),
               FeedItemInteraction(
                 data: widget.data,
-              ),
-              const SizedBox(height: 20),
-              const Divider(height: 0.5, color: Colors.grey),
-              const SizedBox(height: 20),
-              CommonInput(
-                hintText: context.localize.t_leave_comment,
-                onTap: () {
-                  Navigator.pushNamed(
-                    context,
-                    AppRoute.routeCommentListScreen,
-                    arguments: CommentArgs(
-                      itemId: int.parse(widget.data?.feedId ?? ''),
-                      title: 'Comments',
-                      commentType: CommentType.home,
-                      data: null,
-                    ),
-                  );
-                },
+                fromEventFeed: widget.fromEventFeed,
               ),
             ],
           ),

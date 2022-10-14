@@ -15,7 +15,6 @@ import 'package:dartz/dartz.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:rxdart/subjects.dart';
 import '../../data_source/models/responses/background/background_response.dart';
-import '../../data_source/models/responses/comment/comment_response.dart';
 import '../../data_source/models/responses/reaction_icon/reaction_icon_response.dart';
 import '../../data_source/repositories/app_repository.dart';
 
@@ -25,7 +24,6 @@ class HomeBloc extends BaseBloc<FeedRequest, List<FeedResponse>> {
   HomeBloc(this._appRepository);
 
   final _getAnnouncementSubject = PublishSubject<BlocState<List<AnnouncementResponse>>>();
-  final _getCommentsSubject = PublishSubject<BlocState<List<CommentResponse>>>();
   final _getReactionIconSubject = PublishSubject<BlocState<List<ReactionIconResponse>>>();
   final _postReactionIconSubject = PublishSubject<BlocState<PostReactionResponse>>();
   final _getBackgroundSubject = PublishSubject<BlocState<List<BackgroundResponse>>>();
@@ -34,14 +32,15 @@ class HomeBloc extends BaseBloc<FeedRequest, List<FeedResponse>> {
   final _uploadVideoSubject = PublishSubject<BlocState<UploadVideoResponse>>();
   final _deleteFeedSubject = PublishSubject<BlocState<List<DeletePlayListResponse>>>();
   final _pagingControllerSubject = PublishSubject<PagingController<int, FeedResponse>>();
+  final _createPostEventSubject = PublishSubject<BlocState<CreatePostResponse>>();
 
   Stream<PagingController<int, FeedResponse>> get pagingControllerStream => _pagingControllerSubject.stream;
   Stream<BlocState<List<AnnouncementResponse>>> get getAnnoucementStream => _getAnnouncementSubject.stream;
-  Stream<BlocState<List<CommentResponse>>> get getCommentsStream => _getCommentsSubject.stream;
   Stream<BlocState<List<ReactionIconResponse>>> get getReactionIconStream => _getReactionIconSubject.stream;
   Stream<BlocState<PostReactionResponse>> get postReactionIconStream => _postReactionIconSubject.stream;
   Stream<BlocState<List<BackgroundResponse>>> get getBackgroundStream => _getBackgroundSubject.stream;
   Stream<BlocState<CreatePostResponse>> get createPostStream => _createPostSubject.stream;
+  Stream<BlocState<CreatePostResponse>> get createPostEventStream => _createPostEventSubject.stream;
   Stream<BlocState<List<UploadPhotoResponse>>> get uploadPhotoStream => _uploadPhotoSubject.stream;
   Stream<BlocState<UploadVideoResponse>> get uploadVideoStream => _uploadVideoSubject.stream;
   Stream<BlocState<List<DeletePlayListResponse>>> get deleteFeedStream => _deleteFeedSubject.stream;
@@ -76,6 +75,18 @@ class HomeBloc extends BaseBloc<FeedRequest, List<FeedResponse>> {
       _createPostSubject.sink.add(BlocState.success(success));
     }, (error) {
       _createPostSubject.sink.add(BlocState.error(error.toString()));
+    });
+  }
+
+  void postStatusEvent(CreatePostRequest request) async {
+    showOverLayLoading();
+    final result = await _appRepository.createPostEvent(request);
+    hideOverlayLoading();
+
+    result.fold((success) {
+      _createPostEventSubject.sink.add(BlocState.success(success));
+    }, (error) {
+      _createPostEventSubject.sink.add(BlocState.error(error.toString()));
     });
   }
 
@@ -144,18 +155,6 @@ class HomeBloc extends BaseBloc<FeedRequest, List<FeedResponse>> {
       _getAnnouncementSubject.sink.add(BlocState.success(success));
     }, (error) {
       _getAnnouncementSubject.sink.add(BlocState.error(error.toString()));
-    });
-  }
-
-  void getComments(int id, String typeId, int page, int limit, String sort) async {
-    _getCommentsSubject.sink.add(const BlocState.loading());
-
-    final result = await _appRepository.getComments(id, typeId, page, limit, sort);
-
-    result.fold((success) {
-      _getCommentsSubject.sink.add(BlocState.success(success));
-    }, (error) {
-      _getCommentsSubject.sink.add(BlocState.error(error.toString()));
     });
   }
 

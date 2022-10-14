@@ -270,6 +270,22 @@ class GlobalConstants {
   static List<PopupMenuEntry<int>> menuFeedUserItem(BuildContext context) {
     return [
       PopupMenuItem<int>(
+        value: 0,
+        child: Row(
+          children: [
+            const Icon(
+              Icons.edit,
+            ),
+            const SizedBox(
+              width: 10,
+            ),
+            Text(
+              context.localize.t_edit,
+            )
+          ],
+        ),
+      ),
+      PopupMenuItem<int>(
         value: 1,
         child: Row(
           children: [

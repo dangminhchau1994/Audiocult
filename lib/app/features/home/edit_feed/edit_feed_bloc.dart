@@ -14,9 +14,23 @@ class EditFeedBloc extends BaseBloc {
 
   final _getBackgroundSubject = PublishSubject<BlocState<List<BackgroundResponse>>>();
   final _createPostSubject = PublishSubject<BlocState<CreatePostResponse>>();
+  final _createPostEventSubject = PublishSubject<BlocState<CreatePostResponse>>();
 
   Stream<BlocState<List<BackgroundResponse>>> get getBackgroundStream => _getBackgroundSubject.stream;
   Stream<BlocState<CreatePostResponse>> get createPostStream => _createPostSubject.stream;
+  Stream<BlocState<CreatePostResponse>> get createPostEventStream => _createPostEventSubject.stream;
+
+  void editPostStatusEvent(CreatePostRequest request) async {
+    showOverLayLoading();
+    final result = await _appRepository.createPostEvent(request);
+    hideOverlayLoading();
+
+    result.fold((success) {
+      _createPostEventSubject.sink.add(BlocState.success(success));
+    }, (error) {
+      _createPostEventSubject.sink.add(BlocState.error(error.toString()));
+    });
+  }
 
   void editPost(CreatePostRequest request) async {
     showOverLayLoading();
