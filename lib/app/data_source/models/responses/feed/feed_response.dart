@@ -35,6 +35,73 @@ class LocationLatlng {
 }
 
 @JsonSerializable(fieldRename: FieldRename.snake)
+class ParentFeed {
+  String? feedTitle;
+  String? feedInfo;
+  String? feedStatus;
+  String? feedLink;
+  String? totalComment;
+  String? feedTotalLike;
+  bool? feedIsLiked;
+  String? feedIcon;
+  String? timeStamp;
+  bool? enableLike;
+  String? commentTypeId;
+  String? likeTypeId;
+  String? typeId;
+  CustomDataCache? customDataCache;
+  int? feedId;
+  int? itemId;
+  String? statusBackground;
+  dynamic lastIcon;
+  List<dynamic>? icons;
+  String? gender;
+  String? userId;
+  String? userName;
+  String? fullName;
+  String? userImage;
+  String? userGroupId;
+  String? languageId;
+  String? privacy;
+  String? privacyComment;
+  String? totalView;
+
+  ParentFeed({
+    this.feedTitle,
+    this.feedInfo,
+    this.feedStatus,
+    this.feedLink,
+    this.totalComment,
+    this.feedTotalLike,
+    this.feedIsLiked,
+    this.feedIcon,
+    this.timeStamp,
+    this.enableLike,
+    this.commentTypeId,
+    this.likeTypeId,
+    this.typeId,
+    this.customDataCache,
+    this.feedId,
+    this.itemId,
+    this.statusBackground,
+    this.lastIcon,
+    this.icons,
+    this.gender,
+    this.userId,
+    this.userName,
+    this.fullName,
+    this.userImage,
+    this.userGroupId,
+    this.languageId,
+    this.privacy,
+    this.privacyComment,
+    this.totalView,
+  });
+
+  factory ParentFeed.fromJson(Map<String, dynamic> json) => _$ParentFeedFromJson(json);
+}
+
+@JsonSerializable(fieldRename: FieldRename.snake)
 class FeedResponse {
   String? feedId;
   String? appId;
@@ -100,6 +167,7 @@ class FeedResponse {
   String? commentTypeId;
   String? totalFriendsTagged;
   int? totalImage;
+  ParentFeed? parentFeed;
   List<String>? apiFeedImage;
   List<String>? feedImageUrl;
   List<ProfileData>? friendsTagged;
@@ -124,6 +192,7 @@ class FeedResponse {
     this.itemId,
     this.timeStamp,
     this.friendsTagged,
+    this.parentFeed,
     this.lastIcon,
     this.feedReference,
     this.locationLatlng,

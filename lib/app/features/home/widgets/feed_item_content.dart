@@ -68,7 +68,7 @@ class _FeedItemContentState extends State<FeedItemContent> {
       case FeedType.advancedSong:
         final song = widget.data?.customDataCache;
         return FeedTypeSong(
-          song: song,
+          customDataCache: song,
         );
       case FeedType.userStatus:
         final data = widget.data;

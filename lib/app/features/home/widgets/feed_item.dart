@@ -68,31 +68,6 @@ class _FeedItemState extends State<FeedItem> {
                 data: widget.data,
                 fromEventFeed: widget.fromEventFeed,
               ),
-              const SizedBox(height: 20),
-              Visibility(
-                visible: widget.data?.getFeedType() != FeedType.advancedEvent,
-                child: const Divider(height: 0.5, color: Colors.grey),
-              ),
-              SizedBox(height: widget.data?.getFeedType() != FeedType.advancedEvent ? 20 : 0),
-              Visibility(
-                visible: widget.data?.getFeedType() != FeedType.advancedEvent,
-                child: CommonInput(
-                  hintText: context.localize.t_leave_comment,
-                  onTap: () {
-                    Navigator.pushNamed(
-                      context,
-                      AppRoute.routeCommentListScreen,
-                      arguments: CommentArgs(
-                        title: 'Comments',
-                        itemId: int.parse(widget.data?.feedId ?? ''),
-                        eventFeedId: widget.fromEventFeed! ? int.parse(widget.data?.feedId ?? '') : 0,
-                        commentType: widget.fromEventFeed! ? CommentType.eventFeed : CommentType.home,
-                        data: null,
-                      ),
-                    );
-                  },
-                ),
-              ),
             ],
           ),
         ),
