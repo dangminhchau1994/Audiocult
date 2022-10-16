@@ -35,7 +35,12 @@ import '../post_status/widgets/status_tag_friend_input.dart';
 
 class PostPhotos extends StatefulWidget {
   final String? userId;
-  const PostPhotos({Key? key, this.userId}) : super(key: key);
+  final int? eventId;
+  const PostPhotos({
+    Key? key,
+    this.userId,
+    this.eventId,
+  }) : super(key: key);
 
   @override
   State<PostPhotos> createState() => _PostPhotosState();
@@ -82,6 +87,8 @@ class _PostPhotosState extends State<PostPhotos> with DisposableStateMixin, Auto
     _privacy = _privacyMenu.firstWhereOrNull((e) => e.isSelected == true);
     _getCustomMarker();
     _uploadPhotoRequest.userId = widget.userId;
+    _uploadPhotoRequest.eventId = widget.eventId;
+    _privacy = GlobalConstants.listPrivacy(context)[0];
     getIt.get<HomeBloc>().uploadPhotoStream.listen((data) {
       Navigator.pop(context, true);
     }).disposeOn(disposeBag);
@@ -286,20 +293,23 @@ class _PostPhotosState extends State<PostPhotos> with DisposableStateMixin, Auto
                         children: [
                           Row(
                             children: [
-                              SizedBox(
-                                width: 100,
-                                child: CommonDropdown(
-                                  selection: _privacy,
-                                  hint: '',
-                                  backgroundColor: Colors.transparent,
-                                  noBorder: true,
-                                  data: _privacyMenu,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      _privacy = value;
-                                      _uploadPhotoRequest.privacy = value?.id;
-                                    });
-                                  },
+                              Visibility(
+                                visible: widget.eventId == null,
+                                child: SizedBox(
+                                  width: 100,
+                                  child: CommonDropdown(
+                                    selection: _privacy,
+                                    hint: '',
+                                    backgroundColor: Colors.transparent,
+                                    noBorder: true,
+                                    data: GlobalConstants.listPrivacy(context),
+                                    onChanged: (value) {
+                                      setState(() {
+                                        _privacy = value;
+                                        _uploadPhotoRequest.privacy = value?.id;
+                                      });
+                                    },
+                                  ),
                                 ),
                               ),
                               const SizedBox(width: 10),

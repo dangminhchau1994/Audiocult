@@ -285,6 +285,12 @@ class AppRepository extends BaseRepository {
     );
   }
 
+  Future<Either<CreatePostResponse, Exception>> createPostEvent(CreatePostRequest request) {
+    return safeCall(
+      () => appServiceProvider.createPostEvent(request),
+    );
+  }
+
   Future<Either<List<UploadPhotoResponse>, Exception>> uploadPhoto(UploadPhotoRequest request) {
     return safeCall(() => appServiceProvider.uploadPhoto(request));
   }
@@ -336,9 +342,21 @@ class AppRepository extends BaseRepository {
     );
   }
 
-  Future<Either<CommentResponse, Exception>> createComment(int itemId, String type, String text, {int? feedId}) {
+  Future<Either<CommentResponse, Exception>> createComment(
+    int itemId,
+    String type,
+    String text, {
+    int? feedId,
+    int? eventFeedId,
+  }) {
     return safeCall(
-      () => appServiceProvider.createComment(itemId, type, text, feedId: feedId),
+      () => appServiceProvider.createComment(
+        itemId,
+        type,
+        text,
+        feedId: feedId,
+        eventFeedId: eventFeedId,
+      ),
     );
   }
 
@@ -359,9 +377,19 @@ class AppRepository extends BaseRepository {
     });
   }
 
-  Future<Either<PostReactionResponse, Exception>> postReactionIcon(String typeId, int itemId, int likeType) {
+  Future<Either<PostReactionResponse, Exception>> postReactionIcon(
+    String typeId,
+    int itemId,
+    int likeType, {
+    String? feedEventId,
+  }) {
     return safeCall(
-      () => appServiceProvider.postReactionIcon(typeId, itemId, likeType),
+      () => appServiceProvider.postReactionIcon(
+        typeId,
+        itemId,
+        likeType,
+        feedEventId: feedEventId,
+      ),
     );
   }
 
@@ -382,10 +410,23 @@ class AppRepository extends BaseRepository {
     );
   }
 
-  Future<Either<CommentResponse, Exception>> createReply(int parentId, int itemId, String type, String text,
-      {int? feedId}) {
+  Future<Either<CommentResponse, Exception>> createReply(
+    int parentId,
+    int itemId,
+    String type,
+    String text, {
+    int? feedId,
+    int? eventFeedId,
+  }) {
     return safeCall(
-      () => appServiceProvider.createReply(parentId, itemId, type, text, feedId: feedId),
+      () => appServiceProvider.createReply(
+        parentId,
+        itemId,
+        type,
+        text,
+        feedId: feedId,
+        eventFeedId: eventFeedId,
+      ),
     );
   }
 

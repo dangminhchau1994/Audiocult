@@ -19,82 +19,76 @@ class ArtistLineUp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (data?.lineup?.artist != null) {
-      return SliverToBoxAdapter(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: kHorizontalSpacing,
-            vertical: kVerticalSpacing,
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        horizontal: kHorizontalSpacing,
+        vertical: kVerticalSpacing,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            context.localize.t_artist_lineup,
+            style: context.bodyTextPrimaryStyle()!.copyWith(
+                  color: AppColors.subTitleColor,
+                  fontSize: 16,
+                ),
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                context.localize.t_artist_lineup,
-                style: context.bodyTextPrimaryStyle()!.copyWith(
-                      color: AppColors.subTitleColor,
-                      fontSize: 16,
-                    ),
-              ),
-              GridView.count(
-                shrinkWrap: true,
-                crossAxisSpacing: 14,
-                mainAxisSpacing: 25,
-                physics: const NeverScrollableScrollPhysics(),
-                crossAxisCount: 2,
-                childAspectRatio: 8 / 2,
-                children: data!.lineup!.artist!
-                    .map(
-                      (e) => WButtonInkwell(
-                        onPressed: () async {
-                          await Navigator.pushNamed(
-                            context,
-                            AppRoute.routeProfile,
-                            arguments: ProfileScreen.createArguments(id: e.userId ?? ''),
-                          );
-                        },
-                        child: Row(
-                          children: [
-                            CachedNetworkImage(
-                              width: 50,
-                              height: 50,
-                              imageUrl: e.userImage ?? '',
-                              imageBuilder: (context, imageProvider) => Container(
-                                decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                    image: imageProvider,
-                                    fit: BoxFit.cover,
-                                  ),
-                                  shape: BoxShape.circle,
-                                ),
+          GridView.count(
+            shrinkWrap: true,
+            crossAxisSpacing: 14,
+            mainAxisSpacing: 25,
+            physics: const NeverScrollableScrollPhysics(),
+            crossAxisCount: 2,
+            childAspectRatio: 8 / 2,
+            children: data!.lineup!.artist!
+                .map(
+                  (e) => WButtonInkwell(
+                    onPressed: () async {
+                      await Navigator.pushNamed(
+                        context,
+                        AppRoute.routeProfile,
+                        arguments: ProfileScreen.createArguments(id: e.userId ?? ''),
+                      );
+                    },
+                    child: Row(
+                      children: [
+                        CachedNetworkImage(
+                          width: 50,
+                          height: 50,
+                          imageUrl: e.userImage ?? '',
+                          imageBuilder: (context, imageProvider) => Container(
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                image: imageProvider,
+                                fit: BoxFit.cover,
                               ),
-                              placeholder: (context, url) => Center(
-                                child: CircularProgressIndicator(
-                                  color: AppColors.primaryButtonColor,
-                                ),
-                              ),
-                              errorWidget: (context, url, error) => const Icon(Icons.error),
+                              shape: BoxShape.circle,
                             ),
-                            const SizedBox(width: 20),
-                            Text(
-                              e.fullName ?? '',
-                              style: context.bodyTextPrimaryStyle()!.copyWith(
-                                    color: AppColors.unActiveLabelItem,
-                                    fontSize: 14,
-                                  ),
+                          ),
+                          placeholder: (context, url) => Center(
+                            child: CircularProgressIndicator(
+                              color: AppColors.primaryButtonColor,
                             ),
-                          ],
+                          ),
+                          errorWidget: (context, url, error) => const Icon(Icons.error),
                         ),
-                      ),
-                    )
-                    .toList(),
-              ),
-            ],
+                        const SizedBox(width: 20),
+                        Text(
+                          e.fullName ?? '',
+                          style: context.bodyTextPrimaryStyle()!.copyWith(
+                                color: AppColors.unActiveLabelItem,
+                                fontSize: 14,
+                              ),
+                        ),
+                      ],
+                    ),
+                  ),
+                )
+                .toList(),
           ),
-        ),
-      );
-    } else {
-      return const SliverToBoxAdapter(child: SizedBox());
-    }
+        ],
+      ),
+    );
   }
 }

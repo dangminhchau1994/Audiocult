@@ -1,20 +1,20 @@
 import 'package:audio_cult/app/utils/extensions/app_extensions.dart';
-import 'package:audio_cult/w_components/buttons/w_button_inkwell.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import '../../../data_source/models/responses/feed/feed_response.dart';
 import '../../../utils/constants/app_assets.dart';
 import '../../../utils/constants/app_colors.dart';
 import '../../../utils/route/app_route.dart';
-import '../../../utils/toast/toast_utils.dart';
 
 class FeedTypeSong extends StatelessWidget {
   const FeedTypeSong({
     Key? key,
-    this.song,
+    this.customDataCache,
+    this.parentFeed,
   }) : super(key: key);
 
-  final CustomDataCache? song;
+  final CustomDataCache? customDataCache;
+  final ParentFeed? parentFeed;
 
   @override
   Widget build(BuildContext context) {
@@ -30,14 +30,14 @@ class FeedTypeSong extends StatelessWidget {
         children: [
           Expanded(
             child: Text(
-              song?.title ?? '',
+              parentFeed != null ? parentFeed?.customDataCache?.title ?? '' : customDataCache?.title ?? '',
               style: context.buttonTextStyle()!.copyWith(
                     fontSize: 16,
                     color: Colors.white,
                   ),
             ),
           ),
-          const SizedBox(width: 80),
+          const SizedBox(width: 110),
           Expanded(
             child: Row(
               children: [
@@ -46,7 +46,7 @@ class FeedTypeSong extends StatelessWidget {
                     style: DefaultTextStyle.of(context).style,
                     children: <TextSpan>[
                       TextSpan(
-                        text: song?.totalPlay ?? '0',
+                        text: parentFeed != null ? parentFeed?.customDataCache?.totalPlay : customDataCache?.totalPlay,
                         style: context.buttonTextStyle()!.copyWith(
                               fontSize: 16,
                               color: Colors.white,
@@ -68,7 +68,9 @@ class FeedTypeSong extends StatelessWidget {
                     Navigator.pushNamed(
                       context,
                       AppRoute.routeDetailSong,
-                      arguments: {'song_id': song!.songId},
+                      arguments: {
+                        'song_id': parentFeed != null ? parentFeed?.customDataCache?.songId : customDataCache!.songId
+                      },
                     );
                   },
                   child: SvgPicture.asset(

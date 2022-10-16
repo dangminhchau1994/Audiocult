@@ -1,5 +1,4 @@
 import 'package:audio_cult/app/base/base_bloc.dart';
-import 'package:audio_cult/app/data_source/models/responses/post_reaction/post_reaction.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../../app/base/bloc_state.dart';
@@ -27,8 +26,13 @@ class CommonReactionBloc extends BaseBloc {
     });
   }
 
-  void postReactionIcon(String typeId, int itemId, int likeType) async {
-    final result = await _appRepository.postReactionIcon(typeId, itemId, likeType);
+  void postReactionIcon(
+    String typeId,
+    int itemId,
+    int likeType, {
+    String? feedEventId,
+  }) async {
+    final result = await _appRepository.postReactionIcon(typeId, itemId, likeType, feedEventId: feedEventId);
 
     result.fold((success) {
       _postReactionIconSubject.sink.add(success.totalLike.toString());

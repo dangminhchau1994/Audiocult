@@ -379,6 +379,7 @@ class LocalizedText {
   late String t_gallery_permission_requirement;
   late String t_edit_event;
   late String t_my_event;
+  late String t_news_feed;
 
   LocalizedText.fromJson(Map<String, dynamic> json) {
     final iw = IW(json);
@@ -495,6 +496,7 @@ class LocalizedText {
     btn_back = iw['btn_back'].getString ?? 'Back';
     btn_completed = iw['btn_completed'].getString ?? 'Create';
     t_main_info = iw['t_main_info'].getString ?? 'Main info';
+    t_news_feed = iw['t_news_feed'].getString ?? 'News Feed';
     t_empty_playlist = iw['t_empty_playlist'].getString ?? "You don't have playlists yet";
     t_create_first_playlist = iw['t_create_first_playlist'].getString ?? 'Create your first playlist';
     t_sub_main_info = iw['t_sub_main_info'].getString ?? 'Please fill in the basic information about your song.';

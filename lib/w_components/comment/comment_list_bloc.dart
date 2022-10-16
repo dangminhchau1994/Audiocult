@@ -64,8 +64,20 @@ class CommentListBloc extends BaseBloc<CommentRequest, List<CommentResponse>> {
     });
   }
 
-  void createComment(int itemId, String type, String text, {int? feedId}) async {
-    final result = await _appRepository.createComment(itemId, type, text, feedId: feedId);
+  void createComment(
+    int itemId,
+    String type,
+    String text, {
+    int? feedId,
+    int? eventFeedId,
+  }) async {
+    final result = await _appRepository.createComment(
+      itemId,
+      type,
+      text,
+      feedId: feedId,
+      eventFeedId: eventFeedId,
+    );
 
     result.fold((success) {
       _createCommentSubject.sink.add(BlocState.success(success));

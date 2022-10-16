@@ -6,6 +6,7 @@ import '../../app/data_source/models/responses/comment/comment_response.dart';
 class CommentArgs {
   final CommentResponse? data;
   final int? itemId;
+  final int? eventFeedId;
   final String? title;
   final ReportType? reportType;
   final CommentType? commentType;
@@ -15,6 +16,7 @@ class CommentArgs {
     required this.itemId,
     required this.commentType,
     this.reportType,
+    this.eventFeedId,
     this.title,
   });
 }

@@ -55,6 +55,8 @@ class _ReplyListScreenState extends State<ReplyListScreen> {
         return 'event';
       case CommentType.home:
         return 'feed';
+      case CommentType.eventFeed:
+        return 'event_feed';
     }
   }
 
@@ -155,10 +157,11 @@ class _ReplyListScreenState extends State<ReplyListScreen> {
   void _submitReply() {
     _replyListBloc.createReply(
       int.parse(widget.commentArgs.data?.commentId ?? ''),
-      widget.commentArgs.itemId ?? 0,
+      getType() == 'feed' ? 0 : widget.commentArgs.itemId ?? 0,
       getType(),
       _text.value,
       feedId: getType() == 'feed' ? widget.commentArgs.itemId : 0,
+      eventFeedId: getType() == 'event_feed' ? widget.commentArgs.eventFeedId : 0,
     );
 
     //clear text

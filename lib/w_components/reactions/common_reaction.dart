@@ -14,6 +14,7 @@ enum ReactionType {
   album,
   playlist,
   event,
+  eventComment,
 }
 
 class CommonReactions extends StatefulWidget {
@@ -23,11 +24,15 @@ class CommonReactions extends StatefulWidget {
     this.iconPath,
     this.fromFeed = false,
     this.totalLike,
+    this.eventFeedId,
+    this.eventFeedItemId,
     this.reactionType,
   }) : super(key: key);
 
   final String? itemId;
   final bool? fromFeed;
+  final String? eventFeedId;
+  final String? eventFeedItemId;
   final String? iconPath;
   final String? totalLike;
   final ReactionType? reactionType;
@@ -68,6 +73,8 @@ class _CommonReactionsState extends State<CommonReactions> {
         return 'advancedmusic_playlist';
       case ReactionType.event:
         return 'event';
+      case ReactionType.eventComment:
+        return 'event_comment';
     }
   }
 
@@ -88,8 +95,11 @@ class _CommonReactionsState extends State<CommonReactions> {
             onReactionChanged: (ReactionIconResponse? value, bool isChecked) {
               _bloc.postReactionIcon(
                 getType(widget.reactionType!),
-                int.parse(widget.itemId ?? ''),
+                getType(widget.reactionType!) == 'event_comment'
+                    ? int.parse(widget.eventFeedItemId ?? '')
+                    : int.parse(widget.itemId ?? ''),
                 int.parse(value?.iconId ?? ''),
+                feedEventId: widget.eventFeedId,
               );
             },
             reactions: reactions,

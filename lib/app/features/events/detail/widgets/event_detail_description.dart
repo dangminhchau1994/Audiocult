@@ -18,65 +18,63 @@ class EventDetailDescription extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SliverToBoxAdapter(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: kHorizontalSpacing,
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              context.localize.t_description,
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        horizontal: kHorizontalSpacing,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            context.localize.t_description,
+            style: context.bodyTextPrimaryStyle()!.copyWith(
+                  color: AppColors.subTitleColor,
+                  fontSize: 16,
+                ),
+          ),
+          const SizedBox(height: 10),
+          if (data!.tags!.isNotEmpty)
+            Wrap(
+              spacing: 8,
+              runSpacing: 4,
+              children: data!.tags!
+                  .split(',')
+                  .map(
+                    (e) => WButtonInkwell(
+                      onPressed: () {
+                        Navigator.pushNamed(
+                          context,
+                          AppRoute.routeResultEvent,
+                          arguments: {'event_result': EventRequest(tag: e.replaceAll('#', ''))},
+                        );
+                      },
+                      child: Text(
+                        '#$e',
+                        style: context.bodyTextPrimaryStyle()!.copyWith(
+                              color: AppColors.lightBlue,
+                              fontSize: 16,
+                            ),
+                      ),
+                    ),
+                  )
+                  .toList(),
+            )
+          else
+            const SizedBox(),
+          const SizedBox(height: 10),
+          SizedBox(
+            width: 500,
+            child: Text(
+              data?.description ?? '',
+              overflow: TextOverflow.ellipsis,
+              maxLines: 5,
               style: context.bodyTextPrimaryStyle()!.copyWith(
-                    color: AppColors.subTitleColor,
-                    fontSize: 16,
+                    color: Colors.white,
+                    fontSize: 14,
                   ),
             ),
-            const SizedBox(height: 10),
-            if (data!.tags!.isNotEmpty)
-              Wrap(
-                spacing: 8,
-                runSpacing: 4,
-                children: data!.tags!
-                    .split(',')
-                    .map(
-                      (e) => WButtonInkwell(
-                        onPressed: () {
-                          Navigator.pushNamed(
-                            context,
-                            AppRoute.routeResultEvent,
-                            arguments: {'event_result': EventRequest(tag: e.replaceAll('#', ''))},
-                          );
-                        },
-                        child: Text(
-                          '#$e',
-                          style: context.bodyTextPrimaryStyle()!.copyWith(
-                                color: AppColors.lightBlue,
-                                fontSize: 16,
-                              ),
-                        ),
-                      ),
-                    )
-                    .toList(),
-              )
-            else
-              const SizedBox(),
-            const SizedBox(height: 10),
-            SizedBox(
-              width: 500,
-              child: Text(
-                data?.description ?? '',
-                overflow: TextOverflow.ellipsis,
-                maxLines: 5,
-                style: context.bodyTextPrimaryStyle()!.copyWith(
-                      color: Colors.white,
-                      fontSize: 14,
-                    ),
-              ),
-            )
-          ],
-        ),
+          )
+        ],
       ),
     );
   }
