@@ -19,6 +19,9 @@ class ArtistLineUp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isLineUpEmpty = data?.lineup?.artist?.isNotEmpty ?? false;
+    final lineUp = data?.lineup?.artist ?? [];
+
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: kHorizontalSpacing,
@@ -27,65 +30,71 @@ class ArtistLineUp extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            context.localize.t_artist_lineup,
-            style: context.bodyTextPrimaryStyle()!.copyWith(
-                  color: AppColors.subTitleColor,
-                  fontSize: 16,
-                ),
-          ),
-          GridView.count(
-            shrinkWrap: true,
-            crossAxisSpacing: 14,
-            mainAxisSpacing: 25,
-            physics: const NeverScrollableScrollPhysics(),
-            crossAxisCount: 2,
-            childAspectRatio: 8 / 2,
-            children: data!.lineup!.artist!
-                .map(
-                  (e) => WButtonInkwell(
-                    onPressed: () async {
-                      await Navigator.pushNamed(
-                        context,
-                        AppRoute.routeProfile,
-                        arguments: ProfileScreen.createArguments(id: e.userId ?? ''),
-                      );
-                    },
-                    child: Row(
-                      children: [
-                        CachedNetworkImage(
-                          width: 50,
-                          height: 50,
-                          imageUrl: e.userImage ?? '',
-                          imageBuilder: (context, imageProvider) => Container(
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                image: imageProvider,
-                                fit: BoxFit.cover,
-                              ),
-                              shape: BoxShape.circle,
-                            ),
-                          ),
-                          placeholder: (context, url) => Center(
-                            child: CircularProgressIndicator(
-                              color: AppColors.primaryButtonColor,
-                            ),
-                          ),
-                          errorWidget: (context, url, error) => const Icon(Icons.error),
-                        ),
-                        const SizedBox(width: 20),
-                        Text(
-                          e.fullName ?? '',
-                          style: context.bodyTextPrimaryStyle()!.copyWith(
-                                color: AppColors.unActiveLabelItem,
-                                fontSize: 14,
-                              ),
-                        ),
-                      ],
-                    ),
+          Visibility(
+            visible: isLineUpEmpty,
+            child: Text(
+              context.localize.t_artist_lineup,
+              style: context.bodyTextPrimaryStyle()!.copyWith(
+                    color: AppColors.subTitleColor,
+                    fontSize: 16,
                   ),
-                )
-                .toList(),
+            ),
+          ),
+          Visibility(
+            visible: isLineUpEmpty,
+            child: GridView.count(
+              shrinkWrap: true,
+              crossAxisSpacing: 14,
+              mainAxisSpacing: 25,
+              physics: const NeverScrollableScrollPhysics(),
+              crossAxisCount: 2,
+              childAspectRatio: 8 / 2,
+              children: lineUp
+                  .map(
+                    (e) => WButtonInkwell(
+                      onPressed: () async {
+                        await Navigator.pushNamed(
+                          context,
+                          AppRoute.routeProfile,
+                          arguments: ProfileScreen.createArguments(id: e.userId ?? ''),
+                        );
+                      },
+                      child: Row(
+                        children: [
+                          CachedNetworkImage(
+                            width: 50,
+                            height: 50,
+                            imageUrl: e.userImage ?? '',
+                            imageBuilder: (context, imageProvider) => Container(
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  image: imageProvider,
+                                  fit: BoxFit.cover,
+                                ),
+                                shape: BoxShape.circle,
+                              ),
+                            ),
+                            placeholder: (context, url) => Center(
+                              child: CircularProgressIndicator(
+                                color: AppColors.primaryButtonColor,
+                              ),
+                            ),
+                            errorWidget: (context, url, error) => const Icon(Icons.error),
+                          ),
+                          const SizedBox(width: 20),
+                          Text(
+                            e.fullName ?? '',
+                            style: context.bodyTextPrimaryStyle()!.copyWith(
+                                  color: AppColors.unActiveLabelItem,
+                                  fontSize: 14,
+                                ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
+                  .toList(),
+            ),
           ),
         ],
       ),

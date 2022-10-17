@@ -18,6 +18,8 @@ class EventDetailDescription extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isTagEmpty = data?.tags?.isNotEmpty ?? false;
+
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: kHorizontalSpacing,
@@ -25,15 +27,18 @@ class EventDetailDescription extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            context.localize.t_description,
-            style: context.bodyTextPrimaryStyle()!.copyWith(
-                  color: AppColors.subTitleColor,
-                  fontSize: 16,
-                ),
+          Visibility(
+            visible: isTagEmpty,
+            child: Text(
+              context.localize.t_description,
+              style: context.bodyTextPrimaryStyle()!.copyWith(
+                    color: AppColors.subTitleColor,
+                    fontSize: 16,
+                  ),
+            ),
           ),
           const SizedBox(height: 10),
-          if (data!.tags!.isNotEmpty)
+          if (isTagEmpty)
             Wrap(
               spacing: 8,
               runSpacing: 4,
